@@ -1,4 +1,5 @@
-# export this from keras?
+# from keras
+# leave for now, decide later
 
 # Helper function to coerce shape arguments to tuple
 normalize_shape <- function(shape) {

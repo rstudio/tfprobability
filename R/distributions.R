@@ -1,7 +1,4 @@
 
-
-
-
 #' The Normal distribution with `loc` and `scale` parameters
 #'
 #' @param loc Floating point tensor; the means of the distribution(s).
@@ -20,18 +17,14 @@
 #' @export
 distribution_normal <- function(loc,
                                 scale,
-                                validate_args = NULL,
-                                allow_nan_stats = NULL,
-                                name = NULL) {
+                                validate_args = FALSE,
+                                allow_nan_stats = TRUE,
+                                name = "Normal") {
   args <- list(loc = loc,
-               scale = scale)
-
-  if (!is.null(validate_args))
-    args$validate_args <- validate_args
-  if (!is.null(allow_nan_stats))
-    args$allow_nan_stats <- allow_nan_stats
-  if (!is.null(name))
-    args$name <- name
+               scale = scale,
+               validate_args = validate_args,
+               allow_nan_stats = allow_nan_stats,
+               name = name)
 
   do.call(tfp$distributions$Normal, args)
 }
@@ -54,17 +47,14 @@ distribution_normal <- function(loc,
 
 distribution_independent <- function(distribution,
                                      reinterpreted_batch_ndims,
-                                     validate_args = NULL,
-                                     name = NULL) {
+                                     validate_args = FALSE,
+                                     name = paste0("Independent", distribution$name)) {
   args <- list(
     distribution = distribution,
-    reinterpreted_batch_ndims = as.integer(reinterpreted_batch_ndims)
+    reinterpreted_batch_ndims = as.integer(reinterpreted_batch_ndims),
+    validate_args = validate_args,
+    name = name
   )
-
-  if (!is.null(validate_args))
-    args$validate_args <- validate_args
-  if (!is.null(name))
-    args$name <- name
 
   do.call(tfp$distributions$Independent, args)
 }
@@ -87,23 +77,18 @@ distribution_independent <- function(distribution,
 #' @export
 distribution_bernoulli <- function(logits = NULL,
                                    probs = NULL,
-                                   dtype = NULL,
-                                   validate_args = NULL,
-                                   allow_nan_stats = NULL,
-                                   name = NULL) {
-  args <- list()
-  if (!is.null(logits))
-    args$logits <- logits
-  if (!is.null(probs))
-    args$probs <- probs
-  if (!is.null(dtype))
-    args$dtype <- dtype
-  if (!is.null(validate_args))
-    args$validate_args <- validate_args
-  if (!is.null(allow_nan_stats))
-    args$allow_nan_stats <- allow_nan_stats
-  if (!is.null(name))
-    args$name <- name
+                                   dtype = tf$int32,
+                                   validate_args = FALSE,
+                                   allow_nan_stats = TRUE,
+                                   name = "Bernoulli") {
+  args <- list(
+    logits = logits,
+    probs = probs,
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
 
   do.call(tfp$distributions$Bernoulli, args)
 }

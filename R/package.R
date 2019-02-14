@@ -8,7 +8,7 @@ tfp <- NULL
 
   tfp <<- import("tensorflow_probability", delay_load = list(
 
-    priority = 5,
+    priority = 20,
 
     environment = "r-tensorflow",
 

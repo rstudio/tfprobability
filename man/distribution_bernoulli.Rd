@@ -4,8 +4,8 @@
 \alias{distribution_bernoulli}
 \title{The Bernoulli distribution class.}
 \usage{
-distribution_bernoulli(logits = NULL, probs = NULL, dtype = NULL,
-  validate_args = NULL, allow_nan_stats = NULL, name = NULL)
+distribution_bernoulli(logits = NULL, probs = NULL, dtype = tf$int32,
+  validate_args = FALSE, allow_nan_stats = TRUE, name = "Bernoulli")
 }
 \arguments{
 \item{logits}{An N-D `Tensor` representing the log-odds of a `1` event. Each entry in the `Tensor`

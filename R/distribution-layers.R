@@ -26,9 +26,9 @@
 #' @export
 layer_kl_divergence_add_loss <- function(object,
                                          distribution,
-                                         use_exact_kl = NULL,
+                                         use_exact_kl = FALSE,
                                          test_points_reduce_axis = NULL,
-                                         test_points_fn = NULL,
+                                         test_points_fn = tf$convert_to_tensor,
                                          weight = NULL,
                                          input_shape = NULL,
                                          batch_input_shape = NULL,
@@ -39,6 +39,10 @@ layer_kl_divergence_add_loss <- function(object,
                                          weights = NULL) {
   args <- list(
     distribution_b = distribution,
+    use_exact_kl = use_exact_kl,
+    test_points_reduce_axis = test_points_reduce_axis,
+    test_points_fn = test_points_fn,
+    weight = weight,
     input_shape = normalize_shape(input_shape),
     batch_input_shape = normalize_shape(batch_input_shape),
     batch_size = as_nullable_integer(batch_size),
@@ -47,15 +51,6 @@ layer_kl_divergence_add_loss <- function(object,
     trainable = trainable,
     weights = weights
   )
-
-  if (!is.null(use_exact_kl))
-    args$use_exact_kl = use_exact_kl
-  if (!is.null(test_points_reduce_axis))
-    args$test_points_reduce_axis = test_points_reduce_axis
-  if (!is.null(test_points_fn))
-    args$test_points_fn = test_points_fn
-  if (!is.null(weight))
-    args$weight = weight
 
   create_layer(
     tfp$python$layers$distribution_layer$KLDivergenceAddLoss,
@@ -83,8 +78,8 @@ layer_kl_divergence_add_loss <- function(object,
 #' @export
 layer_multivariate_normal_tril <- function(object,
                                            event_size,
-                                           convert_to_tensor_fn = NULL,
-                                           validate_args = NULL,
+                                           convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                           validate_args = FALSE,
                                            batch_input_shape = NULL,
                                            input_shape = NULL,
                                            batch_size = NULL,
@@ -94,6 +89,8 @@ layer_multivariate_normal_tril <- function(object,
                                            weights = NULL) {
   args <- list(
     event_size = as.integer(event_size),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    validate_args = validate_args,
     input_shape = normalize_shape(input_shape),
     batch_input_shape = normalize_shape(batch_input_shape),
     batch_size = as_nullable_integer(batch_size),
@@ -102,11 +99,6 @@ layer_multivariate_normal_tril <- function(object,
     trainable = trainable,
     weights = weights
   )
-
-  if (!is.null(convert_to_tensor_fn))
-    args$convert_to_tensor_fn = convert_to_tensor_fn
-  if (!is.null(validate_args))
-    args$validate_args = validate_args
 
   create_layer(
     tfp$python$layers$distribution_layer$MultivariateNormalTriL,
@@ -135,9 +127,9 @@ layer_multivariate_normal_tril <- function(object,
 #' @export
 layer_independent_bernoulli <- function(object,
                                         event_shape,
-                                        convert_to_tensor_fn = NULL,
+                                        convert_to_tensor_fn = tfp$distributions$Distribution$sample,
                                         sample_dtype = NULL,
-                                        validate_args = NULL,
+                                        validate_args = FALSE,
                                         batch_input_shape = NULL,
                                         input_shape = NULL,
                                         batch_size = NULL,
@@ -147,6 +139,9 @@ layer_independent_bernoulli <- function(object,
                                         weights = NULL) {
   args <- list(
     event_shape = as.integer(event_shape),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    sample_dtype = sample_dtype,
+    validate_args = validate_args,
     input_shape = normalize_shape(input_shape),
     batch_input_shape = normalize_shape(batch_input_shape),
     batch_size = as_nullable_integer(batch_size),
@@ -155,13 +150,6 @@ layer_independent_bernoulli <- function(object,
     trainable = trainable,
     weights = weights
   )
-
-  if (!is.null(convert_to_tensor_fn))
-    args$convert_to_tensor_fn = convert_to_tensor_fn
-  if (!is.null(sample_dtype))
-    args$sample_dtype = sample_dtype
-  if (!is.null(validate_args))
-    args$validate_args = validate_args
 
   create_layer(
     tfp$python$layers$distribution_layer$IndependentBernoulli,

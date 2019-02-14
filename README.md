@@ -12,11 +12,11 @@ To be implemented (move around to reflect priority):
 - more distributions
 - more distribution layers
 - bijectors (the ones which are implemented in TFP)
-- installation (to be discussed how)
 - `tfp.layers` (different from the above distribution layers)
 - ...
 - ... 
 - bijector R class (ideally just a closure, not R6 - low prio)
 
+Installation will be taken care of in the `tensorflow` package. It's important that TF and TFP version are "in sync".
 
 For modules not listed in this list (`edward2`, `monte_carlo`, `mcmc` ...) I suggest not implementing anything until we have more information about their state in TFP.

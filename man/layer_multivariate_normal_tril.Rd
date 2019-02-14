@@ -5,9 +5,10 @@
 \title{A `d`-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.}
 \usage{
 layer_multivariate_normal_tril(object, event_size,
-  convert_to_tensor_fn = NULL, validate_args = NULL,
-  batch_input_shape = NULL, input_shape = NULL, batch_size = NULL,
-  dtype = NULL, name = NULL, trainable = NULL, weights = NULL)
+  convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+  validate_args = FALSE, batch_input_shape = NULL,
+  input_shape = NULL, batch_size = NULL, dtype = NULL, name = NULL,
+  trainable = NULL, weights = NULL)
 }
 \arguments{
 \item{event_size}{Integer vector tensor representing the shape of single draw from this distribution.}

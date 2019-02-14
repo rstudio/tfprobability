@@ -5,7 +5,8 @@
 \title{Independent distribution from batch of distributions}
 \usage{
 distribution_independent(distribution, reinterpreted_batch_ndims,
-  validate_args = NULL, name = NULL)
+  validate_args = FALSE, name = paste0("Independent",
+  distribution$name))
 }
 \arguments{
 \item{distribution}{The base distribution instance to transform. Typically an  instance of `Distribution`}

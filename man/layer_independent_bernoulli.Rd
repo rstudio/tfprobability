@@ -5,10 +5,10 @@
 \title{An Independent-Bernoulli Keras layer from `prod(event_shape)` params}
 \usage{
 layer_independent_bernoulli(object, event_shape,
-  convert_to_tensor_fn = NULL, sample_dtype = NULL,
-  validate_args = NULL, batch_input_shape = NULL, input_shape = NULL,
-  batch_size = NULL, dtype = NULL, name = NULL, trainable = NULL,
-  weights = NULL)
+  convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+  sample_dtype = NULL, validate_args = FALSE,
+  batch_input_shape = NULL, input_shape = NULL, batch_size = NULL,
+  dtype = NULL, name = NULL, trainable = NULL, weights = NULL)
 }
 \arguments{
 \item{event_shape}{Scalar integer representing the size of single draw from this distribution.}

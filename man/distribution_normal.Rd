@@ -4,8 +4,8 @@
 \alias{distribution_normal}
 \title{The Normal distribution with `loc` and `scale` parameters}
 \usage{
-distribution_normal(loc, scale, validate_args = NULL,
-  allow_nan_stats = NULL, name = NULL)
+distribution_normal(loc, scale, validate_args = FALSE,
+  allow_nan_stats = TRUE, name = "Normal")
 }
 \arguments{
 \item{loc}{Floating point tensor; the means of the distribution(s).}
