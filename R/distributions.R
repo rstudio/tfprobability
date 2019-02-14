@@ -1,0 +1,109 @@
+
+
+
+
+#' The Normal distribution with `loc` and `scale` parameters
+#'
+#' @param loc Floating point tensor; the means of the distribution(s).
+#' @param scale loating point tensor; the stddevs of the distribution(s).
+#'  Must contain only positive values.
+#' @param validate_args Logical, default `FALSE`. When `TRUE` distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
+#'  silently render incorrect outputs. Default value: `FALSE`.
+#' @param allow_nan_stats Logical, default `TRUE`. When `TRUE`, tatistics (e.g., mean, mode, variance)
+#'  use the value `NaN` to indicate the result is undefined. When `FALSE`, an exception is raised if
+#'  one or more of the statistic's batch members are undefined.
+#' @param name name prefixed to Ops created by this class.
+#'
+#' @family distributions
+#' @return A normal distribution
+#' @export
+distribution_normal <- function(loc,
+                                scale,
+                                validate_args = NULL,
+                                allow_nan_stats = NULL,
+                                name = NULL) {
+  args <- list(loc = loc,
+               scale = scale)
+
+  if (!is.null(validate_args))
+    args$validate_args <- validate_args
+  if (!is.null(allow_nan_stats))
+    args$allow_nan_stats <- allow_nan_stats
+  if (!is.null(name))
+    args$name <- name
+
+  do.call(tfp$distributions$Normal, args)
+}
+
+
+#' Independent distribution from batch of distributions
+#'
+#' @param distribution The base distribution instance to transform. Typically an  instance of `Distribution`
+#' @param reinterpreted_batch_ndims Scalar, integer number of rightmost batch dims  which
+#'  will be regarded as event dims. When NULL all but the first batch axis (batch axis 0)
+#'  will be transferred to event dimensions (analogous to `tf.layers.flatten`).
+#' @param validate_args Logical, default `FALSE`. When `TRUE` distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
+#'  silently render incorrect outputs. Default value: `FALSE`.
+#' @param name The name for ops managed by the distribution.  Default value: `Independent + distribution.name`.
+#'
+#' @family distributions
+#' @return
+#' @export
+
+distribution_independent <- function(distribution,
+                                     reinterpreted_batch_ndims,
+                                     validate_args = NULL,
+                                     name = NULL) {
+  args <- list(
+    distribution = distribution,
+    reinterpreted_batch_ndims = as.integer(reinterpreted_batch_ndims)
+  )
+
+  if (!is.null(validate_args))
+    args$validate_args <- validate_args
+  if (!is.null(name))
+    args$name <- name
+
+  do.call(tfp$distributions$Independent, args)
+}
+
+
+
+#' The Bernoulli distribution class.
+#'
+#' @inheritParams distribution_normal
+#'
+#' @param logits An N-D `Tensor` representing the log-odds of a `1` event. Each entry in the `Tensor`
+#'  parametrizes an independent Bernoulli distribution where the probability of an event
+#'  is sigmoid(logits). Only one of `logits` or `probs` should be passed in.
+#' @param probs An N-D `Tensor` representing the probability of a `1` event. Each entry in the `Tensor`
+#'  parameterizes an independent Bernoulli distribution. Only one of `logits` or `probs`
+#'  should be passed in.
+#' @param dtype The type of the event samples. Default: `int32`.
+#'
+#' @return
+#' @export
+distribution_bernoulli <- function(logits = NULL,
+                                   probs = NULL,
+                                   dtype = NULL,
+                                   validate_args = NULL,
+                                   allow_nan_stats = NULL,
+                                   name = NULL) {
+  args <- list()
+  if (!is.null(logits))
+    args$logits <- logits
+  if (!is.null(probs))
+    args$probs <- probs
+  if (!is.null(dtype))
+    args$dtype <- dtype
+  if (!is.null(validate_args))
+    args$validate_args <- validate_args
+  if (!is.null(allow_nan_stats))
+    args$allow_nan_stats <- allow_nan_stats
+  if (!is.null(name))
+    args$name <- name
+
+  do.call(tfp$distributions$Bernoulli, args)
+}
