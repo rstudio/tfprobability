@@ -1,13 +1,4 @@
 
-
-# These tests correspond to (possibly shortened and/or modified versions of) the "docstring" tests in
-#
-# https://github.com/tensorflow/probability/blob/master/tensorflow_probability/python/layers/distribution_layer_test.py
-#
-# We don't test for correctness of the implementations as we're just consumers.
-# Instead, we test that we can successfully use these layers in Keras models from R.
-
-
 context("tensorflow probability layer methods")
 
 source("utils.R")
@@ -19,9 +10,9 @@ test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
            ncol = 2,
            byrow = TRUE) %>% k_cast_to_floatx()
   scale_noise <- 0.01
-  x <- distribution_normal(loc = 0, scale = 1)$sample(c(n, 2L))
+  x <- distribution_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
   eps <-
-    distribution_normal(loc = 0, scale = scale_noise)$sample(c(1000L, 2L))
+    distribution_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
   y = tf$matmul(x, scale_tril) + eps
   d <- tf$compat$dimension_value(y$shape[-1])
 
@@ -31,7 +22,7 @@ test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
     layer_multivariate_normal_tril(event_size = d)
 
   log_loss <- function (y, model)
-    - model$log_prob(x)
+    - (model %>% log_prob(x))
 
   model %>% compile(optimizer = "adam",
                     loss = log_loss)
@@ -77,7 +68,7 @@ test_succeeds("can use layer_kl_divergence_add_loss in a keras model", {
                            outputs = decoder_model(encoder_model$outputs[1]))
 
   vae_loss <- function (x, rv_x)
-    - rv_x$log_prob(x)
+    - (rv_x %>% log_prob(x))
 
   vae_model %>% compile(optimizer = tf$train$AdamOptimizer(),
                         loss = vae_loss)
@@ -96,12 +87,12 @@ test_succeeds("can use layer_independent_bernoulli in a keras model", {
            ncol = 2,
            byrow = TRUE) %>% k_cast_to_floatx()
   scale_noise <- 0.01
-  x <- distribution_normal(loc = 0, scale = 1)$sample(c(n, 2L))
+  x <- distribution_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
   eps <-
-    distribution_normal(loc = 0, scale = scale_noise)$sample(c(1000L, 2L))
+    distribution_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
   y <-
     distribution_bernoulli(logits = tf$reshape(tf$matmul(x, scale_tril) + eps,
-                                               shape = shape(n, 1L, 2L, 1L)))$sample()
+                                               shape = shape(n, 1L, 2L, 1L))) %>% sample()
 
   event_shape <- dim(y)[2:4]
 
@@ -111,7 +102,7 @@ test_succeeds("can use layer_independent_bernoulli in a keras model", {
     layer_independent_bernoulli(event_shape = event_shape)
 
   log_loss <- function (y, model)
-    - model$log_prob(y)
+    - (model %>% log_prob(y))
 
   model %>% compile(optimizer = "adam",
                     loss = log_loss)

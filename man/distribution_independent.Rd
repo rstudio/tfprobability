@@ -13,7 +13,7 @@ distribution_independent(distribution, reinterpreted_batch_ndims,
 
 \item{reinterpreted_batch_ndims}{Scalar, integer number of rightmost batch dims  which
 will be regarded as event dims. When NULL all but the first batch axis (batch axis 0)
-will be transferred to event dimensions (analogous to `tf.layers.flatten`).}
+will be transferred to event dimensions (analogous to `tf$layers$flatten`).}
 
 \item{validate_args}{Logical, default `FALSE`. When `TRUE` distribution parameters are checked
 for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
