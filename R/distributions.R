@@ -129,3 +129,43 @@ distribution_multivariate_normal_diag <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalDiag, args)
 }
 
+#' A Transformed Distribution.
+#'
+#' A `TransformedDistribution` models `p(y)` given a base distribution `p(x)`,
+#' and a deterministic, invertible, differentiable transform, `Y = g(X)`. The
+#' transform is typically an instance of the `Bijector` class and the base
+#' distribution is typically an instance of the `Distribution` class.
+#'
+#' @param distribution The base distribution instance to transform. Typically an instance of `Distribution`.
+#' @param bijector The object responsible for calculating the transformation. Typically an instance of `Bijector`.
+#' @param batch_shape `integer` vector `Tensor` which overrides `distribution` `batch_shape`;
+#' valid only if `distribution.is_scalar_batch()`.
+#' @param event_shape `integer` vector `Tensor` which overrides `distribution` `event_shape`;
+#' valid only if `distribution.is_scalar_event()`.
+#' @param validate_args Logical, default `FALSE`. When `TRUE` distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
+#'  silently render incorrect outputs. Default value: `FALSE`.
+#' @param name The name for ops managed by the distribution.  Default value: `bijector.name + distribution.name`.
+
+#' @export
+
+distribution_transformed <- function(distribution,
+                                     bijector,
+                                     batch_shape = NULL,
+                                     event_shape = NULL,
+                                     validate_args = FALSE,
+                                     name = NULL) {
+
+  args <- list(
+    distribution = distribution,
+    bijector = bijector,
+    batch_shape = batch_shape,
+    event_shape = event_shape,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$TransformedDistribution, args)
+}
+
+

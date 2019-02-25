@@ -137,9 +137,8 @@ test_succeeds("can compute cross entropy", {
                                              scale_diag = c(1, 2))
   other <- distribution_multivariate_normal_diag(loc = c(0, 0),
                                                  scale_diag = c(1, 1))
-  sess <- tf$Session()
-  cx <- d %>% cross_entropy(other) %>% sess$run()
-  ent <- d %>% entropy() %>% sess$run()
-  kl <- d %>% kl_divergence(other) %>% sess$run()
+  cx <- d %>% cross_entropy(other) %>% tensor_value()
+  ent <- d %>% entropy() %>% tensor_value()
+  kl <- d %>% kl_divergence(other) %>% tensor_value()
   expect_equal(kl, cx - ent, tolerance = 1e-6)
 })

@@ -46,3 +46,14 @@ test_succeeds("Make independent distribution from a 28*28-batch Bernoulli.", {
 
 })
 
+test_succeeds("Create a log normal distribution from a normal one.", {
+
+  d <- distribution_transformed(
+    distribution = distribution_normal(loc = 0, scale = 1),
+    bijector = bijector_exp()
+  )
+  expect_equal(d$event_shape$ndims, 0)
+
+})
+
+

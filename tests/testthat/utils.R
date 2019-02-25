@@ -19,3 +19,12 @@ test_succeeds <- function(desc, expr) {
     expect_error(force(expr), NA)
   })
 }
+
+tensor_value <- function(tensor) {
+  if (tf$executing_eagerly()) {
+    as.numeric(tensor)
+  } else {
+    sess <- tf$Session()
+    sess$run(tensor)
+  }
+}
