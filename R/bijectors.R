@@ -2,13 +2,13 @@
 
 
 
+
 #' Compute Y = g(X) = X.
 #'
 #' @param validate_args Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
 #'  `FALSE`, and the inputs are invalid, correct behavior is not guaranteed.
 #' @param name name prefixed to Ops created by this class.
-#'
-#' @return
+
 #' @family bijectors
 #' @export
 
@@ -23,8 +23,6 @@ bijector_identity <- function(validate_args = FALSE,
 #' Bijector which computes `Y = g(X) = 1 / (1 + exp(-X))`.
 #'
 #' @inheritParams bijector_identity
-#'
-#' @return
 #' @export
 
 bijector_sigmoid <- function(validate_args = FALSE,
@@ -39,7 +37,7 @@ bijector_sigmoid <- function(validate_args = FALSE,
 #'
 #' @inheritParams bijector_identity
 #'
-#' @return
+
 #' @export
 
 bijector_exp <- function(validate_args = FALSE,
@@ -63,8 +61,7 @@ bijector_exp <- function(validate_args = FALSE,
 #'  This is done for efficiency.  If `validate_args == True`, `y < 0` will raise an exception.
 
 #' @inheritParams bijector_identity
-#'
-#' @return
+
 #' @export
 
 bijector_absolute_value <- function(validate_args = FALSE,
@@ -280,4 +277,125 @@ bijector_blockwise <- function(bijectors,
   do.call(tfp$bijectors$Blockwise, args)
 }
 
+
+#' Bijector which applies a sequence of bijectors.
+#'
+#' @param bijectors `list` of bijector instances. An empty list makes this
+#' bijector equivalent to the `Identity` bijector.
+#' @param validate_args Logical indicating whether arguments should be checked for correctness.
+#' @param name String, name given to ops managed by this object. Default:
+#' E.g., `Chain([Exp(), Softplus()]).name == "chain_of_exp_of_softplus"`.
+
+#' @export
+bijector_chain <- function(bijectors = NULL,
+                           validate_args = FALSE,
+                           name = NULL) {
+  args <- list(bijectors = bijectors,
+               validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$Chain, args)
+}
+
+
+
+#' Compute `g(X) = X @ X.T`; X is lower-triangular, positive-diagonal matrix.
+#'
+#' Note: the upper-triangular part of X is ignored (whether or not its zero).
+#'
+#' The surjectivity of g as a map from  the set of n x n positive-diagonal
+#' lower-triangular matrices to the set of SPD matrices follows immediately from
+#' executing the Cholesky factorization algorithm on an SPD matrix A to produce a
+#' positive-diagonal lower-triangular matrix L such that `A = L @ L.T`.
+#'
+#' To prove the injectivity of g, suppose that L_1 and L_2 are lower-triangular
+#' with positive diagonals and satisfy `A = L_1 @ L_1.T = L_2 @ L_2.T`. Then
+#' `inv(L_1) @ A @ inv(L_1).T = [inv(L_1) @ L_2] @ [inv(L_1) @ L_2].T = I`.
+#' Setting `L_3 := inv(L_1) @ L_2`, that L_3 is a positive-diagonal
+#' lower-triangular matrix follows from `inv(L_1)` being positive-diagonal
+#' lower-triangular (which follows from the diagonal of a triangular matrix being
+#' its spectrum), and that the product of two positive-diagonal lower-triangular
+#' matrices is another positive-diagonal lower-triangular matrix.
+#' A simple inductive argument (proceeding one column of L_3 at a time) shows
+#' that, if `I = L_3 @ L_3.T`, with L_3 being lower-triangular with positive-
+#' diagonal, then `L_3 = I`. Thus, `L_1 = L_2`, proving injectivity of g.
+#'
+#' @inheritParams bijector_identity
+#' @export
+
+bijector_cholesky_outer_product <- function(validate_args = FALSE,
+                             name = "cholesky_outer_product") {
+  args <- list(validate_args = validate_args,
+               name = name)
+
+  do.call(tfp$bijectors$CholeskyOuterProduct, args)
+}
+
+#' Maps the Cholesky factor of `M` to the Cholesky factor of `M^{-1}`.
+#'
+#' The `forward` and `inverse` calculations are conceptually identical to:
+#' `def forward(x): return tf.cholesky(tf.linalg.inv(tf.matmul(x, x, adjoint_b=True)))``
+#' `inverse = forward`
+#' However, the actual calculations exploit the triangular structure of the matrices.
+#'
+#' @inheritParams bijector_identity
+#' @export
+
+bijector_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
+                                            name = "cholesky_to_inv_cholesky") {
+  args <- list(validate_args = validate_args,
+               name = name)
+
+  do.call(tfp$bijectors$CholeskyToInvCholesky, args)
+}
+
+#' Compute `Y = g(X) = DCT(X)`, where DCT type is indicated by the `type` arg.
+#'
+#' The [discrete cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform)
+#' efficiently applies a unitary DCT operator. This can be useful for mixing and decorrelating across
+#' the innermost event dimension.
+#' The inverse `X = g^{-1}(Y) = IDCT(Y)`, where IDCT is DCT-III for type==2.
+#' This bijector can be interleaved with Affine bijectors to build a cascade of
+#' structured efficient linear layers as in [1].
+#' Note that the operator applied is orthonormal (i.e. `norm='ortho'`).
+#'
+#' References
+#' [1]: Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer.
+#' In _International Conference on Learning Representations_, 2016. https://arxiv.org/abs/1511.05946
+#'
+#' @inheritParams bijector_identity
+#' @param dct_type integer, the DCT type performed by the forward transformation.
+#' Currently, only 2 and 3 are supported.
+#' @export
+
+bijector_discrete_cosine_transform<- function(validate_args = FALSE,
+                                              dct_type = 2,
+                                              name = "dct") {
+  args <- list(validate_args = validate_args,
+               dct_type = dct_type,
+               name = name)
+
+  do.call(tfp$bijectors$DiscreteCosineTransform, args)
+}
+
+#' Compute `Y = g(X) = exp(X) - 1`.
+#'
+#' This `Bijector` is no different from Chain([AffineScalar(shift=-1), Exp()]).
+#' However, this makes use of the more numerically stable routines
+#' `tf.math.expm1` and `tf.log1p`.
+#'
+#' Note: the expm1(.) is applied element-wise but the Jacobian is a reduction
+#' over the event space.
+#'
+#' @inheritParams bijector_identity
+#'
+
+#' @export
+
+bijector_expm1 <- function(validate_args = FALSE,
+                         name = "expm1") {
+  args <- list(validate_args = validate_args,
+               name = name)
+
+  do.call(tfp$bijectors$Expm1, args)
+}
 

@@ -4,7 +4,7 @@ Implemented so far (all with tests):
 
 - a few distribution layers 
 - a few distributions corresponding to those layers 
-- generic distribution methods (`sample`, `log_prob` ...) [still need doc]
+- generic distribution methods (`sample`, `log_prob` ...)
 - installation (this is done in `tensorflow`)
 
 
@@ -19,7 +19,5 @@ To be implemented (move around to reflect priority):
 - ...
 - ... 
 - bijector R class (ideally just a closure, not R6 - low prio)
-
-Installation will be taken care of in the `tensorflow` package. It's important that TF and TFP version are "in sync".
 
 For modules not listed in this list (`edward2`, ...) I suggest not implementing anything until we have more information about their state in TFP (some stuff might be under heavy development or outdated).

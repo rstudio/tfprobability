@@ -76,4 +76,56 @@ test_succeeds("Define a blockwise bijector", {
   expect_equal(y$shape %>% length(), 2)
 })
 
+test_succeeds("Define a chain of bijectors", {
+  b <- bijector_chain(list(bijector_exp(), bijector_sigmoid()))
+  expect_equal(b$bijectors %>% length(), 2)
+})
+
+test_succeeds("Define a Cholesky outer product bijector", {
+  b <- bijector_cholesky_outer_product()
+  x <- matrix(c(1, 0, 2, 1), ncol = 2, byrow = TRUE)
+  y <- matrix(c(1, 2, 2, 5), byrow = TRUE, nrow = 2)
+  expect_equal(b %>% forward(x) %>% tensor_value(), y)
+  expect_equal(b %>% inverse(y) %>% tensor_value(), x)
+})
+
+test_succeeds("Define a Cholesky to inverse Cholesky bijector", {
+  b <- bijector_cholesky_to_inv_cholesky()
+  c <- bijector_chain(list(bijector_invert(bijector_cholesky_outer_product()),
+                           bijector_matrix_inverse(),
+                           bijector_cholesky_outer_product()))
+  x <- matrix(c(1, 0, 2, 1), ncol = 2, byrow = TRUE)
+  expect_equal(b %>% forward(x), c %>% forward(x))
+})
+
+test_succeeds("Define a discrete cosine transform bijector", {
+  b <- bijector_discrete_cosine_transform()
+  x <- matrix(runif(100)) %>% tf$cast(tf$float32)
+  y <- b %>% forward(x)
+  expect_equal(x %>% tensor_value(), b %>% inverse(y) %>% tensor_value())
+})
+
+test_succeeds("Define an expm1 bijector", {
+  b <- bijector_expm1()
+  c <- bijector_chain(list(bijector_affine_scalar(shift = -1), bijector_exp()))
+  c <- bijector_chain(list(bijector_exp()))
+  # need float32 due to affine_scalar.py calling the supertype _init_ with a dtype it determined
+  # dtype = dtype_util.common_dtype([self._shift, self._scale]) which will be tf$float32
+  # then _maybe_assert_dtype in bijector superclass checks against self$dtype
+  # should the forward generic cast everything to float32??? q for JJ
+  x <- matrix(1.1:4.1, ncol = 2, byrow = TRUE) %>% tf$cast(tf$float32)
+  expect_equal(b %>% forward(x), c %>% forward(x))
+})
+
+
+# Create the Y=g(X)=expm1(X) transform.
+# expm1 = Expm1()
+# x = [[[1., 2],
+#       [3, 4]],
+#      [[5, 6],
+#       [7, 8]]]
+# expm1(x) == expm1.forward(x)
+# log1p(x) == expm1.inverse(x)
+
+
 

@@ -2,7 +2,7 @@
 
 #' Pass-through layer that adds a KL divergence penalty to the model loss
 #'
-#' @inheritParams layer_dense
+#' @inheritParams keras::layer_dense
 #'
 #' @param distribution Distribution instance corresponding to `b` as in  `KL[a, b]`.
 #'  The previous layer's output is presumed to be a `Distribution` instance and is `a`.
@@ -62,7 +62,7 @@ layer_kl_divergence_add_loss <- function(object,
 
 #' A `d`-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.
 #'
-#' @inheritParams layer_dense
+#' @inheritParams keras::layer_dense
 #'
 #' @param event_size Integer vector tensor representing the shape of single draw from this distribution.
 #' @param convert_to_tensor_fn A callable that takes a `tfd$Distribution` instance and returns a
@@ -109,7 +109,7 @@ layer_multivariate_normal_tril <- function(object,
 
 #' An Independent-Bernoulli Keras layer from `prod(event_shape)` params
 #'
-#' @inheritParams layer_dense
+#' @inheritParams keras::layer_dense
 #'
 #' @param event_shape Scalar integer representing the size of single draw from this distribution.
 #' @param convert_to_tensor_fn A callable that takes a `tfd$Distribution` instance and returns a
