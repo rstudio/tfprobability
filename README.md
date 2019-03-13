@@ -1,23 +1,23 @@
 This is the start of what hopefully will become the `tfprobability` package.
 
-Implemented so far (all with tests):
+1) Done:
 
-- a few distribution layers 
-- a few distributions corresponding to those layers 
-- generic distribution methods (`sample`, `log_prob` ...)
 - installation (this is done in `tensorflow`)
+- generic distribution methods (`sample`, `log_prob` ...)
 
 
-To be implemented (move around to reflect priority):
+2) WIP / partially implemented (all with tests):
 
-- more distributions
-- bijectors (the ones which are implemented in TFP)
-- more distribution layers
-- `tfp.layers` (different from the above distribution layers)
+- distribution layers 
+- distributions
+- bijectors
+
+
+3) Top on wish list
+
+- remaining distribution layers
+- remaining distributions, bijectors
+- variational layers (`tfp.layers`, different from the above distribution layers)
 - `mcmc`
 - `optimizer`
-- ...
-- ... 
-- bijector R class (ideally just a closure, not R6 - low prio)
 
-For modules not listed in this list (`edward2`, ...) I suggest not implementing anything until we have more information about their state in TFP (some stuff might be under heavy development or outdated).

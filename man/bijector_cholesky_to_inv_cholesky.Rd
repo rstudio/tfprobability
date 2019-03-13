@@ -2,14 +2,20 @@
 % Please edit documentation in R/bijectors.R
 \name{bijector_cholesky_to_inv_cholesky}
 \alias{bijector_cholesky_to_inv_cholesky}
-\title{Title}
+\title{Maps the Cholesky factor of `M` to the Cholesky factor of `M^{-1}`.}
 \usage{
 bijector_cholesky_to_inv_cholesky(validate_args = FALSE,
   name = "cholesky_to_inv_cholesky")
 }
 \arguments{
-\item{name}{}
+\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
+`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+
+\item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Title
+The `forward` and `inverse` calculations are conceptually identical to:
+`def forward(x): return tf.cholesky(tf.linalg.inv(tf.matmul(x, x, adjoint_b=True)))``
+`inverse = forward`
+However, the actual calculations exploit the triangular structure of the matrices.
 }

@@ -14,7 +14,7 @@ test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
   eps <-
     distribution_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
   y = tf$matmul(x, scale_tril) + eps
-  d <- tf$compat$dimension_value(y$shape[-1])
+  d <- y$shape[-1]$value
 
   model <- keras_model_sequential() %>%
     layer_dense(units = params_size_multivariate_normal_tril(d),

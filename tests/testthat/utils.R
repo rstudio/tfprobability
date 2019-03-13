@@ -1,13 +1,13 @@
-have_tf_probability <- function() {
+have_tfp <- function() {
   reticulate::py_module_available("tensorflow_probability")
 }
 
-skip_if_no_tf_probability <- function() {
-  if (!have_tf_probability())
+skip_if_no_tfp <- function() {
+  if (!have_tfp())
     skip("TensorFlow Probability not available for testing")
 }
 
-skip_if_tf_probability_below <- function(version) {
+skip_if_tfp_below <- function(version) {
   if (tfp_version() < version) {
     skip(paste0("Skipped since this test requires TensorFlow Probability >= ", version))
   }
@@ -15,7 +15,7 @@ skip_if_tf_probability_below <- function(version) {
 
 test_succeeds <- function(desc, expr) {
   test_that(desc, {
-    skip_if_no_tf_probability()
+    skip_if_no_tfp()
     expect_error(force(expr), NA)
   })
 }

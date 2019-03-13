@@ -29,3 +29,6 @@ as_nullable_integer <- function(x) {
     as.integer(x)
 }
 
+as_tf_float <- function(x) {
+  tf$cast(x, tf$float32)
+}

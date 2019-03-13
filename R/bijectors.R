@@ -1,8 +1,4 @@
 
-
-
-
-
 #' Compute Y = g(X) = X.
 #'
 #' @param validate_args Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
@@ -20,7 +16,7 @@ bijector_identity <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Identity, args)
 }
 
-#' Bijector which computes `Y = g(X) = 1 / (1 + exp(-X))`.
+#' Compute `Y = g(X) = 1 / (1 + exp(-X))`.
 #'
 #' @inheritParams bijector_identity
 #' @export
@@ -33,7 +29,7 @@ bijector_sigmoid <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Sigmoid, args)
 }
 
-#' Bijector which computes `Y=g(X)=exp(X)``
+#' Compute `Y=g(X)=exp(X)``
 #'
 #' @inheritParams bijector_identity
 #'
@@ -48,7 +44,7 @@ bijector_exp <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Exp, args)
 }
 
-#' Bijector which computes `Y = g(X) = Abs(X)`, element-wise.
+#' Compute `Y = g(X) = Abs(X)`, element-wise.
 #'
 #' This non-injective bijector allows for transformations of scalar distributions
 #' with the absolute value function, which maps `(-inf, inf)` to `[0, inf)`.
@@ -72,7 +68,7 @@ bijector_absolute_value <- function(validate_args = FALSE,
   do.call(tfp$bijectors$AbsoluteValue, args)
 }
 
-#' Instantiates the `Affine` bijector.
+#' `Affine` bijector.
 #'
 #' This `Bijector` is initialized with `shift` `Tensor` and `scale` arguments,
 #' giving the forward operation: `Y = g(X) = scale @ X + shift``
@@ -165,7 +161,7 @@ bijector_affine_linear_operator <- function(shift = NULL,
 }
 
 
-#' Instantiates the `AffineScalar` bijector.
+#' `AffineScalar` bijector.
 #'
 #' This `Bijector` is initialized with `shift` `Tensor` and `scale` arguments, giving the forward operation:
 #' `Y = g(X) = scale * X + shift`
@@ -323,7 +319,7 @@ bijector_chain <- function(bijectors = NULL,
 #' @export
 
 bijector_cholesky_outer_product <- function(validate_args = FALSE,
-                             name = "cholesky_outer_product") {
+                                            name = "cholesky_outer_product") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -341,7 +337,7 @@ bijector_cholesky_outer_product <- function(validate_args = FALSE,
 #' @export
 
 bijector_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
-                                            name = "cholesky_to_inv_cholesky") {
+                                              name = "cholesky_to_inv_cholesky") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -367,9 +363,9 @@ bijector_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
 #' Currently, only 2 and 3 are supported.
 #' @export
 
-bijector_discrete_cosine_transform<- function(validate_args = FALSE,
-                                              dct_type = 2,
-                                              name = "dct") {
+bijector_discrete_cosine_transform <- function(validate_args = FALSE,
+                                               dct_type = 2,
+                                               name = "dct") {
   args <- list(validate_args = validate_args,
                dct_type = dct_type,
                name = name)
@@ -392,10 +388,267 @@ bijector_discrete_cosine_transform<- function(validate_args = FALSE,
 #' @export
 
 bijector_expm1 <- function(validate_args = FALSE,
-                         name = "expm1") {
+                           name = "expm1") {
   args <- list(validate_args = validate_args,
                name = name)
 
   do.call(tfp$bijectors$Expm1, args)
 }
+
+
+#' Transforms vectors to triangular.
+#'
+#' Triangular matrix elements are filled in a clockwise spiral.
+#' Given input with shape `batch_shape + [d]`, produces output with
+#' shape `batch_shape + [n, n]`, where `n = (-1 + sqrt(1 + 8 * d))/2`.
+#' This follows by solving the quadratic equation `d = 1 + 2 + ... + n = n * (n + 1)/2`.
+#'
+#' @param upper Logical representing whether output matrix should be upper triangular (`TRUE`)
+#'  or lower triangular (`FALSE`, default).
+#' @inheritParams bijector_identity
+#'
+
+#' @export
+
+bijector_fill_triangular <- function(upper = FALSE,
+                                     validate_args = FALSE,
+                                     name = "fill_triangular") {
+  args <- list(upper = upper,
+               validate_args = validate_args,
+               name = name)
+
+  do.call(tfp$bijectors$FillTriangular, args)
+}
+
+#' Compute `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#'
+#' This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution):
+#'
+#' `Y ~ Gumbel(loc, scale)`
+#' `pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale`
+#'
+#' @param loc Float-like `Tensor` that is the same dtype and is broadcastable with `scale`.
+#' This is `loc` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' @param scale Positive Float-like `Tensor` that is the same dtype and is broadcastable with `loc`.
+#' This is `scale` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' @inheritParams bijector_identity
+#'
+#' @export
+bijector_gumbel <- function(loc = 0,
+                            scale = 1,
+                            validate_args = FALSE,
+                            name = "gumbel") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$Gumbel, args)
+}
+
+#' Bijector constructed from custom callables.
+#'
+#' @param forward_fn Function implementing the forward transformation.
+#' @param inverse_fn Function implementing the inverse transformation.
+#' @param inverse_log_det_jacobian_fn Function implementing the log_det_jacobian of the forward transformation.
+#' @param forward_log_det_jacobian_fn Function implementing the log_det_jacobian of the inverse transformation.
+#' @param forward_event_shape_fn Function implementing non-identical static event shape changes. Default: shape is assumed unchanged.
+#' @param forward_event_shape_tensor_fn Function implementing non-identical event shape changes. Default: shape is assumed unchanged.
+#' @param inverse_event_shape_fn Function implementing non-identical static event shape changes. Default: shape is assumed unchanged.
+#' @param inverse_event_shape_tensor_fn Function implementing non-identical event shape changes. Default: shape is assumed unchanged.
+#' @param is_constant_jacobian Logical indicating that the Jacobian is constant for all input arguments.
+#' @param forward_min_event_ndims Integer indicating the minimal dimensionality this bijector acts on.
+#' @param inverse_min_event_ndims Integer indicating the minimal dimensionality this bijector acts on.
+#' @inheritParams bijector_identity
+#' @export
+
+bijector_inline <- function(forward_fn = NULL,
+                            inverse_fn = NULL,
+                            inverse_log_det_jacobian_fn = NULL,
+                            forward_log_det_jacobian_fn = NULL,
+                            forward_event_shape_fn = NULL,
+                            forward_event_shape_tensor_fn = NULL,
+                            inverse_event_shape_fn = NULL,
+                            inverse_event_shape_tensor_fn = NULL,
+                            is_constant_jacobian = NULL,
+                            validate_args = FALSE,
+                            forward_min_event_ndims = NULL,
+                            inverse_min_event_ndims = NULL,
+                            name = "inline") {
+  args <- list(
+    forward_fn = forward_fn,
+    inverse_fn = inverse_fn,
+    inverse_log_det_jacobian_fn = inverse_log_det_jacobian_fn,
+    forward_log_det_jacobian_fn = forward_log_det_jacobian_fn,
+    forward_event_shape_fn = forward_event_shape_fn,
+    forward_event_shape_tensor_fn = forward_event_shape_tensor_fn,
+    inverse_event_shape_fn = inverse_event_shape_fn,
+    inverse_event_shape_tensor_fn = inverse_event_shape_tensor_fn,
+    is_constant_jacobian = is_constant_jacobian,
+    forward_min_event_ndims = as_nullable_integer(forward_min_event_ndims),
+    inverse_min_event_ndims = as_nullable_integer(inverse_min_event_ndims),
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$Inline, args)
+}
+
+#' Bijector which inverts another Bijector.
+#'
+#' Creates a `Bijector` which swaps the meaning of `inverse` and `forward`.
+#' Note: An inverted bijector's `inverse_log_det_jacobian` is often more
+#' efficient if the base bijector implements `_forward_log_det_jacobian`. If
+#' `_forward_log_det_jacobian` is not implemented then the following code is
+#' used:
+#' `y = self.inverse(x, **kwargs)`
+#' `return -self.inverse_log_det_jacobian(y, **kwargs)```
+#'
+#' @param bijector Bijector instance.
+#' @inheritParams bijector_identity
+#'
+#' @export
+bijector_invert <- function(bijector,
+                            validate_args = FALSE,
+                            name = NULL) {
+  args <- list(
+    bijector = bijector,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$Invert, args)
+}
+
+#' Compute `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1]`.
+#'
+#' This bijector maps inputs from `[0, 1]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
+#' `Y ~ Kumaraswamy(a, b)`
+#' `pdf(y; a, b, 0 <= y <= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)`
+#'
+#' @param concentration1 `float` scalar indicating the transform power, i.e.,
+#' `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where `a` is `concentration1`.
+#' @param concentration0 `float` scalar indicating the transform power,
+#' i.e., `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where `b` is `concentration0`.
+#' @inheritParams bijector_identity
+#'
+#' @export
+bijector_kumaraswamy <- function( concentration1 = NULL,
+                                  concentration0 = NULL,
+                            validate_args = FALSE,
+                            name = "kumaraswamy") {
+  args <- list(
+    concentration1 = concentration1,
+    concentration0 = concentration0,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$Kumaraswamy, args)
+}
+
+
+#' Affine MaskedAutoregressiveFlow bijector.
+#'
+#' The affine autoregressive flow [(Papamakarios et al., 2016)][3] provides a
+#' relatively simple framework for user-specified (deep) architectures to learn a
+#' distribution over continuous events. Regarding terminology,
+#'
+#' "Autoregressive models decompose the joint density as a product of
+#' conditionals, and model each conditional in turn. Normalizing flows
+#' transform a base density (e.g. a standard Gaussian) into the target density
+#' by an invertible transformation with tractable Jacobian." [(Papamakarios et al., 2016)][3]
+#'
+#' In other words, the "autoregressive property" is equivalent to the
+#' decomposition, `p(x) = prod{ p(x[perm[i]] | x[perm[0:i]]) : i=0, ..., d }`
+#' where `perm` is some permutation of `{0, ..., d}`. In the simple case where
+#' the permutation is identity this reduces to:
+#'
+#' `p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }`. The provided
+#' `shift_and_log_scale_fn`, `masked_autoregressive_default_template`, achieves
+#' this property by zeroing out weights in its `masked_dense` layers.
+#' In TensorFlow Probability, "normalizing flows" are implemented as
+#' `tfp.bijectors.Bijector`s. The `forward` "autoregression" is implemented
+#' using a `tf.while_loop` and a deep neural network (DNN) with masked weights
+#' such that the autoregressive property is automatically met in the `inverse`.
+#' A `TransformedDistribution` using `MaskedAutoregressiveFlow(...)` uses the
+#' (expensive) forward-mode calculation to draw samples and the (cheap)
+#' reverse-mode calculation to compute log-probabilities. Conversely, a
+#' `TransformedDistribution` using `Invert(MaskedAutoregressiveFlow(...))` uses
+#' the (expensive) forward-mode calculation to compute log-probabilities and the
+#' (cheap) reverse-mode calculation to compute samples.
+#'
+#' Given a `shift_and_log_scale_fn`, the forward and inverse transformations are
+#' (a sequence of) affine transformations. A "valid" `shift_and_log_scale_fn`
+#' must compute each `shift` (aka `loc` or "mu" in [Germain et al. (2015)][1])
+#' and `log(scale)` (aka "alpha" in [Germain et al. (2015)][1]) such that each
+#' are broadcastable with the arguments to `forward` and `inverse`, i.e., such
+#' that the calculations in `forward`, `inverse` [below] are possible.
+#'
+#' For convenience, `masked_autoregressive_default_template` is offered as a
+#' possible `shift_and_log_scale_fn` function. It implements the MADE
+#' architecture [(Germain et al., 2015)][1]. MADE is a feed-forward network that
+#' computes a `shift` and `log(scale)` using `masked_dense` layers in a deep
+#' neural network. Weights are masked to ensure the autoregressive property. It
+#' is possible that this architecture is suboptimal for your task. To build
+#' alternative networks, either change the arguments to
+#' `masked_autoregressive_default_template`, use the `masked_dense` function to
+#' roll-out your own, or use some other architecture, e.g., using `tf.layers`.
+#' Warning: no attempt is made to validate that the `shift_and_log_scale_fn`
+#' enforces the "autoregressive property".
+#'
+#' References:
+#' [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
+#' MADE: Masked Autoencoder for Distribution Estimation.
+#'  In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
+#' [2]: Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling.
+#'  Improving Variational Inference with Inverse Autoregressive Flow.
+#'  In _Neural Information Processing Systems_, 2016. https://arxiv.org/abs/1606.04934
+#' [3]: George Papamakarios, Theo Pavlakou, and Iain Murray.
+#'  Masked Autoregressive Flow for Density Estimation.
+#'  In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+#'
+#' @param shift_and_log_scale_fn Function which computes `shift` and `log_scale` from both the
+#' forward domain (`x`) and the inverse domain (`y`).
+#' Calculation must respect the "autoregressive property". Suggested default:
+#' `masked_autoregressive_default_template(hidden_layers=...)`.
+#' Typically the function contains `tf$Variables` and is wrapped using `tf$make_template`.
+#'  Returning `NULL` for either (both) `shift`, `log_scale` is equivalent to (but more efficient than) returning zero.
+#' @param is_constant_jacobian Logical, default: `FALSE`. When `TRUE` the implementation assumes `log_scale`
+#' does not depend on the forward domain (`x`) or inverse domain (`y`) values.
+#' (No validation is made; `is_constant_jacobian=FALSE` is always safe but possibly computationally inefficient.)
+#' @param unroll_loop Logical indicating whether the `tf$while_loop` in `_forward` should be replaced with a
+#' static for loop. Requires that the final dimension of `x` be known at graph construction time. Defaults to `FALSE`.
+#' @param event_ndims `integer`, the intrinsic dimensionality of this bijector.
+#' 1 corresponds to a simple vector autoregressive bijector as implemented by the
+#' `masked_autoregressive_default_template`, 2 might be useful for a 2D convolutional `shift_and_log_scale_fn` and so on.
+#'
+#' @inheritParams bijector_identity
+#'
+#' @export
+#'
+bijector_masked_autoregressive_flow <- function( shift_and_log_scale_fn,
+                                  is_constant_jacobian = FALSE,
+                                  unroll_loop = FALSE,
+                                  event_ndims = 1,
+                                  validate_args = FALSE,
+                                  name = NULL) {
+  args <- list(
+    shift_and_log_scale_fn = shift_and_log_scale_fn,
+    is_constant_jacobian = is_constant_jacobian,
+    unroll_loop = unroll_loop,
+    event_ndims = event_ndims,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$MaskedAutoregressiveFlow, args)
+}
+
 

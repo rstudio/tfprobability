@@ -16,7 +16,7 @@ forward <-
 
 forward.tensorflow_probability.python.bijectors.bijector.Bijector <-
   function(bijector, x, name="forward") {
-    bijector$forward(x, name)
+    bijector$forward(as_tf_float(x), name)
   }
 
 #' @export
@@ -37,7 +37,7 @@ inverse <-
 
 inverse.tensorflow_probability.python.bijectors.bijector.Bijector <-
   function(bijector, y, name="inverse") {
-    bijector$inverse(y, name)
+    bijector$inverse(as_tf_float(y), name)
   }
 
 #' @export
@@ -62,7 +62,7 @@ forward_log_det_jacobian <-
 
 forward_log_det_jacobian.tensorflow_probability.python.bijectors.bijector.Bijector <-
   function(bijector, x, event_ndims, name="forward_log_det_jacobian") {
-    bijector$forward_log_det_jacobian(x, as.integer(event_ndims), name)
+    bijector$forward_log_det_jacobian(as_tf_float(x), as.integer(event_ndims), name)
   }
 
 #' @export
@@ -87,6 +87,6 @@ inverse_log_det_jacobian <-
 #'
 inverse_log_det_jacobian.tensorflow_probability.python.bijectors.bijector.Bijector <-
   function(bijector, y, event_ndims, name="inverse_log_det_jacobian") {
-    bijector$inverse_log_det_jacobian(y, as.integer(event_ndims), name)
+    bijector$inverse_log_det_jacobian(as_tf_float(y), as.integer(event_ndims), name)
   }
 
