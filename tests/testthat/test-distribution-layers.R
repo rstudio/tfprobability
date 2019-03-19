@@ -10,9 +10,9 @@ test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
            ncol = 2,
            byrow = TRUE) %>% k_cast_to_floatx()
   scale_noise <- 0.01
-  x <- distribution_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
+  x <- tfd_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
   eps <-
-    distribution_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
+    tfd_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
   y = tf$matmul(x, scale_tril) + eps
   d <- y$shape[-1]$value
 
@@ -49,8 +49,8 @@ test_succeeds("can use layer_kl_divergence_add_loss in a keras model", {
     layer_dense(units = params_size_multivariate_normal_tril(encoded_size)) %>%
     layer_multivariate_normal_tril(event_size = encoded_size) %>%
     layer_kl_divergence_add_loss(
-      distribution = distribution_independent(
-        distribution_normal(loc = c(0, 0), scale = 1),
+      distribution = tfd_independent(
+        tfd_normal(loc = c(0, 0), scale = 1),
         reinterpreted_batch_ndims = 1L
       ),
       weight = train_size
@@ -87,11 +87,11 @@ test_succeeds("can use layer_independent_bernoulli in a keras model", {
            ncol = 2,
            byrow = TRUE) %>% k_cast_to_floatx()
   scale_noise <- 0.01
-  x <- distribution_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
+  x <- tfd_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
   eps <-
-    distribution_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
+    tfd_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
   y <-
-    distribution_bernoulli(logits = tf$reshape(tf$matmul(x, scale_tril) + eps,
+    tfd_bernoulli(logits = tf$reshape(tf$matmul(x, scale_tril) + eps,
                                                shape = shape(n, 1L, 2L, 1L))) %>% sample()
 
   event_shape <- dim(y)[2:4]

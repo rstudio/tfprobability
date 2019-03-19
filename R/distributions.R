@@ -15,7 +15,7 @@
 #' @family distributions
 #' @return A normal distribution
 #' @export
-distribution_normal <- function(loc,
+tfd_normal <- function(loc,
                                 scale,
                                 validate_args = FALSE,
                                 allow_nan_stats = TRUE,
@@ -45,7 +45,7 @@ distribution_normal <- function(loc,
 #' @return
 #' @export
 
-distribution_independent <- function(distribution,
+tfd_independent <- function(distribution,
                                      reinterpreted_batch_ndims,
                                      validate_args = FALSE,
                                      name = paste0("Independent", distribution$name)) {
@@ -63,7 +63,7 @@ distribution_independent <- function(distribution,
 
 #' The Bernoulli distribution class.
 #'
-#' @inheritParams distribution_normal
+#' @inheritParams tfd_normal
 #'
 #' @param logits An N-D `Tensor` representing the log-odds of a `1` event. Each entry in the `Tensor`
 #'  parametrizes an independent Bernoulli distribution where the probability of an event
@@ -75,7 +75,7 @@ distribution_independent <- function(distribution,
 #'
 #' @return
 #' @export
-distribution_bernoulli <- function(logits = NULL,
+tfd_bernoulli <- function(logits = NULL,
                                    probs = NULL,
                                    dtype = tf$int32,
                                    validate_args = FALSE,
@@ -95,7 +95,7 @@ distribution_bernoulli <- function(logits = NULL,
 
 #' Title
 #'
-#' @inheritParams distribution_normal
+#' @inheritParams tfd_normal
 #'
 #' @param loc Floating-point `Tensor`. If this is set to `NULL`, `loc` is implicitly `0`.
 #' When specified, may have shape `[B1, ..., Bb, k]` where `b >= 0` and `k` is the event size.
@@ -110,7 +110,7 @@ distribution_bernoulli <- function(logits = NULL,
 #'
 #' @return
 #' @export
-distribution_multivariate_normal_diag <- function(loc = NULL,
+tfd_multivariate_normal_diag <- function(loc = NULL,
                                                   scale_diag = NULL,
                                                   scale_identity_multiplier = NULL,
                                                   validate_args = FALSE,
@@ -149,7 +149,7 @@ distribution_multivariate_normal_diag <- function(loc = NULL,
 
 #' @export
 
-distribution_transformed <- function(distribution,
+tfd_transformed <- function(distribution,
                                      bijector,
                                      batch_shape = NULL,
                                      event_shape = NULL,

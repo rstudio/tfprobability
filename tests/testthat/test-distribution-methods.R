@@ -4,7 +4,7 @@ source("utils.R")
 
 test_succeeds("can sample from distributions", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% sample(c(2, 2))
   expect_length(dim(x), 2)
 
@@ -15,7 +15,7 @@ test_succeeds("can sample from distributions", {
 
 test_succeeds("can compute log probability", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% log_prob(c(0.22, 0.44, 3))
   expect_length(dim(x), 1)
 
@@ -23,7 +23,7 @@ test_succeeds("can compute log probability", {
 
 test_succeeds("can compute probability", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% prob(matrix(1:4, ncol = 2))
   expect_length(dim(x), 2)
 
@@ -31,7 +31,7 @@ test_succeeds("can compute probability", {
 
 test_succeeds("can compute log cdf", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% log_cdf(matrix(1:4, ncol = 2))
   expect_length(dim(x), 2)
 
@@ -39,7 +39,7 @@ test_succeeds("can compute log cdf", {
 
 test_succeeds("can compute cdf", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% cdf(matrix(1:4, ncol = 2))
   expect_length(dim(x), 2)
 
@@ -47,7 +47,7 @@ test_succeeds("can compute cdf", {
 
 test_succeeds("can compute log survival function", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% log_survival_function(matrix(1:4, ncol = 2))
   expect_length(dim(x), 2)
 
@@ -55,7 +55,7 @@ test_succeeds("can compute log survival function", {
 
 test_succeeds("can compute survival function", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% survival_function(matrix(1:4, ncol = 2))
   expect_length(dim(x), 2)
 
@@ -64,7 +64,7 @@ test_succeeds("can compute survival function", {
 
 test_succeeds("can compute mean", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% mean()
   expect_length(dim(x), 0)
 
@@ -72,7 +72,7 @@ test_succeeds("can compute mean", {
 
 test_succeeds("can compute entropy", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% entropy()
   expect_length(dim(x), 0)
 
@@ -80,7 +80,7 @@ test_succeeds("can compute entropy", {
 
 test_succeeds("can compute quantiles", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% quantile(0.25)
   expect_length(dim(x), 0)
 
@@ -88,7 +88,7 @@ test_succeeds("can compute quantiles", {
 
 test_succeeds("can compute variance", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% variance()
   expect_length(dim(x), 0)
 
@@ -96,7 +96,7 @@ test_succeeds("can compute variance", {
 
 test_succeeds("can compute stddev", {
 
-  d <- distribution_normal(0,1)
+  d <- tfd_normal(0,1)
   x <- d %>% stddev()
   expect_length(dim(x), 0)
 
@@ -104,7 +104,7 @@ test_succeeds("can compute stddev", {
 
 test_succeeds("can compute covariance", {
 
-  d <- distribution_multivariate_normal_diag(loc = c(1, -1),
+  d <- tfd_multivariate_normal_diag(loc = c(1, -1),
                                              scale_diag = c(1, 2))
   x <- d %>% covariance()
   expect_length(dim(x), 2)
@@ -113,7 +113,7 @@ test_succeeds("can compute covariance", {
 
 test_succeeds("can compute mode", {
 
-  d <- distribution_bernoulli(probs = c(0.7, 0.3))
+  d <- tfd_bernoulli(probs = c(0.7, 0.3))
   x <- d %>% mode()
   expect_length(dim(x), 1)
 
@@ -121,9 +121,9 @@ test_succeeds("can compute mode", {
 
 test_succeeds("can compute cross entropy", {
 
-  d <- distribution_multivariate_normal_diag(loc = c(1, -1),
+  d <- tfd_multivariate_normal_diag(loc = c(1, -1),
                                              scale_diag = c(1, 2))
-  other <- distribution_multivariate_normal_diag(loc = c(0, 0),
+  other <- tfd_multivariate_normal_diag(loc = c(0, 0),
                                                  scale_diag = c(1, 1))
   x <- d %>% cross_entropy(other)
   expect_length(dim(x), 0)
@@ -133,9 +133,9 @@ test_succeeds("can compute cross entropy", {
 # KL[p, q] =  H[p, q] - H[p]
 test_succeeds("can compute cross entropy", {
 
-  d <- distribution_multivariate_normal_diag(loc = c(1, -1),
+  d <- tfd_multivariate_normal_diag(loc = c(1, -1),
                                              scale_diag = c(1, 2))
-  other <- distribution_multivariate_normal_diag(loc = c(0, 0),
+  other <- tfd_multivariate_normal_diag(loc = c(0, 0),
                                                  scale_diag = c(1, 1))
   cx <- d %>% cross_entropy(other) %>% tensor_value()
   ent <- d %>% entropy() %>% tensor_value()

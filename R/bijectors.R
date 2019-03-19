@@ -11,7 +11,7 @@
 #' @family bijectors
 #' @export
 
-bijector_identity <- function(validate_args = FALSE,
+tfb_identity <- function(validate_args = FALSE,
                               name = "identity") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -21,10 +21,10 @@ bijector_identity <- function(validate_args = FALSE,
 
 #' Compute `Y = g(X) = 1 / (1 + exp(-X))`.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @export
 
-bijector_sigmoid <- function(validate_args = FALSE,
+tfb_sigmoid <- function(validate_args = FALSE,
                              name = "sigmoid") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -34,12 +34,12 @@ bijector_sigmoid <- function(validate_args = FALSE,
 
 #' Compute `Y=g(X)=exp(X)``
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 
 #' @export
 
-bijector_exp <- function(validate_args = FALSE,
+tfb_exp <- function(validate_args = FALSE,
                          name = "exp") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -59,11 +59,11 @@ bijector_exp <- function(validate_args = FALSE,
 #' For `y < 0`, `AbsoluteValue.inverse(y)` happily returns the wrong thing, `-y, y`.
 #'  This is done for efficiency.  If `validate_args == True`, `y < 0` will raise an exception.
 
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 
 #' @export
 
-bijector_absolute_value <- function(validate_args = FALSE,
+tfb_absolute_value <- function(validate_args = FALSE,
                                     name = "absolute_value") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -103,13 +103,13 @@ bijector_absolute_value <- function(validate_args = FALSE,
 #'  When `None` low rank updates will take the form `scale_perturb_factor * scale_perturb_factor.T`.
 #' @param adjoint Logical indicating whether to use the `scale` matrix as specified or its adjoint.
 #' Default value: `FALSE`.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we fall back to a
 #'  common dtype inferred from the args, finally falling back to float32.
 
 #' @export
 
-bijector_affine <- function(shift = NULL,
+tfb_affine <- function(shift = NULL,
                             scale_identity_multiplier = NULL,
                             scale_diag = NULL,
                             scale_tril = NULL,
@@ -144,11 +144,11 @@ bijector_affine <- function(shift = NULL,
 #' @param scale Subclass of `LinearOperator`. Represents the (batch) positive definite matrix `M` in `R^{k x k}`.
 #' @param adjoint Logical indicating whether to use the `scale` matrix as specified or its adjoint.
 #' Default value: `False`.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
 
-bijector_affine_linear_operator <- function(shift = NULL,
+tfb_affine_linear_operator <- function(shift = NULL,
                                             scale = NULL,
                                             adjoint = FALSE,
                                             validate_args = FALSE,
@@ -173,10 +173,10 @@ bijector_affine_linear_operator <- function(shift = NULL,
 #'
 #' @param shift Floating-point `Tensor`. If this is set to `None`, no shift is applied.
 #' @param scale Floating-point `Tensor`. If this is set to `None`, no scale is applied.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @export
 
-bijector_affine_scalar <- function(shift = NULL,
+tfb_affine_scalar <- function(shift = NULL,
                                    scale = NULL,
                                    validate_args = FALSE,
                                    name = "affine_scalar") {
@@ -230,10 +230,10 @@ bijector_affine_scalar <- function(shift = NULL,
 #' This ensures positivity of the scale variable.
 
 #' @param training If TRUE, updates running-average statistics during call to `inverse()`.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @export
 
-bijector_batch_normalization <- function(batchnorm_layer = NULL,
+tfb_batch_normalization <- function(batchnorm_layer = NULL,
                                          training = TRUE,
                                          validate_args = FALSE,
                                          name = "batch_normalization") {
@@ -263,7 +263,7 @@ bijector_batch_normalization <- function(batchnorm_layer = NULL,
 #' E.g., `Blockwise([Exp(), Softplus()]).name ==   'blockwise_of_exp_and_softplus'`.
 
 #' @export
-bijector_blockwise <- function(bijectors,
+tfb_blockwise <- function(bijectors,
                                block_sizes = NULL,
                                validate_args = FALSE,
                                name = NULL) {
@@ -286,7 +286,7 @@ bijector_blockwise <- function(bijectors,
 #' E.g., `Chain([Exp(), Softplus()]).name == "chain_of_exp_of_softplus"`.
 
 #' @export
-bijector_chain <- function(bijectors = NULL,
+tfb_chain <- function(bijectors = NULL,
                            validate_args = FALSE,
                            name = NULL) {
   args <- list(bijectors = bijectors,
@@ -318,10 +318,10 @@ bijector_chain <- function(bijectors = NULL,
 #' that, if `I = L_3 @ L_3.T`, with L_3 being lower-triangular with positive-
 #' diagonal, then `L_3 = I`. Thus, `L_1 = L_2`, proving injectivity of g.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @export
 
-bijector_cholesky_outer_product <- function(validate_args = FALSE,
+tfb_cholesky_outer_product <- function(validate_args = FALSE,
                                             name = "cholesky_outer_product") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -336,10 +336,10 @@ bijector_cholesky_outer_product <- function(validate_args = FALSE,
 #' `inverse = forward`
 #' However, the actual calculations exploit the triangular structure of the matrices.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @export
 
-bijector_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
+tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
                                               name = "cholesky_to_inv_cholesky") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -361,12 +361,12 @@ bijector_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
 #' [1]: Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer.
 #' In _International Conference on Learning Representations_, 2016. https://arxiv.org/abs/1511.05946
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @param dct_type integer, the DCT type performed by the forward transformation.
 #' Currently, only 2 and 3 are supported.
 #' @export
 
-bijector_discrete_cosine_transform <-
+tfb_discrete_cosine_transform <-
   function(validate_args = FALSE,
            dct_type = 2,
            name = "dct") {
@@ -386,12 +386,12 @@ bijector_discrete_cosine_transform <-
 #' Note: the expm1(.) is applied element-wise but the Jacobian is a reduction
 #' over the event space.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 
 #' @export
 
-bijector_expm1 <- function(validate_args = FALSE,
+tfb_expm1 <- function(validate_args = FALSE,
                            name = "expm1") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -409,12 +409,12 @@ bijector_expm1 <- function(validate_args = FALSE,
 #'
 #' @param upper Logical representing whether output matrix should be upper triangular (`TRUE`)
 #'  or lower triangular (`FALSE`, default).
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 
 #' @export
 
-bijector_fill_triangular <- function(upper = FALSE,
+tfb_fill_triangular <- function(upper = FALSE,
                                      validate_args = FALSE,
                                      name = "fill_triangular") {
   args <- list(upper = upper,
@@ -437,10 +437,10 @@ bijector_fill_triangular <- function(upper = FALSE,
 #' This is `loc` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
 #' @param scale Positive Float-like `Tensor` that is the same dtype and is broadcastable with `loc`.
 #' This is `scale` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_gumbel <- function(loc = 0,
+tfb_gumbel <- function(loc = 0,
                             scale = 1,
                             validate_args = FALSE,
                             name = "gumbel") {
@@ -467,10 +467,10 @@ bijector_gumbel <- function(loc = 0,
 #' @param is_constant_jacobian Logical indicating that the Jacobian is constant for all input arguments.
 #' @param forward_min_event_ndims Integer indicating the minimal dimensionality this bijector acts on.
 #' @param inverse_min_event_ndims Integer indicating the minimal dimensionality this bijector acts on.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #' @export
 
-bijector_inline <- function(forward_fn = NULL,
+tfb_inline <- function(forward_fn = NULL,
                             inverse_fn = NULL,
                             inverse_log_det_jacobian_fn = NULL,
                             forward_log_det_jacobian_fn = NULL,
@@ -513,10 +513,10 @@ bijector_inline <- function(forward_fn = NULL,
 #' `return -self.inverse_log_det_jacobian(y, **kwargs)```
 #'
 #' @param bijector Bijector instance.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_invert <- function(bijector,
+tfb_invert <- function(bijector,
                             validate_args = FALSE,
                             name = NULL) {
   args <- list(bijector = bijector,
@@ -538,10 +538,10 @@ bijector_invert <- function(bijector,
 #' `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where `a` is `concentration1`.
 #' @param concentration0 `float` scalar indicating the transform power,
 #' i.e., `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where `b` is `concentration0`.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_kumaraswamy <- function(concentration1 = NULL,
+tfb_kumaraswamy <- function(concentration1 = NULL,
                                  concentration0 = NULL,
                                  validate_args = FALSE,
                                  name = "kumaraswamy") {
@@ -657,11 +657,11 @@ bijector_kumaraswamy <- function(concentration1 = NULL,
 #' 1 corresponds to a simple vector autoregressive bijector as implemented by the
 #' `masked_autoregressive_default_template`, 2 might be useful for a 2D convolutional `shift_and_log_scale_fn` and so on.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
 #'
-bijector_masked_autoregressive_flow <-
+tfb_masked_autoregressive_flow <-
   function(shift_and_log_scale_fn,
            is_constant_jacobian = FALSE,
            unroll_loop = FALSE,
@@ -793,10 +793,10 @@ masked_dense <- function(inputs,
 #' with batch shape `input.shape[:-2]`, where each matrix has dimensions
 #' `input.shape[-2]` by `input.shape[-1]` (hence `input.shape[-2]` must equal `input.shape[-1]`).
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_matrix_inverse_tril <- function(validate_args = FALSE,
+tfb_matrix_inverse_tril <- function(validate_args = FALSE,
                                          name = "matrix_inverse_tril") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -819,10 +819,10 @@ bijector_matrix_inverse_tril <- function(validate_args = FALSE,
 #' @param lower_upper The LU factorization as returned by `tf$linalg$lu`.
 #' @param permutation The LU factorization permutation as returned by `tf$linalg$lu`.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_matvec_lu <- function(lower_upper,
+tfb_matvec_lu <- function(lower_upper,
                                permutation,
                                validate_args = FALSE,
                                name = NULL) {
@@ -845,10 +845,10 @@ bijector_matvec_lu <- function(lower_upper,
 #' ``` Y ~ Normal(0, 1)```
 #' ```pdf(y; 0., 1.) = 1 / sqrt(2 * pi) * exp(-y ** 2 / 2)```
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_normal_cdf <- function(validate_args = FALSE,
+tfb_normal_cdf <- function(validate_args = FALSE,
                                 name = "normal") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -868,10 +868,10 @@ bijector_normal_cdf <- function(validate_args = FALSE,
 #' ```y[0] = x[0]```
 #' ```y[1:] = tf$log(x[1:] - x[:-1])```'
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_ordered <- function(validate_args = FALSE,
+tfb_ordered <- function(validate_args = FALSE,
                              name = "ordered") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -888,10 +888,10 @@ bijector_ordered <- function(validate_args = FALSE,
 #' `axis` must be relative to the end (reading left to right) thus must be negative.
 #' Default value: `-1` (i.e., right-most).
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_permute <- function(permutation,
+tfb_permute <- function(permutation,
                              axis = -1L,
                              validate_args = FALSE,
                              name = NULL) {
@@ -914,10 +914,10 @@ bijector_permute <- function(permutation,
 #' @param power Python `float` scalar indicating the transform power, i.e.,
 #' ```Y = g(X) = (1 + X * c)**(1 / c)``` where `c` is the `power`.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_power_transform <- function(power,
+tfb_power_transform <- function(power,
                                      validate_args = FALSE,
                                      name = "power_transform") {
   args <- list(power = power,
@@ -930,10 +930,10 @@ bijector_power_transform <- function(power,
 
 #' A `Bijector` that computes `b(x) = 1. / x`.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
-bijector_reciprocal <- function(validate_args = FALSE,
+tfb_reciprocal <- function(validate_args = FALSE,
                                 name = "reciprocal") {
   args <- list(validate_args = validate_args,
                name = name)
@@ -960,11 +960,11 @@ bijector_reciprocal <- function(validate_args = FALSE,
 #' representing the event shape of the input. This is required in
 #' order to define inverse operations; the default of list(-1) assumes a vector-shaped input.
 #'
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
 
-bijector_reshape <- function(event_shape_out,
+tfb_reshape <- function(event_shape_out,
                              event_shape_in = list(-1),
                              validate_args = FALSE,
                              name = NULL) {
@@ -980,22 +980,22 @@ bijector_reshape <- function(event_shape_out,
 
 
 #' Transforms unconstrained vectors to TriL matrices with positive diagonal.
-#' This is implemented as a simple `bijector_chain` of `bijector_fill_triangular` followed by
-#' `bijector_transform_diagonal`, and provided mostly as a convenience.
+#' This is implemented as a simple `tfb_chain` of `tfb_fill_triangular` followed by
+#' `tfb_transform_diagonal`, and provided mostly as a convenience.
 #' The default setup is somewhat opinionated, using a Softplus transformation followed by a
 #'  small shift (`1e-5`) which attempts to avoid numerical issues from zeros on the diagonal.
 #'
 #' @param diag_bijector `Bijector` instance, used to transform the output diagonal to be positive.
-#' Default value: `NULL` (i.e., `bijector_softplus()`).
+#' Default value: `NULL` (i.e., `tfb_softplus()`).
 #' @param diag_shift Float value broadcastable and added to all diagonal entries after applying the
 #' `diag_bijector`. Setting a positive value forces the output diagonal entries to be positive, but
 #' prevents inverting the transformation for matrices with diagonal entries less than this value.
 #' Default value: `1e-5`.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
 
-bijector_scale_tril <- function(diag_bijector = NULL,
+tfb_scale_tril <- function(diag_bijector = NULL,
                                 diag_shift = 1e-5,
                                 validate_args = FALSE,
                                 name = "scale_tril") {
@@ -1032,11 +1032,11 @@ bijector_scale_tril <- function(diag_bijector = NULL,
 #'
 #' @param skewness Skewness parameter.  Float-type `Tensor`.  Default is `0` of type `float32`.
 #' @param tailweight  Tailweight parameter.  Positive `Tensor` of same `dtype` as `skewness` and broadcastable `shape`.  Default is `1` of type `float32`.
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
 
-bijector_sinh_arcsinh <- function(skewness = NULL,
+tfb_sinh_arcsinh <- function(skewness = NULL,
                                 tailweight = NULL,
                                 validate_args = FALSE,
                                 name = "SinhArcsinh") {
@@ -1060,11 +1060,11 @@ bijector_sinh_arcsinh <- function(skewness = NULL,
 #' theorem implies this implementation is not a bijection. However, the appended dimension
 #' makes the (forward) image non-open and the theorem does not directly apply.
 
-#' @inheritParams bijector_identity
+#' @inheritParams tfb_identity
 #'
 #' @export
 
-bijector_softmax_centered <- function(
+tfb_softmax_centered <- function(
                                   validate_args = FALSE,
                                   name = "softmax_centered") {
   args <- list(
