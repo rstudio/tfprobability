@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{bijector_sigmoid}
 \alias{bijector_sigmoid}
-\title{Bijector which computes `Y = g(X) = 1 / (1 + exp(-X))`.}
+\title{Compute `Y = g(X) = 1 / (1 + exp(-X))`.}
 \usage{
 bijector_sigmoid(validate_args = FALSE, name = "sigmoid")
 }
@@ -13,5 +13,5 @@ bijector_sigmoid(validate_args = FALSE, name = "sigmoid")
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Bijector which computes `Y = g(X) = 1 / (1 + exp(-X))`.
+Compute `Y = g(X) = 1 / (1 + exp(-X))`.
 }

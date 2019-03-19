@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{bijector_absolute_value}
 \alias{bijector_absolute_value}
-\title{Bijector which computes `Y = g(X) = Abs(X)`, element-wise.}
+\title{Compute `Y = g(X) = Abs(X)`, element-wise.}
 \usage{
 bijector_absolute_value(validate_args = FALSE, name = "absolute_value")
 }

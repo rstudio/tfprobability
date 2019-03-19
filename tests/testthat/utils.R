@@ -13,6 +13,11 @@ skip_if_tfp_below <- function(version) {
   }
 }
 
+skip_if_not_eager <- function() {
+  if (!tf$executing_eagerly())
+    skip("This test requires eager execution")
+}
+
 test_succeeds <- function(desc, expr) {
   test_that(desc, {
     skip_if_no_tfp()
@@ -22,7 +27,7 @@ test_succeeds <- function(desc, expr) {
 
 tensor_value <- function(tensor) {
   if (tf$executing_eagerly()) {
-    as.numeric(tensor)
+    as.array(tensor)
   } else {
     sess <- tf$Session()
     sess$run(tensor)

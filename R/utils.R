@@ -3,7 +3,6 @@
 
 # Helper function to coerce shape arguments to tuple
 normalize_shape <- function(shape) {
-
   # reflect NULL back
   if (is.null(shape))
     return(shape)
@@ -27,6 +26,20 @@ as_nullable_integer <- function(x) {
     x
   else
     as.integer(x)
+}
+
+as_axis <- function(axis) {
+  if (length(axis) > 1) {
+    sapply(axis, as_axis)
+  } else {
+    axis <- as_nullable_integer(axis)
+    if (is.null(axis))
+      axis
+    else if (axis == -1L)
+      axis
+    else
+      axis - 1L
+  }
 }
 
 as_tf_float <- function(x) {

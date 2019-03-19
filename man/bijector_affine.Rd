@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{bijector_affine}
 \alias{bijector_affine}
-\title{Instantiates the `Affine` bijector.}
+\title{`Affine` bijector.}
 \usage{
 bijector_affine(shift = NULL, scale_identity_multiplier = NULL,
   scale_diag = NULL, scale_tril = NULL, scale_perturb_factor = NULL,
