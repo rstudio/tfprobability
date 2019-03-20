@@ -56,4 +56,23 @@ test_succeeds("Create a log normal distribution from a normal one.", {
 
 })
 
+test_succeeds("Relaxed one hot categorical distribution works", {
+  s <- tfd_relaxed_one_hot_categorical(temperature = 0, logits = c(1, 1)) %>%
+    sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, array(NaN, c(10, 2)))
+
+  s <- tfd_relaxed_one_hot_categorical(temperature = 1e-10, logits = c(1e5, -1e5)) %>%
+    sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, array(c(rep(1, 10), rep(0, 10)), dim = c(10, 2)))
+
+  s <- tfd_relaxed_one_hot_categorical(temperature = 1e-10, probs = c(0, 1)) %>%
+    sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2)))
+})
 
