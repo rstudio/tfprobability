@@ -63,10 +63,9 @@ layer_kl_divergence_add_loss <- function(object,
 #' A `d`-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.
 #'
 #' @inheritParams keras::layer_dense
+#' @inheritParams layer_distribution_lambda
 #'
 #' @param event_size Integer vector tensor representing the shape of single draw from this distribution.
-#' @param convert_to_tensor_fn A callable that takes a `tfd$Distribution` instance and returns a
-#'  `tf$Tensor`-like object. Default value: `tfd$Distribution$sample`.
 #' @param validate_args  Logical, default `FALSE`. When `TRUE` distribution parameters are checked
 #'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
 #'  silently render incorrect outputs. Default value: `FALSE`.
@@ -110,10 +109,9 @@ layer_multivariate_normal_tril <- function(object,
 #' An Independent-Bernoulli Keras layer from `prod(event_shape)` params
 #'
 #' @inheritParams keras::layer_dense
+#' @inheritParams layer_distribution_lambda
 #'
 #' @param event_shape Scalar integer representing the size of single draw from this distribution.
-#' @param convert_to_tensor_fn A callable that takes a `tfd$Distribution` instance and returns a
-#'  `tf$Tensor`-like object. Default value: `tfd$Distribution$sample`.
 #' @param sample_dtype `dtype` of samples produced by this distribution.
 #'  Default value: `NULL` (i.e., previous layer's `dtype`).
 #' @param validate_args  Logical, default `FALSE`. When `TRUE` distribution parameters are checked
@@ -153,6 +151,43 @@ layer_independent_bernoulli <- function(object,
 
   create_layer(
     tfp$python$layers$distribution_layer$IndependentBernoulli,
+    object,
+    args
+  )
+}
+
+#' Keras layer enabling plumbing TFP distributions through Keras models.
+#'
+#' @inheritParams keras::layer_dense
+#'
+#' @param make_distribution_fn A callable that takes previous layer outputs and returns a `tfd$Distribution` instance.
+#' @param convert_to_tensor_fn A callable that takes a `tfd$Distribution` instance and returns a
+#'  `tf$Tensor`-like object. Default value: `tfd$Distribution$sample`.
+#' @export
+layer_distribution_lambda <- function(object,
+                                      make_distribution_fn,
+                                      convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                      batch_input_shape = NULL,
+                                      input_shape = NULL,
+                                      batch_size = NULL,
+                                      dtype = NULL,
+                                      name = NULL,
+                                      trainable = NULL,
+                                      weights = NULL) {
+  args <- list(
+    make_distribution_fn = make_distribution_fn,
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    input_shape = normalize_shape(input_shape),
+    batch_input_shape = normalize_shape(batch_input_shape),
+    batch_size = as_nullable_integer(batch_size),
+    dtype = dtype,
+    name = name,
+    trainable = trainable,
+    weights = weights
+  )
+
+  create_layer(
+    tfp$python$layers$distribution_layer$DistributionLambda,
     object,
     args
   )
