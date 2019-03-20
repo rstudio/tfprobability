@@ -43,7 +43,6 @@ tfd_normal <- function(loc,
 #' @param name The name for ops managed by the distribution.  Default value: `Independent + distribution.name`.
 #'
 #' @family distributions
-#' @return
 #' @export
 tfd_independent <- function(distribution,
                             reinterpreted_batch_ndims,
@@ -73,7 +72,6 @@ tfd_independent <- function(distribution,
 #'  should be passed in.
 #' @param dtype The type of the event samples. Default: `int32`.
 #'
-#' @return
 #' @export
 tfd_bernoulli <- function(logits = NULL,
                           probs = NULL,
@@ -108,7 +106,6 @@ tfd_bernoulli <- function(logits = NULL,
 #'  `k x k` identity matrices added to `scale`. When both `scale_identity_multiplier` and `scale_diag`
 #'   are `None` then `scale` is the `Identity`.
 #'
-#' @return
 #' @export
 tfd_multivariate_normal_diag <- function(loc = NULL,
                                          scale_diag = NULL,
@@ -126,6 +123,39 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
   )
 
   do.call(tfp$distributions$MultivariateNormalDiag, args)
+}
+
+#' RelaxedOneHotCategorical distribution with temperature and logits.
+#'
+#' @param temperature An 0-D Tensor, representing the temperature of a set of RelaxedOneHotCategorical distributions.
+#'  The temperature should be positive.
+#' @param logits An N-D Tensor, N >= 1, representing the log probabilities of a set of RelaxedOneHotCategorical
+#'  distributions. The first N - 1 dimensions index into a batch of independent distributions and the last dimension
+#'  represents a vector of logits for each class. Only one of logits or probs should be passed in.
+#' @param probs An N-D Tensor, N >= 1, representing the probabilities of a set of RelaxedOneHotCategorical distributions.
+#'   The first N - 1 dimensions index into a batch of independent distributions and the last dimension represents a vector
+#'   of probabilities for each class. Only one of logits or probs should be passed in.
+#'
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_relaxed_one_hot_categorical <- function(temperature,
+                                            logits = NULL,
+                                            probs = NULL,
+                                            validate_args = FALSE,
+                                            allow_nan_stats = TRUE,
+                                            name = "RelaxedOneHotCategorical") {
+  args <- list(
+    temperature = temperature,
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$RelaxedOneHotCategorical, args)
 }
 
 #' A Transformed Distribution.
