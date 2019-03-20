@@ -4,7 +4,7 @@ source("utils.R")
 
 test_succeeds("Define a batch of two scalar valued Normals", {
   d <- tfd_normal(loc = c(1, 2), scale = c(11, 22))
-  x <- d %>% sample(c(2, 2))
+  x <- d %>% tfd_sample(c(2, 2))
   expect_equal(d$batch_shape$as_list(), 2)
 
 })
@@ -12,7 +12,7 @@ test_succeeds("Define a batch of two scalar valued Normals", {
 test_succeeds("Initialize a 3-batch, 2-variate scaled-identity Gaussian.", {
   d <- tfd_multivariate_normal_diag(loc = c(1,-1),
                                              scale_identity_multiplier = c(1, 2, 3))
-  x <- d %>% sample()
+  x <- d %>% tfd_sample()
   expect_equal(d$batch_shape$as_list(), 3)
 
 })
@@ -58,19 +58,19 @@ test_succeeds("Create a log normal distribution from a normal one.", {
 
 test_succeeds("Relaxed one hot categorical distribution works", {
   s <- tfd_relaxed_one_hot_categorical(temperature = 0, logits = c(1, 1)) %>%
-    sample(10) %>%
+    tfd_sample(10) %>%
     tensor_value()
 
   expect_equal(s, array(NaN, c(10, 2)))
 
   s <- tfd_relaxed_one_hot_categorical(temperature = 1e-10, logits = c(1e5, -1e5)) %>%
-    sample(10) %>%
+    tfd_sample(10) %>%
     tensor_value()
 
   expect_equal(s, array(c(rep(1, 10), rep(0, 10)), dim = c(10, 2)))
 
   s <- tfd_relaxed_one_hot_categorical(temperature = 1e-10, probs = c(0, 1)) %>%
-    sample(10) %>%
+    tfd_sample(10) %>%
     tensor_value()
 
   expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2)))
