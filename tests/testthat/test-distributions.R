@@ -76,3 +76,22 @@ test_succeeds("Relaxed one hot categorical distribution works", {
   expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2)))
 })
 
+test_succeeds("One hot categorical distribution works", {
+  s <- tfd_one_hot_categorical(logits = c(-1e5, 1e5)) %>%
+    tfd_sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2))))
+
+  s <-  tfd_one_hot_categorical(probs = c(1, 0)) %>%
+    tfd_sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, array(c(rep(1, 10), rep(0, 10)), dim = c(10, 2)))
+
+  s <- tfd_one_hot_categorical(probs = c(0.5, 0.5)) %>%
+    tfd_sample(10) %>%
+    tensor_value()
+
+  expect_identical(s %in% c(0, 1), rep(TRUE, 20))
+})
