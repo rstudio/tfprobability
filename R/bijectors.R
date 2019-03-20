@@ -2,6 +2,7 @@
 
 
 
+
 #' Compute Y = g(X) = X.
 #'
 #' @param validate_args Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
@@ -12,7 +13,7 @@
 #' @export
 
 tfb_identity <- function(validate_args = FALSE,
-                              name = "identity") {
+                         name = "identity") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -25,7 +26,7 @@ tfb_identity <- function(validate_args = FALSE,
 #' @export
 
 tfb_sigmoid <- function(validate_args = FALSE,
-                             name = "sigmoid") {
+                        name = "sigmoid") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -40,7 +41,7 @@ tfb_sigmoid <- function(validate_args = FALSE,
 #' @export
 
 tfb_exp <- function(validate_args = FALSE,
-                         name = "exp") {
+                    name = "exp") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -64,7 +65,7 @@ tfb_exp <- function(validate_args = FALSE,
 #' @export
 
 tfb_absolute_value <- function(validate_args = FALSE,
-                                    name = "absolute_value") {
+                               name = "absolute_value") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -110,15 +111,15 @@ tfb_absolute_value <- function(validate_args = FALSE,
 #' @export
 
 tfb_affine <- function(shift = NULL,
-                            scale_identity_multiplier = NULL,
-                            scale_diag = NULL,
-                            scale_tril = NULL,
-                            scale_perturb_factor = NULL,
-                            scale_perturb_diag = NULL,
-                            adjoint = FALSE,
-                            validate_args = FALSE,
-                            name = "affine",
-                            dtype = NULL) {
+                       scale_identity_multiplier = NULL,
+                       scale_diag = NULL,
+                       scale_tril = NULL,
+                       scale_perturb_factor = NULL,
+                       scale_perturb_diag = NULL,
+                       adjoint = FALSE,
+                       validate_args = FALSE,
+                       name = "affine",
+                       dtype = NULL) {
   args <- list(
     shift = shift,
     scale_identity_multiplier = scale_identity_multiplier,
@@ -149,10 +150,10 @@ tfb_affine <- function(shift = NULL,
 #' @export
 
 tfb_affine_linear_operator <- function(shift = NULL,
-                                            scale = NULL,
-                                            adjoint = FALSE,
-                                            validate_args = FALSE,
-                                            name = "affine_linear_operator") {
+                                       scale = NULL,
+                                       adjoint = FALSE,
+                                       validate_args = FALSE,
+                                       name = "affine_linear_operator") {
   args <- list(
     shift = shift,
     scale = scale,
@@ -177,9 +178,9 @@ tfb_affine_linear_operator <- function(shift = NULL,
 #' @export
 
 tfb_affine_scalar <- function(shift = NULL,
-                                   scale = NULL,
-                                   validate_args = FALSE,
-                                   name = "affine_scalar") {
+                              scale = NULL,
+                              validate_args = FALSE,
+                              name = "affine_scalar") {
   args <- list(
     shift = shift,
     scale = scale,
@@ -234,9 +235,9 @@ tfb_affine_scalar <- function(shift = NULL,
 #' @export
 
 tfb_batch_normalization <- function(batchnorm_layer = NULL,
-                                         training = TRUE,
-                                         validate_args = FALSE,
-                                         name = "batch_normalization") {
+                                    training = TRUE,
+                                    validate_args = FALSE,
+                                    name = "batch_normalization") {
   args <- list(
     batchnorm_layer = batchnorm_layer,
     training = training,
@@ -264,9 +265,9 @@ tfb_batch_normalization <- function(batchnorm_layer = NULL,
 
 #' @export
 tfb_blockwise <- function(bijectors,
-                               block_sizes = NULL,
-                               validate_args = FALSE,
-                               name = NULL) {
+                          block_sizes = NULL,
+                          validate_args = FALSE,
+                          name = NULL) {
   args <- list(
     bijectors = bijectors,
     block_sizes = as_nullable_integer(block_sizes),
@@ -287,8 +288,8 @@ tfb_blockwise <- function(bijectors,
 
 #' @export
 tfb_chain <- function(bijectors = NULL,
-                           validate_args = FALSE,
-                           name = NULL) {
+                      validate_args = FALSE,
+                      name = NULL) {
   args <- list(bijectors = bijectors,
                validate_args = validate_args,
                name = name)
@@ -322,7 +323,7 @@ tfb_chain <- function(bijectors = NULL,
 #' @export
 
 tfb_cholesky_outer_product <- function(validate_args = FALSE,
-                                            name = "cholesky_outer_product") {
+                                       name = "cholesky_outer_product") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -340,7 +341,7 @@ tfb_cholesky_outer_product <- function(validate_args = FALSE,
 #' @export
 
 tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
-                                              name = "cholesky_to_inv_cholesky") {
+                                         name = "cholesky_to_inv_cholesky") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -392,7 +393,7 @@ tfb_discrete_cosine_transform <-
 #' @export
 
 tfb_expm1 <- function(validate_args = FALSE,
-                           name = "expm1") {
+                      name = "expm1") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -415,8 +416,8 @@ tfb_expm1 <- function(validate_args = FALSE,
 #' @export
 
 tfb_fill_triangular <- function(upper = FALSE,
-                                     validate_args = FALSE,
-                                     name = "fill_triangular") {
+                                validate_args = FALSE,
+                                name = "fill_triangular") {
   args <- list(upper = upper,
                validate_args = validate_args,
                name = name)
@@ -441,9 +442,9 @@ tfb_fill_triangular <- function(upper = FALSE,
 #'
 #' @export
 tfb_gumbel <- function(loc = 0,
-                            scale = 1,
-                            validate_args = FALSE,
-                            name = "gumbel") {
+                       scale = 1,
+                       validate_args = FALSE,
+                       name = "gumbel") {
   args <- list(
     loc = loc,
     scale = scale,
@@ -471,18 +472,18 @@ tfb_gumbel <- function(loc = 0,
 #' @export
 
 tfb_inline <- function(forward_fn = NULL,
-                            inverse_fn = NULL,
-                            inverse_log_det_jacobian_fn = NULL,
-                            forward_log_det_jacobian_fn = NULL,
-                            forward_event_shape_fn = NULL,
-                            forward_event_shape_tensor_fn = NULL,
-                            inverse_event_shape_fn = NULL,
-                            inverse_event_shape_tensor_fn = NULL,
-                            is_constant_jacobian = NULL,
-                            validate_args = FALSE,
-                            forward_min_event_ndims = NULL,
-                            inverse_min_event_ndims = NULL,
-                            name = "inline") {
+                       inverse_fn = NULL,
+                       inverse_log_det_jacobian_fn = NULL,
+                       forward_log_det_jacobian_fn = NULL,
+                       forward_event_shape_fn = NULL,
+                       forward_event_shape_tensor_fn = NULL,
+                       inverse_event_shape_fn = NULL,
+                       inverse_event_shape_tensor_fn = NULL,
+                       is_constant_jacobian = NULL,
+                       validate_args = FALSE,
+                       forward_min_event_ndims = NULL,
+                       inverse_min_event_ndims = NULL,
+                       name = "inline") {
   args <- list(
     forward_fn = forward_fn,
     inverse_fn = inverse_fn,
@@ -517,8 +518,8 @@ tfb_inline <- function(forward_fn = NULL,
 #'
 #' @export
 tfb_invert <- function(bijector,
-                            validate_args = FALSE,
-                            name = NULL) {
+                       validate_args = FALSE,
+                       name = NULL) {
   args <- list(bijector = bijector,
                validate_args = validate_args,
                name = name)
@@ -542,9 +543,9 @@ tfb_invert <- function(bijector,
 #'
 #' @export
 tfb_kumaraswamy <- function(concentration1 = NULL,
-                                 concentration0 = NULL,
-                                 validate_args = FALSE,
-                                 name = "kumaraswamy") {
+                            concentration0 = NULL,
+                            validate_args = FALSE,
+                            name = "kumaraswamy") {
   args <- list(
     concentration1 = concentration1,
     concentration0 = concentration0,
@@ -707,7 +708,7 @@ tfb_masked_autoregressive_flow <-
 #' `log_scale_clip_gradient = FALSE` means `grad[exp(clip(x))] = grad[x] exp(clip(x))`
 #' rather than the usual `grad[clip(x)] exp(clip(x))`.
 
-#' # References
+#' References
 #' [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 #' MADE: Masked Autoencoder for Distribution Estimation.
 #' In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
@@ -748,7 +749,7 @@ masked_autoregressive_default_template <- function(hidden_layers,
 #'
 #' See [Germain et al. (2015)][1] for detailed explanation.
 #'
-#' #' References
+#' References
 #' [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 #' MADE: Masked Autoencoder for Distribution Estimation.
 #' In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
@@ -785,6 +786,137 @@ masked_dense <- function(inputs,
   )
 }
 
+#' Build a scale-and-shift function using a multi-layer neural network.
+#'
+#' This will be wrapped in a make_template to ensure the variables are only
+#' created once. It takes the `d`-dimensional input x[0:d] and returns the `D-d`
+#' dimensional outputs `loc` ("mu") and `log_scale` ("alpha").
+#'
+#' The default template does not support conditioning and will raise an
+#' exception if `condition_kwargs` are passed to it. To use conditioning in
+#' real nvp bijector, implement a conditioned shift/scale template that
+#' handles the `condition_kwargs`.
+#'
+#' References
+#' [1]: George Papamakarios, Theo Pavlakou, and Iain Murray.
+#' Masked Autoregressive Flow for Density Estimation.
+#' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+
+#' @param hidden_layers `list`-like of non-negative integer, scalars indicating the number
+#'  of units in each hidden layer. Default: `list(512, 512)`.
+#' @param shift_only `logical` indicating if only the `shift` term shall be
+#' computed (i.e. NICE bijector). Default: `FALSE`.
+#' @param activation Activation function (callable). Explicitly setting to `NULL` implies a linear activation.
+#' @param name A name for ops managed by this function. Default: "real_nvp_default_template".
+#' @param ... `tf$layers$dense` arguments
+#'
+#' @export
+real_nvp_default_template <- function(hidden_layers,
+                                      shift_only = FALSE,
+                                      activation = tf$nn$relu,
+                                      name = NULL,
+                                      ...) {
+  tfp$bijectors$real_nvp_default_template(as.integer(hidden_layers),
+                                          shift_only,
+                                          activation,
+                                          name,
+                                          ...)
+}
+
+#' RealNVP "affine coupling layer" for vector-valued events.
+#'
+#' Real NVP models a normalizing flow on a `D`-dimensional distribution via a
+#' single `D-d`-dimensional conditional distribution [(Dinh et al., 2017)][1]:
+#' `y[d:D] = x[d:D] * tf.exp(log_scale_fn(x[0:d])) + shift_fn(x[0:d])`
+#' `y[0:d] = x[0:d]`
+#' The last `D-d` units are scaled and shifted based on the first `d` units only,
+#' while the first `d` units are 'masked' and left unchanged. Real NVP's
+#' `shift_and_log_scale_fn` computes vector-valued quantities.
+#' For scale-and-shift transforms that do not depend on any masked units, i.e.
+#' `d=0`, use the `tfb_affine` bijector with learned parameters instead.
+#' Masking is currently only supported for base distributions with
+#' `event_ndims=1`. For more sophisticated masking schemes like checkerboard or
+#' channel-wise masking [(Papamakarios et al., 2016)[4], use the `tfb_permute`
+#' bijector to re-order desired masked units into the first `d` units. For base
+#' distributions with `event_ndims > 1`, use the `tfb_reshape` bijector to
+#' flatten the event shape.
+#'
+#' Recall that the MAF bijector [(Papamakarios et al., 2016)][4] implements a
+#' normalizing flow via an autoregressive transformation. MAF and IAF have
+#' opposite computational tradeoffs - MAF can train all units in parallel but
+#' must sample units sequentially, while IAF must train units sequentially but
+#' can sample in parallel. In contrast, Real NVP can compute both forward and
+#' inverse computations in parallel. However, the lack of an autoregressive
+#' transformations makes it less expressive on a per-bijector basis.
+#'
+#' A "valid" `shift_and_log_scale_fn` must compute each `shift` (aka `loc` or
+#' "mu" in [Papamakarios et al. (2016)][4]) and `log(scale)` (aka "alpha" in
+#' [Papamakarios et al. (2016)][4]) such that each are broadcastable with the
+#' arguments to `forward` and `inverse`, i.e., such that the calculations in
+#' `forward`, `inverse` [below] are possible. For convenience,
+#' `real_nvp_default_nvp` is offered as a possible `shift_and_log_scale_fn` function.
+#'
+#' NICE [(Dinh et al., 2014)][2] is a special case of the Real NVP bijector
+#' which discards the scale transformation, resulting in a constant-time
+#' inverse-log-determinant-Jacobian. To use a NICE bijector instead of Real
+#' NVP, `shift_and_log_scale_fn` should return `(shift, None)`, and
+#' `is_constant_jacobian` should be set to `True` in the `RealNVP` constructor.
+#' Calling `real_nvp_default_template` with `shift_only=True` returns one such
+#' NICE-compatible `shift_and_log_scale_fn`.
+#'
+#' Caching: the scalar input depth `D` of the base distribution is not known at
+#' construction time. The first call to any of `forward(x)`, `inverse(x)`,
+#' `inverse_log_det_jacobian(x)`, or `forward_log_det_jacobian(x)` memoizes
+#' `D`, which is re-used in subsequent calls. This shape must be known prior to
+#'  graph execution (which is the case if using tf$layers).
+#'
+#' References
+#' [1]: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio.
+#' Density Estimation using Real NVP.
+#' In _International Conference on Learning Representations_, 2017. https://arxiv.org/abs/1605.08803
+#' [2]: Laurent Dinh, David Krueger, and Yoshua Bengio.
+#' NICE: Non-linear Independent Components Estimation.
+#' _arXiv preprint arXiv:1410.8516_,2014. https://arxiv.org/abs/1410.8516
+#' [3]: Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows.
+#' Technical Report_, 2018. http://blog.evjang.com/2018/01/nf2.html
+#' [4]: George Papamakarios, Theo Pavlakou, and Iain Murray.
+#' Masked Autoregressive Flow for Density Estimation.
+#' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+#'
+#' @param num_masked `integer` indicating that the first `d` units of the event
+#' should be masked. Must be in the closed interval `[1, D-1]`, where `D`
+#' is the event size of the base distribution.
+#' @param shift_and_log_scale_fn Function which computes `shift` and `log_scale` from both the
+#' forward domain (`x`) and the inverse domain (`y`).
+#' Calculation must respect the "autoregressive property". Suggested default:
+#' `real_nvp_default_template(hidden_layers=...)`.
+#' Typically the function contains `tf$Variables` and is wrapped using `tf$make_template`.
+#'  Returning `NULL` for either (both) `shift`, `log_scale` is equivalent to (but more efficient than) returning zero.
+#' @param is_constant_jacobian Logical, default: `FALSE`. When `TRUE` the implementation assumes `log_scale`
+#' does not depend on the forward domain (`x`) or inverse domain (`y`) values.
+#' (No validation is made; `is_constant_jacobian=FALSE` is always safe but possibly computationally inefficient.)
+#'
+#' @inheritParams tfb_identity
+#'
+#' @export
+#'
+tfb_real_nvp <-
+  function(num_masked,
+           shift_and_log_scale_fn,
+           is_constant_jacobian = FALSE,
+           validate_args = FALSE,
+           name = NULL) {
+    args <- list(
+      num_masked = as.integer(num_masked),
+      shift_and_log_scale_fn = shift_and_log_scale_fn,
+      is_constant_jacobian = is_constant_jacobian,
+      validate_args = validate_args,
+      name = name
+    )
+
+    do.call(tfp$bijectors$RealNVP, args)
+  }
+
 
 #' Computes `g(L) = inv(L)`, where `L` is a lower-triangular matrix.
 #'
@@ -796,8 +928,8 @@ masked_dense <- function(inputs,
 #' @inheritParams tfb_identity
 #'
 #' @export
-tfb_matrix_inverse_tril <- function(validate_args = FALSE,
-                                         name = "matrix_inverse_tril") {
+tfb_matrix_inverse_tri_l <- function(validate_args = FALSE,
+                                     name = "matrix_inverse_tril") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -823,9 +955,9 @@ tfb_matrix_inverse_tril <- function(validate_args = FALSE,
 #'
 #' @export
 tfb_matvec_lu <- function(lower_upper,
-                               permutation,
-                               validate_args = FALSE,
-                               name = NULL) {
+                          permutation,
+                          validate_args = FALSE,
+                          name = NULL) {
   args <- list(
     lower_upper = lower_upper,
     permutation = permutation,
@@ -849,7 +981,7 @@ tfb_matvec_lu <- function(lower_upper,
 #'
 #' @export
 tfb_normal_cdf <- function(validate_args = FALSE,
-                                name = "normal") {
+                           name = "normal") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -872,7 +1004,7 @@ tfb_normal_cdf <- function(validate_args = FALSE,
 #'
 #' @export
 tfb_ordered <- function(validate_args = FALSE,
-                             name = "ordered") {
+                        name = "ordered") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -892,9 +1024,9 @@ tfb_ordered <- function(validate_args = FALSE,
 #'
 #' @export
 tfb_permute <- function(permutation,
-                             axis = -1L,
-                             validate_args = FALSE,
-                             name = NULL) {
+                        axis = -1L,
+                        validate_args = FALSE,
+                        name = NULL) {
   args <- list(
     permutation = as.integer(permutation),
     axis = as_nullable_integer(axis),
@@ -918,8 +1050,8 @@ tfb_permute <- function(permutation,
 #'
 #' @export
 tfb_power_transform <- function(power,
-                                     validate_args = FALSE,
-                                     name = "power_transform") {
+                                validate_args = FALSE,
+                                name = "power_transform") {
   args <- list(power = power,
                validate_args = validate_args,
                name = name)
@@ -934,7 +1066,7 @@ tfb_power_transform <- function(power,
 #'
 #' @export
 tfb_reciprocal <- function(validate_args = FALSE,
-                                name = "reciprocal") {
+                           name = "reciprocal") {
   args <- list(validate_args = validate_args,
                name = name)
 
@@ -965,12 +1097,12 @@ tfb_reciprocal <- function(validate_args = FALSE,
 #' @export
 
 tfb_reshape <- function(event_shape_out,
-                             event_shape_in = list(-1),
-                             validate_args = FALSE,
-                             name = NULL) {
+                        event_shape_in = c(-1),
+                        validate_args = FALSE,
+                        name = NULL) {
   args <- list(
-    event_shape_out = as.integer(event_shape_out),
-    event_shape_in = as_nullable_integer(event_shape_in),
+    event_shape_out = normalize_shape(event_shape_out),
+    event_shape_in = normalize_shape(event_shape_in),
     validate_args = validate_args,
     name = name
   )
@@ -995,10 +1127,10 @@ tfb_reshape <- function(event_shape_out,
 #'
 #' @export
 
-tfb_scale_tril <- function(diag_bijector = NULL,
-                                diag_shift = 1e-5,
-                                validate_args = FALSE,
-                                name = "scale_tril") {
+tfb_scale_tri_l <- function(diag_bijector = NULL,
+                            diag_shift = 1e-5,
+                            validate_args = FALSE,
+                            name = "scale_tril") {
   args <- list(
     diag_bijector = diag_bijector,
     diag_shift = diag_shift,
@@ -1037,9 +1169,9 @@ tfb_scale_tril <- function(diag_bijector = NULL,
 #' @export
 
 tfb_sinh_arcsinh <- function(skewness = NULL,
-                                tailweight = NULL,
-                                validate_args = FALSE,
-                                name = "SinhArcsinh") {
+                             tailweight = NULL,
+                             validate_args = FALSE,
+                             name = "SinhArcsinh") {
   args <- list(
     skewness = skewness,
     tailweight = tailweight,
@@ -1064,13 +1196,186 @@ tfb_sinh_arcsinh <- function(skewness = NULL,
 #'
 #' @export
 
-tfb_softmax_centered <- function(
-                                  validate_args = FALSE,
-                                  name = "softmax_centered") {
-  args <- list(
-    validate_args = validate_args,
-    name = name
-  )
+tfb_softmax_centered <- function(validate_args = FALSE,
+                                 name = "softmax_centered") {
+  args <- list(validate_args = validate_args,
+               name = name)
   do.call(tfp$bijectors$SoftmaxCentered, args)
 }
 
+#' Bijector which computes `Y = g(X) = Log[1 + exp(X)]`.
+#'
+#' The softplus `Bijector` has the following two useful properties:
+#' * The domain is the positive real numbers
+#' * `softplus(x) approx x`, for large `x`, so it does not overflow as easily as the `Exp` `Bijector`.
+#'
+#' The optional nonzero `hinge_softness` parameter changes the transition at zero.
+#' With `hinge_softness = c`, the bijector is:
+#' ```f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].```
+#' For large `x >> 1`, `c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x`,
+#' so the behavior for large `x` is the same as the standard softplus.
+#' As `c > 0` approaches 0 from the right, `f_c(x)` becomes less and less soft,
+#' approaching `max(0, x)`.
+#' * `c = 1` is the default.
+#' * `c > 0` but small means `f(x) approx ReLu(x) = max(0, x)`.
+#' * `c < 0` flips sign and reflects around the `y-axis`: `f_{-c}(x) = -f_c(-x)`.
+#' * `c = 0` results in a non-bijective transformation and triggers an exception.
+
+#' Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.
+#'
+#' @param hinge_softness Nonzero floating point `Tensor`.  Controls the softness of what
+#' would otherwise be a kink at the origin.  Default is 1.0.
+#' @inheritParams tfb_identity
+#'
+#' @export
+
+tfb_softplus <- function(hinge_softness = NULL,
+                         validate_args = FALSE,
+                         name = "softplus") {
+  args <- list(hinge_softness = hinge_softness,
+               validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$Softplus, args)
+}
+
+#' Bijector which computes `Y = g(X) = X / (1 + |X|)`.
+#'
+#' The softsign `Bijector` has the following two useful properties:
+#' * The domain is all real numbers
+#' * `softsign(x) approx sgn(x)`, for large `|x|`.
+#'
+#' @inheritParams tfb_identity
+#'
+#' @export
+
+tfb_softsign <- function(validate_args = FALSE,
+                         name = "softsign") {
+  args <- list(validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$Softsign, args)
+}
+
+#' Compute `g(X) = X^2`; X is a positive real number.
+#'
+#' g is a bijection between the non-negative real numbers (R_+) and the non-negative real numbers.
+#' @inheritParams tfb_identity
+#'
+#' @export
+
+tfb_square <- function(validate_args = FALSE,
+                       name = "square") {
+  args <- list(validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$Square, args)
+}
+
+#' Bijector that computes `Y = tanh(X)`, therefore `Y in (-1, 1)`.
+#'
+#' This can be achieved by an affine transform of the Sigmoid bijector, i.e., it is equivalent to
+#' ```
+#' tfb_chain(list(tfb_affine(shift = -1, scale = 2),
+#'                tfb_sigmoid(),
+#'                tfb_affine(scale = 2)))
+#' ````
+#'
+#' However, using the `Tanh` bijector directly is slightly faster and more numerically stable.
+#' @inheritParams tfb_identity
+#'
+#' @export
+
+tfb_tanh <- function(validate_args = FALSE,
+                     name = "tanh") {
+  args <- list(validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$Tanh, args)
+}
+
+#' Applies a Bijector to the diagonal of a matrix.
+#'
+#' @param diag_bijector `Bijector` instance used to transform the diagonal.
+#' @inheritParams tfb_identity
+#'
+#' @export
+
+tfb_transform_diagonal <- function(diag_bijector,
+                                   validate_args = FALSE,
+                                   name = "transform_diagonal") {
+  args <- list(diag_bijector = diag_bijector,
+               validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$TransformDiagonal, args)
+}
+
+#' Compute `Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)`.
+#'
+#' This bijector is semantically similar to `tf.transpose` except that it
+#' transposes only the rightmost "event" dimensions. That is, unlike
+#' `tf$transpose` the `perm` argument is itself a permutation of
+#' `tf$range(rightmost_transposed_ndims)` rather than `tf$range(tf$rank(x))`,
+#' i.e., users specify the (rightmost) dimensions to permute, not all dimensions.
+#'
+#' The actual (forward) transformation is:
+#' ```
+#' sample_batch_ndims <- tf$rank(x) - tf$size(perm)
+#' perm = tf$concat(list(tf$range(sample_batch_ndims), sample_batch_ndims + perm),axis=0)
+#' tf$transpose(x, perm)
+#' ```
+#' @param perm Positive `integer` vector-shaped `Tensor` representing permutation of
+#' rightmost dims (for forward transformation).  Note that the `0`th index
+#' represents the first of the rightmost dims and the largest value must be
+#' `rightmost_transposed_ndims - 1` and corresponds to `tf$rank(x) - 1`.
+#' Only one of `perm` and `rightmost_transposed_ndims` can (and must) be specified.
+#' Default value: `tf$range(start=rightmost_transposed_ndims, limit=-1, delta=-1)`.
+#' @param rightmost_transposed_ndims Positive `integer` scalar-shaped `Tensor`
+#' representing the number of rightmost dimensions to permute.
+#' Only one of `perm` and `rightmost_transposed_ndims` can (and must) be
+#' specified. Default value: `tf$size(perm)`.
+#' @inheritParams tfb_identity
+#'
+#' @export
+
+tfb_transpose <- function(perm = NULL,
+                          rightmost_transposed_ndims = NULL,
+                          validate_args = FALSE,
+                          name = "transpose") {
+  args <- list(
+    perm = as_nullable_integer(perm),
+    rightmost_transposed_ndims = as_nullable_integer(rightmost_transposed_ndims),
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$Transpose, args)
+}
+
+#' Compute `Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0`.
+#'
+#' This bijector maps inputs from `[0, inf]` to [0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1) gives back a
+#' random variable with the [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):
+#' ```
+#' Y ~ Weibull(scale, concentration)
+#' pdf(y; scale, concentration, y >= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)
+#' ```
+#'
+#' @param scale: Positive Float-type `Tensor` that is the same dtype and is
+#' broadcastable with `concentration`.
+#' This is `l` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
+#' @param concentration: Positive Float-type `Tensor` that is the same dtype and is
+#' broadcastable with `scale`.
+#' This is `k` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
+#' @inheritParams tfb_identity
+#'
+#' @export
+
+tfb_weibull <- function(scale = 1,
+                        concentration = 1,
+                        validate_args = FALSE,
+                        name = "weibull") {
+  args <- list(
+    scale = scale,
+    concentration = concentration,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$Weibull, args)
+}

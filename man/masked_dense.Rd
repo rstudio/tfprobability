@@ -30,7 +30,7 @@ If `NULL` (default), weights are initialized using the `tf$glorot_random_initial
 See [Germain et al. (2015)][1] for detailed explanation.
 }
 \details{
-#' References
+References
 [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 MADE: Masked Autoencoder for Distribution Estimation.
 In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509

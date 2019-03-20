@@ -53,7 +53,7 @@ not clip the gradient; this is useful because it still provides gradient
 information (for fitting) yet solves the numerical stability problem. I.e.,
 `log_scale_clip_gradient = FALSE` means `grad[exp(clip(x))] = grad[x] exp(clip(x))`
 rather than the usual `grad[clip(x)] exp(clip(x))`.
-# References
+References
 [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 MADE: Masked Autoencoder for Distribution Estimation.
 In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
