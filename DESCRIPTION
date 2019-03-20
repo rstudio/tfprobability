@@ -1,15 +1,21 @@
 Package: tfprobability
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com")
+Authors@R: c(
+    person("Sigrid", "Keydana", email = "sigrid@rstudio.com", role = c("aut", "cre")),
+    person("Kevin", "Kuo", role = "aut", email = "kevin.kuo@rstudio.com",
+           comment = c(ORCID = "0000-0001-7803-7901")),
+    person(family = "RStudio", role = c("cph"))
+    )
 Description: What the package does (one paragraph).
-License: What license it uses
+License: Apache License (>= 2.0)
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
+Imports:
+    tensorflow,
+    reticulate,
+    keras,
+    magrittr
 Suggests: 
     testthat

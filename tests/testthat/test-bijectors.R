@@ -26,11 +26,11 @@ test_succeeds("Use masked autoregressive flow with template", {
     event_shape = tf$TensorShape(dims)
   )
   target_dist <- tfd_normal(loc = 2.2, scale = 0.23)
-  y  <- target_dist %>% sample(1000) %>% tf$reshape(shape = shape(200, 5))
-  loss <- function() -tf$reduce_mean(maf %>% log_prob(y))
+  y  <- target_dist %>% tfd_sample(1000) %>% tf$reshape(shape = shape(200, 5))
+  loss <- function() -tf$reduce_mean(maf %>% tfd_log_prob(y))
   optimizer <- tf$train$AdamOptimizer(1e-4)
   optimizer$minimize(loss)
-  x <- maf %>% sample() %>% tensor_value()
+  x <- maf %>% tfd_sample() %>% tensor_value()
 })
 
 
@@ -201,7 +201,7 @@ test_succeeds("Define a batch norm bijector", {
   dist <- tfd_transformed(distribution = tfd_normal(loc = 0, scale = 1),
                                    bijector = tfb_batch_normalization())
   y <-
-    tfd_normal(loc = 1, scale = 2) %>% sample(100)  # ~ N(1, 2)
+    tfd_normal(loc = 1, scale = 2) %>% tfd_sample(100)  # ~ N(1, 2)
   # normalizes using the mean and standard deviation of the current minibatch.
   x <- dist$bijector %>% inverse(y)  # ~ N(0, 1)
   expect_equal(x$shape, y$shape)

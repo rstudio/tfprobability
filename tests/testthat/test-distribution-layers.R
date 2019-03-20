@@ -4,15 +4,16 @@ context("tensorflow probability layer methods")
 source("utils.R")
 
 test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
+  library(keras)
   n <- as.integer(1e3)
   scale_tril <-
     matrix(c(1.6180, 0.,-2.7183, 3.1416),
            ncol = 2,
-           byrow = TRUE) %>% k_cast_to_floatx()
+           byrow = TRUE) %>% keras::k_cast_to_floatx()
   scale_noise <- 0.01
-  x <- tfd_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
+  x <- tfd_normal(loc = 0, scale = 1) %>% tfd_sample(c(n, 2L))
   eps <-
-    tfd_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
+    tfd_normal(loc = 0, scale = scale_noise) %>% tfd_sample(c(1000L, 2L))
   y = tf$matmul(x, scale_tril) + eps
   d <- y$shape[-1]$value
 
@@ -22,7 +23,7 @@ test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
     layer_multivariate_normal_tril(event_size = d)
 
   log_loss <- function (y, model)
-    - (model %>% log_prob(x))
+    - (model %>% tfd_log_prob(x))
 
   model %>% compile(optimizer = "adam",
                     loss = log_loss)
@@ -37,6 +38,7 @@ test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
 })
 
 test_succeeds("can use layer_kl_divergence_add_loss in a keras model", {
+  library(keras)
   encoded_size <- 2
   input_shape <- c(2L, 2L, 1L)
   train_size <- 100
@@ -68,7 +70,7 @@ test_succeeds("can use layer_kl_divergence_add_loss in a keras model", {
                            outputs = decoder_model(encoder_model$outputs[1]))
 
   vae_loss <- function (x, rv_x)
-    - (rv_x %>% log_prob(x))
+    - (rv_x %>% tfd_log_prob(x))
 
   vae_model %>% compile(
     optimizer = tf$keras$optimizers$Adam(),
@@ -83,18 +85,19 @@ test_succeeds("can use layer_kl_divergence_add_loss in a keras model", {
 })
 
 test_succeeds("can use layer_independent_bernoulli in a keras model", {
+  library(keras)
   n <- as.integer(1e3)
   scale_tril <-
     matrix(c(1.6180, 0.,-2.7183, 3.1416),
            ncol = 2,
-           byrow = TRUE) %>% k_cast_to_floatx()
+           byrow = TRUE) %>% keras::k_cast_to_floatx()
   scale_noise <- 0.01
-  x <- tfd_normal(loc = 0, scale = 1) %>% sample(c(n, 2L))
+  x <- tfd_normal(loc = 0, scale = 1) %>% tfd_sample(c(n, 2L))
   eps <-
-    tfd_normal(loc = 0, scale = scale_noise) %>% sample(c(1000L, 2L))
+    tfd_normal(loc = 0, scale = scale_noise) %>% tfd_sample(c(1000L, 2L))
   y <-
     tfd_bernoulli(logits = tf$reshape(tf$matmul(x, scale_tril) + eps,
-                                               shape = shape(n, 1L, 2L, 1L))) %>% sample()
+                                               shape = shape(n, 1L, 2L, 1L))) %>% tfd_sample()
 
   event_shape <- dim(y)[2:4]
 
@@ -104,7 +107,7 @@ test_succeeds("can use layer_independent_bernoulli in a keras model", {
     layer_independent_bernoulli(event_shape = event_shape)
 
   log_loss <- function (y, model)
-    - (model %>% log_prob(y))
+    - (model %>% tfd_log_prob(y))
 
   model %>% compile(optimizer = "adam",
                     loss = log_loss)
@@ -126,7 +129,7 @@ test_succeeds("layer_distribution_lambda() works", {
 
   s <- keras::k_constant(c(1e5, -1e5)) %>%
     l() %>%
-    sample(10) %>%
+    tfd_sample(10) %>%
     tensor_value()
 
   expect_equal(s, array(c(rep(1, 10), rep(0, 10)), dim = c(10, 2)))

@@ -8,7 +8,7 @@ skip_if_no_tfp <- function() {
 }
 
 skip_if_tfp_below <- function(version) {
-  if (tfp_version() < version) {
+  if (tfprobability:::tfp_version() < version) {
     skip(paste0("Skipped since this test requires TensorFlow Probability >= ", version))
   }
 }

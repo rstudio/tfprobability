@@ -18,7 +18,7 @@ normalize_shape <- function(shape) {
   }
 
   # coerce to tuple so it's iterable
-  tuple(shape)
+  reticulate::tuple(shape)
 }
 
 as_nullable_integer <- function(x) {

@@ -6,16 +6,16 @@ tfp <- NULL
 
 .onLoad <- function(libname, pkgname) {
 
-  tfp <<- import("tensorflow_probability", delay_load = list(
+  tfp <<- reticulate::import("tensorflow_probability", delay_load = list(
 
     priority = 20,
 
     environment = "r-tensorflow",
 
     on_load = function() {
-      if (!grepl("tensorflow", backend()))
+      if (!grepl("tensorflow", keras::backend()))
         stop("TensorFlow Probability has to be used with the TensorFlow Keras backend.")
-      if (!grepl("tensorflow.python.keras", implementation()))
+      if (!grepl("tensorflow.python.keras", keras::implementation()))
         stop("TensorFlow Probability has to be used with the TensorFlow Keras implementation.")
     }
     ,

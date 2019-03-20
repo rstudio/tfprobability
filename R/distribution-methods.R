@@ -1,18 +1,6 @@
-
-
-#' @export
-sample <-
-  function(distribution,
-           sample_shape = list(),
-           seed = NULL,
-           name = "sample") {
-    UseMethod("sample")
-  }
-
-
 #' Generate samples of the specified shape.
 #'
-#' Note that a call to `sample()` without arguments will generate a single sample.
+#' Note that a call to `tfd_sample()` without arguments will generate a single sample.
 #'
 #' @param distribution The distribution being used.
 #' @param sample_shape 0D or 1D `int32` `Tensor`. Shape of the generated samples.
@@ -21,18 +9,11 @@ sample <-
 #'
 #' @return a `Tensor` with prepended dimensions `sample_shape`.
 #' @export
-
-sample.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution,
-           sample_shape = list(),
-           seed = NULL,
-           name = "sample") {
-    distribution$sample(as.integer(sample_shape), seed, name)
-  }
-
-#' @export
-log_prob <- function(distribution, value, name = "log_prob") {
-  UseMethod("log_prob")
+tfd_sample <- function(distribution,
+                       sample_shape = list(),
+                       seed = NULL,
+                       name = "sample") {
+  distribution$sample(as.integer(sample_shape), seed, name)
 }
 
 #' Log probability density/mass function.
@@ -43,88 +24,54 @@ log_prob <- function(distribution, value, name = "log_prob") {
 #'
 #' @return a `Tensor` of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
 #' @export
-
-log_prob.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, value, name = "log_prob") {
-    distribution$log_prob(value, name)
-  }
-
-#' @export
-prob <- function(distribution, value, name = "prob") {
-  UseMethod("prob")
+tfd_log_prob <- function(distribution, value, name = "log_prob") {
+  distribution$log_prob(value, name)
 }
-
 
 #' Probability density/mass function.
 #'
-#' @inherit log_prob.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
-
-prob.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, value, name = "prob") {
-    distribution$prob(value, name)
-  }
-
-
-#' @export
-log_cdf <- function(distribution, value, name = "log_cdf") {
-  UseMethod("log_cdf")
+tfd_prob <- function(distribution, value, name = "prob") {
+  distribution$prob(value, name)
 }
 
 #' Log cumulative distribution function.
 #'
 #' Given random variable `X`, the cumulative distribution function `cdf` is:
-#' `log_cdf(x) := Log[ P[X <= x] ]``
-#' Often, a numerical approximation can be used for `log_cdf(x)` that yields
+#' `tfd_log_cdf(x) := Log[ P[X <= x] ]``
+#' Often, a numerical approximation can be used for `tfd_log_cdf(x)` that yields
 #' a more accurate answer than simply taking the logarithm of the `cdf` when `x << -1`.
 #'
-#' @inherit log_prob.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
 #'
-log_cdf.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, value, name = "log_cdf") {
-    distribution$log_cdf(value, name)
-  }
-
-#' @export
-cdf <- function(distribution, value, name = "cdf") {
-  UseMethod("cdf")
+tfd_log_cdf <- function(distribution, value, name = "log_cdf") {
+  distribution$log_cdf(value, name)
 }
 
 #' Cumulative distribution function.
 #' Given random variable `X`, the cumulative distribution function `cdf` is:
 #' `cdf(x) := P[X <= x]``
 #'
-#' @inherit log_prob.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
-cdf.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, value, name = "cdf") {
-    distribution$cdf(value, name)
-  }
-
-#' @export
-log_survival_function <- function(distribution, value, name = "log_survival_function") {
-  UseMethod("log_survival_function")
+tfd_cdf <- function(distribution, value, name = "cdf") {
+  distribution$cdf(value, name)
 }
 
 #' Log survival function.
 #'
 #' Given random variable `X`, the survival function is defined:
-#' `log_survival_function(x) = Log[ P[X > x] ] = Log[ 1 - P[X <= x] ] = Log[ 1 - cdf(x) ]`
+#' `tfd_log_survival_function(x) = Log[ P[X > x] ] = Log[ 1 - P[X <= x] ] = Log[ 1 - cdf(x) ]`
 #'
 #' Typically, different numerical approximations can be used for the log survival function,
 #'  which are more accurate than `1 - cdf(x)` when `x >> 1`.
 #'
-#' @inherit log_prob.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
-log_survival_function.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, value, name = "log_survival_function") {
-    distribution$log_survival_function(value, name)
-  }
-
-#' @export
-survival_function <- function(distribution, value, name = "survival_function") {
-  UseMethod("survival_function")
+tfd_log_survival_function <- function(distribution, value, name = "log_survival_function") {
+  distribution$log_survival_function(value, name)
 }
 
 #' Survival function.
@@ -132,52 +79,39 @@ survival_function <- function(distribution, value, name = "survival_function") {
 #' Given random variable `X`, the survival function is defined:
 #' `survival_function(x) = P[X > x] = 1 - P[X <= x] = 1 - cdf(x).``
 #'
-#' @inherit log_prob.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
-survival_function.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, value, name = "survival_function") {
-    distribution$survival_function(value, name)
-  }
-
-#' @export
-entropy <- function(distribution, name = "entropy") {
-  UseMethod("entropy")
+tfd_survival_function <- function(distribution, value, name = "survival_function") {
+  distribution$survival_function(value, name)
 }
 
 #' Shannon entropy in nats.
 #'
+#' @inherit tfd_log_prob return params
 #' @export
-entropy.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, name = "entropy") {
-    distribution$entropy(name)
-  }
+tfd_entropy <- function(distribution, name = "entropy") {
+  distribution$entropy(name)
+}
 
 #' Mean.
 #'
-#' @inherit variance.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
 #'
-mean.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, name = "mean") {
-    distribution$mean(name)
-  }
+tfd_mean <- function(distribution, name = "mean") {
+  distribution$mean(name)
+}
 
 #' Quantile function. Aka "inverse cdf" or "percent point function".
 #'
 #' Given random variable `X` and `p in [0, 1]`, the `quantile` is:
 #' `quantile(p) := x such that P[X <= x] == p`
 #'
-#' @inherit log_prob.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #'
 #' @export
-quantile.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, value, name = "quantile") {
-    distribution$quantile(value, name)
-  }
-
-#' @export
-variance <- function(distribution, name = "variance") {
-  UseMethod("variance")
+tfd_quantile <- function(distribution, value, name = "quantile") {
+  distribution$quantile(value, name)
 }
 
 #' Variance.
@@ -187,18 +121,12 @@ variance <- function(distribution, name = "variance") {
 #' and `Var$shape = batch_shape + event_shape`.
 #'
 #' @param name String prepended to names of ops created by this function.
-#'
+#' @inherit tfd_log_prob return params
 #' @return a `Tensor` of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
 #'
 #' @export
-variance.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, name = "variance") {
-    distribution$variance(name)
-  }
-
-#' @export
-stddev <- function(distribution, name = "stddev") {
-  UseMethod("stddev")
+tfd_variance <- function(distribution, name = "variance") {
+  distribution$variance(name)
 }
 
 #' Standard deviation.
@@ -207,16 +135,10 @@ stddev <- function(distribution, name = "stddev") {
 #' #' where `X` is the random variable associated with this distribution, `E` denotes expectation,
 #' and `Var$shape = batch_shape + event_shape`.
 #'
-#' @inherit variance.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
-stddev.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, name = "stddev") {
-    distribution$stddev(name)
-  }
-
-#' @export
-covariance <- function(distribution, name = "covariance") {
-  UseMethod("covariance")
+tfd_stddev <- function(distribution, name = "stddev") {
+  distribution$stddev(name)
 }
 
 #' Covariance.
@@ -233,33 +155,21 @@ covariance <- function(distribution, name = "covariance") {
 #' and `Vec` is some function mapping indices of this distribution's event dimensions to indices of a
 #' length-`k'` vector.
 #'
-#' @inherit variance.tensorflow_probability.python.distributions.distribution.Distribution params
+#' @inherit tfd_log_prob return params
 #'
 #' @return Floating-point `Tensor` with shape `[B1, ..., Bn, k', k']` where the first `n` dimensions
 #' are batch coordinates and `k' = reduce_prod(self.event_shape)`.
 #' @export
-covariance.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, name = "covariance") {
-    distribution$covariance(name)
-  }
-
-#' @export
-mode <- function(distribution, name = "mode") {
-  UseMethod("mode")
+tfd_covariance <- function(distribution, name = "covariance") {
+  distribution$covariance(name)
 }
 
 #' Mean.
 #'
-#' @inherit variance.tensorflow_probability.python.distributions.distribution.Distribution return params
+#' @inherit tfd_log_prob return params
 #' @export
-mode.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, name = "mode") {
-    distribution$mode(name)
-  }
-
-#' @export
-cross_entropy <- function(distribution, other, name = "cross_entropy") {
-  UseMethod("cross_entropy")
+tfd_mode <- function(distribution, name = "mode") {
+  distribution$mode(name)
 }
 
 #' Computes the (Shannon) cross entropy.
@@ -277,14 +187,8 @@ cross_entropy <- function(distribution, other, name = "cross_entropy") {
 #' @return cross_entropy: `self.dtype` `Tensor` with shape `[B1, ..., Bn]` representing `n` different calculations of (Shannon) cross entropy.
 #'
 #' @export
-cross_entropy.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, other, name = "cross_entropy") {
-    distribution$cross_entropy(other, name)
-  }
-
-#' @export
-kl_divergence <- function(distribution, other, name = "kl_divergence") {
-  UseMethod("kl_divergence")
+tfd_cross_entropy <- function(distribution, other, name = "cross_entropy") {
+  distribution$cross_entropy(other, name)
 }
 
 #' Computes the Kullback--Leibler divergence.
@@ -304,8 +208,6 @@ kl_divergence <- function(distribution, other, name = "kl_divergence") {
 #'  of the Kullback-Leibler divergence.
 #'
 #' @export
-kl_divergence.tensorflow_probability.python.distributions.distribution.Distribution <-
-  function(distribution, other, name = "kl_divergence") {
-    distribution$kl_divergence(other, name)
-  }
-
+tfd_kl_divergence <- function(distribution, other, name = "kl_divergence") {
+  distribution$kl_divergence(other, name)
+}

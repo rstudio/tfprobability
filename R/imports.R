@@ -1,5 +1,2 @@
-#' @import reticulate
-#' @import tensorflow
-#' @import keras
-#' @importFrom magrittr %>%
+#' @importFrom keras create_layer
 NULL
