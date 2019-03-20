@@ -70,8 +70,10 @@ test_succeeds("can use layer_kl_divergence_add_loss in a keras model", {
   vae_loss <- function (x, rv_x)
     - (rv_x %>% log_prob(x))
 
-  vae_model %>% compile(optimizer = tf$train$AdamOptimizer(),
-                        loss = vae_loss)
+  vae_model %>% compile(
+    optimizer = tf$keras$optimizers$Adam(),
+    loss = vae_loss
+  )
 
   vae_model %>% fit(x_train,
                     x_train,
