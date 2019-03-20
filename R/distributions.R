@@ -1,4 +1,3 @@
-
 #' The Normal distribution with `loc` and `scale` parameters
 #'
 #' @param loc Floating point tensor; the means of the distribution(s).
@@ -16,15 +15,17 @@
 #' @return A normal distribution
 #' @export
 tfd_normal <- function(loc,
-                                scale,
-                                validate_args = FALSE,
-                                allow_nan_stats = TRUE,
-                                name = "Normal") {
-  args <- list(loc = loc,
-               scale = scale,
-               validate_args = validate_args,
-               allow_nan_stats = allow_nan_stats,
-               name = name)
+                       scale,
+                       validate_args = FALSE,
+                       allow_nan_stats = TRUE,
+                       name = "Normal") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
 
   do.call(tfp$distributions$Normal, args)
 }
@@ -42,13 +43,11 @@ tfd_normal <- function(loc,
 #' @param name The name for ops managed by the distribution.  Default value: `Independent + distribution.name`.
 #'
 #' @family distributions
-#' @return
 #' @export
-
 tfd_independent <- function(distribution,
-                                     reinterpreted_batch_ndims,
-                                     validate_args = FALSE,
-                                     name = paste0("Independent", distribution$name)) {
+                            reinterpreted_batch_ndims,
+                            validate_args = FALSE,
+                            name = paste0("Independent", distribution$name)) {
   args <- list(
     distribution = distribution,
     reinterpreted_batch_ndims = as.integer(reinterpreted_batch_ndims),
@@ -73,14 +72,13 @@ tfd_independent <- function(distribution,
 #'  should be passed in.
 #' @param dtype The type of the event samples. Default: `int32`.
 #'
-#' @return
 #' @export
 tfd_bernoulli <- function(logits = NULL,
-                                   probs = NULL,
-                                   dtype = tf$int32,
-                                   validate_args = FALSE,
-                                   allow_nan_stats = TRUE,
-                                   name = "Bernoulli") {
+                          probs = NULL,
+                          dtype = tf$int32,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "Bernoulli") {
   args <- list(
     logits = logits,
     probs = probs,
@@ -108,15 +106,13 @@ tfd_bernoulli <- function(logits = NULL,
 #'  `k x k` identity matrices added to `scale`. When both `scale_identity_multiplier` and `scale_diag`
 #'   are `None` then `scale` is the `Identity`.
 #'
-#' @return
 #' @export
 tfd_multivariate_normal_diag <- function(loc = NULL,
-                                                  scale_diag = NULL,
-                                                  scale_identity_multiplier = NULL,
-                                                  validate_args = FALSE,
-                                                  allow_nan_stats = TRUE,
-                                                  name = "MultivariateNormalDiag") {
-
+                                         scale_diag = NULL,
+                                         scale_identity_multiplier = NULL,
+                                         validate_args = FALSE,
+                                         allow_nan_stats = TRUE,
+                                         name = "MultivariateNormalDiag") {
   args <- list(
     loc = loc,
     scale_diag = scale_diag,
@@ -127,6 +123,39 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
   )
 
   do.call(tfp$distributions$MultivariateNormalDiag, args)
+}
+
+#' RelaxedOneHotCategorical distribution with temperature and logits.
+#'
+#' @param temperature An 0-D Tensor, representing the temperature of a set of RelaxedOneHotCategorical distributions.
+#'  The temperature should be positive.
+#' @param logits An N-D Tensor, N >= 1, representing the log probabilities of a set of RelaxedOneHotCategorical
+#'  distributions. The first N - 1 dimensions index into a batch of independent distributions and the last dimension
+#'  represents a vector of logits for each class. Only one of logits or probs should be passed in.
+#' @param probs An N-D Tensor, N >= 1, representing the probabilities of a set of RelaxedOneHotCategorical distributions.
+#'   The first N - 1 dimensions index into a batch of independent distributions and the last dimension represents a vector
+#'   of probabilities for each class. Only one of logits or probs should be passed in.
+#'
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_relaxed_one_hot_categorical <- function(temperature,
+                                            logits = NULL,
+                                            probs = NULL,
+                                            validate_args = FALSE,
+                                            allow_nan_stats = TRUE,
+                                            name = "RelaxedOneHotCategorical") {
+  args <- list(
+    temperature = temperature,
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$RelaxedOneHotCategorical, args)
 }
 
 #' A Transformed Distribution.
@@ -146,26 +175,21 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
 #'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
 #'  silently render incorrect outputs. Default value: `FALSE`.
 #' @param name The name for ops managed by the distribution.  Default value: `bijector.name + distribution.name`.
-
 #' @export
-
 tfd_transformed <- function(distribution,
-                                     bijector,
-                                     batch_shape = NULL,
-                                     event_shape = NULL,
-                                     validate_args = FALSE,
-                                     name = NULL) {
-
+                            bijector,
+                            batch_shape = NULL,
+                            event_shape = NULL,
+                            validate_args = FALSE,
+                            name = NULL) {
   args <- list(
     distribution = distribution,
     bijector = bijector,
     batch_shape = batch_shape,
-    event_shape = event_shape,  # wrap in tf$TensorShape?
+    event_shape = event_shape, # wrap in tf$TensorShape?
     validate_args = validate_args,
     name = name
   )
 
   do.call(tfp$distributions$TransformedDistribution, args)
 }
-
-

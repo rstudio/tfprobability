@@ -25,6 +25,7 @@ silently render incorrect outputs. Default value: `FALSE`.}
 Independent distribution from batch of distributions
 }
 \seealso{
-Other distributions: \code{\link{tfd_normal}}
+Other distributions: \code{\link{tfd_normal}},
+  \code{\link{tfd_relaxed_one_hot_categorical}}
 }
 \concept{distributions}

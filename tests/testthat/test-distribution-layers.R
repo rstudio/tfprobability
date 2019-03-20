@@ -118,3 +118,16 @@ test_succeeds("can use layer_independent_bernoulli in a keras model", {
   )
 
 })
+
+test_succeeds("layer_distribution_lambda() works", {
+  l <- layer_distribution_lambda(
+    make_distribution_fn = function(x) tfd_relaxed_one_hot_categorical(temperature = 1e-5, logits = x)
+  )
+
+  s <- keras::k_constant(c(1e5, -1e5)) %>%
+    l() %>%
+    sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, array(c(rep(1, 10), rep(0, 10)), dim = c(10, 2)))
+})
