@@ -125,6 +125,47 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalDiag, args)
 }
 
+#' OneHotCategorical distribution.
+#'
+#' The categorical distribution is parameterized by the log-probabilities of a set of classes.
+#'   The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
+#'   is a discrete distribution over one-hot bit vectors whereas Categorical is a discrete distribution
+#'   over positive integers. OneHotCategorical is equivalent to Categorical except Categorical has
+#'   event_dim=() while OneHotCategorical has event_dim=K, where K is the number of classes.
+#'
+#' This class provides methods to create indexed batches of OneHotCategorical distributions.
+#'   If the provided logits or probs is rank 2 or higher, for every fixed set of leading dimensions,
+#'   the last dimension represents one single OneHotCategorical distribution. When calling distribution
+#'   functions (e.g. dist.prob(x)), logits and x are broadcast to the same shape (if possible).
+#'   In all cases, the last dimension of logits, x represents single OneHotCategorical distributions.
+#' @inheritParams tfd_normal
+#' @param logits An N-D Tensor, N >= 1, representing the log probabilities of a set of Categorical distributions.
+#'  The first N - 1 dimensions index into a batch of independent distributions and the last dimension represents
+#'  a vector of logits for each class. Only one of logits or probs should be passed in.
+#' @param probs An N-D Tensor, N >= 1, representing the probabilities of a set of Categorical distributions. The
+#'   first N - 1 dimensions index into a batch of independent distributions and the last dimension represents a
+#'   vector of probabilities for each class. Only one of logits or probs should be passed in.
+#' @param dtype The type of the event samples (default: int32).
+#'
+#' @export
+tfd_one_hot_categorical <- function(logits = NULL,
+                                    probs = NULL,
+                                    dtype = tf$int32,
+                                    validate_args = FALSE,
+                                    allow_nan_stats = TRUE,
+                                    name = "OneHotCategorical") {
+  args <- list(
+    logits = logits,
+    probs = probs,
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$OneHotCategorical, args)
+}
+
 #' RelaxedOneHotCategorical distribution with temperature and logits.
 #'
 #' @param temperature An 0-D Tensor, representing the temperature of a set of RelaxedOneHotCategorical distributions.
