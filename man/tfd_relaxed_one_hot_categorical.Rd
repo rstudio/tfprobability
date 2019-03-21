@@ -35,6 +35,7 @@ RelaxedOneHotCategorical distribution with temperature and logits.
 }
 \seealso{
 Other distributions: \code{\link{tfd_independent}},
-  \code{\link{tfd_normal}}
+  \code{\link{tfd_normal}},
+  \code{\link{tfd_relaxed_bernoulli}}
 }
 \concept{distributions}
