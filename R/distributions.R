@@ -224,11 +224,11 @@ tfd_relaxed_one_hot_categorical <- function(temperature,
 #' @family distributions
 #' @export
 tfd_relaxed_bernoulli <- function(temperature,
-                                            logits = NULL,
-                                            probs = NULL,
-                                            validate_args = FALSE,
-                                            allow_nan_stats = TRUE,
-                                            name = "RelaxedBernoulli") {
+                                  logits = NULL,
+                                  probs = NULL,
+                                  validate_args = FALSE,
+                                  allow_nan_stats = TRUE,
+                                  name = "RelaxedBernoulli") {
   args <- list(
     temperature = temperature,
     logits = logits,
@@ -275,4 +275,48 @@ tfd_transformed <- function(distribution,
   )
 
   do.call(tfp$distributions$TransformedDistribution, args)
+}
+
+#' Zipf distribution.
+#' The Zipf distribution is parameterized by a power parameter.
+#'
+#' @param power Float like Tensor representing the power parameter. Must be
+#' strictly greater than 1.
+#' @param dtype The dtype of Tensor returned by sample. Default value: tf$int32.
+#' @param interpolate_nondiscrete Logical. When FALSE, log_prob returns
+#' -inf (and prob returns 0) for non-integer inputs. When TRUE,
+#' log_prob evaluates the continuous function -power log(k) -   log(zeta(power)) ,
+#' which matches the Zipf pmf at integer arguments k
+#' (note that this function is not itself a normalized probability  log-density).
+#' Default value: TRUE.
+#' @param sample_maximum_iterations Maximum number of iterations of allowable
+#' iterations in sample. When validate_args=TRUE, samples which fail to
+#' reach convergence (subject to this cap) are masked out with
+#' self$dtype$min or nan depending on self$dtype$is_integer.
+#' Default value: 100.
+#'
+#' @param allow_nan_stats Default value: FALSE.
+#'
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_zipf <- function(power,
+                     dtype = tf$int32,
+                     interpolate_nondiscrete = TRUE,
+                     sample_maximum_iterations = 100,
+                     validate_args = FALSE,
+                     allow_nan_stats = FALSE,
+                     name = "Zipf") {
+  args <- list(
+    power = power,
+    dtype = dtype,
+    interpolate_nondiscrete = interpolate_nondiscrete,
+    sample_maximum_iterations = sample_maximum_iterations,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Zipf, args)
 }
