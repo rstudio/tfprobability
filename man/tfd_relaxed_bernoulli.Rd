@@ -39,6 +39,6 @@ The RelaxedBernoulli is a distribution over the unit interval (0,1), which conti
 Other distributions: \code{\link{tfd_independent}},
   \code{\link{tfd_normal}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_zipf}}
+  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
 }
 \concept{distributions}

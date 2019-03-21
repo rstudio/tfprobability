@@ -320,3 +320,51 @@ tfd_zipf <- function(power,
 
   do.call(tfp$distributions$Zipf, args)
 }
+
+#' The matrix Wishart distribution on positive definite matrices.
+#'
+#' This distribution is defined by a scalar number of degrees of freedom df and
+#' an instance of LinearOperator, which provides matrix-free access to a
+#' symmetric positive definite operator, which defines the scale matrix.
+#' @param df float or double tensor, the degrees of freedom of the
+#' distribution(s). df must be greater than or equal to k.
+#' @param scale float or double Tensor. The symmetric positive definite
+#' scale matrix of the distribution. Exactly one of scale and 'scale_tril must be passed.
+#' @param scale_tril float or double Tensor. The Cholesky factorization
+#' of the symmetric positive definite scale matrix of the distribution.
+#' Exactly one of scale and 'scale_tril must be passed.
+#' @param input_output_cholesky Logical. If TRUE, functions whose input or
+#' output have the semantics of samples assume inputs are in Cholesky form
+#' and return outputs in Cholesky form. In particular, if this flag is
+#' TRUE, input to log_prob is presumed of Cholesky form and output from
+#' sample, mean, and mode are of Cholesky form.  Setting this
+#' argument to TRUE is purely a computational optimization and does not
+#' change the underlying distribution; for instance, mean returns the
+#' Cholesky of the mean, not the mean of Cholesky factors. The variance
+#' and stddev methods are unaffected by this flag.
+#' Default value: FALSE (i.e., input/output does not have Cholesky semantics).
+#'
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_wishart <- function(df,
+                        scale = NULL,
+                        scale_tril = NULL,
+                        input_output_cholesky = FALSE,
+                        validate_args = FALSE,
+                        allow_nan_stats = FALSE,
+                        name = "Wishart") {
+  args <- list(
+    df = df,
+    scale = scale,
+    scale_tril = scale_tril,
+    input_output_cholesky = input_output_cholesky,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Wishart, args)
+}
+

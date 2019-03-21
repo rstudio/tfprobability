@@ -122,4 +122,11 @@ test_succeeds("Zipf distribution works", {
   expect_equal(log_pmf$get_shape()$as_list(), batch_size)
 })
 
+test_succeeds("Wishart distribution works", {
+
+ s <- matrix(c(1, 2, 2, 5), ncol = 2, byrow = TRUE)
+ df <- 4
+ d <- tfd_wishart(df = df, scale_tril = tf$linalg$cholesky(s))
+ expect_equal(tfd_mean(d) %>% tensor_value(), df * s)
+})
 

@@ -28,6 +28,6 @@ Independent distribution from batch of distributions
 Other distributions: \code{\link{tfd_normal}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_zipf}}
+  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
 }
 \concept{distributions}
