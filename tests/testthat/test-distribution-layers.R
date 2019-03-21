@@ -3,7 +3,7 @@ context("tensorflow probability layer methods")
 
 source("utils.R")
 
-test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
+test_succeeds("can use layer_multivariate_normal_tri_l in a keras model", {
   library(keras)
   n <- as.integer(1e3)
   scale_tril <-
@@ -18,9 +18,9 @@ test_succeeds("can use layer_multivariate_normal_tril in a keras model", {
   d <- y$shape[-1]$value
 
   model <- keras_model_sequential() %>%
-    layer_dense(units = params_size_multivariate_normal_tril(d),
+    layer_dense(units = params_size_multivariate_normal_tri_l(d),
                 input_shape = x$shape[-1]) %>%
-    layer_multivariate_normal_tril(event_size = d)
+    layer_multivariate_normal_tri_l(event_size = d)
 
   log_loss <- function (y, model)
     - (model %>% tfd_log_prob(x))
@@ -48,8 +48,8 @@ test_succeeds("can use layer_kl_divergence_add_loss in a keras model", {
   encoder_model <- keras_model_sequential() %>%
     layer_flatten(input_shape = input_shape) %>%
     layer_dense(units = 10, activation = "relu") %>%
-    layer_dense(units = params_size_multivariate_normal_tril(encoded_size)) %>%
-    layer_multivariate_normal_tril(event_size = encoded_size) %>%
+    layer_dense(units = params_size_multivariate_normal_tri_l(encoded_size)) %>%
+    layer_multivariate_normal_tri_l(event_size = encoded_size) %>%
     layer_kl_divergence_add_loss(
       distribution = tfd_independent(
         tfd_normal(loc = c(0, 0), scale = 1),

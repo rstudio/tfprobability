@@ -75,7 +75,7 @@ layer_kl_divergence_add_loss <- function(object,
 #' @return a Keras layer that wraps a MultivariateNormalTriL distribution
 #'
 #' @export
-layer_multivariate_normal_tril <- function(object,
+layer_multivariate_normal_tri_l <- function(object,
                                            event_size,
                                            convert_to_tensor_fn = tfp$distributions$Distribution$sample,
                                            validate_args = FALSE,

@@ -55,6 +55,6 @@ An Independent-Bernoulli Keras layer from prod(event_shape) params
 }
 \seealso{
 Other Probabilistic layers (require TensorFlow probability): \code{\link{layer_kl_divergence_add_loss}},
-  \code{\link{layer_multivariate_normal_tril}}
+  \code{\link{layer_multivariate_normal_tri_l}}
 }
 \concept{Probabilistic layers (require TensorFlow probability)}
