@@ -81,7 +81,7 @@ test_succeeds("One hot categorical distribution works", {
     tfd_sample(10) %>%
     tensor_value()
 
-  expect_equal(s, expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2))))
+  expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2)))
 
   s <-  tfd_one_hot_categorical(probs = c(1, 0)) %>%
     tfd_sample(10) %>%
