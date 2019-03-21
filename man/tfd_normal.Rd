@@ -31,6 +31,7 @@ The Normal distribution with `loc` and `scale` parameters
 }
 \seealso{
 Other distributions: \code{\link{tfd_independent}},
+  \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}}
 }
 \concept{distributions}

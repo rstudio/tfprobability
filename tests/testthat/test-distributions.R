@@ -81,7 +81,7 @@ test_succeeds("One hot categorical distribution works", {
     tfd_sample(10) %>%
     tensor_value()
 
-  expect_equal(s, expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2))))
+  expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2)))
 
   s <-  tfd_one_hot_categorical(probs = c(1, 0)) %>%
     tfd_sample(10) %>%
@@ -94,4 +94,19 @@ test_succeeds("One hot categorical distribution works", {
     tensor_value()
 
   expect_identical(s %in% c(0, 1), rep(TRUE, 20))
+})
+
+test_succeeds("Relaxed Bernoulli distribution works", {
+
+  s <- tfd_relaxed_one_hot_categorical(temperature = 1e-10, logits = c(1e5, -1e5)) %>%
+    tfd_sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, array(c(rep(1, 10), rep(0, 10)), dim = c(10, 2)))
+
+  s <- tfd_relaxed_one_hot_categorical(temperature = 1e-10, probs = c(0, 1)) %>%
+    tfd_sample(10) %>%
+    tensor_value()
+
+  expect_equal(s, array(c(rep(0, 10), rep(1, 10)), dim = c(10, 2)))
 })

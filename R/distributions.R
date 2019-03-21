@@ -199,6 +199,43 @@ tfd_relaxed_one_hot_categorical <- function(temperature,
   do.call(tfp$distributions$RelaxedOneHotCategorical, args)
 }
 
+#' RelaxedBernoulli distribution with temperature and logits parameters.
+#'
+#' The RelaxedBernoulli is a distribution over the unit interval (0,1), which continuously approximates a Bernoulli.
+#'   The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
+#'   becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
+#'   infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.
+#'
+#' @param temperature An 0-D Tensor, representing the temperature of a set of RelaxedBernoulli distributions.
+#'   The temperature should be positive.
+#' @param logits  An N-D Tensor representing the log-odds of a positive event. Each entry in the Tensor
+#'   parametrizes an independent RelaxedBernoulli distribution where the probability of an event is sigmoid(logits).
+#'   Only one of logits or probs should be passed in.
+#' @param probs AAn N-D Tensor representing the probability of a positive event. Each entry in the Tensor parameterizes
+#'  an independent Bernoulli distribution. Only one of logits or probs should be passed in.
+#'
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_relaxed_bernoulli <- function(temperature,
+                                            logits = NULL,
+                                            probs = NULL,
+                                            validate_args = FALSE,
+                                            allow_nan_stats = TRUE,
+                                            name = "RelaxedBernoulli") {
+  args <- list(
+    temperature = temperature,
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$RelaxedBernoulli, args)
+}
+
 #' A Transformed Distribution.
 #'
 #' A `TransformedDistribution` models `p(y)` given a base distribution `p(x)`,
