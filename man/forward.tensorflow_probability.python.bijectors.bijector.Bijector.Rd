@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijector-methods.R
 \name{forward.tensorflow_probability.python.bijectors.bijector.Bijector}
 \alias{forward.tensorflow_probability.python.bijectors.bijector.Bijector}
-\title{Returns the forward `Bijector` evaluation, i.e., X = g(Y).}
+\title{Returns the forward Bijector evaluation, i.e., X = g(Y).}
 \usage{
 
   \method{forward}{tensorflow_probability.python.bijectors.bijector.Bijector}(bijector,
@@ -11,13 +11,13 @@
 \arguments{
 \item{bijector}{The bijector to apply}
 
-\item{x}{`Tensor`. The input to the "forward" evaluation.}
+\item{x}{Tensor. The input to the "forward" evaluation.}
 
 \item{name}{The name to give this op.}
 }
 \value{
-`Tensor`
+Tensor
 }
 \description{
-Returns the forward `Bijector` evaluation, i.e., X = g(Y).
+Returns the forward Bijector evaluation, i.e., X = g(Y).
 }

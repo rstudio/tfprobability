@@ -8,12 +8,12 @@ tfb_matvec_lu(lower_upper, permutation, validate_args = FALSE,
   name = NULL)
 }
 \arguments{
-\item{lower_upper}{The LU factorization as returned by `tf$linalg$lu`.}
+\item{lower_upper}{The LU factorization as returned by tf$linalg$lu.}
 
-\item{permutation}{The LU factorization permutation as returned by `tf$linalg$lu`.}
+\item{permutation}{The LU factorization permutation as returned by tf$linalg$lu.}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }

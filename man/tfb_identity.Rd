@@ -7,8 +7,8 @@
 tfb_identity(validate_args = FALSE, name = "identity")
 }
 \arguments{
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }

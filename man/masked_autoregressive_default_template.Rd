@@ -10,49 +10,49 @@ masked_autoregressive_default_template(hidden_layers, shift_only = FALSE,
   name = NULL, ...)
 }
 \arguments{
-\item{hidden_layers}{`list`-like of non-negative integer, scalars indicating the number
-of units in each hidden layer. Default: `list(512, 512)`.}
+\item{hidden_layers}{list-like of non-negative integer, scalars indicating the number
+of units in each hidden layer. Default: list(512, 512).}
 
-\item{shift_only}{`logical` indicating if only the `shift` term shall be
-computed. Default: `FALSE`.}
+\item{shift_only}{logical indicating if only the shift term shall be
+computed. Default: FALSE.}
 
-\item{activation}{Activation function (callable). Explicitly setting to `NULL` implies a linear activation.}
+\item{activation}{Activation function (callable). Explicitly setting to NULL implies a linear activation.}
 
-\item{log_scale_min_clip}{`float`-like scalar `Tensor`, or a `Tensor` with the same shape as `log_scale`. The minimum value to clip by. Default: -5.}
+\item{log_scale_min_clip}{float-like scalar Tensor, or a Tensor with the same shape as log_scale. The minimum value to clip by. Default: -5.}
 
-\item{log_scale_max_clip}{`float`-like scalar `Tensor`, or a `Tensor` with the same shape as `log_scale`. The maximum value to clip by. Default: 3.}
+\item{log_scale_max_clip}{float-like scalar Tensor, or a Tensor with the same shape as log_scale. The maximum value to clip by. Default: 3.}
 
-\item{log_scale_clip_gradient}{`logical`` indicating that the gradient of `tf$clip_by_value` should be preserved. Default: `FALSE`.}
+\item{log_scale_clip_gradient}{logical indicating that the gradient of tf$clip_by_value should be preserved. Default: FALSE.}
 
 \item{name}{A name for ops managed by this function. Default: "masked_autoregressive_default_template".}
 
-\item{...}{`tf$layers$dense` arguments}
+\item{...}{tf$layers$dense arguments}
 }
 \description{
 This will be wrapped in a make_template to ensure the variables are only
-created once. It takes the input and returns the `loc` ("mu" in
-[Germain et al. (2015)][1]) and `log_scale` ("alpha" in [Germain et al. (2015)][1]) from
+created once. It takes the input and returns the loc ("mu" in
+[Germain et al. (2015)][1]) and log_scale ("alpha" in [Germain et al. (2015)][1]) from
 the MADE network.
 }
 \details{
-Warning: This function uses `masked_dense` to create randomly initialized
-`tf$Variables`. It is presumed that these will be fit, just as you would any
-other neural architecture which uses `tf$layers$dense`.
+Warning: This function uses masked_dense to create randomly initialized
+tf$Variables. It is presumed that these will be fit, just as you would any
+other neural architecture which uses tf$layers$dense.
 
 # About Hidden Layers
-Each element of `hidden_layers` should be greater than the `input_depth`
-(i.e., `input_depth = tf$shape(input)[-1]` where `input` is the input to the
+Each element of hidden_layers should be greater than the input_depth
+(i.e., input_depth = tf$shape(input)[-1] where input is the input to the
 neural network). This is necessary to ensure the autoregressivity property.
 
-This function also optionally clips the `log_scale` (but possibly not its
-gradient). This is useful because if `log_scale` is too small/large it might
-underflow/overflow making it impossible for the `MaskedAutoregressiveFlow`
-bijector to implement a bijection. Additionally, the `log_scale_clip_gradient`
-`bool` indicates whether the gradient should also be clipped. The default does
+This function also optionally clips the log_scale (but possibly not its
+gradient). This is useful because if log_scale is too small/large it might
+underflow/overflow making it impossible for the MaskedAutoregressiveFlow
+bijector to implement a bijection. Additionally, the log_scale_clip_gradient
+bool indicates whether the gradient should also be clipped. The default does
 not clip the gradient; this is useful because it still provides gradient
 information (for fitting) yet solves the numerical stability problem. I.e.,
-`log_scale_clip_gradient = FALSE` means `grad[exp(clip(x))] = grad[x] exp(clip(x))`
-rather than the usual `grad[clip(x)] exp(clip(x))`.
+log_scale_clip_gradient = FALSE means grad[exp(clip(x))] = grad[x] exp(clip(x))
+rather than the usual grad[clip(x)] exp(clip(x)).
 References
 [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 MADE: Masked Autoencoder for Distribution Estimation.

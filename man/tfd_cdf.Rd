@@ -3,23 +3,23 @@
 \name{tfd_cdf}
 \alias{tfd_cdf}
 \title{Cumulative distribution function.
-Given random variable `X`, the cumulative distribution function `cdf` is:
-`cdf(x) := P[X <= x]``}
+Given random variable X, the cumulative distribution function cdf is:
+cdf(x) := P[X <= x]}
 \usage{
 tfd_cdf(distribution, value, name = "cdf")
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{value}{`float` or `double` `Tensor`.}
+\item{value}{float or double Tensor.}
 
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a `Tensor` of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
+a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
 }
 \description{
 Cumulative distribution function.
-Given random variable `X`, the cumulative distribution function `cdf` is:
-`cdf(x) := P[X <= x]``
+Given random variable X, the cumulative distribution function cdf is:
+cdf(x) := P[X <= x]
 }

@@ -2,31 +2,31 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_weibull}
 \alias{tfb_weibull}
-\title{Compute `Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0`.}
+\title{Compute Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0.}
 \usage{
 tfb_weibull(scale = 1, concentration = 1, validate_args = FALSE,
   name = "weibull")
 }
 \arguments{
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 
-\item{scale:}{Positive Float-type `Tensor` that is the same dtype and is
-broadcastable with `concentration`.
-This is `l` in `Y = g(X) = 1 - exp((-x / l) ** k)`.}
+\item{scale:}{Positive Float-type Tensor that is the same dtype and is
+broadcastable with concentration.
+This is l in Y = g(X) = 1 - exp((-x / l) ** k).}
 
-\item{concentration:}{Positive Float-type `Tensor` that is the same dtype and is
-broadcastable with `scale`.
-This is `k` in `Y = g(X) = 1 - exp((-x / l) ** k)`.}
+\item{concentration:}{Positive Float-type Tensor that is the same dtype and is
+broadcastable with scale.
+This is k in Y = g(X) = 1 - exp((-x / l) ** k).}
 }
 \description{
-This bijector maps inputs from `[0, inf]` to [0, 1]`. The inverse of the
-bijector applied to a uniform random variable `X ~ U(0, 1) gives back a
+This bijector maps inputs from [0, inf] to [0, 1]. The inverse of the
+bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 random variable with the [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):
-```
+}
+\details{
 Y ~ Weibull(scale, concentration)
 pdf(y; scale, concentration, y >= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)
-```
 }

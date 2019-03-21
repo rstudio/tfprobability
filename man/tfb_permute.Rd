@@ -2,24 +2,24 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_permute}
 \alias{tfb_permute}
-\title{Permutes the rightmost dimension of a `Tensor`.}
+\title{Permutes the rightmost dimension of a Tensor.}
 \usage{
 tfb_permute(permutation, axis = -1L, validate_args = FALSE,
   name = NULL)
 }
 \arguments{
-\item{permutation}{An integer-like vector-shaped `Tensor` representing the
-permutation to apply to the `axis` dimension of the transformed `Tensor`.}
+\item{permutation}{An integer-like vector-shaped Tensor representing the
+permutation to apply to the axis dimension of the transformed Tensor.}
 
-\item{axis}{Scalar integer `Tensor` representing the dimension over which to `tf$gather`.
-`axis` must be relative to the end (reading left to right) thus must be negative.
-Default value: `-1` (i.e., right-most).}
+\item{axis}{Scalar integer Tensor representing the dimension over which to tf$gather.
+axis must be relative to the end (reading left to right) thus must be negative.
+Default value: -1 (i.e., right-most).}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Permutes the rightmost dimension of a `Tensor`.
+Permutes the rightmost dimension of a Tensor.
 }

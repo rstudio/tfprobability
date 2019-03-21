@@ -9,14 +9,14 @@ tfd_quantile(distribution, value, name = "quantile")
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{value}{`float` or `double` `Tensor`.}
+\item{value}{float or double Tensor.}
 
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a `Tensor` of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
+a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
 }
 \description{
-Given random variable `X` and `p in [0, 1]`, the `quantile` is:
-`quantile(p) := x such that P[X <= x] == p`
+Given random variable X and p in [0, 1], the quantile is:
+quantile(p) := x such that P[X <= x] == p
 }

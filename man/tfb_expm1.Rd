@@ -2,20 +2,20 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_expm1}
 \alias{tfb_expm1}
-\title{Compute `Y = g(X) = exp(X) - 1`.}
+\title{Compute Y = g(X) = exp(X) - 1.}
 \usage{
 tfb_expm1(validate_args = FALSE, name = "expm1")
 }
 \arguments{
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This `Bijector` is no different from Chain([AffineScalar(shift=-1), Exp()]).
+This Bijector is no different from Chain([AffineScalar(shift=-1), Exp()]).
 However, this makes use of the more numerically stable routines
-`tf.math.expm1` and `tf.log1p`.
+tf.math.expm1 and tf.log1p.
 }
 \details{
 Note: the expm1(.) is applied element-wise but the Jacobian is a reduction

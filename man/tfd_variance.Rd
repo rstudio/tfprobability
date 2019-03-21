@@ -12,10 +12,10 @@ tfd_variance(distribution, name = "variance")
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a `Tensor` of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
+a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
 }
 \description{
-Variance is defined as, `Var = E[(X - E[X])**2]`
-where `X` is the random variable associated with this distribution, `E` denotes expectation,
-and `Var$shape = batch_shape + event_shape`.
+Variance is defined as, Var = E[(X - E[X])**2]
+where X is the random variable associated with this distribution, E denotes expectation,
+and Var$shape = batch_shape + event_shape.
 }

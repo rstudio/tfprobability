@@ -7,13 +7,13 @@
 tfb_chain(bijectors = NULL, validate_args = FALSE, name = NULL)
 }
 \arguments{
-\item{bijectors}{`list` of bijector instances. An empty list makes this
-bijector equivalent to the `Identity` bijector.}
+\item{bijectors}{list of bijector instances. An empty list makes this
+bijector equivalent to the Identity bijector.}
 
 \item{validate_args}{Logical indicating whether arguments should be checked for correctness.}
 
 \item{name}{String, name given to ops managed by this object. Default:
-E.g., `Chain([Exp(), Softplus()]).name == "chain_of_exp_of_softplus"`.}
+E.g., Chain([Exp(), Softplus()]).name == "chain_of_exp_of_softplus".}
 }
 \description{
 Bijector which applies a sequence of bijectors.

@@ -8,10 +8,10 @@ tfb_transform_diagonal(diag_bijector, validate_args = FALSE,
   name = "transform_diagonal")
 }
 \arguments{
-\item{diag_bijector}{`Bijector` instance used to transform the diagonal.}
+\item{diag_bijector}{Bijector instance used to transform the diagonal.}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }

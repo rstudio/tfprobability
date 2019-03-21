@@ -2,13 +2,13 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_square}
 \alias{tfb_square}
-\title{Compute `g(X) = X^2`; X is a positive real number.}
+\title{Compute g(X) = X^2; X is a positive real number.}
 \usage{
 tfb_square(validate_args = FALSE, name = "square")
 }
 \arguments{
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }

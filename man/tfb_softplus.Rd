@@ -2,36 +2,36 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_softplus}
 \alias{tfb_softplus}
-\title{Bijector which computes `Y = g(X) = Log[1 + exp(X)]`.}
+\title{Bijector which computes Y = g(X) = Log[1 + exp(X)].}
 \usage{
 tfb_softplus(hinge_softness = NULL, validate_args = FALSE,
   name = "softplus")
 }
 \arguments{
-\item{hinge_softness}{Nonzero floating point `Tensor`.  Controls the softness of what
+\item{hinge_softness}{Nonzero floating point Tensor.  Controls the softness of what
 would otherwise be a kink at the origin.  Default is 1.0.}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The softplus `Bijector` has the following two useful properties:
+The softplus Bijector has the following two useful properties:
 * The domain is the positive real numbers
-* `softplus(x) approx x`, for large `x`, so it does not overflow as easily as the `Exp` `Bijector`.
+* softplus(x) approx x, for large x, so it does not overflow as easily as the Exp Bijector.
 }
 \details{
-The optional nonzero `hinge_softness` parameter changes the transition at zero.
-With `hinge_softness = c`, the bijector is:
-```f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].```
-For large `x >> 1`, `c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x`,
-so the behavior for large `x` is the same as the standard softplus.
-As `c > 0` approaches 0 from the right, `f_c(x)` becomes less and less soft,
-approaching `max(0, x)`.
-* `c = 1` is the default.
-* `c > 0` but small means `f(x) approx ReLu(x) = max(0, x)`.
-* `c < 0` flips sign and reflects around the `y-axis`: `f_{-c}(x) = -f_c(-x)`.
-* `c = 0` results in a non-bijective transformation and triggers an exception.
+The optional nonzero hinge_softness parameter changes the transition at zero.
+With hinge_softness = c, the bijector is:
+f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
+For large x >> 1, c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x,
+so the behavior for large x is the same as the standard softplus.
+As c > 0 approaches 0 from the right, f_c(x) becomes less and less soft,
+approaching max(0, x).
+* c = 1 is the default.
+* c > 0 but small means f(x) approx ReLu(x) = max(0, x).
+* c < 0 flips sign and reflects around the y-axis: f_{-c}(x) = -f_c(-x).
+* c = 0 results in a non-bijective transformation and triggers an exception.
 Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.
 }

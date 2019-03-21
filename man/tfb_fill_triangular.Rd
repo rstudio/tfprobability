@@ -8,17 +8,17 @@ tfb_fill_triangular(upper = FALSE, validate_args = FALSE,
   name = "fill_triangular")
 }
 \arguments{
-\item{upper}{Logical representing whether output matrix should be upper triangular (`TRUE`)
-or lower triangular (`FALSE`, default).}
+\item{upper}{Logical representing whether output matrix should be upper triangular (TRUE)
+or lower triangular (FALSE, default).}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
 Triangular matrix elements are filled in a clockwise spiral.
-Given input with shape `batch_shape + [d]`, produces output with
-shape `batch_shape + [n, n]`, where `n = (-1 + sqrt(1 + 8 * d))/2`.
-This follows by solving the quadratic equation `d = 1 + 2 + ... + n = n * (n + 1)/2`.
+Given input with shape batch_shape + [d], produces output with
+shape batch_shape + [n, n], where n = (-1 + sqrt(1 + 8 * d))/2.
+This follows by solving the quadratic equation d = 1 + 2 + ... + n = n * (n + 1)/2.
 }

@@ -9,17 +9,17 @@ tfb_invert(bijector, validate_args = FALSE, name = NULL)
 \arguments{
 \item{bijector}{Bijector instance.}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Creates a `Bijector` which swaps the meaning of `inverse` and `forward`.
-Note: An inverted bijector's `inverse_log_det_jacobian` is often more
-efficient if the base bijector implements `_forward_log_det_jacobian`. If
-`_forward_log_det_jacobian` is not implemented then the following code is
+Creates a Bijector which swaps the meaning of inverse and forward.
+Note: An inverted bijector's inverse_log_det_jacobian is often more
+efficient if the base bijector implements _forward_log_det_jacobian. If
+_forward_log_det_jacobian is not implemented then the following code is
 used:
-`y = self.inverse(x, **kwargs)`
-`return -self.inverse_log_det_jacobian(y, **kwargs)```
+y = self.inverse(x, **kwargs)
+return -self.inverse_log_det_jacobian(y, **kwargs)
 }

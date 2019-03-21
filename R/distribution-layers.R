@@ -4,18 +4,18 @@
 #'
 #' @inheritParams keras::layer_dense
 #'
-#' @param distribution Distribution instance corresponding to `b` as in  `KL[a, b]`.
-#'  The previous layer's output is presumed to be a `Distribution` instance and is `a`.
+#' @param distribution Distribution instance corresponding to b as in  KL[a, b].
+#'  The previous layer's output is presumed to be a Distribution instance and is a.
 #' @param use_exact_kl Logical indicating if KL divergence should be
-#'  calculated exactly via `tfp$distributions$kl_divergence` or via Monte Carlo approximation.
-#'  Default value: `FALSE`.
+#'  calculated exactly via tfp$distributions$kl_divergence or via Monte Carlo approximation.
+#'  Default value: FALSE.
 #' @param test_points_reduce_axis Integer vector or scalar representing dimensions
-#'  over which to `reduce_mean` while calculating the Monte Carlo approximation of the KL divergence.
-#'  As is with all `tf$reduce_*` ops, NULL means reduce over all dimensions;
-#'  `()` means reduce over none of them. Default value: `()` (i.e., no reduction).
-#' @param test_points_fn A callable taking a `tfp$distribution` instance and returning a tensor
+#'  over which to reduce_mean while calculating the Monte Carlo approximation of the KL divergence.
+#'  As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
+#'  () means reduce over none of them. Default value: () (i.e., no reduction).
+#' @param test_points_fn A callable taking a tfp$distribution instance and returning a tensor
 #'  used for random test points to approximate the KL divergence.
-#'  Default value: `tf$convert_to_tensor`.
+#'  Default value: tf$convert_to_tensor.
 #' @param weight Multiplier applied to the calculated KL divergence for each Keras batch member.
 #' Default value: NULL (i.e., do not weight each batch member).
 #'
@@ -60,15 +60,15 @@ layer_kl_divergence_add_loss <- function(object,
 }
 
 
-#' A `d`-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.
+#' A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_distribution_lambda
 #'
 #' @param event_size Integer vector tensor representing the shape of single draw from this distribution.
-#' @param validate_args  Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-#'  silently render incorrect outputs. Default value: `FALSE`.
+#' @param validate_args  Logical, default FALSE. When TRUE distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+#'  silently render incorrect outputs. Default value: FALSE.
 #'
 #' @family Probabilistic layers (require TensorFlow probability)
 #'
@@ -106,17 +106,17 @@ layer_multivariate_normal_tril <- function(object,
   )
 }
 
-#' An Independent-Bernoulli Keras layer from `prod(event_shape)` params
+#' An Independent-Bernoulli Keras layer from prod(event_shape) params
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_distribution_lambda
 #'
 #' @param event_shape Scalar integer representing the size of single draw from this distribution.
-#' @param sample_dtype `dtype` of samples produced by this distribution.
-#'  Default value: `NULL` (i.e., previous layer's `dtype`).
-#' @param validate_args  Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-#'  silently render incorrect outputs. Default value: `FALSE`.
+#' @param sample_dtype dtype of samples produced by this distribution.
+#'  Default value: NULL (i.e., previous layer's dtype).
+#' @param validate_args  Logical, default FALSE. When TRUE distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+#'  silently render incorrect outputs. Default value: FALSE.
 #'
 #' @return a Keras layer that wraps a Bernoulli distribution
 #'
@@ -160,9 +160,9 @@ layer_independent_bernoulli <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #'
-#' @param make_distribution_fn A callable that takes previous layer outputs and returns a `tfd$Distribution` instance.
-#' @param convert_to_tensor_fn A callable that takes a `tfd$Distribution` instance and returns a
-#'  `tf$Tensor`-like object. Default value: `tfd$Distribution$sample`.
+#' @param make_distribution_fn A callable that takes previous layer outputs and returns a tfd$Distribution instance.
+#' @param convert_to_tensor_fn A callable that takes a tfd$Distribution instance and returns a
+#'  tf$Tensor-like object. Default value: tfd$Distribution$sample.
 #' @export
 layer_distribution_lambda <- function(object,
                                       make_distribution_fn,

@@ -2,24 +2,24 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_affine_scalar}
 \alias{tfb_affine_scalar}
-\title{`AffineScalar` bijector.}
+\title{AffineScalar bijector.}
 \usage{
 tfb_affine_scalar(shift = NULL, scale = NULL, validate_args = FALSE,
   name = "affine_scalar")
 }
 \arguments{
-\item{shift}{Floating-point `Tensor`. If this is set to `None`, no shift is applied.}
+\item{shift}{Floating-point Tensor. If this is set to None, no shift is applied.}
 
-\item{scale}{Floating-point `Tensor`. If this is set to `None`, no scale is applied.}
+\item{scale}{Floating-point Tensor. If this is set to None, no scale is applied.}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This `Bijector` is initialized with `shift` `Tensor` and `scale` arguments, giving the forward operation:
-`Y = g(X) = scale * X + shift`
-If `scale` is not specified, then the bijector has the semantics of `scale = 1.`.
-Similarly, if `shift` is not specified, then the bijector has the semantics of `shift = 0.`.
+This Bijector is initialized with shift Tensor and scale arguments, giving the forward operation:
+Y = g(X) = scale * X + shift
+If scale is not specified, then the bijector has the semantics of scale = 1..
+Similarly, if shift is not specified, then the bijector has the semantics of shift = 0..
 }

@@ -5,8 +5,8 @@
 
 #' Compute Y = g(X) = X.
 #'
-#' @param validate_args Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-#'  `FALSE`, and the inputs are invalid, correct behavior is not guaranteed.
+#' @param validate_args Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+#'  FALSE, and the inputs are invalid, correct behavior is not guaranteed.
 #' @param name name prefixed to Ops created by this class.
 
 #' @family bijectors
@@ -20,7 +20,7 @@ tfb_identity <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Identity, args)
 }
 
-#' Compute `Y = g(X) = 1 / (1 + exp(-X))`.
+#' Compute Y = g(X) = 1 / (1 + exp(-X)).
 #'
 #' @inheritParams tfb_identity
 #' @export
@@ -33,7 +33,7 @@ tfb_sigmoid <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Sigmoid, args)
 }
 
-#' Compute `Y=g(X)=exp(X)``
+#' Compute Y=g(X)=exp(X)
 #'
 #' @inheritParams tfb_identity
 #'
@@ -48,17 +48,17 @@ tfb_exp <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Exp, args)
 }
 
-#' Compute `Y = g(X) = Abs(X)`, element-wise.
+#' Compute Y = g(X) = Abs(X), element-wise.
 #'
 #' This non-injective bijector allows for transformations of scalar distributions
-#' with the absolute value function, which maps `(-inf, inf)` to `[0, inf)`.
-#' * For `y in (0, inf)`, `AbsoluteValue.inverse(y)` returns the set inverse
-#' `{x in (-inf, inf) : |x| = y}` as a tuple, `-y, y`.
-#' `AbsoluteValue.inverse(0)` returns `0, 0`, which is not the set inverse
-#' (the set inverse is the singleton `{0}`), but "works" in conjunction with
-#' `TransformedDistribution` to produce a left semi-continuous pdf.
-#' For `y < 0`, `AbsoluteValue.inverse(y)` happily returns the wrong thing, `-y, y`.
-#'  This is done for efficiency.  If `validate_args == True`, `y < 0` will raise an exception.
+#' with the absolute value function, which maps (-inf, inf) to [0, inf).
+#' * For y in (0, inf), AbsoluteValue.inverse(y) returns the set inverse
+#' {x in (-inf, inf) : |x| = y} as a tuple, -y, y.
+#' AbsoluteValue.inverse(0) returns 0, 0, which is not the set inverse
+#' (the set inverse is the singleton {0}), but "works" in conjunction with
+#' TransformedDistribution to produce a left semi-continuous pdf.
+#' For y < 0, AbsoluteValue.inverse(y) happily returns the wrong thing, -y, y.
+#'  This is done for efficiency.  If validate_args == True, y < 0 will raise an exception.
 
 #' @inheritParams tfb_identity
 
@@ -72,40 +72,40 @@ tfb_absolute_value <- function(validate_args = FALSE,
   do.call(tfp$bijectors$AbsoluteValue, args)
 }
 
-#' `Affine` bijector.
+#' Affine bijector.
 #'
-#' This `Bijector` is initialized with `shift` `Tensor` and `scale` arguments,
-#' giving the forward operation: `Y = g(X) = scale @ X + shift``
-#' where the `scale` term is logically equivalent to:
+#' This Bijector is initialized with shift Tensor and scale arguments,
+#' giving the forward operation: Y = g(X) = scale @ X + shift
+#' where the scale term is logically equivalent to:
 #' scale =
 #'     scale_identity_multiplier * tf.diag(tf.ones(d)) +
 #'     tf.diag(scale_diag) +
 #'     scale_tril +
 #'     scale_perturb_factor @ diag(scale_perturb_diag) @ tf.transpose([scale_perturb_factor]))
 #'
-#'  If none of `scale_identity_multiplier`, `scale_diag`, or `scale_tril` are specified then
-#'   `scale += IdentityMatrix`. Otherwise specifying a `scale` argument has the semantics of
-#'    `scale += Expand(arg)`, i.e., `scale_diag != NULL` means `scale += tf$diag(scale_diag)`.
+#'  If none of scale_identity_multiplier, scale_diag, or scale_tril are specified then
+#'   scale += IdentityMatrix. Otherwise specifying a scale argument has the semantics of
+#'    scale += Expand(arg), i.e., scale_diag != NULL means scale += tf$diag(scale_diag).
 #'
-#' @param shift Floating-point `Tensor`. If this is set to `NULL`, no shift is applied.
-#' @param scale_identity_multiplier floating point rank 0 `Tensor` representing a scaling done
-#'  to the identity matrix. When `scale_identity_multiplier = scale_diag = scale_tril = None` then
-#'  `scale += IdentityMatrix`. Otherwise no scaled-identity-matrix is added to `scale`.
-#' @param scale_diag Floating-point `Tensor` representing the diagonal matrix.
-#' `scale_diag` has shape `[N1, N2, ...  k]`, which represents a k x k diagonal matrix.
-#' When `NULL` no diagonal term is added to `scale`.
-#' @param scale_tril Floating-point `Tensor` representing the lower triangular matrix.
-#' `scale_tril` has shape `[N1, N2, ...  k, k]`, which represents a k x k lower triangular matrix.
-#' When `None` no `scale_tril` term is added to `scale`. The upper triangular elements above the diagonal are ignored.
-#' @param scale_perturb_factor Floating-point `Tensor` representing factor matrix with last
-#'  two dimensions of shape `(k, r)`. When `NULL`, no rank-r update is added to `scale`.
-#' @param scale_perturb_diag Floating-point `Tensor` representing the diagonal matrix.
-#'  `scale_perturb_diag` has shape `[N1, N2, ...  r]`, which represents an `r x r` diagonal matrix.
-#'  When `None` low rank updates will take the form `scale_perturb_factor * scale_perturb_factor.T`.
-#' @param adjoint Logical indicating whether to use the `scale` matrix as specified or its adjoint.
-#' Default value: `FALSE`.
+#' @param shift Floating-point Tensor. If this is set to NULL, no shift is applied.
+#' @param scale_identity_multiplier floating point rank 0 Tensor representing a scaling done
+#'  to the identity matrix. When scale_identity_multiplier = scale_diag = scale_tril = None then
+#'  scale += IdentityMatrix. Otherwise no scaled-identity-matrix is added to scale.
+#' @param scale_diag Floating-point Tensor representing the diagonal matrix.
+#' scale_diag has shape [N1, N2, ...  k], which represents a k x k diagonal matrix.
+#' When NULL no diagonal term is added to scale.
+#' @param scale_tril Floating-point Tensor representing the lower triangular matrix.
+#' scale_tril has shape [N1, N2, ...  k, k], which represents a k x k lower triangular matrix.
+#' When None no scale_tril term is added to scale. The upper triangular elements above the diagonal are ignored.
+#' @param scale_perturb_factor Floating-point Tensor representing factor matrix with last
+#'  two dimensions of shape (k, r). When NULL, no rank-r update is added to scale.
+#' @param scale_perturb_diag Floating-point Tensor representing the diagonal matrix.
+#'  scale_perturb_diag has shape [N1, N2, ...  r], which represents an r x r diagonal matrix.
+#'  When None low rank updates will take the form scale_perturb_factor * scale_perturb_factor.T.
+#' @param adjoint Logical indicating whether to use the scale matrix as specified or its adjoint.
+#' Default value: FALSE.
 #' @inheritParams tfb_identity
-#' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we fall back to a
+#' @param dtype tf$DType to prefer when converting args to Tensors. Else, we fall back to a
 #'  common dtype inferred from the args, finally falling back to float32.
 
 #' @export
@@ -135,16 +135,16 @@ tfb_affine <- function(shift = NULL,
   do.call(tfp$bijectors$Affine, args)
 }
 
-#' Compute `Y = g(X; shift, scale) = scale @ X + shift`.
+#' Compute Y = g(X; shift, scale) = scale @ X + shift.
 #'
-#' `shift` is a numeric `Tensor` and `scale` is a `LinearOperator`.
-#' If `X` is a scalar then the forward transformation is: `scale * X + shift`
-#' where `*` denotes broadcasted elementwise product.
+#' shift is a numeric Tensor and scale is a LinearOperator.
+#' If X is a scalar then the forward transformation is: scale * X + shift
+#' where * denotes broadcasted elementwise product.
 #'
-#' @param shift Floating-point `Tensor`.
-#' @param scale Subclass of `LinearOperator`. Represents the (batch) positive definite matrix `M` in `R^{k x k}`.
-#' @param adjoint Logical indicating whether to use the `scale` matrix as specified or its adjoint.
-#' Default value: `False`.
+#' @param shift Floating-point Tensor.
+#' @param scale Subclass of LinearOperator. Represents the (batch) positive definite matrix M in R^{k x k}.
+#' @param adjoint Logical indicating whether to use the scale matrix as specified or its adjoint.
+#' Default value: False.
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -165,15 +165,15 @@ tfb_affine_linear_operator <- function(shift = NULL,
 }
 
 
-#' `AffineScalar` bijector.
+#' AffineScalar bijector.
 #'
-#' This `Bijector` is initialized with `shift` `Tensor` and `scale` arguments, giving the forward operation:
-#' `Y = g(X) = scale * X + shift`
-#' If `scale` is not specified, then the bijector has the semantics of `scale = 1.`.
-#' Similarly, if `shift` is not specified, then the bijector has the semantics of `shift = 0.`.
+#' This Bijector is initialized with shift Tensor and scale arguments, giving the forward operation:
+#' Y = g(X) = scale * X + shift
+#' If scale is not specified, then the bijector has the semantics of scale = 1..
+#' Similarly, if shift is not specified, then the bijector has the semantics of shift = 0..
 #'
-#' @param shift Floating-point `Tensor`. If this is set to `None`, no shift is applied.
-#' @param scale Floating-point `Tensor`. If this is set to `None`, no scale is applied.
+#' @param shift Floating-point Tensor. If this is set to None, no shift is applied.
+#' @param scale Floating-point Tensor. If this is set to None, no scale is applied.
 #' @inheritParams tfb_identity
 #' @export
 
@@ -190,7 +190,7 @@ tfb_affine_scalar <- function(shift = NULL,
   do.call(tfp$bijectors$AffineScalar, args)
 }
 
-#' Compute `Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y)`.
+#' Compute Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y).
 #'
 #' Applies Batch Normalization [(Ioffe and Szegedy, 2015)][1] to samples from a
 #' data distribution. This can be used to stabilize training of normalizing
@@ -200,21 +200,21 @@ tfb_affine_scalar <- function(shift = NULL,
 #' normalize or whiten features by shifting them to have zero mean and
 #' scaling them to have unit variance.
 #'
-#' The `inverse()` method of the `BatchNormalization` bijector, which is used in
+#' The inverse() method of the BatchNormalization bijector, which is used in
 #' the log-likelihood computation of data samples, implements the normalization
 #' procedure (shift-and-scale) using the mean and standard deviation of the
 #' current minibatch.
 #'
-#' Conversely, the `forward()` method of the bijector de-normalizes samples (e.g.
-#' `X*std(Y) + mean(Y)` with the running-average mean and standard deviation
+#' Conversely, the forward() method of the bijector de-normalizes samples (e.g.
+#' X*std(Y) + mean(Y) with the running-average mean and standard deviation
 #' computed at training-time. De-normalization is useful for sampling.
 #'
-#' During training time, `BatchNormalization.inverse` and `BatchNormalization.forward` are not
-#'  guaranteed to be inverses of each other because `inverse(y)` uses statistics of the current minibatch,
-#'  while `forward(x)` uses running-average statistics accumulated from training.
-#'  In other words, `BatchNormalization.inverse(BatchNormalization.forward(...))` and
-#'  `BatchNormalization.forward(BatchNormalization.inverse(...))` will be identical when
-#'   `training=FALSE` but may be different when `training=TRUE`.
+#' During training time, BatchNormalization.inverse and BatchNormalization.forward are not
+#'  guaranteed to be inverses of each other because inverse(y) uses statistics of the current minibatch,
+#'  while forward(x) uses running-average statistics accumulated from training.
+#'  In other words, BatchNormalization.inverse(BatchNormalization.forward(...)) and
+#'  BatchNormalization.forward(BatchNormalization.inverse(...)) will be identical when
+#'   training=FALSE but may be different when training=TRUE.
 #'
 #' References
 #' [1]: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training
@@ -226,11 +226,11 @@ tfb_affine_scalar <- function(shift = NULL,
 #' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
 
 #'
-#' @param batchnorm_layer `tf$layers$BatchNormalization` layer object. If `NULL`, defaults to
-#' `tf$layers$BatchNormalization(gamma_constraint=tf.nn.relu(x) + 1e-6)`.
+#' @param batchnorm_layer tf$layers$BatchNormalization layer object. If NULL, defaults to
+#' tf$layers$BatchNormalization(gamma_constraint=tf.nn.relu(x) + 1e-6).
 #' This ensures positivity of the scale variable.
 
-#' @param training If TRUE, updates running-average statistics during call to `inverse()`.
+#' @param training If TRUE, updates running-average statistics during call to inverse().
 #' @inheritParams tfb_identity
 #' @export
 
@@ -247,7 +247,7 @@ tfb_batch_normalization <- function(batchnorm_layer = NULL,
   do.call(tfp$bijectors$BatchNormalization, args)
 }
 
-#' Bijector which applies a list of bijectors to blocks of a `Tensor`.
+#' Bijector which applies a list of bijectors to blocks of a Tensor.
 #'
 #' More specifically, given [F_0, F_1, ... F_n] which are scalar or vector
 #' bijectors this bijector creates a transformation which operates on the vector
@@ -255,13 +255,13 @@ tfb_batch_normalization <- function(batchnorm_layer = NULL,
 #' where x_0, ..., x_n are blocks (partitions) of the vector.
 #'
 #' @param bijectors A non-empty list of bijectors.
-#' @param block_sizes A 1-D integer `Tensor` with each element signifying the
+#' @param block_sizes A 1-D integer Tensor with each element signifying the
 #' length of the block of the input vector to pass to the corresponding
-#' bijector. The length of `block_sizes` must be be equal to the length of
-#' `bijectors`. If left as NULL, a vector of 1's is used.
+#' bijector. The length of block_sizes must be be equal to the length of
+#' bijectors. If left as NULL, a vector of 1's is used.
 #' @param validate_args Logical indicating whether arguments should be checked for correctness.
 #' @param name String, name given to ops managed by this object. Default:
-#' E.g., `Blockwise([Exp(), Softplus()]).name ==   'blockwise_of_exp_and_softplus'`.
+#' E.g., Blockwise([Exp(), Softplus()]).name ==   'blockwise_of_exp_and_softplus'.
 
 #' @export
 tfb_blockwise <- function(bijectors,
@@ -280,11 +280,11 @@ tfb_blockwise <- function(bijectors,
 
 #' Bijector which applies a sequence of bijectors.
 #'
-#' @param bijectors `list` of bijector instances. An empty list makes this
-#' bijector equivalent to the `Identity` bijector.
+#' @param bijectors list of bijector instances. An empty list makes this
+#' bijector equivalent to the Identity bijector.
 #' @param validate_args Logical indicating whether arguments should be checked for correctness.
 #' @param name String, name given to ops managed by this object. Default:
-#' E.g., `Chain([Exp(), Softplus()]).name == "chain_of_exp_of_softplus"`.
+#' E.g., Chain([Exp(), Softplus()]).name == "chain_of_exp_of_softplus".
 
 #' @export
 tfb_chain <- function(bijectors = NULL,
@@ -298,26 +298,26 @@ tfb_chain <- function(bijectors = NULL,
 
 
 
-#' Compute `g(X) = X @ X.T`; X is lower-triangular, positive-diagonal matrix.
+#' Compute g(X) = X @ X.T; X is lower-triangular, positive-diagonal matrix.
 #'
 #' Note: the upper-triangular part of X is ignored (whether or not its zero).
 #'
 #' The surjectivity of g as a map from  the set of n x n positive-diagonal
 #' lower-triangular matrices to the set of SPD matrices follows immediately from
 #' executing the Cholesky factorization algorithm on an SPD matrix A to produce a
-#' positive-diagonal lower-triangular matrix L such that `A = L @ L.T`.
+#' positive-diagonal lower-triangular matrix L such that A = L @ L.T.
 #'
 #' To prove the injectivity of g, suppose that L_1 and L_2 are lower-triangular
-#' with positive diagonals and satisfy `A = L_1 @ L_1.T = L_2 @ L_2.T`. Then
-#' `inv(L_1) @ A @ inv(L_1).T = [inv(L_1) @ L_2] @ [inv(L_1) @ L_2].T = I`.
-#' Setting `L_3 := inv(L_1) @ L_2`, that L_3 is a positive-diagonal
-#' lower-triangular matrix follows from `inv(L_1)` being positive-diagonal
+#' with positive diagonals and satisfy A = L_1 @ L_1.T = L_2 @ L_2.T. Then
+#' inv(L_1) @ A @ inv(L_1).T = [inv(L_1) @ L_2] @ [inv(L_1) @ L_2].T = I.
+#' Setting L_3 := inv(L_1) @ L_2, that L_3 is a positive-diagonal
+#' lower-triangular matrix follows from inv(L_1) being positive-diagonal
 #' lower-triangular (which follows from the diagonal of a triangular matrix being
 #' its spectrum), and that the product of two positive-diagonal lower-triangular
 #' matrices is another positive-diagonal lower-triangular matrix.
 #' A simple inductive argument (proceeding one column of L_3 at a time) shows
-#' that, if `I = L_3 @ L_3.T`, with L_3 being lower-triangular with positive-
-#' diagonal, then `L_3 = I`. Thus, `L_1 = L_2`, proving injectivity of g.
+#' that, if I = L_3 @ L_3.T, with L_3 being lower-triangular with positive-
+#' diagonal, then L_3 = I. Thus, L_1 = L_2, proving injectivity of g.
 #'
 #' @inheritParams tfb_identity
 #' @export
@@ -330,11 +330,11 @@ tfb_cholesky_outer_product <- function(validate_args = FALSE,
   do.call(tfp$bijectors$CholeskyOuterProduct, args)
 }
 
-#' Maps the Cholesky factor of `M` to the Cholesky factor of `M^{-1}`.
+#' Maps the Cholesky factor of M to the Cholesky factor of M^{-1}.
 #'
-#' The `forward` and `inverse` calculations are conceptually identical to:
-#' `def forward(x): return tf.cholesky(tf.linalg.inv(tf.matmul(x, x, adjoint_b=True)))``
-#' `inverse = forward`
+#' The forward and inverse calculations are conceptually identical to:
+#' def forward(x): return tf.cholesky(tf.linalg.inv(tf.matmul(x, x, adjoint_b=True)))
+#' inverse = forward
 #' However, the actual calculations exploit the triangular structure of the matrices.
 #'
 #' @inheritParams tfb_identity
@@ -348,15 +348,15 @@ tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
   do.call(tfp$bijectors$CholeskyToInvCholesky, args)
 }
 
-#' Compute `Y = g(X) = DCT(X)`, where DCT type is indicated by the `type` arg.
+#' Compute Y = g(X) = DCT(X), where DCT type is indicated by the type arg.
 #'
 #' The [discrete cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform)
 #' efficiently applies a unitary DCT operator. This can be useful for mixing and decorrelating across
 #' the innermost event dimension.
-#' The inverse `X = g^{-1}(Y) = IDCT(Y)`, where IDCT is DCT-III for type==2.
+#' The inverse X = g^{-1}(Y) = IDCT(Y), where IDCT is DCT-III for type==2.
 #' This bijector can be interleaved with Affine bijectors to build a cascade of
 #' structured efficient linear layers as in [1].
-#' Note that the operator applied is orthonormal (i.e. `norm='ortho'`).
+#' Note that the operator applied is orthonormal (i.e. norm='ortho').
 #'
 #' References
 #' [1]: Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer.
@@ -378,11 +378,11 @@ tfb_discrete_cosine_transform <-
     do.call(tfp$bijectors$DiscreteCosineTransform, args)
   }
 
-#' Compute `Y = g(X) = exp(X) - 1`.
+#' Compute Y = g(X) = exp(X) - 1.
 #'
-#' This `Bijector` is no different from Chain([AffineScalar(shift=-1), Exp()]).
+#' This Bijector is no different from Chain([AffineScalar(shift=-1), Exp()]).
 #' However, this makes use of the more numerically stable routines
-#' `tf.math.expm1` and `tf.log1p`.
+#' tf.math.expm1 and tf.log1p.
 #'
 #' Note: the expm1(.) is applied element-wise but the Jacobian is a reduction
 #' over the event space.
@@ -404,12 +404,12 @@ tfb_expm1 <- function(validate_args = FALSE,
 #' Transforms vectors to triangular.
 #'
 #' Triangular matrix elements are filled in a clockwise spiral.
-#' Given input with shape `batch_shape + [d]`, produces output with
-#' shape `batch_shape + [n, n]`, where `n = (-1 + sqrt(1 + 8 * d))/2`.
-#' This follows by solving the quadratic equation `d = 1 + 2 + ... + n = n * (n + 1)/2`.
+#' Given input with shape batch_shape + [d], produces output with
+#' shape batch_shape + [n, n], where n = (-1 + sqrt(1 + 8 * d))/2.
+#' This follows by solving the quadratic equation d = 1 + 2 + ... + n = n * (n + 1)/2.
 #'
-#' @param upper Logical representing whether output matrix should be upper triangular (`TRUE`)
-#'  or lower triangular (`FALSE`, default).
+#' @param upper Logical representing whether output matrix should be upper triangular (TRUE)
+#'  or lower triangular (FALSE, default).
 #' @inheritParams tfb_identity
 #'
 
@@ -425,19 +425,19 @@ tfb_fill_triangular <- function(upper = FALSE,
   do.call(tfp$bijectors$FillTriangular, args)
 }
 
-#' Compute `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' Compute Y = g(X) = exp(-exp(-(X - loc) / scale)).
 #'
-#' This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
-#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' This bijector maps inputs from [-inf, inf] to [0, 1]. The inverse of the
+#' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 #' random variable with the [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution):
 #'
-#' `Y ~ Gumbel(loc, scale)`
-#' `pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale`
+#' Y ~ Gumbel(loc, scale)
+#' pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale
 #'
-#' @param loc Float-like `Tensor` that is the same dtype and is broadcastable with `scale`.
-#' This is `loc` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
-#' @param scale Positive Float-like `Tensor` that is the same dtype and is broadcastable with `loc`.
-#' This is `scale` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' @param loc Float-like Tensor that is the same dtype and is broadcastable with scale.
+#' This is loc in Y = g(X) = exp(-exp(-(X - loc) / scale)).
+#' @param scale Positive Float-like Tensor that is the same dtype and is broadcastable with loc.
+#' This is scale in Y = g(X) = exp(-exp(-(X - loc) / scale)).
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -505,13 +505,13 @@ tfb_inline <- function(forward_fn = NULL,
 
 #' Bijector which inverts another Bijector.
 #'
-#' Creates a `Bijector` which swaps the meaning of `inverse` and `forward`.
-#' Note: An inverted bijector's `inverse_log_det_jacobian` is often more
-#' efficient if the base bijector implements `_forward_log_det_jacobian`. If
-#' `_forward_log_det_jacobian` is not implemented then the following code is
+#' Creates a Bijector which swaps the meaning of inverse and forward.
+#' Note: An inverted bijector's inverse_log_det_jacobian is often more
+#' efficient if the base bijector implements _forward_log_det_jacobian. If
+#' _forward_log_det_jacobian is not implemented then the following code is
 #' used:
-#' `y = self.inverse(x, **kwargs)`
-#' `return -self.inverse_log_det_jacobian(y, **kwargs)```
+#' y = self.inverse(x, **kwargs)
+#' return -self.inverse_log_det_jacobian(y, **kwargs)
 #'
 #' @param bijector Bijector instance.
 #' @inheritParams tfb_identity
@@ -527,18 +527,18 @@ tfb_invert <- function(bijector,
   do.call(tfp$bijectors$Invert, args)
 }
 
-#' Compute `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1]`.
+#' Compute Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1].
 #'
-#' This bijector maps inputs from `[0, 1]` to `[0, 1]`. The inverse of the
-#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' This bijector maps inputs from [0, 1] to [0, 1]. The inverse of the
+#' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 #' random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
-#' `Y ~ Kumaraswamy(a, b)`
-#' `pdf(y; a, b, 0 <= y <= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)`
+#' Y ~ Kumaraswamy(a, b)
+#' pdf(y; a, b, 0 <= y <= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)
 #'
-#' @param concentration1 `float` scalar indicating the transform power, i.e.,
-#' `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where `a` is `concentration1`.
-#' @param concentration0 `float` scalar indicating the transform power,
-#' i.e., `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where `b` is `concentration0`.
+#' @param concentration1 float scalar indicating the transform power, i.e.,
+#' Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where a is concentration1.
+#' @param concentration0 float scalar indicating the transform power,
+#' i.e., Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where b is concentration0.
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -569,46 +569,46 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' by an invertible transformation with tractable Jacobian." [(Papamakarios et al., 2016)][3]
 #'
 #' In other words, the "autoregressive property" is equivalent to the
-#' decomposition, `p(x) = prod{ p(x[perm[i]] | x[perm[0:i]]) : i=0, ..., d }`
-#' where `perm` is some permutation of `{0, ..., d}`. In the simple case where
+#' decomposition, p(x) = prod{ p(x[perm[i]] | x[perm[0:i]]) : i=0, ..., d }
+#' where perm is some permutation of {0, ..., d}. In the simple case where
 #' the permutation is identity this reduces to:
 #'
-#' `p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }`. The provided
-#' `shift_and_log_scale_fn`, `masked_autoregressive_default_template`, achieves
-#' this property by zeroing out weights in its `masked_dense` layers.
+#' p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }. The provided
+#' shift_and_log_scale_fn, masked_autoregressive_default_template, achieves
+#' this property by zeroing out weights in its masked_dense layers.
 #' In TensorFlow Probability, "normalizing flows" are implemented as
-#' `tfp.bijectors.Bijector`s. The `forward` "autoregression" is implemented
-#' using a `tf.while_loop` and a deep neural network (DNN) with masked weights
-#' such that the autoregressive property is automatically met in the `inverse`.
-#' A `TransformedDistribution` using `MaskedAutoregressiveFlow(...)` uses the
+#' tfp.bijectors.Bijectors. The forward "autoregression" is implemented
+#' using a tf.while_loop and a deep neural network (DNN) with masked weights
+#' such that the autoregressive property is automatically met in the inverse.
+#' A TransformedDistribution using MaskedAutoregressiveFlow(...) uses the
 #' (expensive) forward-mode calculation to draw samples and the (cheap)
 #' reverse-mode calculation to compute log-probabilities. Conversely, a
-#' `TransformedDistribution` using `Invert(MaskedAutoregressiveFlow(...))` uses
+#' TransformedDistribution using Invert(MaskedAutoregressiveFlow(...)) uses
 #' the (expensive) forward-mode calculation to compute log-probabilities and the
 #' (cheap) reverse-mode calculation to compute samples.
 #'
-#' Given a `shift_and_log_scale_fn`, the forward and inverse transformations are
-#' (a sequence of) affine transformations. A "valid" `shift_and_log_scale_fn`
-#' must compute each `shift` (aka `loc` or "mu" in [Germain et al. (2015)][1])
-#' and `log(scale)` (aka "alpha" in [Germain et al. (2015)][1]) such that each
-#' are broadcastable with the arguments to `forward` and `inverse`, i.e., such
-#' that the calculations in `forward`, `inverse` [below] are possible.
+#' Given a shift_and_log_scale_fn, the forward and inverse transformations are
+#' (a sequence of) affine transformations. A "valid" shift_and_log_scale_fn
+#' must compute each shift (aka loc or "mu" in [Germain et al. (2015)][1])
+#' and log(scale) (aka "alpha" in [Germain et al. (2015)][1]) such that each
+#' are broadcastable with the arguments to forward and inverse, i.e., such
+#' that the calculations in forward, inverse [below] are possible.
 #'
-#' For convenience, `masked_autoregressive_default_template` is offered as a
-#' possible `shift_and_log_scale_fn` function. It implements the MADE
+#' For convenience, masked_autoregressive_default_template is offered as a
+#' possible shift_and_log_scale_fn function. It implements the MADE
 #' architecture [(Germain et al., 2015)][1]. MADE is a feed-forward network that
-#' computes a `shift` and `log(scale)` using `masked_dense` layers in a deep
+#' computes a shift and log(scale) using masked_dense layers in a deep
 #' neural network. Weights are masked to ensure the autoregressive property. It
 #' is possible that this architecture is suboptimal for your task. To build
 #' alternative networks, either change the arguments to
-#' `masked_autoregressive_default_template`, use the `masked_dense` function to
-#' roll-out your own, or use some other architecture, e.g., using `tf.layers`.
-#' Warning: no attempt is made to validate that the `shift_and_log_scale_fn`
+#' masked_autoregressive_default_template, use the masked_dense function to
+#' roll-out your own, or use some other architecture, e.g., using tf.layers.
+#' Warning: no attempt is made to validate that the shift_and_log_scale_fn
 #' enforces the "autoregressive property".
 #'
-#' Assuming `shift_and_log_scale_fn` has valid shape and autoregressive semantics,
+#' Assuming shift_and_log_scale_fn has valid shape and autoregressive semantics,
 #' the forward transformation is
-#' ```
+#'
 #' def forward(x):
 #'    y = zeros_like(x)
 #'    event_size = x.shape[-event_dims:].num_elements()
@@ -616,20 +616,20 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #'      shift, log_scale = shift_and_log_scale_fn(y)
 #'      y = x * tf.exp(log_scale) + shift
 #'    return y
-#' ```
+#'
 #'
 #' and the inverse transformation is
-#' ```
+#'
 #' def inverse(y):
 #'   shift, log_scale = shift_and_log_scale_fn(y)
 #'   return (y - shift) / tf.exp(log_scale)
-#' ```
 #'
-#' Notice that the `inverse` does not need a for-loop. This is because in the
-#' forward pass each calculation of `shift` and `log_scale` is based on the `y`
-#' calculated so far (not `x`). In the `inverse`, the `y` is fully known, thus is
-#' equivalent to the scaling used in `forward` after `event_size` passes, i.e.,
-#' the "last" `y` used to compute `shift`, `log_scale`.
+#'
+#' Notice that the inverse does not need a for-loop. This is because in the
+#' forward pass each calculation of shift and log_scale is based on the y
+#' calculated so far (not x). In the inverse, the y is fully known, thus is
+#' equivalent to the scaling used in forward after event_size passes, i.e.,
+#' the "last" y used to compute shift, log_scale.
 #' (Roughly speaking, this also proves the transform is bijective.)
 #'
 #' References:
@@ -643,20 +643,20 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #'  Masked Autoregressive Flow for Density Estimation.
 #'  In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
 #'
-#' @param shift_and_log_scale_fn Function which computes `shift` and `log_scale` from both the
-#' forward domain (`x`) and the inverse domain (`y`).
+#' @param shift_and_log_scale_fn Function which computes shift and log_scale from both the
+#' forward domain (x) and the inverse domain (y).
 #' Calculation must respect the "autoregressive property". Suggested default:
-#' `masked_autoregressive_default_template(hidden_layers=...)`.
-#' Typically the function contains `tf$Variables` and is wrapped using `tf$make_template`.
-#'  Returning `NULL` for either (both) `shift`, `log_scale` is equivalent to (but more efficient than) returning zero.
-#' @param is_constant_jacobian Logical, default: `FALSE`. When `TRUE` the implementation assumes `log_scale`
-#' does not depend on the forward domain (`x`) or inverse domain (`y`) values.
-#' (No validation is made; `is_constant_jacobian=FALSE` is always safe but possibly computationally inefficient.)
-#' @param unroll_loop Logical indicating whether the `tf$while_loop` in `_forward` should be replaced with a
-#' static for loop. Requires that the final dimension of `x` be known at graph construction time. Defaults to `FALSE`.
-#' @param event_ndims `integer`, the intrinsic dimensionality of this bijector.
+#' masked_autoregressive_default_template(hidden_layers=...).
+#' Typically the function contains tf$Variables and is wrapped using tf$make_template.
+#'  Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.
+#' @param is_constant_jacobian Logical, default: FALSE. When TRUE the implementation assumes log_scale
+#' does not depend on the forward domain (x) or inverse domain (y) values.
+#' (No validation is made; is_constant_jacobian=FALSE is always safe but possibly computationally inefficient.)
+#' @param unroll_loop Logical indicating whether the tf$while_loop in _forward should be replaced with a
+#' static for loop. Requires that the final dimension of x be known at graph construction time. Defaults to FALSE.
+#' @param event_ndims integer, the intrinsic dimensionality of this bijector.
 #' 1 corresponds to a simple vector autoregressive bijector as implemented by the
-#' `masked_autoregressive_default_template`, 2 might be useful for a 2D convolutional `shift_and_log_scale_fn` and so on.
+#' masked_autoregressive_default_template, 2 might be useful for a 2D convolutional shift_and_log_scale_fn and so on.
 #'
 #' @inheritParams tfb_identity
 #'
@@ -684,45 +684,45 @@ tfb_masked_autoregressive_flow <-
 #' Build the Masked Autoregressive Density Estimator (Germain et al., 2015).
 #'
 #' This will be wrapped in a make_template to ensure the variables are only
-#' created once. It takes the input and returns the `loc` ("mu" in
-#' [Germain et al. (2015)][1]) and `log_scale` ("alpha" in [Germain et al. (2015)][1]) from
+#' created once. It takes the input and returns the loc ("mu" in
+#' [Germain et al. (2015)][1]) and log_scale ("alpha" in [Germain et al. (2015)][1]) from
 #' the MADE network.
 #'
-#' Warning: This function uses `masked_dense` to create randomly initialized
-#' `tf$Variables`. It is presumed that these will be fit, just as you would any
-#' other neural architecture which uses `tf$layers$dense`.
+#' Warning: This function uses masked_dense to create randomly initialized
+#' tf$Variables. It is presumed that these will be fit, just as you would any
+#' other neural architecture which uses tf$layers$dense.
 #'
 #' # About Hidden Layers
-#' Each element of `hidden_layers` should be greater than the `input_depth`
-#' (i.e., `input_depth = tf$shape(input)[-1]` where `input` is the input to the
+#' Each element of hidden_layers should be greater than the input_depth
+#' (i.e., input_depth = tf$shape(input)[-1] where input is the input to the
 #' neural network). This is necessary to ensure the autoregressivity property.
 #'
 # About Clipping
-#' This function also optionally clips the `log_scale` (but possibly not its
-#' gradient). This is useful because if `log_scale` is too small/large it might
-#' underflow/overflow making it impossible for the `MaskedAutoregressiveFlow`
-#' bijector to implement a bijection. Additionally, the `log_scale_clip_gradient`
-#' `bool` indicates whether the gradient should also be clipped. The default does
+#' This function also optionally clips the log_scale (but possibly not its
+#' gradient). This is useful because if log_scale is too small/large it might
+#' underflow/overflow making it impossible for the MaskedAutoregressiveFlow
+#' bijector to implement a bijection. Additionally, the log_scale_clip_gradient
+#' bool indicates whether the gradient should also be clipped. The default does
 #' not clip the gradient; this is useful because it still provides gradient
 #' information (for fitting) yet solves the numerical stability problem. I.e.,
-#' `log_scale_clip_gradient = FALSE` means `grad[exp(clip(x))] = grad[x] exp(clip(x))`
-#' rather than the usual `grad[clip(x)] exp(clip(x))`.
+#' log_scale_clip_gradient = FALSE means grad[exp(clip(x))] = grad[x] exp(clip(x))
+#' rather than the usual grad[clip(x)] exp(clip(x)).
 
 #' References
 #' [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 #' MADE: Masked Autoencoder for Distribution Estimation.
 #' In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
 #'
-#' @param hidden_layers `list`-like of non-negative integer, scalars indicating the number
-#'  of units in each hidden layer. Default: `list(512, 512)`.
-#' @param shift_only `logical` indicating if only the `shift` term shall be
-#' computed. Default: `FALSE`.
-#' @param activation Activation function (callable). Explicitly setting to `NULL` implies a linear activation.
-#' @param log_scale_min_clip `float`-like scalar `Tensor`, or a `Tensor` with the same shape as `log_scale`. The minimum value to clip by. Default: -5.
-#' @param log_scale_max_clip `float`-like scalar `Tensor`, or a `Tensor` with the same shape as `log_scale`. The maximum value to clip by. Default: 3.
-#' @param log_scale_clip_gradient `logical`` indicating that the gradient of `tf$clip_by_value` should be preserved. Default: `FALSE`.
+#' @param hidden_layers list-like of non-negative integer, scalars indicating the number
+#'  of units in each hidden layer. Default: list(512, 512).
+#' @param shift_only logical indicating if only the shift term shall be
+#' computed. Default: FALSE.
+#' @param activation Activation function (callable). Explicitly setting to NULL implies a linear activation.
+#' @param log_scale_min_clip float-like scalar Tensor, or a Tensor with the same shape as log_scale. The minimum value to clip by. Default: -5.
+#' @param log_scale_max_clip float-like scalar Tensor, or a Tensor with the same shape as log_scale. The maximum value to clip by. Default: 3.
+#' @param log_scale_clip_gradient logical indicating that the gradient of tf$clip_by_value should be preserved. Default: FALSE.
 #' @param name A name for ops managed by this function. Default: "masked_autoregressive_default_template".
-#' @param ... `tf$layers$dense` arguments
+#' @param ... tf$layers$dense arguments
 #'
 #' @export
 masked_autoregressive_default_template <- function(hidden_layers,
@@ -745,7 +745,7 @@ masked_autoregressive_default_template <- function(hidden_layers,
   )
 }
 
-#' An autoregressively masked dense layer. Analogous to `tf$layers$dense`.
+#' An autoregressively masked dense layer. Analogous to tf$layers$dense.
 #'
 #' See [Germain et al. (2015)][1] for detailed explanation.
 #'
@@ -755,15 +755,15 @@ masked_autoregressive_default_template <- function(hidden_layers,
 #' In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
 #'
 #' @param inputs Tensor input.
-#' @param units `integer` scalar representing the dimensionality of the output space.
-#' @param num_blocks `integer` scalar representing the number of blocks for the MADE masks.
-#' @param exclusive `logical` scalar representing whether to zero the diagonal of
+#' @param units integer scalar representing the dimensionality of the output space.
+#' @param num_blocks integer scalar representing the number of blocks for the MADE masks.
+#' @param exclusive logical scalar representing whether to zero the diagonal of
 #' the mask, used for the first layer of a MADE.
 #' @param kernel_initializer Initializer function for the weight matrix.
-#' If `NULL` (default), weights are initialized using the `tf$glorot_random_initializer`
-#' @param reuse `logical` scalar representing whether to reuse the weights of a previous layer by the same name.
+#' If NULL (default), weights are initialized using the tf$glorot_random_initializer
+#' @param reuse logical scalar representing whether to reuse the weights of a previous layer by the same name.
 #' @param name string used to describe ops managed by this function.
-#' @param ... `tf$layers$dense` arguments
+#' @param ... tf$layers$dense arguments
 #'
 #' @export
 masked_dense <- function(inputs,
@@ -789,26 +789,26 @@ masked_dense <- function(inputs,
 #' Build a scale-and-shift function using a multi-layer neural network.
 #'
 #' This will be wrapped in a make_template to ensure the variables are only
-#' created once. It takes the `d`-dimensional input x[0:d] and returns the `D-d`
-#' dimensional outputs `loc` ("mu") and `log_scale` ("alpha").
+#' created once. It takes the d-dimensional input x[0:d] and returns the D-d
+#' dimensional outputs loc ("mu") and log_scale ("alpha").
 #'
 #' The default template does not support conditioning and will raise an
-#' exception if `condition_kwargs` are passed to it. To use conditioning in
+#' exception if condition_kwargs are passed to it. To use conditioning in
 #' real nvp bijector, implement a conditioned shift/scale template that
-#' handles the `condition_kwargs`.
+#' handles the condition_kwargs.
 #'
 #' References
 #' [1]: George Papamakarios, Theo Pavlakou, and Iain Murray.
 #' Masked Autoregressive Flow for Density Estimation.
 #' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
 
-#' @param hidden_layers `list`-like of non-negative integer, scalars indicating the number
-#'  of units in each hidden layer. Default: `list(512, 512)`.
-#' @param shift_only `logical` indicating if only the `shift` term shall be
-#' computed (i.e. NICE bijector). Default: `FALSE`.
-#' @param activation Activation function (callable). Explicitly setting to `NULL` implies a linear activation.
+#' @param hidden_layers list-like of non-negative integer, scalars indicating the number
+#'  of units in each hidden layer. Default: list(512, 512).
+#' @param shift_only logical indicating if only the shift term shall be
+#' computed (i.e. NICE bijector). Default: FALSE.
+#' @param activation Activation function (callable). Explicitly setting to NULL implies a linear activation.
 #' @param name A name for ops managed by this function. Default: "real_nvp_default_template".
-#' @param ... `tf$layers$dense` arguments
+#' @param ... tf$layers$dense arguments
 #'
 #' @export
 real_nvp_default_template <- function(hidden_layers,
@@ -825,20 +825,20 @@ real_nvp_default_template <- function(hidden_layers,
 
 #' RealNVP "affine coupling layer" for vector-valued events.
 #'
-#' Real NVP models a normalizing flow on a `D`-dimensional distribution via a
-#' single `D-d`-dimensional conditional distribution [(Dinh et al., 2017)][1]:
-#' `y[d:D] = x[d:D] * tf.exp(log_scale_fn(x[0:d])) + shift_fn(x[0:d])`
-#' `y[0:d] = x[0:d]`
-#' The last `D-d` units are scaled and shifted based on the first `d` units only,
-#' while the first `d` units are 'masked' and left unchanged. Real NVP's
-#' `shift_and_log_scale_fn` computes vector-valued quantities.
+#' Real NVP models a normalizing flow on a D-dimensional distribution via a
+#' single D-d-dimensional conditional distribution [(Dinh et al., 2017)][1]:
+#' y[d:D] = x[d:D] * tf.exp(log_scale_fn(x[0:d])) + shift_fn(x[0:d])
+#' y[0:d] = x[0:d]
+#' The last D-d units are scaled and shifted based on the first d units only,
+#' while the first d units are 'masked' and left unchanged. Real NVP's
+#' shift_and_log_scale_fn computes vector-valued quantities.
 #' For scale-and-shift transforms that do not depend on any masked units, i.e.
-#' `d=0`, use the `tfb_affine` bijector with learned parameters instead.
+#' d=0, use the tfb_affine bijector with learned parameters instead.
 #' Masking is currently only supported for base distributions with
-#' `event_ndims=1`. For more sophisticated masking schemes like checkerboard or
-#' channel-wise masking [(Papamakarios et al., 2016)[4], use the `tfb_permute`
-#' bijector to re-order desired masked units into the first `d` units. For base
-#' distributions with `event_ndims > 1`, use the `tfb_reshape` bijector to
+#' event_ndims=1. For more sophisticated masking schemes like checkerboard or
+#' channel-wise masking [(Papamakarios et al., 2016)[4], use the tfb_permute
+#' bijector to re-order desired masked units into the first d units. For base
+#' distributions with event_ndims > 1, use the tfb_reshape bijector to
 #' flatten the event shape.
 #'
 #' Recall that the MAF bijector [(Papamakarios et al., 2016)][4] implements a
@@ -849,25 +849,25 @@ real_nvp_default_template <- function(hidden_layers,
 #' inverse computations in parallel. However, the lack of an autoregressive
 #' transformations makes it less expressive on a per-bijector basis.
 #'
-#' A "valid" `shift_and_log_scale_fn` must compute each `shift` (aka `loc` or
-#' "mu" in [Papamakarios et al. (2016)][4]) and `log(scale)` (aka "alpha" in
+#' A "valid" shift_and_log_scale_fn must compute each shift (aka loc or
+#' "mu" in [Papamakarios et al. (2016)][4]) and log(scale) (aka "alpha" in
 #' [Papamakarios et al. (2016)][4]) such that each are broadcastable with the
-#' arguments to `forward` and `inverse`, i.e., such that the calculations in
-#' `forward`, `inverse` [below] are possible. For convenience,
-#' `real_nvp_default_nvp` is offered as a possible `shift_and_log_scale_fn` function.
+#' arguments to forward and inverse, i.e., such that the calculations in
+#' forward, inverse [below] are possible. For convenience,
+#' real_nvp_default_nvp is offered as a possible shift_and_log_scale_fn function.
 #'
 #' NICE [(Dinh et al., 2014)][2] is a special case of the Real NVP bijector
 #' which discards the scale transformation, resulting in a constant-time
 #' inverse-log-determinant-Jacobian. To use a NICE bijector instead of Real
-#' NVP, `shift_and_log_scale_fn` should return `(shift, None)`, and
-#' `is_constant_jacobian` should be set to `True` in the `RealNVP` constructor.
-#' Calling `real_nvp_default_template` with `shift_only=True` returns one such
-#' NICE-compatible `shift_and_log_scale_fn`.
+#' NVP, shift_and_log_scale_fn should return (shift, None), and
+#' is_constant_jacobian should be set to True in the RealNVP constructor.
+#' Calling real_nvp_default_template with shift_only=True returns one such
+#' NICE-compatible shift_and_log_scale_fn.
 #'
-#' Caching: the scalar input depth `D` of the base distribution is not known at
-#' construction time. The first call to any of `forward(x)`, `inverse(x)`,
-#' `inverse_log_det_jacobian(x)`, or `forward_log_det_jacobian(x)` memoizes
-#' `D`, which is re-used in subsequent calls. This shape must be known prior to
+#' Caching: the scalar input depth D of the base distribution is not known at
+#' construction time. The first call to any of forward(x), inverse(x),
+#' inverse_log_det_jacobian(x), or forward_log_det_jacobian(x) memoizes
+#' D, which is re-used in subsequent calls. This shape must be known prior to
 #'  graph execution (which is the case if using tf$layers).
 #'
 #' References
@@ -883,18 +883,18 @@ real_nvp_default_template <- function(hidden_layers,
 #' Masked Autoregressive Flow for Density Estimation.
 #' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
 #'
-#' @param num_masked `integer` indicating that the first `d` units of the event
-#' should be masked. Must be in the closed interval `[1, D-1]`, where `D`
+#' @param num_masked integer indicating that the first d units of the event
+#' should be masked. Must be in the closed interval [1, D-1], where D
 #' is the event size of the base distribution.
-#' @param shift_and_log_scale_fn Function which computes `shift` and `log_scale` from both the
-#' forward domain (`x`) and the inverse domain (`y`).
+#' @param shift_and_log_scale_fn Function which computes shift and log_scale from both the
+#' forward domain (x) and the inverse domain (y).
 #' Calculation must respect the "autoregressive property". Suggested default:
-#' `real_nvp_default_template(hidden_layers=...)`.
-#' Typically the function contains `tf$Variables` and is wrapped using `tf$make_template`.
-#'  Returning `NULL` for either (both) `shift`, `log_scale` is equivalent to (but more efficient than) returning zero.
-#' @param is_constant_jacobian Logical, default: `FALSE`. When `TRUE` the implementation assumes `log_scale`
-#' does not depend on the forward domain (`x`) or inverse domain (`y`) values.
-#' (No validation is made; `is_constant_jacobian=FALSE` is always safe but possibly computationally inefficient.)
+#' real_nvp_default_template(hidden_layers=...).
+#' Typically the function contains tf$Variables and is wrapped using tf$make_template.
+#'  Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.
+#' @param is_constant_jacobian Logical, default: FALSE. When TRUE the implementation assumes log_scale
+#' does not depend on the forward domain (x) or inverse domain (y) values.
+#' (No validation is made; is_constant_jacobian=FALSE is always safe but possibly computationally inefficient.)
 #'
 #' @inheritParams tfb_identity
 #'
@@ -918,12 +918,12 @@ tfb_real_nvp <-
   }
 
 
-#' Computes `g(L) = inv(L)`, where `L` is a lower-triangular matrix.
+#' Computes g(L) = inv(L), where L is a lower-triangular matrix.
 #'
-#' `L` must be nonsingular; equivalently, all diagonal entries of `L` must be nonzero.
-#' The input must have `rank >= 2`.  The input is treated as a batch of matrices
-#' with batch shape `input.shape[:-2]`, where each matrix has dimensions
-#' `input.shape[-2]` by `input.shape[-1]` (hence `input.shape[-2]` must equal `input.shape[-1]`).
+#' L must be nonsingular; equivalently, all diagonal entries of L must be nonzero.
+#' The input must have rank >= 2.  The input is treated as a batch of matrices
+#' with batch shape input.shape[:-2], where each matrix has dimensions
+#' input.shape[-2] by input.shape[-1] (hence input.shape[-2] must equal input.shape[-1]).
 #'
 #' @inheritParams tfb_identity
 #'
@@ -948,8 +948,8 @@ tfb_matrix_inverse_tri_l <- function(validate_args = FALSE,
 #' [1]: Diederik P. Kingma, Prafulla Dhariwal. Glow: Generative Flow with Invertible 1x1 Convolutions.
 #' _arXiv preprint arXiv:1807.03039_, 2018. https://arxiv.org/abs/1807.03039
 #'
-#' @param lower_upper The LU factorization as returned by `tf$linalg$lu`.
-#' @param permutation The LU factorization permutation as returned by `tf$linalg$lu`.
+#' @param lower_upper The LU factorization as returned by tf$linalg$lu.
+#' @param permutation The LU factorization permutation as returned by tf$linalg$lu.
 #'
 #' @inheritParams tfb_identity
 #'
@@ -968,14 +968,14 @@ tfb_matvec_lu <- function(lower_upper,
   do.call(tfp$bijectors$MatvecLU, args)
 }
 
-#' Compute `Y = g(X) = NormalCDF(x)`.
+#' Compute Y = g(X) = NormalCDF(x).
 #'
-#' This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
-#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' This bijector maps inputs from [-inf, inf] to [0, 1]. The inverse of the
+#' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 #' random variable with the [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution):
 #'
-#' ``` Y ~ Normal(0, 1)```
-#' ```pdf(y; 0., 1.) = 1 / sqrt(2 * pi) * exp(-y ** 2 / 2)```
+#'  Y ~ Normal(0, 1)
+#' pdf(y; 0., 1.) = 1 / sqrt(2 * pi) * exp(-y ** 2 / 2)
 #'
 #' @inheritParams tfb_identity
 #'
@@ -992,13 +992,13 @@ tfb_normal_cdf <- function(validate_args = FALSE,
 #'
 #' Both the domain and the codomain of the mapping is [-inf, inf], however,
 #' the input of the forward mapping must be strictly increasing.
-#' The inverse of the bijector applied to a normal random vector `y ~ N(0, 1)`
-#' gives back a sorted random vector with the same distribution `x ~ N(0, 1)`
-#' where `x = sort(y)`
+#' The inverse of the bijector applied to a normal random vector y ~ N(0, 1)
+#' gives back a sorted random vector with the same distribution x ~ N(0, 1)
+#' where x = sort(y)
 #'
 #' On the last dimension of the tensor, Ordered bijector performs:
-#' ```y[0] = x[0]```
-#' ```y[1:] = tf$log(x[1:] - x[:-1])```'
+#' y[0] = x[0]
+#' y[1:] = tf$log(x[1:] - x[:-1])'
 #'
 #' @inheritParams tfb_identity
 #'
@@ -1012,13 +1012,13 @@ tfb_ordered <- function(validate_args = FALSE,
 }
 
 
-#' Permutes the rightmost dimension of a `Tensor`.
+#' Permutes the rightmost dimension of a Tensor.
 #'
-#' @param permutation An integer-like vector-shaped `Tensor` representing the
-#' permutation to apply to the `axis` dimension of the transformed `Tensor`.
-#' @param axis Scalar integer `Tensor` representing the dimension over which to `tf$gather`.
-#' `axis` must be relative to the end (reading left to right) thus must be negative.
-#' Default value: `-1` (i.e., right-most).
+#' @param permutation An integer-like vector-shaped Tensor representing the
+#' permutation to apply to the axis dimension of the transformed Tensor.
+#' @param axis Scalar integer Tensor representing the dimension over which to tf$gather.
+#' axis must be relative to the end (reading left to right) thus must be negative.
+#' Default value: -1 (i.e., right-most).
 #'
 #' @inheritParams tfb_identity
 #'
@@ -1037,14 +1037,14 @@ tfb_permute <- function(permutation,
   do.call(tfp$bijectors$Permute, args)
 }
 
-#' Compute `Y = g(X) = (1 + X * c)**(1 / c), X >= -1 / c`.
+#' Compute Y = g(X) = (1 + X * c)**(1 / c), X >= -1 / c.
 #'
 #' The [power transform](https://en.wikipedia.org/wiki/Power_transform) maps
-#' inputs from `[0, inf]` to `[-1/c, inf]`; this is equivalent to the `inverse` of this bijector.
-#' This bijector is equivalent to the `Exp` bijector when `c=0`.
+#' inputs from [0, inf] to [-1/c, inf]; this is equivalent to the inverse of this bijector.
+#' This bijector is equivalent to the Exp bijector when c=0.
 #'
-#' @param power Python `float` scalar indicating the transform power, i.e.,
-#' ```Y = g(X) = (1 + X * c)**(1 / c)``` where `c` is the `power`.
+#' @param power Python float scalar indicating the transform power, i.e.,
+#' Y = g(X) = (1 + X * c)**(1 / c) where c is the power.
 #'
 #' @inheritParams tfb_identity
 #'
@@ -1060,7 +1060,7 @@ tfb_power_transform <- function(power,
 }
 
 
-#' A `Bijector` that computes `b(x) = 1. / x`.
+#' A Bijector that computes b(x) = 1. / x.
 #'
 #' @inheritParams tfb_identity
 #'
@@ -1073,22 +1073,22 @@ tfb_reciprocal <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Reciprocal, args)
 }
 
-#' Reshapes the `event_shape` of a `Tensor`.
+#' Reshapes the event_shape of a Tensor.
 #'
-#' The semantics generally follow that of `tf.reshape()`, with a few differences:
+#' The semantics generally follow that of tf.reshape(), with a few differences:
 #'   * The user must provide both the input and output shape, so that
 #'     the transformation can be inverted. If an input shape is not
 #'     specified, the default assumes a vector-shaped input, i.e.,
 #'     event_shape_in = list(-1).
-#'   * The `Reshape` bijector automatically broadcasts over the leftmost
-#'   dimensions of its input (`sample_shape` and `batch_shape`); only
-#'   the rightmost `event_ndims_in` dimensions are reshaped. The
+#'   * The Reshape bijector automatically broadcasts over the leftmost
+#'   dimensions of its input (sample_shape and batch_shape); only
+#'   the rightmost event_ndims_in dimensions are reshaped. The
 #'   number of dimensions to reshape is inferred from the provided
-#'   `event_shape_in` (`event_ndims_in = length(event_shape_in)`).
+#'   event_shape_in (event_ndims_in = length(event_shape_in)).
 #'
-#' @param event_shape_out An integer-like vector-shaped `Tensor`
+#' @param event_shape_out An integer-like vector-shaped Tensor
 #' representing the event shape of the transformed output.
-#' @param event_shape_in An optional integer-like vector-shape `Tensor`
+#' @param event_shape_in An optional integer-like vector-shape Tensor
 #' representing the event shape of the input. This is required in
 #' order to define inverse operations; the default of list(-1) assumes a vector-shaped input.
 #'
@@ -1112,17 +1112,17 @@ tfb_reshape <- function(event_shape_out,
 
 
 #' Transforms unconstrained vectors to TriL matrices with positive diagonal.
-#' This is implemented as a simple `tfb_chain` of `tfb_fill_triangular` followed by
-#' `tfb_transform_diagonal`, and provided mostly as a convenience.
+#' This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
+#' tfb_transform_diagonal, and provided mostly as a convenience.
 #' The default setup is somewhat opinionated, using a Softplus transformation followed by a
-#'  small shift (`1e-5`) which attempts to avoid numerical issues from zeros on the diagonal.
+#'  small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.
 #'
-#' @param diag_bijector `Bijector` instance, used to transform the output diagonal to be positive.
-#' Default value: `NULL` (i.e., `tfb_softplus()`).
+#' @param diag_bijector Bijector instance, used to transform the output diagonal to be positive.
+#' Default value: NULL (i.e., tfb_softplus()).
 #' @param diag_shift Float value broadcastable and added to all diagonal entries after applying the
-#' `diag_bijector`. Setting a positive value forces the output diagonal entries to be positive, but
+#' diag_bijector. Setting a positive value forces the output diagonal entries to be positive, but
 #' prevents inverting the transformation for matrices with diagonal entries less than this value.
-#' Default value: `1e-5`.
+#' Default value: 1e-5.
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -1140,30 +1140,30 @@ tfb_scale_tri_l <- function(diag_bijector = NULL,
   do.call(tfp$bijectors$ScaleTriL, args)
 }
 
-#' Compute `Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )`.
+#' Compute Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ).
 #'
-#' For `skewness in (-inf, inf)` and `tailweight in (0, inf)`, this
-#' transformation is a diffeomorphism of the real line `(-inf, inf)`.
-#' The inverse transform is `X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness )`.
-#' The `SinhArcsinh` transformation of the Normal is described in
+#' For skewness in (-inf, inf) and tailweight in (0, inf), this
+#' transformation is a diffeomorphism of the real line (-inf, inf).
+#' The inverse transform is X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness ).
+#' The SinhArcsinh transformation of the Normal is described in
 #' [Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865)
 #'
-#' This Bijector allows a similar transformation of any distribution supported on `(-inf, inf)`.
+#' This Bijector allows a similar transformation of any distribution supported on (-inf, inf).
 #'
 #' # Meaning of the parameters
-#' * If `skewness = 0` and `tailweight = 1`, this transform is the identity.
-#' * Positive (negative) `skewness` leads to positive (negative) skew.
-#' * positive skew means, for unimodal `X` centered at zero, the mode of `Y` is "tilted" to the right.
-#' * positive skew means positive values of `Y` become more likely, and negative values become less likely.
-#' * Larger (smaller) `tailweight` leads to fatter (thinner) tails.
-#' * Fatter tails mean larger values of `|Y|` become more likely.
-#' * If `X` is a unit Normal, `tailweight < 1` leads to a distribution that is "flat" around `Y = 0`, and a very steep drop-off in the tails.
-#' * If `X` is a unit Normal, `tailweight > 1` leads to a distribution more peaked at the mode with heavier tails.
-#' To see the argument about the tails, note that for `|X| >> 1` and `|X| >> (|skewness| * tailweight)**tailweight`, we have
-#' `Y approx 0.5 X**tailweight e**(sign(X) skewness * tailweight)`.
+#' * If skewness = 0 and tailweight = 1, this transform is the identity.
+#' * Positive (negative) skewness leads to positive (negative) skew.
+#' * positive skew means, for unimodal X centered at zero, the mode of Y is "tilted" to the right.
+#' * positive skew means positive values of Y become more likely, and negative values become less likely.
+#' * Larger (smaller) tailweight leads to fatter (thinner) tails.
+#' * Fatter tails mean larger values of |Y| become more likely.
+#' * If X is a unit Normal, tailweight < 1 leads to a distribution that is "flat" around Y = 0, and a very steep drop-off in the tails.
+#' * If X is a unit Normal, tailweight > 1 leads to a distribution more peaked at the mode with heavier tails.
+#' To see the argument about the tails, note that for |X| >> 1 and |X| >> (|skewness| * tailweight)**tailweight, we have
+#' Y approx 0.5 X**tailweight e**(sign(X) skewness * tailweight).
 #'
-#' @param skewness Skewness parameter.  Float-type `Tensor`.  Default is `0` of type `float32`.
-#' @param tailweight  Tailweight parameter.  Positive `Tensor` of same `dtype` as `skewness` and broadcastable `shape`.  Default is `1` of type `float32`.
+#' @param skewness Skewness parameter.  Float-type Tensor.  Default is 0 of type float32.
+#' @param tailweight  Tailweight parameter.  Positive Tensor of same dtype as skewness and broadcastable shape.  Default is 1 of type float32.
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -1181,11 +1181,11 @@ tfb_sinh_arcsinh <- function(skewness = NULL,
   do.call(tfp$bijectors$SinhArcsinh, args)
 }
 
-#' Bijector which computes `Y = g(X) = exp([X 0]) / sum(exp([X 0]))`.
+#' Bijector which computes Y = g(X) = exp([X 0]) / sum(exp([X 0])).
 #' To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
 #' bijection, the forward transformation appends a value to the input and the
 #' inverse removes this coordinate. The appended coordinate represents a pivot,
-#' e.g., `softmax(x) = exp(x-c) / sum(exp(x-c))` where `c` is the implicit last
+#' e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
 #' coordinate.
 #'
 #' At first blush it may seem like the [Invariance of domain](https://en.wikipedia.org/wiki/Invariance_of_domain)
@@ -1203,27 +1203,27 @@ tfb_softmax_centered <- function(validate_args = FALSE,
   do.call(tfp$bijectors$SoftmaxCentered, args)
 }
 
-#' Bijector which computes `Y = g(X) = Log[1 + exp(X)]`.
+#' Bijector which computes Y = g(X) = Log[1 + exp(X)].
 #'
-#' The softplus `Bijector` has the following two useful properties:
+#' The softplus Bijector has the following two useful properties:
 #' * The domain is the positive real numbers
-#' * `softplus(x) approx x`, for large `x`, so it does not overflow as easily as the `Exp` `Bijector`.
+#' * softplus(x) approx x, for large x, so it does not overflow as easily as the Exp Bijector.
 #'
-#' The optional nonzero `hinge_softness` parameter changes the transition at zero.
-#' With `hinge_softness = c`, the bijector is:
-#' ```f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].```
-#' For large `x >> 1`, `c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x`,
-#' so the behavior for large `x` is the same as the standard softplus.
-#' As `c > 0` approaches 0 from the right, `f_c(x)` becomes less and less soft,
-#' approaching `max(0, x)`.
-#' * `c = 1` is the default.
-#' * `c > 0` but small means `f(x) approx ReLu(x) = max(0, x)`.
-#' * `c < 0` flips sign and reflects around the `y-axis`: `f_{-c}(x) = -f_c(-x)`.
-#' * `c = 0` results in a non-bijective transformation and triggers an exception.
+#' The optional nonzero hinge_softness parameter changes the transition at zero.
+#' With hinge_softness = c, the bijector is:
+#' f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
+#' For large x >> 1, c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x,
+#' so the behavior for large x is the same as the standard softplus.
+#' As c > 0 approaches 0 from the right, f_c(x) becomes less and less soft,
+#' approaching max(0, x).
+#' * c = 1 is the default.
+#' * c > 0 but small means f(x) approx ReLu(x) = max(0, x).
+#' * c < 0 flips sign and reflects around the y-axis: f_{-c}(x) = -f_c(-x).
+#' * c = 0 results in a non-bijective transformation and triggers an exception.
 
 #' Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.
 #'
-#' @param hinge_softness Nonzero floating point `Tensor`.  Controls the softness of what
+#' @param hinge_softness Nonzero floating point Tensor.  Controls the softness of what
 #' would otherwise be a kink at the origin.  Default is 1.0.
 #' @inheritParams tfb_identity
 #'
@@ -1238,11 +1238,11 @@ tfb_softplus <- function(hinge_softness = NULL,
   do.call(tfp$bijectors$Softplus, args)
 }
 
-#' Bijector which computes `Y = g(X) = X / (1 + |X|)`.
+#' Bijector which computes Y = g(X) = X / (1 + |X|).
 #'
-#' The softsign `Bijector` has the following two useful properties:
+#' The softsign Bijector has the following two useful properties:
 #' * The domain is all real numbers
-#' * `softsign(x) approx sgn(x)`, for large `|x|`.
+#' * softsign(x) approx sgn(x), for large |x|.
 #'
 #' @inheritParams tfb_identity
 #'
@@ -1255,7 +1255,7 @@ tfb_softsign <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Softsign, args)
 }
 
-#' Compute `g(X) = X^2`; X is a positive real number.
+#' Compute g(X) = X^2; X is a positive real number.
 #'
 #' g is a bijection between the non-negative real numbers (R_+) and the non-negative real numbers.
 #' @inheritParams tfb_identity
@@ -1269,16 +1269,16 @@ tfb_square <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Square, args)
 }
 
-#' Bijector that computes `Y = tanh(X)`, therefore `Y in (-1, 1)`.
+#' Bijector that computes Y = tanh(X), therefore Y in (-1, 1).
 #'
 #' This can be achieved by an affine transform of the Sigmoid bijector, i.e., it is equivalent to
-#' ```
+#'
 #' tfb_chain(list(tfb_affine(shift = -1, scale = 2),
 #'                tfb_sigmoid(),
 #'                tfb_affine(scale = 2)))
-#' ````
 #'
-#' However, using the `Tanh` bijector directly is slightly faster and more numerically stable.
+#'
+#' However, using the Tanh bijector directly is slightly faster and more numerically stable.
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -1292,7 +1292,7 @@ tfb_tanh <- function(validate_args = FALSE,
 
 #' Applies a Bijector to the diagonal of a matrix.
 #'
-#' @param diag_bijector `Bijector` instance used to transform the diagonal.
+#' @param diag_bijector Bijector instance used to transform the diagonal.
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -1306,30 +1306,30 @@ tfb_transform_diagonal <- function(diag_bijector,
   do.call(tfp$bijectors$TransformDiagonal, args)
 }
 
-#' Compute `Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)`.
+#' Compute Y = g(X) = transpose_rightmost_dims(X, rightmost_perm).
 #'
-#' This bijector is semantically similar to `tf.transpose` except that it
+#' This bijector is semantically similar to tf.transpose except that it
 #' transposes only the rightmost "event" dimensions. That is, unlike
-#' `tf$transpose` the `perm` argument is itself a permutation of
-#' `tf$range(rightmost_transposed_ndims)` rather than `tf$range(tf$rank(x))`,
+#' tf$transpose the perm argument is itself a permutation of
+#' tf$range(rightmost_transposed_ndims) rather than tf$range(tf$rank(x)),
 #' i.e., users specify the (rightmost) dimensions to permute, not all dimensions.
 #'
 #' The actual (forward) transformation is:
-#' ```
+#'
 #' sample_batch_ndims <- tf$rank(x) - tf$size(perm)
 #' perm = tf$concat(list(tf$range(sample_batch_ndims), sample_batch_ndims + perm),axis=0)
 #' tf$transpose(x, perm)
-#' ```
-#' @param perm Positive `integer` vector-shaped `Tensor` representing permutation of
-#' rightmost dims (for forward transformation).  Note that the `0`th index
+#'
+#' @param perm Positive integer vector-shaped Tensor representing permutation of
+#' rightmost dims (for forward transformation).  Note that the 0th index
 #' represents the first of the rightmost dims and the largest value must be
-#' `rightmost_transposed_ndims - 1` and corresponds to `tf$rank(x) - 1`.
-#' Only one of `perm` and `rightmost_transposed_ndims` can (and must) be specified.
-#' Default value: `tf$range(start=rightmost_transposed_ndims, limit=-1, delta=-1)`.
-#' @param rightmost_transposed_ndims Positive `integer` scalar-shaped `Tensor`
+#' rightmost_transposed_ndims - 1 and corresponds to tf$rank(x) - 1.
+#' Only one of perm and rightmost_transposed_ndims can (and must) be specified.
+#' Default value: tf$range(start=rightmost_transposed_ndims, limit=-1, delta=-1).
+#' @param rightmost_transposed_ndims Positive integer scalar-shaped Tensor
 #' representing the number of rightmost dimensions to permute.
-#' Only one of `perm` and `rightmost_transposed_ndims` can (and must) be
-#' specified. Default value: `tf$size(perm)`.
+#' Only one of perm and rightmost_transposed_ndims can (and must) be
+#' specified. Default value: tf$size(perm).
 #' @inheritParams tfb_identity
 #'
 #' @export
@@ -1347,22 +1347,22 @@ tfb_transpose <- function(perm = NULL,
   do.call(tfp$bijectors$Transpose, args)
 }
 
-#' Compute `Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0`.
+#' Compute Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0.
 #'
-#' This bijector maps inputs from `[0, inf]` to [0, 1]`. The inverse of the
-#' bijector applied to a uniform random variable `X ~ U(0, 1) gives back a
+#' This bijector maps inputs from [0, inf] to [0, 1]. The inverse of the
+#' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 #' random variable with the [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):
-#' ```
+#'
 #' Y ~ Weibull(scale, concentration)
 #' pdf(y; scale, concentration, y >= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)
-#' ```
 #'
-#' @param scale: Positive Float-type `Tensor` that is the same dtype and is
-#' broadcastable with `concentration`.
-#' This is `l` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
-#' @param concentration: Positive Float-type `Tensor` that is the same dtype and is
-#' broadcastable with `scale`.
-#' This is `k` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
+#'
+#' @param scale: Positive Float-type Tensor that is the same dtype and is
+#' broadcastable with concentration.
+#' This is l in Y = g(X) = 1 - exp((-x / l) ** k).
+#' @param concentration: Positive Float-type Tensor that is the same dtype and is
+#' broadcastable with scale.
+#' This is k in Y = g(X) = 1 - exp((-x / l) ** k).
 #' @inheritParams tfb_identity
 #'
 #' @export

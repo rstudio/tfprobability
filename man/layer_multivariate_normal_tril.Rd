@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-layers.R
 \name{layer_multivariate_normal_tril}
 \alias{layer_multivariate_normal_tril}
-\title{A `d`-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.}
+\title{A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.}
 \usage{
 layer_multivariate_normal_tril(object, event_size,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
@@ -15,12 +15,12 @@ layer_multivariate_normal_tril(object, event_size,
 
 \item{event_size}{Integer vector tensor representing the shape of single draw from this distribution.}
 
-\item{convert_to_tensor_fn}{A callable that takes a `tfd$Distribution` instance and returns a
-`tf$Tensor`-like object. Default value: `tfd$Distribution$sample`.}
+\item{convert_to_tensor_fn}{A callable that takes a tfd$Distribution instance and returns a
+tf$Tensor-like object. Default value: tfd$Distribution$sample.}
 
-\item{validate_args}{Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-silently render incorrect outputs. Default value: `FALSE`.}
+\item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
+for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+silently render incorrect outputs. Default value: FALSE.}
 
 \item{batch_input_shape}{Shapes, including the batch size. For instance,
 \code{batch_input_shape=c(10, 32)} indicates that the expected input will be
@@ -48,7 +48,7 @@ isn't provided.}
 a Keras layer that wraps a MultivariateNormalTriL distribution
 }
 \description{
-A `d`-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.
+A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.
 }
 \seealso{
 Other Probabilistic layers (require TensorFlow probability): \code{\link{layer_independent_bernoulli}},

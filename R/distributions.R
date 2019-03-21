@@ -1,13 +1,13 @@
-#' The Normal distribution with `loc` and `scale` parameters
+#' The Normal distribution with loc and scale parameters
 #'
 #' @param loc Floating point tensor; the means of the distribution(s).
 #' @param scale loating point tensor; the stddevs of the distribution(s).
 #'  Must contain only positive values.
-#' @param validate_args Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-#'  silently render incorrect outputs. Default value: `FALSE`.
-#' @param allow_nan_stats Logical, default `TRUE`. When `TRUE`, tatistics (e.g., mean, mode, variance)
-#'  use the value `NaN` to indicate the result is undefined. When `FALSE`, an exception is raised if
+#' @param validate_args Logical, default FALSE. When TRUE distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+#'  silently render incorrect outputs. Default value: FALSE.
+#' @param allow_nan_stats Logical, default TRUE. When TRUE, tatistics (e.g., mean, mode, variance)
+#'  use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
 #'  one or more of the statistic's batch members are undefined.
 #' @param name name prefixed to Ops created by this class.
 #'
@@ -33,14 +33,14 @@ tfd_normal <- function(loc,
 
 #' Independent distribution from batch of distributions
 #'
-#' @param distribution The base distribution instance to transform. Typically an  instance of `Distribution`
+#' @param distribution The base distribution instance to transform. Typically an  instance of Distribution
 #' @param reinterpreted_batch_ndims Scalar, integer number of rightmost batch dims  which
 #'  will be regarded as event dims. When NULL all but the first batch axis (batch axis 0)
-#'  will be transferred to event dimensions (analogous to `tf$layers$flatten`).
-#' @param validate_args Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-#'  silently render incorrect outputs. Default value: `FALSE`.
-#' @param name The name for ops managed by the distribution.  Default value: `Independent + distribution.name`.
+#'  will be transferred to event dimensions (analogous to tf$layers$flatten).
+#' @param validate_args Logical, default FALSE. When TRUE distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+#'  silently render incorrect outputs. Default value: FALSE.
+#' @param name The name for ops managed by the distribution.  Default value: Independent + distribution.name.
 #'
 #' @family distributions
 #' @export
@@ -64,13 +64,13 @@ tfd_independent <- function(distribution,
 #'
 #' @inheritParams tfd_normal
 #'
-#' @param logits An N-D `Tensor` representing the log-odds of a `1` event. Each entry in the `Tensor`
+#' @param logits An N-D Tensor representing the log-odds of a 1 event. Each entry in the Tensor
 #'  parametrizes an independent Bernoulli distribution where the probability of an event
-#'  is sigmoid(logits). Only one of `logits` or `probs` should be passed in.
-#' @param probs An N-D `Tensor` representing the probability of a `1` event. Each entry in the `Tensor`
-#'  parameterizes an independent Bernoulli distribution. Only one of `logits` or `probs`
+#'  is sigmoid(logits). Only one of logits or probs should be passed in.
+#' @param probs An N-D Tensor representing the probability of a 1 event. Each entry in the Tensor
+#'  parameterizes an independent Bernoulli distribution. Only one of logits or probs
 #'  should be passed in.
-#' @param dtype The type of the event samples. Default: `int32`.
+#' @param dtype The type of the event samples. Default: int32.
 #'
 #' @export
 tfd_bernoulli <- function(logits = NULL,
@@ -91,20 +91,25 @@ tfd_bernoulli <- function(logits = NULL,
   do.call(tfp$distributions$Bernoulli, args)
 }
 
-#' Title
+#' The multivariate normal distribution on R^k.
+#'
+#' The Multivariate Normal distribution is defined over R^k and parameterized
+#' by a (batch of) length-k loc vector (aka "mu") and a (batch of) k x k
+#' scale matrix; covariance = scale @ scale.T where @ denotes
+#' matrix-multiplication.
 #'
 #' @inheritParams tfd_normal
 #'
-#' @param loc Floating-point `Tensor`. If this is set to `NULL`, `loc` is implicitly `0`.
-#' When specified, may have shape `[B1, ..., Bb, k]` where `b >= 0` and `k` is the event size.
-#' @param scale_diag Non-zero, floating-point `Tensor` representing a diagonal matrix added to `scale`.
-#'  May have shape `[B1, ..., Bb, k]`, `b >= 0`, and characterizes `b`-batches of `k x k` diagonal matrices
-#'  added to `scale`. When both `scale_identity_multiplier` and `scale_diag` are `None` then `scale`
-#'  is the `Identity`.
-#' @param scale_identity_multiplier Non-zero, floating-point `Tensor` representing a scaled-identity-matrix
-#'  added to `scale`. May have shape `[B1, ..., Bb]`, `b >= 0`, and characterizes `b`-batches of scaled
-#'  `k x k` identity matrices added to `scale`. When both `scale_identity_multiplier` and `scale_diag`
-#'   are `None` then `scale` is the `Identity`.
+#' @param loc Floating-point Tensor. If this is set to NULL, loc is implicitly 0.
+#' When specified, may have shape [B1, ..., Bb, k] where b >= 0 and k is the event size.
+#' @param scale_diag Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
+#'  May have shape [B1, ..., Bb, k], b >= 0, and characterizes b-batches of k x k diagonal matrices
+#'  added to scale. When both scale_identity_multiplier and scale_diag are None then scale
+#'  is the Identity.
+#' @param scale_identity_multiplier Non-zero, floating-point Tensor representing a scaled-identity-matrix
+#'  added to scale. May have shape [B1, ..., Bb], b >= 0, and characterizes b-batches of scaled
+#'  k x k identity matrices added to scale. When both scale_identity_multiplier and scale_diag
+#'   are None then scale is the Identity.
 #'
 #' @export
 tfd_multivariate_normal_diag <- function(loc = NULL,
@@ -238,21 +243,21 @@ tfd_relaxed_bernoulli <- function(temperature,
 
 #' A Transformed Distribution.
 #'
-#' A `TransformedDistribution` models `p(y)` given a base distribution `p(x)`,
-#' and a deterministic, invertible, differentiable transform, `Y = g(X)`. The
-#' transform is typically an instance of the `Bijector` class and the base
-#' distribution is typically an instance of the `Distribution` class.
+#' A TransformedDistribution models p(y) given a base distribution p(x),
+#' and a deterministic, invertible, differentiable transform, Y = g(X). The
+#' transform is typically an instance of the Bijector class and the base
+#' distribution is typically an instance of the Distribution class.
 #'
-#' @param distribution The base distribution instance to transform. Typically an instance of `Distribution`.
-#' @param bijector The object responsible for calculating the transformation. Typically an instance of `Bijector`.
-#' @param batch_shape `integer` vector `Tensor` which overrides `distribution` `batch_shape`;
-#' valid only if `distribution.is_scalar_batch()`.
-#' @param event_shape `integer` vector `Tensor` which overrides `distribution` `event_shape`;
-#' valid only if `distribution.is_scalar_event()`.
-#' @param validate_args Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-#'  for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-#'  silently render incorrect outputs. Default value: `FALSE`.
-#' @param name The name for ops managed by the distribution.  Default value: `bijector.name + distribution.name`.
+#' @param distribution The base distribution instance to transform. Typically an instance of Distribution.
+#' @param bijector The object responsible for calculating the transformation. Typically an instance of Bijector.
+#' @param batch_shape integer vector Tensor which overrides distribution batch_shape;
+#' valid only if distribution.is_scalar_batch().
+#' @param event_shape integer vector Tensor which overrides distribution event_shape;
+#' valid only if distribution.is_scalar_event().
+#' @param validate_args Logical, default FALSE. When TRUE distribution parameters are checked
+#'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+#'  silently render incorrect outputs. Default value: FALSE.
+#' @param name The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.
 #' @export
 tfd_transformed <- function(distribution,
                             bijector,

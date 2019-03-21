@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_blockwise}
 \alias{tfb_blockwise}
-\title{Bijector which applies a list of bijectors to blocks of a `Tensor`.}
+\title{Bijector which applies a list of bijectors to blocks of a Tensor.}
 \usage{
 tfb_blockwise(bijectors, block_sizes = NULL, validate_args = FALSE,
   name = NULL)
@@ -10,15 +10,15 @@ tfb_blockwise(bijectors, block_sizes = NULL, validate_args = FALSE,
 \arguments{
 \item{bijectors}{A non-empty list of bijectors.}
 
-\item{block_sizes}{A 1-D integer `Tensor` with each element signifying the
+\item{block_sizes}{A 1-D integer Tensor with each element signifying the
 length of the block of the input vector to pass to the corresponding
-bijector. The length of `block_sizes` must be be equal to the length of
-`bijectors`. If left as NULL, a vector of 1's is used.}
+bijector. The length of block_sizes must be be equal to the length of
+bijectors. If left as NULL, a vector of 1's is used.}
 
 \item{validate_args}{Logical indicating whether arguments should be checked for correctness.}
 
 \item{name}{String, name given to ops managed by this object. Default:
-E.g., `Blockwise([Exp(), Softplus()]).name ==   'blockwise_of_exp_and_softplus'`.}
+E.g., Blockwise([Exp(), Softplus()]).name ==   'blockwise_of_exp_and_softplus'.}
 }
 \description{
 More specifically, given [F_0, F_1, ... F_n] which are scalar or vector

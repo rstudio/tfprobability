@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-layers.R
 \name{layer_independent_bernoulli}
 \alias{layer_independent_bernoulli}
-\title{An Independent-Bernoulli Keras layer from `prod(event_shape)` params}
+\title{An Independent-Bernoulli Keras layer from prod(event_shape) params}
 \usage{
 layer_independent_bernoulli(object, event_shape,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
@@ -15,15 +15,15 @@ layer_independent_bernoulli(object, event_shape,
 
 \item{event_shape}{Scalar integer representing the size of single draw from this distribution.}
 
-\item{convert_to_tensor_fn}{A callable that takes a `tfd$Distribution` instance and returns a
-`tf$Tensor`-like object. Default value: `tfd$Distribution$sample`.}
+\item{convert_to_tensor_fn}{A callable that takes a tfd$Distribution instance and returns a
+tf$Tensor-like object. Default value: tfd$Distribution$sample.}
 
-\item{sample_dtype}{`dtype` of samples produced by this distribution.
-Default value: `NULL` (i.e., previous layer's `dtype`).}
+\item{sample_dtype}{dtype of samples produced by this distribution.
+Default value: NULL (i.e., previous layer's dtype).}
 
-\item{validate_args}{Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-silently render incorrect outputs. Default value: `FALSE`.}
+\item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
+for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+silently render incorrect outputs. Default value: FALSE.}
 
 \item{batch_input_shape}{Shapes, including the batch size. For instance,
 \code{batch_input_shape=c(10, 32)} indicates that the expected input will be
@@ -51,7 +51,7 @@ isn't provided.}
 a Keras layer that wraps a Bernoulli distribution
 }
 \description{
-An Independent-Bernoulli Keras layer from `prod(event_shape)` params
+An Independent-Bernoulli Keras layer from prod(event_shape) params
 }
 \seealso{
 Other Probabilistic layers (require TensorFlow probability): \code{\link{layer_kl_divergence_add_loss}},

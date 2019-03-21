@@ -10,15 +10,15 @@ tfd_sample(distribution, sample_shape = list(), seed = NULL,
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{sample_shape}{0D or 1D `int32` `Tensor`. Shape of the generated samples.}
+\item{sample_shape}{0D or 1D int32 Tensor. Shape of the generated samples.}
 
 \item{seed}{integer seed for RNG}
 
 \item{name}{name to give to the op.}
 }
 \value{
-a `Tensor` with prepended dimensions `sample_shape`.
+a Tensor with prepended dimensions sample_shape.
 }
 \description{
-Note that a call to `tfd_sample()` without arguments will generate a single sample.
+Note that a call to tfd_sample() without arguments will generate a single sample.
 }

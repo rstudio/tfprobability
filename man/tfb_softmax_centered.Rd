@@ -2,18 +2,18 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_softmax_centered}
 \alias{tfb_softmax_centered}
-\title{Bijector which computes `Y = g(X) = exp([X 0]) / sum(exp([X 0]))`.
+\title{Bijector which computes Y = g(X) = exp([X 0]) / sum(exp([X 0])).
 To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
 bijection, the forward transformation appends a value to the input and the
 inverse removes this coordinate. The appended coordinate represents a pivot,
-e.g., `softmax(x) = exp(x-c) / sum(exp(x-c))` where `c` is the implicit last
+e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
 coordinate.}
 \usage{
 tfb_softmax_centered(validate_args = FALSE, name = "softmax_centered")
 }
 \arguments{
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }

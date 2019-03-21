@@ -9,17 +9,17 @@ tfd_cross_entropy(distribution, other, name = "cross_entropy")
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{other}{`tfp$distributions$Distribution` instance.}
+\item{other}{tfp$distributions$Distribution instance.}
 
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-cross_entropy: `self.dtype` `Tensor` with shape `[B1, ..., Bn]` representing `n` different calculations of (Shannon) cross entropy.
+cross_entropy: self.dtype Tensor with shape [B1, ..., Bn] representing n different calculations of (Shannon) cross entropy.
 }
 \description{
-Denote this distribution (`self`) by `P` and the `other` distribution by `Q`.
-Assuming `P, Q` are absolutely continuous with respect to one another and permit densities
-`p(x) dr(x)` and `q(x) dr(x)`, (Shannon) cross entropy is defined as:
-`H[P, Q] = E_p[-log q(X)] = -int_F p(x) log q(x) dr(x)`
-where `F` denotes the support of the random variable `X ~ P`.
+Denote this distribution (self) by P and the other distribution by Q.
+Assuming P, Q are absolutely continuous with respect to one another and permit densities
+p(x) dr(x) and q(x) dr(x), (Shannon) cross entropy is defined as:
+H[P, Q] = E_p[-log q(X)] = -int_F p(x) log q(x) dr(x)
+where F denotes the support of the random variable X ~ P.
 }

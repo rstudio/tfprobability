@@ -11,18 +11,18 @@
 \arguments{
 \item{bijector}{The bijector to apply}
 
-\item{y}{`Tensor`. The input to the "inverse" Jacobian determinant evaluation.}
+\item{y}{Tensor. The input to the "inverse" Jacobian determinant evaluation.}
 
 \item{event_ndims}{Number of dimensions in the probabilistic events being transformed.
-Must be greater than or equal to `bijector$inverse_min_event_ndims`. The result is summed over the final
+Must be greater than or equal to bijector$inverse_min_event_ndims. The result is summed over the final
 dimensions to produce a scalar Jacobian determinant for each event, i.e. it has shape
- `x$shape$ndims - event_ndims` dimensions.}
+ x$shape$ndims - event_ndims dimensions.}
 
 \item{name}{The name to give this op.}
 }
 \value{
-ildj: `Tensor`, if this bijector is injective. If not injective, returns the tuple of local log det
-Jacobians, `log(det(Dg_i^{-1}(y)))`, where `g_i` is the restriction of `g` to the `ith` partition `Di`.
+ildj: Tensor, if this bijector is injective. If not injective, returns the tuple of local log det
+Jacobians, log(det(Dg_i^{-1}(y))), where g_i is the restriction of g to the ith partition Di.
 }
 \description{
 Returns the (log o det o Jacobian o inverse)(y).

@@ -2,20 +2,20 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_batch_normalization}
 \alias{tfb_batch_normalization}
-\title{Compute `Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y)`.}
+\title{Compute Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y).}
 \usage{
 tfb_batch_normalization(batchnorm_layer = NULL, training = TRUE,
   validate_args = FALSE, name = "batch_normalization")
 }
 \arguments{
-\item{batchnorm_layer}{`tf$layers$BatchNormalization` layer object. If `NULL`, defaults to
-`tf$layers$BatchNormalization(gamma_constraint=tf.nn.relu(x) + 1e-6)`.
+\item{batchnorm_layer}{tf$layers$BatchNormalization layer object. If NULL, defaults to
+tf$layers$BatchNormalization(gamma_constraint=tf.nn.relu(x) + 1e-6).
 This ensures positivity of the scale variable.}
 
-\item{training}{If TRUE, updates running-average statistics during call to `inverse()`.}
+\item{training}{If TRUE, updates running-average statistics during call to inverse().}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
@@ -29,21 +29,21 @@ When training Deep Neural Networks (DNNs), it is common practice to
 normalize or whiten features by shifting them to have zero mean and
 scaling them to have unit variance.
 
-The `inverse()` method of the `BatchNormalization` bijector, which is used in
+The inverse() method of the BatchNormalization bijector, which is used in
 the log-likelihood computation of data samples, implements the normalization
 procedure (shift-and-scale) using the mean and standard deviation of the
 current minibatch.
 
-Conversely, the `forward()` method of the bijector de-normalizes samples (e.g.
-`X*std(Y) + mean(Y)` with the running-average mean and standard deviation
+Conversely, the forward() method of the bijector de-normalizes samples (e.g.
+X*std(Y) + mean(Y) with the running-average mean and standard deviation
 computed at training-time. De-normalization is useful for sampling.
 
-During training time, `BatchNormalization.inverse` and `BatchNormalization.forward` are not
- guaranteed to be inverses of each other because `inverse(y)` uses statistics of the current minibatch,
- while `forward(x)` uses running-average statistics accumulated from training.
- In other words, `BatchNormalization.inverse(BatchNormalization.forward(...))` and
- `BatchNormalization.forward(BatchNormalization.inverse(...))` will be identical when
-  `training=FALSE` but may be different when `training=TRUE`.
+During training time, BatchNormalization.inverse and BatchNormalization.forward are not
+ guaranteed to be inverses of each other because inverse(y) uses statistics of the current minibatch,
+ while forward(x) uses running-average statistics accumulated from training.
+ In other words, BatchNormalization.inverse(BatchNormalization.forward(...)) and
+ BatchNormalization.forward(BatchNormalization.inverse(...)) will be identical when
+  training=FALSE but may be different when training=TRUE.
 
 References
 [1]: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training

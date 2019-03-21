@@ -8,22 +8,22 @@ tfd_bernoulli(logits = NULL, probs = NULL, dtype = tf$int32,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "Bernoulli")
 }
 \arguments{
-\item{logits}{An N-D `Tensor` representing the log-odds of a `1` event. Each entry in the `Tensor`
+\item{logits}{An N-D Tensor representing the log-odds of a 1 event. Each entry in the Tensor
 parametrizes an independent Bernoulli distribution where the probability of an event
-is sigmoid(logits). Only one of `logits` or `probs` should be passed in.}
+is sigmoid(logits). Only one of logits or probs should be passed in.}
 
-\item{probs}{An N-D `Tensor` representing the probability of a `1` event. Each entry in the `Tensor`
-parameterizes an independent Bernoulli distribution. Only one of `logits` or `probs`
+\item{probs}{An N-D Tensor representing the probability of a 1 event. Each entry in the Tensor
+parameterizes an independent Bernoulli distribution. Only one of logits or probs
 should be passed in.}
 
-\item{dtype}{The type of the event samples. Default: `int32`.}
+\item{dtype}{The type of the event samples. Default: int32.}
 
-\item{validate_args}{Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-silently render incorrect outputs. Default value: `FALSE`.}
+\item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
+for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+silently render incorrect outputs. Default value: FALSE.}
 
-\item{allow_nan_stats}{Logical, default `TRUE`. When `TRUE`, tatistics (e.g., mean, mode, variance)
-use the value `NaN` to indicate the result is undefined. When `FALSE`, an exception is raised if
+\item{allow_nan_stats}{Logical, default TRUE. When TRUE, tatistics (e.g., mean, mode, variance)
+use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
 one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}

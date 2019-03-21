@@ -2,16 +2,16 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_reciprocal}
 \alias{tfb_reciprocal}
-\title{A `Bijector` that computes `b(x) = 1. / x`.}
+\title{A Bijector that computes b(x) = 1. / x.}
 \usage{
 tfb_reciprocal(validate_args = FALSE, name = "reciprocal")
 }
 \arguments{
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-A `Bijector` that computes `b(x) = 1. / x`.
+A Bijector that computes b(x) = 1. / x.
 }

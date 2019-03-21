@@ -2,29 +2,29 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_gumbel}
 \alias{tfb_gumbel}
-\title{Compute `Y = g(X) = exp(-exp(-(X - loc) / scale))`.}
+\title{Compute Y = g(X) = exp(-exp(-(X - loc) / scale)).}
 \usage{
 tfb_gumbel(loc = 0, scale = 1, validate_args = FALSE,
   name = "gumbel")
 }
 \arguments{
-\item{loc}{Float-like `Tensor` that is the same dtype and is broadcastable with `scale`.
-This is `loc` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.}
+\item{loc}{Float-like Tensor that is the same dtype and is broadcastable with scale.
+This is loc in Y = g(X) = exp(-exp(-(X - loc) / scale)).}
 
-\item{scale}{Positive Float-like `Tensor` that is the same dtype and is broadcastable with `loc`.
-This is `scale` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.}
+\item{scale}{Positive Float-like Tensor that is the same dtype and is broadcastable with loc.
+This is scale in Y = g(X) = exp(-exp(-(X - loc) / scale)).}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
-bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+This bijector maps inputs from [-inf, inf] to [0, 1]. The inverse of the
+bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 random variable with the [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution):
 }
 \details{
-`Y ~ Gumbel(loc, scale)`
-`pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale`
+Y ~ Gumbel(loc, scale)
+pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale
 }

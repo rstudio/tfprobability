@@ -9,17 +9,17 @@ tfd_independent(distribution, reinterpreted_batch_ndims,
   distribution$name))
 }
 \arguments{
-\item{distribution}{The base distribution instance to transform. Typically an  instance of `Distribution`}
+\item{distribution}{The base distribution instance to transform. Typically an  instance of Distribution}
 
 \item{reinterpreted_batch_ndims}{Scalar, integer number of rightmost batch dims  which
 will be regarded as event dims. When NULL all but the first batch axis (batch axis 0)
-will be transferred to event dimensions (analogous to `tf$layers$flatten`).}
+will be transferred to event dimensions (analogous to tf$layers$flatten).}
 
-\item{validate_args}{Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-silently render incorrect outputs. Default value: `FALSE`.}
+\item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
+for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+silently render incorrect outputs. Default value: FALSE.}
 
-\item{name}{The name for ops managed by the distribution.  Default value: `Independent + distribution.name`.}
+\item{name}{The name for ops managed by the distribution.  Default value: Independent + distribution.name.}
 }
 \description{
 Independent distribution from batch of distributions

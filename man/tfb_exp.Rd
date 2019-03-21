@@ -2,16 +2,16 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_exp}
 \alias{tfb_exp}
-\title{Compute `Y=g(X)=exp(X)``}
+\title{Compute Y=g(X)=exp(X)}
 \usage{
 tfb_exp(validate_args = FALSE, name = "exp")
 }
 \arguments{
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Compute `Y=g(X)=exp(X)``
+Compute Y=g(X)=exp(X)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{masked_dense}
 \alias{masked_dense}
-\title{An autoregressively masked dense layer. Analogous to `tf$layers$dense`.}
+\title{An autoregressively masked dense layer. Analogous to tf$layers$dense.}
 \usage{
 masked_dense(inputs, units, num_blocks = NULL, exclusive = FALSE,
   kernel_initializer = NULL, reuse = NULL, name = NULL, ...)
@@ -10,21 +10,21 @@ masked_dense(inputs, units, num_blocks = NULL, exclusive = FALSE,
 \arguments{
 \item{inputs}{Tensor input.}
 
-\item{units}{`integer` scalar representing the dimensionality of the output space.}
+\item{units}{integer scalar representing the dimensionality of the output space.}
 
-\item{num_blocks}{`integer` scalar representing the number of blocks for the MADE masks.}
+\item{num_blocks}{integer scalar representing the number of blocks for the MADE masks.}
 
-\item{exclusive}{`logical` scalar representing whether to zero the diagonal of
+\item{exclusive}{logical scalar representing whether to zero the diagonal of
 the mask, used for the first layer of a MADE.}
 
 \item{kernel_initializer}{Initializer function for the weight matrix.
-If `NULL` (default), weights are initialized using the `tf$glorot_random_initializer`}
+If NULL (default), weights are initialized using the tf$glorot_random_initializer}
 
-\item{reuse}{`logical` scalar representing whether to reuse the weights of a previous layer by the same name.}
+\item{reuse}{logical scalar representing whether to reuse the weights of a previous layer by the same name.}
 
 \item{name}{string used to describe ops managed by this function.}
 
-\item{...}{`tf$layers$dense` arguments}
+\item{...}{tf$layers$dense arguments}
 }
 \description{
 See [Germain et al. (2015)][1] for detailed explanation.

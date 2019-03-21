@@ -8,28 +8,28 @@ real_nvp_default_template(hidden_layers, shift_only = FALSE,
   activation = tf$nn$relu, name = NULL, ...)
 }
 \arguments{
-\item{hidden_layers}{`list`-like of non-negative integer, scalars indicating the number
-of units in each hidden layer. Default: `list(512, 512)`.}
+\item{hidden_layers}{list-like of non-negative integer, scalars indicating the number
+of units in each hidden layer. Default: list(512, 512).}
 
-\item{shift_only}{`logical` indicating if only the `shift` term shall be
-computed (i.e. NICE bijector). Default: `FALSE`.}
+\item{shift_only}{logical indicating if only the shift term shall be
+computed (i.e. NICE bijector). Default: FALSE.}
 
-\item{activation}{Activation function (callable). Explicitly setting to `NULL` implies a linear activation.}
+\item{activation}{Activation function (callable). Explicitly setting to NULL implies a linear activation.}
 
 \item{name}{A name for ops managed by this function. Default: "real_nvp_default_template".}
 
-\item{...}{`tf$layers$dense` arguments}
+\item{...}{tf$layers$dense arguments}
 }
 \description{
 This will be wrapped in a make_template to ensure the variables are only
-created once. It takes the `d`-dimensional input x[0:d] and returns the `D-d`
-dimensional outputs `loc` ("mu") and `log_scale` ("alpha").
+created once. It takes the d-dimensional input x[0:d] and returns the D-d
+dimensional outputs loc ("mu") and log_scale ("alpha").
 }
 \details{
 The default template does not support conditioning and will raise an
-exception if `condition_kwargs` are passed to it. To use conditioning in
+exception if condition_kwargs are passed to it. To use conditioning in
 real nvp bijector, implement a conditioned shift/scale template that
-handles the `condition_kwargs`.
+handles the condition_kwargs.
 
 References
 [1]: George Papamakarios, Theo Pavlakou, and Iain Murray.

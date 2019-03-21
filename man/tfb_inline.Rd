@@ -31,8 +31,8 @@ tfb_inline(forward_fn = NULL, inverse_fn = NULL,
 
 \item{is_constant_jacobian}{Logical indicating that the Jacobian is constant for all input arguments.}
 
-\item{validate_args}{Logical, default `FALSE`. Whether to validate input with asserts. If `validate_args` is
-`FALSE`, and the inputs are invalid, correct behavior is not guaranteed.}
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{forward_min_event_ndims}{Integer indicating the minimal dimensionality this bijector acts on.}
 

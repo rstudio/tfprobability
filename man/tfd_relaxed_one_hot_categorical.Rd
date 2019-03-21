@@ -20,12 +20,12 @@ represents a vector of logits for each class. Only one of logits or probs should
 The first N - 1 dimensions index into a batch of independent distributions and the last dimension represents a vector
 of probabilities for each class. Only one of logits or probs should be passed in.}
 
-\item{validate_args}{Logical, default `FALSE`. When `TRUE` distribution parameters are checked
-for validity despite possibly degrading runtime performance. When `FALSE` invalid inputs may
-silently render incorrect outputs. Default value: `FALSE`.}
+\item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
+for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+silently render incorrect outputs. Default value: FALSE.}
 
-\item{allow_nan_stats}{Logical, default `TRUE`. When `TRUE`, tatistics (e.g., mean, mode, variance)
-use the value `NaN` to indicate the result is undefined. When `FALSE`, an exception is raised if
+\item{allow_nan_stats}{Logical, default TRUE. When TRUE, tatistics (e.g., mean, mode, variance)
+use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
 one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
