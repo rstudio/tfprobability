@@ -11,7 +11,7 @@ test_succeeds("Define a batch of two scalar valued Normals", {
 
 test_succeeds("Initialize a 3-batch, 2-variate scaled-identity Gaussian.", {
   d <- tfd_multivariate_normal_diag(loc = c(1,-1),
-                                             scale_identity_multiplier = c(1, 2, 3))
+                                    scale_identity_multiplier = c(1, 2, 3))
   x <- d %>% tfd_sample()
   expect_equal(d$batch_shape$as_list(), 3)
 
@@ -151,6 +151,29 @@ test_succeeds("VonMises distribution works", {
   d <- tfd_von_mises(0.1, 0)
   log_prob <- d %>% tfd_log_prob(x)
   expect_equivalent(log_prob %>% tensor_value(), rep(-log(2 * pi), 6), tol = 1e6)
+})
+
+test_succeeds("VectorSinhArcsinhDiag distribution works", {
+
+  n <- 10
+  scale_diag <- runif(n)
+  scale_identity_multiplier <- 1
+  loc = rnorm(n)
+  norm = tfd_multivariate_normal_diag(
+    loc = loc,
+    scale_diag = scale_diag,
+    scale_identity_multiplier = scale_identity_multiplier,
+    validate_args = TRUE)
+  vsad = tfd_vector_sinh_arcsinh_diag(
+    loc = loc,
+    scale_diag = scale_diag,
+    scale_identity_multiplier = scale_identity_multiplier,
+    validate_args = TRUE)
+
+  x <- matrix(rnorm(5 * n), ncol = n)
+  normal_prob <- norm %>% tfd_prob(x)
+  vsad_prob <- vsad %>% tfd_prob(x)
+  expect_equal(normal_prob %>% tensor_value(), vsad_prob %>% tensor_value())
 })
 
 

@@ -104,12 +104,12 @@ tfd_bernoulli <- function(logits = NULL,
 #' When specified, may have shape [B1, ..., Bb, k] where b >= 0 and k is the event size.
 #' @param scale_diag Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
 #'  May have shape [B1, ..., Bb, k], b >= 0, and characterizes b-batches of k x k diagonal matrices
-#'  added to scale. When both scale_identity_multiplier and scale_diag are None then scale
+#'  added to scale. When both scale_identity_multiplier and scale_diag are NULL then scale
 #'  is the Identity.
 #' @param scale_identity_multiplier Non-zero, floating-point Tensor representing a scaled-identity-matrix
 #'  added to scale. May have shape [B1, ..., Bb], b >= 0, and characterizes b-batches of scaled
 #'  k x k identity matrices added to scale. When both scale_identity_multiplier and scale_diag
-#'   are None then scale is the Identity.
+#'   are NULL then scale is the Identity.
 #'
 #' @export
 tfd_multivariate_normal_diag <- function(loc = NULL,
@@ -449,3 +449,70 @@ tfd_von_mises <- function(loc,
 
   do.call(tfp$distributions$VonMises, args)
 }
+
+#' The (diagonal) SinhArcsinh transformation of a distribution on R^k.
+#'
+#' This distribution models a random vector Y = (Y1,...,Yk), making use of
+#' a SinhArcsinh transformation (which has adjustable tailweight and skew),
+#' a rescaling, and a shift.
+#' The SinhArcsinh transformation of the Normal is described in great depth in
+#' [Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865).
+#' Here we use a slightly different parameterization, in terms of tailweight
+#' and skewness.  Additionally we allow for distributions other than Normal,
+#' and control over scale as well as a "shift" parameter loc.
+#'
+#' @param loc Floating-point Tensor. If this is set to NULL, loc is
+#' implicitly 0. When specified, may have shape [B1, ..., Bb, k] where
+#' b >= 0 and k is the event size.
+#' @param scale_diag Non-zero, floating-point Tensor representing a diagonal
+#' matrix added to scale. May have shape [B1, ..., Bb, k], b >= 0,
+#' and characterizes b-batches of k x k diagonal matrices added to
+#' scale. When both scale_identity_multiplier and scale_diag are
+#' NULL then scale is the Identity.
+#' @param scale_identity_multiplier Non-zero, floating-point Tensor representing
+#' a scale-identity-matrix added to scale. May have shape
+#' [B1, ..., Bb], b >= 0, and characterizes b-batches of scale
+#' k x k identity matrices added to scale. When both
+#' scale_identity_multiplier and scale_diag are NULL then scale
+#' is the Identity.
+#' @param skewness  Skewness parameter.  floating-point Tensor with shape
+#' broadcastable with event_shape.
+#' @param tailweight  Tailweight parameter.  floating-point Tensor with shape
+#' broadcastable with event_shape.
+#' @param distribution tf$Distribution-like instance. Distribution from which k
+#' iid samples are used as input to transformation F.  Default is
+#' tfd_normal(loc = 0, scale = 1).
+#' Must be a scalar-batch, scalar-event distribution.  Typically
+#' distribution$reparameterization_type = FULLY_REPARAMETERIZED or it is
+#' a function of non-trainable parameters. WARNING: If you backprop through
+#' a VectorSinhArcsinhDiag sample and distribution is not
+#' FULLY_REPARAMETERIZED yet is a function of trainable variables, then
+#' the gradient will be incorrect!
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
+                          scale_diag = NULL,
+                          scale_identity_multiplier = NULL,
+                          skewness = NULL,
+                          tailweight = NULL,
+                          distribution = NULL,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "VectorSinhArcsinhDiag") {
+  args <- list(
+    loc = loc,
+    scale_diag = scale_diag,
+    scale_identity_multiplier = scale_identity_multiplier,
+    skewness = skewness,
+    tailweight = tailweight,
+    distribution = distribution,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VectorSinhArcsinhDiag, args)
+}
+

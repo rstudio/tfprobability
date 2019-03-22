@@ -45,6 +45,7 @@ Other distributions: \code{\link{tfd_independent}},
   \code{\link{tfd_normal}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_vector_sinh_arcsinh_diag}},
   \code{\link{tfd_von_mises_fisher}},
   \code{\link{tfd_von_mises}}, \code{\link{tfd_wishart}}
 }
