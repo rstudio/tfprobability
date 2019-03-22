@@ -6,7 +6,7 @@
 \usage{
 tfd_wishart(df, scale = NULL, scale_tril = NULL,
   input_output_cholesky = FALSE, validate_args = FALSE,
-  allow_nan_stats = FALSE, name = "Wishart")
+  allow_nan_stats = TRUE, name = "Wishart")
 }
 \arguments{
 \item{df}{float or double tensor, the degrees of freedom of the
@@ -50,6 +50,7 @@ Other distributions: \code{\link{tfd_independent}},
   \code{\link{tfd_normal}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_zipf}}
+  \code{\link{tfd_von_mises_fisher}},
+  \code{\link{tfd_von_mises}}, \code{\link{tfd_zipf}}
 }
 \concept{distributions}

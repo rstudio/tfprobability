@@ -130,3 +130,29 @@ test_succeeds("Wishart distribution works", {
  expect_equal(tfd_mean(d) %>% tensor_value(), df * s)
 })
 
+test_succeeds("VonMisesFisher distribution works", {
+
+  mean_dirs <- tf$nn$l2_normalize(
+    matrix(c(1, 1, -2, 1, 0, -1), ncol =2, byrow = TRUE),
+    axis = -1L)
+  concentration <- matrix(c(0, 0.1, 2, 40, 1000))
+  d = tfd_von_mises_fisher(
+    mean_direction = mean_dirs,
+    concentration = concentration,
+    #validate_args = TRUE, ### this does not work
+    allow_nan_stats = FALSE)
+  expect_equal(d$batch_shape$as_list(), c(5, 3))
+  expect_equal(d$event_shape$as_list(), c(2))
+})
+
+test_succeeds("VonMises distribution works", {
+
+  x <- c(2, 3, 4, 5, 6, 7)
+  d <- tfd_von_mises(0.1, 0)
+  log_prob <- d %>% tfd_log_prob(x)
+  expect_equivalent(log_prob %>% tensor_value(), rep(-log(2 * pi), 6), tol = 1e6)
+})
+
+
+
+

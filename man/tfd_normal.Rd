@@ -33,6 +33,8 @@ The Normal distribution with loc and scale parameters
 Other distributions: \code{\link{tfd_independent}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+  \code{\link{tfd_von_mises_fisher}},
+  \code{\link{tfd_von_mises}}, \code{\link{tfd_wishart}},
+  \code{\link{tfd_zipf}}
 }
 \concept{distributions}

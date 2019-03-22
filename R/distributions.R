@@ -353,7 +353,7 @@ tfd_wishart <- function(df,
                         scale_tril = NULL,
                         input_output_cholesky = FALSE,
                         validate_args = FALSE,
-                        allow_nan_stats = FALSE,
+                        allow_nan_stats = TRUE,
                         name = "Wishart") {
   args <- list(
     df = df,
@@ -368,3 +368,84 @@ tfd_wishart <- function(df,
   do.call(tfp$distributions$Wishart, args)
 }
 
+#' The von Mises-Fisher distribution over unit vectors on S^{n-1}.
+#'
+#' The von Mises-Fisher distribution is a directional distribution over vectors
+#' on the unit hypersphere S^{n-1} embedded in n dimensions (R^n).
+#'
+#' NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
+#' instability can occur for low concentrations (<.01).
+#' @param mean_direction Floating-point Tensor with shape [B1, ... Bn, D].
+#' A unit vector indicating the mode of the distribution, or the
+#' unit-normalized direction of the mean. (This is *not* in general the
+#' mean of the distribution; the mean is not generally in the support of
+#' the distribution.) NOTE: D is currently restricted to <= 5.
+#' @param concentration Floating-point Tensor having batch shape [B1, ... Bn]
+#' broadcastable with mean_direction. The level of concentration of
+#' samples around the mean_direction. concentration=0 indicates a
+#' uniform distribution over the unit hypersphere, and concentration=+inf
+#' indicates a Deterministic distribution (delta function) at mean_direction.
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_von_mises_fisher <- function(df,
+                        mean_direction,
+                        concentration,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        name = "VonMisesFisher") {
+  args <- list(
+    mean_direction = mean_direction,
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VonMisesFisher, args)
+}
+
+#' The von Mises distribution over angles.
+#'
+#' The von Mises distribution is a univariate directional distribution.
+#' Similarly to Normal distribution, it is a maximum entropy distribution.
+#' The samples of this distribution are angles, measured in radians.
+#' They are 2 pi-periodic: x = 0 and x = 2pi are equivalent.
+#' This means that the density is also 2 pi-periodic.
+#' The generated samples, however, are guaranteed to be in [-pi, pi) range.
+#' When concentration = 0, this distribution becomes a Uniform distribuion on
+#' the [-pi, pi) domain.
+#'
+#' The von Mises distribution is a special case of von Mises-Fisher distribution
+#' for n=2. However, the TFP's VonMisesFisher implementation represents the
+#' samples and location as (x, y) points on a circle, while VonMises represents
+#' them as scalar angles.
+#'
+#' The parameters loc and concentration must be shaped in a way that
+#' supports broadcasting (e.g. loc + concentration is a valid operation).
+
+#' @param loc Floating point tensor, the circular means of the distribution(s).
+#' @param concentration Floating point tensor, the level of concentration of the
+#' distribution(s) around loc. Must take non-negative values.
+#' concentration = 0 defines a Uniform distribution, while
+#' concentration = +inf indicates a Deterministic distribution at loc.
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_von_mises <- function(loc,
+                          concentration,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "VonMises") {
+  args <- list(
+    loc = loc,
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VonMises, args)
+}
