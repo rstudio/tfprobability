@@ -176,6 +176,28 @@ test_succeeds("VectorSinhArcsinhDiag distribution works", {
   expect_equal(normal_prob %>% tensor_value(), vsad_prob %>% tensor_value())
 })
 
+test_succeeds("VectorLaplaceLinearOperator distribution works", {
 
+  mu <- c(1, 2, 3)
+  cov <-
+    matrix(
+      c(0.36,  0.12,  0.06, 0.12,  0.29,-0.13,  0.06,-0.13,  0.26),
+      nrow = 3,
+      byrow = TRUE
+    )
+  scal <- tf$cholesky(cov) %>% tf$cast(tf$float32)
+  vla <- tfd_vector_laplace_linear_operator(
+    loc = mu,
+    scal = tf$linalg$LinearOperatorLowerTriangular(scal / tf$sqrt(2))
+  )
+  vla %>% tfd_covariance() %>% tensor_value()
+  expect_equal(vla %>% tfd_covariance() %>% tensor_value(), cov, tol = 1e6)
+})
+
+test_succeeds("VectorLaplaceDiag distribution works", {
+
+  d <- tfd_vector_laplace_diag(loc = matrix(rep(0, 6), ncol =3))
+  expect_equivalent(d %>% tfd_stddev() %>% tensor_value(), rep(sqrt(2), 3), tol = 1e8)
+})
 
 
