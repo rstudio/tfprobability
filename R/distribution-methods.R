@@ -161,14 +161,14 @@ tfd_stddev <- function(distribution, name = "stddev") {
 #' Alternatively, for non-vector, multivariate distributions (e.g., matrix-valued, Wishart),
 #' Covariance shall return a (batch of) matrices under some vectorization of the events, i.e.,
 #' `Cov[i, j] = Covariance(Vec(X)_i, Vec(X)_j) = [as above]`
-#' where Cov is a (batch of) k' x k' matrices, 0 <= (i, j) < k' = reduce_prod(event_shape),
+#' where Cov is a (batch of) k x k matrices, 0 <= (i, j) < k = reduce_prod(event_shape),
 #' and Vec is some function mapping indices of this distribution's event dimensions to indices of a
-#' length-k' vector.
+#' length-k vector.
 #'
 #' @inherit tfd_log_prob return params
 #'
-#' @return Floating-point Tensor with shape `[B1, ..., Bn, k', k']` where the first n dimensions
-#' are batch coordinates and `k' = reduce_prod(self.event_shape)`.
+#' @return Floating-point Tensor with shape `[B1, ..., Bn, k, k]` where the first n dimensions
+#' are batch coordinates and `k = reduce_prod(self.event_shape)`.
 #' @family distribution_methods
 #' @export
 tfd_covariance <- function(distribution, name = "covariance") {
