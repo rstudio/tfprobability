@@ -17,7 +17,7 @@ strictly greater than 1.}
 
 \item{interpolate_nondiscrete}{Logical. When FALSE, log_prob returns
 -inf (and prob returns 0) for non-integer inputs. When TRUE,
-log_prob evaluates the continuous function -power log(k) -   log(zeta(power)) ,
+log_prob evaluates the continuous function \code{-power log(k) -   log(zeta(power))} ,
 which matches the Zipf pmf at integer arguments k
 (note that this function is not itself a normalized probability  log-density).
 Default value: TRUE.}
@@ -25,7 +25,7 @@ Default value: TRUE.}
 \item{sample_maximum_iterations}{Maximum number of iterations of allowable
 iterations in sample. When validate_args=TRUE, samples which fail to
 reach convergence (subject to this cap) are masked out with
-self$dtype$min or nan depending on self$dtype$is_integer.
+\code{self$dtype$min} or nan depending on \code{self$dtype$is_integer}.
 Default value: 100.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked

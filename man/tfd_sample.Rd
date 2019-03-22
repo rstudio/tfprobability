@@ -20,7 +20,7 @@ tfd_sample(distribution, sample_shape = list(), seed = NULL,
 a Tensor with prepended dimensions sample_shape.
 }
 \description{
-Note that a call to tfd_sample() without arguments will generate a single sample.
+Note that a call to \code{tfd_sample()} without arguments will generate a single sample.
 }
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},

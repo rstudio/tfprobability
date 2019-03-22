@@ -16,7 +16,7 @@ layer_independent_bernoulli(object, event_shape,
 \item{event_shape}{Scalar integer representing the size of single draw from this distribution.}
 
 \item{convert_to_tensor_fn}{A callable that takes a tfd$Distribution instance and returns a
-tf$Tensor-like object. Default value: tfd$Distribution$sample.}
+tf$Tensor-like object. Default value: \code{tfd$distributions$Distribution$sample}.}
 
 \item{sample_dtype}{dtype of samples produced by this distribution.
 Default value: NULL (i.e., previous layer's dtype).}

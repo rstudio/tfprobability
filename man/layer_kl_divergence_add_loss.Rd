@@ -13,11 +13,11 @@ layer_kl_divergence_add_loss(object, distribution, use_exact_kl = FALSE,
 \arguments{
 \item{object}{Model or layer object}
 
-\item{distribution}{Distribution instance corresponding to b as in  KL[a, b].
+\item{distribution}{Distribution instance corresponding to b as in  \code{KL[a, b]}.
 The previous layer's output is presumed to be a Distribution instance and is a.}
 
 \item{use_exact_kl}{Logical indicating if KL divergence should be
-calculated exactly via tfp$distributions$kl_divergence or via Monte Carlo approximation.
+calculated exactly via \code{tfp$distributions$kl_divergence} or via Monte Carlo approximation.
 Default value: FALSE.}
 
 \item{test_points_reduce_axis}{Integer vector or scalar representing dimensions
@@ -25,7 +25,7 @@ over which to reduce_mean while calculating the Monte Carlo approximation of the
 As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
 () means reduce over none of them. Default value: () (i.e., no reduction).}
 
-\item{test_points_fn}{A callable taking a tfp$distribution instance and returning a tensor
+\item{test_points_fn}{A callable taking a \code{tfp$distributions$Distribution} instance and returning a tensor
 used for random test points to approximate the KL divergence.
 Default value: tf$convert_to_tensor.}
 

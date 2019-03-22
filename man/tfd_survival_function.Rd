@@ -14,11 +14,11 @@ tfd_survival_function(distribution, value, name = "survival_function")
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
+a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
 Given random variable X, the survival function is defined:
-survival_function(x) = P[X > x] = 1 - P[X <= x] = 1 - cdf(x).
+\code{tfd_survival_function(x) = P[X > x] = 1 - P[X <= x] = 1 - cdf(x)}.
 }
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},

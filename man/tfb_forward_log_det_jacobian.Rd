@@ -15,7 +15,7 @@ tfb_forward_log_det_jacobian(bijector, x, event_ndims,
 \item{event_ndims}{Number of dimensions in the probabilistic events being transformed.
 Must be greater than or equal to bijector$forward_min_event_ndims. The result is summed over the final
 dimensions to produce a scalar Jacobian determinant for each event, i.e. it has shape
- x$shape$ndims - event_ndims dimensions.}
+x$shape$ndims - event_ndims dimensions.}
 }
 \description{
 Returns both the forward_log_det_jacobian.

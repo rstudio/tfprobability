@@ -1,4 +1,4 @@
-#' Returns the forward Bijector evaluation, i.e., X = g(Y).
+#' Returns the forward Bijector evaluation, i.e., `X = g(Y)`.
 #'
 #' @param bijector The bijector to apply
 #' @param x Tensor. The input to the "forward" evaluation.
@@ -10,7 +10,7 @@ tfb_forward <-
     bijector$forward(as_tf_float(x), name)
   }
 
-#' Returns the inverse Bijector evaluation, i.e., X = g^{-1}(Y).
+#' Returns the inverse Bijector evaluation, i.e., `X = g^{-1}(Y)`.
 #'
 #' @param bijector  The bijector to apply
 #' @param y Tensor. The input to the "inverse" evaluation.
@@ -38,7 +38,7 @@ tfb_forward_log_det_jacobian <-
     bijector$forward_log_det_jacobian(as_tf_float(x), as.integer(event_ndims), name)
   }
 
-#' Returns the (log o det o Jacobian o inverse)(y).
+#' Returns the `(log o det o Jacobian o inverse)(y)`.
 #'
 #' @param bijector The bijector to apply
 #' @param y Tensor. The input to the "inverse" Jacobian determinant evaluation.

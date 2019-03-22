@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bijector which computes Y = g(X) = Log[1 + exp(X)]. — tfb_softplus • tfprobability</title>
+<title>Bijector which computes <code>Y = g(X) = Log[1 + exp(X)]</code>. — tfb_softplus • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,12 @@
 
 
 
-<meta property="og:title" content="Bijector which computes Y = g(X) = Log[1 + exp(X)]. — tfb_softplus" />
+<meta property="og:title" content="Bijector which computes <code>Y = g(X) = Log[1 + exp(X)]</code>. — tfb_softplus" />
 
 <meta property="og:description" content="The softplus Bijector has the following two useful properties:
-* The domain is the positive real numbers
-* softplus(x) approx x, for large x, so it does not overflow as easily as the Exp Bijector." />
+The domain is the positive real numbers
+softplus(x) approx x, for large x, so it does not overflow as easily as the Exp Bijector.
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,16 +109,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bijector which computes Y = g(X) = Log[1 + exp(X)].</h1>
+    <h1>Bijector which computes <code>Y = g(X) = Log[1 + exp(X)]</code>.</h1>
     
     <div class="hidden name"><code>tfb_softplus.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The softplus Bijector has the following two useful properties:
-* The domain is the positive real numbers
-* softplus(x) approx x, for large x, so it does not overflow as easily as the Exp Bijector.</p>
+    <p>The softplus Bijector has the following two useful properties:</p><ul>
+<li><p>The domain is the positive real numbers</p></li>
+<li><p>softplus(x) approx x, for large x, so it does not overflow as easily as the Exp Bijector.</p></li>
+</ul>
     
     </div>
 
@@ -147,16 +149,17 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
 
     <p>The optional nonzero hinge_softness parameter changes the transition at zero.
 With hinge_softness = c, the bijector is:
-f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
-For large x &gt;&gt; 1, c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x,
+f_c(x) := c * g(x / c) = c * Log1 + exp(x / c).
+For large x &gt;&gt; 1, c * Log1 + exp(x / c) approx c * Logexp(x / c) = x,
 so the behavior for large x is the same as the standard softplus.
 As c &gt; 0 approaches 0 from the right, f_c(x) becomes less and less soft,
-approaching max(0, x).
-* c = 1 is the default.
-* c &gt; 0 but small means f(x) approx ReLu(x) = max(0, x).
-* c &lt; 0 flips sign and reflects around the y-axis: f_-c(x) = -f_c(-x).
-* c = 0 results in a non-bijective transformation and triggers an exception.
-Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.</p>
+approaching max(0, x).</p><ul>
+<li><p>c = 1 is the default.</p></li>
+<li><p>c &gt; 0 but small means f(x) approx ReLu(x) = max(0, x).</p></li>
+<li><p>c &lt; 0 flips sign and reflects around the y-axis: f_-c(x) = -f_c(-x).</p></li>
+<li><p>c = 0 results in a non-bijective transformation and triggers an exception.
+Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

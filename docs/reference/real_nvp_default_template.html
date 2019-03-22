@@ -116,7 +116,7 @@ dimensional outputs loc (&quot;mu&quot;) and log_scale (&quot;alpha&quot;)." />
     <div class="ref-description">
     
     <p>This will be wrapped in a make_template to ensure the variables are only
-created once. It takes the d-dimensional input x[0:d] and returns the D-d
+created once. It takes the d-dimensional input <code>x[0:d]</code> and returns the <code>D-d</code>
 dimensional outputs loc ("mu") and log_scale ("alpha").</p>
     
     </div>
@@ -130,7 +130,7 @@ dimensional outputs loc ("mu") and log_scale ("alpha").</p>
     <tr>
       <th>hidden_layers</th>
       <td><p>list-like of non-negative integer, scalars indicating the number
-of units in each hidden layer. Default: list(512, 512).</p></td>
+of units in each hidden layer. Default: <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(512, 512)</a></code>.</p></td>
     </tr>
     <tr>
       <th>shift_only</th>
@@ -158,9 +158,9 @@ exception if condition_kwargs are passed to it. To use conditioning in
 real nvp bijector, implement a conditioned shift/scale template that
 handles the condition_kwargs.</p>
 <p>References
-[1]: George Papamakarios, Theo Pavlakou, and Iain Murray.
+1: George Papamakarios, Theo Pavlakou, and Iain Murray.
 Masked Autoregressive Flow for Density Estimation.
-In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057</p>
+In <em>Neural Information Processing Systems</em>, 2017. https://arxiv.org/abs/1705.07057</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

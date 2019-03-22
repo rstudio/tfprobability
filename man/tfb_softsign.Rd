@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_softsign}
 \alias{tfb_softsign}
-\title{Bijector which computes Y = g(X) = X / (1 + |X|).}
+\title{Bijector which computes \code{Y = g(X) = X / (1 + |X|)}.}
 \usage{
 tfb_softsign(validate_args = FALSE, name = "softsign")
 }
@@ -14,8 +14,10 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 }
 \description{
 The softsign Bijector has the following two useful properties:
-* The domain is all real numbers
-* softsign(x) approx sgn(x), for large |x|.
+\itemize{
+\item The domain is all real numbers
+\item softsign(x) approx sgn(x), for large |x|.
+}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

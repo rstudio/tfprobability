@@ -6,12 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bijector which computes Y = g(X) = exp([X 0]) / sum(exp([X 0])).
-To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
-bijection, the forward transformation appends a value to the input and the
-inverse removes this coordinate. The appended coordinate represents a pivot,
-e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
-coordinate. — tfb_softmax_centered • tfprobability</title>
+<title>Bijector which computes <code>Y = g(X) = exp([X 0]) / sum(exp([X 0]))</code>. — tfb_softmax_centered • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -35,16 +30,13 @@ coordinate. — tfb_softmax_centered • tfprobability</title>
 
 
 
-<meta property="og:title" content="Bijector which computes Y = g(X) = exp([X 0]) / sum(exp([X 0])).
-To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
+<meta property="og:title" content="Bijector which computes <code>Y = g(X) = exp([X 0]) / sum(exp([X 0]))</code>. — tfb_softmax_centered" />
+
+<meta property="og:description" content="To implement softmax as a
 bijection, the forward transformation appends a value to the input and the
 inverse removes this coordinate. The appended coordinate represents a pivot,
 e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
-coordinate. — tfb_softmax_centered" />
-
-<meta property="og:description" content="At first blush it may seem like the [Invariance of domain](https://en.wikipedia.org/wiki/Invariance_of_domain)
-theorem implies this implementation is not a bijection. However, the appended dimension
-makes the (forward) image non-open and the theorem does not directly apply." />
+coordinate." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,21 +110,18 @@ makes the (forward) image non-open and the theorem does not directly apply." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bijector which computes Y = g(X) = exp([X 0]) / sum(exp([X 0])).
-To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
-bijection, the forward transformation appends a value to the input and the
-inverse removes this coordinate. The appended coordinate represents a pivot,
-e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
-coordinate.</h1>
+    <h1>Bijector which computes <code>Y = g(X) = exp([X 0]) / sum(exp([X 0]))</code>.</h1>
     
     <div class="hidden name"><code>tfb_softmax_centered.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>At first blush it may seem like the [Invariance of domain](https://en.wikipedia.org/wiki/Invariance_of_domain)
-theorem implies this implementation is not a bijection. However, the appended dimension
-makes the (forward) image non-open and the theorem does not directly apply.</p>
+    <p>To implement <a href='https://en.wikipedia.org/wiki/Softmax_function'>softmax</a> as a
+bijection, the forward transformation appends a value to the input and the
+inverse removes this coordinate. The appended coordinate represents a pivot,
+e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
+coordinate.</p>
     
     </div>
 
@@ -151,6 +140,12 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
       <td><p>name prefixed to Ops created by this class.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>At first blush it may seem like the <a href='https://en.wikipedia.org/wiki/Invariance_of_domain'>Invariance of domain</a>
+theorem implies this implementation is not a bijection. However, the appended dimension
+makes the (forward) image non-open and the theorem does not directly apply.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -193,6 +188,8 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

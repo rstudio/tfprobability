@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_absolute_value}
 \alias{tfb_absolute_value}
-\title{Compute Y = g(X) = Abs(X), element-wise.}
+\title{Compute \code{Y = g(X) = Abs(X)}, element-wise.}
 \usage{
 tfb_absolute_value(validate_args = FALSE, name = "absolute_value")
 }
@@ -14,14 +14,16 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 }
 \description{
 This non-injective bijector allows for transformations of scalar distributions
-with the absolute value function, which maps (-inf, inf) to [0, inf).
-* For y in (0, inf), AbsoluteValue.inverse(y) returns the set inverse
-{x in (-inf, inf) : |x| = y} as a tuple, -y, y.
-AbsoluteValue.inverse(0) returns 0, 0, which is not the set inverse
-(the set inverse is the singleton {0}), but "works" in conjunction with
-TransformedDistribution to produce a left semi-continuous pdf.
-For y < 0, AbsoluteValue.inverse(y) happily returns the wrong thing, -y, y.
- This is done for efficiency.  If validate_args == True, y < 0 will raise an exception.
+with the absolute value function, which maps \code{(-inf, inf)} to \code{[0, inf)}.
+\itemize{
+\item For \code{y} in \code{(0, inf)}, \code{tfb_absolute_value$inverse(y)} returns the set inverse
+\code{{x in (-inf, inf) : |x| = y}} as a tuple, \code{-y, y}.
+\code{tfb_absolute_value$inverse(0)} returns \code{0, 0}, which is not the set inverse
+(the set inverse is the singleton \code{{0}}), but "works" in conjunction with
+\code{TransformedDistribution} to produce a left semi-continuous pdf.
+For \code{y < 0}, \code{tfb_absolute_value$inverse(y)} happily returns the wrong thing, \code{-y, y}
+This is done for efficiency.  If \code{validate_args == TRUE}, \code{y < 0} will raise an exception.
+}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

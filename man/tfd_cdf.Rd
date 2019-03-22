@@ -4,7 +4,7 @@
 \alias{tfd_cdf}
 \title{Cumulative distribution function.
 Given random variable X, the cumulative distribution function cdf is:
-cdf(x) := P[X <= x]}
+\code{cdf(x) := P[X <= x]}}
 \usage{
 tfd_cdf(distribution, value, name = "cdf")
 }
@@ -16,12 +16,12 @@ tfd_cdf(distribution, value, name = "cdf")
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
+a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
 Cumulative distribution function.
 Given random variable X, the cumulative distribution function cdf is:
-cdf(x) := P[X <= x]
+\code{cdf(x) := P[X <= x]}
 }
 \seealso{
 Other distribution_methods: \code{\link{tfd_covariance}},

@@ -31,9 +31,9 @@ Similarly to Normal distribution, it is a maximum entropy distribution.
 The samples of this distribution are angles, measured in radians.
 They are 2 pi-periodic: x = 0 and x = 2pi are equivalent.
 This means that the density is also 2 pi-periodic.
-The generated samples, however, are guaranteed to be in [-pi, pi) range.
+The generated samples, however, are guaranteed to be in \code{[-pi, pi)} range.
 When concentration = 0, this distribution becomes a Uniform distribuion on
-the [-pi, pi) domain.
+the \code{[-pi, pi)} domain.
 }
 \details{
 The von Mises distribution is a special case of von Mises-Fisher distribution

@@ -8,9 +8,9 @@ tfb_affine_scalar(shift = NULL, scale = NULL, validate_args = FALSE,
   name = "affine_scalar")
 }
 \arguments{
-\item{shift}{Floating-point Tensor. If this is set to None, no shift is applied.}
+\item{shift}{Floating-point Tensor. If this is set to NULL, no shift is applied.}
 
-\item{scale}{Floating-point Tensor. If this is set to None, no scale is applied.}
+\item{scale}{Floating-point Tensor. If this is set to NULL, no scale is applied.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
@@ -19,9 +19,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 }
 \description{
 This Bijector is initialized with shift Tensor and scale arguments, giving the forward operation:
-Y = g(X) = scale * X + shift
-If scale is not specified, then the bijector has the semantics of scale = 1..
-Similarly, if shift is not specified, then the bijector has the semantics of shift = 0..
+\code{Y = g(X) = scale * X + shift}
+If \code{scale} is not specified, then the bijector has the semantics of scale = 1..
+Similarly, if \code{shift} is not specified, then the bijector has the semantics of shift = 0..
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

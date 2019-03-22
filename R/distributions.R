@@ -96,19 +96,19 @@ tfd_bernoulli <- function(logits = NULL,
 #'
 #' The Multivariate Normal distribution is defined over R^k and parameterized
 #' by a (batch of) length-k loc vector (aka "mu") and a (batch of) k x k
-#' scale matrix; covariance = scale @ scale.T where @ denotes
+#' scale matrix; `covariance = scale @ scale.T` where @ denotes
 #' matrix-multiplication.
 #'
 #' @inheritParams tfd_normal
 #'
 #' @param loc Floating-point Tensor. If this is set to NULL, loc is implicitly 0.
-#' When specified, may have shape [B1, ..., Bb, k] where b >= 0 and k is the event size.
+#' When specified, may have shape `[B1, ..., Bb, k]` where b >= 0 and k is the event size.
 #' @param scale_diag Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
-#'  May have shape [B1, ..., Bb, k], b >= 0, and characterizes b-batches of k x k diagonal matrices
+#'  May have shape `[B1, ..., Bb, k]`, b >= 0, and characterizes b-batches of k x k diagonal matrices
 #'  added to scale. When both scale_identity_multiplier and scale_diag are NULL then scale
 #'  is the Identity.
 #' @param scale_identity_multiplier Non-zero, floating-point Tensor representing a scaled-identity-matrix
-#'  added to scale. May have shape [B1, ..., Bb], b >= 0, and characterizes b-batches of scaled
+#'  added to scale. May have shape `[B1, ..., Bb]`, b >= 0, and characterizes b-batches of scaled
 #'  k x k identity matrices added to scale. When both scale_identity_multiplier and scale_diag
 #'   are NULL then scale is the Identity.
 #' @family distributions
@@ -245,7 +245,7 @@ tfd_relaxed_bernoulli <- function(temperature,
 #' A Transformed Distribution.
 #'
 #' A TransformedDistribution models p(y) given a base distribution p(x),
-#' and a deterministic, invertible, differentiable transform, Y = g(X). The
+#' and a deterministic, invertible, differentiable transform,`Y = g(X)`. The
 #' transform is typically an instance of the Bijector class and the base
 #' distribution is typically an instance of the Distribution class.
 #'
@@ -287,14 +287,14 @@ tfd_transformed <- function(distribution,
 #' @param dtype The dtype of Tensor returned by sample. Default value: tf$int32.
 #' @param interpolate_nondiscrete Logical. When FALSE, log_prob returns
 #' -inf (and prob returns 0) for non-integer inputs. When TRUE,
-#' log_prob evaluates the continuous function -power log(k) -   log(zeta(power)) ,
+#' log_prob evaluates the continuous function `-power log(k) -   log(zeta(power))` ,
 #' which matches the Zipf pmf at integer arguments k
 #' (note that this function is not itself a normalized probability  log-density).
 #' Default value: TRUE.
 #' @param sample_maximum_iterations Maximum number of iterations of allowable
 #' iterations in sample. When validate_args=TRUE, samples which fail to
 #' reach convergence (subject to this cap) are masked out with
-#' self$dtype$min or nan depending on self$dtype$is_integer.
+#' `self$dtype$min` or nan depending on `self$dtype$is_integer`.
 #' Default value: 100.
 #'
 #' @param allow_nan_stats Default value: FALSE.
@@ -370,19 +370,19 @@ tfd_wishart <- function(df,
   do.call(tfp$distributions$Wishart, args)
 }
 
-#' The von Mises-Fisher distribution over unit vectors on S^{n-1}.
+#' The von Mises-Fisher distribution over unit vectors on `S^{n-1}`.
 #'
 #' The von Mises-Fisher distribution is a directional distribution over vectors
-#' on the unit hypersphere S^{n-1} embedded in n dimensions (R^n).
+#' on the unit hypersphere `S^{n-1}` embedded in n dimensions `(R^n)`.
 #'
 #' NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
 #' instability can occur for low concentrations (<.01).
-#' @param mean_direction Floating-point Tensor with shape [B1, ... Bn, D].
+#' @param mean_direction Floating-point Tensor with shape `[B1, ... Bn, D]`.
 #' A unit vector indicating the mode of the distribution, or the
 #' unit-normalized direction of the mean. (This is *not* in general the
 #' mean of the distribution; the mean is not generally in the support of
 #' the distribution.) NOTE: D is currently restricted to <= 5.
-#' @param concentration Floating-point Tensor having batch shape [B1, ... Bn]
+#' @param concentration Floating-point Tensor having batch shape `[B1, ... Bn]`
 #' broadcastable with mean_direction. The level of concentration of
 #' samples around the mean_direction. concentration=0 indicates a
 #' uniform distribution over the unit hypersphere, and concentration=+inf
@@ -415,9 +415,9 @@ tfd_von_mises_fisher <- function(df,
 #' The samples of this distribution are angles, measured in radians.
 #' They are 2 pi-periodic: x = 0 and x = 2pi are equivalent.
 #' This means that the density is also 2 pi-periodic.
-#' The generated samples, however, are guaranteed to be in [-pi, pi) range.
+#' The generated samples, however, are guaranteed to be in `[-pi, pi)` range.
 #' When concentration = 0, this distribution becomes a Uniform distribuion on
-#' the [-pi, pi) domain.
+#' the `[-pi, pi)` domain.
 #'
 #' The von Mises distribution is a special case of von Mises-Fisher distribution
 #' for n=2. However, the TFP's VonMisesFisher implementation represents the
@@ -454,7 +454,7 @@ tfd_von_mises <- function(loc,
 
 #' The (diagonal) SinhArcsinh transformation of a distribution on R^k.
 #'
-#' This distribution models a random vector Y = (Y1,...,Yk), making use of
+#' This distribution models a random vector `Y = (Y1,...,Yk)`, making use of
 #' a SinhArcsinh transformation (which has adjustable tailweight and skew),
 #' a rescaling, and a shift.
 #' The SinhArcsinh transformation of the Normal is described in great depth in
@@ -464,16 +464,16 @@ tfd_von_mises <- function(loc,
 #' and control over scale as well as a "shift" parameter loc.
 #'
 #' @param loc Floating-point Tensor. If this is set to NULL, loc is
-#' implicitly 0. When specified, may have shape [B1, ..., Bb, k] where
+#' implicitly 0. When specified, may have shape `[B1, ..., Bb, k]` where
 #' b >= 0 and k is the event size.
 #' @param scale_diag Non-zero, floating-point Tensor representing a diagonal
-#' matrix added to scale. May have shape [B1, ..., Bb, k], b >= 0,
+#' matrix added to scale. May have shape `[B1, ..., Bb, k]`, b >= 0,
 #' and characterizes b-batches of k x k diagonal matrices added to
 #' scale. When both scale_identity_multiplier and scale_diag are
 #' NULL then scale is the Identity.
 #' @param scale_identity_multiplier Non-zero, floating-point Tensor representing
 #' a scale-identity-matrix added to scale. May have shape
-#' [B1, ..., Bb], b >= 0, and characterizes b-batches of scale
+#' `[B1, ..., Bb]`, b >= 0, and characterizes b-batches of scale
 #' k x k identity matrices added to scale. When both
 #' scale_identity_multiplier and scale_diag are NULL then scale
 #' is the Identity.
@@ -481,7 +481,7 @@ tfd_von_mises <- function(loc,
 #' broadcastable with event_shape.
 #' @param tailweight  Tailweight parameter.  floating-point Tensor with shape
 #' broadcastable with event_shape.
-#' @param distribution tf$Distribution-like instance. Distribution from which k
+#' @param distribution `tf$distributions$Distribution`-like instance. Distribution from which k
 #' iid samples are used as input to transformation F.  Default is
 #' tfd_normal(loc = 0, scale = 1).
 #' Must be a scalar-batch, scalar-event distribution.  Typically
@@ -518,10 +518,11 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
   do.call(tfp$distributions$VectorSinhArcsinhDiag, args)
 }
 
-#' The vectorization of the Laplace distribution on R^k.
-#' The vector laplace distribution is defined over R^k, and parameterized by
+#' The vectorization of the Laplace distribution on `R^k`.
+#'
+#' The vector laplace distribution is defined over `R^k`, and parameterized by
 #' a (batch of) length-k loc vector (the means) and a (batch of) k x k
-#' scale matrix:  covariance = 2 * scale @ scale.T, where @ denotes
+#' scale matrix:  `covariance = 2 * scale @ scale.T`, where @ denotes
 #' matrix-multiplication.
 #'
 #' About VectorLaplace and Vector distributions in TensorFlow.
@@ -547,10 +548,10 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
 #' Additional leading dimensions (if any) will index batches.
 #'
 #' @param  loc Floating-point Tensor. If this is set to NULL, loc is
-#' implicitly 0. When specified, may have shape [B1, ..., Bb, k] where
+#' implicitly 0. When specified, may have shape `[B1, ..., Bb, k]` where
 #' b >= 0 and k is the event size.
 #' @param scale Instance of LinearOperator with same dtype as loc and shape
-#' [B1, ..., Bb, k, k].
+#' `[B1, ..., Bb, k, k]`.
 
 #' @inheritParams tfd_normal
 #'
@@ -572,11 +573,11 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
   do.call(tfp$distributions$vector_laplace_linear_operator$VectorLaplaceLinearOperator, args)
 }
 
-#' The vectorization of the Laplace distribution on R^k.
+#' The vectorization of the Laplace distribution on `R^k`.
 #'
-#' The vector laplace distribution is defined over R^k, and parameterized by
+#' The vector laplace distribution is defined over `R^k`, and parameterized by
 #' a (batch of) length-k loc vector (the means) and a (batch of) k x k
-#' scale matrix:  covariance = 2 * scale @ scale.T, where @ denotes
+#' scale matrix:  `covariance = 2 * scale @ scale.T`, where @ denotes
 #' matrix-multiplication.
 #'
 #' About VectorLaplace and Vector distributions in TensorFlow.
@@ -595,10 +596,10 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #' are closed under convolution.
 #'
 #' @param loc Floating-point Tensor. If this is set to NULL, loc is
-#' implicitly 0. When specified, may have shape [B1, ..., Bb, k] where
+#' implicitly 0. When specified, may have shape `[B1, ..., Bb, k]` where
 #' b >= 0 and k is the event size.
 #' @param scale_diag Non-zero, floating-point Tensor representing a diagonal
-#' matrix added to scale. May have shape [B1, ..., Bb, k], b >= 0,
+#' matrix added to scale. May have shape `[B1, ..., Bb, k]`, b >= 0,
 #' and characterizes b-batches of k x k diagonal matrices added to
 #' scale. When both scale_identity_multiplier and scale_diag are
 #' NULL then scale is the Identity.
@@ -630,3 +631,27 @@ tfd_vector_laplace_diag <- function(loc = NULL,
 
   do.call(tfp$distributions$VectorLaplaceDiag, args)
 }
+
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_vector_laplace_diag <- function(loc = NULL,
+                                    scale_diag = NULL,
+                                    scale_identity_multiplier = NULL,
+                                    validate_args = FALSE,
+                                    allow_nan_stats = TRUE,
+                                    name = "VectorLaplaceDiag") {
+  args <- list(
+    loc = loc,
+    scale_diag = scale_diag,
+    scale_identity_multiplier = scale_identity_multiplier,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VectorLaplaceDiag, args)
+}
+
+

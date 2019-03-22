@@ -13,16 +13,16 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Both the domain and the codomain of the mapping is [-inf, inf], however,
+Both the domain and the codomain of the mapping is \code{[-inf, inf]}, however,
 the input of the forward mapping must be strictly increasing.
-The inverse of the bijector applied to a normal random vector y ~ N(0, 1)
-gives back a sorted random vector with the same distribution x ~ N(0, 1)
+The inverse of the bijector applied to a normal random vector \code{y ~ N(0, 1)}
+gives back a sorted random vector with the same distribution \code{x ~ N(0, 1)}
 where x = sort(y)
 }
 \details{
 On the last dimension of the tensor, Ordered bijector performs:
-y[0] = x[0]
-y[1:] = tf$log(x[1:] - x[:-1])'
+\code{y[0] = x[0]}
+\code{y[1:] = tf$log(x[1:] - x[:-1])}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_square}
 \alias{tfb_square}
-\title{Compute g(X) = X^2; X is a positive real number.}
+\title{Compute \code{g(X) = X^2}; X is a positive real number.}
 \usage{
 tfb_square(validate_args = FALSE, name = "square")
 }

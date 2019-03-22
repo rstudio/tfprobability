@@ -13,23 +13,23 @@ tfb_affine(shift = NULL, scale_identity_multiplier = NULL,
 \item{shift}{Floating-point Tensor. If this is set to NULL, no shift is applied.}
 
 \item{scale_identity_multiplier}{floating point rank 0 Tensor representing a scaling done
-to the identity matrix. When scale_identity_multiplier = scale_diag = scale_tril = None then
-scale += IdentityMatrix. Otherwise no scaled-identity-matrix is added to scale.}
+to the identity matrix. When \code{scale_identity_multiplier = scale_diag = scale_tril = NULL} then
+\code{scale += IdentityMatrix}. Otherwise no scaled-identity-matrix is added to \code{scale}.}
 
 \item{scale_diag}{Floating-point Tensor representing the diagonal matrix.
-scale_diag has shape [N1, N2, ...  k], which represents a k x k diagonal matrix.
-When NULL no diagonal term is added to scale.}
+\code{scale_diag} has shape \code{[N1, N2, ...  k]}, which represents a k x k diagonal matrix.
+When NULL no diagonal term is added to \code{scale}.}
 
 \item{scale_tril}{Floating-point Tensor representing the lower triangular matrix.
-scale_tril has shape [N1, N2, ...  k, k], which represents a k x k lower triangular matrix.
-When None no scale_tril term is added to scale. The upper triangular elements above the diagonal are ignored.}
+\code{scale_tril} has shape \code{[N1, N2, ...  k, k]}, which represents a k x k lower triangular matrix.
+When NULL no \code{scale_tril} term is added to \code{scale}. The upper triangular elements above the diagonal are ignored.}
 
 \item{scale_perturb_factor}{Floating-point Tensor representing factor matrix with last
-two dimensions of shape (k, r). When NULL, no rank-r update is added to scale.}
+two dimensions of shape \code{(k, r)} When NULL, no rank-r update is added to scale.}
 
 \item{scale_perturb_diag}{Floating-point Tensor representing the diagonal matrix.
-scale_perturb_diag has shape [N1, N2, ...  r], which represents an r x r diagonal matrix.
-When None low rank updates will take the form scale_perturb_factor * scale_perturb_factor.T.}
+\code{scale_perturb_diag} has shape \code{[N1, N2, ...  r]}, which represents an r x r diagonal matrix.
+When NULL low rank updates will take the form \code{scale_perturb_factor * scale_perturb_factor.T}.}
 
 \item{adjoint}{Logical indicating whether to use the scale matrix as specified or its adjoint.
 Default value: FALSE.}
@@ -39,23 +39,19 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 
-\item{dtype}{tf$DType to prefer when converting args to Tensors. Else, we fall back to a
+\item{dtype}{\code{tf$DType} to prefer when converting args to Tensors. Else, we fall back to a
 common dtype inferred from the args, finally falling back to float32.}
 }
 \description{
 This Bijector is initialized with shift Tensor and scale arguments,
-giving the forward operation: Y = g(X) = scale @ X + shift
+giving the forward operation: \code{Y = g(X) = scale @ X + shift}
 where the scale term is logically equivalent to:
-scale =
-    scale_identity_multiplier * tf.diag(tf.ones(d)) +
-    tf.diag(scale_diag) +
-    scale_tril +
-    scale_perturb_factor @ diag(scale_perturb_diag) @ tf.transpose([scale_perturb_factor]))
+\code{scale = scale_identity_multiplier * tf.diag(tf.ones(d)) + tf.diag(scale_diag) + scale_tril + scale_perturb_factor @ diag(scale_perturb_diag) @ tf.transpose([scale_perturb_factor]))}
 }
 \details{
-If none of scale_identity_multiplier, scale_diag, or scale_tril are specified then
-  scale += IdentityMatrix. Otherwise specifying a scale argument has the semantics of
-   scale += Expand(arg), i.e., scale_diag != NULL means scale += tf$diag(scale_diag).
+If NULL of \code{scale_identity_multiplier}, \code{scale_diag}, or \code{scale_tril} are specified then
+\code{scale += IdentityMatrix} Otherwise specifying a scale argument has the semantics of
+\code{scale += Expand(arg)}, i.e., \code{scale_diag != NULL} means \code{scale += tf$diag(scale_diag)}.
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

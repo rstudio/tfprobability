@@ -116,10 +116,10 @@ where x_0, ..., x_n are blocks (partitions) of the vector." />
 
     <div class="ref-description">
     
-    <p>More specifically, given [F_0, F_1, ... F_n] which are scalar or vector
+    <p>More specifically, given <code>[F_0, F_1, ... F_n]</code> which are scalar or vector
 bijectors this bijector creates a transformation which operates on the vector
-[x_0, ... x_n] with the transformation [F_0(x_0), F_1(x_1) ..., F_n(x_n)]
-where x_0, ..., x_n are blocks (partitions) of the vector.</p>
+<code>[x_0, ... x_n]</code> with the transformation <code>[F_0(x_0), F_1(x_1) ..., F_n(x_n)]</code>
+where <code>x_0, ..., x_n</code> are blocks (partitions) of the vector.</p>
     
     </div>
 
@@ -147,7 +147,7 @@ bijectors. If left as NULL, a vector of 1's is used.</p></td>
     <tr>
       <th>name</th>
       <td><p>String, name given to ops managed by this object. Default:
-E.g., Blockwise([Exp(), Softplus()]).name ==   'blockwise_of_exp_and_softplus'.</p></td>
+E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of_exp_and_softplus'</code>.</p></td>
     </tr>
     </table>
     

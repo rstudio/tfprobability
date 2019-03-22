@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Affine MaskedAutoregressiveFlow bijector. — tfb_masked_autoregressive_flow" />
 
-<meta property="og:description" content="The affine autoregressive flow [(Papamakarios et al., 2016)][3] provides a
+<meta property="og:description" content="The affine autoregressive flow (Papamakarios et al., 2016) provides a
 relatively simple framework for user-specified (deep) architectures to learn a
 distribution over continuous events. Regarding terminology," />
 <meta name="twitter:card" content="summary" />
@@ -115,7 +115,7 @@ distribution over continuous events. Regarding terminology," />
 
     <div class="ref-description">
     
-    <p>The affine autoregressive flow [(Papamakarios et al., 2016)][3] provides a
+    <p>The affine autoregressive flow (Papamakarios et al., 2016) provides a
 relatively simple framework for user-specified (deep) architectures to learn a
 distribution over continuous events. Regarding terminology,</p>
     
@@ -134,8 +134,8 @@ distribution over continuous events. Regarding terminology,</p>
 forward domain (x) and the inverse domain (y).
 Calculation must respect the "autoregressive property". Suggested default:
 masked_autoregressive_default_template(hidden_layers=...).
-Typically the function contains tf$Variables and is wrapped using tf$make_template.
- Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.</p></td>
+Typically the function contains <code>tf$Variables</code> and is wrapped using <code>tf$make_template</code>.
+Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.</p></td>
     </tr>
     <tr>
       <th>is_constant_jacobian</th>
@@ -145,14 +145,14 @@ does not depend on the forward domain (x) or inverse domain (y) values.
     </tr>
     <tr>
       <th>unroll_loop</th>
-      <td><p>Logical indicating whether the tf$while_loop in _forward should be replaced with a
+      <td><p>Logical indicating whether the <code>tf$while_loop</code> in _forward should be replaced with a
 static for loop. Requires that the final dimension of x be known at graph construction time. Defaults to FALSE.</p></td>
     </tr>
     <tr>
       <th>event_ndims</th>
       <td><p>integer, the intrinsic dimensionality of this bijector.
 1 corresponds to a simple vector autoregressive bijector as implemented by the
-masked_autoregressive_default_template, 2 might be useful for a 2D convolutional shift_and_log_scale_fn and so on.</p></td>
+<code>masked_autoregressive_default_template</code>, 2 might be useful for a 2D convolutional shift_and_log_scale_fn and so on.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -170,12 +170,12 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <p>"Autoregressive models decompose the joint density as a product of
 conditionals, and model each conditional in turn. Normalizing flows
 transform a base density (e.g. a standard Gaussian) into the target density
-by an invertible transformation with tractable Jacobian." [(Papamakarios et al., 2016)][3]</p>
+by an invertible transformation with tractable Jacobian." (Papamakarios et al., 2016)</p>
 <p>In other words, the "autoregressive property" is equivalent to the
-decomposition, p(x) = prod p(x[perm[i]] | x[perm[0:i]]) : i=0, ..., d 
-where perm is some permutation of 0, ..., d. In the simple case where
+decomposition, <code>p(x) = prod{ p(x[perm[i]] | x[perm[0:i]]) : i=0, ..., d }</code>
+where perm is some permutation of <code>{0, ..., d}</code>. In the simple case where
 the permutation is identity this reduces to:</p>
-<p>p(x) = prod p(x[i] | x[0:i]) : i=0, ..., d . The provided
+<p><code>p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }</code>. The provided
 shift_and_log_scale_fn, masked_autoregressive_default_template, achieves
 this property by zeroing out weights in its masked_dense layers.
 In TensorFlow Probability, "normalizing flows" are implemented as
@@ -190,13 +190,13 @@ the (expensive) forward-mode calculation to compute log-probabilities and the
 (cheap) reverse-mode calculation to compute samples.</p>
 <p>Given a shift_and_log_scale_fn, the forward and inverse transformations are
 (a sequence of) affine transformations. A "valid" shift_and_log_scale_fn
-must compute each shift (aka loc or "mu" in [Germain et al. (2015)][1])
-and log(scale) (aka "alpha" in [Germain et al. (2015)][1]) such that each
+must compute each shift (aka loc or "mu" in Germain et al. (2015))
+and log(scale) (aka "alpha" in Germain et al. (2015)) such that each
 are broadcastable with the arguments to forward and inverse, i.e., such
-that the calculations in forward, inverse [below] are possible.</p>
+that the calculations in forward, inverse below are possible.</p>
 <p>For convenience, masked_autoregressive_default_template is offered as a
 possible shift_and_log_scale_fn function. It implements the MADE
-architecture [(Germain et al., 2015)][1]. MADE is a feed-forward network that
+architecture (Germain et al., 2015). MADE is a feed-forward network that
 computes a shift and log(scale) using masked_dense layers in a deep
 neural network. Weights are masked to ensure the autoregressive property. It
 is possible that this architecture is suboptimal for your task. To build
@@ -208,16 +208,16 @@ enforces the "autoregressive property".</p>
 <p>Assuming shift_and_log_scale_fn has valid shape and autoregressive semantics,
 the forward transformation is</p>
 <p>def forward(x):
-   y = zeros_like(x)
-   event_size = x.shape[-event_dims:].num_elements()
-   for _ in range(event_size):
-     shift, log_scale = shift_and_log_scale_fn(y)
-     y = x * tf.exp(log_scale) + shift
-   return y</p>
+y = zeros_like(x)
+event_size = x.shape-event_dims:.num_elements()
+for _ in range(event_size):
+shift, log_scale = shift_and_log_scale_fn(y)
+y = x * tf.exp(log_scale) + shift
+return y</p>
 <p>and the inverse transformation is</p>
 <p>def inverse(y):
-  shift, log_scale = shift_and_log_scale_fn(y)
-  return (y - shift) / tf.exp(log_scale)</p>
+shift, log_scale = shift_and_log_scale_fn(y)
+return (y - shift) / tf.exp(log_scale)</p>
 <p>Notice that the inverse does not need a for-loop. This is because in the
 forward pass each calculation of shift and log_scale is based on the y
 calculated so far (not x). In the inverse, the y is fully known, thus is
@@ -225,15 +225,15 @@ equivalent to the scaling used in forward after event_size passes, i.e.,
 the "last" y used to compute shift, log_scale.
 (Roughly speaking, this also proves the transform is bijective.)</p>
 <p>References:
-[1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
+1: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 MADE: Masked Autoencoder for Distribution Estimation.
- In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
-[2]: Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling.
- Improving Variational Inference with Inverse Autoregressive Flow.
- In _Neural Information Processing Systems_, 2016. https://arxiv.org/abs/1606.04934
-[3]: George Papamakarios, Theo Pavlakou, and Iain Murray.
- Masked Autoregressive Flow for Density Estimation.
- In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057</p>
+In <em>International Conference on Machine Learning</em>, 2015. https://arxiv.org/abs/1502.03509
+2: Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling.
+Improving Variational Inference with Inverse Autoregressive Flow.
+In <em>Neural Information Processing Systems</em>, 2016. https://arxiv.org/abs/1606.04934
+3: George Papamakarios, Theo Pavlakou, and Iain Murray.
+Masked Autoregressive Flow for Density Estimation.
+In <em>Neural Information Processing Systems</em>, 2017. https://arxiv.org/abs/1705.07057</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

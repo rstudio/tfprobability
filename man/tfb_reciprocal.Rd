@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_reciprocal}
 \alias{tfb_reciprocal}
-\title{A Bijector that computes b(x) = 1. / x.}
+\title{A Bijector that computes \code{b(x) = 1. / x}.}
 \usage{
 tfb_reciprocal(validate_args = FALSE, name = "reciprocal")
 }
@@ -13,7 +13,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-A Bijector that computes b(x) = 1. / x.
+A Bijector that computes \code{b(x) = 1. / x}.
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

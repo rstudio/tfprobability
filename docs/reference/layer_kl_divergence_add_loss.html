@@ -132,13 +132,13 @@
     </tr>
     <tr>
       <th>distribution</th>
-      <td><p>Distribution instance corresponding to b as in  KL[a, b].
+      <td><p>Distribution instance corresponding to b as in  <code>KL[a, b]</code>.
 The previous layer's output is presumed to be a Distribution instance and is a.</p></td>
     </tr>
     <tr>
       <th>use_exact_kl</th>
       <td><p>Logical indicating if KL divergence should be
-calculated exactly via tfp$distributions$kl_divergence or via Monte Carlo approximation.
+calculated exactly via <code>tfp$distributions$kl_divergence</code> or via Monte Carlo approximation.
 Default value: FALSE.</p></td>
     </tr>
     <tr>
@@ -150,7 +150,7 @@ As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
     </tr>
     <tr>
       <th>test_points_fn</th>
-      <td><p>A callable taking a tfp$distribution instance and returning a tensor
+      <td><p>A callable taking a <code>tfp$distributions$Distribution</code> instance and returning a tensor
 used for random test points to approximate the KL divergence.
 Default value: tf$convert_to_tensor.</p></td>
     </tr>

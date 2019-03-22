@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Y = g(X) = 1 - exp((-X / scale) ** concentration), X &gt;= 0. — tfb_weibull • tfprobability</title>
+<title>Compute <code>Y = g(X) = 1 - exp((-X / scale) ** concentration)</code>, X &gt;= 0. — tfb_weibull • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,11 @@
 
 
 
-<meta property="og:title" content="Compute Y = g(X) = 1 - exp((-X / scale) ** concentration), X &gt;= 0. — tfb_weibull" />
+<meta property="og:title" content="Compute <code>Y = g(X) = 1 - exp((-X / scale) ** concentration)</code>, X &gt;= 0. — tfb_weibull" />
 
 <meta property="og:description" content="This bijector maps inputs from [0, inf] to [0, 1]. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
-random variable with the [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):" />
+random variable with the Weibull distribution:" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,16 +108,16 @@ random variable with the [Weibull distribution](https://en.wikipedia.org/wiki/We
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Y = g(X) = 1 - exp((-X / scale) ** concentration), X &gt;= 0.</h1>
+    <h1>Compute <code>Y = g(X) = 1 - exp((-X / scale) ** concentration)</code>, X &gt;= 0.</h1>
     
     <div class="hidden name"><code>tfb_weibull.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This bijector maps inputs from [0, inf] to [0, 1]. The inverse of the
+    <p>This bijector maps inputs from <code>[0, inf]</code> to <code>[0, 1]</code>. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
-random variable with the [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):</p>
+random variable with the <a href='https://en.wikipedia.org/wiki/Weibull_distribution'>Weibull distribution</a>:</p>
     
     </div>
 
@@ -140,20 +140,20 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
       <th>scale:</th>
       <td><p>Positive Float-type Tensor that is the same dtype and is
 broadcastable with concentration.
-This is l in Y = g(X) = 1 - exp((-x / l) ** k).</p></td>
+This is l in <code>Y = g(X) = 1 - exp((-x / l) ** k)</code>.</p></td>
     </tr>
     <tr>
       <th>concentration:</th>
       <td><p>Positive Float-type Tensor that is the same dtype and is
 broadcastable with scale.
-This is k in Y = g(X) = 1 - exp((-x / l) ** k).</p></td>
+This is k in <code>Y = g(X) = 1 - exp((-x / l) ** k)</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Y ~ Weibull(scale, concentration)
-pdf(y; scale, concentration, y &gt;= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)</p>
+    <p><code>Y ~ Weibull(scale, concentration)</code>
+<code>pdf(y; scale, concentration, y &gt;= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)</code></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

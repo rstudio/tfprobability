@@ -2,17 +2,17 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_kumaraswamy}
 \alias{tfb_kumaraswamy}
-\title{Compute Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1].}
+\title{Compute \code{Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)}, X in \code{[0, 1]}.}
 \usage{
 tfb_kumaraswamy(concentration1 = NULL, concentration0 = NULL,
   validate_args = FALSE, name = "kumaraswamy")
 }
 \arguments{
 \item{concentration1}{float scalar indicating the transform power, i.e.,
-Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where a is concentration1.}
+\code{Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where a is concentration1.}}
 
 \item{concentration0}{float scalar indicating the transform power,
-i.e., Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where b is concentration0.}
+i.e., \code{Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)} where b is concentration0.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
@@ -20,11 +20,11 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This bijector maps inputs from [0, 1] to [0, 1]. The inverse of the
+This bijector maps inputs from \link{0, 1} to \link{0, 1}. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
-random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
-Y ~ Kumaraswamy(a, b)
-pdf(y; a, b, 0 <= y <= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)
+random variable with the \href{https://en.wikipedia.org/wiki/Kumaraswamy_distribution}{Kumaraswamy distribution}:
+\code{Y ~ Kumaraswamy(a, b)}
+\code{pdf(y; a, b, 0 <= y <= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

@@ -32,16 +32,17 @@
 
 <meta property="og:title" content="Reshapes the event_shape of a Tensor. — tfb_reshape" />
 
-<meta property="og:description" content="The semantics generally follow that of tf.reshape(), with a few differences:
-  * The user must provide both the input and output shape, so that
-    the transformation can be inverted. If an input shape is not
-    specified, the default assumes a vector-shaped input, i.e.,
-    event_shape_in = list(-1).
-  * The Reshape bijector automatically broadcasts over the leftmost
-  dimensions of its input (sample_shape and batch_shape); only
-  the rightmost event_ndims_in dimensions are reshaped. The
-  number of dimensions to reshape is inferred from the provided
-  event_shape_in (event_ndims_in = length(event_shape_in))." />
+<meta property="og:description" content="The semantics generally follow that of tf$reshape(), with a few differences:
+The user must provide both the input and output shape, so that
+the transformation can be inverted. If an input shape is not
+specified, the default assumes a vector-shaped input, i.e.,
+event_shape_in = list(-1).
+The Reshape bijector automatically broadcasts over the leftmost
+dimensions of its input (sample_shape and batch_shape); only
+the rightmost event_ndims_in dimensions are reshaped. The
+number of dimensions to reshape is inferred from the provided
+event_shape_in (event_ndims_in = length(event_shape_in)).
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,16 +123,17 @@
 
     <div class="ref-description">
     
-    <p>The semantics generally follow that of tf.reshape(), with a few differences:
-  * The user must provide both the input and output shape, so that
-    the transformation can be inverted. If an input shape is not
-    specified, the default assumes a vector-shaped input, i.e.,
-    event_shape_in = list(-1).
-  * The Reshape bijector automatically broadcasts over the leftmost
-  dimensions of its input (sample_shape and batch_shape); only
-  the rightmost event_ndims_in dimensions are reshaped. The
-  number of dimensions to reshape is inferred from the provided
-  event_shape_in (event_ndims_in = length(event_shape_in)).</p>
+    <p>The semantics generally follow that of <code>tf$reshape()</code>, with a few differences:</p><ul>
+<li><p>The user must provide both the input and output shape, so that
+the transformation can be inverted. If an input shape is not
+specified, the default assumes a vector-shaped input, i.e.,
+<code>event_shape_in = list(-1)</code>.</p></li>
+<li><p>The Reshape bijector automatically broadcasts over the leftmost
+dimensions of its input (sample_shape and batch_shape); only
+the rightmost event_ndims_in dimensions are reshaped. The
+number of dimensions to reshape is inferred from the provided
+event_shape_in (<code>event_ndims_in = length(event_shape_in))</code>.</p></li>
+</ul>
     
     </div>
 

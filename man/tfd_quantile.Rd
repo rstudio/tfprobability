@@ -14,11 +14,11 @@ tfd_quantile(distribution, value, name = "quantile")
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
+a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
-Given random variable X and p in [0, 1], the quantile is:
-quantile(p) := x such that P[X <= x] == p
+Given random variable X and p in \link{0, 1}, the quantile is:
+\code{tfd_quantile(p) := x} such that \code{P[X <= x] == p}
 }
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},

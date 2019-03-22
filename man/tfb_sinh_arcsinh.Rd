@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_sinh_arcsinh}
 \alias{tfb_sinh_arcsinh}
-\title{Compute Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ).}
+\title{Compute \code{Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )}.}
 \usage{
 tfb_sinh_arcsinh(skewness = NULL, tailweight = NULL,
   validate_args = FALSE, name = "SinhArcsinh")
@@ -18,26 +18,26 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-For skewness in (-inf, inf) and tailweight in (0, inf), this
-transformation is a diffeomorphism of the real line (-inf, inf).
-The inverse transform is X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness ).
+For skewness in \code{(-inf, inf)} and tailweight in \code{(0, inf)}, this
+transformation is a diffeomorphism of the real line \code{(-inf, inf)}.
+The inverse transform is \code{X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness )}.
 The SinhArcsinh transformation of the Normal is described in
-[Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865)
+\href{https://www.jstor.org/stable/27798865}{Sinh-arcsinh distributions}
 }
 \details{
-This Bijector allows a similar transformation of any distribution supported on (-inf, inf).
-
-# Meaning of the parameters
-* If skewness = 0 and tailweight = 1, this transform is the identity.
-* Positive (negative) skewness leads to positive (negative) skew.
-* positive skew means, for unimodal X centered at zero, the mode of Y is "tilted" to the right.
-* positive skew means positive values of Y become more likely, and negative values become less likely.
-* Larger (smaller) tailweight leads to fatter (thinner) tails.
-* Fatter tails mean larger values of |Y| become more likely.
-* If X is a unit Normal, tailweight < 1 leads to a distribution that is "flat" around Y = 0, and a very steep drop-off in the tails.
-* If X is a unit Normal, tailweight > 1 leads to a distribution more peaked at the mode with heavier tails.
-To see the argument about the tails, note that for |X| >> 1 and |X| >> (|skewness| * tailweight)**tailweight, we have
-Y approx 0.5 X**tailweight e**(sign(X) skewness * tailweight).
+This Bijector allows a similar transformation of any distribution supported on \code{(-inf, inf)}.Meaning of the parameters
+\itemize{
+\item If skewness = 0 and tailweight = 1, this transform is the identity.
+\item Positive (negative) skewness leads to positive (negative) skew.
+\item positive skew means, for unimodal X centered at zero, the mode of Y is "tilted" to the right.
+\item positive skew means positive values of Y become more likely, and negative values become less likely.
+\item Larger (smaller) tailweight leads to fatter (thinner) tails.
+\item Fatter tails mean larger values of |Y| become more likely.
+\item If X is a unit Normal, tailweight < 1 leads to a distribution that is "flat" around Y = 0, and a very steep drop-off in the tails.
+\item If X is a unit Normal, tailweight > 1 leads to a distribution more peaked at the mode with heavier tails.
+To see the argument about the tails, note that for |X| >> 1 and |X| >> (|skewness| * tailweight)\strong{tailweight, we have
+Y approx 0.5 X}tailweight e**(sign(X) skewness * tailweight).
+}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

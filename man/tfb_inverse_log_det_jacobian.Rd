@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijector-methods.R
 \name{tfb_inverse_log_det_jacobian}
 \alias{tfb_inverse_log_det_jacobian}
-\title{Returns the (log o det o Jacobian o inverse)(y).}
+\title{Returns the \code{(log o det o Jacobian o inverse)(y)}.}
 \usage{
 tfb_inverse_log_det_jacobian(bijector, y, event_ndims,
   name = "inverse_log_det_jacobian")
@@ -15,10 +15,10 @@ tfb_inverse_log_det_jacobian(bijector, y, event_ndims,
 \item{event_ndims}{Number of dimensions in the probabilistic events being transformed.
 Must be greater than or equal to bijector$inverse_min_event_ndims. The result is summed over the final
 dimensions to produce a scalar Jacobian determinant for each event, i.e. it has shape
- x$shape$ndims - event_ndims dimensions.}
+x$shape$ndims - event_ndims dimensions.}
 }
 \description{
-Returns the (log o det o Jacobian o inverse)(y).
+Returns the \code{(log o det o Jacobian o inverse)(y)}.
 }
 \seealso{
 Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},

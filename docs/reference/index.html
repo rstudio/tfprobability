@@ -174,17 +174,13 @@
         <td>
           <p><code><a href="tfd_vector_laplace_diag.html">tfd_vector_laplace_diag()</a></code> </p>
         </td>
-        <td><p>The vectorization of the Laplace distribution on R^k.</p></td>
+        <td><p>The vectorization of the Laplace distribution on <code>R^k</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfd_vector_laplace_linear_operator.html">tfd_vector_laplace_linear_operator()</a></code> </p>
         </td>
-        <td><p>The vectorization of the Laplace distribution on R^k.
-The vector laplace distribution is defined over R^k, and parameterized by
-a (batch of) length-k loc vector (the means) and a (batch of) k x k
-scale matrix:  covariance = 2 * scale @ scale.T, where @ denotes
-matrix-multiplication.</p></td>
+        <td><p>The vectorization of the Laplace distribution on <code>R^k</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -202,7 +198,7 @@ matrix-multiplication.</p></td>
         <td>
           <p><code><a href="tfd_von_mises_fisher.html">tfd_von_mises_fisher()</a></code> </p>
         </td>
-        <td><p>The von Mises-Fisher distribution over unit vectors on S^n-1.</p></td>
+        <td><p>The von Mises-Fisher distribution over unit vectors on <code>S^{n-1}</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -231,13 +227,7 @@ The Zipf distribution is parameterized by a power parameter.</p></td>
         </td>
         <td><p>Cumulative distribution function.
 Given random variable X, the cumulative distribution function cdf is:
-cdf(x) := P[X &lt;= x]</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tfd_covariance.html">tfd_covariance()</a></code> </p>
-        </td>
-        <td><p>Covariance.</p></td>
+<code>cdf(x) := P[X &lt;= x]</code></p></td>
       </tr><tr>
         
         <td>
@@ -353,7 +343,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="layer_multivariate_normal_tri_l.html">layer_multivariate_normal_tri_l()</a></code> </p>
         </td>
-        <td><p>A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.</p></td>
+        <td><p>A d-variate MVNTriL Keras layer from <code>d+d*(d+1)/ 2</code> params.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -373,7 +363,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="masked_dense.html">masked_dense()</a></code> </p>
         </td>
-        <td><p>An autoregressively masked dense layer. Analogous to tf$layers$dense.</p></td>
+        <td><p>An autoregressively masked dense layer. Analogous to <code>tf$layers$dense</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -385,7 +375,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_absolute_value.html">tfb_absolute_value()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = Abs(X), element-wise.</p></td>
+        <td><p>Compute <code>Y = g(X) = Abs(X)</code>, element-wise.</p></td>
       </tr><tr>
         
         <td>
@@ -397,7 +387,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_affine_linear_operator.html">tfb_affine_linear_operator()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X; shift, scale) = scale @ X + shift.</p></td>
+        <td><p>Compute <code>Y = g(X; shift, scale) = scale @ X + shift</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -409,7 +399,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_batch_normalization.html">tfb_batch_normalization()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y).</p></td>
+        <td><p>Compute <code>Y = g(X)</code> s.t. <code>X = g^-1(Y) = (Y - mean(Y)) / std(Y)</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -427,31 +417,31 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_cholesky_outer_product.html">tfb_cholesky_outer_product()</a></code> </p>
         </td>
-        <td><p>Compute g(X) = X @ X.T; X is lower-triangular, positive-diagonal matrix.</p></td>
+        <td><p>Compute <code>g(X) = X @ X.T</code>; <code>X</code> is lower-triangular, positive-diagonal matrix.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_cholesky_to_inv_cholesky.html">tfb_cholesky_to_inv_cholesky()</a></code> </p>
         </td>
-        <td><p>Maps the Cholesky factor of M to the Cholesky factor of M^-1.</p></td>
+        <td><p>Maps the Cholesky factor of M to the Cholesky factor of <code>M^{-1}</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = DCT(X), where DCT type is indicated by the type arg.</p></td>
+        <td><p>Compute <code>Y = g(X) = DCT(X)</code>, where DCT type is indicated by the type arg.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_exp.html">tfb_exp()</a></code> </p>
         </td>
-        <td><p>Compute Y=g(X)=exp(X)</p></td>
+        <td><p>Compute <code>Y=g(X)=exp(X)</code></p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_expm1.html">tfb_expm1()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = exp(X) - 1.</p></td>
+        <td><p>Compute <code>Y = g(X) = exp(X) - 1</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -463,13 +453,13 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_gumbel.html">tfb_gumbel()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = exp(-exp(-(X - loc) / scale)).</p></td>
+        <td><p>Compute <code>Y = g(X) = exp(-exp(-(X - loc) / scale))</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_identity.html">tfb_identity()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = X.</p></td>
+        <td><p>Compute <code>Y = g(X) = X</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -487,7 +477,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_kumaraswamy.html">tfb_kumaraswamy()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1].</p></td>
+        <td><p>Compute <code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code>, X in <code>[0, 1]</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -499,7 +489,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_matrix_inverse_tri_l.html">tfb_matrix_inverse_tri_l()</a></code> </p>
         </td>
-        <td><p>Computes g(L) = inv(L), where L is a lower-triangular matrix.</p></td>
+        <td><p>Computes <code>g(L) = inv(L)</code>, where L is a lower-triangular matrix.</p></td>
       </tr><tr>
         
         <td>
@@ -511,7 +501,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_normal_cdf.html">tfb_normal_cdf()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = NormalCDF(x).</p></td>
+        <td><p>Compute <code>Y = g(X) = NormalCDF(x)</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -529,7 +519,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_power_transform.html">tfb_power_transform()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = (1 + X * c)**(1 / c), X &gt;= -1 / c.</p></td>
+        <td><p>Compute <code>Y = g(X) = (1 + X * c)**(1 / c)</code>, <code>X &gt;= -1 / c</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -541,7 +531,7 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_reciprocal.html">tfb_reciprocal()</a></code> </p>
         </td>
-        <td><p>A Bijector that computes b(x) = 1. / x.</p></td>
+        <td><p>A Bijector that computes <code>b(x) = 1. / x</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -553,58 +543,49 @@ cdf(x) := P[X &lt;= x]</p></td>
         <td>
           <p><code><a href="tfb_scale_tri_l.html">tfb_scale_tri_l()</a></code> </p>
         </td>
-        <td><p>Transforms unconstrained vectors to TriL matrices with positive diagonal.
-This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
-tfb_transform_diagonal, and provided mostly as a convenience.
-The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.</p></td>
+        <td><p>Transforms unconstrained vectors to TriL matrices with positive diagonal.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_sigmoid.html">tfb_sigmoid()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = 1 / (1 + exp(-X)).</p></td>
+        <td><p>Compute <code>Y = g(X) = 1 / (1 + exp(-X))</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_sinh_arcsinh.html">tfb_sinh_arcsinh()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ).</p></td>
+        <td><p>Compute <code>Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_softmax_centered.html">tfb_softmax_centered()</a></code> </p>
         </td>
-        <td><p>Bijector which computes Y = g(X) = exp([X 0]) / sum(exp([X 0])).
-To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
-bijection, the forward transformation appends a value to the input and the
-inverse removes this coordinate. The appended coordinate represents a pivot,
-e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
-coordinate.</p></td>
+        <td><p>Bijector which computes <code>Y = g(X) = exp([X 0]) / sum(exp([X 0]))</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_softplus.html">tfb_softplus()</a></code> </p>
         </td>
-        <td><p>Bijector which computes Y = g(X) = Log[1 + exp(X)].</p></td>
+        <td><p>Bijector which computes <code>Y = g(X) = Log[1 + exp(X)]</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_softsign.html">tfb_softsign()</a></code> </p>
         </td>
-        <td><p>Bijector which computes Y = g(X) = X / (1 + |X|).</p></td>
+        <td><p>Bijector which computes <code>Y = g(X) = X / (1 + |X|)</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_square.html">tfb_square()</a></code> </p>
         </td>
-        <td><p>Compute g(X) = X^2; X is a positive real number.</p></td>
+        <td><p>Compute <code>g(X) = X^2</code>; X is a positive real number.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_tanh.html">tfb_tanh()</a></code> </p>
         </td>
-        <td><p>Bijector that computes Y = tanh(X), therefore Y in (-1, 1).</p></td>
+        <td><p>Bijector that computes <code>Y = tanh(X)</code>, therefore Y in <code>(-1, 1)</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -616,13 +597,13 @@ coordinate.</p></td>
         <td>
           <p><code><a href="tfb_transpose.html">tfb_transpose()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = transpose_rightmost_dims(X, rightmost_perm).</p></td>
+        <td><p>Compute <code>Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_weibull.html">tfb_weibull()</a></code> </p>
         </td>
-        <td><p>Compute Y = g(X) = 1 - exp((-X / scale) ** concentration), X &gt;= 0.</p></td>
+        <td><p>Compute <code>Y = g(X) = 1 - exp((-X / scale) ** concentration)</code>, X &gt;= 0.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -636,7 +617,7 @@ coordinate.</p></td>
         <td>
           <p><code><a href="tfb_forward.html">tfb_forward()</a></code> </p>
         </td>
-        <td><p>Returns the forward Bijector evaluation, i.e., X = g(Y).</p></td>
+        <td><p>Returns the forward Bijector evaluation, i.e., <code>X = g(Y)</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -648,13 +629,13 @@ coordinate.</p></td>
         <td>
           <p><code><a href="tfb_inverse.html">tfb_inverse()</a></code> </p>
         </td>
-        <td><p>Returns the inverse Bijector evaluation, i.e., X = g^-1(Y).</p></td>
+        <td><p>Returns the inverse Bijector evaluation, i.e., <code>X = g^{-1}(Y)</code>.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="tfb_inverse_log_det_jacobian.html">tfb_inverse_log_det_jacobian()</a></code> </p>
         </td>
-        <td><p>Returns the (log o det o Jacobian o inverse)(y).</p></td>
+        <td><p>Returns the <code>(log o det o Jacobian o inverse)(y)</code>.</p></td>
       </tr>
     </tbody>
     </table>

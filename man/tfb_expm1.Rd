@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_expm1}
 \alias{tfb_expm1}
-\title{Compute Y = g(X) = exp(X) - 1.}
+\title{Compute \code{Y = g(X) = exp(X) - 1}.}
 \usage{
 tfb_expm1(validate_args = FALSE, name = "expm1")
 }
@@ -13,9 +13,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This Bijector is no different from Chain([AffineScalar(shift=-1), Exp()]).
+This Bijector is no different from \code{tfb_chain(list(tfb_affine_scalar(shift=-1), tfb_exp()))}.
 However, this makes use of the more numerically stable routines
-tf.math.expm1 and tf.log1p.
+\code{tf$math$expm1} and \code{tf$log1p}.
 }
 \details{
 Note: the expm1(.) is applied element-wise but the Jacobian is a reduction

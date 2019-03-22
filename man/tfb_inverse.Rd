@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijector-methods.R
 \name{tfb_inverse}
 \alias{tfb_inverse}
-\title{Returns the inverse Bijector evaluation, i.e., X = g^{-1}(Y).}
+\title{Returns the inverse Bijector evaluation, i.e., \code{X = g^{-1}(Y)}.}
 \usage{
 tfb_inverse(bijector, y, name = "inverse")
 }
@@ -12,7 +12,7 @@ tfb_inverse(bijector, y, name = "inverse")
 \item{y}{Tensor. The input to the "inverse" evaluation.}
 }
 \description{
-Returns the inverse Bijector evaluation, i.e., X = g^{-1}(Y).
+Returns the inverse Bijector evaluation, i.e., \code{X = g^{-1}(Y)}.
 }
 \seealso{
 Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},

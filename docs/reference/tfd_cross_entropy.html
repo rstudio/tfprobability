@@ -120,8 +120,8 @@ where F denotes the support of the random variable X ~ P." />
     <p>Denote this distribution (self) by P and the other distribution by Q.
 Assuming P, Q are absolutely continuous with respect to one another and permit densities
 p(x) dr(x) and q(x) dr(x), (Shannon) cross entropy is defined as:
-H[P, Q] = E_p[-log q(X)] = -int_F p(x) log q(x) dr(x)
-where F denotes the support of the random variable X ~ P.</p>
+<code>H[P, Q] = E_p[-log q(X)] = -int_F p(x) log q(x) dr(x)</code>
+where F denotes the support of the random variable <code>X ~ P</code>.</p>
     
     </div>
 
@@ -136,7 +136,7 @@ where F denotes the support of the random variable X ~ P.</p>
     </tr>
     <tr>
       <th>other</th>
-      <td><p>tfp$distributions$Distribution instance.</p></td>
+      <td><p><code>tfp$distributions$Distribution</code> instance.</p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -146,7 +146,7 @@ where F denotes the support of the random variable X ~ P.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>cross_entropy: self.dtype Tensor with shape [B1, ..., Bn] representing n different calculations of (Shannon) cross entropy.</p>
+    <p>cross_entropy: self.dtype Tensor with shape <code>[B1, ..., Bn]</code> representing n different calculations of (Shannon) cross entropy.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

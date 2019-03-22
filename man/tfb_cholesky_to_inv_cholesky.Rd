@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_cholesky_to_inv_cholesky}
 \alias{tfb_cholesky_to_inv_cholesky}
-\title{Maps the Cholesky factor of M to the Cholesky factor of M^{-1}.}
+\title{Maps the Cholesky factor of M to the Cholesky factor of \code{M^{-1}}.}
 \usage{
 tfb_cholesky_to_inv_cholesky(validate_args = FALSE,
   name = "cholesky_to_inv_cholesky")
@@ -15,8 +15,8 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 }
 \description{
 The forward and inverse calculations are conceptually identical to:
-def forward(x): return tf.cholesky(tf.linalg.inv(tf.matmul(x, x, adjoint_b=True)))
-inverse = forward
+\code{forward <- function(x) tf$cholesky(tf$linalg$inv(tf$matmul(x, x, adjoint_b=TRUE)))}
+\code{inverse = forward}
 However, the actual calculations exploit the triangular structure of the matrices.
 }
 \seealso{

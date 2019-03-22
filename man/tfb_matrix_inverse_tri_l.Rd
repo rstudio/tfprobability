@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_matrix_inverse_tri_l}
 \alias{tfb_matrix_inverse_tri_l}
-\title{Computes g(L) = inv(L), where L is a lower-triangular matrix.}
+\title{Computes \code{g(L) = inv(L)}, where L is a lower-triangular matrix.}
 \usage{
 tfb_matrix_inverse_tri_l(validate_args = FALSE,
   name = "matrix_inverse_tril")
@@ -16,8 +16,8 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \description{
 L must be nonsingular; equivalently, all diagonal entries of L must be nonzero.
 The input must have rank >= 2.  The input is treated as a batch of matrices
-with batch shape input.shape[:-2], where each matrix has dimensions
-input.shape[-2] by input.shape[-1] (hence input.shape[-2] must equal input.shape[-1]).
+with batch shape \code{input.shape[:-2]}, where each matrix has dimensions
+\code{input.shape[-2]} by \code{input.shape[-1]} (hence \code{input.shape[-2]} must equal \code{input.shape[-1]}).
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

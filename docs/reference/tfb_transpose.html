@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Y = g(X) = transpose_rightmost_dims(X, rightmost_perm). — tfb_transpose • tfprobability</title>
+<title>Compute <code>Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)</code>. — tfb_transpose • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Compute Y = g(X) = transpose_rightmost_dims(X, rightmost_perm). — tfb_transpose" />
+<meta property="og:title" content="Compute <code>Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)</code>. — tfb_transpose" />
 
 <meta property="og:description" content="This bijector is semantically similar to tf.transpose except that it
 transposes only the rightmost &quot;event&quot; dimensions. That is, unlike
@@ -110,7 +110,7 @@ i.e., users specify the (rightmost) dimensions to permute, not all dimensions." 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Y = g(X) = transpose_rightmost_dims(X, rightmost_perm).</h1>
+    <h1>Compute <code>Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)</code>.</h1>
     
     <div class="hidden name"><code>tfb_transpose.Rd</code></div>
     </div>
@@ -119,8 +119,8 @@ i.e., users specify the (rightmost) dimensions to permute, not all dimensions." 
     
     <p>This bijector is semantically similar to tf.transpose except that it
 transposes only the rightmost "event" dimensions. That is, unlike
-tf$transpose the perm argument is itself a permutation of
-tf$range(rightmost_transposed_ndims) rather than tf$range(tf$rank(x)),
+<code>tf$transpose</code> the perm argument is itself a permutation of
+<code>tf$range(rightmost_transposed_ndims)</code> rather than <code>tf$range(tf$rank(x))</code>,
 i.e., users specify the (rightmost) dimensions to permute, not all dimensions.</p>
     
     </div>
@@ -136,16 +136,16 @@ i.e., users specify the (rightmost) dimensions to permute, not all dimensions.</
       <td><p>Positive integer vector-shaped Tensor representing permutation of
 rightmost dims (for forward transformation).  Note that the 0th index
 represents the first of the rightmost dims and the largest value must be
-rightmost_transposed_ndims - 1 and corresponds to tf$rank(x) - 1.
+rightmost_transposed_ndims - 1 and corresponds to <code>tf$rank(x) - 1</code>.
 Only one of perm and rightmost_transposed_ndims can (and must) be specified.
-Default value: tf$range(start=rightmost_transposed_ndims, limit=-1, delta=-1).</p></td>
+Default value: <code>tf$range(start=rightmost_transposed_ndims, limit=-1, delta=-1)</code>.</p></td>
     </tr>
     <tr>
       <th>rightmost_transposed_ndims</th>
       <td><p>Positive integer scalar-shaped Tensor
 representing the number of rightmost dimensions to permute.
 Only one of perm and rightmost_transposed_ndims can (and must) be
-specified. Default value: tf$size(perm).</p></td>
+specified. Default value: <code>tf$size(perm)</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -161,9 +161,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The actual (forward) transformation is:</p>
-<p>sample_batch_ndims &lt;- tf$rank(x) - tf$size(perm)
+<p><code>sample_batch_ndims &lt;- tf$rank(x) - tf$size(perm)
 perm = tf$concat(list(tf$range(sample_batch_ndims), sample_batch_ndims + perm),axis=0)
-tf$transpose(x, perm)</p>
+tf$transpose(x, perm)</code></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

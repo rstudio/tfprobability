@@ -12,10 +12,10 @@ layer_distribution_lambda(object, make_distribution_fn,
 \arguments{
 \item{object}{Model or layer object}
 
-\item{make_distribution_fn}{A callable that takes previous layer outputs and returns a tfd$Distribution instance.}
+\item{make_distribution_fn}{A callable that takes previous layer outputs and returns a \code{tfd$distributions$Distribution} instance.}
 
 \item{convert_to_tensor_fn}{A callable that takes a tfd$Distribution instance and returns a
-tf$Tensor-like object. Default value: tfd$Distribution$sample.}
+tf$Tensor-like object. Default value: \code{tfd$distributions$Distribution$sample}.}
 
 \item{batch_input_shape}{Shapes, including the batch size. For instance,
 \code{batch_input_shape=c(10, 32)} indicates that the expected input will be

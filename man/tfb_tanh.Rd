@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_tanh}
 \alias{tfb_tanh}
-\title{Bijector that computes Y = tanh(X), therefore Y in (-1, 1).}
+\title{Bijector that computes \code{Y = tanh(X)}, therefore Y in \code{(-1, 1)}.}
 \usage{
 tfb_tanh(validate_args = FALSE, name = "tanh")
 }
@@ -16,9 +16,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 This can be achieved by an affine transform of the Sigmoid bijector, i.e., it is equivalent to
 }
 \details{
-tfb_chain(list(tfb_affine(shift = -1, scale = 2),
+\code{tfb_chain(list(tfb_affine(shift = -1, scale = 2),
                tfb_sigmoid(),
-               tfb_affine(scale = 2)))
+               tfb_affine(scale = 2)))}
 
 However, using the Tanh bijector directly is slightly faster and more numerically stable.
 }

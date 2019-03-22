@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_normal_cdf}
 \alias{tfb_normal_cdf}
-\title{Compute Y = g(X) = NormalCDF(x).}
+\title{Compute \code{Y = g(X) = NormalCDF(x)}.}
 \usage{
 tfb_normal_cdf(validate_args = FALSE, name = "normal")
 }
@@ -13,13 +13,13 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This bijector maps inputs from [-inf, inf] to [0, 1]. The inverse of the
-bijector applied to a uniform random variable X ~ U(0, 1) gives back a
-random variable with the [Normal distribution](https://en.wikipedia.org/wiki/Normal_distribution):
+This bijector maps inputs from \code{[-inf, inf]} to \code{[0, 1]}. The inverse of the
+bijector applied to a uniform random variable \code{X ~ U(0, 1)} gives back a
+random variable with the \href{https://en.wikipedia.org/wiki/Normal_distribution}{Normal distribution}:
 }
 \details{
-Y ~ Normal(0, 1)
-pdf(y; 0., 1.) = 1 / sqrt(2 * pi) * exp(-y ** 2 / 2)
+\code{Y ~ Normal(0, 1)}
+\code{pdf(y; 0., 1.) = 1 / sqrt(2 * pi) * exp(-y ** 2 / 2)}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

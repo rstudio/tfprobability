@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1]. — tfb_kumaraswamy • tfprobability</title>
+<title>Compute <code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code>, X in <code>[0, 1]</code>. — tfb_kumaraswamy • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,11 @@
 
 
 
-<meta property="og:title" content="Compute Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1]. — tfb_kumaraswamy" />
+<meta property="og:title" content="Compute <code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code>, X in <code>[0, 1]</code>. — tfb_kumaraswamy" />
 
-<meta property="og:description" content="This bijector maps inputs from [0, 1] to [0, 1]. The inverse of the
+<meta property="og:description" content="This bijector maps inputs from 0, 1 to 0, 1. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
-random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
+random variable with the Kumaraswamy distribution:
 Y ~ Kumaraswamy(a, b)
 pdf(y; a, b, 0 &amp;lt;= y &amp;lt;= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)" />
 <meta name="twitter:card" content="summary" />
@@ -110,18 +110,18 @@ pdf(y; a, b, 0 &amp;lt;= y &amp;lt;= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a), X in [0, 1].</h1>
+    <h1>Compute <code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code>, X in <code>[0, 1]</code>.</h1>
     
     <div class="hidden name"><code>tfb_kumaraswamy.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This bijector maps inputs from [0, 1] to [0, 1]. The inverse of the
+    <p>This bijector maps inputs from 0, 1 to 0, 1. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
-random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
-Y ~ Kumaraswamy(a, b)
-pdf(y; a, b, 0 &lt;= y &lt;= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)</p>
+random variable with the <a href='https://en.wikipedia.org/wiki/Kumaraswamy_distribution'>Kumaraswamy distribution</a>:
+<code>Y ~ Kumaraswamy(a, b)</code>
+<code>pdf(y; a, b, 0 &lt;= y &lt;= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)</code></p>
     
     </div>
 
@@ -134,12 +134,12 @@ pdf(y; a, b, 0 &lt;= y &lt;= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)</
     <tr>
       <th>concentration1</th>
       <td><p>float scalar indicating the transform power, i.e.,
-Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where a is concentration1.</p></td>
+<code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where a is concentration1.</code></p></td>
     </tr>
     <tr>
       <th>concentration0</th>
       <td><p>float scalar indicating the transform power,
-i.e., Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where b is concentration0.</p></td>
+i.e., <code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code> where b is concentration0.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>

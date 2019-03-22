@@ -2,14 +2,14 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_batch_normalization}
 \alias{tfb_batch_normalization}
-\title{Compute Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y).}
+\title{Compute \code{Y = g(X)} s.t. \code{X = g^-1(Y) = (Y - mean(Y)) / std(Y)}.}
 \usage{
 tfb_batch_normalization(batchnorm_layer = NULL, training = TRUE,
   validate_args = FALSE, name = "batch_normalization")
 }
 \arguments{
-\item{batchnorm_layer}{tf$layers$BatchNormalization layer object. If NULL, defaults to
-tf$layers$BatchNormalization(gamma_constraint=tf.nn.relu(x) + 1e-6).
+\item{batchnorm_layer}{\code{tf$layers$BatchNormalization} layer object. If NULL, defaults to
+\code{tf$layers$BatchNormalization(gamma_constraint=tf$nn$relu(x) + 1e-6)}.
 This ensures positivity of the scale variable.}
 
 \item{training}{If TRUE, updates running-average statistics during call to inverse().}
@@ -20,39 +20,39 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Applies Batch Normalization [(Ioffe and Szegedy, 2015)][1] to samples from a
+Applies Batch Normalization \link[=1]{(Ioffe and Szegedy, 2015)} to samples from a
 data distribution. This can be used to stabilize training of normalizing
-flows ([Papamakarios et al., 2016][3]; [Dinh et al., 2017][2])
+flows (\link[=3]{Papamakarios et al., 2016}; \link[=2]{Dinh et al., 2017})
 }
 \details{
 When training Deep Neural Networks (DNNs), it is common practice to
 normalize or whiten features by shifting them to have zero mean and
 scaling them to have unit variance.
 
-The inverse() method of the BatchNormalization bijector, which is used in
+The \code{inverse()} method of the BatchNormalization bijector, which is used in
 the log-likelihood computation of data samples, implements the normalization
 procedure (shift-and-scale) using the mean and standard deviation of the
 current minibatch.
 
-Conversely, the forward() method of the bijector de-normalizes samples (e.g.
-X*std(Y) + mean(Y) with the running-average mean and standard deviation
+Conversely, the \code{forward()} method of the bijector de-normalizes samples (e.g.
+\code{X*std(Y) + mean(Y)} with the running-average mean and standard deviation
 computed at training-time. De-normalization is useful for sampling.
 
 During training time, BatchNormalization.inverse and BatchNormalization.forward are not
- guaranteed to be inverses of each other because inverse(y) uses statistics of the current minibatch,
- while forward(x) uses running-average statistics accumulated from training.
- In other words, BatchNormalization.inverse(BatchNormalization.forward(...)) and
- BatchNormalization.forward(BatchNormalization.inverse(...)) will be identical when
-  training=FALSE but may be different when training=TRUE.
+guaranteed to be inverses of each other because \code{inverse(y)} uses statistics of the current minibatch,
+while \code{forward(x)} uses running-average statistics accumulated from training.
+In other words, \code{tfb_batch_normalization()$inverse(tfb_batch_normalization()$forward(...))} and
+\code{tfb_batch_normalization()$forward(tfb_batch_normalization()$inverse(...))} will be identical when
+training=FALSE but may be different when training=TRUE.
 
 References
-[1]: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training
- by Reducing Internal Covariate Shift.
- In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03167
-[2]: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP.
-In _International Conference on Learning Representations_, 2017. https://arxiv.org/abs/1605.08803
-[3]: George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation.
-In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+\link{1}: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training
+by Reducing Internal Covariate Shift.
+In \emph{International Conference on Machine Learning}, 2015. https://arxiv.org/abs/1502.03167
+\link{2}: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP.
+In \emph{International Conference on Learning Representations}, 2017. https://arxiv.org/abs/1605.08803
+\link{3}: George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation.
+In \emph{Neural Information Processing Systems}, 2017. https://arxiv.org/abs/1705.07057
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

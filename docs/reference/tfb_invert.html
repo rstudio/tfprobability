@@ -37,8 +37,8 @@ Note: An inverted bijector's inverse_log_det_jacobian is often more
 efficient if the base bijector implements _forward_log_det_jacobian. If
 _forward_log_det_jacobian is not implemented then the following code is
 used:
-y = self.inverse(x, **kwargs)
-return -self.inverse_log_det_jacobian(y, **kwargs)" />
+y = b$inverse(x)
+ -b$inverse_log_det_jacobian(y)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -124,8 +124,8 @@ Note: An inverted bijector's inverse_log_det_jacobian is often more
 efficient if the base bijector implements _forward_log_det_jacobian. If
 _forward_log_det_jacobian is not implemented then the following code is
 used:
-y = self.inverse(x, **kwargs)
-return -self.inverse_log_det_jacobian(y, **kwargs)</p>
+<code>y = b$inverse(x)</code>
+<code> -b$inverse_log_det_jacobian(y)</code></p>
     
     </div>
 

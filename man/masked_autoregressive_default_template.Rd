@@ -11,7 +11,7 @@ masked_autoregressive_default_template(hidden_layers, shift_only = FALSE,
 }
 \arguments{
 \item{hidden_layers}{list-like of non-negative integer, scalars indicating the number
-of units in each hidden layer. Default: list(512, 512).}
+of units in each hidden layer. Default: \code{list(512, 512)}.}
 
 \item{shift_only}{logical indicating if only the shift term shall be
 computed. Default: FALSE.}
@@ -26,22 +26,21 @@ computed. Default: FALSE.}
 
 \item{name}{A name for ops managed by this function. Default: "masked_autoregressive_default_template".}
 
-\item{...}{tf$layers$dense arguments}
+\item{...}{\code{tf$layers$dense} arguments}
 }
 \description{
 This will be wrapped in a make_template to ensure the variables are only
 created once. It takes the input and returns the loc ("mu" in
-[Germain et al. (2015)][1]) and log_scale ("alpha" in [Germain et al. (2015)][1]) from
+\link[=1]{Germain et al. (2015)}) and log_scale ("alpha" in \link[=1]{Germain et al. (2015)}) from
 the MADE network.
 }
 \details{
 Warning: This function uses masked_dense to create randomly initialized
-tf$Variables. It is presumed that these will be fit, just as you would any
-other neural architecture which uses tf$layers$dense.
+\code{tf$Variables}. It is presumed that these will be fit, just as you would any
+other neural architecture which uses \code{tf$layers$dense}.About Hidden Layers
 
-# About Hidden Layers
 Each element of hidden_layers should be greater than the input_depth
-(i.e., input_depth = tf$shape(input)[-1] where input is the input to the
+(i.e., \code{input_depth = tf$shape(input)[-1]} where input is the input to the
 neural network). This is necessary to ensure the autoregressivity property.
 
 This function also optionally clips the log_scale (but possibly not its
@@ -51,12 +50,12 @@ bijector to implement a bijection. Additionally, the log_scale_clip_gradient
 bool indicates whether the gradient should also be clipped. The default does
 not clip the gradient; this is useful because it still provides gradient
 information (for fitting) yet solves the numerical stability problem. I.e.,
-log_scale_clip_gradient = FALSE means grad[exp(clip(x))] = grad[x] exp(clip(x))
-rather than the usual grad[clip(x)] exp(clip(x)).
+log_scale_clip_gradient = FALSE means \code{grad[exp(clip(x))] = grad[x] exp(clip(x))}
+rather than the usual \code{grad[clip(x)] exp(clip(x))}.
 References
-[1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
+\link{1}: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 MADE: Masked Autoencoder for Distribution Estimation.
-In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
+In \emph{International Conference on Machine Learning}, 2015. https://arxiv.org/abs/1502.03509
 }
 \seealso{
 Other bijectors: \code{\link{masked_dense}},

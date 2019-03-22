@@ -9,7 +9,7 @@ real_nvp_default_template(hidden_layers, shift_only = FALSE,
 }
 \arguments{
 \item{hidden_layers}{list-like of non-negative integer, scalars indicating the number
-of units in each hidden layer. Default: list(512, 512).}
+of units in each hidden layer. Default: \code{list(512, 512)}.}
 
 \item{shift_only}{logical indicating if only the shift term shall be
 computed (i.e. NICE bijector). Default: FALSE.}
@@ -22,7 +22,7 @@ computed (i.e. NICE bijector). Default: FALSE.}
 }
 \description{
 This will be wrapped in a make_template to ensure the variables are only
-created once. It takes the d-dimensional input x[0:d] and returns the D-d
+created once. It takes the d-dimensional input \code{x[0:d]} and returns the \code{D-d}
 dimensional outputs loc ("mu") and log_scale ("alpha").
 }
 \details{
@@ -32,9 +32,9 @@ real nvp bijector, implement a conditioned shift/scale template that
 handles the condition_kwargs.
 
 References
-[1]: George Papamakarios, Theo Pavlakou, and Iain Murray.
+\link{1}: George Papamakarios, Theo Pavlakou, and Iain Murray.
 Masked Autoregressive Flow for Density Estimation.
-In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+In \emph{Neural Information Processing Systems}, 2017. https://arxiv.org/abs/1705.07057
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

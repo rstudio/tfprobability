@@ -6,11 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Transforms unconstrained vectors to TriL matrices with positive diagonal.
-This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
-tfb_transform_diagonal, and provided mostly as a convenience.
-The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal. — tfb_scale_tri_l • tfprobability</title>
+<title>Transforms unconstrained vectors to TriL matrices with positive diagonal. — tfb_scale_tri_l • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -34,17 +30,12 @@ The default setup is somewhat opinionated, using a Softplus transformation follo
 
 
 
-<meta property="og:title" content="Transforms unconstrained vectors to TriL matrices with positive diagonal.
-This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
-tfb_transform_diagonal, and provided mostly as a convenience.
-The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal. — tfb_scale_tri_l" />
+<meta property="og:title" content="Transforms unconstrained vectors to TriL matrices with positive diagonal. — tfb_scale_tri_l" />
 
-<meta property="og:description" content="Transforms unconstrained vectors to TriL matrices with positive diagonal.
-This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
+<meta property="og:description" content="This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
 tfb_transform_diagonal, and provided mostly as a convenience.
 The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal." />
+small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,22 +109,17 @@ The default setup is somewhat opinionated, using a Softplus transformation follo
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Transforms unconstrained vectors to TriL matrices with positive diagonal.
-This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
-tfb_transform_diagonal, and provided mostly as a convenience.
-The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.</h1>
+    <h1>Transforms unconstrained vectors to TriL matrices with positive diagonal.</h1>
     
     <div class="hidden name"><code>tfb_scale_tri_l.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Transforms unconstrained vectors to TriL matrices with positive diagonal.
-This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
+    <p>This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
 tfb_transform_diagonal, and provided mostly as a convenience.
 The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.</p>
+small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.</p>
     
     </div>
 
@@ -146,7 +132,7 @@ The default setup is somewhat opinionated, using a Softplus transformation follo
     <tr>
       <th>diag_bijector</th>
       <td><p>Bijector instance, used to transform the output diagonal to be positive.
-Default value: NULL (i.e., tfb_softplus()).</p></td>
+Default value: NULL (i.e., <code><a href='tfb_softplus.html'>tfb_softplus()</a></code>).</p></td>
     </tr>
     <tr>
       <th>diag_shift</th>

@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-layers.R
 \name{layer_multivariate_normal_tri_l}
 \alias{layer_multivariate_normal_tri_l}
-\title{A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.}
+\title{A d-variate MVNTriL Keras layer from \code{d+d*(d+1)/ 2} params.}
 \usage{
 layer_multivariate_normal_tri_l(object, event_size,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
@@ -16,7 +16,7 @@ layer_multivariate_normal_tri_l(object, event_size,
 \item{event_size}{Integer vector tensor representing the shape of single draw from this distribution.}
 
 \item{convert_to_tensor_fn}{A callable that takes a tfd$Distribution instance and returns a
-tf$Tensor-like object. Default value: tfd$Distribution$sample.}
+tf$Tensor-like object. Default value: \code{tfd$distributions$Distribution$sample}.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
@@ -48,7 +48,7 @@ isn't provided.}
 a Keras layer that wraps a MultivariateNormalTriL distribution
 }
 \description{
-A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.
+A d-variate MVNTriL Keras layer from \code{d+d*(d+1)/ 2} params.
 }
 \seealso{
 Other Probabilistic layers (require TensorFlow probability): \code{\link{layer_kl_divergence_add_loss}}

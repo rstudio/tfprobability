@@ -117,10 +117,10 @@ where x = sort(y)" />
 
     <div class="ref-description">
     
-    <p>Both the domain and the codomain of the mapping is [-inf, inf], however,
+    <p>Both the domain and the codomain of the mapping is <code>[-inf, inf]</code>, however,
 the input of the forward mapping must be strictly increasing.
-The inverse of the bijector applied to a normal random vector y ~ N(0, 1)
-gives back a sorted random vector with the same distribution x ~ N(0, 1)
+The inverse of the bijector applied to a normal random vector <code>y ~ N(0, 1)</code>
+gives back a sorted random vector with the same distribution <code>x ~ N(0, 1)</code>
 where x = sort(y)</p>
     
     </div>
@@ -144,8 +144,8 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>On the last dimension of the tensor, Ordered bijector performs:
-y[0] = x[0]
-y[1:] = tf$log(x[1:] - x[:-1])'</p>
+<code>y[0] = x[0]</code>
+<code>y[1:] = tf$log(x[1:] - x[:-1])</code></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

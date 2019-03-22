@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_transpose}
 \alias{tfb_transpose}
-\title{Compute Y = g(X) = transpose_rightmost_dims(X, rightmost_perm).}
+\title{Compute \code{Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)}.}
 \usage{
 tfb_transpose(perm = NULL, rightmost_transposed_ndims = NULL,
   validate_args = FALSE, name = "transpose")
@@ -11,14 +11,14 @@ tfb_transpose(perm = NULL, rightmost_transposed_ndims = NULL,
 \item{perm}{Positive integer vector-shaped Tensor representing permutation of
 rightmost dims (for forward transformation).  Note that the 0th index
 represents the first of the rightmost dims and the largest value must be
-rightmost_transposed_ndims - 1 and corresponds to tf$rank(x) - 1.
+rightmost_transposed_ndims - 1 and corresponds to \code{tf$rank(x) - 1}.
 Only one of perm and rightmost_transposed_ndims can (and must) be specified.
-Default value: tf$range(start=rightmost_transposed_ndims, limit=-1, delta=-1).}
+Default value: \code{tf$range(start=rightmost_transposed_ndims, limit=-1, delta=-1)}.}
 
 \item{rightmost_transposed_ndims}{Positive integer scalar-shaped Tensor
 representing the number of rightmost dimensions to permute.
 Only one of perm and rightmost_transposed_ndims can (and must) be
-specified. Default value: tf$size(perm).}
+specified. Default value: \code{tf$size(perm)}.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
@@ -28,16 +28,16 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \description{
 This bijector is semantically similar to tf.transpose except that it
 transposes only the rightmost "event" dimensions. That is, unlike
-tf$transpose the perm argument is itself a permutation of
-tf$range(rightmost_transposed_ndims) rather than tf$range(tf$rank(x)),
+\code{tf$transpose} the perm argument is itself a permutation of
+\code{tf$range(rightmost_transposed_ndims)} rather than \code{tf$range(tf$rank(x))},
 i.e., users specify the (rightmost) dimensions to permute, not all dimensions.
 }
 \details{
 The actual (forward) transformation is:
 
-sample_batch_ndims <- tf$rank(x) - tf$size(perm)
+\code{sample_batch_ndims <- tf$rank(x) - tf$size(perm)
 perm = tf$concat(list(tf$range(sample_batch_ndims), sample_batch_ndims + perm),axis=0)
-tf$transpose(x, perm)
+tf$transpose(x, perm)}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

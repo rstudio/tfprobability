@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Y = g(X) = Abs(X), element-wise. — tfb_absolute_value • tfprobability</title>
+<title>Compute <code>Y = g(X) = Abs(X)</code>, element-wise. — tfb_absolute_value • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,17 +30,18 @@
 
 
 
-<meta property="og:title" content="Compute Y = g(X) = Abs(X), element-wise. — tfb_absolute_value" />
+<meta property="og:title" content="Compute <code>Y = g(X) = Abs(X)</code>, element-wise. — tfb_absolute_value" />
 
 <meta property="og:description" content="This non-injective bijector allows for transformations of scalar distributions
 with the absolute value function, which maps (-inf, inf) to [0, inf).
-* For y in (0, inf), AbsoluteValue.inverse(y) returns the set inverse
-x in (-inf, inf) : |x| = y as a tuple, -y, y.
-AbsoluteValue.inverse(0) returns 0, 0, which is not the set inverse
-(the set inverse is the singleton 0), but &quot;works&quot; in conjunction with
+For y in (0, inf), tfb_absolute_value$inverse(y) returns the set inverse
+{x in (-inf, inf) : |x| = y} as a tuple, -y, y.
+tfb_absolute_value$inverse(0) returns 0, 0, which is not the set inverse
+(the set inverse is the singleton {0}), but &quot;works&quot; in conjunction with
 TransformedDistribution to produce a left semi-continuous pdf.
-For y &amp;lt; 0, AbsoluteValue.inverse(y) happily returns the wrong thing, -y, y.
- This is done for efficiency.  If validate_args == True, y &amp;lt; 0 will raise an exception." />
+For y &amp;lt; 0, tfb_absolute_value$inverse(y) happily returns the wrong thing, -y, y
+This is done for efficiency.  If validate_args == TRUE, y &amp;lt; 0 will raise an exception.
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,7 +115,7 @@ For y &amp;lt; 0, AbsoluteValue.inverse(y) happily returns the wrong thing, -y, 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Y = g(X) = Abs(X), element-wise.</h1>
+    <h1>Compute <code>Y = g(X) = Abs(X)</code>, element-wise.</h1>
     
     <div class="hidden name"><code>tfb_absolute_value.Rd</code></div>
     </div>
@@ -122,14 +123,15 @@ For y &amp;lt; 0, AbsoluteValue.inverse(y) happily returns the wrong thing, -y, 
     <div class="ref-description">
     
     <p>This non-injective bijector allows for transformations of scalar distributions
-with the absolute value function, which maps (-inf, inf) to [0, inf).
-* For y in (0, inf), AbsoluteValue.inverse(y) returns the set inverse
-x in (-inf, inf) : |x| = y as a tuple, -y, y.
-AbsoluteValue.inverse(0) returns 0, 0, which is not the set inverse
-(the set inverse is the singleton 0), but "works" in conjunction with
-TransformedDistribution to produce a left semi-continuous pdf.
-For y &lt; 0, AbsoluteValue.inverse(y) happily returns the wrong thing, -y, y.
- This is done for efficiency.  If validate_args == True, y &lt; 0 will raise an exception.</p>
+with the absolute value function, which maps <code>(-inf, inf)</code> to <code>[0, inf)</code>.</p><ul>
+<li><p>For <code>y</code> in <code>(0, inf)</code>, <code>tfb_absolute_value$inverse(y)</code> returns the set inverse
+<code>{x in (-inf, inf) : |x| = y}</code> as a tuple, <code>-y, y</code>.
+<code>tfb_absolute_value$inverse(0)</code> returns <code>0, 0</code>, which is not the set inverse
+(the set inverse is the singleton <code>{0}</code>), but "works" in conjunction with
+<code>TransformedDistribution</code> to produce a left semi-continuous pdf.
+For <code>y &lt; 0</code>, <code>tfb_absolute_value$inverse(y)</code> happily returns the wrong thing, <code>-y, y</code>
+This is done for efficiency.  If <code>validate_args == TRUE</code>, <code>y &lt; 0</code> will raise an exception.</p></li>
+</ul>
     
     </div>
 

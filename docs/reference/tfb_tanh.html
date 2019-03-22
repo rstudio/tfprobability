@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bijector that computes Y = tanh(X), therefore Y in (-1, 1). — tfb_tanh • tfprobability</title>
+<title>Bijector that computes <code>Y = tanh(X)</code>, therefore Y in <code>(-1, 1)</code>. — tfb_tanh • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Bijector that computes Y = tanh(X), therefore Y in (-1, 1). — tfb_tanh" />
+<meta property="og:title" content="Bijector that computes <code>Y = tanh(X)</code>, therefore Y in <code>(-1, 1)</code>. — tfb_tanh" />
 
 <meta property="og:description" content="This can be achieved by an affine transform of the Sigmoid bijector, i.e., it is equivalent to" />
 <meta name="twitter:card" content="summary" />
@@ -106,7 +106,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bijector that computes Y = tanh(X), therefore Y in (-1, 1).</h1>
+    <h1>Bijector that computes <code>Y = tanh(X)</code>, therefore Y in <code>(-1, 1)</code>.</h1>
     
     <div class="hidden name"><code>tfb_tanh.Rd</code></div>
     </div>
@@ -135,9 +135,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>tfb_chain(list(tfb_affine(shift = -1, scale = 2),
+    <p><code><a href='tfb_chain.html'>tfb_chain(list(tfb_affine(shift = -1, scale = 2),
                tfb_sigmoid(),
-               tfb_affine(scale = 2)))</p>
+               tfb_affine(scale = 2)))</a></code></p>
 <p>However, using the Tanh bijector directly is slightly faster and more numerically stable.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

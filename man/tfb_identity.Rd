@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_identity}
 \alias{tfb_identity}
-\title{Compute Y = g(X) = X.}
+\title{Compute \code{Y = g(X) = X}.}
 \usage{
 tfb_identity(validate_args = FALSE, name = "identity")
 }
@@ -13,7 +13,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Compute Y = g(X) = X.
+Compute \code{Y = g(X) = X}.
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

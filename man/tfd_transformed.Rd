@@ -26,7 +26,7 @@ silently render incorrect outputs. Default value: FALSE.}
 }
 \description{
 A TransformedDistribution models p(y) given a base distribution p(x),
-and a deterministic, invertible, differentiable transform, Y = g(X). The
+and a deterministic, invertible, differentiable transform,\code{Y = g(X)}. The
 transform is typically an instance of the Bijector class and the base
 distribution is typically an instance of the Distribution class.
 }

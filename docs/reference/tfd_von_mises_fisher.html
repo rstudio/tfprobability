@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The von Mises-Fisher distribution over unit vectors on S^n-1. — tfd_von_mises_fisher • tfprobability</title>
+<title>The von Mises-Fisher distribution over unit vectors on <code>S^{n-1}</code>. — tfd_von_mises_fisher • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="The von Mises-Fisher distribution over unit vectors on S^n-1. — tfd_von_mises_fisher" />
+<meta property="og:title" content="The von Mises-Fisher distribution over unit vectors on <code>S^{n-1}</code>. — tfd_von_mises_fisher" />
 
 <meta property="og:description" content="The von Mises-Fisher distribution is a directional distribution over vectors
-on the unit hypersphere S^n-1 embedded in n dimensions (R^n)." />
+on the unit hypersphere S^{n-1} embedded in n dimensions (R^n)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,7 +107,7 @@ on the unit hypersphere S^n-1 embedded in n dimensions (R^n)." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The von Mises-Fisher distribution over unit vectors on S^n-1.</h1>
+    <h1>The von Mises-Fisher distribution over unit vectors on <code>S^{n-1}</code>.</h1>
     
     <div class="hidden name"><code>tfd_von_mises_fisher.Rd</code></div>
     </div>
@@ -115,7 +115,7 @@ on the unit hypersphere S^n-1 embedded in n dimensions (R^n)." />
     <div class="ref-description">
     
     <p>The von Mises-Fisher distribution is a directional distribution over vectors
-on the unit hypersphere S^n-1 embedded in n dimensions (R^n).</p>
+on the unit hypersphere <code>S^{n-1}</code> embedded in n dimensions <code>(R^n)</code>.</p>
     
     </div>
 
@@ -128,15 +128,15 @@ on the unit hypersphere S^n-1 embedded in n dimensions (R^n).</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mean_direction</th>
-      <td><p>Floating-point Tensor with shape [B1, ... Bn, D].
+      <td><p>Floating-point Tensor with shape <code>[B1, ... Bn, D]</code>.
 A unit vector indicating the mode of the distribution, or the
-unit-normalized direction of the mean. (This is *not* in general the
+unit-normalized direction of the mean. (This is <em>not</em> in general the
 mean of the distribution; the mean is not generally in the support of
 the distribution.) NOTE: D is currently restricted to &lt;= 5.</p></td>
     </tr>
     <tr>
       <th>concentration</th>
-      <td><p>Floating-point Tensor having batch shape [B1, ... Bn]
+      <td><p>Floating-point Tensor having batch shape <code>[B1, ... Bn]</code>
 broadcastable with mean_direction. The level of concentration of
 samples around the mean_direction. concentration=0 indicates a
 uniform distribution over the unit hypersphere, and concentration=+inf

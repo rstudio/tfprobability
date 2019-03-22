@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ). — tfb_sinh_arcsinh • tfprobability</title>
+<title>Compute <code>Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )</code>. — tfb_sinh_arcsinh • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,13 +30,13 @@
 
 
 
-<meta property="og:title" content="Compute Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ). — tfb_sinh_arcsinh" />
+<meta property="og:title" content="Compute <code>Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )</code>. — tfb_sinh_arcsinh" />
 
 <meta property="og:description" content="For skewness in (-inf, inf) and tailweight in (0, inf), this
 transformation is a diffeomorphism of the real line (-inf, inf).
-The inverse transform is X = g^-1(Y) = Sinh( ArcSinh(Y) / tailweight - skewness ).
+The inverse transform is X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness ).
 The SinhArcsinh transformation of the Normal is described in
-[Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865)" />
+Sinh-arcsinh distributions" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -110,18 +110,18 @@ The SinhArcsinh transformation of the Normal is described in
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ).</h1>
+    <h1>Compute <code>Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )</code>.</h1>
     
     <div class="hidden name"><code>tfb_sinh_arcsinh.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>For skewness in (-inf, inf) and tailweight in (0, inf), this
-transformation is a diffeomorphism of the real line (-inf, inf).
-The inverse transform is X = g^-1(Y) = Sinh( ArcSinh(Y) / tailweight - skewness ).
+    <p>For skewness in <code>(-inf, inf)</code> and tailweight in <code>(0, inf)</code>, this
+transformation is a diffeomorphism of the real line <code>(-inf, inf)</code>.
+The inverse transform is <code>X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness )</code>.
 The SinhArcsinh transformation of the Normal is described in
-[Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865)</p>
+<a href='https://www.jstor.org/stable/27798865'>Sinh-arcsinh distributions</a></p>
     
     </div>
 
@@ -152,18 +152,18 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This Bijector allows a similar transformation of any distribution supported on (-inf, inf).</p>
-<p># Meaning of the parameters
-* If skewness = 0 and tailweight = 1, this transform is the identity.
-* Positive (negative) skewness leads to positive (negative) skew.
-* positive skew means, for unimodal X centered at zero, the mode of Y is "tilted" to the right.
-* positive skew means positive values of Y become more likely, and negative values become less likely.
-* Larger (smaller) tailweight leads to fatter (thinner) tails.
-* Fatter tails mean larger values of |Y| become more likely.
-* If X is a unit Normal, tailweight &lt; 1 leads to a distribution that is "flat" around Y = 0, and a very steep drop-off in the tails.
-* If X is a unit Normal, tailweight &gt; 1 leads to a distribution more peaked at the mode with heavier tails.
-To see the argument about the tails, note that for |X| &gt;&gt; 1 and |X| &gt;&gt; (|skewness| * tailweight)**tailweight, we have
-Y approx 0.5 X**tailweight e**(sign(X) skewness * tailweight).</p>
+    <p>This Bijector allows a similar transformation of any distribution supported on <code>(-inf, inf)</code>.Meaning of the parameters</p><ul>
+<li><p>If skewness = 0 and tailweight = 1, this transform is the identity.</p></li>
+<li><p>Positive (negative) skewness leads to positive (negative) skew.</p></li>
+<li><p>positive skew means, for unimodal X centered at zero, the mode of Y is "tilted" to the right.</p></li>
+<li><p>positive skew means positive values of Y become more likely, and negative values become less likely.</p></li>
+<li><p>Larger (smaller) tailweight leads to fatter (thinner) tails.</p></li>
+<li><p>Fatter tails mean larger values of |Y| become more likely.</p></li>
+<li><p>If X is a unit Normal, tailweight &lt; 1 leads to a distribution that is "flat" around Y = 0, and a very steep drop-off in the tails.</p></li>
+<li><p>If X is a unit Normal, tailweight &gt; 1 leads to a distribution more peaked at the mode with heavier tails.
+To see the argument about the tails, note that for |X| &gt;&gt; 1 and |X| &gt;&gt; (|skewness| * tailweight)<strong>tailweight, we have
+Y approx 0.5 X</strong>tailweight e**(sign(X) skewness * tailweight).</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

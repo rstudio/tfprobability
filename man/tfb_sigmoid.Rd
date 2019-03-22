@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_sigmoid}
 \alias{tfb_sigmoid}
-\title{Compute Y = g(X) = 1 / (1 + exp(-X)).}
+\title{Compute \code{Y = g(X) = 1 / (1 + exp(-X))}.}
 \usage{
 tfb_sigmoid(validate_args = FALSE, name = "sigmoid")
 }
@@ -13,7 +13,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Compute Y = g(X) = 1 / (1 + exp(-X)).
+Compute \code{Y = g(X) = 1 / (1 + exp(-X))}.
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

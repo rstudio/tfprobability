@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_weibull}
 \alias{tfb_weibull}
-\title{Compute Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0.}
+\title{Compute \code{Y = g(X) = 1 - exp((-X / scale) ** concentration)}, X >= 0.}
 \usage{
 tfb_weibull(scale = 1, concentration = 1, validate_args = FALSE,
   name = "weibull")
@@ -15,20 +15,20 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{scale:}{Positive Float-type Tensor that is the same dtype and is
 broadcastable with concentration.
-This is l in Y = g(X) = 1 - exp((-x / l) ** k).}
+This is l in \code{Y = g(X) = 1 - exp((-x / l) ** k)}.}
 
 \item{concentration:}{Positive Float-type Tensor that is the same dtype and is
 broadcastable with scale.
-This is k in Y = g(X) = 1 - exp((-x / l) ** k).}
+This is k in \code{Y = g(X) = 1 - exp((-x / l) ** k)}.}
 }
 \description{
-This bijector maps inputs from [0, inf] to [0, 1]. The inverse of the
+This bijector maps inputs from \code{[0, inf]} to \code{[0, 1]}. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
-random variable with the [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):
+random variable with the \href{https://en.wikipedia.org/wiki/Weibull_distribution}{Weibull distribution}:
 }
 \details{
-Y ~ Weibull(scale, concentration)
-pdf(y; scale, concentration, y >= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)
+\code{Y ~ Weibull(scale, concentration)}
+\code{pdf(y; scale, concentration, y >= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

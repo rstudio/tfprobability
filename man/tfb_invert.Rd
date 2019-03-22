@@ -20,8 +20,8 @@ Note: An inverted bijector's inverse_log_det_jacobian is often more
 efficient if the base bijector implements _forward_log_det_jacobian. If
 _forward_log_det_jacobian is not implemented then the following code is
 used:
-y = self.inverse(x, **kwargs)
-return -self.inverse_log_det_jacobian(y, **kwargs)
+\code{y = b$inverse(x)}
+\code{ -b$inverse_log_det_jacobian(y)}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

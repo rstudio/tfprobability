@@ -31,17 +31,17 @@ one or more of the statistic's batch members are undefined.}
 }
 \description{
 The categorical distribution is parameterized by the log-probabilities of a set of classes.
-  The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
-  is a discrete distribution over one-hot bit vectors whereas Categorical is a discrete distribution
-  over positive integers. OneHotCategorical is equivalent to Categorical except Categorical has
-  event_dim=() while OneHotCategorical has event_dim=K, where K is the number of classes.
+The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
+is a discrete distribution over one-hot bit vectors whereas Categorical is a discrete distribution
+over positive integers. OneHotCategorical is equivalent to Categorical except Categorical has
+event_dim=() while OneHotCategorical has event_dim=K, where K is the number of classes.
 }
 \details{
 This class provides methods to create indexed batches of OneHotCategorical distributions.
-  If the provided logits or probs is rank 2 or higher, for every fixed set of leading dimensions,
-  the last dimension represents one single OneHotCategorical distribution. When calling distribution
-  functions (e.g. dist.prob(x)), logits and x are broadcast to the same shape (if possible).
-  In all cases, the last dimension of logits, x represents single OneHotCategorical distributions.
+If the provided logits or probs is rank 2 or higher, for every fixed set of leading dimensions,
+the last dimension represents one single OneHotCategorical distribution. When calling distribution
+functions (e.g. dist.prob(x)), logits and x are broadcast to the same shape (if possible).
+In all cases, the last dimension of logits, x represents single OneHotCategorical distributions.
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},

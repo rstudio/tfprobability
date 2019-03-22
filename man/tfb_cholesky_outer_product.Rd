@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_cholesky_outer_product}
 \alias{tfb_cholesky_outer_product}
-\title{Compute g(X) = X @ X.T; X is lower-triangular, positive-diagonal matrix.}
+\title{Compute \code{g(X) = X @ X.T}; \code{X} is lower-triangular, positive-diagonal matrix.}
 \usage{
 tfb_cholesky_outer_product(validate_args = FALSE,
   name = "cholesky_outer_product")
@@ -19,20 +19,20 @@ Note: the upper-triangular part of X is ignored (whether or not its zero).
 \details{
 The surjectivity of g as a map from  the set of n x n positive-diagonal
 lower-triangular matrices to the set of SPD matrices follows immediately from
-executing the Cholesky factorization algorithm on an SPD matrix A to produce a
-positive-diagonal lower-triangular matrix L such that A = L @ L.T.
+executing the Cholesky factorization algorithm on an SPD matrix \code{A} to produce a
+positive-diagonal lower-triangular matrix \code{L} such that \code{A = L @ L.T}.
 
-To prove the injectivity of g, suppose that L_1 and L_2 are lower-triangular
-with positive diagonals and satisfy A = L_1 @ L_1.T = L_2 @ L_2.T. Then
-inv(L_1) @ A @ inv(L_1).T = [inv(L_1) @ L_2] @ [inv(L_1) @ L_2].T = I.
-Setting L_3 := inv(L_1) @ L_2, that L_3 is a positive-diagonal
-lower-triangular matrix follows from inv(L_1) being positive-diagonal
+To prove the injectivity of g, suppose that \code{L_1} and \code{L_2} are lower-triangular
+with positive diagonals and satisfy \code{A = L_1 @ L_1.T = L_2 @ L_2.T}. Then
+\code{inv(L_1) @ A @ inv(L_1).T = [inv(L_1) @ L_2] @ [inv(L_1) @ L_2].T = I}.
+Setting \code{L_3 := inv(L_1) @ L_2}, that \code{L_3} is a positive-diagonal
+lower-triangular matrix follows from \code{inv(L_1)} being positive-diagonal
 lower-triangular (which follows from the diagonal of a triangular matrix being
 its spectrum), and that the product of two positive-diagonal lower-triangular
 matrices is another positive-diagonal lower-triangular matrix.
-A simple inductive argument (proceeding one column of L_3 at a time) shows
-that, if I = L_3 @ L_3.T, with L_3 being lower-triangular with positive-
-diagonal, then L_3 = I. Thus, L_1 = L_2, proving injectivity of g.
+A simple inductive argument (proceeding one column of \code{L_3} at a time) shows
+that, if \code{I = L_3 @ L_3.T}, with \code{L_3} being lower-triangular with positive-
+diagonal, then \code{L_3 = I}. Thus, \code{L_1 = L_2}, proving injectivity of g.
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

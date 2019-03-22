@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{masked_dense}
 \alias{masked_dense}
-\title{An autoregressively masked dense layer. Analogous to tf$layers$dense.}
+\title{An autoregressively masked dense layer. Analogous to \code{tf$layers$dense}.}
 \usage{
 masked_dense(inputs, units, num_blocks = NULL, exclusive = FALSE,
   kernel_initializer = NULL, reuse = NULL, name = NULL, ...)
@@ -18,22 +18,22 @@ masked_dense(inputs, units, num_blocks = NULL, exclusive = FALSE,
 the mask, used for the first layer of a MADE.}
 
 \item{kernel_initializer}{Initializer function for the weight matrix.
-If NULL (default), weights are initialized using the tf$glorot_random_initializer}
+If NULL (default), weights are initialized using the \code{tf$glorot_random_initializer}}
 
 \item{reuse}{logical scalar representing whether to reuse the weights of a previous layer by the same name.}
 
 \item{name}{string used to describe ops managed by this function.}
 
-\item{...}{tf$layers$dense arguments}
+\item{...}{\code{tf$layers$dense} arguments}
 }
 \description{
-See [Germain et al. (2015)][1] for detailed explanation.
+See \link[=1]{Germain et al. (2015)} for detailed explanation.
 }
 \details{
 References
-[1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
+\link{1}: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
 MADE: Masked Autoencoder for Distribution Estimation.
-In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
+In \emph{International Conference on Machine Learning}, 2015. https://arxiv.org/abs/1502.03509
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

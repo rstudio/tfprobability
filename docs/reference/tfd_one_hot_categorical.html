@@ -33,10 +33,10 @@
 <meta property="og:title" content="OneHotCategorical distribution. — tfd_one_hot_categorical" />
 
 <meta property="og:description" content="The categorical distribution is parameterized by the log-probabilities of a set of classes.
-  The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
-  is a discrete distribution over one-hot bit vectors whereas Categorical is a discrete distribution
-  over positive integers. OneHotCategorical is equivalent to Categorical except Categorical has
-  event_dim=() while OneHotCategorical has event_dim=K, where K is the number of classes." />
+The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
+is a discrete distribution over one-hot bit vectors whereas Categorical is a discrete distribution
+over positive integers. OneHotCategorical is equivalent to Categorical except Categorical has
+event_dim=() while OneHotCategorical has event_dim=K, where K is the number of classes." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,10 +118,10 @@
     <div class="ref-description">
     
     <p>The categorical distribution is parameterized by the log-probabilities of a set of classes.
-  The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
-  is a discrete distribution over one-hot bit vectors whereas Categorical is a discrete distribution
-  over positive integers. OneHotCategorical is equivalent to Categorical except Categorical has
-  event_dim=() while OneHotCategorical has event_dim=K, where K is the number of classes.</p>
+The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
+is a discrete distribution over one-hot bit vectors whereas Categorical is a discrete distribution
+over positive integers. OneHotCategorical is equivalent to Categorical except Categorical has
+event_dim=() while OneHotCategorical has event_dim=K, where K is the number of classes.</p>
     
     </div>
 
@@ -169,10 +169,10 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This class provides methods to create indexed batches of OneHotCategorical distributions.
-  If the provided logits or probs is rank 2 or higher, for every fixed set of leading dimensions,
-  the last dimension represents one single OneHotCategorical distribution. When calling distribution
-  functions (e.g. dist.prob(x)), logits and x are broadcast to the same shape (if possible).
-  In all cases, the last dimension of logits, x represents single OneHotCategorical distributions.</p>
+If the provided logits or probs is rank 2 or higher, for every fixed set of leading dimensions,
+the last dimension represents one single OneHotCategorical distribution. When calling distribution
+functions (e.g. dist.prob(x)), logits and x are broadcast to the same shape (if possible).
+In all cases, the last dimension of logits, x represents single OneHotCategorical distributions.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

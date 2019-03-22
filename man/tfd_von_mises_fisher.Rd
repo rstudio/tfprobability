@@ -2,20 +2,20 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_von_mises_fisher}
 \alias{tfd_von_mises_fisher}
-\title{The von Mises-Fisher distribution over unit vectors on S^{n-1}.}
+\title{The von Mises-Fisher distribution over unit vectors on \code{S^{n-1}}.}
 \usage{
 tfd_von_mises_fisher(df, mean_direction, concentration,
   validate_args = FALSE, allow_nan_stats = TRUE,
   name = "VonMisesFisher")
 }
 \arguments{
-\item{mean_direction}{Floating-point Tensor with shape [B1, ... Bn, D].
+\item{mean_direction}{Floating-point Tensor with shape \code{[B1, ... Bn, D]}.
 A unit vector indicating the mode of the distribution, or the
-unit-normalized direction of the mean. (This is *not* in general the
+unit-normalized direction of the mean. (This is \emph{not} in general the
 mean of the distribution; the mean is not generally in the support of
 the distribution.) NOTE: D is currently restricted to <= 5.}
 
-\item{concentration}{Floating-point Tensor having batch shape [B1, ... Bn]
+\item{concentration}{Floating-point Tensor having batch shape \code{[B1, ... Bn]}
 broadcastable with mean_direction. The level of concentration of
 samples around the mean_direction. concentration=0 indicates a
 uniform distribution over the unit hypersphere, and concentration=+inf
@@ -33,7 +33,7 @@ one or more of the statistic's batch members are undefined.}
 }
 \description{
 The von Mises-Fisher distribution is a directional distribution over vectors
-on the unit hypersphere S^{n-1} embedded in n dimensions (R^n).
+on the unit hypersphere \code{S^{n-1}} embedded in n dimensions \code{(R^n)}.
 }
 \details{
 NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical

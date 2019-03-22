@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Y = g(X; shift, scale) = scale @ X + shift. — tfb_affine_linear_operator • tfprobability</title>
+<title>Compute <code>Y = g(X; shift, scale) = scale @ X + shift</code>. — tfb_affine_linear_operator • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Compute Y = g(X; shift, scale) = scale @ X + shift. — tfb_affine_linear_operator" />
+<meta property="og:title" content="Compute <code>Y = g(X; shift, scale) = scale @ X + shift</code>. — tfb_affine_linear_operator" />
 
 <meta property="og:description" content="shift is a numeric Tensor and scale is a LinearOperator.
 If X is a scalar then the forward transformation is: scale * X + shift
@@ -108,16 +108,16 @@ where * denotes broadcasted elementwise product." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Y = g(X; shift, scale) = scale @ X + shift.</h1>
+    <h1>Compute <code>Y = g(X; shift, scale) = scale @ X + shift</code>.</h1>
     
     <div class="hidden name"><code>tfb_affine_linear_operator.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>shift is a numeric Tensor and scale is a LinearOperator.
-If X is a scalar then the forward transformation is: scale * X + shift
-where * denotes broadcasted elementwise product.</p>
+    <p><code>shift</code> is a numeric Tensor and scale is a LinearOperator.
+If <code>X</code> is a scalar then the forward transformation is: <code>scale * X + shift</code>
+where <code>*</code> denotes broadcasted elementwise product.</p>
     
     </div>
 
@@ -134,12 +134,12 @@ where * denotes broadcasted elementwise product.</p>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>Subclass of LinearOperator. Represents the (batch) positive definite matrix M in R^k x k.</p></td>
+      <td><p>Subclass of LinearOperator. Represents the (batch) positive definite matrix <code>M</code> in <code>R^{k x k}</code>.</p></td>
     </tr>
     <tr>
       <th>adjoint</th>
       <td><p>Logical indicating whether to use the scale matrix as specified or its adjoint.
-Default value: False.</p></td>
+Default value: FALSE.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>

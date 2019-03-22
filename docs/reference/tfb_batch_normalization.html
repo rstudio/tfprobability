@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y). — tfb_batch_normalization • tfprobability</title>
+<title>Compute <code>Y = g(X)</code> s.t. <code>X = g^-1(Y) = (Y - mean(Y)) / std(Y)</code>. — tfb_batch_normalization • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,11 @@
 
 
 
-<meta property="og:title" content="Compute Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y). — tfb_batch_normalization" />
+<meta property="og:title" content="Compute <code>Y = g(X)</code> s.t. <code>X = g^-1(Y) = (Y - mean(Y)) / std(Y)</code>. — tfb_batch_normalization" />
 
-<meta property="og:description" content="Applies Batch Normalization [(Ioffe and Szegedy, 2015)][1] to samples from a
+<meta property="og:description" content="Applies Batch Normalization (Ioffe and Szegedy, 2015) to samples from a
 data distribution. This can be used to stabilize training of normalizing
-flows ([Papamakarios et al., 2016][3]; [Dinh et al., 2017][2])" />
+flows (Papamakarios et al., 2016; Dinh et al., 2017)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,16 +108,16 @@ flows ([Papamakarios et al., 2016][3]; [Dinh et al., 2017][2])" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute Y = g(X) s.t. X = g^-1(Y) = (Y - mean(Y)) / std(Y).</h1>
+    <h1>Compute <code>Y = g(X)</code> s.t. <code>X = g^-1(Y) = (Y - mean(Y)) / std(Y)</code>.</h1>
     
     <div class="hidden name"><code>tfb_batch_normalization.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Applies Batch Normalization [(Ioffe and Szegedy, 2015)][1] to samples from a
+    <p>Applies Batch Normalization (Ioffe and Szegedy, 2015) to samples from a
 data distribution. This can be used to stabilize training of normalizing
-flows ([Papamakarios et al., 2016][3]; [Dinh et al., 2017][2])</p>
+flows (Papamakarios et al., 2016; Dinh et al., 2017)</p>
     
     </div>
 
@@ -129,8 +129,8 @@ flows ([Papamakarios et al., 2016][3]; [Dinh et al., 2017][2])</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>batchnorm_layer</th>
-      <td><p>tf$layers$BatchNormalization layer object. If NULL, defaults to
-tf$layers$BatchNormalization(gamma_constraint=tf.nn.relu(x) + 1e-6).
+      <td><p><code>tf$layers$BatchNormalization</code> layer object. If NULL, defaults to
+<code>tf$layers$BatchNormalization(gamma_constraint=tf$nn$relu(x) + 1e-6)</code>.
 This ensures positivity of the scale variable.</p></td>
     </tr>
     <tr>
@@ -153,27 +153,27 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <p>When training Deep Neural Networks (DNNs), it is common practice to
 normalize or whiten features by shifting them to have zero mean and
 scaling them to have unit variance.</p>
-<p>The inverse() method of the BatchNormalization bijector, which is used in
+<p>The <code>inverse()</code> method of the BatchNormalization bijector, which is used in
 the log-likelihood computation of data samples, implements the normalization
 procedure (shift-and-scale) using the mean and standard deviation of the
 current minibatch.</p>
-<p>Conversely, the forward() method of the bijector de-normalizes samples (e.g.
-X*std(Y) + mean(Y) with the running-average mean and standard deviation
+<p>Conversely, the <code>forward()</code> method of the bijector de-normalizes samples (e.g.
+<code>X*std(Y) + mean(Y)</code> with the running-average mean and standard deviation
 computed at training-time. De-normalization is useful for sampling.</p>
 <p>During training time, BatchNormalization.inverse and BatchNormalization.forward are not
- guaranteed to be inverses of each other because inverse(y) uses statistics of the current minibatch,
- while forward(x) uses running-average statistics accumulated from training.
- In other words, BatchNormalization.inverse(BatchNormalization.forward(...)) and
- BatchNormalization.forward(BatchNormalization.inverse(...)) will be identical when
-  training=FALSE but may be different when training=TRUE.</p>
+guaranteed to be inverses of each other because <code>inverse(y)</code> uses statistics of the current minibatch,
+while <code>forward(x)</code> uses running-average statistics accumulated from training.
+In other words, <code>tfb_batch_normalization()$inverse(tfb_batch_normalization()$forward(...))</code> and
+<code>tfb_batch_normalization()$forward(tfb_batch_normalization()$inverse(...))</code> will be identical when
+training=FALSE but may be different when training=TRUE.</p>
 <p>References
-[1]: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training
- by Reducing Internal Covariate Shift.
- In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03167
-[2]: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP.
-In _International Conference on Learning Representations_, 2017. https://arxiv.org/abs/1605.08803
-[3]: George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation.
-In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057</p>
+1: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training
+by Reducing Internal Covariate Shift.
+In <em>International Conference on Machine Learning</em>, 2015. https://arxiv.org/abs/1502.03167
+2: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP.
+In <em>International Conference on Learning Representations</em>, 2017. https://arxiv.org/abs/1605.08803
+3: George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation.
+In <em>Neural Information Processing Systems</em>, 2017. https://arxiv.org/abs/1705.07057</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

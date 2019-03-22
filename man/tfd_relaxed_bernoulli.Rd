@@ -31,9 +31,9 @@ one or more of the statistic's batch members are undefined.}
 }
 \description{
 The RelaxedBernoulli is a distribution over the unit interval (0,1), which continuously approximates a Bernoulli.
-  The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
-  becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
-  infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.
+The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
+becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
+infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},

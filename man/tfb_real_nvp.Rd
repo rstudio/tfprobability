@@ -9,15 +9,15 @@ tfb_real_nvp(num_masked, shift_and_log_scale_fn,
 }
 \arguments{
 \item{num_masked}{integer indicating that the first d units of the event
-should be masked. Must be in the closed interval [1, D-1], where D
+should be masked. Must be in the closed interval \code{[1, D-1]}, where D
 is the event size of the base distribution.}
 
 \item{shift_and_log_scale_fn}{Function which computes shift and log_scale from both the
 forward domain (x) and the inverse domain (y).
 Calculation must respect the "autoregressive property". Suggested default:
-real_nvp_default_template(hidden_layers=...).
-Typically the function contains tf$Variables and is wrapped using tf$make_template.
- Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.}
+\code{real_nvp_default_template(hidden_layers=...)}.
+Typically the function contains \code{tf$Variables} and is wrapped using \code{tf$make_template}.
+Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.}
 
 \item{is_constant_jacobian}{Logical, default: FALSE. When TRUE the implementation assumes log_scale
 does not depend on the forward domain (x) or inverse domain (y) values.
@@ -30,9 +30,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 }
 \description{
 Real NVP models a normalizing flow on a D-dimensional distribution via a
-single D-d-dimensional conditional distribution [(Dinh et al., 2017)][1]:
-y[d:D] = x[d:D] * tf.exp(log_scale_fn(x[0:d])) + shift_fn(x[0:d])
-y[0:d] = x[0:d]
+single D-d-dimensional conditional distribution \link[=1]{(Dinh et al., 2017)}:
+\code{y[d:D] = x[d:D] * tf.exp(log_scale_fn(x[0:d])) + shift_fn(x[0:d])}
+\code{y[0:d] = x[0:d]}
 The last D-d units are scaled and shifted based on the first d units only,
 while the first d units are 'masked' and left unchanged. Real NVP's
 shift_and_log_scale_fn computes vector-valued quantities.
@@ -40,13 +40,13 @@ For scale-and-shift transforms that do not depend on any masked units, i.e.
 d=0, use the tfb_affine bijector with learned parameters instead.
 Masking is currently only supported for base distributions with
 event_ndims=1. For more sophisticated masking schemes like checkerboard or
-channel-wise masking [(Papamakarios et al., 2016)[4], use the tfb_permute
+channel-wise masking [(Papamakarios et al., 2016)\link{4}, use the tfb_permute
 bijector to re-order desired masked units into the first d units. For base
 distributions with event_ndims > 1, use the tfb_reshape bijector to
 flatten the event shape.
 }
 \details{
-Recall that the MAF bijector [(Papamakarios et al., 2016)][4] implements a
+Recall that the MAF bijector \link[=4]{(Papamakarios et al., 2016)} implements a
 normalizing flow via an autoregressive transformation. MAF and IAF have
 opposite computational tradeoffs - MAF can train all units in parallel but
 must sample units sequentially, while IAF must train units sequentially but
@@ -55,38 +55,38 @@ inverse computations in parallel. However, the lack of an autoregressive
 transformations makes it less expressive on a per-bijector basis.
 
 A "valid" shift_and_log_scale_fn must compute each shift (aka loc or
-"mu" in [Papamakarios et al. (2016)][4]) and log(scale) (aka "alpha" in
-[Papamakarios et al. (2016)][4]) such that each are broadcastable with the
+"mu" in \link[=4]{Papamakarios et al. (2016)}) and log(scale) (aka "alpha" in
+\link[=4]{Papamakarios et al. (2016)}) such that each are broadcastable with the
 arguments to forward and inverse, i.e., such that the calculations in
-forward, inverse [below] are possible. For convenience,
+forward, inverse \link{below} are possible. For convenience,
 real_nvp_default_nvp is offered as a possible shift_and_log_scale_fn function.
 
-NICE [(Dinh et al., 2014)][2] is a special case of the Real NVP bijector
+NICE \link[=2]{(Dinh et al., 2014)} is a special case of the Real NVP bijector
 which discards the scale transformation, resulting in a constant-time
 inverse-log-determinant-Jacobian. To use a NICE bijector instead of Real
-NVP, shift_and_log_scale_fn should return (shift, None), and
-is_constant_jacobian should be set to True in the RealNVP constructor.
-Calling real_nvp_default_template with shift_only=True returns one such
+NVP, shift_and_log_scale_fn should return (shift, NULL), and
+is_constant_jacobian should be set to TRUE in the RealNVP constructor.
+Calling real_nvp_default_template with shift_only=TRUE returns one such
 NICE-compatible shift_and_log_scale_fn.
 
 Caching: the scalar input depth D of the base distribution is not known at
 construction time. The first call to any of forward(x), inverse(x),
 inverse_log_det_jacobian(x), or forward_log_det_jacobian(x) memoizes
 D, which is re-used in subsequent calls. This shape must be known prior to
- graph execution (which is the case if using tf$layers).
+graph execution (which is the case if using \code{tf$layers}).
 
 References
-[1]: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio.
+\link{1}: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio.
 Density Estimation using Real NVP.
-In _International Conference on Learning Representations_, 2017. https://arxiv.org/abs/1605.08803
-[2]: Laurent Dinh, David Krueger, and Yoshua Bengio.
+In \emph{International Conference on Learning Representations}, 2017. https://arxiv.org/abs/1605.08803
+\link{2}: Laurent Dinh, David Krueger, and Yoshua Bengio.
 NICE: Non-linear Independent Components Estimation.
-_arXiv preprint arXiv:1410.8516_,2014. https://arxiv.org/abs/1410.8516
-[3]: Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows.
+\emph{arXiv preprint arXiv:1410.8516},2014. https://arxiv.org/abs/1410.8516
+\link{3}: Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows.
 Technical Report_, 2018. http://blog.evjang.com/2018/01/nf2.html
-[4]: George Papamakarios, Theo Pavlakou, and Iain Murray.
+\link{4}: George Papamakarios, Theo Pavlakou, and Iain Murray.
 Masked Autoregressive Flow for Density Estimation.
-In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+In \emph{Neural Information Processing Systems}, 2017. https://arxiv.org/abs/1705.07057
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

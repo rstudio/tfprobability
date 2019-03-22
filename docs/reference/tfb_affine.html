@@ -35,11 +35,7 @@
 <meta property="og:description" content="This Bijector is initialized with shift Tensor and scale arguments,
 giving the forward operation: Y = g(X) = scale @ X + shift
 where the scale term is logically equivalent to:
-scale =
-    scale_identity_multiplier * tf.diag(tf.ones(d)) +
-    tf.diag(scale_diag) +
-    scale_tril +
-    scale_perturb_factor @ diag(scale_perturb_diag) @ tf.transpose([scale_perturb_factor]))" />
+scale = scale_identity_multiplier * tf.diag(tf.ones(d)) + tf.diag(scale_diag) + scale_tril + scale_perturb_factor @ diag(scale_perturb_diag) @ tf.transpose([scale_perturb_factor]))" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -121,13 +117,9 @@ scale =
     <div class="ref-description">
     
     <p>This Bijector is initialized with shift Tensor and scale arguments,
-giving the forward operation: Y = g(X) = scale @ X + shift
+giving the forward operation: <code>Y = g(X) = scale @ X + shift</code>
 where the scale term is logically equivalent to:
-scale =
-    scale_identity_multiplier * tf.diag(tf.ones(d)) +
-    tf.diag(scale_diag) +
-    scale_tril +
-    scale_perturb_factor @ diag(scale_perturb_diag) @ tf.transpose([scale_perturb_factor]))</p>
+<code>scale = scale_identity_multiplier * tf.diag(tf.ones(d)) + tf.diag(scale_diag) + scale_tril + scale_perturb_factor @ diag(scale_perturb_diag) @ tf.transpose([scale_perturb_factor]))</code></p>
     
     </div>
 
@@ -146,31 +138,31 @@ scale =
     <tr>
       <th>scale_identity_multiplier</th>
       <td><p>floating point rank 0 Tensor representing a scaling done
-to the identity matrix. When scale_identity_multiplier = scale_diag = scale_tril = None then
-scale += IdentityMatrix. Otherwise no scaled-identity-matrix is added to scale.</p></td>
+to the identity matrix. When <code>scale_identity_multiplier = scale_diag = scale_tril = NULL</code> then
+<code>scale += IdentityMatrix</code>. Otherwise no scaled-identity-matrix is added to <code>scale</code>.</p></td>
     </tr>
     <tr>
       <th>scale_diag</th>
       <td><p>Floating-point Tensor representing the diagonal matrix.
-scale_diag has shape [N1, N2, ...  k], which represents a k x k diagonal matrix.
-When NULL no diagonal term is added to scale.</p></td>
+<code>scale_diag</code> has shape <code>[N1, N2, ...  k]</code>, which represents a k x k diagonal matrix.
+When NULL no diagonal term is added to <code>scale</code>.</p></td>
     </tr>
     <tr>
       <th>scale_tril</th>
       <td><p>Floating-point Tensor representing the lower triangular matrix.
-scale_tril has shape [N1, N2, ...  k, k], which represents a k x k lower triangular matrix.
-When None no scale_tril term is added to scale. The upper triangular elements above the diagonal are ignored.</p></td>
+<code>scale_tril</code> has shape <code>[N1, N2, ...  k, k]</code>, which represents a k x k lower triangular matrix.
+When NULL no <code>scale_tril</code> term is added to <code>scale</code>. The upper triangular elements above the diagonal are ignored.</p></td>
     </tr>
     <tr>
       <th>scale_perturb_factor</th>
       <td><p>Floating-point Tensor representing factor matrix with last
-two dimensions of shape (k, r). When NULL, no rank-r update is added to scale.</p></td>
+two dimensions of shape <code>(k, r)</code> When NULL, no rank-r update is added to scale.</p></td>
     </tr>
     <tr>
       <th>scale_perturb_diag</th>
       <td><p>Floating-point Tensor representing the diagonal matrix.
-scale_perturb_diag has shape [N1, N2, ...  r], which represents an r x r diagonal matrix.
-When None low rank updates will take the form scale_perturb_factor * scale_perturb_factor.T.</p></td>
+<code>scale_perturb_diag</code> has shape <code>[N1, N2, ...  r]</code>, which represents an r x r diagonal matrix.
+When NULL low rank updates will take the form <code>scale_perturb_factor * scale_perturb_factor.T</code>.</p></td>
     </tr>
     <tr>
       <th>adjoint</th>
@@ -188,16 +180,16 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     </tr>
     <tr>
       <th>dtype</th>
-      <td><p>tf$DType to prefer when converting args to Tensors. Else, we fall back to a
+      <td><p><code>tf$DType</code> to prefer when converting args to Tensors. Else, we fall back to a
 common dtype inferred from the args, finally falling back to float32.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If none of scale_identity_multiplier, scale_diag, or scale_tril are specified then
-  scale += IdentityMatrix. Otherwise specifying a scale argument has the semantics of
-   scale += Expand(arg), i.e., scale_diag != NULL means scale += tf$diag(scale_diag).</p>
+    <p>If NULL of <code>scale_identity_multiplier</code>, <code>scale_diag</code>, or <code>scale_tril</code> are specified then
+<code>scale += IdentityMatrix</code> Otherwise specifying a scale argument has the semantics of
+<code>scale += Expand(arg)</code>, i.e., <code>scale_diag != NULL</code> means <code>scale += tf$diag(scale_diag)</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

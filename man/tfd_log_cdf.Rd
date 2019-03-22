@@ -14,12 +14,12 @@ tfd_log_cdf(distribution, value, name = "log_cdf")
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
+a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
 Given random variable X, the cumulative distribution function cdf is:
-tfd_log_cdf(x) := Log[ P[X <= x] ]
-Often, a numerical approximation can be used for tfd_log_cdf(x) that yields
+\code{tfd_log_cdf(x) := Log[ P[X <= x] ]}
+Often, a numerical approximation can be used for \code{tfd_log_cdf(x)} that yields
 a more accurate answer than simply taking the logarithm of the cdf when x << -1.
 }
 \seealso{

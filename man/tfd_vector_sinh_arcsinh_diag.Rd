@@ -11,18 +11,18 @@ tfd_vector_sinh_arcsinh_diag(loc = NULL, scale_diag = NULL,
 }
 \arguments{
 \item{loc}{Floating-point Tensor. If this is set to NULL, loc is
-implicitly 0. When specified, may have shape [B1, ..., Bb, k] where
+implicitly 0. When specified, may have shape \code{[B1, ..., Bb, k]} where
 b >= 0 and k is the event size.}
 
 \item{scale_diag}{Non-zero, floating-point Tensor representing a diagonal
-matrix added to scale. May have shape [B1, ..., Bb, k], b >= 0,
+matrix added to scale. May have shape \code{[B1, ..., Bb, k]}, b >= 0,
 and characterizes b-batches of k x k diagonal matrices added to
 scale. When both scale_identity_multiplier and scale_diag are
 NULL then scale is the Identity.}
 
 \item{scale_identity_multiplier}{Non-zero, floating-point Tensor representing
 a scale-identity-matrix added to scale. May have shape
-[B1, ..., Bb], b >= 0, and characterizes b-batches of scale
+\code{[B1, ..., Bb]}, b >= 0, and characterizes b-batches of scale
 k x k identity matrices added to scale. When both
 scale_identity_multiplier and scale_diag are NULL then scale
 is the Identity.}
@@ -33,7 +33,7 @@ broadcastable with event_shape.}
 \item{tailweight}{Tailweight parameter.  floating-point Tensor with shape
 broadcastable with event_shape.}
 
-\item{distribution}{tf$Distribution-like instance. Distribution from which k
+\item{distribution}{\code{tf$distributions$Distribution}-like instance. Distribution from which k
 iid samples are used as input to transformation F.  Default is
 tfd_normal(loc = 0, scale = 1).
 Must be a scalar-batch, scalar-event distribution.  Typically
@@ -54,11 +54,11 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This distribution models a random vector Y = (Y1,...,Yk), making use of
+This distribution models a random vector \code{Y = (Y1,...,Yk)}, making use of
 a SinhArcsinh transformation (which has adjustable tailweight and skew),
 a rescaling, and a shift.
 The SinhArcsinh transformation of the Normal is described in great depth in
-[Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865).
+\href{https://www.jstor.org/stable/27798865}{Sinh-arcsinh distributions}.
 Here we use a slightly different parameterization, in terms of tailweight
 and skewness.  Additionally we allow for distributions other than Normal,
 and control over scale as well as a "shift" parameter loc.

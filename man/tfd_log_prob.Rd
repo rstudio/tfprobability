@@ -14,7 +14,7 @@ tfd_log_prob(distribution, value, name = "log_prob")
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
+a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
 Log probability density/mass function.

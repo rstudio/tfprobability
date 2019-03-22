@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_discrete_cosine_transform}
 \alias{tfb_discrete_cosine_transform}
-\title{Compute Y = g(X) = DCT(X), where DCT type is indicated by the type arg.}
+\title{Compute \code{Y = g(X) = DCT(X)}, where DCT type is indicated by the type arg.}
 \usage{
 tfb_discrete_cosine_transform(validate_args = FALSE, dct_type = 2,
   name = "dct")
@@ -17,18 +17,18 @@ Currently, only 2 and 3 are supported.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The [discrete cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform)
+The \href{https://en.wikipedia.org/wiki/Discrete_cosine_transform}{discrete cosine transform}
 efficiently applies a unitary DCT operator. This can be useful for mixing and decorrelating across
 the innermost event dimension.
-The inverse X = g^{-1}(Y) = IDCT(Y), where IDCT is DCT-III for type==2.
+The inverse \code{X = g^{-1}(Y) = IDCT(Y)}, where IDCT is DCT-III for type==2.
 This bijector can be interleaved with Affine bijectors to build a cascade of
-structured efficient linear layers as in [1].
+structured efficient linear layers as in \link{1}.
 Note that the operator applied is orthonormal (i.e. norm='ortho').
 }
 \details{
 References
-[1]: Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer.
-In _International Conference on Learning Representations_, 2016. https://arxiv.org/abs/1511.05946
+\link{1}: Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer.
+In \emph{International Conference on Learning Representations}, 2016. https://arxiv.org/abs/1511.05946
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

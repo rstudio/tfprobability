@@ -118,7 +118,7 @@ matrix-multiplication." />
     
     <p>The Multivariate Normal distribution is defined over R^k and parameterized
 by a (batch of) length-k loc vector (aka "mu") and a (batch of) k x k
-scale matrix; covariance = scale @ scale.T where @ denotes
+scale matrix; <code>covariance = scale @ scale.T</code> where @ denotes
 matrix-multiplication.</p>
     
     </div>
@@ -133,21 +133,21 @@ matrix-multiplication.</p>
     <tr>
       <th>loc</th>
       <td><p>Floating-point Tensor. If this is set to NULL, loc is implicitly 0.
-When specified, may have shape [B1, ..., Bb, k] where b &gt;= 0 and k is the event size.</p></td>
+When specified, may have shape <code>[B1, ..., Bb, k]</code> where b &gt;= 0 and k is the event size.</p></td>
     </tr>
     <tr>
       <th>scale_diag</th>
       <td><p>Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
-May have shape [B1, ..., Bb, k], b &gt;= 0, and characterizes b-batches of k x k diagonal matrices
+May have shape <code>[B1, ..., Bb, k]</code>, b &gt;= 0, and characterizes b-batches of k x k diagonal matrices
 added to scale. When both scale_identity_multiplier and scale_diag are NULL then scale
 is the Identity.</p></td>
     </tr>
     <tr>
       <th>scale_identity_multiplier</th>
       <td><p>Non-zero, floating-point Tensor representing a scaled-identity-matrix
-added to scale. May have shape [B1, ..., Bb], b &gt;= 0, and characterizes b-batches of scaled
+added to scale. May have shape <code>[B1, ..., Bb]</code>, b &gt;= 0, and characterizes b-batches of scaled
 k x k identity matrices added to scale. When both scale_identity_multiplier and scale_diag
- are NULL then scale is the Identity.</p></td>
+are NULL then scale is the Identity.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>

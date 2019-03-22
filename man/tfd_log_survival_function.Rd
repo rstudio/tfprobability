@@ -15,15 +15,15 @@ tfd_log_survival_function(distribution, value,
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
+a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
 Given random variable X, the survival function is defined:
-tfd_log_survival_function(x) = Log[ P[X > x] ] = Log[ 1 - P[X <= x] ] = Log[ 1 - cdf(x) ]
+\code{tfd_log_survival_function(x) = Log[ P[X > x] ] = Log[ 1 - P[X <= x] ] = Log[ 1 - cdf(x) ]}
 }
 \details{
 Typically, different numerical approximations can be used for the log survival function,
- which are more accurate than 1 - cdf(x) when x >> 1.
+which are more accurate than 1 - cdf(x) when x >> 1.
 }
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},

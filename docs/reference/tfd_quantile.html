@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="Quantile function. Aka "inverse cdf" or "percent point function". — tfd_quantile" />
 
-<meta property="og:description" content="Given random variable X and p in [0, 1], the quantile is:
-quantile(p) := x such that P[X &amp;lt;= x] == p" />
+<meta property="og:description" content="Given random variable X and p in 0, 1, the quantile is:
+tfd_quantile(p) := x such that P[X &amp;lt;= x] == p" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,8 +114,8 @@ quantile(p) := x such that P[X &amp;lt;= x] == p" />
 
     <div class="ref-description">
     
-    <p>Given random variable X and p in [0, 1], the quantile is:
-quantile(p) := x such that P[X &lt;= x] == p</p>
+    <p>Given random variable X and p in 0, 1, the quantile is:
+<code>tfd_quantile(p) := x</code> such that <code>P[X &lt;= x] == p</code></p>
     
     </div>
 
@@ -140,7 +140,7 @@ quantile(p) := x such that P[X &lt;= x] == p</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.</p>
+    <p>a Tensor of shape <code>sample_shape(x) + self$batch_shape</code> with values of type <code>self$dtype</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

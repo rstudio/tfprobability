@@ -31,11 +31,6 @@
 
 
 <meta property="og:title" content="Covariance. — tfd_covariance" />
-
-<meta property="og:description" content="Covariance is (possibly) defined only for non-scalar-event distributions.
-For example, for a length-k, vector-valued distribution, it is calculated as,
-Cov[i, j] = Covariance(X_i, X_j) = E[(X_i - E[X_i]) (X_j - E[X_j])]
-where Cov is a (batch of) k x k matrix, 0 &amp;lt;= (i, j) &amp;lt; k, and E denotes expectation." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,12 +110,7 @@ where Cov is a (batch of) k x k matrix, 0 &amp;lt;= (i, j) &amp;lt; k, and E den
     </div>
 
     <div class="ref-description">
-    
-    <p>Covariance is (possibly) defined only for non-scalar-event distributions.
-For example, for a length-k, vector-valued distribution, it is calculated as,
-Cov[i, j] = Covariance(X_i, X_j) = E[(X_i - E[X_i]) (X_j - E[X_j])]
-where Cov is a (batch of) k x k matrix, 0 &lt;= (i, j) &lt; k, and E denotes expectation.</p>
-    
+
     </div>
 
     <pre class="usage"><span class='fu'>tfd_covariance</span>(<span class='no'>distribution</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"covariance"</span>)</pre>
@@ -140,21 +130,25 @@ where Cov is a (batch of) k x k matrix, 0 &lt;= (i, j) &lt; k, and E denotes exp
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Floating-point Tensor with shape [B1, ..., Bn, k', k'] where the first n dimensions
-are batch coordinates and k' = reduce_prod(self.event_shape).</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Alternatively, for non-vector, multivariate distributions (e.g., matrix-valued, Wishart),
+    <p>Floating-point Tensor with shape <code>[B1, ..., Bn, k', k']</code> where the first n dimensions
+are batch coordinates and <code>k' = reduce_prod(self.event_shape)}.
+}
+\description{
+Covariance is (possibly) defined only for non-scalar-event distributions.
+For example, for a length-k, vector-valued distribution, it is calculated as,
+\code{Cov[i, j] = Covariance(X_i, X_j) = E[(X_i - E[X_i]) (X_j - E[X_j])]}
+where Cov is a (batch of) k x k matrix, 0 &lt;= (i, j) &lt; k, and E denotes expectation.
+}
+\details{
+Alternatively, for non-vector, multivariate distributions (e.g., matrix-valued, Wishart),
 Covariance shall return a (batch of) matrices under some vectorization of the events, i.e.,
-Cov[i, j] = Covariance(Vec(X)_i, Vec(X)_j) = [as above]
+\code{Cov[i, j] = Covariance(Vec(X)_i, Vec(X)_j) = [as above]}
 where Cov is a (batch of) k' x k' matrices, 0 &lt;= (i, j) &lt; k' = reduce_prod(event_shape),
 and Vec is some function mapping indices of this distribution's event dimensions to indices of a
-length-k' vector.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+length-k' vector.
+</code>
 
-    <div class='dont-index'><p>Other distribution_methods: <code><a href='tfd_cdf.html'>tfd_cdf</a></code>,
+Other distribution_methods: <code><a href='tfd_cdf.html'>tfd_cdf</a></code>,
   <code><a href='tfd_cross_entropy.html'>tfd_cross_entropy</a></code>,
   <code><a href='tfd_entropy.html'>tfd_entropy</a></code>,
   <code><a href='tfd_kl_divergence.html'>tfd_kl_divergence</a></code>,
@@ -164,7 +158,9 @@ length-k' vector.</p>
   <code><a href='tfd_prob.html'>tfd_prob</a></code>, <code><a href='tfd_quantile.html'>tfd_quantile</a></code>,
   <code><a href='tfd_sample.html'>tfd_sample</a></code>, <code><a href='tfd_stddev.html'>tfd_stddev</a></code>,
   <code><a href='tfd_survival_function.html'>tfd_survival_function</a></code>,
-  <code><a href='tfd_variance.html'>tfd_variance</a></code></p></div>
+  <code><a href='tfd_variance.html'>tfd_variance</a></code>
+
+distribution_methods</p>
     
 
   </div>
@@ -174,10 +170,6 @@ length-k' vector.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>

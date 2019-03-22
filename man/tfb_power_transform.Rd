@@ -2,14 +2,14 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_power_transform}
 \alias{tfb_power_transform}
-\title{Compute Y = g(X) = (1 + X * c)**(1 / c), X >= -1 / c.}
+\title{Compute \code{Y = g(X) = (1 + X * c)**(1 / c)}, \code{X >= -1 / c}.}
 \usage{
 tfb_power_transform(power, validate_args = FALSE,
   name = "power_transform")
 }
 \arguments{
 \item{power}{Python float scalar indicating the transform power, i.e.,
-Y = g(X) = (1 + X * c)**(1 / c) where c is the power.}
+\code{Y = g(X) = (1 + X * c)**(1 / c)} where c is the power.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
@@ -17,8 +17,8 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The [power transform](https://en.wikipedia.org/wiki/Power_transform) maps
-inputs from [0, inf] to [-1/c, inf]; this is equivalent to the inverse of this bijector.
+The \href{https://en.wikipedia.org/wiki/Power_transform}{power transform} maps
+inputs from \code{[0, inf]} to \code{[-1/c, inf]}; this is equivalent to the inverse of this bijector.
 This bijector is equivalent to the Exp bijector when c=0.
 }
 \seealso{

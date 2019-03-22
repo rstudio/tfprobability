@@ -2,18 +2,14 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_scale_tri_l}
 \alias{tfb_scale_tri_l}
-\title{Transforms unconstrained vectors to TriL matrices with positive diagonal.
-This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
-tfb_transform_diagonal, and provided mostly as a convenience.
-The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.}
+\title{Transforms unconstrained vectors to TriL matrices with positive diagonal.}
 \usage{
 tfb_scale_tri_l(diag_bijector = NULL, diag_shift = 1e-05,
   validate_args = FALSE, name = "scale_tril")
 }
 \arguments{
 \item{diag_bijector}{Bijector instance, used to transform the output diagonal to be positive.
-Default value: NULL (i.e., tfb_softplus()).}
+Default value: NULL (i.e., \code{tfb_softplus()}).}
 
 \item{diag_shift}{Float value broadcastable and added to all diagonal entries after applying the
 diag_bijector. Setting a positive value forces the output diagonal entries to be positive, but
@@ -26,11 +22,10 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Transforms unconstrained vectors to TriL matrices with positive diagonal.
 This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
 tfb_transform_diagonal, and provided mostly as a convenience.
 The default setup is somewhat opinionated, using a Softplus transformation followed by a
- small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.
+small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

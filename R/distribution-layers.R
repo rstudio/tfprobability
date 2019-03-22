@@ -4,16 +4,16 @@
 #'
 #' @inheritParams keras::layer_dense
 #'
-#' @param distribution Distribution instance corresponding to b as in  KL[a, b].
+#' @param distribution Distribution instance corresponding to b as in  `KL[a, b]`.
 #'  The previous layer's output is presumed to be a Distribution instance and is a.
 #' @param use_exact_kl Logical indicating if KL divergence should be
-#'  calculated exactly via tfp$distributions$kl_divergence or via Monte Carlo approximation.
+#'  calculated exactly via `tfp$distributions$kl_divergence` or via Monte Carlo approximation.
 #'  Default value: FALSE.
 #' @param test_points_reduce_axis Integer vector or scalar representing dimensions
 #'  over which to reduce_mean while calculating the Monte Carlo approximation of the KL divergence.
 #'  As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
 #'  () means reduce over none of them. Default value: () (i.e., no reduction).
-#' @param test_points_fn A callable taking a tfp$distribution instance and returning a tensor
+#' @param test_points_fn A callable taking a `tfp$distributions$Distribution` instance and returning a tensor
 #'  used for random test points to approximate the KL divergence.
 #'  Default value: tf$convert_to_tensor.
 #' @param weight Multiplier applied to the calculated KL divergence for each Keras batch member.
@@ -60,7 +60,7 @@ layer_kl_divergence_add_loss <- function(object,
 }
 
 
-#' A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.
+#' A d-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_distribution_lambda
@@ -159,9 +159,9 @@ layer_independent_bernoulli <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #'
-#' @param make_distribution_fn A callable that takes previous layer outputs and returns a tfd$Distribution instance.
+#' @param make_distribution_fn A callable that takes previous layer outputs and returns a `tfd$distributions$Distribution` instance.
 #' @param convert_to_tensor_fn A callable that takes a tfd$Distribution instance and returns a
-#'  tf$Tensor-like object. Default value: tfd$Distribution$sample.
+#'  tf$Tensor-like object. Default value: `tfd$distributions$Distribution$sample`.
 #' @family distribution_layers
 #' @export
 layer_distribution_lambda <- function(object,

@@ -18,9 +18,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 }
 \description{
 Triangular matrix elements are filled in a clockwise spiral.
-Given input with shape batch_shape + [d], produces output with
-shape batch_shape + [n, n], where n = (-1 + sqrt(1 + 8 * d))/2.
-This follows by solving the quadratic equation d = 1 + 2 + ... + n = n * (n + 1)/2.
+Given input with shape \code{batch_shape + [d]}, produces output with
+shape \code{batch_shape + [n, n]}, where \code{n = (-1 + sqrt(1 + 8 * d))/2}.
+This follows by solving the quadratic equation \code{d = 1 + 2 + ... + n = n * (n + 1)/2}.
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

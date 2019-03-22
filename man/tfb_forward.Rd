@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijector-methods.R
 \name{tfb_forward}
 \alias{tfb_forward}
-\title{Returns the forward Bijector evaluation, i.e., X = g(Y).}
+\title{Returns the forward Bijector evaluation, i.e., \code{X = g(Y)}.}
 \usage{
 tfb_forward(bijector, x, name = "forward")
 }
@@ -12,7 +12,7 @@ tfb_forward(bijector, x, name = "forward")
 \item{x}{Tensor. The input to the "forward" evaluation.}
 }
 \description{
-Returns the forward Bijector evaluation, i.e., X = g(Y).
+Returns the forward Bijector evaluation, i.e., \code{X = g(Y)}.
 }
 \seealso{
 Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},

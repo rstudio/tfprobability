@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Maps the Cholesky factor of M to the Cholesky factor of M^-1. — tfb_cholesky_to_inv_cholesky • tfprobability</title>
+<title>Maps the Cholesky factor of M to the Cholesky factor of <code>M^{-1}</code>. — tfb_cholesky_to_inv_cholesky • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Maps the Cholesky factor of M to the Cholesky factor of M^-1. — tfb_cholesky_to_inv_cholesky" />
+<meta property="og:title" content="Maps the Cholesky factor of M to the Cholesky factor of <code>M^{-1}</code>. — tfb_cholesky_to_inv_cholesky" />
 
 <meta property="og:description" content="The forward and inverse calculations are conceptually identical to:
-def forward(x): return tf.cholesky(tf.linalg.inv(tf.matmul(x, x, adjoint_b=True)))
+forward &amp;lt;- function(x) tf$cholesky(tf$linalg$inv(tf$matmul(x, x, adjoint_b=TRUE)))
 inverse = forward
 However, the actual calculations exploit the triangular structure of the matrices." />
 <meta name="twitter:card" content="summary" />
@@ -109,7 +109,7 @@ However, the actual calculations exploit the triangular structure of the matrice
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Maps the Cholesky factor of M to the Cholesky factor of M^-1.</h1>
+    <h1>Maps the Cholesky factor of M to the Cholesky factor of <code>M^{-1}</code>.</h1>
     
     <div class="hidden name"><code>tfb_cholesky_to_inv_cholesky.Rd</code></div>
     </div>
@@ -117,8 +117,8 @@ However, the actual calculations exploit the triangular structure of the matrice
     <div class="ref-description">
     
     <p>The forward and inverse calculations are conceptually identical to:
-def forward(x): return tf.cholesky(tf.linalg.inv(tf.matmul(x, x, adjoint_b=True)))
-inverse = forward
+<code>forward &lt;- function(x) tf$cholesky(tf$linalg$inv(tf$matmul(x, x, adjoint_b=TRUE)))</code>
+<code>inverse = forward</code>
 However, the actual calculations exploit the triangular structure of the matrices.</p>
     
     </div>

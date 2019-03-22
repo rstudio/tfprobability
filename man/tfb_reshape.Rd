@@ -21,16 +21,18 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The semantics generally follow that of tf.reshape(), with a few differences:
-  * The user must provide both the input and output shape, so that
-    the transformation can be inverted. If an input shape is not
-    specified, the default assumes a vector-shaped input, i.e.,
-    event_shape_in = list(-1).
-  * The Reshape bijector automatically broadcasts over the leftmost
-  dimensions of its input (sample_shape and batch_shape); only
-  the rightmost event_ndims_in dimensions are reshaped. The
-  number of dimensions to reshape is inferred from the provided
-  event_shape_in (event_ndims_in = length(event_shape_in)).
+The semantics generally follow that of \code{tf$reshape()}, with a few differences:
+\itemize{
+\item The user must provide both the input and output shape, so that
+the transformation can be inverted. If an input shape is not
+specified, the default assumes a vector-shaped input, i.e.,
+\code{event_shape_in = list(-1)}.
+\item The Reshape bijector automatically broadcasts over the leftmost
+dimensions of its input (sample_shape and batch_shape); only
+the rightmost event_ndims_in dimensions are reshaped. The
+number of dimensions to reshape is inferred from the provided
+event_shape_in (\code{event_ndims_in = length(event_shape_in))}.
+}
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

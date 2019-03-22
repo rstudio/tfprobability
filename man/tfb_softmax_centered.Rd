@@ -2,12 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_softmax_centered}
 \alias{tfb_softmax_centered}
-\title{Bijector which computes Y = g(X) = exp([X 0]) / sum(exp([X 0])).
-To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
-bijection, the forward transformation appends a value to the input and the
-inverse removes this coordinate. The appended coordinate represents a pivot,
-e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
-coordinate.}
+\title{Bijector which computes \code{Y = g(X) = exp([X 0]) / sum(exp([X 0]))}.}
 \usage{
 tfb_softmax_centered(validate_args = FALSE, name = "softmax_centered")
 }
@@ -18,7 +13,14 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-At first blush it may seem like the [Invariance of domain](https://en.wikipedia.org/wiki/Invariance_of_domain)
+To implement \href{https://en.wikipedia.org/wiki/Softmax_function}{softmax} as a
+bijection, the forward transformation appends a value to the input and the
+inverse removes this coordinate. The appended coordinate represents a pivot,
+e.g., softmax(x) = exp(x-c) / sum(exp(x-c)) where c is the implicit last
+coordinate.
+}
+\details{
+At first blush it may seem like the \href{https://en.wikipedia.org/wiki/Invariance_of_domain}{Invariance of domain}
 theorem implies this implementation is not a bijection. However, the appended dimension
 makes the (forward) image non-open and the theorem does not directly apply.
 }
