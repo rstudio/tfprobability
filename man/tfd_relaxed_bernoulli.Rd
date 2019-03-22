@@ -36,9 +36,13 @@ The RelaxedBernoulli is a distribution over the unit interval (0,1), which conti
   infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.
 }
 \seealso{
-Other distributions: \code{\link{tfd_independent}},
+Other distributions: \code{\link{tfd_bernoulli}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_normal}},
+  \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_transformed}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},

@@ -30,9 +30,13 @@ A normal distribution
 The Normal distribution with loc and scale parameters
 }
 \seealso{
-Other distributions: \code{\link{tfd_independent}},
+Other distributions: \code{\link{tfd_bernoulli}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_multivariate_normal_diag}},
+  \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_transformed}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},

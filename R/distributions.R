@@ -72,6 +72,7 @@ tfd_independent <- function(distribution,
 #'  should be passed in.
 #' @param dtype The type of the event samples. Default: int32.
 #'
+#' @family distributions
 #' @export
 tfd_bernoulli <- function(logits = NULL,
                           probs = NULL,
@@ -110,7 +111,7 @@ tfd_bernoulli <- function(logits = NULL,
 #'  added to scale. May have shape [B1, ..., Bb], b >= 0, and characterizes b-batches of scaled
 #'  k x k identity matrices added to scale. When both scale_identity_multiplier and scale_diag
 #'   are NULL then scale is the Identity.
-#'
+#' @family distributions
 #' @export
 tfd_multivariate_normal_diag <- function(loc = NULL,
                                          scale_diag = NULL,
@@ -151,7 +152,7 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
 #'   first N - 1 dimensions index into a batch of independent distributions and the last dimension represents a
 #'   vector of probabilities for each class. Only one of logits or probs should be passed in.
 #' @param dtype The type of the event samples (default: int32).
-#'
+#' @family distributions
 #' @export
 tfd_one_hot_categorical <- function(logits = NULL,
                                     probs = NULL,
@@ -258,6 +259,7 @@ tfd_relaxed_bernoulli <- function(temperature,
 #'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 #'  silently render incorrect outputs. Default value: FALSE.
 #' @param name The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.
+#' @family distributions
 #' @export
 tfd_transformed <- function(distribution,
                             bijector,

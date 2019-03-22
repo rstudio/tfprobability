@@ -14,3 +14,9 @@ tfb_forward(bijector, x, name = "forward")
 \description{
 Returns the forward Bijector evaluation, i.e., X = g(Y).
 }
+\seealso{
+Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},
+  \code{\link{tfb_inverse_log_det_jacobian}},
+  \code{\link{tfb_inverse}}
+}
+\concept{bijector_methods}

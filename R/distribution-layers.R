@@ -22,7 +22,7 @@
 #' @family Probabilistic layers (require TensorFlow probability)
 #'
 #' @return a Keras layer that adds a KL divergence penalty to the model loss
-#'
+#' @family distribution_layers
 #' @export
 layer_kl_divergence_add_loss <- function(object,
                                          distribution,
@@ -73,7 +73,7 @@ layer_kl_divergence_add_loss <- function(object,
 #' @family Probabilistic layers (require TensorFlow probability)
 #'
 #' @return a Keras layer that wraps a MultivariateNormalTriL distribution
-#'
+#' @family distribution_layers
 #' @export
 layer_multivariate_normal_tri_l <- function(object,
                                            event_size,
@@ -119,8 +119,7 @@ layer_multivariate_normal_tri_l <- function(object,
 #'  silently render incorrect outputs. Default value: FALSE.
 #'
 #' @return a Keras layer that wraps a Bernoulli distribution
-#'
-#' @family Probabilistic layers (require TensorFlow probability)
+#' @family distribution_layers
 #'
 #' @export
 layer_independent_bernoulli <- function(object,
@@ -163,6 +162,7 @@ layer_independent_bernoulli <- function(object,
 #' @param make_distribution_fn A callable that takes previous layer outputs and returns a tfd$Distribution instance.
 #' @param convert_to_tensor_fn A callable that takes a tfd$Distribution instance and returns a
 #'  tf$Tensor-like object. Default value: tfd$Distribution$sample.
+#' @family distribution_layers
 #' @export
 layer_distribution_lambda <- function(object,
                                       make_distribution_fn,

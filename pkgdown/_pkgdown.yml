@@ -1,0 +1,21 @@
+template:
+    params:
+        bootswatch: flatly
+
+reference:
+
+  - title: "Distributions"
+    contents:
+      - has_concept("distributions")
+  - title: "Distribution methods"
+    contents:
+      - has_concept("distribution_methods")
+  - title: "Distribution layers"
+    contents:
+      - has_concept("distribution_layers")
+  - title: "Bijectors"
+    contents:
+      - has_concept("bijectors")
+  - title: "Bijector methods"
+    contents:
+      - has_concept("bijector_methods")

@@ -8,6 +8,7 @@
 #' @param name name to give to the op.
 #'
 #' @return a Tensor with prepended dimensions sample_shape.
+#' @family distribution_methods
 #' @export
 tfd_sample <- function(distribution,
                        sample_shape = list(),
@@ -23,6 +24,7 @@ tfd_sample <- function(distribution,
 #' @param name String prepended to names of ops created by this function.
 #'
 #' @return a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
+#' @family distribution_methods
 #' @export
 tfd_log_prob <- function(distribution, value, name = "log_prob") {
   distribution$log_prob(value, name)
@@ -31,6 +33,7 @@ tfd_log_prob <- function(distribution, value, name = "log_prob") {
 #' Probability density/mass function.
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 tfd_prob <- function(distribution, value, name = "prob") {
   distribution$prob(value, name)
@@ -44,6 +47,7 @@ tfd_prob <- function(distribution, value, name = "prob") {
 #' a more accurate answer than simply taking the logarithm of the cdf when x << -1.
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 #'
 tfd_log_cdf <- function(distribution, value, name = "log_cdf") {
@@ -55,6 +59,7 @@ tfd_log_cdf <- function(distribution, value, name = "log_cdf") {
 #' cdf(x) := P[X <= x]
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 tfd_cdf <- function(distribution, value, name = "cdf") {
   distribution$cdf(value, name)
@@ -69,6 +74,7 @@ tfd_cdf <- function(distribution, value, name = "cdf") {
 #'  which are more accurate than 1 - cdf(x) when x >> 1.
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 tfd_log_survival_function <- function(distribution, value, name = "log_survival_function") {
   distribution$log_survival_function(value, name)
@@ -80,6 +86,7 @@ tfd_log_survival_function <- function(distribution, value, name = "log_survival_
 #' survival_function(x) = P[X > x] = 1 - P[X <= x] = 1 - cdf(x).
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 tfd_survival_function <- function(distribution, value, name = "survival_function") {
   distribution$survival_function(value, name)
@@ -88,6 +95,7 @@ tfd_survival_function <- function(distribution, value, name = "survival_function
 #' Shannon entropy in nats.
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 tfd_entropy <- function(distribution, name = "entropy") {
   distribution$entropy(name)
@@ -96,6 +104,7 @@ tfd_entropy <- function(distribution, name = "entropy") {
 #' Mean.
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 #'
 tfd_mean <- function(distribution, name = "mean") {
@@ -108,7 +117,7 @@ tfd_mean <- function(distribution, name = "mean") {
 #' quantile(p) := x such that P[X <= x] == p
 #'
 #' @inherit tfd_log_prob return params
-#'
+#' @family distribution_methods
 #' @export
 tfd_quantile <- function(distribution, value, name = "quantile") {
   distribution$quantile(value, name)
@@ -123,7 +132,7 @@ tfd_quantile <- function(distribution, value, name = "quantile") {
 #' @param name String prepended to names of ops created by this function.
 #' @inherit tfd_log_prob return params
 #' @return a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dtype.
-#'
+#' @family distribution_methods
 #' @export
 tfd_variance <- function(distribution, name = "variance") {
   distribution$variance(name)
@@ -136,6 +145,7 @@ tfd_variance <- function(distribution, name = "variance") {
 #' and Var$shape = batch_shape + event_shape.
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 tfd_stddev <- function(distribution, name = "stddev") {
   distribution$stddev(name)
@@ -159,6 +169,7 @@ tfd_stddev <- function(distribution, name = "stddev") {
 #'
 #' @return Floating-point Tensor with shape [B1, ..., Bn, k', k'] where the first n dimensions
 #' are batch coordinates and k' = reduce_prod(self.event_shape).
+#' @family distribution_methods
 #' @export
 tfd_covariance <- function(distribution, name = "covariance") {
   distribution$covariance(name)
@@ -167,6 +178,7 @@ tfd_covariance <- function(distribution, name = "covariance") {
 #' Mean.
 #'
 #' @inherit tfd_log_prob return params
+#' @family distribution_methods
 #' @export
 tfd_mode <- function(distribution, name = "mode") {
   distribution$mode(name)
@@ -185,7 +197,7 @@ tfd_mode <- function(distribution, name = "mode") {
 #' @param name String prepended to names of ops created by this function.
 #'
 #' @return cross_entropy: self.dtype Tensor with shape [B1, ..., Bn] representing n different calculations of (Shannon) cross entropy.
-#'
+#' @family distribution_methods
 #' @export
 tfd_cross_entropy <- function(distribution, other, name = "cross_entropy") {
   distribution$cross_entropy(other, name)
@@ -206,7 +218,7 @@ tfd_cross_entropy <- function(distribution, other, name = "cross_entropy") {
 #'
 #' @return self$dtype Tensor with shape [B1, ..., Bn] representing n different calculations
 #'  of the Kullback-Leibler divergence.
-#'
+#' @family distribution_methods
 #' @export
 tfd_kl_divergence <- function(distribution, other, name = "kl_divergence") {
   distribution$kl_divergence(other, name)

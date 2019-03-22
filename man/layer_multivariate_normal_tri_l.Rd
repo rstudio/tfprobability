@@ -51,7 +51,11 @@ a Keras layer that wraps a MultivariateNormalTriL distribution
 A d-variate MVNTriL Keras layer from d+d*(d+1)/ 2 params.
 }
 \seealso{
-Other Probabilistic layers (require TensorFlow probability): \code{\link{layer_independent_bernoulli}},
+Other Probabilistic layers (require TensorFlow probability): \code{\link{layer_kl_divergence_add_loss}}
+
+Other distribution_layers: \code{\link{layer_distribution_lambda}},
+  \code{\link{layer_independent_bernoulli}},
   \code{\link{layer_kl_divergence_add_loss}}
 }
 \concept{Probabilistic layers (require TensorFlow probability)}
+\concept{distribution_layers}

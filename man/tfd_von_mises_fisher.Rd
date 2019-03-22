@@ -40,10 +40,14 @@ NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
 instability can occur for low concentrations (<.01).
 }
 \seealso{
-Other distributions: \code{\link{tfd_independent}},
+Other distributions: \code{\link{tfd_bernoulli}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_normal}},
+  \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_transformed}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},

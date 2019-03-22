@@ -20,3 +20,18 @@ a Tensor of shape sample_shape(x) + self$batch_shape with values of type self$dt
 Given random variable X and p in [0, 1], the quantile is:
 quantile(p) := x such that P[X <= x] == p
 }
+\seealso{
+Other distribution_methods: \code{\link{tfd_cdf}},
+  \code{\link{tfd_covariance}},
+  \code{\link{tfd_cross_entropy}},
+  \code{\link{tfd_entropy}},
+  \code{\link{tfd_kl_divergence}},
+  \code{\link{tfd_log_cdf}}, \code{\link{tfd_log_prob}},
+  \code{\link{tfd_log_survival_function}},
+  \code{\link{tfd_mean}}, \code{\link{tfd_mode}},
+  \code{\link{tfd_prob}}, \code{\link{tfd_sample}},
+  \code{\link{tfd_stddev}},
+  \code{\link{tfd_survival_function}},
+  \code{\link{tfd_variance}}
+}
+\concept{distribution_methods}

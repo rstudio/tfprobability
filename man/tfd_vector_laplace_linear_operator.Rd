@@ -55,10 +55,14 @@ Recall that covariance = 2 * scale @ scale.T.
 Additional leading dimensions (if any) will index batches.
 }
 \seealso{
-Other distributions: \code{\link{tfd_independent}},
+Other distributions: \code{\link{tfd_bernoulli}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_normal}},
+  \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_transformed}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},
   \code{\link{tfd_von_mises_fisher}},

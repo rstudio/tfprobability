@@ -20,3 +20,9 @@ dimensions to produce a scalar Jacobian determinant for each event, i.e. it has 
 \description{
 Returns both the forward_log_det_jacobian.
 }
+\seealso{
+Other bijector_methods: \code{\link{tfb_forward}},
+  \code{\link{tfb_inverse_log_det_jacobian}},
+  \code{\link{tfb_inverse}}
+}
+\concept{bijector_methods}

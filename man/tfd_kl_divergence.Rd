@@ -25,3 +25,17 @@ KL[p, q] = E_p[log(p(X)/q(X))] = -int_F p(x) log q(x) dr(x) + int_F p(x) log p(x
 where F denotes the support of the random variable X ~ p, H[., .]
 denotes (Shannon) cross entropy, and H[.] denotes (Shannon) entropy.
 }
+\seealso{
+Other distribution_methods: \code{\link{tfd_cdf}},
+  \code{\link{tfd_covariance}},
+  \code{\link{tfd_cross_entropy}},
+  \code{\link{tfd_entropy}}, \code{\link{tfd_log_cdf}},
+  \code{\link{tfd_log_prob}},
+  \code{\link{tfd_log_survival_function}},
+  \code{\link{tfd_mean}}, \code{\link{tfd_mode}},
+  \code{\link{tfd_prob}}, \code{\link{tfd_quantile}},
+  \code{\link{tfd_sample}}, \code{\link{tfd_stddev}},
+  \code{\link{tfd_survival_function}},
+  \code{\link{tfd_variance}}
+}
+\concept{distribution_methods}

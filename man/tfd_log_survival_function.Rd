@@ -25,3 +25,17 @@ tfd_log_survival_function(x) = Log[ P[X > x] ] = Log[ 1 - P[X <= x] ] = Log[ 1 -
 Typically, different numerical approximations can be used for the log survival function,
  which are more accurate than 1 - cdf(x) when x >> 1.
 }
+\seealso{
+Other distribution_methods: \code{\link{tfd_cdf}},
+  \code{\link{tfd_covariance}},
+  \code{\link{tfd_cross_entropy}},
+  \code{\link{tfd_entropy}},
+  \code{\link{tfd_kl_divergence}},
+  \code{\link{tfd_log_cdf}}, \code{\link{tfd_log_prob}},
+  \code{\link{tfd_mean}}, \code{\link{tfd_mode}},
+  \code{\link{tfd_prob}}, \code{\link{tfd_quantile}},
+  \code{\link{tfd_sample}}, \code{\link{tfd_stddev}},
+  \code{\link{tfd_survival_function}},
+  \code{\link{tfd_variance}}
+}
+\concept{distribution_methods}
