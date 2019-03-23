@@ -92,11 +92,11 @@ tfd_bernoulli <- function(logits = NULL,
   do.call(tfp$distributions$Bernoulli, args)
 }
 
-#' The multivariate normal distribution on R^k.
+#' The multivariate normal distribution on `R^k`.
 #'
 #' The Multivariate Normal distribution is defined over R^k and parameterized
-#' by a (batch of) length-k loc vector (aka "mu") and a (batch of) k x k
-#' scale matrix; `covariance = scale @ scale.T` where @ denotes
+#' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
+#' scale matrix; `covariance = scale @ scale.T` where `@` denotes
 #' matrix-multiplication.
 #'
 #' @inheritParams tfd_normal
@@ -104,12 +104,12 @@ tfd_bernoulli <- function(logits = NULL,
 #' @param loc Floating-point Tensor. If this is set to NULL, loc is implicitly 0.
 #' When specified, may have shape `[B1, ..., Bb, k]` where b >= 0 and k is the event size.
 #' @param scale_diag Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
-#'  May have shape `[B1, ..., Bb, k]`, b >= 0, and characterizes b-batches of k x k diagonal matrices
+#'  May have shape `[B1, ..., Bb, k]`, b >= 0, and characterizes b-batches of `k x k` diagonal matrices
 #'  added to scale. When both scale_identity_multiplier and scale_diag are NULL then scale
 #'  is the Identity.
 #' @param scale_identity_multiplier Non-zero, floating-point Tensor representing a scaled-identity-matrix
 #'  added to scale. May have shape `[B1, ..., Bb]`, b >= 0, and characterizes b-batches of scaled
-#'  k x k identity matrices added to scale. When both scale_identity_multiplier and scale_diag
+#'  `k x k` identity matrices added to scale. When both scale_identity_multiplier and scale_diag
 #'   are NULL then scale is the Identity.
 #' @family distributions
 #' @export
@@ -244,7 +244,7 @@ tfd_relaxed_bernoulli <- function(temperature,
 
 #' A Transformed Distribution.
 #'
-#' A TransformedDistribution models p(y) given a base distribution p(x),
+#' A TransformedDistribution models `p(y)` given a base distribution `p(x)`,
 #' and a deterministic, invertible, differentiable transform,`Y = g(X)`. The
 #' transform is typically an instance of the Bijector class and the base
 #' distribution is typically an instance of the Distribution class.
@@ -280,6 +280,7 @@ tfd_transformed <- function(distribution,
 }
 
 #' Zipf distribution.
+#'
 #' The Zipf distribution is parameterized by a power parameter.
 #'
 #' @param power Float like Tensor representing the power parameter. Must be
@@ -452,7 +453,7 @@ tfd_von_mises <- function(loc,
   do.call(tfp$distributions$VonMises, args)
 }
 
-#' The (diagonal) SinhArcsinh transformation of a distribution on R^k.
+#' The (diagonal) SinhArcsinh transformation of a distribution on `R^k`.
 #'
 #' This distribution models a random vector `Y = (Y1,...,Yk)`, making use of
 #' a SinhArcsinh transformation (which has adjustable tailweight and skew),
@@ -522,7 +523,7 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
 #'
 #' The vector laplace distribution is defined over `R^k`, and parameterized by
 #' a (batch of) length-k loc vector (the means) and a (batch of) k x k
-#' scale matrix:  `covariance = 2 * scale @ scale.T`, where @ denotes
+#' scale matrix:  `covariance = 2 * scale @ scale.T`, where `@` denotes
 #' matrix-multiplication.
 #'
 #' About VectorLaplace and Vector distributions in TensorFlow.
@@ -544,7 +545,7 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
 #' arguments.
 #' The event_shape is given by last dimension of the matrix implied by
 #' scale. The last dimension of loc (if provided) must broadcast with this.
-#' Recall that covariance = 2 * scale @ scale.T.
+#' Recall that `covariance = 2 * scale @ scale.T`.
 #' Additional leading dimensions (if any) will index batches.
 #'
 #' @param  loc Floating-point Tensor. If this is set to NULL, loc is
@@ -654,4 +655,127 @@ tfd_vector_laplace_diag <- function(loc = NULL,
   do.call(tfp$distributions$VectorLaplaceDiag, args)
 }
 
+#' The vectorization of the Exponential distribution on `R^k`.
+#'
+#' The vector exponential distribution is defined over a subset of `R^k`, and
+#' parameterized by a (batch of) length-`k` `loc` vector and a (batch of) `k x k`
+#' `scale` matrix:  `covariance = scale @ scale.T`, where `@` denotes
+#' matrix-multiplication.
+#'
+#' The `VectorExponential` is a non-standard distribution that has useful
+#' properties.
+#' The marginals `Y_1, ..., Y_k` are *not* Exponential random variables, due to
+#' the fact that the sum of Exponential random variables is not Exponential.
+#' Instead, `Y` is a vector whose components are linear combinations of
+#' Exponential random variables.  Thus, `Y` lives in the vector space generated
+#' by `vectors` of Exponential distributions.  This allows the user to decide the
+#' mean and covariance (by setting `loc` and `scale`), while preserving some
+#' properties of the Exponential distribution.  In particular, the tails of `Y_i`
+#' will be (up to polynomial factors) exponentially decaying.
+#' To see this last statement, note that the pdf of `Y_i` is the convolution of
+#' the pdf of `k` independent Exponential random variables.  One can then show by
+#' induction that distributions with exponential (up to polynomial factors) tails
+#' are closed under convolution.
+#'
+#' The batch_shape is the broadcast shape between loc and scale
+#' arguments.
+#' The event_shape is given by last dimension of the matrix implied by
+#' scale. The last dimension of loc (if provided) must broadcast with this.
+#' Recall that `covariance = 2 * scale @ scale.T`.
+#' Additional leading dimensions (if any) will index batches.
+#' If both `scale_diag` and `scale_identity_multiplier` are `NULL`, then
+#' `scale` is the Identity matrix.
+
+#'
+#' @param loc Floating-point Tensor. If this is set to NULL, loc is
+#' implicitly 0. When specified, may have shape `[B1, ..., Bb, k]` where
+#' b >= 0 and k is the event size.
+#' @param scale_diag Non-zero, floating-point Tensor representing a diagonal
+#' matrix added to scale. May have shape `[B1, ..., Bb, k]`, b >= 0,
+#' and characterizes b-batches of k x k diagonal matrices added to
+#' scale. When both scale_identity_multiplier and scale_diag are
+#' NULL then scale is the Identity.
+#' @param scale_identity_multiplier Non-zero, floating-point Tensor representing
+#' a scaled-identity-matrix added to scale. May have shape
+#' [B1, ..., Bb], b >= 0, and characterizes b-batches of scaled
+#' k x k identity matrices added to scale. When both
+#' scale_identity_multiplier and scale_diag are NULL then scale is
+#' the Identity.
+
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_vector_exponential_diag <- function(loc = NULL,
+                                        scale_diag = NULL,
+                                        scale_identity_multiplier = NULL,
+                                        validate_args = FALSE,
+                                        allow_nan_stats = TRUE,
+                                        name = "VectorExponentialDiag") {
+  args <- list(
+    loc = loc,
+    scale_diag = scale_diag,
+    scale_identity_multiplier = scale_identity_multiplier,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VectorExponentialDiag, args)
+}
+
+#' The vectorization of the Exponential distribution on `R^k`.
+#'
+#' The vector exponential distribution is defined over a subset of `R^k`, and
+#' parameterized by a (batch of) length-`k` `loc` vector and a (batch of) `k x k`
+#' `scale` matrix:  `covariance = scale @ scale.T`, where `@` denotes
+#' matrix-multiplication.
+#'
+#' The `VectorExponential` is a non-standard distribution that has useful
+#' properties.
+#' The marginals `Y_1, ..., Y_k` are *not* Exponential random variables, due to
+#' the fact that the sum of Exponential random variables is not Exponential.
+#' Instead, `Y` is a vector whose components are linear combinations of
+#' Exponential random variables.  Thus, `Y` lives in the vector space generated
+#' by `vectors` of Exponential distributions.  This allows the user to decide the
+#' mean and covariance (by setting `loc` and `scale`), while preserving some
+#' properties of the Exponential distribution.  In particular, the tails of `Y_i`
+#' will be (up to polynomial factors) exponentially decaying.
+#' To see this last statement, note that the pdf of `Y_i` is the convolution of
+#' the pdf of `k` independent Exponential random variables.  One can then show by
+#' induction that distributions with exponential (up to polynomial factors) tails
+#' are closed under convolution.
+#'
+#' The batch_shape is the broadcast shape between loc and scale
+#' arguments.
+#' The event_shape is given by last dimension of the matrix implied by
+#' scale. The last dimension of loc (if provided) must broadcast with this.
+#' Recall that `covariance = 2 * scale @ scale.T`.
+#' Additional leading dimensions (if any) will index batches.
+#'
+#' #' @param  loc Floating-point Tensor. If this is set to NULL, loc is
+#' implicitly 0. When specified, may have shape `[B1, ..., Bb, k]` where
+#' b >= 0 and k is the event size.
+#' @param scale Instance of LinearOperator with same dtype as loc and shape
+#' `[B1, ..., Bb, k, k]`.
+
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_vector_exponential_linear_operator <- function(loc = NULL,
+                                                   scale = NULL,
+                                                   validate_args = FALSE,
+                                                   allow_nan_stats = TRUE,
+                                                   name = "VectorExponentialLinearOperator") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$vector_exponential_linear_operator$VectorExponentialLinearOperator, args)
+}
 

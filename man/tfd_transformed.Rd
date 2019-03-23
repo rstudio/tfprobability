@@ -25,7 +25,7 @@ silently render incorrect outputs. Default value: FALSE.}
 \item{name}{The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.}
 }
 \description{
-A TransformedDistribution models p(y) given a base distribution p(x),
+A TransformedDistribution models \code{p(y)} given a base distribution \code{p(x)},
 and a deterministic, invertible, differentiable transform,\code{Y = g(X)}. The
 transform is typically an instance of the Bijector class and the base
 distribution is typically an instance of the Distribution class.
@@ -38,6 +38,8 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_vector_exponential_diag}},
+  \code{\link{tfd_vector_exponential_linear_operator}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},

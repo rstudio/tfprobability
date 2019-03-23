@@ -2,8 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_zipf}
 \alias{tfd_zipf}
-\title{Zipf distribution.
-The Zipf distribution is parameterized by a power parameter.}
+\title{Zipf distribution.}
 \usage{
 tfd_zipf(power, dtype = tf$int32, interpolate_nondiscrete = TRUE,
   sample_maximum_iterations = 100, validate_args = FALSE,
@@ -37,7 +36,6 @@ silently render incorrect outputs. Default value: FALSE.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Zipf distribution.
 The Zipf distribution is parameterized by a power parameter.
 }
 \seealso{
@@ -49,6 +47,8 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
   \code{\link{tfd_transformed}},
+  \code{\link{tfd_vector_exponential_diag}},
+  \code{\link{tfd_vector_exponential_linear_operator}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},

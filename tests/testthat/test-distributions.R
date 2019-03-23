@@ -200,4 +200,17 @@ test_succeeds("VectorLaplaceDiag distribution works", {
   expect_equivalent(d %>% tfd_stddev() %>% tensor_value(), rep(sqrt(2), 3), tol = 1e8)
 })
 
+test_succeeds("VectorExponentialDiag distribution works", {
+
+  d <- tfd_vector_exponential_diag(loc = c(-1, 1),scale_diag = c(1, -5))
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(-1 + 1, 1 - 5), tol = 1e8)
+})
+
+test_succeeds("VectorExponentialDiag distribution works", {
+
+  s <- matrix(c(1, 0.1, 0.1, 1), ncol = 2)
+  d <- tfd_vector_exponential_linear_operator(scale = tf$linalg$LinearOperatorFullMatrix(s))
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(1.1, 1.1), tol = 1e8)
+})
+
 

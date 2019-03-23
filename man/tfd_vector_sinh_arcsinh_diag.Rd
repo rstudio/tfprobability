@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_vector_sinh_arcsinh_diag}
 \alias{tfd_vector_sinh_arcsinh_diag}
-\title{The (diagonal) SinhArcsinh transformation of a distribution on R^k.}
+\title{The (diagonal) SinhArcsinh transformation of a distribution on \code{R^k}.}
 \usage{
 tfd_vector_sinh_arcsinh_diag(loc = NULL, scale_diag = NULL,
   scale_identity_multiplier = NULL, skewness = NULL,
@@ -72,6 +72,8 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
   \code{\link{tfd_transformed}},
+  \code{\link{tfd_vector_exponential_diag}},
+  \code{\link{tfd_vector_exponential_linear_operator}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_von_mises_fisher}},

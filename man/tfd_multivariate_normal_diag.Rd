@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multivariate_normal_diag}
 \alias{tfd_multivariate_normal_diag}
-\title{The multivariate normal distribution on R^k.}
+\title{The multivariate normal distribution on \code{R^k}.}
 \usage{
 tfd_multivariate_normal_diag(loc = NULL, scale_diag = NULL,
   scale_identity_multiplier = NULL, validate_args = FALSE,
@@ -13,13 +13,13 @@ tfd_multivariate_normal_diag(loc = NULL, scale_diag = NULL,
 When specified, may have shape \code{[B1, ..., Bb, k]} where b >= 0 and k is the event size.}
 
 \item{scale_diag}{Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
-May have shape \code{[B1, ..., Bb, k]}, b >= 0, and characterizes b-batches of k x k diagonal matrices
+May have shape \code{[B1, ..., Bb, k]}, b >= 0, and characterizes b-batches of \code{k x k} diagonal matrices
 added to scale. When both scale_identity_multiplier and scale_diag are NULL then scale
 is the Identity.}
 
 \item{scale_identity_multiplier}{Non-zero, floating-point Tensor representing a scaled-identity-matrix
 added to scale. May have shape \code{[B1, ..., Bb]}, b >= 0, and characterizes b-batches of scaled
-k x k identity matrices added to scale. When both scale_identity_multiplier and scale_diag
+\code{k x k} identity matrices added to scale. When both scale_identity_multiplier and scale_diag
 are NULL then scale is the Identity.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
@@ -34,8 +34,8 @@ one or more of the statistic's batch members are undefined.}
 }
 \description{
 The Multivariate Normal distribution is defined over R^k and parameterized
-by a (batch of) length-k loc vector (aka "mu") and a (batch of) k x k
-scale matrix; \code{covariance = scale @ scale.T} where @ denotes
+by a (batch of) length-k loc vector (aka "mu") and a (batch of) \code{k x k}
+scale matrix; \code{covariance = scale @ scale.T} where \code{@} denotes
 matrix-multiplication.
 }
 \seealso{
@@ -45,6 +45,8 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
   \code{\link{tfd_transformed}},
+  \code{\link{tfd_vector_exponential_diag}},
+  \code{\link{tfd_vector_exponential_linear_operator}},
   \code{\link{tfd_vector_laplace_diag}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},
