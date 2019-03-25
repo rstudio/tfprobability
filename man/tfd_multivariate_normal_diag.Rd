@@ -63,7 +63,7 @@ where:
 
 Additional leading dimensions (if any) will index batches.
 
-If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{None}, then
+If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{NULL}, then
 \code{scale} is the Identity matrix.
 The MultivariateNormal distribution is a member of the
 \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
@@ -77,6 +77,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_sinh_arcsinh}},
   \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},

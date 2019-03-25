@@ -65,7 +65,7 @@ where:
 \item \code{scale_diag.shape = [k]}, and,
 \item \code{scale_identity_multiplier.shape = []}.
 Additional leading dimensions (if any) will index batches.
-If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{None}, then
+If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{NULL}, then
 \code{scale} is the Identity matrix.
 About VectorLaplace and Vector distributions in TensorFlow.
 }
@@ -92,6 +92,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_sinh_arcsinh}},
   \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},

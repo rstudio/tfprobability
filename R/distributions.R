@@ -171,7 +171,7 @@ tfd_bernoulli <- function(logits = NULL,
 #'
 #' Additional leading dimensions (if any) will index batches.
 #'
-#' If both `scale_diag` and `scale_identity_multiplier` are `None`, then
+#' If both `scale_diag` and `scale_identity_multiplier` are `NULL`, then
 #' `scale` is the Identity matrix.
 #' The MultivariateNormal distribution is a member of the
 #' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
@@ -876,7 +876,7 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #'  * `scale_diag.shape = [k]`, and,
 #'  * `scale_identity_multiplier.shape = []`.
 #'  Additional leading dimensions (if any) will index batches.
-#'  If both `scale_diag` and `scale_identity_multiplier` are `None`, then
+#'  If both `scale_diag` and `scale_identity_multiplier` are `NULL`, then
 #'  `scale` is the Identity matrix.
 
 #' About VectorLaplace and Vector distributions in TensorFlow.
@@ -1785,5 +1785,101 @@ tfd_student_t_process <- function(df,
     name = name
   )
 
-  do.call(tfp$distributions$VariationalGaussianProcess, args)
+  do.call(tfp$distributions$StudentTProcess, args)
 }
+
+#' The SinhArcsinh transformation of a distribution on `(-inf, inf)`.
+#'
+#' This distribution models a random variable, making use of
+#' a `SinhArcsinh` transformation (which has adjustable tailweight and skew),
+#' a rescaling, and a shift.
+#' The `SinhArcsinh` transformation of the Normal is described in great depth in
+#' [Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865).
+#' Here we use a slightly different parameterization, in terms of `tailweight`
+#' and `skewness`.  Additionally we allow for distributions other than Normal,
+#' and control over `scale` as well as a "shift" parameter `loc`.
+#'
+#' Mathematical Details
+#'
+#' Given random variable `Z`, we define the SinhArcsinh
+#' transformation of `Z`, `Y`, parameterized by
+#' `(loc, scale, skewness, tailweight)`, via the relation:
+#' ```
+#' Y := loc + scale * F(Z) * (2 / F_0(2))
+#' F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
+#' F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
+#' ```
+#'
+#' This distribution is similar to the location-scale transformation
+#' `L(Z) := loc + scale * Z` in the following ways:
+#' * If `skewness = 0` and `tailweight = 1` (the defaults), `F(Z) = Z`, and then
+#' `Y = L(Z)` exactly.
+#'
+#' * `loc` is used in both to shift the result by a constant factor.
+#' * The multiplication of `scale` by `2 / F_0(2)` ensures that if `skewness = 0`
+#' `P[Y - loc <= 2 * scale] = P[L(Z) - loc <= 2 * scale]`.
+#' Thus it can be said that the weights in the tails of `Y` and `L(Z)` beyond
+#' `loc + 2 * scale` are the same.
+#'
+#' This distribution is different than `loc + scale * Z` due to the
+#' reshaping done by `F`:
+#'
+#' * Positive (negative) `skewness` leads to positive (negative) skew.
+#' * positive skew means, the mode of `F(Z)` is "tilted" to the right.
+#' * positive skew means positive values of `F(Z)` become more likely, and
+#' negative values become less likely.
+#' * Larger (smaller) `tailweight` leads to fatter (thinner) tails.
+#' * Fatter tails mean larger values of `|F(Z)|` become more likely.
+#' * `tailweight < 1` leads to a distribution that is "flat" around `Y = loc`,
+#' and a very steep drop-off in the tails.
+#' * `tailweight > 1` leads to a distribution more peaked at the mode with
+#' heavier tails.
+#'
+#' To see the argument about the tails, note that for `|Z| >> 1` and
+#' `|Z| >> (|skewness| * tailweight)**tailweight`, we have
+#' `Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)`.
+#'
+#' To see the argument regarding multiplying `scale` by `2 / F_0(2)`,
+#' ```
+#' P[(Y - loc) / scale <= 2] = P[F(Z) * (2 / F_0(2)) <= 2]
+#'                           = P[F(Z) <= F_0(2)]
+#'                           = P[Z <= 2]  (if F = F_0).
+#' ```
+#'
+#' @param loc Floating-point `Tensor`.
+#' @param scale  `Tensor` of same `dtype` as `loc`.
+#' @param skewness  Skewness parameter.  Default is `0.0` (no skew).
+#' @param tailweight  Tailweight parameter. Default is `1.0` (unchanged tailweight)
+#' @param distribution `tf$distributions$Distribution`-like instance. Distribution that is
+#'  transformed to produce this distribution. Default is `tfd_normal(0, 1)`.
+#'  Must be a scalar-batch, scalar-event distribution.  Typically
+#'  `distribution$reparameterization_type = FULLY_REPARAMETERIZED` or it is
+#'  a function of non-trainable parameters. WARNING: If you backprop through
+#'  a `SinhArcsinh` sample and `distribution` is not
+#'  `FULLY_REPARAMETERIZED` yet is a function of trainable variables, then
+#'  the gradient will be incorrect!
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_sinh_arcsinh <- function(loc,
+                             scale,
+                             skewness = NULL,
+                             tailweight = NULL,
+                             distribution = NULL,
+                             validate_args = FALSE,
+                             allow_nan_stats = TRUE,
+                             name = "SinhArcsinh") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    skewness = skewness,
+    tailweight = tailweight,
+    distribution = distribution,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$SinhArcsinh, args)
+}
+

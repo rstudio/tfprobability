@@ -306,3 +306,30 @@ test_succeeds("Student T distribution works", {
   expect_gt(sds[1], sds[2])
 })
 
+test_succeeds("Student T process works", {
+
+  num_points <- 100
+  index_points <- seq(-1., 1., length.out = num_points) %>% matrix(nrow = num_points)
+  kernel <- tfp$positive_semidefinite_kernels$ExponentiatedQuadratic()
+  d <- tfd_student_t_process(df = 3, kernel = kernel, index_points = index_points)
+  noisy_samples <- d %>% tfd_sample(10)
+  expect_equal(noisy_samples$get_shape()$as_list(), c(10, 100))
+})
+
+test_succeeds("SinhArcsinh distribution works", {
+
+  n <- 10
+  scale <- runif(n)
+  loc <- rnorm(n)
+  norm = tfd_normal(
+    loc = loc,
+    scale = scale)
+  vsad = tfd_sinh_arcsinh(
+    loc = loc,
+    scale = scale)
+
+  x <- matrix(rnorm(5 * n), ncol = n)
+  normal_prob <- norm %>% tfd_prob(x)
+  vsad_prob <- vsad %>% tfd_prob(x)
+  expect_equal(normal_prob %>% tensor_value(), vsad_prob %>% tensor_value(), tol = 1e8)
+})
