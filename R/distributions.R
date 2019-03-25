@@ -779,3 +779,243 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
   do.call(tfp$distributions$vector_exponential_linear_operator$VectorExponentialLinearOperator, args)
 }
 
+
+#' VectorDiffeomixture distribution.
+#'
+#' A vector diffeomixture (VDM) is a distribution parameterized by a convex
+#' combination of `K` component `loc` vectors, `loc[k], k = 0,...,K-1`, and `K`
+#' `scale` matrices `scale[k], k = 0,..., K-1`.  It approximates the following
+#' [compound distribution]
+#' (https://en.wikipedia.org/wiki/Compound_probability_distribution)
+#' `p(x) = int p(x | z) p(z) dz`, where z is in the K-simplex, and
+#' `p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])`
+#'
+#' The integral `int p(x | z) p(z) dz` is approximated with a quadrature scheme
+#' adapted to the mixture density `p(z)`.  The `N` quadrature points `z_{N, n}`
+#' and weights `w_{N, n}` (which are non-negative and sum to 1) are chosen such that
+#' `q_N(x) := sum_{n=1}^N w_{n, N} p(x | z_{N, n}) --> p(x)` as `N --> infinity`.
+#'
+#' Since `q_N(x)` is in fact a mixture (of `N` points), we may sample from
+#' `q_N` exactly.  It is important to note that the VDM is *defined* as `q_N`
+#' above, and *not* `p(x)`.  Therefore, sampling and pdf may be implemented as
+#' exact (up to floating point error) methods.
+#'
+#' A common choice for the conditional `p(x | z)` is a multivariate Normal.
+#' The implemented marginal `p(z)` is the `SoftmaxNormal`, which is a
+#' `K-1` dimensional Normal transformed by a `SoftmaxCentered` bijector, making
+#' it a density on the `K`-simplex.  That is,
+#' `Z = SoftmaxCentered(X)`, `X = Normal(mix_loc / temperature, 1 / temperature)`
+#'
+#' The default quadrature scheme chooses `z_{N, n}` as `N` midpoints of
+#' the quantiles of `p(z)` (generalized quantiles if `K > 2`).
+#' See [Dillon and Langmore (2018)][1] for more details.
+#'
+#' About `Vector` distributions in TensorFlow.
+#'
+#' The `VectorDiffeomixture` is a non-standard distribution that has properties
+#' particularly useful in [variational Bayesian methods](https://en.wikipedia.org/wiki/Variational_Bayesian_methods).
+#' Conditioned on a draw from the SoftmaxNormal, `X|z` is a vector whose
+#' components are linear combinations of affine transformations, thus is itself
+#' an affine transformation.
+#'
+#' Note: The marginals `X_1|v, ..., X_d|v` are *not* generally identical to some
+#' parameterization of `distribution`.  This is due to the fact that the sum of
+#' draws from `distribution` are not generally itself the same `distribution`.
+#'
+#' About `Diffeomixture`s and reparameterization.
+#'
+#' The `VectorDiffeomixture` is designed to be reparameterized, i.e., its
+#' parameters are only used to transform samples from a distribution which has no
+#' trainable parameters. This property is important because backprop stops at
+#' sources of stochasticity. That is, as long as the parameters are used *after*
+#' the underlying source of stochasticity, the computed gradient is accurate.
+#' Reparametrization means that we can use gradient-descent (via backprop) to
+#' optimize Monte-Carlo objectives. Such objectives are a finite-sample
+#' approximation of an expectation and arise throughout scientific computing.
+#'
+#' WARNING: If you backprop through a VectorDiffeomixture sample and the "base"
+#' distribution is both: not `FULLY_REPARAMETERIZED` and a function of trainable
+#' variables, then the gradient is not guaranteed correct!
+
+#' References
+#' [1]: Joshua Dillon and Ian Langmore.
+#' Quadrature Compound: An approximating family of distributions.
+#' _arXiv preprint arXiv:1801.03080_, 2018. https://arxiv.org/abs/1801.03080
+
+#' @param mix_loc: `float`-like `Tensor` with shape `[b1, ..., bB, K-1]`.
+#' In terms of samples, larger `mix_loc[..., k]` ==>
+#'   `Z` is more likely to put more weight on its `kth` component.
+#' @param temperature `float`-like `Tensor`. Broadcastable with `mix_loc`.
+#' In terms of samples, smaller `temperature` means one component is more
+#' likely to dominate.  I.e., smaller `temperature` makes the VDM look more
+#' like a standard mixture of `K` components.
+#' @param distribution `tfp$distributions$Distribution`-like instance. Distribution
+#' from which `d` iid samples are used as input to the selected affine
+#' transformation. Must be a scalar-batch, scalar-event distribution.
+#' Typically `distribution$reparameterization_type = FULLY_REPARAMETERIZED`
+#' or it is a function of non-trainable parameters. WARNING: If you
+#' backprop through a VectorDiffeomixture sample and the `distribution`
+#' is not `FULLY_REPARAMETERIZED` yet is a function of trainable variables,
+#' then the gradient will be incorrect!
+#' @param loc Length-`K` list of `float`-type `Tensor`s. The `k`-th element
+#' represents the `shift` used for the `k`-th affine transformation.  If
+#' the `k`-th item is `NULL`, `loc` is implicitly `0`.  When specified,
+#' must have shape `[B1, ..., Bb, d]` where `b >= 0` and `d` is the event
+#' size.
+#' @param scale: Length-`K` list of `LinearOperator`s. Each should be
+#' positive-definite and operate on a `d`-dimensional vector space. The
+#' `k`-th element represents the `scale` used for the `k`-th affine
+#' transformation. `LinearOperator`s must have shape `[B1, ..., Bb, d, d]`,
+#' `b >= 0`, i.e., characterizes `b`-batches of `d x d` matrices
+#' @param quadrature_size: `integer` scalar representing number of
+#' quadrature points.  Larger `quadrature_size` means `q_N(x)` better
+#' approximates `p(x)`.
+#' @param quadrature_fn: Function taking `normal_loc`, `normal_scale`,
+#' `quadrature_size`, `validate_args` and returning `tuple(grid, probs)`
+#' representing the SoftmaxNormal grid and corresponding normalized weight.
+#' normalized) weight.
+#' Default value: `quadrature_scheme_softmaxnormal_quantiles`.
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_vector_diffeomixture <- function(mix_loc,
+                                     temperature,
+                                     distribution,
+                                     loc = NULL,
+                                     scale = NULL,
+                                     quadrature_size = 8,
+                                     quadrature_fn = tfp$distributions$quadrature_scheme_softmaxnormal_quantiles,
+                                     validate_args = FALSE,
+                                     allow_nan_stats = TRUE,
+                                     name = "VectorDiffeomixture") {
+  args <- list(
+    mix_loc = mix_loc,
+    temperature = temperature,
+    distribution = distribution,
+    loc = loc,
+    scale = scale,
+    quadrature_size = as.integer(quadrature_size),
+    quadrature_fn = quadrature_fn,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VectorDiffeomixture, args)
+}
+
+#' Posterior predictive of a variational Gaussian process.
+#'
+#' This distribution implements the variational Gaussian process (VGP), as
+#' described in [Titsias, 2009][1] and [Hensman, 2013][2]. The VGP is an
+#' inducing point-based approximation of an exact GP posterior.
+#' Ultimately, this Distribution class represents a marginal distribution over function values at a
+#' collection of `index_points`. It is parameterized by
+#' - a kernel function,
+#' - a mean function,
+#' - the (scalar) observation noise variance of the normal likelihood,
+#' - a set of index points,
+#' - a set of inducing index points, and
+#' - the parameters of the (full-rank, Gaussian) variational posterior
+#' distribution over function values at the inducing points, conditional on some observations.
+#'
+#' A VGP is "trained" by selecting any kernel parameters, the locations of the
+#' inducing index points, and the variational parameters. [Titsias, 2009][1] and
+#' [Hensman, 2013][2] describe a variational lower bound on the marginal log
+#' likelihood of observed data, which this class offers through the
+#' `variational_loss` method (this is the negative lower bound, for convenience
+#' when plugging into a TF Optimizer's `minimize` function).
+#' Training may be done in minibatches.
+#'
+#' [Titsias, 2009][1] describes a closed form for the optimal variational
+#' parameters, in the case of sufficiently small observational data (ie,
+#' small enough to fit in memory but big enough to warrant approximating the GP
+#' posterior). A method to compute these optimal parameters in terms of the full
+#' observational data set is provided as a staticmethod,
+#' `optimal_variational_posterior`. It returns a
+#' `MultivariateNormalLinearOperator` instance with optimal location and scale parameters.
+#'
+#' # References
+#' [1]: Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.
+#' http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf
+#' [2]: Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013. https://arxiv.org/abs/1309.6835
+#' [3]: Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006. http://www.gaussianprocess.org/gpml/
+
+#' @param  kernel `PositiveSemidefiniteKernel`-like instance representing the
+#' GP's covariance function.
+#' @param index_points `float` `Tensor` representing finite (batch of) vector(s) of
+#' points in the index set over which the VGP is defined. Shape has the
+#' form `[b1, ..., bB, e1, f1, ..., fF]` where `F` is the number of feature
+#' dimensions and must equal `kernel$feature_ndims` and `e1` is the number
+#' (size) of index points in each batch (we denote it `e1` to distinguish
+#' it from the numer of inducing index points, denoted `e2` below).
+#' Ultimately the VariationalGaussianProcess distribution corresponds to an
+#' `e1`-dimensional multivariate normal. The batch shape must be
+#' broadcastable with `kernel$batch_shape`, the batch shape of
+#' `inducing_index_points`, and any batch dims yielded by `mean_fn`.
+#' @param inducing_index_points `float` `Tensor` of locations of inducing points in
+#' the index set. Shape has the form `[b1, ..., bB, e2, f1, ..., fF]`, just
+#' like `index_points`. The batch shape components needn't be identical to
+#' those of `index_points`, but must be broadcast compatible with them.
+#' @param variational_inducing_observations_loc `float` `Tensor`; the mean of the
+#' (full-rank Gaussian) variational posterior over function values at the
+#' inducing points, conditional on observed data. Shape has the form `[b1, ..., bB, e2]`,
+#' where `b1, ..., bB` is broadcast compatible with other
+#' parameters' batch shapes, and `e2` is the number of inducing points.
+#' @param variational_inducing_observations_scale `float` `Tensor`; the scale
+#' matrix of the (full-rank Gaussian) variational posterior over function
+#' values at the inducing points, conditional on observed data. Shape has
+#' the form `[b1, ..., bB, e2, e2]`, where `b1, ..., bB` is broadcast
+#' compatible with other parameters and `e2` is the number of inducing points.
+#' @param mean_fn function that acts on index points to produce a (batch
+#' of) vector(s) of mean values at those index points. Takes a `Tensor` of
+#' shape `[b1, ..., bB, f1, ..., fF]` and returns a `Tensor` whose shape is
+#' (broadcastable with) `[b1, ..., bB]`. Default value: `NULL` implies constant zero function.
+#' @param observation_noise_variance `float` `Tensor` representing the variance
+#' of the noise in the Normal likelihood distribution of the model. May be
+#' batched, in which case the batch shape must be broadcastable with the
+#' shapes of all other batched parameters (`kernel$batch_shape`, `index_points`, etc.).
+#' Default value: `0.`
+#' @param predictive_noise_variance `float` `Tensor` representing additional
+#' variance in the posterior predictive model. If `NULL`, we simply re-use
+#' `observation_noise_variance` for the posterior predictive noise. If set
+#' explicitly, however, we use the given value. This allows us, for
+#' example, to omit predictive noise variance (by setting this to zero) to
+#' obtain noiseless posterior predictions of function values, conditioned
+#' on noisy observations.
+#' @param jitter `float` scalar `Tensor` added to the diagonal of the covariance
+#' matrix to ensure positive definiteness of the covariance matrix. Default value: `1e-6`.
+
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_variational_gaussian_process <- function(kernel,
+                                             index_points,
+                                             inducing_index_points,
+                                             variational_inducing_observations_loc,
+                                             variational_inducing_observations_scale,
+                                             mean_fn = NULL,
+                                             observation_noise_variance = 0,
+                                             predictive_noise_variance = 0,
+                                             jitter = 1e-6,
+                                             validate_args = FALSE,
+                                             allow_nan_stats = FALSE,
+                                             name = "VariationalGaussianProcess") {
+  args <- list(
+    kernel = kernel,
+    index_points = index_points,
+    inducing_index_points = inducing_index_points,
+    variational_inducing_observations_loc = variational_inducing_observations_loc,
+    variational_inducing_observations_scale = variational_inducing_observations_scale,
+    mean_fn = mean_fn,
+    observation_noise_variance = observation_noise_variance,
+    predictive_noise_variance = predictive_noise_variance,
+    jitter = jitter,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VariationalGaussianProcess, args)
+}

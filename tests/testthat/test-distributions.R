@@ -213,4 +213,67 @@ test_succeeds("VectorExponentialDiag distribution works", {
   expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(1.1, 1.1), tol = 1e8)
 })
 
+test_succeeds("VectorDiffeoMixture distribution works", {
+
+  dims <- 5L
+  d <- tfd_vector_diffeomixture(
+    mix_loc = list(c(0, 1)),
+    temperature = list(1),
+    distribution = tfd_normal(loc = 0, scale = 1),
+    loc = list(NULL, rep(2, 5)),
+    scale = list(
+      tf$linalg$LinearOperatorScaledIdentity(
+        num_rows = dims,
+        multiplier = 1.1,
+        is_positive_definite = TRUE),
+      tf$linalg$LinearOperatorDiag(
+        diag = seq(2.5, 3.5,  length.out = 5),
+        is_positive_definite = TRUE)))
+  expect_equal((d %>% tfd_mean())$get_shape()$as_list(), c(1, 5))
+})
+
+
+test_succeeds("VariationalGaussianProcess distribution works", {
+
+  # Important:
+  # This test only creates the distribution and does not train it.
+  # Consider enhancing as per examples in
+  # https://github.com/tensorflow/probability/blob/master/tensorflow_probability/python/distributions/variational_gaussian_process.py
+
+  # Create kernel with trainable parameters, and trainable observation noise
+  # variance variable. Each of these is constrained to be positive.
+  amplitude <- tf$nn$softplus(tf$Variable(-1, name = 'amplitude'))
+  length_scale <-
+    1e-5 + tf$nn$softplus(tf$Variable(-3, name = 'length_scale'))
+  kernel = tfp$positive_semidefinite_kernels$ExponentiatedQuadratic(amplitude = amplitude,
+                                                                    length_scale = length_scale)
+  observation_noise_variance <- tf$nn$softplus(tf$Variable(0, name = 'observation_noise_variance'))
+  # Create trainable inducing point locations and variational parameters.
+  num_inducing_points <- 20L
+  initial_inducing_points <-
+    matrix(seq(-13, 13, length.out = num_inducing_points), nrow = num_inducing_points) %>%
+    tf$cast(tf$float32)
+  inducing_index_points <- tf$Variable(initial_inducing_points, name = 'inducing_index_points')
+  variational_inducing_observations_loc <-
+    tf$Variable(rep(0, num_inducing_points) %>% tf$cast(tf$float32),
+                name = 'variational_inducing_observations_loc')
+  variational_inducing_observations_scale <-
+    tf$Variable(diag(num_inducing_points) %>% tf$cast(tf$float32),
+                name = 'variational_inducing_observations_scale')
+  # These are the index point locations over which we'll construct the
+  # (approximate) posterior predictive distribution.
+  num_predictive_index_points <- 500
+  index_points <-
+    matrix(seq(-13, 13, length.out = num_predictive_index_points), nrow = num_predictive_index_points) %>% tf$cast(tf$float32)
+  # Construct our variational GP Distribution instance.
+  vgp = tfd_variational_gaussian_process(
+    kernel,
+    index_points = index_points,
+    inducing_index_points = inducing_index_points,
+    variational_inducing_observations_loc = variational_inducing_observations_loc,
+    variational_inducing_observations_scale = variational_inducing_observations_scale,
+    observation_noise_variance = observation_noise_variance
+  )
+})
+
 
