@@ -12,7 +12,6 @@
 #' @param name name prefixed to Ops created by this class.
 #'
 #' @family distributions
-#' @return A normal distribution
 #' @export
 tfd_normal <- function(loc,
                        scale,
@@ -1018,4 +1017,72 @@ tfd_variational_gaussian_process <- function(kernel,
   )
 
   do.call(tfp$distributions$VariationalGaussianProcess, args)
+}
+
+#' Uniform distribution with `low` and `high` parameters.
+#'
+#' The parameters `low` and `high` must be shaped in a way that supports
+#' broadcasting (e.g., `high - low` is a valid operation).
+#'
+#' @param low Floating point tensor, lower boundary of the output interval. Must
+#' have `low < high`.
+#' @param high Floating point tensor, upper boundary of the output interval. Must
+#' have `low < high`.
+#' @inheritParams tfd_normal
+#'
+#' @family distributions
+#' @export
+tfd_uniform <- function(low = 0,
+                        high = 1,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        name = "Uniform") {
+  args <- list(
+    low = low,
+    high = high,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Uniform, args)
+}
+
+#' The Truncated Normal distribution.
+#'
+#' The truncated normal is a normal distribution bounded between `low`
+#' and `high` (the pdf is 0 outside these bounds and renormalized).
+#' Samples from this distribution are differentiable with respect to `loc`,
+#' `scale` as well as the bounds, `low` and `high`, i.e., this
+#' implementation is fully reparameterizeable.
+#' For more details, see [here](https://en.wikipedia.org/wiki/Truncated_normal_distribution).
+#'
+#' This is a scalar distribution so the event shape is always scalar and the
+#' dimensions of the parameters defined the batch_shape.
+#'
+#' @param  low `float` `Tensor` representing lower bound of the distribution's
+#' support. Must be such that `low < high`.
+#' @param high `float` `Tensor` representing upper bound of the distribution's
+#' support. Must be such that `low < high`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_truncated_normal <- function(loc,
+                       scale,
+                       low,
+                       high,
+                       validate_args = FALSE,
+                       allow_nan_stats = TRUE,
+                       name = "TruncatedNormal") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    low = low,
+    high = high,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$TruncatedNormal, args)
 }

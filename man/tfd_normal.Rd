@@ -23,9 +23,6 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
-\value{
-A normal distribution
-}
 \description{
 The Normal distribution with loc and scale parameters
 }
@@ -37,6 +34,8 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
   \code{\link{tfd_transformed}},
+  \code{\link{tfd_truncated_normal}},
+  \code{\link{tfd_uniform}},
   \code{\link{tfd_variational_gaussian_process}},
   \code{\link{tfd_vector_diffeomixture}},
   \code{\link{tfd_vector_exponential_diag}},

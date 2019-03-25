@@ -276,4 +276,19 @@ test_succeeds("VariationalGaussianProcess distribution works", {
   )
 })
 
+test_succeeds("Uniform distribution works", {
 
+  d <- tfd_uniform(low = 3, high = c(5, 6, 7))
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(4, 4.5, 5), tol = 1e6)
+})
+
+test_succeeds("Truncated normal distribution works", {
+
+  d <- tfd_truncated_normal(loc = c(0, 1),
+                            scale = 1,
+                            low = c(-1, 0),
+                            high = c(1, 1))
+
+  m <- d %>% tfd_mean()
+  expect_equal(m$get_shape()$as_list(), 2)
+})
