@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Zipf distribution.
-The Zipf distribution is parameterized by a power parameter. — tfd_zipf • tfprobability</title>
+<title>Zipf distribution. — tfd_zipf • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -31,11 +30,9 @@ The Zipf distribution is parameterized by a power parameter. — tfd_zipf • tf
 
 
 
-<meta property="og:title" content="Zipf distribution.
-The Zipf distribution is parameterized by a power parameter. — tfd_zipf" />
+<meta property="og:title" content="Zipf distribution. — tfd_zipf" />
 
-<meta property="og:description" content="Zipf distribution.
-The Zipf distribution is parameterized by a power parameter." />
+<meta property="og:description" content="The Zipf distribution is parameterized by a power parameter." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,16 +106,14 @@ The Zipf distribution is parameterized by a power parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Zipf distribution.
-The Zipf distribution is parameterized by a power parameter.</h1>
+    <h1>Zipf distribution.</h1>
     
     <div class="hidden name"><code>tfd_zipf.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Zipf distribution.
-The Zipf distribution is parameterized by a power parameter.</p>
+    <p>The Zipf distribution is parameterized by a power parameter.</p>
     
     </div>
 
@@ -171,6 +166,17 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details
+The probability mass function (pmf) is,</p><pre>pmf(k; alpha, k &gt;= 0) = (k^(-alpha)) / Z
+Z = zeta(alpha).
+</pre>
+    <p>where <code>power = alpha</code> and Z is the normalization constant.
+<code>zeta</code> is the <a href='https://en.wikipedia.org/wiki/Riemann_zeta_function'>Riemann zeta function</a>.
+Note that gradients with respect to the <code>power</code> parameter are not
+supported in the current implementation.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
@@ -180,7 +186,16 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
@@ -194,6 +209,8 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

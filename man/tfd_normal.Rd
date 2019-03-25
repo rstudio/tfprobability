@@ -24,7 +24,19 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The Normal distribution with loc and scale parameters
+Mathematical details
+}
+\details{
+The probability density function (pdf) is,\preformatted{pdf(x; mu, sigma) = exp(-0.5 (x - mu)**2 / sigma**2) / Z
+Z = (2 pi sigma**2)**0.5
+}
+
+where \code{loc = mu} is the mean, \code{scale = sigma} is the std. deviation, and, \code{Z}
+is the normalization constant.
+The Normal distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
+constructed as,\preformatted{X ~ Normal(loc=0, scale=1)
+Y = loc + scale * X
+}
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
@@ -33,6 +45,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

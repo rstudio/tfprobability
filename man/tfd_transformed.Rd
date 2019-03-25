@@ -30,6 +30,40 @@ and a deterministic, invertible, differentiable transform,\code{Y = g(X)}. The
 transform is typically an instance of the Bijector class and the base
 distribution is typically an instance of the Distribution class.
 }
+\details{
+A \code{Bijector} is expected to implement the following functions:
+\itemize{
+\item \code{forward},
+\item \code{inverse},
+\item \code{inverse_log_det_jacobian}.
+}
+
+The semantics of these functions are outlined in the \code{Bijector} documentation.
+
+We now describe how a \code{TransformedDistribution} alters the input/outputs of a
+\code{Distribution} associated with a random variable (rv) \code{X}.
+Write \code{cdf(Y=y)} for an absolutely continuous cumulative distribution function
+of random variable \code{Y}; write the probability density function
+\code{pdf(Y=y) := d^k / (dy_1,...,dy_k) cdf(Y=y)} for its derivative wrt to \code{Y} evaluated at
+\code{y}. Assume that \code{Y = g(X)} where \code{g} is a deterministic diffeomorphism,
+i.e., a non-random, continuous, differentiable, and invertible function.
+Write the inverse of \code{g} as \code{X = g^{-1}(Y)} and \code{(J o g)(x)} for the Jacobian
+of \code{g} evaluated at \code{x}.
+
+A \code{TransformedDistribution} implements the following operations:
+\itemize{
+\item \code{sample}
+Mathematically:   \code{Y = g(X)}
+Programmatically: \code{bijector.forward(distribution.sample(...))}
+\item \code{log_prob}
+Mathematically:   \code{(log o pdf)(Y=y) = (log o pdf o g^{-1})(y) + (log o abs o det o J o g^{-1})(y)}
+Programmatically: \code{(distribution.log_prob(bijector.inverse(y)) + bijector.inverse_log_det_jacobian(y))}
+\item \code{log_cdf}
+Mathematically:   \code{(log o cdf)(Y=y) = (log o cdf o g^{-1})(y)}
+Programmatically: \code{distribution.log_cdf(bijector.inverse(x))}
+\item and similarly for: \code{cdf}, \code{prob}, \code{log_survival_function}, \code{survival_function}.
+}
+}
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_independent}},
@@ -38,6 +72,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_triangular}},
   \code{\link{tfd_truncated_normal}},

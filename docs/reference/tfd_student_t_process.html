@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RelaxedOneHotCategorical distribution with temperature and logits. — tfd_relaxed_one_hot_categorical • tfprobability</title>
+<title>Marginal distribution of a Student's T process at finitely many points. — tfd_student_t_process • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,21 +30,14 @@
 
 
 
-<meta property="og:title" content="RelaxedOneHotCategorical distribution with temperature and logits. — tfd_relaxed_one_hot_categorical" />
+<meta property="og:title" content="Marginal distribution of a Student's T process at finitely many points. — tfd_student_t_process" />
 
-<meta property="og:description" content="The RelaxedOneHotCategorical is a distribution over random probability
-vectors, vectors of positive real values that sum to one, which continuously
-approximates a OneHotCategorical. The degree of approximation is controlled by
-a temperature: as the temperature goes to 0 the RelaxedOneHotCategorical
-becomes discrete with a distribution described by the logits or probs
-parameters, as the temperature goes to infinity the RelaxedOneHotCategorical
-becomes the constant distribution that is identically the constant vector of
-(1/event_size, ..., 1/event_size).
-The RelaxedOneHotCategorical distribution was concurrently introduced as the
-Gumbel-Softmax (Jang et al., 2016) and Concrete (Maddison et al., 2016)
-distributions for use as a reparameterized continuous approximation to the
-Categorical one-hot distribution. If you use this distribution, please cite
-both papers." />
+<meta property="og:description" content="A Student's T process (TP) is an indexed collection of random variables, any
+finite collection of which are jointly Multivariate Student's T. While this
+definition applies to finite index sets, it is typically implicit that the
+index set is infinite; in applications, it is often some finite dimensional
+real or complex vector space. In such cases, the TP may be thought of as a
+distribution over (real- or complex-valued) functions defined over the index set." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,52 +111,62 @@ both papers." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RelaxedOneHotCategorical distribution with temperature and logits.</h1>
+    <h1>Marginal distribution of a Student's T process at finitely many points.</h1>
     
-    <div class="hidden name"><code>tfd_relaxed_one_hot_categorical.Rd</code></div>
+    <div class="hidden name"><code>tfd_student_t_process.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The RelaxedOneHotCategorical is a distribution over random probability
-vectors, vectors of positive real values that sum to one, which continuously
-approximates a OneHotCategorical. The degree of approximation is controlled by
-a temperature: as the temperature goes to 0 the RelaxedOneHotCategorical
-becomes discrete with a distribution described by the <code>logits</code> or <code>probs</code>
-parameters, as the temperature goes to infinity the RelaxedOneHotCategorical
-becomes the constant distribution that is identically the constant vector of
-(1/event_size, ..., 1/event_size).
-The RelaxedOneHotCategorical distribution was concurrently introduced as the
-Gumbel-Softmax (Jang et al., 2016) and Concrete (Maddison et al., 2016)
-distributions for use as a reparameterized continuous approximation to the
-<code>Categorical</code> one-hot distribution. If you use this distribution, please cite
-both papers.</p>
+    <p>A Student's T process (TP) is an indexed collection of random variables, any
+finite collection of which are jointly Multivariate Student's T. While this
+definition applies to finite index sets, it is typically implicit that the
+index set is infinite; in applications, it is often some finite dimensional
+real or complex vector space. In such cases, the TP may be thought of as a
+distribution over (real- or complex-valued) functions defined over the index set.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_relaxed_one_hot_categorical</span>(<span class='no'>temperature</span>, <span class='kw'>logits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"RelaxedOneHotCategorical"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_student_t_process</span>(<span class='no'>df</span>, <span class='no'>kernel</span>, <span class='no'>index_points</span>, <span class='kw'>mean_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"StudentTProcess"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>temperature</th>
-      <td><p>An 0-D Tensor, representing the temperature of a set of RelaxedOneHotCategorical distributions.
-The temperature should be positive.</p></td>
+      <th>df</th>
+      <td><p>Positive Floating-point <code>Tensor</code> representing the degrees of freedom.
+Must be greater than 2.</p></td>
     </tr>
     <tr>
-      <th>logits</th>
-      <td><p>An N-D Tensor, N &gt;= 1, representing the log probabilities of a set of RelaxedOneHotCategorical
-distributions. The first N - 1 dimensions index into a batch of independent distributions and the last dimension
-represents a vector of logits for each class. Only one of logits or probs should be passed in.</p></td>
+      <th>kernel</th>
+      <td><p><code>PositiveSemidefiniteKernel</code>-like instance representing the
+TP's covariance function.</p></td>
     </tr>
     <tr>
-      <th>probs</th>
-      <td><p>An N-D Tensor, N &gt;= 1, representing the probabilities of a set of RelaxedOneHotCategorical distributions.
-The first N - 1 dimensions index into a batch of independent distributions and the last dimension represents a vector
-of probabilities for each class. Only one of logits or probs should be passed in.</p></td>
+      <th>index_points</th>
+      <td><p><code>float</code> <code>Tensor</code> representing finite (batch of) vector(s) of
+points in the index set over which the TP is defined. Shape has the form
+<code>[b1, ..., bB, e, f1, ..., fF]</code> where <code>F</code> is the number of feature
+dimensions and must equal <code>kernel.feature_ndims</code> and <code>e</code> is the number
+(size) of index points in each batch. Ultimately this distribution
+corresponds to a <code>e</code>-dimensional multivariate Student's T. The batch
+shape must be broadcastable with <code>kernel.batch_shape</code> and any batch dims
+yielded by <code>mean_fn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>mean_fn</th>
+      <td><p>Function that acts on <code>index_points</code> to produce a (batch
+of) vector(s) of mean values at <code>index_points</code>. Takes a <code>Tensor</code> of
+shape <code>[b1, ..., bB, f1, ..., fF]</code> and returns a <code>Tensor</code> whose shape is
+broadcastable with <code>[b1, ..., bB]</code>. Default value: <code>NULL</code> implies
+constant zero function.</p></td>
+    </tr>
+    <tr>
+      <th>jitter</th>
+      <td><p><code>float</code> scalar <code>Tensor</code> added to the diagonal of the covariance
+matrix to ensure positive definiteness of the covariance matrix. Default value: <code>1e-6</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -185,10 +188,51 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Eric Jang, Shixiang Gu, and Ben Poole. Categorical Reparameterization with
-Gumbel-Softmax. 2016.
-Chris J. Maddison, Andriy Mnih, and Yee Whye Teh. The Concrete Distribution:
-A Continuous Relaxation of Discrete Random Variables. 2016.</p>
+    <p>Just as Student's T distributions are fully specified by their degrees of
+freedom, location and scale, a Student's T process can be completely specified
+by a degrees of freedom parameter, mean function and covariance function.</p>
+<p>Let <code>S</code> denote the index set and <code>K</code> the space in which each indexed random variable
+takes its values (again, often R or C).
+The mean function is then a map <code>m: S -&gt; K</code>, and the covariance function,
+or kernel, is a positive-definite function <code>k: (S x S) -&gt; K</code>. The properties
+of functions drawn from a TP are entirely dictated (up to translation) by
+the form of the kernel function.</p>
+<p>This <code>Distribution</code> represents the marginal joint distribution over function
+values at a given finite collection of points <code>[x[1], ..., x[N]]</code> from the
+index set <code>S</code>. By definition, this marginal distribution is just a
+multivariate Student's T distribution, whose mean is given by the vector
+<code>[ m(x[1]), ..., m(x[N]) ]</code> and whose covariance matrix is constructed from
+pairwise applications of the kernel function to the given inputs:</p><pre>| k(x[1], x[1])    k(x[1], x[2])  ...  k(x[1], x[N]) |
+| k(x[2], x[1])    k(x[2], x[2])  ...  k(x[2], x[N]) |
+|      ...              ...                 ...      |
+| k(x[N], x[1])    k(x[N], x[2])  ...  k(x[N], x[N]) |
+    </pre>
+    <p>For this to be a valid covariance matrix, it must be symmetric and positive
+definite; hence the requirement that <code>k</code> be a positive definite function
+(which, by definition, says that the above procedure will yield PD matrices).
+Note also we use a parameterization as suggested in 1, which requires <code>df</code>
+to be greater than 2. This allows for the covariance for any finite
+dimensional marginal of the TP (a multivariate Student's T distribution) to
+just be the PD matrix generated by the kernel.</p>
+<p>Mathematical Details</p>
+<p>The probability density function (pdf) is a multivariate Student's T whose
+parameters are derived from the TP's properties:</p><pre>pdf(x; df, index_points, mean_fn, kernel) = MultivariateStudentT(df, loc, K)
+K = (df - 2) / df  * (kernel.matrix(index_points, index_points) + jitter * eye(N))
+loc = (x - mean_fn(index_points))^T @ K @ (x - mean_fn(index_points))
+</pre>
+    <p>where:</p><ul>
+<li><p><code>df</code> is the degrees of freedom parameter for the TP.</p></li>
+<li><p><code>index_points</code> are points in the index set over which the TP is defined,</p></li>
+<li><p><code>mean_fn</code> is a callable mapping the index set to the TP's mean values,</p></li>
+<li><p><code>kernel</code> is <code>PositiveSemidefiniteKernel</code>-like and represents the covariance
+function of the TP,</p></li>
+<li><p><code>jitter</code> is added to the diagonal to ensure positive definiteness up to
+machine precision (otherwise Cholesky-decomposition is prone to failure),</p></li>
+<li><p><code>eye(N)</code> is an N-by-N identity matrix.</p></li>
+</ul><p>References</p>
+<p>1: Amar Shah, Andrew Gordon Wilson, and Zoubin Ghahramani. Student-t
+Processes as Alternatives to Gaussian Processes. In <em>Artificial
+Intelligence and Statistics</em>, 2014. https://www.cs.cmu.edu/~andrewgw/tprocess.pdf</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -198,7 +242,7 @@ A Continuous Relaxation of Discrete Random Variables. 2016.</p>
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
-  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
   <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
   <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,

@@ -175,6 +175,19 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details</p>
+<p>The probability density function (pdf) is,</p><pre>pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
+Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
+</pre>
+    <p>where:</p><ul>
+<li><p><code>df &gt;= k</code> denotes the degrees of freedom,</p></li>
+<li><p><code>scale</code> is a symmetric, positive definite, <code>k x k</code> matrix,</p></li>
+<li><p><code>Z</code> is the normalizing constant, and,</p></li>
+<li><p><code>Gamma_k</code> is the <a href='https://en.wikipedia.org/wiki/Multivariate_gamma_function'>multivariate Gamma function</a>.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
@@ -184,7 +197,16 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
@@ -198,6 +220,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

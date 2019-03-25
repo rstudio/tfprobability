@@ -35,6 +35,31 @@ The degree of approximation is controlled by a temperature: as the temperature g
 becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
 infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.
 }
+\details{
+The RelaxedBernoulli distribution is a reparameterized continuous
+distribution that is the binary special case of the RelaxedOneHotCategorical
+distribution (Maddison et al., 2016; Jang et al., 2016). For details on the
+binary special case see the appendix of Maddison et al. (2016) where it is
+referred to as BinConcrete. If you use this distribution, please cite both papers.
+
+Some care needs to be taken for loss functions that depend on the
+log-probability of RelaxedBernoullis, because computing log-probabilities of
+the RelaxedBernoulli can suffer from underflow issues. In many case loss
+functions such as these are invariant under invertible transformations of
+the random variables. The KL divergence, found in the variational autoencoder
+loss, is an example. Because RelaxedBernoullis are sampled by a Logistic
+random variable followed by a \code{tf$sigmoid} op, one solution is to treat
+the Logistic as the random variable and \code{tf$sigmoid} as downstream. The
+KL divergences of two Logistics, which are always followed by a \code{tf.sigmoid}
+op, is equivalent to evaluating KL divergences of RelaxedBernoulli samples.
+See Maddison et al., 2016 for more details where this distribution is called
+the BinConcrete.
+An alternative approach is to evaluate Bernoulli log probability or KL
+directly on relaxed samples, as done in Jang et al., 2016. In this case,
+guarantees on the loss are usually violated. For instance, using a Bernoulli
+KL in a relaxed ELBO is no longer a lower bound on the log marginal
+probability of the observation. Thus care and early stopping are important.
+}
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_independent}},
@@ -42,6 +67,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_normal}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

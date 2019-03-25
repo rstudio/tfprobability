@@ -162,6 +162,18 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
+    <p>Mathematical details
+The probability density function (pdf) is,</p><pre>pdf(x; mu, kappa) = C(kappa) exp(kappa * mu^T x)
+where,
+C(kappa) = (2 pi)^{-n/2} kappa^{n/2-1} / I_{n/2-1}(kappa),
+I_v(z) being the modified Bessel function of the first kind of order v
+</pre>
+    <p>where:</p><ul>
+<li><p><code>mean_direction = mu</code>; a unit vector in <code>R^k</code>,</p></li>
+<li><p><code>concentration = kappa</code>; scalar real &gt;= 0, concentration of samples around
+<code>mean_direction</code>, where 0 pertains to the uniform distribution on the
+hypersphere, and <code>`` indicates a delta function at </code>mean_direction`.</p></li>
+</ul>
     <p>NOTE: Currently only n in 2, 3, 4, 5 are supported. For n=5 some numerical
 instability can occur for low concentrations (&lt;.01).</p>
     
@@ -174,7 +186,16 @@ instability can occur for low concentrations (&lt;.01).</p>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,

@@ -45,6 +45,21 @@ This distribution is defined by a scalar number of degrees of freedom df and
 an instance of LinearOperator, which provides matrix-free access to a
 symmetric positive definite operator, which defines the scale matrix.
 }
+\details{
+Mathematical Details
+
+The probability density function (pdf) is,\preformatted{pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
+Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
+}
+
+where:
+\itemize{
+\item \code{df >= k} denotes the degrees of freedom,
+\item \code{scale} is a symmetric, positive definite, \code{k x k} matrix,
+\item \code{Z} is the normalizing constant, and,
+\item \code{Gamma_k} is the \href{https://en.wikipedia.org/wiki/Multivariate_gamma_function}{multivariate Gamma function}.
+}
+}
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_independent}},
@@ -53,6 +68,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

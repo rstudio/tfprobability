@@ -164,6 +164,31 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The RelaxedBernoulli distribution is a reparameterized continuous
+distribution that is the binary special case of the RelaxedOneHotCategorical
+distribution (Maddison et al., 2016; Jang et al., 2016). For details on the
+binary special case see the appendix of Maddison et al. (2016) where it is
+referred to as BinConcrete. If you use this distribution, please cite both papers.</p>
+<p>Some care needs to be taken for loss functions that depend on the
+log-probability of RelaxedBernoullis, because computing log-probabilities of
+the RelaxedBernoulli can suffer from underflow issues. In many case loss
+functions such as these are invariant under invertible transformations of
+the random variables. The KL divergence, found in the variational autoencoder
+loss, is an example. Because RelaxedBernoullis are sampled by a Logistic
+random variable followed by a <code>tf$sigmoid</code> op, one solution is to treat
+the Logistic as the random variable and <code>tf$sigmoid</code> as downstream. The
+KL divergences of two Logistics, which are always followed by a <code>tf.sigmoid</code>
+op, is equivalent to evaluating KL divergences of RelaxedBernoulli samples.
+See Maddison et al., 2016 for more details where this distribution is called
+the BinConcrete.
+An alternative approach is to evaluate Bernoulli log probability or KL
+directly on relaxed samples, as done in Jang et al., 2016. In this case,
+guarantees on the loss are usually violated. For instance, using a Bernoulli
+KL in a relaxed ELBO is no longer a lower bound on the log marginal
+probability of the observation. Thus care and early stopping are important.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
@@ -172,7 +197,16 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
@@ -187,6 +221,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

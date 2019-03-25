@@ -32,7 +32,11 @@
 
 <meta property="og:title" content="Independent distribution from batch of distributions — tfd_independent" />
 
-<meta property="og:description" content="Independent distribution from batch of distributions" />
+<meta property="og:description" content="This distribution is useful for regarding a collection of independent,
+non-identical distributions as a single random variable. For example, the
+Independent distribution composed of a collection of Bernoulli
+distributions might define a distribution over an image (where each
+Bernoulli is a distribution over each pixel)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,7 +117,11 @@
 
     <div class="ref-description">
     
-    <p>Independent distribution from batch of distributions</p>
+    <p>This distribution is useful for regarding a collection of independent,
+non-identical distributions as a single random variable. For example, the
+<code>Independent</code> distribution composed of a collection of <code>Bernoulli</code>
+distributions might define a distribution over an image (where each
+<code>Bernoulli</code> is a distribution over each pixel).</p>
     
     </div>
 
@@ -146,6 +154,27 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>More precisely, a collection of <code>B</code> (independent) <code>E</code>-variate random variables
+(rv) <code>{X_1, ..., X_B}</code>, can be regarded as a <code>[B, E]</code>-variate random variable
+<code>(X_1, ..., X_B)</code> with probability
+<code>p(x_1, ..., x_B) = p_1(x_1) * ... * p_B(x_B)</code> where <code>p_b(X_b)</code> is the
+probability of the <code>b</code>-th rv. More generally <code>B, E</code> can be arbitrary shapes.
+Similarly, the <code>Independent</code> distribution specifies a distribution over
+<code>[B, E]</code>-shaped events. It operates by reinterpreting the rightmost batch dims as
+part of the event dimensions. The <code>reinterpreted_batch_ndims</code> parameter
+controls the number of batch dims which are absorbed as event dims;
+<code>reinterpreted_batch_ndims &lt;= len(batch_shape)</code>.  For example, the <code>log_prob</code>
+function entails a <code>reduce_sum</code> over the rightmost <code>reinterpreted_batch_ndims</code>
+after calling the base distribution's <code>log_prob</code>.  In other words, since the
+batch dimension(s) index independent distributions, the resultant multivariate
+will have independent components.</p>
+<p>Mathematical Details</p>
+<p>The probability function is,</p><pre>prob(x; reinterpreted_batch_ndims) =
+ tf.reduce_prod(dist.prob(x), axis=-1-range(reinterpreted_batch_ndims))
+</pre>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
@@ -154,7 +183,16 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
@@ -169,6 +207,8 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

@@ -63,6 +63,49 @@ Here we use a slightly different parameterization, in terms of tailweight
 and skewness.  Additionally we allow for distributions other than Normal,
 and control over scale as well as a "shift" parameter loc.
 }
+\details{
+Mathematical Details
+
+Given iid random vector \code{Z = (Z1,...,Zk)}, we define the VectorSinhArcsinhDiag
+transformation of \code{Z}, \code{Y}, parameterized by
+\code{(loc, scale, skewness, tailweight)}, via the relation (with \code{@} denoting matrix multiplication):\preformatted{Y := loc + scale @ F(Z) * (2 / F_0(2))
+F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
+F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
+}
+
+This distribution is similar to the location-scale transformation
+\code{L(Z) := loc + scale @ Z} in the following ways:
+\itemize{
+\item If \code{skewness = 0} and \code{tailweight = 1} (the defaults), \code{F(Z) = Z}, and then
+\code{Y = L(Z)} exactly.
+\item \code{loc} is used in both to shift the result by a constant factor.
+\item The multiplication of \code{scale} by \code{2 / F_0(2)} ensures that if \code{skewness = 0}
+\code{P[Y - loc <= 2 * scale] = P[L(Z) - loc <= 2 * scale]}.
+Thus it can be said that the weights in the tails of \code{Y} and \code{L(Z)} beyond
+\code{loc + 2 * scale} are the same.
+This distribution is different than \code{loc + scale @ Z} due to the
+reshaping done by \code{F}:
+\itemize{
+\item Positive (negative) \code{skewness} leads to positive (negative) skew.
+\item positive skew means, the mode of \code{F(Z)} is "tilted" to the right.
+\item positive skew means positive values of \code{F(Z)} become more likely, and
+negative values become less likely.
+\item Larger (smaller) \code{tailweight} leads to fatter (thinner) tails.
+\item Fatter tails mean larger values of \code{|F(Z)|} become more likely.
+\item \code{tailweight < 1} leads to a distribution that is "flat" around \code{Y = loc},
+and a very steep drop-off in the tails.
+\item \code{tailweight > 1} leads to a distribution more peaked at the mode with
+heavier tails.
+To see the argument about the tails, note that for \code{|Z| >> 1} and
+\code{|Z| >> (|skewness| * tailweight)**tailweight}, we have
+\code{Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)}.
+To see the argument regarding multiplying \code{scale} by \code{2 / F_0(2)},
+}\preformatted{P[(Y - loc) / scale <= 2] = P[F(Z) * (2 / F_0(2)) <= 2]
+= P[F(Z) <= F_0(2)]
+= P[Z <= 2]  (if F = F_0).
+}
+}
+}
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_independent}},
@@ -71,6 +114,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

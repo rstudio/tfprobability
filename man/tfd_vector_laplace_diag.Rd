@@ -43,7 +43,33 @@ scale matrix:  \code{covariance = 2 * scale @ scale.T}, where @ denotes
 matrix-multiplication.
 }
 \details{
+#' Mathematical Details
+The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = exp(-||y||_1) / Z,
+y = inv(scale) @ (x - loc),
+Z = 2**k |det(scale)|,
+}
+
+where:
+\itemize{
+\item \code{loc} is a vector in \code{R^k},
+\item \code{scale} is a linear operator in \code{R^{k x k}}, \code{cov = scale @ scale.T},
+\item \code{Z} denotes the normalization constant, and,
+\item \code{||y||_1} denotes the \code{l1} norm of \code{y}, `sum_i |y_i|.
+}
+
+A (non-batch) \code{scale} matrix is:\preformatted{scale = diag(scale_diag + scale_identity_multiplier * ones(k))
+}
+
+where:
+\itemize{
+\item \code{scale_diag.shape = [k]}, and,
+\item \code{scale_identity_multiplier.shape = []}.
+Additional leading dimensions (if any) will index batches.
+If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{None}, then
+\code{scale} is the Identity matrix.
 About VectorLaplace and Vector distributions in TensorFlow.
+}
+
 The VectorLaplace is a non-standard distribution that has useful properties.
 The marginals Y_1, ..., Y_k are \emph{not} Laplace random variables, due to
 the fact that the sum of Laplace random variables is not Laplace.
@@ -66,6 +92,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

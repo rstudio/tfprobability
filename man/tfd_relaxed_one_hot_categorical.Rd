@@ -31,7 +31,25 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-RelaxedOneHotCategorical distribution with temperature and logits.
+The RelaxedOneHotCategorical is a distribution over random probability
+vectors, vectors of positive real values that sum to one, which continuously
+approximates a OneHotCategorical. The degree of approximation is controlled by
+a temperature: as the temperature goes to 0 the RelaxedOneHotCategorical
+becomes discrete with a distribution described by the \code{logits} or \code{probs}
+parameters, as the temperature goes to infinity the RelaxedOneHotCategorical
+becomes the constant distribution that is identically the constant vector of
+(1/event_size, ..., 1/event_size).
+The RelaxedOneHotCategorical distribution was concurrently introduced as the
+Gumbel-Softmax (Jang et al., 2016) and Concrete (Maddison et al., 2016)
+distributions for use as a reparameterized continuous approximation to the
+\code{Categorical} one-hot distribution. If you use this distribution, please cite
+both papers.
+}
+\details{
+Eric Jang, Shixiang Gu, and Ben Poole. Categorical Reparameterization with
+Gumbel-Softmax. 2016.
+Chris J. Maddison, Andriy Mnih, and Yee Whye Teh. The Concrete Distribution:
+A Continuous Relaxation of Discrete Random Variables. 2016.
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
@@ -40,6 +58,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_normal}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

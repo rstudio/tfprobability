@@ -41,6 +41,22 @@ for n=2. However, the TFP's VonMisesFisher implementation represents the
 samples and location as (x, y) points on a circle, while VonMises represents
 them as scalar angles.
 
+Mathematical details
+The probability density function (pdf) of this distribution is,\preformatted{pdf(x; loc, concentration) = exp(concentration cos(x - loc)) / Z
+Z = 2 * pi * I_0 (concentration)
+}
+
+where:
+\itemize{
+\item \code{I_0 (concentration)} is the modified Bessel function of order zero;
+\item \code{loc} the circular mean of the distribution, a scalar. It can take arbitrary
+values, but it is 2pi-periodic: loc and loc + 2pi result in the same
+distribution.
+\item \code{concentration >= 0} parameter is the concentration parameter. When
+\code{concentration = 0},
+this distribution becomes a Uniform distribution on [-pi, pi).
+}
+
 The parameters loc and concentration must be shaped in a way that
 supports broadcasting (e.g. loc + concentration is a valid operation).
 }
@@ -52,6 +68,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

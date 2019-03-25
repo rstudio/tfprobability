@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="The Normal distribution with loc and scale parameters — tfd_normal" />
 
-<meta property="og:description" content="The Normal distribution with loc and scale parameters" />
+<meta property="og:description" content="Mathematical details" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,7 +113,7 @@
 
     <div class="ref-description">
     
-    <p>The Normal distribution with loc and scale parameters</p>
+    <p>Mathematical details</p>
     
     </div>
 
@@ -150,9 +150,17 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A normal distribution</p>
+    <p>The probability density function (pdf) is,</p><pre>pdf(x; mu, sigma) = exp(-0.5 (x - mu)**2 / sigma**2) / Z
+Z = (2 pi sigma**2)**0.5
+</pre>
+    <p>where <code>loc = mu</code> is the mean, <code>scale = sigma</code> is the std. deviation, and, <code>Z</code>
+is the normalization constant.
+The Normal distribution is a member of the <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
+constructed as,</p><pre>X ~ Normal(loc=0, scale=1)
+Y = loc + scale * X
+</pre>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -162,7 +170,16 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
@@ -177,7 +194,7 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

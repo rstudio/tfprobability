@@ -116,7 +116,7 @@ distribution is typically an instance of the Distribution class." />
 
     <div class="ref-description">
     
-    <p>A TransformedDistribution models p(y) given a base distribution p(x),
+    <p>A TransformedDistribution models <code>p(y)</code> given a base distribution <code>p(x)</code>,
 and a deterministic, invertible, differentiable transform,<code>Y = g(X)</code>. The
 transform is typically an instance of the Bijector class and the base
 distribution is typically an instance of the Distribution class.</p>
@@ -159,6 +159,36 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>A <code>Bijector</code> is expected to implement the following functions:</p><ul>
+<li><p><code>forward</code>,</p></li>
+<li><p><code>inverse</code>,</p></li>
+<li><p><code>inverse_log_det_jacobian</code>.</p></li>
+</ul>
+    <p>The semantics of these functions are outlined in the <code>Bijector</code> documentation.</p>
+<p>We now describe how a <code>TransformedDistribution</code> alters the input/outputs of a
+<code>Distribution</code> associated with a random variable (rv) <code>X</code>.
+Write <code>cdf(Y=y)</code> for an absolutely continuous cumulative distribution function
+of random variable <code>Y</code>; write the probability density function
+<code>pdf(Y=y) := d^k / (dy_1,...,dy_k) cdf(Y=y)</code> for its derivative wrt to <code>Y</code> evaluated at
+<code>y</code>. Assume that <code>Y = g(X)</code> where <code>g</code> is a deterministic diffeomorphism,
+i.e., a non-random, continuous, differentiable, and invertible function.
+Write the inverse of <code>g</code> as <code>X = g^{-1}(Y)</code> and <code>(J o g)(x)</code> for the Jacobian
+of <code>g</code> evaluated at <code>x</code>.</p>
+<p>A <code>TransformedDistribution</code> implements the following operations:</p><ul>
+<li><p><code>sample</code>
+Mathematically:   <code>Y = g(X)</code>
+Programmatically: <code>bijector.forward(distribution.sample(...))</code></p></li>
+<li><p><code>log_prob</code>
+Mathematically:   <code>(log o pdf)(Y=y) = (log o pdf o g^{-1})(y) + (log o abs o det o J o g^{-1})(y)</code>
+Programmatically: <code>(distribution.log_prob(bijector.inverse(y)) + bijector.inverse_log_det_jacobian(y))</code></p></li>
+<li><p><code>log_cdf</code>
+Mathematically:   <code>(log o cdf)(Y=y) = (log o cdf o g^{-1})(y)</code>
+Programmatically: <code>distribution.log_cdf(bijector.inverse(x))</code></p></li>
+<li><p>and similarly for: <code>cdf</code>, <code>prob</code>, <code>log_survival_function</code>, <code>survival_function</code>.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
@@ -168,6 +198,15 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
@@ -182,6 +221,8 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

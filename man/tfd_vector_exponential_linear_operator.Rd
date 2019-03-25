@@ -31,6 +31,29 @@ parameterized by a (batch of) length-\code{k} \code{loc} vector and a (batch of)
 matrix-multiplication.
 }
 \details{
+Mathematical Details
+The probability density function (pdf) is\preformatted{pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in S(loc, scale),
+x = inv(scale) @ (y - loc),
+Z = |det(scale)|,
+}
+
+where:
+\itemize{
+\item \code{loc} is a vector in \code{R^k},
+\item \code{scale} is a linear operator in \code{R^{k x k}}, \code{cov = scale @ scale.T},
+\item \code{S = {loc + scale @ x : x in R^k, x_1 > 0, ..., x_k > 0}}, is an image of
+the positive half-space,
+\item \code{||x||_1} denotes the \code{l1} norm of \code{x}, \code{sum_i |x_i|},
+\item \code{Z} denotes the normalization constant.
+}
+
+The VectorExponential distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
+constructed as,\preformatted{X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
+Y = (Y_1, ...,Y_k) = scale @ X + loc
+}
+
+About \code{VectorExponential} and \code{Vector} distributions in TensorFlow.
+
 The \code{VectorExponential} is a non-standard distribution that has useful
 properties.
 The marginals \code{Y_1, ..., Y_k} are \emph{not} Exponential random variables, due to
@@ -65,6 +88,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

@@ -172,7 +172,20 @@ one or more of the statistic's batch members are undefined.</p></td>
 for n=2. However, the TFP's VonMisesFisher implementation represents the
 samples and location as (x, y) points on a circle, while VonMises represents
 them as scalar angles.</p>
-<p>The parameters loc and concentration must be shaped in a way that
+<p>Mathematical details
+The probability density function (pdf) of this distribution is,</p><pre>pdf(x; loc, concentration) = exp(concentration cos(x - loc)) / Z
+Z = 2 * pi * I_0 (concentration)
+</pre>
+    <p>where:</p><ul>
+<li><p><code>I_0 (concentration)</code> is the modified Bessel function of order zero;</p></li>
+<li><p><code>loc</code> the circular mean of the distribution, a scalar. It can take arbitrary
+values, but it is 2pi-periodic: loc and loc + 2pi result in the same
+distribution.</p></li>
+<li><p><code>concentration &gt;= 0</code> parameter is the concentration parameter. When
+<code>concentration = 0</code>,
+this distribution becomes a Uniform distribution on [-pi, pi).</p></li>
+</ul>
+    <p>The parameters loc and concentration must be shaped in a way that
 supports broadcasting (e.g. loc + concentration is a valid operation).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -184,7 +197,16 @@ supports broadcasting (e.g. loc + concentration is a valid operation).</p>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,

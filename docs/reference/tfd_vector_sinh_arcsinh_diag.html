@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The (diagonal) SinhArcsinh transformation of a distribution on R^k. — tfd_vector_sinh_arcsinh_diag • tfprobability</title>
+<title>The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code>. — tfd_vector_sinh_arcsinh_diag • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="The (diagonal) SinhArcsinh transformation of a distribution on R^k. — tfd_vector_sinh_arcsinh_diag" />
+<meta property="og:title" content="The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code>. — tfd_vector_sinh_arcsinh_diag" />
 
 <meta property="og:description" content="This distribution models a random vector Y = (Y1,...,Yk), making use of
 a SinhArcsinh transformation (which has adjustable tailweight and skew),
@@ -113,7 +113,7 @@ and control over scale as well as a &quot;shift&quot; parameter loc." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The (diagonal) SinhArcsinh transformation of a distribution on R^k.</h1>
+    <h1>The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code>.</h1>
     
     <div class="hidden name"><code>tfd_vector_sinh_arcsinh_diag.Rd</code></div>
     </div>
@@ -202,6 +202,46 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details</p>
+<p>Given iid random vector <code>Z = (Z1,...,Zk)</code>, we define the VectorSinhArcsinhDiag
+transformation of <code>Z</code>, <code>Y</code>, parameterized by
+<code>(loc, scale, skewness, tailweight)</code>, via the relation (with <code>@</code> denoting matrix multiplication):</p><pre>Y := loc + scale @ F(Z) * (2 / F_0(2))
+F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
+F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
+</pre>
+    <p>This distribution is similar to the location-scale transformation
+<code>L(Z) := loc + scale @ Z</code> in the following ways:</p><ul>
+<li><p>If <code>skewness = 0</code> and <code>tailweight = 1</code> (the defaults), <code>F(Z) = Z</code>, and then
+<code>Y = L(Z)</code> exactly.</p></li>
+<li><p><code>loc</code> is used in both to shift the result by a constant factor.</p></li>
+<li><p>The multiplication of <code>scale</code> by <code>2 / F_0(2)</code> ensures that if <code>skewness = 0</code>
+<code>P[Y - loc &lt;= 2 * scale] = P[L(Z) - loc &lt;= 2 * scale]</code>.
+Thus it can be said that the weights in the tails of <code>Y</code> and <code>L(Z)</code> beyond
+<code>loc + 2 * scale</code> are the same.
+This distribution is different than <code>loc + scale @ Z</code> due to the
+reshaping done by <code>F</code>:</p><ul>
+<li><p>Positive (negative) <code>skewness</code> leads to positive (negative) skew.</p></li>
+<li><p>positive skew means, the mode of <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>F(Z)</a></code> is "tilted" to the right.</p></li>
+<li><p>positive skew means positive values of <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>F(Z)</a></code> become more likely, and
+negative values become less likely.</p></li>
+<li><p>Larger (smaller) <code>tailweight</code> leads to fatter (thinner) tails.</p></li>
+<li><p>Fatter tails mean larger values of <code>|F(Z)|</code> become more likely.</p></li>
+<li><p><code>tailweight &lt; 1</code> leads to a distribution that is "flat" around <code>Y = loc</code>,
+and a very steep drop-off in the tails.</p></li>
+<li><p><code>tailweight &gt; 1</code> leads to a distribution more peaked at the mode with
+heavier tails.
+To see the argument about the tails, note that for <code>|Z| &gt;&gt; 1</code> and
+<code>|Z| &gt;&gt; (|skewness| * tailweight)**tailweight</code>, we have
+<code>Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)</code>.
+To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)</code>,</p></li>
+</ul><pre>P[(Y - loc) / scale &lt;= 2] = P[F(Z) * (2 / F_0(2)) &lt;= 2]
+= P[F(Z) &lt;= F_0(2)]
+= P[Z &lt;= 2]  (if F = F_0).
+</pre></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
@@ -211,7 +251,16 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_von_mises_fisher.html'>tfd_von_mises_fisher</a></code>,
@@ -225,6 +274,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

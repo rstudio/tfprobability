@@ -25,6 +25,21 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
+Mathematical Details
+}
+\details{
+The probability density function (pdf) is,\preformatted{pdf(x; a, b) = I[a <= x < b] / Z
+Z = b - a
+}
+
+where
+\itemize{
+\item \code{low = a},
+\item \code{high = b},
+\item \code{Z} is the normalizing constant, and
+\item \code{I[predicate]} is the \href{https://en.wikipedia.org/wiki/Indicator_function}{indicator function} for \code{predicate}.
+}
+
 The parameters \code{low} and \code{high} must be shaped in a way that supports
 broadcasting (e.g., \code{high - low} is a valid operation).
 }
@@ -36,6 +51,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

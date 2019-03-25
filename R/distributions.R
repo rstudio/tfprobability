@@ -1,5 +1,22 @@
 #' The Normal distribution with loc and scale parameters
 #'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; mu, sigma) = exp(-0.5 (x - mu)**2 / sigma**2) / Z
+#' Z = (2 pi sigma**2)**0.5
+#' ```
+#' where `loc = mu` is the mean, `scale = sigma` is the std. deviation, and, `Z`
+#' is the normalization constant.
+#' The Normal distribution is a member of the [location-scale family](
+#'  https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#'  constructed as,
+#'  ```
+#'  X ~ Normal(loc=0, scale=1)
+#'  Y = loc + scale * X
+#'  ```
+#'
 #' @param loc Floating point tensor; the means of the distribution(s).
 #' @param scale loating point tensor; the stddevs of the distribution(s).
 #'  Must contain only positive values.
@@ -32,6 +49,35 @@ tfd_normal <- function(loc,
 
 #' Independent distribution from batch of distributions
 #'
+#' This distribution is useful for regarding a collection of independent,
+#' non-identical distributions as a single random variable. For example, the
+#' `Independent` distribution composed of a collection of `Bernoulli`
+#' distributions might define a distribution over an image (where each
+#' `Bernoulli` is a distribution over each pixel).
+#'
+#' More precisely, a collection of `B` (independent) `E`-variate random variables
+#' (rv) `{X_1, ..., X_B}`, can be regarded as a `[B, E]`-variate random variable
+#' `(X_1, ..., X_B)` with probability
+#' `p(x_1, ..., x_B) = p_1(x_1) * ... * p_B(x_B)` where `p_b(X_b)` is the
+#' probability of the `b`-th rv. More generally `B, E` can be arbitrary shapes.
+#' Similarly, the `Independent` distribution specifies a distribution over
+#' `[B, E]`-shaped events. It operates by reinterpreting the rightmost batch dims as
+#' part of the event dimensions. The `reinterpreted_batch_ndims` parameter
+#' controls the number of batch dims which are absorbed as event dims;
+#' `reinterpreted_batch_ndims <= len(batch_shape)`.  For example, the `log_prob`
+#' function entails a `reduce_sum` over the rightmost `reinterpreted_batch_ndims`
+#' after calling the base distribution's `log_prob`.  In other words, since the
+#'  batch dimension(s) index independent distributions, the resultant multivariate
+#'  will have independent components.
+#'
+#'  Mathematical Details
+#'
+#'  The probability function is,
+#'  ```
+#'  prob(x; reinterpreted_batch_ndims) =
+#'   tf.reduce_prod(dist.prob(x), axis=-1-range(reinterpreted_batch_ndims))
+#' ```
+#'
 #' @param distribution The base distribution instance to transform. Typically an  instance of Distribution
 #' @param reinterpreted_batch_ndims Scalar, integer number of rightmost batch dims  which
 #'  will be regarded as event dims. When NULL all but the first batch axis (batch axis 0)
@@ -59,7 +105,10 @@ tfd_independent <- function(distribution,
 
 
 
-#' The Bernoulli distribution class.
+#' The Bernoulli distribution.
+#'
+#' The Bernoulli distribution with `probs` parameter, i.e., the probability of a
+#' `1` outcome (vs a `0` outcome).
 #'
 #' @inheritParams tfd_normal
 #'
@@ -93,10 +142,44 @@ tfd_bernoulli <- function(logits = NULL,
 
 #' The multivariate normal distribution on `R^k`.
 #'
-#' The Multivariate Normal distribution is defined over R^k and parameterized
+#' The Multivariate Normal distribution is defined over `R^k`` and parameterized
 #' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
 #' scale matrix; `covariance = scale @ scale.T` where `@` denotes
 #' matrix-multiplication.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+#' y = inv(scale) @ (x - loc)
+#' Z = (2 pi)**(0.5 k) |det(scale)|
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||**2` denotes the squared Euclidean norm of `y`.
+#'
+#' A (non-batch) `scale` matrix is:
+#' ```
+#' scale = diag(scale_diag + scale_identity_multiplier * ones(k))
+#' ```
+#' where:
+#' * `scale_diag.shape = [k]`, and,
+#' * `scale_identity_multiplier.shape = []`.#'
+#'
+#' Additional leading dimensions (if any) will index batches.
+#'
+#' If both `scale_diag` and `scale_identity_multiplier` are `None`, then
+#' `scale` is the Identity matrix.
+#' The MultivariateNormal distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+#' Y = scale @ X + loc
+#' ```
 #'
 #' @inheritParams tfd_normal
 #'
@@ -173,6 +256,25 @@ tfd_one_hot_categorical <- function(logits = NULL,
 
 #' RelaxedOneHotCategorical distribution with temperature and logits.
 #'
+#' The RelaxedOneHotCategorical is a distribution over random probability
+#' vectors, vectors of positive real values that sum to one, which continuously
+#' approximates a OneHotCategorical. The degree of approximation is controlled by
+#' a temperature: as the temperature goes to 0 the RelaxedOneHotCategorical
+#' becomes discrete with a distribution described by the `logits` or `probs`
+#' parameters, as the temperature goes to infinity the RelaxedOneHotCategorical
+#' becomes the constant distribution that is identically the constant vector of
+#' (1/event_size, ..., 1/event_size).
+#' The RelaxedOneHotCategorical distribution was concurrently introduced as the
+#' Gumbel-Softmax (Jang et al., 2016) and Concrete (Maddison et al., 2016)
+#' distributions for use as a reparameterized continuous approximation to the
+#' `Categorical` one-hot distribution. If you use this distribution, please cite
+#' both papers.
+#'
+#' Eric Jang, Shixiang Gu, and Ben Poole. Categorical Reparameterization with
+#' Gumbel-Softmax. 2016.
+#' Chris J. Maddison, Andriy Mnih, and Yee Whye Teh. The Concrete Distribution:
+#'  A Continuous Relaxation of Discrete Random Variables. 2016.
+#'
 #' @param temperature An 0-D Tensor, representing the temperature of a set of RelaxedOneHotCategorical distributions.
 #'  The temperature should be positive.
 #' @param logits An N-D Tensor, N >= 1, representing the log probabilities of a set of RelaxedOneHotCategorical
@@ -207,9 +309,33 @@ tfd_relaxed_one_hot_categorical <- function(temperature,
 #' RelaxedBernoulli distribution with temperature and logits parameters.
 #'
 #' The RelaxedBernoulli is a distribution over the unit interval (0,1), which continuously approximates a Bernoulli.
-#'   The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
-#'   becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
-#'   infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.
+#' The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
+#' becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
+#' infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.
+#'
+#' The RelaxedBernoulli distribution is a reparameterized continuous
+#' distribution that is the binary special case of the RelaxedOneHotCategorical
+#' distribution (Maddison et al., 2016; Jang et al., 2016). For details on the
+#' binary special case see the appendix of Maddison et al. (2016) where it is
+#' referred to as BinConcrete. If you use this distribution, please cite both papers.
+#'
+#' Some care needs to be taken for loss functions that depend on the
+#' log-probability of RelaxedBernoullis, because computing log-probabilities of
+#' the RelaxedBernoulli can suffer from underflow issues. In many case loss
+#' functions such as these are invariant under invertible transformations of
+#' the random variables. The KL divergence, found in the variational autoencoder
+#' loss, is an example. Because RelaxedBernoullis are sampled by a Logistic
+#' random variable followed by a `tf$sigmoid` op, one solution is to treat
+#' the Logistic as the random variable and `tf$sigmoid` as downstream. The
+#' KL divergences of two Logistics, which are always followed by a `tf.sigmoid`
+#' op, is equivalent to evaluating KL divergences of RelaxedBernoulli samples.
+#' See Maddison et al., 2016 for more details where this distribution is called
+#' the BinConcrete.
+#' An alternative approach is to evaluate Bernoulli log probability or KL
+#' directly on relaxed samples, as done in Jang et al., 2016. In this case,
+#' guarantees on the loss are usually violated. For instance, using a Bernoulli
+#' KL in a relaxed ELBO is no longer a lower bound on the log marginal
+#' probability of the observation. Thus care and early stopping are important.
 #'
 #' @param temperature An 0-D Tensor, representing the temperature of a set of RelaxedBernoulli distributions.
 #'   The temperature should be positive.
@@ -248,6 +374,35 @@ tfd_relaxed_bernoulli <- function(temperature,
 #' transform is typically an instance of the Bijector class and the base
 #' distribution is typically an instance of the Distribution class.
 #'
+#' A `Bijector` is expected to implement the following functions:
+#' - `forward`,
+#' - `inverse`,
+#' - `inverse_log_det_jacobian`.
+#'
+#' The semantics of these functions are outlined in the `Bijector` documentation.
+#'
+#' We now describe how a `TransformedDistribution` alters the input/outputs of a
+#' `Distribution` associated with a random variable (rv) `X`.
+#' Write `cdf(Y=y)` for an absolutely continuous cumulative distribution function
+#' of random variable `Y`; write the probability density function
+#' `pdf(Y=y) := d^k / (dy_1,...,dy_k) cdf(Y=y)` for its derivative wrt to `Y` evaluated at
+#' `y`. Assume that `Y = g(X)` where `g` is a deterministic diffeomorphism,
+#' i.e., a non-random, continuous, differentiable, and invertible function.
+#' Write the inverse of `g` as `X = g^{-1}(Y)` and `(J o g)(x)` for the Jacobian
+#' of `g` evaluated at `x`.
+#'
+#' A `TransformedDistribution` implements the following operations:
+#' * `sample`
+#' Mathematically:   `Y = g(X)`
+#' Programmatically: `bijector.forward(distribution.sample(...))`
+#' * `log_prob`
+#' Mathematically:   `(log o pdf)(Y=y) = (log o pdf o g^{-1})(y) + (log o abs o det o J o g^{-1})(y)`
+#' Programmatically: `(distribution.log_prob(bijector.inverse(y)) + bijector.inverse_log_det_jacobian(y))`
+#' * `log_cdf`
+#' Mathematically:   `(log o cdf)(Y=y) = (log o cdf o g^{-1})(y)`
+#' Programmatically: `distribution.log_cdf(bijector.inverse(x))`
+#' * and similarly for: `cdf`, `prob`, `log_survival_function`, `survival_function`.
+#'
 #' @param distribution The base distribution instance to transform. Typically an instance of Distribution.
 #' @param bijector The object responsible for calculating the transformation. Typically an instance of Bijector.
 #' @param batch_shape integer vector Tensor which overrides distribution batch_shape;
@@ -281,6 +436,18 @@ tfd_transformed <- function(distribution,
 #' Zipf distribution.
 #'
 #' The Zipf distribution is parameterized by a power parameter.
+#'
+#' Mathematical Details
+#' The probability mass function (pmf) is,
+#' ```
+#' pmf(k; alpha, k >= 0) = (k^(-alpha)) / Z
+#' Z = zeta(alpha).
+#' ```
+#' where `power = alpha` and Z is the normalization constant.
+#' `zeta` is the [Riemann zeta function](
+#' https://en.wikipedia.org/wiki/Riemann_zeta_function).
+#' Note that gradients with respect to the `power` parameter are not
+#' supported in the current implementation.
 #'
 #' @param power Float like Tensor representing the power parameter. Must be
 #' strictly greater than 1.
@@ -328,6 +495,21 @@ tfd_zipf <- function(power,
 #' This distribution is defined by a scalar number of degrees of freedom df and
 #' an instance of LinearOperator, which provides matrix-free access to a
 #' symmetric positive definite operator, which defines the scale matrix.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
+#' Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
+#' ```
+#' where:
+#' * `df >= k` denotes the degrees of freedom,
+#' * `scale` is a symmetric, positive definite, `k x k` matrix,
+#' * `Z` is the normalizing constant, and,
+#' * `Gamma_k` is the [multivariate Gamma function](
+#'  https://en.wikipedia.org/wiki/Multivariate_gamma_function).
+#'
 #' @param df float or double tensor, the degrees of freedom of the
 #' distribution(s). df must be greater than or equal to k.
 #' @param scale float or double Tensor. The symmetric positive definite
@@ -374,6 +556,20 @@ tfd_wishart <- function(df,
 #'
 #' The von Mises-Fisher distribution is a directional distribution over vectors
 #' on the unit hypersphere `S^{n-1}` embedded in n dimensions `(R^n)`.
+#'
+#' Mathematical details
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; mu, kappa) = C(kappa) exp(kappa * mu^T x)
+#' where,
+#' C(kappa) = (2 pi)^{-n/2} kappa^{n/2-1} / I_{n/2-1}(kappa),
+#' I_v(z) being the modified Bessel function of the first kind of order v
+#' ```
+#' where:
+#' * `mean_direction = mu`; a unit vector in `R^k`,
+#' * `concentration = kappa`; scalar real >= 0, concentration of samples around
+#' `mean_direction`, where 0 pertains to the uniform distribution on the
+#' hypersphere, and `\inf` indicates a delta function at `mean_direction`.
 #'
 #' NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
 #' instability can occur for low concentrations (<.01).
@@ -424,6 +620,21 @@ tfd_von_mises_fisher <- function(df,
 #' samples and location as (x, y) points on a circle, while VonMises represents
 #' them as scalar angles.
 #'
+#' Mathematical details
+#' The probability density function (pdf) of this distribution is,
+#' ```
+#' pdf(x; loc, concentration) = exp(concentration cos(x - loc)) / Z
+#' Z = 2 * pi * I_0 (concentration)
+#' ```
+#' where:
+#' * `I_0 (concentration)` is the modified Bessel function of order zero;
+#' * `loc` the circular mean of the distribution, a scalar. It can take arbitrary
+#' values, but it is 2pi-periodic: loc and loc + 2pi result in the same
+#' distribution.
+#' * `concentration >= 0` parameter is the concentration parameter. When
+#' `concentration = 0`,
+#' this distribution becomes a Uniform distribution on [-pi, pi).
+#'
 #' The parameters loc and concentration must be shaped in a way that
 #' supports broadcasting (e.g. loc + concentration is a valid operation).
 
@@ -462,6 +673,48 @@ tfd_von_mises <- function(loc,
 #' Here we use a slightly different parameterization, in terms of tailweight
 #' and skewness.  Additionally we allow for distributions other than Normal,
 #' and control over scale as well as a "shift" parameter loc.
+#'
+#' Mathematical Details
+#'
+#' Given iid random vector `Z = (Z1,...,Zk)`, we define the VectorSinhArcsinhDiag
+#' transformation of `Z`, `Y`, parameterized by
+#' `(loc, scale, skewness, tailweight)`, via the relation (with `@` denoting matrix multiplication):
+#' ```
+#' Y := loc + scale @ F(Z) * (2 / F_0(2))
+#' F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
+#' F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
+#' ```
+#'
+#' This distribution is similar to the location-scale transformation
+#' `L(Z) := loc + scale @ Z` in the following ways:
+#' * If `skewness = 0` and `tailweight = 1` (the defaults), `F(Z) = Z`, and then
+#' `Y = L(Z)` exactly.
+#' * `loc` is used in both to shift the result by a constant factor.
+#' * The multiplication of `scale` by `2 / F_0(2)` ensures that if `skewness = 0`
+#' `P[Y - loc <= 2 * scale] = P[L(Z) - loc <= 2 * scale]`.
+#' Thus it can be said that the weights in the tails of `Y` and `L(Z)` beyond
+#' `loc + 2 * scale` are the same.
+#' This distribution is different than `loc + scale @ Z` due to the
+#' reshaping done by `F`:
+#'   * Positive (negative) `skewness` leads to positive (negative) skew.
+#'   * positive skew means, the mode of `F(Z)` is "tilted" to the right.
+#'   * positive skew means positive values of `F(Z)` become more likely, and
+#'   negative values become less likely.
+#'   * Larger (smaller) `tailweight` leads to fatter (thinner) tails.
+#'   * Fatter tails mean larger values of `|F(Z)|` become more likely.
+#'   * `tailweight < 1` leads to a distribution that is "flat" around `Y = loc`,
+#'   and a very steep drop-off in the tails.
+#'   * `tailweight > 1` leads to a distribution more peaked at the mode with
+#'   heavier tails.
+#'   To see the argument about the tails, note that for `|Z| >> 1` and
+#'   `|Z| >> (|skewness| * tailweight)**tailweight`, we have
+#'   `Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)`.
+#'   To see the argument regarding multiplying `scale` by `2 / F_0(2)`,
+#'   ```
+#'   P[(Y - loc) / scale <= 2] = P[F(Z) * (2 / F_0(2)) <= 2]
+#'   = P[F(Z) <= F_0(2)]
+#'   = P[Z <= 2]  (if F = F_0).
+#'   ```
 #'
 #' @param loc Floating-point Tensor. If this is set to NULL, loc is
 #' implicitly 0. When specified, may have shape `[B1, ..., Bb, k]` where
@@ -525,7 +778,29 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
 #' scale matrix:  `covariance = 2 * scale @ scale.T`, where `@` denotes
 #' matrix-multiplication.
 #'
+#' Mathematical Details
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = exp(-||y||_1) / Z,
+#' y = inv(scale) @ (x - loc),
+#' Z = 2**k |det(scale)|,
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||_1` denotes the `l1` norm of `y`, `sum_i |y_i|.
+#'
+#' The VectorLaplace distribution is a member of the [location-scale
+#' family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X = (X_1, ..., X_k), each X_i ~ Laplace(loc=0, scale=1)
+#' Y = (Y_1, ...,Y_k) = scale @ X + loc
+#' ```
+#'
 #' About VectorLaplace and Vector distributions in TensorFlow.
+#'
 #' The VectorLaplace is a non-standard distribution that has useful properties.
 #' The marginals Y_1, ..., Y_k are *not* Laplace random variables, due to
 #' the fact that the sum of Laplace random variables is not Laplace.
@@ -580,7 +855,32 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #' scale matrix:  `covariance = 2 * scale @ scale.T`, where @ denotes
 #' matrix-multiplication.
 #'
+#'#' Mathematical Details
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = exp(-||y||_1) / Z,
+#' y = inv(scale) @ (x - loc),
+#' Z = 2**k |det(scale)|,
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||_1` denotes the `l1` norm of `y`, `sum_i |y_i|.
+#'
+#' A (non-batch) `scale` matrix is:
+#' ```
+#' scale = diag(scale_diag + scale_identity_multiplier * ones(k))
+#' ```
+#' where:
+#'  * `scale_diag.shape = [k]`, and,
+#'  * `scale_identity_multiplier.shape = []`.
+#'  Additional leading dimensions (if any) will index batches.
+#'  If both `scale_diag` and `scale_identity_multiplier` are `None`, then
+#'  `scale` is the Identity matrix.
+
 #' About VectorLaplace and Vector distributions in TensorFlow.
+#'
 #' The VectorLaplace is a non-standard distribution that has useful properties.
 #' The marginals Y_1, ..., Y_k are *not* Laplace random variables, due to
 #' the fact that the sum of Laplace random variables is not Laplace.
@@ -660,6 +960,29 @@ tfd_vector_laplace_diag <- function(loc = NULL,
 #' parameterized by a (batch of) length-`k` `loc` vector and a (batch of) `k x k`
 #' `scale` matrix:  `covariance = scale @ scale.T`, where `@` denotes
 #' matrix-multiplication.
+#'
+#' Mathematical Details
+#' The probability density function (pdf) is defined over the image of the
+#' `scale` matrix + `loc`, applied to the positive half-space:
+#' `Supp = {loc + scale @ x : x in R^k, x_1 > 0, ..., x_k > 0}`.  On this set,
+#' ```
+#' pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in Supp
+#' x = inv(scale) @ (y - loc),
+#' Z = |det(scale)|,
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||x||_1` denotes the `l1` norm of `x`, `sum_i |x_i|`.
+#' The VectorExponential distribution is a member of the [location-scale
+#' family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
+#' Y = (Y_1, ...,Y_k) = scale @ X + loc
+#' ```
+#' About `VectorExponential` and `Vector` distributions in TensorFlow.
 #'
 #' The `VectorExponential` is a non-standard distribution that has useful
 #' properties.
@@ -729,6 +1052,30 @@ tfd_vector_exponential_diag <- function(loc = NULL,
 #' parameterized by a (batch of) length-`k` `loc` vector and a (batch of) `k x k`
 #' `scale` matrix:  `covariance = scale @ scale.T`, where `@` denotes
 #' matrix-multiplication.
+#'
+#' Mathematical Details
+#' The probability density function (pdf) is
+#' ```
+#' pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in S(loc, scale),
+#' x = inv(scale) @ (y - loc),
+#' Z = |det(scale)|,
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `S = {loc + scale @ x : x in R^k, x_1 > 0, ..., x_k > 0}`, is an image of
+#' the positive half-space,
+#' * `||x||_1` denotes the `l1` norm of `x`, `sum_i |x_i|`,
+#' * `Z` denotes the normalization constant.
+#'
+#' The VectorExponential distribution is a member of the [location-scale
+#' family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
+#' Y = (Y_1, ...,Y_k) = scale @ X + loc
+#' ```
+#' About `VectorExponential` and `Vector` distributions in TensorFlow.
 #'
 #' The `VectorExponential` is a non-standard distribution that has useful
 #' properties.
@@ -935,7 +1282,126 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' `optimal_variational_posterior`. It returns a
 #' `MultivariateNormalLinearOperator` instance with optimal location and scale parameters.
 #'
-#' # References
+#'
+#' Mathematical Details
+#'
+#' Notation
+#' We will in general be concerned about three collections of index points, and
+#' it'll be good to give them names:
+#'  * `x[1], ..., x[N]`: observation index points -- locations of our observed data.
+#'  * `z[1], ..., z[M]`: inducing index points  -- locations of the
+#'        "summarizing" inducing points
+#'  * `t[1], ..., t[P]`: predictive index points -- locations where we are
+#'  making posterior predictions based on observations and the variational
+#'  parameters.
+#'
+#'  To lighten notation, we'll use `X, Z, T` to denote the above collections.
+#'  Similarly, we'll denote by `f(X)` the collection of function values at each of
+#'  the `x[i]`, and by `Y`, the collection of (noisy) observed data at each `x[i]`.
+#'  We'll denote kernel matrices generated from pairs of index points as `K_tt`,
+#'  `K_xt`, `K_tz`, etc, e.g.,
+#'
+#'  ```
+#'  K_tz =
+#'  | k(t[1], z[1])    k(t[1], z[2])  ...  k(t[1], z[M]) |
+#'  | k(t[2], z[1])    k(t[2], z[2])  ...  k(t[2], z[M]) |
+#'  |      ...              ...                 ...      |
+#'  | k(t[P], z[1])    k(t[P], z[2])  ...  k(t[P], z[M]) |
+#'
+#'  ```
+#'
+#'  Preliminaries
+#'  A Gaussian process is an indexed collection of random variables, any finite
+#'  collection of which are jointly Gaussian. Typically, the index set is some
+#'  finite-dimensional, real vector space, and indeed we make this assumption in
+#'  what follows. The GP may then be thought of as a distribution over functions
+#'  on the index set. Samples from the GP are functions *on the whole index set*;
+#'  these can't be represented in finite compute memory, so one typically works
+#'  with the marginals at a finite collection of index points. The properties of
+#'  the GP are entirely determined by its mean function `m` and covariance
+#'  function `k`. The generative process, assuming a mean-zero normal likelihood
+#'  with stddev `sigma`, is
+#'
+#'  ```
+#'  f ~ GP(m, k)
+#'  Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
+#'  ```
+#'
+#'  In finite terms (ie, marginalizing out all but a finite number of f(X), sigma),
+#'  we can write
+#'  ```
+#'  f(X) ~ MVN(loc=m(X), cov=K_xx)
+#'  Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
+#'  ```
+#'
+#'  Posterior inference is possible in analytical closed form but becomes
+#'  intractible as data sizes get large. See [Rasmussen, 2006][3] for details.
+#'
+#'  The VGP
+#'
+#'  The VGP is an inducing point-based approximation of an exact GP posterior,
+#'  where two approximating assumptions have been made:
+#'  1. function values at non-inducing points are mutually independent
+#'  conditioned on function values at the inducing points,
+#'  2. the (expensive) posterior over function values at inducing points
+#'  conditional on obseravtions is replaced with an arbitrary (learnable)
+#'  full-rank Gaussian distribution,
+#'
+#'  ```
+#'  q(f(Z)) = MVN(loc=m, scale=S),
+#'  ```
+#'  where `m` and `S` are parameters to be chosen by optimizing an evidence
+#'  lower bound (ELBO).
+#'  The posterior predictive distribution becomes
+#'  ```
+#'  q(f(T)) = integral df(Z) p(f(T) | f(Z)) q(f(Z)) = MVN(loc = A @ m, scale = B^(1/2))
+#'  ```
+#'  where
+#'  ```
+#'  A = K_tz @ K_zz^-1
+#'  B = K_tt - A @ (K_zz - S S^T) A^T
+#'  ```
+#'
+#'  The approximate posterior predictive distribution `q(f(T))` is what the
+#'  `VariationalGaussianProcess` class represents.
+#'
+#'  Model selection in this framework entails choosing the kernel parameters,
+#'  inducing point locations, and variational parameters. We do this by optimizing
+#'  a variational lower bound on the marginal log likelihood of observed data. The
+#'  lower bound takes the following form (see [Titsias, 2009][1] and
+#'  [Hensman, 2013][2] for details on the derivation):
+#'  ```
+#'  L(Z, m, S, Y) = MVN(loc=
+#'  (K_zx @ K_zz^-1) @ m, scale_diag=sigma).log_prob(Y) -
+#'  (Tr(K_xx - K_zx @ K_zz^-1 @ K_xz) +
+#'  Tr(S @ S^T @ K_zz^1 @ K_zx @ K_xz @ K_zz^-1)) / (2 * sigma^2) -
+#'  KL(q(f(Z)) || p(f(Z))))
+#'  ```
+#'
+#'  where in the final KL term, `p(f(Z))` is the GP prior on inducing point
+#'  function values. This variational lower bound can be computed on minibatches
+#'  of the full data set `(X, Y)`. A method to compute the *negative* variational
+#'  lower bound is implemented as `VariationalGaussianProcess$variational_loss`.
+#'
+#'  Optimal variational parameters
+#'
+#'  As described in [Titsias, 2009][1], a closed form optimum for the variational
+#'  location and scale parameters, `m` and `S`, can be computed when the
+#'  observational data are not prohibitively voluminous. The
+#'  `optimal_variational_posterior` function to computes the optimal variational
+#'  posterior distribution over inducing point function values in terms of the GP
+#'  parameters (mean and kernel functions), inducing point locations, observation
+#'  index points, and observations. Note that the inducing index point locations
+#'  must still be optimized even when these parameters are known functions of the
+#'  inducing index points. The optimal parameters are computed as follows:
+#'
+#'  ```
+#'  C = sigma^-2 (K_zz + K_zx @ K_xz)^-1
+#'  optimal Gaussian covariance: K_zz @ C @ K_zz
+#'  optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
+#'  ```
+#'
+#' References
 #' [1]: Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.
 #' http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf
 #' [2]: Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013. https://arxiv.org/abs/1309.6835
@@ -1021,6 +1487,20 @@ tfd_variational_gaussian_process <- function(kernel,
 
 #' Uniform distribution with `low` and `high` parameters.
 #'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; a, b) = I[a <= x < b] / Z
+#' Z = b - a
+#' ```
+#' where
+#' - `low = a`,
+#' - `high = b`,
+#' - `Z` is the normalizing constant, and
+#' - `I[predicate]` is the [indicator function](
+#'  https://en.wikipedia.org/wiki/Indicator_function) for `predicate`.
+#'
 #' The parameters `low` and `high` must be shaped in a way that supports
 #' broadcasting (e.g., `high - low` is a valid operation).
 #'
@@ -1056,6 +1536,20 @@ tfd_uniform <- function(low = 0,
 #' `scale` as well as the bounds, `low` and `high`, i.e., this
 #' implementation is fully reparameterizeable.
 #' For more details, see [here](https://en.wikipedia.org/wiki/Truncated_normal_distribution).
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) of this distribution is:
+#' ```
+#' pdf(x; loc, scale, low, high) =
+#'   { (2 pi)**(-0.5) exp(-0.5 y**2) / (scale * z) for low <= x <= high
+#'   { 0                                    otherwise
+#' y = (x - loc)/scale
+#' z = NormalCDF((high - loc) / scale) - NormalCDF((lower - loc) / scale)
+#' ```
+#' where:
+#' * `NormalCDF` is the cumulative density function of the Normal distribution
+#' with 0 mean and unit variance.
 #'
 #' This is a scalar distribution so the event shape is always scalar and the
 #' dimensions of the parameters defined the batch_shape.
@@ -1123,6 +1617,29 @@ tfd_triangular <- function(low = 0,
 #' Student's t-distribution.
 #'
 #' This distribution has parameters: degree of freedom `df`, location `loc`, and `scale`.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; df, mu, sigma) = (1 + y**2 / df)**(-0.5 (df + 1)) / Z
+#' where,
+#' y = (x - mu) / sigma
+#' Z = abs(sigma) sqrt(df pi) Gamma(0.5 df) / Gamma(0.5 (df + 1))
+#' ```
+#' where:
+#' * `loc = mu`,
+#' * `scale = sigma`, and,
+#' * `Z` is the normalization constant, and,
+#' * `Gamma` is the [gamma function](
+#'   https://en.wikipedia.org/wiki/Gamma_function).
+#'   The StudentT distribution is a member of the [location-scale family](
+#'     https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#'     constructed as,
+#' ```
+#' X ~ StudentT(df, loc=0, scale=1)
+#' Y = loc + scale * X
+#' ```
 #' Notice that `scale` has semantics more similar to standard deviation than
 #' variance. However it is not actually the std. deviation; the Student's
 #' t-distribution std. dev. is `scale sqrt(df / (df - 2))` when `df > 2`.
@@ -1159,4 +1676,114 @@ tfd_student_t <- function(df,
   do.call(tfp$distributions$StudentT, args)
 }
 
+#' Marginal distribution of a Student's T process at finitely many points.
+#'
+#' A Student's T process (TP) is an indexed collection of random variables, any
+#' finite collection of which are jointly Multivariate Student's T. While this
+#' definition applies to finite index sets, it is typically implicit that the
+#' index set is infinite; in applications, it is often some finite dimensional
+#' real or complex vector space. In such cases, the TP may be thought of as a
+#' distribution over (real- or complex-valued) functions defined over the index set.
+#'
+#' Just as Student's T distributions are fully specified by their degrees of
+#' freedom, location and scale, a Student's T process can be completely specified
+#' by a degrees of freedom parameter, mean function and covariance function.
+#'
+#' Let `S` denote the index set and `K` the space in which each indexed random variable
+#'  takes its values (again, often R or C).
+#'  The mean function is then a map `m: S -> K`, and the covariance function,
+#'  or kernel, is a positive-definite function `k: (S x S) -> K`. The properties
+#'  of functions drawn from a TP are entirely dictated (up to translation) by
+#'  the form of the kernel function.
+#'
+#' This `Distribution` represents the marginal joint distribution over function
+#' values at a given finite collection of points `[x[1], ..., x[N]]` from the
+#' index set `S`. By definition, this marginal distribution is just a
+#' multivariate Student's T distribution, whose mean is given by the vector
+#' `[ m(x[1]), ..., m(x[N]) ]` and whose covariance matrix is constructed from
+#' pairwise applications of the kernel function to the given inputs:
+#'
+#' ```
+#' | k(x[1], x[1])    k(x[1], x[2])  ...  k(x[1], x[N]) |
+#' | k(x[2], x[1])    k(x[2], x[2])  ...  k(x[2], x[N]) |
+#' |      ...              ...                 ...      |
+#' | k(x[N], x[1])    k(x[N], x[2])  ...  k(x[N], x[N]) |
+#'
+#' ```
+#' For this to be a valid covariance matrix, it must be symmetric and positive
+#' definite; hence the requirement that `k` be a positive definite function
+#' (which, by definition, says that the above procedure will yield PD matrices).
+#' Note also we use a parameterization as suggested in [1], which requires `df`
+#' to be greater than 2. This allows for the covariance for any finite
+#' dimensional marginal of the TP (a multivariate Student's T distribution) to
+#' just be the PD matrix generated by the kernel.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is a multivariate Student's T whose
+#' parameters are derived from the TP's properties:
+#'
+#' ```
+#' pdf(x; df, index_points, mean_fn, kernel) = MultivariateStudentT(df, loc, K)
+#' K = (df - 2) / df  * (kernel.matrix(index_points, index_points) + jitter * eye(N))
+#' loc = (x - mean_fn(index_points))^T @ K @ (x - mean_fn(index_points))
+#' ```
+#' where:
+#' * `df` is the degrees of freedom parameter for the TP.
+#' * `index_points` are points in the index set over which the TP is defined,
+#' * `mean_fn` is a callable mapping the index set to the TP's mean values,
+#' * `kernel` is `PositiveSemidefiniteKernel`-like and represents the covariance
+#'  function of the TP,
+#' * `jitter` is added to the diagonal to ensure positive definiteness up to
+#' machine precision (otherwise Cholesky-decomposition is prone to failure),
+#' * `eye(N)` is an N-by-N identity matrix.
 
+#'
+#' # References
+#' [1]: Amar Shah, Andrew Gordon Wilson, and Zoubin Ghahramani. Student-t
+#' Processes as Alternatives to Gaussian Processes. In _Artificial
+#' Intelligence and Statistics_, 2014. https://www.cs.cmu.edu/~andrewgw/tprocess.pdf
+#'
+#' @param df Positive Floating-point `Tensor` representing the degrees of freedom.
+#' Must be greater than 2.
+#' @param kernel `PositiveSemidefiniteKernel`-like instance representing the
+#' TP's covariance function.
+#' @param index_points `float` `Tensor` representing finite (batch of) vector(s) of
+#' points in the index set over which the TP is defined. Shape has the form
+#' `[b1, ..., bB, e, f1, ..., fF]` where `F` is the number of feature
+#' dimensions and must equal `kernel.feature_ndims` and `e` is the number
+#' (size) of index points in each batch. Ultimately this distribution
+#' corresponds to a `e`-dimensional multivariate Student's T. The batch
+#' shape must be broadcastable with `kernel.batch_shape` and any batch dims
+#' yielded by `mean_fn`.
+#' @param mean_fn Function that acts on `index_points` to produce a (batch
+#' of) vector(s) of mean values at `index_points`. Takes a `Tensor` of
+#' shape `[b1, ..., bB, f1, ..., fF]` and returns a `Tensor` whose shape is
+#' broadcastable with `[b1, ..., bB]`. Default value: `NULL` implies
+#' constant zero function.
+#' @param jitter `float` scalar `Tensor` added to the diagonal of the covariance
+#' matrix to ensure positive definiteness of the covariance matrix. Default value: `1e-6`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_student_t_process <- function(df,
+                                  kernel,
+                                  index_points,
+                                  mean_fn = NULL,
+                                  jitter = 1e-6,
+                                  validate_args = FALSE,
+                                  allow_nan_stats = FALSE,
+                                  name = "StudentTProcess") {
+  args <- list(
+    df = df,
+    kernel = kernel,
+    index_points = index_points,
+    mean_fn = mean_fn,
+    jitter = jitter,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$VariationalGaussianProcess, args)
+}

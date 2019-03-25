@@ -106,8 +106,113 @@ small enough to fit in memory but big enough to warrant approximating the GP
 posterior). A method to compute these optimal parameters in terms of the full
 observational data set is provided as a staticmethod,
 \code{optimal_variational_posterior}. It returns a
-\code{MultivariateNormalLinearOperator} instance with optimal location and scale parameters.References
+\code{MultivariateNormalLinearOperator} instance with optimal location and scale parameters.
 
+Mathematical Details
+
+Notation
+We will in general be concerned about three collections of index points, and
+it'll be good to give them names:
+\itemize{
+\item \code{x[1], ..., x[N]}: observation index points -- locations of our observed data.
+\item \code{z[1], ..., z[M]}: inducing index points  -- locations of the
+"summarizing" inducing points
+\item \code{t[1], ..., t[P]}: predictive index points -- locations where we are
+making posterior predictions based on observations and the variational
+parameters.
+}
+
+To lighten notation, we'll use \code{X, Z, T} to denote the above collections.
+Similarly, we'll denote by \code{f(X)} the collection of function values at each of
+the \code{x[i]}, and by \code{Y}, the collection of (noisy) observed data at each \code{x[i]}.
+We'll denote kernel matrices generated from pairs of index points as \code{K_tt},
+\code{K_xt}, \code{K_tz}, etc, e.g.,\preformatted{ K_tz =
+ | k(t[1], z[1])    k(t[1], z[2])  ...  k(t[1], z[M]) |
+ | k(t[2], z[1])    k(t[2], z[2])  ...  k(t[2], z[M]) |
+ |      ...              ...                 ...      |
+ | k(t[P], z[1])    k(t[P], z[2])  ...  k(t[P], z[M]) |
+
+}
+
+Preliminaries
+A Gaussian process is an indexed collection of random variables, any finite
+collection of which are jointly Gaussian. Typically, the index set is some
+finite-dimensional, real vector space, and indeed we make this assumption in
+what follows. The GP may then be thought of as a distribution over functions
+on the index set. Samples from the GP are functions \emph{on the whole index set};
+these can't be represented in finite compute memory, so one typically works
+with the marginals at a finite collection of index points. The properties of
+the GP are entirely determined by its mean function \code{m} and covariance
+function \code{k}. The generative process, assuming a mean-zero normal likelihood
+with stddev \code{sigma}, is\preformatted{ f ~ GP(m, k)
+ Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
+}
+
+In finite terms (ie, marginalizing out all but a finite number of f(X), sigma),
+we can write\preformatted{f(X) ~ MVN(loc=m(X), cov=K_xx)
+Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
+}
+
+Posterior inference is possible in analytical closed form but becomes
+intractible as data sizes get large. See \link[=3]{Rasmussen, 2006} for details.
+
+The VGP
+
+The VGP is an inducing point-based approximation of an exact GP posterior,
+where two approximating assumptions have been made:
+\enumerate{
+\item function values at non-inducing points are mutually independent
+conditioned on function values at the inducing points,
+\item the (expensive) posterior over function values at inducing points
+conditional on obseravtions is replaced with an arbitrary (learnable)
+full-rank Gaussian distribution,
+}\preformatted{ q(f(Z)) = MVN(loc=m, scale=S),
+}
+
+where \code{m} and \code{S} are parameters to be chosen by optimizing an evidence
+lower bound (ELBO).
+The posterior predictive distribution becomes\preformatted{q(f(T)) = integral df(Z) p(f(T) | f(Z)) q(f(Z)) = MVN(loc = A @ m, scale = B^(1/2))
+}
+
+where\preformatted{A = K_tz @ K_zz^-1
+B = K_tt - A @ (K_zz - S S^T) A^T
+}
+
+The approximate posterior predictive distribution \code{q(f(T))} is what the
+\code{VariationalGaussianProcess} class represents.
+
+Model selection in this framework entails choosing the kernel parameters,
+inducing point locations, and variational parameters. We do this by optimizing
+a variational lower bound on the marginal log likelihood of observed data. The
+lower bound takes the following form (see \link[=1]{Titsias, 2009} and
+\link[=2]{Hensman, 2013} for details on the derivation):\preformatted{L(Z, m, S, Y) = MVN(loc=
+(K_zx @ K_zz^-1) @ m, scale_diag=sigma).log_prob(Y) -
+(Tr(K_xx - K_zx @ K_zz^-1 @ K_xz) +
+Tr(S @ S^T @ K_zz^1 @ K_zx @ K_xz @ K_zz^-1)) / (2 * sigma^2) -
+KL(q(f(Z)) || p(f(Z))))
+}
+
+where in the final KL term, \code{p(f(Z))} is the GP prior on inducing point
+function values. This variational lower bound can be computed on minibatches
+of the full data set \code{(X, Y)}. A method to compute the \emph{negative} variational
+lower bound is implemented as \code{VariationalGaussianProcess$variational_loss}.
+
+Optimal variational parameters
+
+As described in \link[=1]{Titsias, 2009}, a closed form optimum for the variational
+location and scale parameters, \code{m} and \code{S}, can be computed when the
+observational data are not prohibitively voluminous. The
+\code{optimal_variational_posterior} function to computes the optimal variational
+posterior distribution over inducing point function values in terms of the GP
+parameters (mean and kernel functions), inducing point locations, observation
+index points, and observations. Note that the inducing index point locations
+must still be optimized even when these parameters are known functions of the
+inducing index points. The optimal parameters are computed as follows:\preformatted{ C = sigma^-2 (K_zz + K_zx @ K_xz)^-1
+ optimal Gaussian covariance: K_zz @ C @ K_zz
+ optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
+}
+
+References
 \link{1}: Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.
 http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf
 \link{2}: Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013. https://arxiv.org/abs/1309.6835
@@ -121,6 +226,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

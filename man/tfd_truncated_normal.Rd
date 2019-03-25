@@ -37,10 +37,6 @@ Samples from this distribution are differentiable with respect to \code{loc},
 implementation is fully reparameterizeable.
 For more details, see \href{https://en.wikipedia.org/wiki/Truncated_normal_distribution}{here}.
 }
-\details{
-This is a scalar distribution so the event shape is always scalar and the
-dimensions of the parameters defined the batch_shape.
-}
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_independent}},
@@ -49,6 +45,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}}, \code{\link{tfd_uniform}},

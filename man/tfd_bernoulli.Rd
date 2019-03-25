@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_bernoulli}
 \alias{tfd_bernoulli}
-\title{The Bernoulli distribution class.}
+\title{The Bernoulli distribution.}
 \usage{
 tfd_bernoulli(logits = NULL, probs = NULL, dtype = tf$int32,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "Bernoulli")
@@ -29,7 +29,8 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The Bernoulli distribution class.
+The Bernoulli distribution with \code{probs} parameter, i.e., the probability of a
+\code{1} outcome (vs a \code{0} outcome).
 }
 \seealso{
 Other distributions: \code{\link{tfd_independent}},
@@ -38,6 +39,7 @@ Other distributions: \code{\link{tfd_independent}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

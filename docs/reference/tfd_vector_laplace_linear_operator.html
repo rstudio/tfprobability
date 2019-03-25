@@ -118,7 +118,7 @@ matrix-multiplication." />
     
     <p>The vector laplace distribution is defined over <code>R^k</code>, and parameterized by
 a (batch of) length-k loc vector (the means) and a (batch of) k x k
-scale matrix:  <code>covariance = 2 * scale @ scale.T</code>, where @ denotes
+scale matrix:  <code>covariance = 2 * scale @ scale.T</code>, where <code>@</code> denotes
 matrix-multiplication.</p>
     
     </div>
@@ -161,8 +161,23 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>About VectorLaplace and Vector distributions in TensorFlow.
-The VectorLaplace is a non-standard distribution that has useful properties.
+    <p>Mathematical Details
+The probability density function (pdf) is,</p><pre>pdf(x; loc, scale) = exp(-||y||_1) / Z,
+y = inv(scale) @ (x - loc),
+Z = 2**k |det(scale)|,
+</pre>
+    <p>where:</p><ul>
+<li><p><code>loc</code> is a vector in <code>R^k</code>,</p></li>
+<li><p><code>scale</code> is a linear operator in <code>R^{k x k}</code>, <code>cov = scale @ scale.T</code>,</p></li>
+<li><p><code>Z</code> denotes the normalization constant, and,</p></li>
+<li><p><code>||y||_1</code> denotes the <code>l1</code> norm of <code>y</code>, `sum_i |y_i|.</p></li>
+</ul>
+    <p>The VectorLaplace distribution is a member of the <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
+constructed as,</p><pre>X = (X_1, ..., X_k), each X_i ~ Laplace(loc=0, scale=1)
+Y = (Y_1, ...,Y_k) = scale @ X + loc
+</pre>
+    <p>About VectorLaplace and Vector distributions in TensorFlow.</p>
+<p>The VectorLaplace is a non-standard distribution that has useful properties.
 The marginals Y_1, ..., Y_k are <em>not</em> Laplace random variables, due to
 the fact that the sum of Laplace random variables is not Laplace.
 Instead, Y is a vector whose components are linear combinations of Laplace
@@ -179,7 +194,7 @@ are closed under convolution.</p>
 arguments.
 The event_shape is given by last dimension of the matrix implied by
 scale. The last dimension of loc (if provided) must broadcast with this.
-Recall that covariance = 2 * scale @ scale.T.
+Recall that <code>covariance = 2 * scale @ scale.T</code>.
 Additional leading dimensions (if any) will index batches.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -191,7 +206,16 @@ Additional leading dimensions (if any) will index batches.</p>
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
+  <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
+  <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
+  <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
   <code><a href='tfd_von_mises_fisher.html'>tfd_von_mises_fisher</a></code>,

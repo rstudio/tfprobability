@@ -30,11 +30,32 @@ one or more of the statistic's batch members are undefined.}
 }
 \description{
 This distribution has parameters: degree of freedom \code{df}, location \code{loc}, and \code{scale}.
+}
+\details{
+Mathematical details
+
+The probability density function (pdf) is,\preformatted{pdf(x; df, mu, sigma) = (1 + y**2 / df)**(-0.5 (df + 1)) / Z
+where,
+y = (x - mu) / sigma
+Z = abs(sigma) sqrt(df pi) Gamma(0.5 df) / Gamma(0.5 (df + 1))
+}
+
+where:
+\itemize{
+\item \code{loc = mu},
+\item \code{scale = sigma}, and,
+\item \code{Z} is the normalization constant, and,
+\item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
+The StudentT distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
+constructed as,
+}\preformatted{X ~ StudentT(df, loc=0, scale=1)
+Y = loc + scale * X
+}
+
 Notice that \code{scale} has semantics more similar to standard deviation than
 variance. However it is not actually the std. deviation; the Student's
 t-distribution std. dev. is \code{scale sqrt(df / (df - 2))} when \code{df > 2}.
-}
-\details{
+
 Samples of this distribution are reparameterized (pathwise differentiable).
 The derivatives are computed using the approach described in the paper
 \href{https://arxiv.org/abs/1805.08498}{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018}
@@ -47,6 +68,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},
   \code{\link{tfd_truncated_normal}},

@@ -38,6 +38,17 @@ silently render incorrect outputs. Default value: FALSE.}
 \description{
 The Zipf distribution is parameterized by a power parameter.
 }
+\details{
+Mathematical Details
+The probability mass function (pmf) is,\preformatted{pmf(k; alpha, k >= 0) = (k^(-alpha)) / Z
+Z = zeta(alpha).
+}
+
+where \code{power = alpha} and Z is the normalization constant.
+\code{zeta} is the \href{https://en.wikipedia.org/wiki/Riemann_zeta_function}{Riemann zeta function}.
+Note that gradients with respect to the \code{power} parameter are not
+supported in the current implementation.
+}
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_independent}},
@@ -46,6 +57,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

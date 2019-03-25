@@ -36,6 +36,21 @@ The von Mises-Fisher distribution is a directional distribution over vectors
 on the unit hypersphere \code{S^{n-1}} embedded in n dimensions \code{(R^n)}.
 }
 \details{
+Mathematical details
+The probability density function (pdf) is,\preformatted{pdf(x; mu, kappa) = C(kappa) exp(kappa * mu^T x)
+where,
+C(kappa) = (2 pi)^{-n/2} kappa^{n/2-1} / I_{n/2-1}(kappa),
+I_v(z) being the modified Bessel function of the first kind of order v
+}
+
+where:
+\itemize{
+\item \code{mean_direction = mu}; a unit vector in \code{R^k},
+\item \code{concentration = kappa}; scalar real >= 0, concentration of samples around
+\code{mean_direction}, where 0 pertains to the uniform distribution on the
+hypersphere, and \code{\inf`` indicates a delta function at }mean_direction`.
+}
+
 NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
 instability can occur for low concentrations (<.01).
 }
@@ -47,6 +62,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

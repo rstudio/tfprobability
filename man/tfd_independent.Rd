@@ -22,7 +22,33 @@ silently render incorrect outputs. Default value: FALSE.}
 \item{name}{The name for ops managed by the distribution.  Default value: Independent + distribution.name.}
 }
 \description{
-Independent distribution from batch of distributions
+This distribution is useful for regarding a collection of independent,
+non-identical distributions as a single random variable. For example, the
+\code{Independent} distribution composed of a collection of \code{Bernoulli}
+distributions might define a distribution over an image (where each
+\code{Bernoulli} is a distribution over each pixel).
+}
+\details{
+More precisely, a collection of \code{B} (independent) \code{E}-variate random variables
+(rv) \code{{X_1, ..., X_B}}, can be regarded as a \code{[B, E]}-variate random variable
+\code{(X_1, ..., X_B)} with probability
+\code{p(x_1, ..., x_B) = p_1(x_1) * ... * p_B(x_B)} where \code{p_b(X_b)} is the
+probability of the \code{b}-th rv. More generally \code{B, E} can be arbitrary shapes.
+Similarly, the \code{Independent} distribution specifies a distribution over
+\code{[B, E]}-shaped events. It operates by reinterpreting the rightmost batch dims as
+part of the event dimensions. The \code{reinterpreted_batch_ndims} parameter
+controls the number of batch dims which are absorbed as event dims;
+\code{reinterpreted_batch_ndims <= len(batch_shape)}.  For example, the \code{log_prob}
+function entails a \code{reduce_sum} over the rightmost \code{reinterpreted_batch_ndims}
+after calling the base distribution's \code{log_prob}.  In other words, since the
+batch dimension(s) index independent distributions, the resultant multivariate
+will have independent components.
+
+Mathematical Details
+
+The probability function is,\preformatted{prob(x; reinterpreted_batch_ndims) =
+ tf.reduce_prod(dist.prob(x), axis=-1-range(reinterpreted_batch_ndims))
+}
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
@@ -31,6 +57,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},

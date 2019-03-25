@@ -33,10 +33,43 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The Multivariate Normal distribution is defined over R^k and parameterized
-by a (batch of) length-k loc vector (aka "mu") and a (batch of) \code{k x k}
-scale matrix; \code{covariance = scale @ scale.T} where \code{@} denotes
+The Multivariate Normal distribution is defined over \code{R^k`` and parameterized by a (batch of) length-k loc vector (aka "mu") and a (batch of) }k x k\code{scale matrix;}covariance = scale @ scale.T\code{where}@` denotes
 matrix-multiplication.
+}
+\details{
+Mathematical Details
+
+The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+y = inv(scale) @ (x - loc)
+Z = (2 pi)**(0.5 k) |det(scale)|
+}
+
+where:
+\itemize{
+\item \code{loc} is a vector in \code{R^k},
+\item \code{scale} is a linear operator in \code{R^{k x k}}, \code{cov = scale @ scale.T},
+\item \code{Z} denotes the normalization constant, and,
+\item \code{||y||**2} denotes the squared Euclidean norm of \code{y}.
+}
+
+A (non-batch) \code{scale} matrix is:\preformatted{scale = diag(scale_diag + scale_identity_multiplier * ones(k))
+}
+
+where:
+\itemize{
+\item \code{scale_diag.shape = [k]}, and,
+\item \code{scale_identity_multiplier.shape = []}.#'
+}
+
+Additional leading dimensions (if any) will index batches.
+
+If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{None}, then
+\code{scale} is the Identity matrix.
+The MultivariateNormal distribution is a member of the
+\href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
+constructed as,\preformatted{X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+Y = scale @ X + loc
+}
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
@@ -44,6 +77,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_one_hot_categorical}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
+  \code{\link{tfd_student_t_process}},
   \code{\link{tfd_student_t}},
   \code{\link{tfd_transformed}},
   \code{\link{tfd_triangular}},
