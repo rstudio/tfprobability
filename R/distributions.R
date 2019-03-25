@@ -1068,12 +1068,12 @@ tfd_uniform <- function(low = 0,
 #' @family distributions
 #' @export
 tfd_truncated_normal <- function(loc,
-                       scale,
-                       low,
-                       high,
-                       validate_args = FALSE,
-                       allow_nan_stats = TRUE,
-                       name = "TruncatedNormal") {
+                                 scale,
+                                 low,
+                                 high,
+                                 validate_args = FALSE,
+                                 allow_nan_stats = TRUE,
+                                 name = "TruncatedNormal") {
   args <- list(
     loc = loc,
     scale = scale,
@@ -1086,3 +1086,77 @@ tfd_truncated_normal <- function(loc,
 
   do.call(tfp$distributions$TruncatedNormal, args)
 }
+
+#' Triangular distribution with `low`, `high` and `peak` parameters.
+#'
+#' The parameters `low`, `high` and `peak` must be shaped in a way that supports
+#' broadcasting (e.g., `high - low` is a valid operation).
+#'
+#' @param low Floating point tensor, lower boundary of the output interval. Must
+#' have `low < high`. Default value: `0`.
+#' @param high Floating point tensor, upper boundary of the output interval. Must
+#' have `low < high`. Default value: `1`.
+#' @param peak Floating point tensor, mode of the output interval. Must have
+#' `low <= peak` and `peak <= high`. Default value: `0.5`.
+#'
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_triangular <- function(low = 0,
+                           high = 1,
+                           peak = 0.5,
+                           validate_args = FALSE,
+                           allow_nan_stats = TRUE,
+                           name = "Triangular") {
+  args <- list(
+    low = low,
+    high = high,
+    peak = peak,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Triangular, args)
+}
+
+#' Student's t-distribution.
+#'
+#' This distribution has parameters: degree of freedom `df`, location `loc`, and `scale`.
+#' Notice that `scale` has semantics more similar to standard deviation than
+#' variance. However it is not actually the std. deviation; the Student's
+#' t-distribution std. dev. is `scale sqrt(df / (df - 2))` when `df > 2`.
+#'
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#' The derivatives are computed using the approach described in the paper
+#' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
+#'
+#' @param df Floating-point `Tensor`. The degrees of freedom of the
+#' distribution(s). `df` must contain only positive values.
+#' @param loc Floating-point `Tensor`. The mean(s) of the distribution(s).
+#' @param scale Floating-point `Tensor`. The scaling factor(s) for the
+#' distribution(s). Note that `scale` is not technically the standard
+#' deviation of this distribution but has semantics more similar to
+#' standard deviation than variance.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_student_t <- function(df,
+                          loc,
+                          scale,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "StudentT") {
+  args <- list(
+    df = df,
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$StudentT, args)
+}
+
+

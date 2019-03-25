@@ -292,3 +292,17 @@ test_succeeds("Truncated normal distribution works", {
   m <- d %>% tfd_mean()
   expect_equal(m$get_shape()$as_list(), 2)
 })
+
+test_succeeds("Triangular distribution works", {
+
+  d <- tfd_triangular(low = 3, high = 7, peak = 5)
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), 5)
+})
+
+test_succeeds("Student T distribution works", {
+
+  d <- tfd_student_t(df = c(5,6), loc = 0, scale = 1)
+  sds <- d %>% tfd_stddev() %>% tensor_value()
+  expect_gt(sds[1], sds[2])
+})
+
