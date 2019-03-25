@@ -48,7 +48,7 @@ where:
 \item \code{mean_direction = mu}; a unit vector in \code{R^k},
 \item \code{concentration = kappa}; scalar real >= 0, concentration of samples around
 \code{mean_direction}, where 0 pertains to the uniform distribution on the
-hypersphere, and \code{\inf} indicates a delta function at \code{mean_direction}.
+hypersphere, and \code{inf} indicates a delta function at \code{mean_direction}.
 }
 
 NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
@@ -60,6 +60,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_normal}},
   \code{\link{tfd_one_hot_categorical}},
+  \code{\link{tfd_quantized}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
   \code{\link{tfd_sinh_arcsinh}},

@@ -150,7 +150,7 @@ test_succeeds("VonMises distribution works", {
   x <- c(2, 3, 4, 5, 6, 7)
   d <- tfd_von_mises(0.1, 0)
   log_prob <- d %>% tfd_log_prob(x)
-  expect_equivalent(log_prob %>% tensor_value(), rep(-log(2 * pi), 6), tol = 1e6)
+  expect_equivalent(log_prob %>% tensor_value(), rep(-log(2 * pi), 6), tol = 1e-6)
 })
 
 test_succeeds("VectorSinhArcsinhDiag distribution works", {
@@ -191,26 +191,26 @@ test_succeeds("VectorLaplaceLinearOperator distribution works", {
     scal = tf$linalg$LinearOperatorLowerTriangular(scal / tf$sqrt(2))
   )
   vla %>% tfd_covariance() %>% tensor_value()
-  expect_equal(vla %>% tfd_covariance() %>% tensor_value(), cov, tol = 1e6)
+  expect_equal(vla %>% tfd_covariance() %>% tensor_value(), cov, tol = 1e-6)
 })
 
 test_succeeds("VectorLaplaceDiag distribution works", {
 
   d <- tfd_vector_laplace_diag(loc = matrix(rep(0, 6), ncol =3))
-  expect_equivalent(d %>% tfd_stddev() %>% tensor_value(), rep(sqrt(2), 3), tol = 1e8)
+  expect_equivalent(d %>% tfd_stddev() %>% tensor_value(), rep(sqrt(2), 3), tol = 1e-8)
 })
 
 test_succeeds("VectorExponentialDiag distribution works", {
 
   d <- tfd_vector_exponential_diag(loc = c(-1, 1),scale_diag = c(1, -5))
-  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(-1 + 1, 1 - 5), tol = 1e8)
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(-1 + 1, 1 - 5), tol = 1e-8)
 })
 
 test_succeeds("VectorExponentialDiag distribution works", {
 
   s <- matrix(c(1, 0.1, 0.1, 1), ncol = 2)
   d <- tfd_vector_exponential_linear_operator(scale = tf$linalg$LinearOperatorFullMatrix(s))
-  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(1.1, 1.1), tol = 1e8)
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(1.1, 1.1), tol = 1e-8)
 })
 
 test_succeeds("VectorDiffeoMixture distribution works", {
@@ -279,7 +279,7 @@ test_succeeds("VariationalGaussianProcess distribution works", {
 test_succeeds("Uniform distribution works", {
 
   d <- tfd_uniform(low = 3, high = c(5, 6, 7))
-  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(4, 4.5, 5), tol = 1e6)
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), c(4, 4.5, 5), tol = 1e-6)
 })
 
 test_succeeds("Truncated normal distribution works", {
@@ -331,5 +331,18 @@ test_succeeds("SinhArcsinh distribution works", {
   x <- matrix(rnorm(5 * n), ncol = n)
   normal_prob <- norm %>% tfd_prob(x)
   vsad_prob <- vsad %>% tfd_prob(x)
-  expect_equal(normal_prob %>% tensor_value(), vsad_prob %>% tensor_value(), tol = 1e8)
+  expect_equal(normal_prob %>% tensor_value(), vsad_prob %>% tensor_value(), tol = 1e-6)
+})
+
+test_succeeds("Quantized distribution works", {
+
+  scale <- 1
+  loc <- 0
+  q = tfd_quantized(tfd_normal(
+    loc = loc,
+    scale = scale))
+
+  x <- c(0.1, 0.4, 1.2)
+  q_prob <- q %>% tfd_cdf(x)
+  expect_equal(q_prob %>% tensor_value() %>% which.max(), 3)
 })

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RelaxedBernoulli distribution with temperature and logits parameters. — tfd_relaxed_bernoulli • tfprobability</title>
+<title>The SinhArcsinh transformation of a distribution on <code>(-inf, inf)</code>. — tfd_sinh_arcsinh • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,16 @@
 
 
 
-<meta property="og:title" content="RelaxedBernoulli distribution with temperature and logits parameters. — tfd_relaxed_bernoulli" />
+<meta property="og:title" content="The SinhArcsinh transformation of a distribution on <code>(-inf, inf)</code>. — tfd_sinh_arcsinh" />
 
-<meta property="og:description" content="The RelaxedBernoulli is a distribution over the unit interval (0,1), which continuously approximates a Bernoulli.
-The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
-becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
-infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5." />
+<meta property="og:description" content="This distribution models a random variable, making use of
+a SinhArcsinh transformation (which has adjustable tailweight and skew),
+a rescaling, and a shift.
+The SinhArcsinh transformation of the Normal is described in great depth in
+Sinh-arcsinh distributions.
+Here we use a slightly different parameterization, in terms of tailweight
+and skewness.  Additionally we allow for distributions other than Normal,
+and control over scale as well as a &quot;shift&quot; parameter loc." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -109,42 +113,57 @@ infinity the RelaxedBernoulli becomes the constant distribution that is identica
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>RelaxedBernoulli distribution with temperature and logits parameters.</h1>
+    <h1>The SinhArcsinh transformation of a distribution on <code>(-inf, inf)</code>.</h1>
     
-    <div class="hidden name"><code>tfd_relaxed_bernoulli.Rd</code></div>
+    <div class="hidden name"><code>tfd_sinh_arcsinh.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The RelaxedBernoulli is a distribution over the unit interval (0,1), which continuously approximates a Bernoulli.
-The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
-becomes discrete with a distribution described by the logits or probs parameters, as the temperature goes to
-infinity the RelaxedBernoulli becomes the constant distribution that is identically 0.5.</p>
+    <p>This distribution models a random variable, making use of
+a <code>SinhArcsinh</code> transformation (which has adjustable tailweight and skew),
+a rescaling, and a shift.
+The <code>SinhArcsinh</code> transformation of the Normal is described in great depth in
+<a href='https://www.jstor.org/stable/27798865'>Sinh-arcsinh distributions</a>.
+Here we use a slightly different parameterization, in terms of <code>tailweight</code>
+and <code>skewness</code>.  Additionally we allow for distributions other than Normal,
+and control over <code>scale</code> as well as a "shift" parameter <code>loc</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_relaxed_bernoulli</span>(<span class='no'>temperature</span>, <span class='kw'>logits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"RelaxedBernoulli"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_sinh_arcsinh</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='kw'>skewness</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tailweight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"SinhArcsinh"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>temperature</th>
-      <td><p>An 0-D Tensor, representing the temperature of a set of RelaxedBernoulli distributions.
-The temperature should be positive.</p></td>
+      <th>loc</th>
+      <td><p>Floating-point <code>Tensor</code>.</p></td>
     </tr>
     <tr>
-      <th>logits</th>
-      <td><p>An N-D Tensor representing the log-odds of a positive event. Each entry in the Tensor
-parametrizes an independent RelaxedBernoulli distribution where the probability of an event is sigmoid(logits).
-Only one of logits or probs should be passed in.</p></td>
+      <th>scale</th>
+      <td><p><code>Tensor</code> of same <code>dtype</code> as <code>loc</code>.</p></td>
     </tr>
     <tr>
-      <th>probs</th>
-      <td><p>AAn N-D Tensor representing the probability of a positive event. Each entry in the Tensor parameterizes
-an independent Bernoulli distribution. Only one of logits or probs should be passed in.</p></td>
+      <th>skewness</th>
+      <td><p>Skewness parameter.  Default is <code>0.0</code> (no skew).</p></td>
+    </tr>
+    <tr>
+      <th>tailweight</th>
+      <td><p>Tailweight parameter. Default is <code>1.0</code> (unchanged tailweight)</p></td>
+    </tr>
+    <tr>
+      <th>distribution</th>
+      <td><p><code>tf$distributions$Distribution</code>-like instance. Distribution that is
+transformed to produce this distribution. Default is <code><a href='tfd_normal.html'>tfd_normal(0, 1)</a></code>.
+Must be a scalar-batch, scalar-event distribution.  Typically
+<code>distribution$reparameterization_type = FULLY_REPARAMETERIZED</code> or it is
+a function of non-trainable parameters. WARNING: If you backprop through
+a <code>SinhArcsinh</code> sample and <code>distribution</code> is not
+<code>FULLY_REPARAMETERIZED</code> yet is a function of trainable variables, then
+the gradient will be incorrect!</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -166,28 +185,43 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The RelaxedBernoulli distribution is a reparameterized continuous
-distribution that is the binary special case of the RelaxedOneHotCategorical
-distribution (Maddison et al., 2016; Jang et al., 2016). For details on the
-binary special case see the appendix of Maddison et al. (2016) where it is
-referred to as BinConcrete. If you use this distribution, please cite both papers.</p>
-<p>Some care needs to be taken for loss functions that depend on the
-log-probability of RelaxedBernoullis, because computing log-probabilities of
-the RelaxedBernoulli can suffer from underflow issues. In many case loss
-functions such as these are invariant under invertible transformations of
-the random variables. The KL divergence, found in the variational autoencoder
-loss, is an example. Because RelaxedBernoullis are sampled by a Logistic
-random variable followed by a <code>tf$sigmoid</code> op, one solution is to treat
-the Logistic as the random variable and <code>tf$sigmoid</code> as downstream. The
-KL divergences of two Logistics, which are always followed by a <code>tf.sigmoid</code>
-op, is equivalent to evaluating KL divergences of RelaxedBernoulli samples.
-See Maddison et al., 2016 for more details where this distribution is called
-the BinConcrete.
-An alternative approach is to evaluate Bernoulli log probability or KL
-directly on relaxed samples, as done in Jang et al., 2016. In this case,
-guarantees on the loss are usually violated. For instance, using a Bernoulli
-KL in a relaxed ELBO is no longer a lower bound on the log marginal
-probability of the observation. Thus care and early stopping are important.</p>
+    <p>Mathematical Details</p>
+<p>Given random variable <code>Z</code>, we define the SinhArcsinh
+transformation of <code>Z</code>, <code>Y</code>, parameterized by
+<code>(loc, scale, skewness, tailweight)</code>, via the relation:</p><pre>Y := loc + scale * F(Z) * (2 / F_0(2))
+F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
+F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
+</pre>
+    <p>This distribution is similar to the location-scale transformation
+<code>L(Z) := loc + scale * Z</code> in the following ways:</p><ul>
+<li><p>If <code>skewness = 0</code> and <code>tailweight = 1</code> (the defaults), <code>F(Z) = Z</code>, and then
+<code>Y = L(Z)</code> exactly.</p></li>
+<li><p><code>loc</code> is used in both to shift the result by a constant factor.</p></li>
+<li><p>The multiplication of <code>scale</code> by <code>2 / F_0(2)</code> ensures that if <code>skewness = 0</code>
+<code>P[Y - loc &lt;= 2 * scale] = P[L(Z) - loc &lt;= 2 * scale]</code>.
+Thus it can be said that the weights in the tails of <code>Y</code> and <code>L(Z)</code> beyond
+<code>loc + 2 * scale</code> are the same.</p></li>
+</ul>
+    <p>This distribution is different than <code>loc + scale * Z</code> due to the
+reshaping done by <code>F</code>:</p><ul>
+<li><p>Positive (negative) <code>skewness</code> leads to positive (negative) skew.</p></li>
+<li><p>positive skew means, the mode of <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>F(Z)</a></code> is "tilted" to the right.</p></li>
+<li><p>positive skew means positive values of <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>F(Z)</a></code> become more likely, and
+negative values become less likely.</p></li>
+<li><p>Larger (smaller) <code>tailweight</code> leads to fatter (thinner) tails.</p></li>
+<li><p>Fatter tails mean larger values of <code>|F(Z)|</code> become more likely.</p></li>
+<li><p><code>tailweight &lt; 1</code> leads to a distribution that is "flat" around <code>Y = loc</code>,
+and a very steep drop-off in the tails.</p></li>
+<li><p><code>tailweight &gt; 1</code> leads to a distribution more peaked at the mode with
+heavier tails.</p></li>
+</ul>
+    <p>To see the argument about the tails, note that for <code>|Z| &gt;&gt; 1</code> and
+<code>|Z| &gt;&gt; (|skewness| * tailweight)**tailweight</code>, we have
+<code>Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)</code>.</p>
+<p>To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)</code>,</p><pre>P[(Y - loc) / scale &lt;= 2] = P[F(Z) * (2 / F_0(2)) &lt;= 2]
+                          = P[F(Z) &lt;= F_0(2)]
+                          = P[Z &lt;= 2]  (if F = F_0).
+</pre>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -197,8 +231,8 @@ probability of the observation. Thus care and early stopping are important.</p>
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
+  <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
-  <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a></code>,
   <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
   <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,

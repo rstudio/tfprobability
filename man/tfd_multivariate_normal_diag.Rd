@@ -75,6 +75,7 @@ Y = scale @ X + loc
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_independent}}, \code{\link{tfd_normal}},
   \code{\link{tfd_one_hot_categorical}},
+  \code{\link{tfd_quantized}},
   \code{\link{tfd_relaxed_bernoulli}},
   \code{\link{tfd_relaxed_one_hot_categorical}},
   \code{\link{tfd_sinh_arcsinh}},

@@ -172,7 +172,7 @@ I_v(z) being the modified Bessel function of the first kind of order v
 <li><p><code>mean_direction = mu</code>; a unit vector in <code>R^k</code>,</p></li>
 <li><p><code>concentration = kappa</code>; scalar real &gt;= 0, concentration of samples around
 <code>mean_direction</code>, where 0 pertains to the uniform distribution on the
-hypersphere, and <code>`` indicates a delta function at </code>mean_direction`.</p></li>
+hypersphere, and <code>inf</code> indicates a delta function at <code>mean_direction</code>.</p></li>
 </ul>
     <p>NOTE: Currently only n in 2, 3, 4, 5 are supported. For n=5 some numerical
 instability can occur for low concentrations (&lt;.01).</p>
@@ -184,8 +184,10 @@ instability can occur for low concentrations (&lt;.01).</p>
   <code><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></code>,
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
+  <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a></code>,
   <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
   <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,

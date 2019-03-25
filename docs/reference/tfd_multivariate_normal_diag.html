@@ -183,7 +183,7 @@ Z = (2 pi)**(0.5 k) |det(scale)|
 <li><p><code>scale_identity_multiplier.shape = []</code>.#'</p></li>
 </ul>
     <p>Additional leading dimensions (if any) will index batches.</p>
-<p>If both <code>scale_diag</code> and <code>scale_identity_multiplier</code> are <code>None</code>, then
+<p>If both <code>scale_diag</code> and <code>scale_identity_multiplier</code> are <code>NULL</code>, then
 <code>scale</code> is the Identity matrix.
 The MultivariateNormal distribution is a member of the
 <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
@@ -196,8 +196,10 @@ Y = scale @ X + loc
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>, <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
+  <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
+  <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a></code>,
   <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
   <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,

@@ -569,7 +569,7 @@ tfd_wishart <- function(df,
 #' * `mean_direction = mu`; a unit vector in `R^k`,
 #' * `concentration = kappa`; scalar real >= 0, concentration of samples around
 #' `mean_direction`, where 0 pertains to the uniform distribution on the
-#' hypersphere, and `\inf` indicates a delta function at `mean_direction`.
+#' hypersphere, and `inf` indicates a delta function at `mean_direction`.
 #'
 #' NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
 #' instability can occur for low concentrations (<.01).
@@ -1882,4 +1882,87 @@ tfd_sinh_arcsinh <- function(loc,
 
   do.call(tfp$distributions$SinhArcsinh, args)
 }
+
+
+#' Distribution representing the quantization `Y = ceiling(X)`.
+#'
+#' Definition in Terms of Sampling
+#'
+#' ```
+#' 1. Draw X
+#' 2. Set Y <-- ceiling(X)
+#' 3. If Y < low, reset Y <-- low
+#' 4. If Y > high, reset Y <-- high
+#' 5. Return Y
+#' ```
+#'
+#' Definition in Terms of the Probability Mass Function
+#'
+#' Given scalar random variable `X`, we define a discrete random variable `Y`
+#' supported on the integers as follows:
+#'
+#'  ```
+#'  P[Y = j] := P[X <= low],  if j == low,
+#'           := P[X > high - 1],  j == high,
+#'           := 0, if j < low or j > high,
+#'           := P[j - 1 < X <= j],  all other j.
+#'  ```
+#'
+#' Conceptually, without cutoffs, the quantization process partitions the real
+#' line `R` into half open intervals, and identifies an integer `j` with the
+#' right endpoints:
+#'
+#'  ```
+#'  R = ... (-2, -1](-1, 0](0, 1](1, 2](2, 3](3, 4] ...
+#'  j = ...      -1      0     1     2     3     4  ...
+#'  ```
+#'
+#'  `P[Y = j]` is the mass of `X` within the `jth` interval.
+#'  If `low = 0`, and `high = 2`, then the intervals are redrawn
+#'  and `j` is re-assigned:
+#'
+#'  ```
+#'  R = (-infty, 0](0, 1](1, infty)
+#'  j =          0     1     2
+#'  ```
+#'
+#'  `P[Y = j]` is still the mass of `X` within the `jth` interval.
+#'
+#'  References
+#'  [1]: Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma.
+#'  PixelCNN++: Improving the PixelCNN with discretized logistic mixture
+#'  likelihood and other modifications.
+#'  International Conference on Learning Representations_, 2017.
+#'  https://arxiv.org/abs/1701.05517
+#'  [2]: Aaron van den Oord et al. Parallel WaveNet: Fast High-Fidelity Speech
+#'  Synthesis. _arXiv preprint arXiv:1711.10433_, 2017. https://arxiv.org/abs/1711.10433
+#'
+#' @param distribution  The base distribution class to transform. Typically an
+#' instance of `Distribution`.
+#' @param low `Tensor` with same `dtype` as this distribution and shape
+#' able to be added to samples. Should be a whole number. Default `NULL`.
+#' If provided, base distribution's `prob` should be defined at `low`.
+#' @param high `Tensor` with same `dtype` as this distribution and shape
+#' able to be added to samples. Should be a whole number. Default `NULL`.
+#' If provided, base distribution's `prob` should be defined at `high - 1`.
+#' `high` must be strictly greater than `low`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_quantized <- function(distribution,
+                          low = NULL,
+                          high = NULL,
+                          validate_args = FALSE,
+                          name = "QuantizedDistribution") {
+  args <- list(
+    distribution = distribution,
+    low = low,
+    high = high,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$QuantizedDistribution, args)
+}
+
 
