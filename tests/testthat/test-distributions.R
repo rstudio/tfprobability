@@ -356,7 +356,7 @@ test_succeeds("Poisson distribution works", {
 })
 
 test_succeeds("PoissonLogNormalQuadratureCompound distribution works", {
-p
+
   d <-
     tfd_poisson_log_normal_quadrature_compound(
       loc = c(0.,-0.5),
@@ -367,4 +367,16 @@ p
   expect_equal((d %>% tfd_stddev())$get_shape()$as_list(), 2)
 })
 
+test_succeeds("Pareto distribution works", {
+
+  d <- tfd_pareto(2)
+  expect_equal(d %>% tfd_mode() %>% tensor_value(), 1)
+})
+
+test_succeeds("NegativeBinomial distribution works", {
+
+  d <- tfd_negative_binomial(total_count = 23, probs = 0.1)
+  nb_mean <- function(r, p) r * p /(1 - p)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), nb_mean(23, 0.1), tol = 1e7)
+})
 

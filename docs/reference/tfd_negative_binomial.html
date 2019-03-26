@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Truncated Normal distribution. — tfd_truncated_normal • tfprobability</title>
+<title>NegativeBinomial distribution. — tfd_negative_binomial • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +30,12 @@
 
 
 
-<meta property="og:title" content="The Truncated Normal distribution. — tfd_truncated_normal" />
+<meta property="og:title" content="NegativeBinomial distribution. — tfd_negative_binomial" />
 
-<meta property="og:description" content="The truncated normal is a normal distribution bounded between low
-and high (the pdf is 0 outside these bounds and renormalized).
-Samples from this distribution are differentiable with respect to loc,
-scale as well as the bounds, low and high, i.e., this
-implementation is fully reparameterizeable.
-For more details, see here." />
+<meta property="og:description" content="The NegativeBinomial distribution is related to the experiment of performing
+Bernoulli trials in sequence. Given a Bernoulli trial with probability p of
+success, the NegativeBinomial distribution represents the distribution over
+the number of successes s that occur until we observe f failures." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,46 +109,53 @@ For more details, see here." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The Truncated Normal distribution.</h1>
+    <h1>NegativeBinomial distribution.</h1>
     
-    <div class="hidden name"><code>tfd_truncated_normal.Rd</code></div>
+    <div class="hidden name"><code>tfd_negative_binomial.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The truncated normal is a normal distribution bounded between <code>low</code>
-and <code>high</code> (the pdf is 0 outside these bounds and renormalized).
-Samples from this distribution are differentiable with respect to <code>loc</code>,
-<code>scale</code> as well as the bounds, <code>low</code> and <code>high</code>, i.e., this
-implementation is fully reparameterizeable.
-For more details, see <a href='https://en.wikipedia.org/wiki/Truncated_normal_distribution'>here</a>.</p>
+    <p>The NegativeBinomial distribution is related to the experiment of performing
+Bernoulli trials in sequence. Given a Bernoulli trial with probability <code>p</code> of
+success, the NegativeBinomial distribution represents the distribution over
+the number of successes <code>s</code> that occur until we observe <code>f</code> failures.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_truncated_normal</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='no'>low</span>, <span class='no'>high</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"TruncatedNormal"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_negative_binomial</span>(<span class='no'>total_count</span>, <span class='kw'>logits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"NegativeBinomial"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>loc</th>
-      <td><p>Floating point tensor; the means of the distribution(s).</p></td>
+      <th>total_count</th>
+      <td><p>Non-negative floating-point <code>Tensor</code> with shape
+broadcastable to <code>[B1,..., Bb]</code> with <code>b &gt;= 0</code> and the same dtype as
+<code>probs</code> or <code>logits</code>. Defines this as a batch of <code>N1 x ... x Nm</code>
+different Negative Binomial distributions. In practice, this represents
+the number of negative Bernoulli trials to stop at (the <code>total_count</code>
+of failures), but this is still a valid distribution when
+<code>total_count</code> is a non-integer.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>loating point tensor; the stddevs of the distribution(s).
-Must contain only positive values.</p></td>
+      <th>logits</th>
+      <td><p>Floating-point <code>Tensor</code> with shape broadcastable to
+<code>[B1, ..., Bb]</code> where <code>b &gt;= 0</code> indicates the number of batch dimensions.
+Each entry represents logits for the probability of success for
+independent Negative Binomial distributions and must be in the open
+interval <code>(-inf, inf)</code>. Only one of <code>logits</code> or <code>probs</code> should be
+specified.</p></td>
     </tr>
     <tr>
-      <th>low</th>
-      <td><p><code>float</code> <code>Tensor</code> representing lower bound of the distribution's
-support. Must be such that <code>low &lt; high</code>.</p></td>
-    </tr>
-    <tr>
-      <th>high</th>
-      <td><p><code>float</code> <code>Tensor</code> representing upper bound of the distribution's
-support. Must be such that <code>low &lt; high</code>.</p></td>
+      <th>probs</th>
+      <td><p>Positive floating-point <code>Tensor</code> with shape broadcastable to
+<code>[B1, ..., Bb]</code> where <code>b &gt;= 0</code> indicates the number of batch dimensions.
+Each entry represents the probability of success for independent
+Negative Binomial distributions and must be in the open interval
+<code>(0, 1)</code>. Only one of <code>logits</code> or <code>probs</code> should be specified.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -170,12 +175,23 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The probability mass function (pmf) is,</p><pre>pmf(s; f, p) = p**s (1 - p)**f / Z
+Z = s! (f - 1)! / (s + f - 1)!
+</pre>
+    <p>where:</p><ul>
+<li><p><code>total_count = f</code>,</p></li>
+<li><p><code>probs = p</code>,</p></li>
+<li><p><code>Z</code> is the normalizaing constant, and,</p></li>
+<li><p><code>n!</code> is the factorial of <code>n</code>.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
   <code><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></code>,
-  <code><a href='tfd_negative_binomial.html'>tfd_negative_binomial</a></code>,
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_pareto.html'>tfd_pareto</a></code>,
@@ -187,7 +203,9 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
   <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
-  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>, <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
   <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
   <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
   <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
@@ -206,6 +224,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

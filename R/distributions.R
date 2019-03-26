@@ -2080,6 +2080,7 @@ tfd_poisson_log_normal_quadrature_compound <- function(loc,
     quadrature_size = as.integer(quadrature_size),
     quadrature_fn = quadrature_fn,
     validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
     name = name
   )
 
@@ -2087,3 +2088,103 @@ tfd_poisson_log_normal_quadrature_compound <- function(loc,
           args)
 }
 
+#' Pareto distribution.
+#'
+#' The Pareto distribution is parameterized by a `scale` and a
+#' `concentration` parameter.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; alpha, scale, x >= scale) = alpha * scale ** alpha / x ** (alpha + 1)
+#' ```#'
+#' where `concentration = alpha`.
+#'
+#' Note that `scale` acts as a scaling parameter, since
+#' `Pareto(c, scale).pdf(x) == Pareto(c, 1.).pdf(x / scale)`.
+#' The support of the distribution is defined on `[scale, infinity)`.
+#'
+#' @param concentration Floating point tensor. Must contain only positive values.
+#' @param scale Floating point tensor, equivalent to `mode`. `scale` also
+#' restricts the domain of this distribution to be in `[scale, inf)`.
+#' Must contain only positive values. Default value: `1`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_pareto <- function(concentration,
+                       scale = 1,
+                       validate_args = FALSE,
+                       allow_nan_stats = TRUE,
+                       name = "Pareto") {
+  args <- list(
+    concentration = concentration,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Pareto,
+          args)
+}
+
+#' NegativeBinomial distribution.
+#'
+#' The NegativeBinomial distribution is related to the experiment of performing
+#' Bernoulli trials in sequence. Given a Bernoulli trial with probability `p` of
+#' success, the NegativeBinomial distribution represents the distribution over
+#' the number of successes `s` that occur until we observe `f` failures.
+#'
+#' The probability mass function (pmf) is,
+#' ```
+#' pmf(s; f, p) = p**s (1 - p)**f / Z
+#' Z = s! (f - 1)! / (s + f - 1)!
+#' ```
+#'
+#' where:
+#' * `total_count = f`,
+#' * `probs = p`,
+#' * `Z` is the normalizaing constant, and,
+#' * `n!` is the factorial of `n`.
+#'
+#' @param total_count Non-negative floating-point `Tensor` with shape
+#' broadcastable to `[B1,..., Bb]` with `b >= 0` and the same dtype as
+#' `probs` or `logits`. Defines this as a batch of `N1 x ... x Nm`
+#' different Negative Binomial distributions. In practice, this represents
+#' the number of negative Bernoulli trials to stop at (the `total_count`
+#' of failures), but this is still a valid distribution when
+#' `total_count` is a non-integer.
+#' @param logits Floating-point `Tensor` with shape broadcastable to
+#' `[B1, ..., Bb]` where `b >= 0` indicates the number of batch dimensions.
+#' Each entry represents logits for the probability of success for
+#' independent Negative Binomial distributions and must be in the open
+#' interval `(-inf, inf)`. Only one of `logits` or `probs` should be
+#' specified.
+#' @param probs Positive floating-point `Tensor` with shape broadcastable to
+#' `[B1, ..., Bb]` where `b >= 0` indicates the number of batch dimensions.
+#' Each entry represents the probability of success for independent
+#' Negative Binomial distributions and must be in the open interval
+#' `(0, 1)`. Only one of `logits` or `probs` should be specified.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_negative_binomial <- function(total_count,
+                                  logits = NULL,
+                                  probs = NULL,
+                                  validate_args = FALSE,
+                                  allow_nan_stats = TRUE,
+                                  name = "NegativeBinomial") {
+  args <- list(
+    total_count = total_count,
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$NegativeBinomial,
+          args)
+}

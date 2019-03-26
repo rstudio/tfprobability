@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Truncated Normal distribution. — tfd_truncated_normal • tfprobability</title>
+<title>Pareto distribution. — tfd_pareto • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +30,10 @@
 
 
 
-<meta property="og:title" content="The Truncated Normal distribution. — tfd_truncated_normal" />
+<meta property="og:title" content="Pareto distribution. — tfd_pareto" />
 
-<meta property="og:description" content="The truncated normal is a normal distribution bounded between low
-and high (the pdf is 0 outside these bounds and renormalized).
-Samples from this distribution are differentiable with respect to loc,
-scale as well as the bounds, low and high, i.e., this
-implementation is fully reparameterizeable.
-For more details, see here." />
+<meta property="og:description" content="The Pareto distribution is parameterized by a scale and a
+concentration parameter." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -111,46 +107,33 @@ For more details, see here." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The Truncated Normal distribution.</h1>
+    <h1>Pareto distribution.</h1>
     
-    <div class="hidden name"><code>tfd_truncated_normal.Rd</code></div>
+    <div class="hidden name"><code>tfd_pareto.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The truncated normal is a normal distribution bounded between <code>low</code>
-and <code>high</code> (the pdf is 0 outside these bounds and renormalized).
-Samples from this distribution are differentiable with respect to <code>loc</code>,
-<code>scale</code> as well as the bounds, <code>low</code> and <code>high</code>, i.e., this
-implementation is fully reparameterizeable.
-For more details, see <a href='https://en.wikipedia.org/wiki/Truncated_normal_distribution'>here</a>.</p>
+    <p>The Pareto distribution is parameterized by a <code>scale</code> and a
+<code>concentration</code> parameter.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_truncated_normal</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='no'>low</span>, <span class='no'>high</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"TruncatedNormal"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_pareto</span>(<span class='no'>concentration</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Pareto"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>loc</th>
-      <td><p>Floating point tensor; the means of the distribution(s).</p></td>
+      <th>concentration</th>
+      <td><p>Floating point tensor. Must contain only positive values.</p></td>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>loating point tensor; the stddevs of the distribution(s).
-Must contain only positive values.</p></td>
-    </tr>
-    <tr>
-      <th>low</th>
-      <td><p><code>float</code> <code>Tensor</code> representing lower bound of the distribution's
-support. Must be such that <code>low &lt; high</code>.</p></td>
-    </tr>
-    <tr>
-      <th>high</th>
-      <td><p><code>float</code> <code>Tensor</code> representing upper bound of the distribution's
-support. Must be such that <code>low &lt; high</code>.</p></td>
+      <td><p>Floating point tensor, equivalent to <code>mode</code>. <code>scale</code> also
+restricts the domain of this distribution to be in <code>[scale, inf)</code>.
+Must contain only positive values. Default value: <code>1</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -170,6 +153,17 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details</p>
+<p>The probability density function (pdf) is,</p><pre>pdf(x; alpha, scale, x &gt;= scale) = alpha * scale ** alpha / x ** (alpha + 1)
+```#'
+where `concentration = alpha`.
+    Note that `scale` acts as a scaling parameter, since
+`Pareto(c, scale).pdf(x) == Pareto(c, 1.).pdf(x / scale)`.
+The support of the distribution is defined on `[scale, infinity)`.
+</pre>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
@@ -178,7 +172,6 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_negative_binomial.html'>tfd_negative_binomial</a></code>,
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
-  <code><a href='tfd_pareto.html'>tfd_pareto</a></code>,
   <code><a href='tfd_poisson_log_normal_quadrature_compound.html'>tfd_poisson_log_normal_quadrature_compound</a></code>,
   <code><a href='tfd_poisson.html'>tfd_poisson</a></code>, <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
@@ -187,7 +180,9 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
   <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed.html'>tfd_transformed</a></code>,
-  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>, <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
   <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
   <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
   <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
@@ -206,6 +201,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 
