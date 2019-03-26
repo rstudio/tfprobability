@@ -2712,4 +2712,134 @@ tfd_categorical <- function(logits = NULL,
           args)
 }
 
+#' Mixture (same-family) distribution.
+#'
+#' The `MixtureSameFamily` distribution implements a (batch of) mixture
+#' distribution where all components are from different parameterizations of the
+#' same distribution type. It is parameterized by a `Categorical` "selecting
+#' distribution" (over `k` components) and a components distribution, i.e., a
+#' `Distribution` with a rightmost batch shape (equal to `[k]`) which indexes
+#' each (batch of) component.
+#'
+#' @param mixture_distribution `tfp$distributions$Categorical`-like instance.
+#' Manages the probability of selecting components. The number of
+#' categories must match the rightmost batch dimension of the
+#' `components_distribution`. Must have either scalar `batch_shape` or
+#' `batch_shape` matching `components_distribution$batch_shape[:-1]`.
+#' @param components_distribution `tfp$distributions$Distribution`-like instance.
+#' Right-most batch dimension indexes components.
+#' @param reparameterize Logical, default `FALSE`. Whether to reparameterize
+#' samples of the distribution using implicit reparameterization gradients
+#' [(Figurnov et al., 2018)][1]. The gradients for the mixture logits are
+#' equivalent to the ones described by [(Graves, 2016)][2]. The gradients
+#' for the components parameters are also computed using implicit
+#' reparameterization (as opposed to ancestral sampling), meaning that
+#' all components are updated every step.
+#' Only works when:
+#' (1) components_distribution is fully reparameterized;
+#' (2) components_distribution is either a scalar distribution or
+#' fully factorized (tfd.Independent applied to a scalar distribution);
+#' (3) batch shape has a known rank.
+#' Experimental, may be slow and produce infs/NaNs.
+#'
+#' References
+#' [1]: Michael Figurnov, Shakir Mohamed and Andriy Mnih. Implicit
+#' reparameterization gradients. In _Neural Information Processing
+#' Systems_, 2018. https://arxiv.org/abs/1805.08498
+#' [2]: Alex Graves. Stochastic Backpropagation through Mixture Density
+#' Distributions. _arXiv_, 2016. https://arxiv.org/abs/1607.05690
+
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_mixture_same_family <- function(mixture_distribution,
+                                    components_distribution,
+                                    reparameterize = FALSE,
+                                    validate_args = FALSE,
+                                    allow_nan_stats = TRUE,
+                                    name = "MixtureSameFamily") {
+  args <- list(
+    mixture_distribution = mixture_distribution,
+    components_distribution = components_distribution,
+    reparameterize = reparameterize,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$MixtureSameFamily,
+          args)
+}
+
+#' The log-normal distribution.
+#'
+#' The LogNormal distribution models positive-valued random variables
+#' whose logarithm is normally distributed with mean `loc` and
+#' standard deviation `scale`. It is constructed as the exponential
+#' transformation of a Normal distribution.
+#' @param loc Floating-point `Tensor`; the means of the underlying
+#' Normal distribution(s).
+#' @param scale Floating-point `Tensor`; the stddevs of the underlying
+#' Normal distribution(s).
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_log_normal <- function(loc = NULL,
+                           scale = NULL,
+                           validate_args = FALSE,
+                           allow_nan_stats = TRUE,
+                           name = "LogNormal") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$LogNormal,
+          args)
+}
+
+#' The Logistic distribution with location `loc` and `scale` parameters.
+#'
+#' Mathematical details
+#'
+#' The cumulative density function of this distribution is:
+#' ```
+#' cdf(x; mu, sigma) = 1 / (1 + exp(-(x - mu) / sigma))
+#' ```
+#' where `loc = mu` and `scale = sigma`.
+#'
+#' The Logistic distribution is a member of the [location-scale family](
+#' https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#'
+#' ```
+#' X ~ Logistic(loc=0, scale=1)
+#' Y = loc + scale * X
+#' ```
+#' @param loc Floating point tensor, the means of the distribution(s).
+#' @param scale Floating point tensor, the scales of the distribution(s). Must
+#' contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_logistic <- function(loc,
+                         scale ,
+                         validate_args = FALSE,
+                         allow_nan_stats = TRUE,
+                         name = "Logistic") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Logistic,
+          args)
+}
+
 

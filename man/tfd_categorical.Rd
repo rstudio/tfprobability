@@ -64,8 +64,10 @@ Note: This condition is validated only when \code{validate_args = TRUE}.
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
-  \code{\link{tfd_independent}}, \code{\link{tfd_mixture}},
-  \code{\link{tfd_multinomial}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_log_normal}}, \code{\link{tfd_logistic}},
+  \code{\link{tfd_mixture_same_family}},
+  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
   \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
   \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_multivariate_normal_full_covariance}},

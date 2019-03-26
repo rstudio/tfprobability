@@ -374,7 +374,7 @@ test_succeeds("NegativeBinomial distribution works", {
 
   d <- tfd_negative_binomial(total_count = 23, probs = 0.1)
   nb_mean <- function(r, p) r * p /(1 - p)
-  expect_equal(d %>% tfd_mean() %>% tensor_value(), nb_mean(23, 0.1), tol = 1e7)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), nb_mean(23, 0.1), tol = 1e-7)
 })
 
 test_succeeds("MultivariateNormalTriL distribution works", {
@@ -454,5 +454,41 @@ test_succeeds("Mixture distribution works", {
 })
 
 
+test_succeeds("Categorical distribution works", {
+
+  d <- tfd_categorical(logits = log(c(0.1, 0.5, 0.4)))
+  empirical_prob <- tf$cast(tf$histogram_fixed_width(d %>% tfd_sample(1e4),
+                                                     c(0L, 2L),
+                                                     nbins = 3L),
+                            dtype = tf$float32) / 1e4
+  expect_equal(which.max(empirical_prob %>% tensor_value()), 2)
+})
+
+test_succeeds("Mixture same family distribution works", {
+
+  d <- tfd_mixture_same_family(
+    mixture_distribution = tfd_categorical(probs = c(0.3, 0.7)),
+    components_distribution = tfd_normal(loc = c(-1, 1),
+                                         scale = c(0.1, 0.5))
+  )
+
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 0.4, tol = 1e-7)
+})
+
+test_succeeds("Log normal distribution works", {
+
+  mu <- 1.3
+  v <- 0.5
+  d <- tfd_log_normal(loc = mu, scale = sqrt(v))
+  expected_mean <- exp(mu + v/2)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), expected_mean)
+})
+
+test_succeeds("Logistic distribution works", {
+
+  d <- tfd_logistic(loc = c(1, 2), scale = c(11, 22))
+  d %>% tfd_prob(c(0, 1.5))
+  expect_equal((d %>% tfd_prob(c(0, 1.5)))$get_shape()$as_list(), 2)
+})
 
 

@@ -74,8 +74,10 @@ Y = scale @ X + loc
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
-  \code{\link{tfd_independent}}, \code{\link{tfd_mixture}},
-  \code{\link{tfd_multinomial}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_log_normal}}, \code{\link{tfd_logistic}},
+  \code{\link{tfd_mixture_same_family}},
+  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
   \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
   \code{\link{tfd_multivariate_normal_full_covariance}},
   \code{\link{tfd_multivariate_normal_linear_operator}},
