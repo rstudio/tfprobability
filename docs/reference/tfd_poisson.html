@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The matrix Wishart distribution on positive definite matrices. — tfd_wishart • tfprobability</title>
+<title>Poisson distribution. — tfd_poisson • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="The matrix Wishart distribution on positive definite matrices. — tfd_wishart" />
+<meta property="og:title" content="Poisson distribution. — tfd_poisson" />
 
-<meta property="og:description" content="This distribution is defined by a scalar number of degrees of freedom df and
-an instance of LinearOperator, which provides matrix-free access to a
-symmetric positive definite operator, which defines the scale matrix." />
+<meta property="og:description" content="The Poisson distribution is parameterized by an event rate parameter." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,54 +106,42 @@ symmetric positive definite operator, which defines the scale matrix." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The matrix Wishart distribution on positive definite matrices.</h1>
+    <h1>Poisson distribution.</h1>
     
-    <div class="hidden name"><code>tfd_wishart.Rd</code></div>
+    <div class="hidden name"><code>tfd_poisson.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This distribution is defined by a scalar number of degrees of freedom df and
-an instance of LinearOperator, which provides matrix-free access to a
-symmetric positive definite operator, which defines the scale matrix.</p>
+    <p>The Poisson distribution is parameterized by an event <code>rate</code> parameter.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_wishart</span>(<span class='no'>df</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale_tril</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>input_output_cholesky</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Wishart"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_poisson</span>(<span class='kw'>rate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>log_rate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>interpolate_nondiscrete</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Poisson"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>float or double tensor, the degrees of freedom of the
-distribution(s). df must be greater than or equal to k.</p></td>
+      <th>rate</th>
+      <td><p>Floating point tensor, the rate parameter. <code>rate</code> must be positive.
+Must specify exactly one of <code>rate</code> and <code>log_rate</code>.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>float or double Tensor. The symmetric positive definite
-scale matrix of the distribution. Exactly one of scale and 'scale_tril must be passed.</p></td>
+      <th>log_rate</th>
+      <td><p>Floating point tensor, the log of the rate parameter.
+Must specify exactly one of <code>rate</code> and <code>log_rate</code>.</p></td>
     </tr>
     <tr>
-      <th>scale_tril</th>
-      <td><p>float or double Tensor. The Cholesky factorization
-of the symmetric positive definite scale matrix of the distribution.
-Exactly one of scale and 'scale_tril must be passed.</p></td>
-    </tr>
-    <tr>
-      <th>input_output_cholesky</th>
-      <td><p>Logical. If TRUE, functions whose input or
-output have the semantics of samples assume inputs are in Cholesky form
-and return outputs in Cholesky form. In particular, if this flag is
-TRUE, input to log_prob is presumed of Cholesky form and output from
-sample, mean, and mode are of Cholesky form.  Setting this
-argument to TRUE is purely a computational optimization and does not
-change the underlying distribution; for instance, mean returns the
-Cholesky of the mean, not the mean of Cholesky factors. The variance
-and stddev methods are unaffected by this flag.
-Default value: FALSE (i.e., input/output does not have Cholesky semantics).</p></td>
+      <th>interpolate_nondiscrete</th>
+      <td><p>Logical. When <code>FALSE</code>,
+<code>log_prob</code> returns <code>-inf</code> (and <code>prob</code> returns <code>0</code>) for non-integer
+inputs. When <code>TRUE</code>, <code>log_prob</code> evaluates the continuous function
+<code>k * log_rate - lgamma(k+1) - rate</code>, which matches the Poisson pmf
+at integer arguments <code>k</code> (note that this function is not itself
+a normalized probability log-density). Default value: <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -178,15 +164,10 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Mathematical Details</p>
-<p>The probability density function (pdf) is,</p><pre>pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
-Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
+<p>The probability mass function (pmf) is,</p><pre>pmf(k; lambda, k &gt;= 0) = (lambda^k / k!) / Z
+Z = exp(lambda).
 </pre>
-    <p>where:</p><ul>
-<li><p><code>df &gt;= k</code> denotes the degrees of freedom,</p></li>
-<li><p><code>scale</code> is a symmetric, positive definite, <code>k x k</code> matrix,</p></li>
-<li><p><code>Z</code> is the normalizing constant, and,</p></li>
-<li><p><code>Gamma_k</code> is the <a href='https://en.wikipedia.org/wiki/Multivariate_gamma_function'>multivariate Gamma function</a>.</p></li>
-</ul>
+    <p>where <code>rate = lambda</code> and <code>Z</code> is the normalizing constant.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -196,7 +177,7 @@ Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
   <code><a href='tfd_poisson_log_normal_quadrature_compound.html'>tfd_poisson_log_normal_quadrature_compound</a></code>,
-  <code><a href='tfd_poisson.html'>tfd_poisson</a></code>, <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
+  <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
   <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a></code>,
@@ -214,7 +195,8 @@ Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
   <code><a href='tfd_von_mises_fisher.html'>tfd_von_mises_fisher</a></code>,
-  <code><a href='tfd_von_mises.html'>tfd_von_mises</a></code>, <code><a href='tfd_zipf.html'>tfd_zipf</a></code></p></div>
+  <code><a href='tfd_von_mises.html'>tfd_von_mises</a></code>, <code><a href='tfd_wishart.html'>tfd_wishart</a></code>,
+  <code><a href='tfd_zipf.html'>tfd_zipf</a></code></p></div>
     
 
   </div>

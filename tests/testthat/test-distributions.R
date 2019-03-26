@@ -346,3 +346,25 @@ test_succeeds("Quantized distribution works", {
   q_prob <- q %>% tfd_cdf(x)
   expect_equal(q_prob %>% tensor_value() %>% which.max(), 3)
 })
+
+test_succeeds("Poisson distribution works", {
+
+  lambda <- c(1, 3, 2.5)
+  d <- tfd_poisson(rate = lambda)
+
+  expect_equivalent(d %>% tfd_stddev() %>% tensor_value(), sqrt(lambda), tol = 1e-7)
+})
+
+test_succeeds("PoissonLogNormalQuadratureCompound distribution works", {
+p
+  d <-
+    tfd_poisson_log_normal_quadrature_compound(
+      loc = c(0.,-0.5),
+      scale = 1,
+      quadrature_size = 10
+    )
+
+  expect_equal((d %>% tfd_stddev())$get_shape()$as_list(), 2)
+})
+
+

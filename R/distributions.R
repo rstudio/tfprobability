@@ -1965,4 +1965,125 @@ tfd_quantized <- function(distribution,
   do.call(tfp$distributions$QuantizedDistribution, args)
 }
 
+#' Poisson distribution.
+#'
+#' The Poisson distribution is parameterized by an event `rate` parameter.
+#'
+#' Mathematical Details
+#'
+#' The probability mass function (pmf) is,
+#' ```
+#' pmf(k; lambda, k >= 0) = (lambda^k / k!) / Z
+#' Z = exp(lambda).
+#' ```
+#' where `rate = lambda` and `Z` is the normalizing constant.
+#'
+#' @param rate Floating point tensor, the rate parameter. `rate` must be positive.
+#' Must specify exactly one of `rate` and `log_rate`.
+#' @param log_rate Floating point tensor, the log of the rate parameter.
+#' Must specify exactly one of `rate` and `log_rate`.
+#' @param interpolate_nondiscrete Logical. When `FALSE`,
+#' `log_prob` returns `-inf` (and `prob` returns `0`) for non-integer
+#' inputs. When `TRUE`, `log_prob` evaluates the continuous function
+#' `k * log_rate - lgamma(k+1) - rate`, which matches the Poisson pmf
+#' at integer arguments `k` (note that this function is not itself
+#' a normalized probability log-density). Default value: `TRUE`.
+
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_poisson <- function(rate = NULL,
+                        log_rate = NULL,
+                        interpolate_nondiscrete = TRUE,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        name = "Poisson") {
+  args <- list(
+    rate = rate,
+    log_rate = log_rate,
+    interpolate_nondiscrete = interpolate_nondiscrete,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Poisson, args)
+}
+
+#' `PoissonLogNormalQuadratureCompound` distribution.
+#'
+#' The `PoissonLogNormalQuadratureCompound` is an approximation to a
+#' Poisson-LogNormal [compound distribution](
+#'  https://en.wikipedia.org/wiki/Compound_probability_distribution), i.e.,
+#'  ```
+#'  p(k|loc, scale) = int_{R_+} dl LogNormal(l | loc, scale) Poisson(k | l)
+#'  approx= sum{ prob[d] Poisson(k | lambda(grid[d])) : d=0, ..., deg-1 }
+#'  ```
+#'
+#'  By default, the `grid` is chosen as quantiles of the `LogNormal` distribution
+#'  parameterized by `loc`, `scale` and the `prob` vector is
+#'  `[1. / quadrature_size]*quadrature_size`.
+#'
+#'  In the non-approximation case, a draw from the LogNormal prior represents the
+#'  Poisson rate parameter. Unfortunately, the non-approximate distribution lacks
+#'  an analytical probability density function (pdf). Therefore the
+#'  `PoissonLogNormalQuadratureCompound` class implements an approximation based
+#'  on [quadrature](https://en.wikipedia.org/wiki/Numerical_integration).
+#'  Note: although the `PoissonLogNormalQuadratureCompound` is approximately the
+#'  Poisson-LogNormal compound distribution, it is itself a valid distribution.
+#'  Viz., it possesses a `sample`, `log_prob`, `mean`, `variance`, etc. which are
+#'  all mutually consistent.
+#'
+#'  Mathematical Details
+#'
+#'  The `PoissonLogNormalQuadratureCompound` approximates a Poisson-LogNormal
+#'  [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution).
+#'  Using variable-substitution and [numerical quadrature](
+#'  https://en.wikipedia.org/wiki/Numerical_integration) (default:
+#'  based on `LogNormal` quantiles) we can redefine the distribution to be a
+#'  parameter-less convex combination of `deg` different Poisson samples.
+#'  That is, defined over positive integers, this distribution is parameterized
+#'  by a (batch of) `loc` and `scale` scalars.
+#'
+#'  The probability density function (pdf) is,
+#'  ```
+#'  pdf(k | loc, scale, deg) = sum{ prob[d] Poisson(k | lambda=exp(grid[d])) : d=0, ..., deg-1 }
+#'  ```
+#'  Note: `probs` returned by (optional) `quadrature_fn` are presumed to be
+#'  either a length-`quadrature_size` vector or a batch of vectors in 1-to-1
+#'  correspondence with the returned `grid`. (I.e., broadcasting is only partially supported.)
+#'
+#'  @param loc `float`-like (batch of) scalar `Tensor`; the location parameter of
+#'  the LogNormal prior.
+#'  @param scale `float`-like (batch of) scalar `Tensor`; the scale parameter of
+#'  the LogNormal prior.
+#'  @param quadrature_size  `integer` scalar representing the number of quadrature
+#'  points.
+#'  @param  quadrature_fn Function taking `loc`, `scale`,
+#'  `quadrature_size`, `validate_args` and returning `tuple(grid, probs)`
+#'  representing the LogNormal grid and corresponding normalized weight.
+#'  Default value: `quadrature_scheme_lognormal_quantiles`.
+
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_poisson_log_normal_quadrature_compound <- function(loc,
+                                                       scale,
+                                                       quadrature_size = 8,
+                                                       quadrature_fn = tfp$distributions$quadrature_scheme_lognormal_quantiles,
+                                                       validate_args = FALSE,
+                                                       allow_nan_stats = TRUE,
+                                                       name = "PoissonLogNormalQuadratureCompound") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    quadrature_size = as.integer(quadrature_size),
+    quadrature_fn = quadrature_fn,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$PoissonLogNormalQuadratureCompound,
+          args)
+}
 
