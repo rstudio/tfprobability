@@ -52,7 +52,12 @@ The probability function is,\preformatted{prob(x; reinterpreted_batch_ndims) =
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
+  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
   \code{\link{tfd_multivariate_normal_diag}},
+  \code{\link{tfd_multivariate_normal_full_covariance}},
+  \code{\link{tfd_multivariate_normal_linear_operator}},
+  \code{\link{tfd_multivariate_normal_tri_l}},
+  \code{\link{tfd_multivariate_student_t_linear_operator}},
   \code{\link{tfd_negative_binomial}},
   \code{\link{tfd_normal}},
   \code{\link{tfd_one_hot_categorical}},

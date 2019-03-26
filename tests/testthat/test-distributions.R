@@ -2,14 +2,14 @@ context("distributions")
 
 source("utils.R")
 
-test_succeeds("Define a batch of two scalar valued Normals", {
+test_succeeds("Normal distribution works", {
   d <- tfd_normal(loc = c(1, 2), scale = c(11, 22))
   x <- d %>% tfd_sample(c(2, 2))
   expect_equal(d$batch_shape$as_list(), 2)
 
 })
 
-test_succeeds("Initialize a 3-batch, 2-variate scaled-identity Gaussian.", {
+test_succeeds("MultivariateNormalDiag distribution works", {
   d <- tfd_multivariate_normal_diag(loc = c(1,-1),
                                     scale_identity_multiplier = c(1, 2, 3))
   x <- d %>% tfd_sample()
@@ -17,7 +17,7 @@ test_succeeds("Initialize a 3-batch, 2-variate scaled-identity Gaussian.", {
 
 })
 
-test_succeeds("Make independent distribution from a 2-batch Normal.", {
+test_succeeds("Independent distribution works", {
 
   d <- tfd_normal(
     loc = c(-1., 1, 5, 2),
@@ -30,12 +30,9 @@ test_succeeds("Make independent distribution from a 2-batch Normal.", {
   i
   expect_equal(i$event_shape$as_list(), 4)
 
-})
-
-test_succeeds("Make independent distribution from a 28*28-batch Bernoulli.", {
-
+  # Make independent distribution from a 28*28-batch Bernoulli.
   d <- tfd_bernoulli(
-   probs = matrix(rep(0.5, 28 * 28), ncol = 28)
+    probs = matrix(rep(0.5, 28 * 28), ncol = 28)
   )
   i <- tfd_independent(
     distribution = d,
@@ -46,7 +43,7 @@ test_succeeds("Make independent distribution from a 28*28-batch Bernoulli.", {
 
 })
 
-test_succeeds("Create a log normal distribution from a normal one.", {
+test_succeeds("Transformed distribution works", {
 
   d <- tfd_transformed(
     distribution = tfd_normal(loc = 0, scale = 1),
@@ -380,3 +377,57 @@ test_succeeds("NegativeBinomial distribution works", {
   expect_equal(d %>% tfd_mean() %>% tensor_value(), nb_mean(23, 0.1), tol = 1e7)
 })
 
+test_succeeds("MultivariateNormalTriL distribution works", {
+
+  mu <- c(1, 2, 3)
+  cov <- matrix(c(0.36,  0.12,  0.06, 0.12,  0.29, -0.13,  0.06, -0.13,  0.26), nrow = 3, byrow =TRUE)
+  scale <- tf$cholesky(cov)
+  d <- tfd_multivariate_normal_tri_l(loc = mu, scale_tril = scale)
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), mu)
+})
+
+test_succeeds("MultivariateNormalLinearOperator distribution works", {
+
+  mu <- c(1, 2, 3)
+  cov <- matrix(c(0.36,  0.12,  0.06, 0.12,  0.29, -0.13,  0.06, -0.13,  0.26), nrow = 3, byrow =TRUE)
+  scale <- tf$cholesky(cov)
+  d <- tfd_multivariate_normal_linear_operator(loc = mu, scale = tf$linalg$LinearOperatorLowerTriangular(scale))
+  expect_equivalent(d %>% tfd_covariance() %>% tensor_value(), cov)
+})
+
+test_succeeds("MultivariateNormalFullCovariance distribution works", {
+
+  mu <- c(1, 2, 3)
+  cov <- matrix(c(0.36,  0.12,  0.06, 0.12,  0.29, -0.13,  0.06, -0.13,  0.26), nrow = 3, byrow =TRUE)
+  d <- tfd_multivariate_normal_full_covariance(loc = mu, covariance_matrix = cov)
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value(), mu)
+})
+
+test_succeeds("MultivariateNormalDiagPlusLowRank distribution works", {
+
+  # Initialize a single 3-variate Gaussian with covariance `cov = S @ S.T`,
+  # `S = diag(d) + U @ diag(m) @ U.T`. The perturbation, `U @ diag(m) @ U.T`, is
+  # a rank-2 update.
+  mu <- c(-0.5, 0, 0.5)
+  d <- c(1.5, 0.5, 2)
+  U <- matrix(c(1, 2, -1, 1, 2, -0.5), nrow = 3, byrow = TRUE)
+  m <- c(4, 5)
+  d <- tfd_multivariate_normal_diag_plus_low_rank(loc = mu,
+                                                  scale_diag = d,
+                                                  scale_perturb_factor = U,
+                                                  scale_perturb_diag = m)
+  expect_equal((d %>% tfd_prob(c(-1, 0, 1)))$get_shape()$as_list(), list())
+})
+
+test_succeeds("MultivariateStudentTLinearOperator distribution works", {
+
+  df <- 3
+  loc <- c(1, 2, 3)
+  scale <- matrix(c(0.6, 0, 0, 0.2, 0.5, 0, 0.1, -0.3, 0.4), nrow = 3, byrow = TRUE)
+  sigma = tf$matmul(scale, scale, adjoint_b = TRUE)
+  d <- tfd_multivariate_student_t_linear_operator(
+    df = df,
+    loc = loc,
+    scale = tf$linalg$LinearOperatorLowerTriangular(scale))
+  expect_equivalent(d %>% tfd_covariance() %>% tensor_value(), cov * 3)
+})

@@ -425,7 +425,8 @@ tfd_transformed <- function(distribution,
     distribution = distribution,
     bijector = bijector,
     batch_shape = batch_shape,
-    event_shape = event_shape, # wrap in tf$TensorShape?
+    event_shape = event_shape,
+    # wrap in tf$TensorShape?
     validate_args = validate_args,
     name = name
   )
@@ -588,11 +589,11 @@ tfd_wishart <- function(df,
 #' @family distributions
 #' @export
 tfd_von_mises_fisher <- function(df,
-                        mean_direction,
-                        concentration,
-                        validate_args = FALSE,
-                        allow_nan_stats = TRUE,
-                        name = "VonMisesFisher") {
+                                 mean_direction,
+                                 concentration,
+                                 validate_args = FALSE,
+                                 allow_nan_stats = TRUE,
+                                 name = "VonMisesFisher") {
   args <- list(
     mean_direction = mean_direction,
     concentration = concentration,
@@ -748,14 +749,14 @@ tfd_von_mises <- function(loc,
 #' @family distributions
 #' @export
 tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
-                          scale_diag = NULL,
-                          scale_identity_multiplier = NULL,
-                          skewness = NULL,
-                          tailweight = NULL,
-                          distribution = NULL,
-                          validate_args = FALSE,
-                          allow_nan_stats = TRUE,
-                          name = "VectorSinhArcsinhDiag") {
+                                         scale_diag = NULL,
+                                         scale_identity_multiplier = NULL,
+                                         skewness = NULL,
+                                         tailweight = NULL,
+                                         distribution = NULL,
+                                         validate_args = FALSE,
+                                         allow_nan_stats = TRUE,
+                                         name = "VectorSinhArcsinhDiag") {
   args <- list(
     loc = loc,
     scale_diag = scale_diag,
@@ -845,7 +846,10 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
     name = name
   )
 
-  do.call(tfp$distributions$vector_laplace_linear_operator$VectorLaplaceLinearOperator, args)
+  do.call(
+    tfp$distributions$vector_laplace_linear_operator$VectorLaplaceLinearOperator,
+    args
+  )
 }
 
 #' The vectorization of the Laplace distribution on `R^k`.
@@ -1122,7 +1126,10 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
     name = name
   )
 
-  do.call(tfp$distributions$vector_exponential_linear_operator$VectorExponentialLinearOperator, args)
+  do.call(
+    tfp$distributions$vector_exponential_linear_operator$VectorExponentialLinearOperator,
+    args
+  )
 }
 
 
@@ -2186,5 +2193,344 @@ tfd_negative_binomial <- function(total_count,
   )
 
   do.call(tfp$distributions$NegativeBinomial,
+          args)
+}
+
+#' The multivariate normal distribution on `R^k`.
+#'
+#' The Multivariate Normal distribution is defined over `R^k`` and parameterized
+#' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
+#' scale matrix; `covariance = scale @ scale.T` where `@` denotes
+#' matrix-multiplication.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+#' y = inv(scale) @ (x - loc)
+#' Z = (2 pi)**(0.5 k) |det(scale)|
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||**2` denotes the squared Euclidean norm of `y`.
+#'
+#' A (non-batch) `scale` matrix is:
+#' ```
+#' scale = scale_tril
+#' ```
+#'
+#' where `scale_tril` is lower-triangular `k x k` matrix with non-zero diagonal,
+#' i.e., `tf$diag_part(scale_tril) != 0`.
+#' Additional leading dimensions (if any) will index batches.
+#'
+#' The MultivariateNormal distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+#' Y = scale @ X + loc
+#' ```
+#'
+#' Trainable (batch) lower-triangular matrices can be created with
+#' `tfd_matrix_diag_transform()` and/or
+#' `tfd_fill_triangular()`
+
+#' @param loc Floating-point `Tensor`. If this is set to `NULL`, `loc` is
+#' implicitly `0`. When specified, may have shape `[B1, ..., Bb, k]` where
+#' `b >= 0` and `k` is the event size.
+#' @param scale_tril Floating-point, lower-triangular `Tensor` with non-zero
+#' diagonal elements. `scale_tril` has shape `[B1, ..., Bb, k, k]` where
+#' `b >= 0` and `k` is the event size.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_multivariate_normal_tri_l <- function(loc = NULL,
+                                          scale_tril = NULL,
+                                          validate_args = FALSE,
+                                          allow_nan_stats = TRUE,
+                                          name = "MultivariateNormalTriL") {
+  args <- list(
+    loc = loc,
+    scale_tril = scale_tril,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$MultivariateNormalTriL, args)
+}
+
+#' The multivariate normal distribution on `R^k`.
+#'
+#' The Multivariate Normal distribution is defined over `R^k`` and parameterized
+#' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
+#' scale matrix; `covariance = scale @ scale.T` where `@` denotes
+#' matrix-multiplication.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+#' y = inv(scale) @ (x - loc)
+#' Z = (2 pi)**(0.5 k) |det(scale)|
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||**2` denotes the squared Euclidean norm of `y`.
+#'
+#' The MultivariateNormal distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+#' Y = scale @ X + loc
+#' ```
+#'
+#' The `batch_shape` is the broadcast shape between `loc` and `scale`
+#' arguments.
+#' The `event_shape` is given by last dimension of the matrix implied by
+#' `scale`. The last dimension of `loc` (if provided) must broadcast with this.
+#' Recall that `covariance = scale @ scale.T`.
+#' Additional leading dimensions (if any) will index batches.
+#' @param loc Floating-point `Tensor`. If this is set to `NULL`, `loc` is
+#' implicitly `0`. When specified, may have shape `[B1, ..., Bb, k]` where
+#' `b >= 0` and `k` is the event size.
+#' @param scale Instance of `LinearOperator` with same `dtype` as `loc` and shape
+#' `[B1, ..., Bb, k, k]`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_multivariate_normal_linear_operator <- function(loc = NULL,
+                                                    scale = NULL,
+                                                    validate_args = FALSE,
+                                                    allow_nan_stats = TRUE,
+                                                    name = "MultivariateNormalLinearOperator") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$MultivariateNormalLinearOperator, args)
+}
+
+#' The multivariate normal distribution on `R^k`.
+#'
+#' The Multivariate Normal distribution is defined over `R^k`` and parameterized
+#' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
+#' scale matrix; `covariance = scale @ scale.T` where `@` denotes
+#' matrix-multiplication.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+#' y = inv(scale) @ (x - loc)
+#' Z = (2 pi)**(0.5 k) |det(scale)|
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||**2` denotes the squared Euclidean norm of `y`.
+#'
+#' The MultivariateNormal distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+#' Y = scale @ X + loc
+#' ```
+#'
+#' The `batch_shape` is the broadcast shape between `loc` and
+#' `covariance_matrix` arguments.
+#' The `event_shape` is given by last dimension of the matrix implied by
+#' `covariance_matrix`. The last dimension of `loc` (if provided) must
+#' broadcast with this.
+#' A non-batch `covariance_matrix` matrix is a `k x k` symmetric positive
+#' definite matrix.  In other words it is (real) symmetric with all eigenvalues
+#' strictly positive.
+#' Additional leading dimensions (if any) will index batches.
+#' @param loc Floating-point `Tensor`. If this is set to `NULL`, `loc` is
+#' implicitly `0`. When specified, may have shape `[B1, ..., Bb, k]` where
+#' `b >= 0` and `k` is the event size.
+#' @param covariance_matrix Floating-point, symmetric positive definite `Tensor` of
+#' same `dtype` as `loc`.  The strict upper triangle of `covariance_matrix`
+#' is ignored, so if `covariance_matrix` is not symmetric no error will be
+#' raised (unless `validate_args is TRUE`).  `covariance_matrix` has shape
+#' `[B1, ..., Bb, k, k]` where `b >= 0` and `k` is the event size.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_multivariate_normal_full_covariance <- function(loc = NULL,
+                                                    covariance_matrix = NULL,
+                                                    validate_args = FALSE,
+                                                    allow_nan_stats = TRUE,
+                                                    name = "MultivariateNormalFullCovariance") {
+  args <- list(
+    loc = loc,
+    covariance_matrix = covariance_matrix,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$MultivariateNormalFullCovariance, args)
+}
+
+#' The multivariate normal distribution on `R^k`.
+#'
+#' The Multivariate Normal distribution is defined over `R^k`` and parameterized
+#' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
+#' scale matrix; `covariance = scale @ scale.T` where `@` denotes
+#' matrix-multiplication.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+#' y = inv(scale) @ (x - loc)
+#' Z = (2 pi)**(0.5 k) |det(scale)|
+#' ```
+#' where:
+#' * `loc` is a vector in `R^k`,
+#' * `scale` is a linear operator in `R^{k x k}`, `cov = scale @ scale.T`,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||**2` denotes the squared Euclidean norm of `y`.
+#'
+#' A (non-batch) `scale` matrix is:
+#' ```
+#' scale = diag(scale_diag + scale_identity_multiplier ones(k)) +
+#' scale_perturb_factor @ diag(scale_perturb_diag) @ scale_perturb_factor.T
+#' ```
+#'
+#' where:
+#' * `scale_diag.shape = [k]`,
+#' * `scale_identity_multiplier.shape = []`,
+#' * `scale_perturb_factor.shape = [k, r]`, typically `k >> r`, and,
+#' * `scale_perturb_diag.shape = [r]`.
+#'
+#' Additional leading dimensions (if any) will index batches.
+#' If both `scale_diag` and `scale_identity_multiplier` are `NULL`, then
+#' `scale` is the Identity matrix.
+
+#' The MultivariateNormal distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+#' Y = scale @ X + loc
+#' ```
+#'
+#' @inheritParams tfd_normal
+#'
+#' @param loc Floating-point Tensor. If this is set to NULL, loc is implicitly 0.
+#' When specified, may have shape `[B1, ..., Bb, k]` where b >= 0 and k is the event size.
+#' @param scale_diag Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
+#'  May have shape `[B1, ..., Bb, k]`, b >= 0, and characterizes b-batches of `k x k` diagonal matrices
+#'  added to scale. When both scale_identity_multiplier and scale_diag are NULL then scale
+#'  is the Identity.
+#' @param scale_identity_multiplier Non-zero, floating-point Tensor representing a scaled-identity-matrix
+#'  added to scale. May have shape `[B1, ..., Bb]`, b >= 0, and characterizes b-batches of scaled
+#'  `k x k` identity matrices added to scale. When both scale_identity_multiplier and scale_diag
+#'   are NULL then scale is the Identity.
+#' @param  scale_perturb_factor Floating-point `Tensor` representing a rank-`r`
+#' perturbation added to `scale`. May have shape `[B1, ..., Bb, k, r]`,
+#' `b >= 0`, and characterizes `b`-batches of rank-`r` updates to `scale`.
+#' When `NULL`, no rank-`r` update is added to `scale`.
+#' @param scale_perturb_diag Floating-point `Tensor` representing a diagonal matrix
+#' inside the rank-`r` perturbation added to `scale`. May have shape
+#' `[B1, ..., Bb, r]`, `b >= 0`, and characterizes `b`-batches of `r x r`
+#' diagonal matrices inside the perturbation added to `scale`. When
+#' `NULL`, an identity matrix is used inside the perturbation. Can only be
+#' specified if `scale_perturb_factor` is also specified.
+#' @family distributions
+#' @export
+tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
+                                                       scale_diag = NULL,
+                                                       scale_identity_multiplier = NULL,
+                                                       scale_perturb_factor = NULL,
+                                                       scale_perturb_diag = NULL,
+                                                       validate_args = FALSE,
+                                                       allow_nan_stats = TRUE,
+                                                       name = "MultivariateNormalDiagPlusLowRank") {
+  args <- list(
+    loc = loc,
+    scale_diag = scale_diag,
+    scale_identity_multiplier = scale_identity_multiplier,
+    scale_perturb_factor = scale_perturb_factor,
+    scale_perturb_diag = scale_perturb_diag,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$MultivariateNormalDiagPlusLowRank, args)
+}
+
+#' The [Multivariate Student's t-distribution] on `R^k`.
+#'
+#' (https://en.wikipedia.org/wiki/Multivariate_t-distribution)
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; df, loc, Sigma) = (1 + ||y||**2 / df)**(-0.5 (df + k)) / Z
+#' where,
+#' y = inv(Sigma) (x - loc)
+#' Z = abs(det(Sigma)) sqrt(df pi)**k Gamma(0.5 df) / Gamma(0.5 (df + k))
+#' ```
+#'
+#' where:
+#' * `df` is a positive scalar.
+#' * `loc` is a vector in `R^k`,
+#' * `Sigma` is a positive definite `shape' matrix in `R^{k x k}`, parameterized
+#' as `scale @ scale.T` in this class,
+#' * `Z` denotes the normalization constant, and,
+#' * `||y||**2` denotes the squared Euclidean norm of `y`.
+#'
+#' The Multivariate Student's t-distribution distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ MultivariateT(loc=0, scale=1)   # Identity scale, zero shift.
+#' Y = scale @ X + loc
+#' ```
+#' @param df A positive floating-point `Tensor`. Has shape `[B1, ..., Bb]` where `b
+#' >= 0`.
+#' @param loc Floating-point `Tensor`. Has shape `[B1, ..., Bb, k]` where `k` is
+#' the event size.
+#' @param scale Instance of `LinearOperator` with a floating `dtype` and shape
+#' `[B1, ..., Bb, k, k]`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_multivariate_student_t_linear_operator <- function(df,
+                                                       loc,
+                                                       scale,
+                                                       validate_args = FALSE,
+                                                       allow_nan_stats = TRUE,
+                                                       name = "MultivariateStudentTLinearOperator") {
+  args <- list(
+    df = df,
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$MultivariateStudentTLinearOperator,
           args)
 }

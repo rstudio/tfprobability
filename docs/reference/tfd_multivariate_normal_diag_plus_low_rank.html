@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The vectorization of the Exponential distribution on <code>R^k</code>. — tfd_vector_exponential_linear_operator • tfprobability</title>
+<title>The multivariate normal distribution on <code>R^k</code>. — tfd_multivariate_normal_diag_plus_low_rank • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="The vectorization of the Exponential distribution on <code>R^k</code>. — tfd_vector_exponential_linear_operator" />
+<meta property="og:title" content="The multivariate normal distribution on <code>R^k</code>. — tfd_multivariate_normal_diag_plus_low_rank" />
 
-<meta property="og:description" content="The vector exponential distribution is defined over a subset of R^k, and
-parameterized by a (batch of) length-k loc vector and a (batch of) k x k
-scale matrix:  covariance = scale @ scale.T, where @ denotes
+<meta property="og:description" content="The Multivariate Normal distribution is defined over R^k`` and parameterized by a (batch of) length-k loc vector (aka &quot;mu&quot;) and a (batch of) k x kscale matrix;covariance = scale @ scale.Twhere@` denotes
 matrix-multiplication." />
 <meta name="twitter:card" content="summary" />
 
@@ -109,35 +107,61 @@ matrix-multiplication." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The vectorization of the Exponential distribution on <code>R^k</code>.</h1>
+    <h1>The multivariate normal distribution on <code>R^k</code>.</h1>
     
-    <div class="hidden name"><code>tfd_vector_exponential_linear_operator.Rd</code></div>
+    <div class="hidden name"><code>tfd_multivariate_normal_diag_plus_low_rank.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The vector exponential distribution is defined over a subset of <code>R^k</code>, and
-parameterized by a (batch of) length-<code>k</code> <code>loc</code> vector and a (batch of) <code>k x k</code>
-<code>scale</code> matrix:  <code>covariance = scale @ scale.T</code>, where <code>@</code> denotes
+    <p>The Multivariate Normal distribution is defined over <code>R^k`` and parameterized by a (batch of) length-k loc vector (aka "mu") and a (batch of) </code>k x k<code>scale matrix;</code>covariance = scale @ scale.T<code>where</code>@` denotes
 matrix-multiplication.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_vector_exponential_linear_operator</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>tfd_multivariate_normal_diag_plus_low_rank</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>scale_diag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale_identity_multiplier</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>scale_perturb_factor</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale_perturb_diag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VectorExponentialLinearOperator"</span>)</pre>
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"MultivariateNormalDiagPlusLowRank"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>loc</th>
-      <td><p>Floating point tensor; the means of the distribution(s).</p></td>
+      <td><p>Floating-point Tensor. If this is set to NULL, loc is implicitly 0.
+When specified, may have shape <code>[B1, ..., Bb, k]</code> where b &gt;= 0 and k is the event size.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>Instance of LinearOperator with same dtype as loc and shape
-<code>[B1, ..., Bb, k, k]</code>.</p></td>
+      <th>scale_diag</th>
+      <td><p>Non-zero, floating-point Tensor representing a diagonal matrix added to scale.
+May have shape <code>[B1, ..., Bb, k]</code>, b &gt;= 0, and characterizes b-batches of <code>k x k</code> diagonal matrices
+added to scale. When both scale_identity_multiplier and scale_diag are NULL then scale
+is the Identity.</p></td>
+    </tr>
+    <tr>
+      <th>scale_identity_multiplier</th>
+      <td><p>Non-zero, floating-point Tensor representing a scaled-identity-matrix
+added to scale. May have shape <code>[B1, ..., Bb]</code>, b &gt;= 0, and characterizes b-batches of scaled
+<code>k x k</code> identity matrices added to scale. When both scale_identity_multiplier and scale_diag
+are NULL then scale is the Identity.</p></td>
+    </tr>
+    <tr>
+      <th>scale_perturb_factor</th>
+      <td><p>Floating-point <code>Tensor</code> representing a rank-<code>r</code>
+perturbation added to <code>scale</code>. May have shape <code>[B1, ..., Bb, k, r]</code>,
+<code>b &gt;= 0</code>, and characterizes <code>b</code>-batches of rank-<code>r</code> updates to <code>scale</code>.
+When <code>NULL</code>, no rank-<code>r</code> update is added to <code>scale</code>.</p></td>
+    </tr>
+    <tr>
+      <th>scale_perturb_diag</th>
+      <td><p>Floating-point <code>Tensor</code> representing a diagonal matrix
+inside the rank-<code>r</code> perturbation added to <code>scale</code>. May have shape
+<code>[B1, ..., Bb, r]</code>, <code>b &gt;= 0</code>, and characterizes <code>b</code>-batches of <code>r x r</code>
+diagonal matrices inside the perturbation added to <code>scale</code>. When
+<code>NULL</code>, an identity matrix is used inside the perturbation. Can only be
+specified if <code>scale_perturb_factor</code> is also specified.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -159,53 +183,39 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Mathematical Details
-The probability density function (pdf) is</p><pre>pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in S(loc, scale),
-x = inv(scale) @ (y - loc),
-Z = |det(scale)|,
+    <p>Mathematical Details</p>
+<p>The probability density function (pdf) is,</p><pre>pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+y = inv(scale) @ (x - loc)
+Z = (2 pi)**(0.5 k) |det(scale)|
 </pre>
     <p>where:</p><ul>
 <li><p><code>loc</code> is a vector in <code>R^k</code>,</p></li>
 <li><p><code>scale</code> is a linear operator in <code>R^{k x k}</code>, <code>cov = scale @ scale.T</code>,</p></li>
-<li><p><code>S = {loc + scale @ x : x in R^k, x_1 &gt; 0, ..., x_k &gt; 0}</code>, is an image of
-the positive half-space,</p></li>
-<li><p><code>||x||_1</code> denotes the <code>l1</code> norm of <code>x</code>, <code>sum_i |x_i|</code>,</p></li>
-<li><p><code>Z</code> denotes the normalization constant.</p></li>
+<li><p><code>Z</code> denotes the normalization constant, and,</p></li>
+<li><p><code>||y||**2</code> denotes the squared Euclidean norm of <code>y</code>.</p></li>
 </ul>
-    <p>The VectorExponential distribution is a member of the <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
-constructed as,</p><pre>X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
-Y = (Y_1, ...,Y_k) = scale @ X + loc
+    <p>A (non-batch) <code>scale</code> matrix is:</p><pre>scale = diag(scale_diag + scale_identity_multiplier ones(k)) +
+scale_perturb_factor @ diag(scale_perturb_diag) @ scale_perturb_factor.T
 </pre>
-    <p>About <code>VectorExponential</code> and <code>Vector</code> distributions in TensorFlow.</p>
-<p>The <code>VectorExponential</code> is a non-standard distribution that has useful
-properties.
-The marginals <code>Y_1, ..., Y_k</code> are <em>not</em> Exponential random variables, due to
-the fact that the sum of Exponential random variables is not Exponential.
-Instead, <code>Y</code> is a vector whose components are linear combinations of
-Exponential random variables.  Thus, <code>Y</code> lives in the vector space generated
-by <code>vectors</code> of Exponential distributions.  This allows the user to decide the
-mean and covariance (by setting <code>loc</code> and <code>scale</code>), while preserving some
-properties of the Exponential distribution.  In particular, the tails of <code>Y_i</code>
-will be (up to polynomial factors) exponentially decaying.
-To see this last statement, note that the pdf of <code>Y_i</code> is the convolution of
-the pdf of <code>k</code> independent Exponential random variables.  One can then show by
-induction that distributions with exponential (up to polynomial factors) tails
-are closed under convolution.</p>
-<p>The batch_shape is the broadcast shape between loc and scale
-arguments.
-The event_shape is given by last dimension of the matrix implied by
-scale. The last dimension of loc (if provided) must broadcast with this.
-Recall that <code>covariance = 2 * scale @ scale.T</code>.
-Additional leading dimensions (if any) will index batches.</p>
-<p>#' @param  loc Floating-point Tensor. If this is set to NULL, loc is
-implicitly 0. When specified, may have shape <code>[B1, ..., Bb, k]</code> where
-b &gt;= 0 and k is the event size.</p>
+    <p>where:</p><ul>
+<li><p><code>scale_diag.shape = [k]</code>,</p></li>
+<li><p><code>scale_identity_multiplier.shape = []</code>,</p></li>
+<li><p><code>scale_perturb_factor.shape = [k, r]</code>, typically <code>k &gt;&gt; r</code>, and,</p></li>
+<li><p><code>scale_perturb_diag.shape = [r]</code>.</p></li>
+</ul>
+    <p>Additional leading dimensions (if any) will index batches.
+If both <code>scale_diag</code> and <code>scale_identity_multiplier</code> are <code>NULL</code>, then
+<code>scale</code> is the Identity matrix.
+The MultivariateNormal distribution is a member of the
+<a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
+constructed as,</p><pre>X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+Y = scale @ X + loc
+</pre>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
-  <code><a href='tfd_multivariate_normal_diag_plus_low_rank.html'>tfd_multivariate_normal_diag_plus_low_rank</a></code>,
   <code><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></code>,
   <code><a href='tfd_multivariate_normal_full_covariance.html'>tfd_multivariate_normal_full_covariance</a></code>,
   <code><a href='tfd_multivariate_normal_linear_operator.html'>tfd_multivariate_normal_linear_operator</a></code>,
@@ -229,6 +239,7 @@ b &gt;= 0 and k is the event size.</p>
   <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
   <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
   <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
+  <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
