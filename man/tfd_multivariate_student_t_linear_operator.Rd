@@ -2,16 +2,14 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multivariate_student_t_linear_operator}
 \alias{tfd_multivariate_student_t_linear_operator}
-\title{The \href{https://en.wikipedia.org/wiki/Multivariate_t-distribution}{Multivariate Student's t-distribution} on \code{R^k}.}
+\title{The Multivariate Student's t-distribution on \code{R^k}.}
 \usage{
 tfd_multivariate_student_t_linear_operator(df, loc, scale,
   validate_args = FALSE, allow_nan_stats = TRUE,
   name = "MultivariateStudentTLinearOperator")
 }
 \arguments{
-\item{df}{A positive floating-point \code{Tensor}. Has shape \code{[B1, ..., Bb]} where `b
-
-= 0`.}
+\item{df}{A positive floating-point \code{Tensor}. Has shape \code{[B1, ..., Bb]} where \code{b >= 0}.}
 
 \item{loc}{Floating-point \code{Tensor}. Has shape \code{[B1, ..., Bb, k]} where \code{k} is
 the event size.}
@@ -43,7 +41,8 @@ where:
 \itemize{
 \item \code{df} is a positive scalar.
 \item \code{loc} is a vector in \code{R^k},
-\item \code{Sigma} is a positive definite \code{shape' matrix in }R^{k x k}\code{, parameterized as }scale @ scale.T` in this class,
+\item \code{Sigma} is a positive definite \code{shape} matrix in \code{R^{k x k}}, parameterized
+as \code{scale @ scale.T} in this class,
 \item \code{Z} denotes the normalization constant, and,
 \item \code{||y||**2} denotes the squared Euclidean norm of \code{y}.
 }
@@ -56,7 +55,9 @@ Y = scale @ X + loc
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
-  \code{\link{tfd_independent}},
+  \code{\link{tfd_categorical}},
+  \code{\link{tfd_independent}}, \code{\link{tfd_mixture}},
+  \code{\link{tfd_multinomial}},
   \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
   \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_multivariate_normal_full_covariance}},

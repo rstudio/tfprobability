@@ -2478,9 +2478,7 @@ tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalDiagPlusLowRank, args)
 }
 
-#' The [Multivariate Student's t-distribution] on `R^k`.
-#'
-#' (https://en.wikipedia.org/wiki/Multivariate_t-distribution)
+#' The Multivariate Student's t-distribution on `R^k`.
 #'
 #' Mathematical Details
 #'
@@ -2495,7 +2493,7 @@ tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
 #' where:
 #' * `df` is a positive scalar.
 #' * `loc` is a vector in `R^k`,
-#' * `Sigma` is a positive definite `shape' matrix in `R^{k x k}`, parameterized
+#' * `Sigma` is a positive definite `shape` matrix in `R^{k x k}`, parameterized
 #' as `scale @ scale.T` in this class,
 #' * `Z` denotes the normalization constant, and,
 #' * `||y||**2` denotes the squared Euclidean norm of `y`.
@@ -2507,8 +2505,7 @@ tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
 #' X ~ MultivariateT(loc=0, scale=1)   # Identity scale, zero shift.
 #' Y = scale @ X + loc
 #' ```
-#' @param df A positive floating-point `Tensor`. Has shape `[B1, ..., Bb]` where `b
-#' >= 0`.
+#' @param df A positive floating-point `Tensor`. Has shape `[B1, ..., Bb]` where `b >= 0`.
 #' @param loc Floating-point `Tensor`. Has shape `[B1, ..., Bb, k]` where `k` is
 #' the event size.
 #' @param scale Instance of `LinearOperator` with a floating `dtype` and shape
@@ -2534,3 +2531,185 @@ tfd_multivariate_student_t_linear_operator <- function(df,
   do.call(tfp$distributions$MultivariateStudentTLinearOperator,
           args)
 }
+
+#' Multinomial distribution.
+#'
+#' This Multinomial distribution is parameterized by `probs`, a (batch of)
+#' length-`K` `prob` (probability) vectors (`K > 1`) such that
+#' `tf.reduce_sum(probs, -1) = 1`, and a `total_count` number of trials, i.e.,
+#' the number of trials per draw from the Multinomial. It is defined over a
+#' (batch of) length-`K` vector `counts` such that
+#' `tf$reduce_sum(counts, -1) = total_count`. The Multinomial is identically the
+#' Binomial distribution when `K = 2`.
+#'
+#' Mathematical Details
+#'
+#' The Multinomial is a distribution over `K`-class counts, i.e., a length-`K`
+#' vector of non-negative integer `counts = n = [n_0, ..., n_{K-1}]`.
+#' The probability mass function (pmf) is,
+#'
+#' ```
+#' pmf(n; pi, N) = prod_j (pi_j)**n_j / Z
+#' Z = (prod_j n_j!) / N!
+#' ```
+#' where:
+#' * `probs = pi = [pi_0, ..., pi_{K-1}]`, `pi_j > 0`, `sum_j pi_j = 1`,
+#' * `total_count = N`, `N` a positive integer,
+#' * `Z` is the normalization constant, and,
+#' * `N!` denotes `N` factorial.
+#'
+#' Distribution parameters are automatically broadcast in all functions; see
+#' examples for details.
+#'
+#' Pitfalls
+#'
+#' The number of classes, `K`, must not exceed:
+#' - the largest integer representable by `self$dtype`, i.e.,
+#' `2**(mantissa_bits+1)` (IEE754),
+#' - the maximum `Tensor` index, i.e., `2**31-1`.
+#'
+#' In other words,
+#' ```
+#' K <= min(2**31-1, {tf$float16: 2**11, tf$float32: 2**24, tf$float64: 2**53 }[param$dtype])
+#' ```
+#'
+#' Note: This condition is validated only when `validate_args = TRUE`.
+#' @param total_count Non-negative floating point tensor with shape broadcastable
+#' to `[N1,..., Nm]` with `m >= 0`. Defines this as a batch of
+#' `N1 x ... x Nm` different Multinomial distributions. Its components
+#' should be equal to integer values.
+#' @param logits Floating point tensor representing unnormalized log-probabilities
+#' of a positive event with shape broadcastable to
+#' `[N1,..., Nm, K]` `m >= 0`, and the same dtype as `total_count`. Defines
+#' this as a batch of `N1 x ... x Nm` different `K` class Multinomial
+#' distributions. Only one of `logits` or `probs` should be passed in.
+#' @param probs Positive floating point tensor with shape broadcastable to
+#' `[N1,..., Nm, K]` `m >= 0` and same dtype as `total_count`. Defines
+#' this as a batch of `N1 x ... x Nm` different `K` class Multinomial
+#' distributions. `probs`'s components in the last portion of its shape
+#' should sum to `1`. Only one of `logits` or `probs` should be passed in.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_multinomial <- function(total_count,
+                            logits = NULL,
+                            probs = NULL,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = "Multinomial") {
+  args <- list(
+    total_count = total_count,
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Multinomial,
+          args)
+}
+
+#' Mixture distribution.
+#'
+#' The `Mixture` object implements batched mixture distributions.
+#' The mixture model is defined by a `Categorical` distribution (the mixture)
+#' and a list of `Distribution` objects.
+#'
+#' Methods supported include `tfd_log_prob`, `tfd_prob`, `tfd_mean`, `tfd_sample`,
+#' and `entropy_lower_bound`.
+#' @param cat A `Categorical` distribution instance, representing the probabilities
+#' of `distributions`.
+#' @param components A list or tuple of `Distribution` instances.
+#' Each instance must have the same type, be defined on the same domain,
+#' and have matching `event_shape` and `batch_shape`.
+#' @param use_static_graph Calls to `sample` will not rely on dynamic tensor
+#' indexing, allowing for some static graph compilation optimizations, but
+#' at the expense of sampling all underlying distributions in the mixture.
+#' (Possibly useful when running on TPUs). Default value: `FALSE` (i.e., use dynamic indexing).
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_mixture <- function(cat,
+                        components,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        use_static_graph = FALSE,
+                        name = "Mixture") {
+  args <- list(
+    cat = cat,
+    components = components,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    use_static_graph = use_static_graph,
+    name = name
+  )
+
+  do.call(tfp$distributions$Mixture,
+          args)
+}
+
+#' Categorical distribution over integers.
+#'
+#' The Categorical distribution is parameterized by either probabilities or
+#' log-probabilities of a set of `K` classes. It is defined over the integers
+#' `{0, 1, ..., K-1}`.
+#'
+#' The Categorical distribution is closely related to the `OneHotCategorical` and
+#' `Multinomial` distributions.  The Categorical distribution can be intuited as
+#' generating samples according to `argmax{ OneHotCategorical(probs) }` itself
+#' being identical to `argmax{ Multinomial(probs, total_count=1) }`.
+#'
+#' Mathematical Details
+#'
+#' The probability mass function (pmf) is,
+#' ```
+#' pmf(k; pi) = prod_j pi_j**[k == j]
+#' ```
+#' Pitfalls
+#'
+#' The number of classes, `K`, must not exceed:
+#'  - the largest integer representable by `self$dtype`, i.e.,
+#'  `2**(mantissa_bits+1)` (IEEE 754),
+#'  - the maximum `Tensor` index, i.e., `2**31-1`.
+#'  In other words,
+#'  ```
+#'  K <= min(2**31-1, {tf$float16: 2**11, tf$float32: 2**24, tf$float64: 2**53 }[param$dtype])
+#'  ```
+#'
+#'  Note: This condition is validated only when `validate_args = TRUE`.
+
+#' @param logits An N-D `Tensor`, `N >= 1`, representing the log probabilities
+#' of a set of Categorical distributions. The first `N - 1` dimensions
+#' index into a batch of independent distributions and the last dimension
+#' represents a vector of logits for each class. Only one of `logits` or
+#' `probs` should be passed in.
+#' @param probs An N-D `Tensor`, `N >= 1`, representing the probabilities
+#' of a set of Categorical distributions. The first `N - 1` dimensions
+#' index into a batch of independent distributions and the last dimension
+#' represents a vector of probabilities for each class. Only one of
+#' `logits` or `probs` should be passed in.
+#' @param dtype The type of the event samples (default: int32).
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_categorical <- function(logits = NULL,
+                            probs = NULL,
+                            dtype = tf$int32,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = "Categorical") {
+  args <- list(
+    logits = logits,
+    probs = probs,
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Categorical,
+          args)
+}
+
+

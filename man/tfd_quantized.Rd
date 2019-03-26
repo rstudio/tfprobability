@@ -71,7 +71,9 @@ Synthesis. \emph{arXiv preprint arXiv:1711.10433}, 2017. https://arxiv.org/abs/1
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
-  \code{\link{tfd_independent}},
+  \code{\link{tfd_categorical}},
+  \code{\link{tfd_independent}}, \code{\link{tfd_mixture}},
+  \code{\link{tfd_multinomial}},
   \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
   \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_multivariate_normal_full_covariance}},

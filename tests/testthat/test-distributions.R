@@ -431,3 +431,28 @@ test_succeeds("MultivariateStudentTLinearOperator distribution works", {
     scale = tf$linalg$LinearOperatorLowerTriangular(scale))
   expect_equivalent(d %>% tfd_covariance() %>% tensor_value(), cov * 3)
 })
+
+test_succeeds("Multinomial distribution works", {
+
+  p <- list(c(.1, .2, .7), c(.3, .3, .4))
+  total_count <- c(4, 5)
+  d <- tfd_multinomial(total_count = total_count, probs = p)
+  counts <- list(c(2, 1, 1), c(3, 1, 1))
+  expect_equal((d %>% tfd_prob(counts))$get_shape()$as_list(), 2)
+  expect_equal((d %>% tfd_sample(5))$get_shape()$as_list(), c(5, 2, 3))
+})
+
+test_succeeds("Mixture distribution works", {
+
+  mix <- 0.3
+  d <- tfd_mixture(
+        cat = tfd_categorical(probs = c(mix, 1 -mix)),
+    components = list(
+      tfd_normal(loc = -1, scale = 0.1),
+      tfd_normal(loc = 1, scale = 0.5)))
+  expect_equal((d %>% tfd_sample(5))$get_shape()$as_list(), 5)
+})
+
+
+
+

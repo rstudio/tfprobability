@@ -77,7 +77,9 @@ Default value: \code{quadrature_scheme_lognormal_quantiles}.
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
-  \code{\link{tfd_independent}},
+  \code{\link{tfd_categorical}},
+  \code{\link{tfd_independent}}, \code{\link{tfd_mixture}},
+  \code{\link{tfd_multinomial}},
   \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
   \code{\link{tfd_multivariate_normal_diag}},
   \code{\link{tfd_multivariate_normal_full_covariance}},
