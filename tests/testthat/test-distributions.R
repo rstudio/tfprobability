@@ -538,24 +538,43 @@ test_succeeds("Gamma distribution works", {
   expect_equal(d %>% tfd_mean() %>% tensor_value(), 0.5)
 })
 
-# test_succeeds("JointDistributionSequential distribution works", {
-#
-#   d <- tfd_joint_distribution_sequential(
-#     list(tfd_independent(tfd_exponential(rate = c(100, 120)), 1),  # e ~ Exponential(rate=[100,120])
-#          function(e) tfd_gamma(concentration = e[..., 0], rate = e[..., 1]),  # g ~ Gamma(concentration=e[0], rate=e[1])
-#          tfd_normal(loc = 0, scale = 2),  # n ~ Normal(loc=0, scale=2.)
-#          function(n, g) tfd_normal(loc = n, scale = g) # m ~ Normal(loc=n, scale=g)
-#     ))
-#   # (Notice the 1:1 correspondence between "math" and "code".)
-#   x = joint.sample()
-#   # ==> A length-4 list of tfd.Distribution instances
-#   joint.log_prob(x)
-#   # ==> A scalar `Tensor` representing the total log prob under all four
-#   #     distributions.
-#   joint._resolve_graph()
-#   # ==> (('e', ()),
-#   #      ('g', ('e',)),
-#   #      ('n', ()),
-#   #      ('x', ('n', 'g')))
-# })
+test_succeeds("JointDistributionSequential distribution works", {
+
+  d <- tfd_joint_distribution_sequential(
+    list(tfd_independent(tfd_exponential(rate = c(100, 120)), 1),  # e ~ Exponential(rate=[100,120])
+         function(e) tfd_gamma(concentration = e[ , 1], rate = e[ , 2]),  # g ~ Gamma(concentration=e[0], rate=e[1])
+         tfd_normal(loc = 0, scale = 2),  # n ~ Normal(loc=0, scale=2.)
+         function(n, g) tfd_normal(loc = n, scale = g) # m ~ Normal(loc=n, scale=g)
+    ))
+  # in python this works!
+  # ValueError: Number of `xs`s must match number of distributions.
+  x <- d %>% tfd_sample()
+  # ==> A length-4 list of tfd.Distribution instances
+  # joint.log_prob(x)
+  # ==> A scalar `Tensor` representing the total log prob under all four
+  #     distributions.
+  # joint._resolve_graph()
+  # ==> (('e', ()),
+  #      ('g', ('e',)),
+  #      ('n', ()),
+  #      ('x', ('n', 'g')))
+})
+
+test_succeeds("Inverse Gaussian distribution works", {
+
+  d <- tfd_inverse_gaussian(loc = 1, concentration = 1)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 1)
+})
+
+test_succeeds("Inverse Gamma distribution works", {
+
+  d <- tfd_inverse_gamma(concentration = 1.5, rate = 2)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 2/(1.5-1))
+})
+
+test_succeeds("Horseshoe distribution works", {
+
+  d <- tfd_horseshoe(scale = 2)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 0)
+})
 

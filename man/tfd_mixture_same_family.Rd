@@ -20,8 +20,8 @@ Right-most batch dimension indexes components.}
 
 \item{reparameterize}{Logical, default \code{FALSE}. Whether to reparameterize
 samples of the distribution using implicit reparameterization gradients
-\link[=1]{(Figurnov et al., 2018)}. The gradients for the mixture logits are
-equivalent to the ones described by \link[=2]{(Graves, 2016)}. The gradients
+\link{(Figurnov et al., 2018)}. The gradients for the mixture logits are
+equivalent to the ones described by \link{(Graves, 2016)}. The gradients
 for the components parameters are also computed using implicit
 reparameterization (as opposed to ancestral sampling), meaning that
 all components are updated every step.
@@ -30,14 +30,7 @@ Only works when:
 (2) components_distribution is either a scalar distribution or
 fully factorized (tfd.Independent applied to a scalar distribution);
 (3) batch shape has a known rank.
-Experimental, may be slow and produce infs/NaNs.
-
-References
-\link{1}: Michael Figurnov, Shakir Mohamed and Andriy Mnih. Implicit
-reparameterization gradients. In \emph{Neural Information Processing
-Systems}, 2018. https://arxiv.org/abs/1805.08498
-\link{2}: Alex Graves. Stochastic Backpropagation through Mixture Density
-Distributions. \emph{arXiv}, 2016. https://arxiv.org/abs/1607.05690}
+Experimental, may be slow and produce infs/NaNs.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
@@ -57,11 +50,22 @@ distribution" (over \code{k} components) and a components distribution, i.e., a
 \code{Distribution} with a rightmost batch shape (equal to \code{[k]}) which indexes
 each (batch of) component.
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1805.08498}{Michael Figurnov, Shakir Mohamed and Andriy Mnih. Implicit reparameterization gradients. In Neural Information Processing Systems, 2018. }
+\item \href{https://arxiv.org/abs/1607.05690}{Alex Graves. Stochastic Backpropagation through Mixture Density Distributions. arXiv, 2016.}
+}
+}
+
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
+  \code{\link{tfd_inverse_gamma}},
+  \code{\link{tfd_inverse_gaussian}},
   \code{\link{tfd_joint_distribution_sequential}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},

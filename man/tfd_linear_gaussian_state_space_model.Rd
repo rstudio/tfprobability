@@ -67,7 +67,7 @@ observation models may be fixed or may vary between timesteps.
 \details{
 This Distribution represents the marginal distribution on
 observations, \code{p(x)}. The marginal \code{log_prob} is computed by
-Kalman filtering \link{1}, and \code{sample} by an efficient forward
+Kalman filtering, and \code{sample} by an efficient forward
 recursion. Both operations require time linear in \code{T}, the total
 number of timesteps.
 
@@ -111,7 +111,10 @@ so that TensorFlow can switch between operators appropriately at runtime.
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
+  \code{\link{tfd_inverse_gamma}},
+  \code{\link{tfd_inverse_gaussian}},
   \code{\link{tfd_joint_distribution_sequential}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},

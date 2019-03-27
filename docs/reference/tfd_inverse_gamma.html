@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Bernoulli distribution. — tfd_bernoulli • tfprobability</title>
+<title>InverseGamma distribution. — tfd_inverse_gamma • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="The Bernoulli distribution. — tfd_bernoulli" />
+<meta property="og:title" content="InverseGamma distribution. — tfd_inverse_gamma" />
 
-<meta property="og:description" content="The Bernoulli distribution with probs parameter, i.e., the probability of a
-1 outcome (vs a 0 outcome)." />
+<meta property="og:description" content="The InverseGamma distribution is defined over positive real numbers using
+parameters concentration (aka &quot;alpha&quot;) and scale (aka &quot;beta&quot;)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,40 +98,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The Bernoulli distribution.</h1>
+    <h1>InverseGamma distribution.</h1>
     
-    <div class="hidden name"><code>tfd_bernoulli.Rd</code></div>
+    <div class="hidden name"><code>tfd_inverse_gamma.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The Bernoulli distribution with <code>probs</code> parameter, i.e., the probability of a
-<code>1</code> outcome (vs a <code>0</code> outcome).</p>
+    <p>The <code>InverseGamma</code> distribution is defined over positive real numbers using
+parameters <code>concentration</code> (aka "alpha") and <code>scale</code> (aka "beta").</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_bernoulli</span>(<span class='kw'>logits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>int32</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Bernoulli"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_inverse_gamma</span>(<span class='no'>concentration</span>, <span class='no'>rate</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"InverseGamma"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>logits</th>
-      <td><p>An N-D Tensor representing the log-odds of a 1 event. Each entry in the Tensor
-parametrizes an independent Bernoulli distribution where the probability of an event
-is sigmoid(logits). Only one of logits or probs should be passed in.</p></td>
-    </tr>
-    <tr>
-      <th>probs</th>
-      <td><p>An N-D Tensor representing the probability of a 1 event. Each entry in the Tensor
-parameterizes an independent Bernoulli distribution. Only one of logits or probs
-should be passed in.</p></td>
-    </tr>
-    <tr>
-      <th>dtype</th>
-      <td><p>The type of the event samples. Default: int32.</p></td>
-    </tr>
     <tr>
       <th>validate_args</th>
       <td><p>Logical, default FALSE. When TRUE distribution parameters are checked
@@ -150,13 +134,45 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details</p>
+<p>The probability density function (pdf) is,</p><pre>pdf(x; alpha, beta, x &gt; 0) = x**(-alpha - 1) exp(-beta / x) / Z
+Z = Gamma(alpha) beta**-alpha
+</pre>
+    <p>where:</p><ul>
+<li><p><code>concentration = alpha</code>,</p></li>
+<li><p><code>scale = beta</code>,</p></li>
+<li><p><code>Z</code> is the normalizing constant, and,</p></li>
+<li><p><code>Gamma</code> is the <a href='https://en.wikipedia.org/wiki/Gamma_function'>gamma function</a>.</p></li>
+</ul>
+    <p>The cumulative density function (cdf) is,</p><pre>cdf(x; alpha, beta, x &gt; 0) = GammaInc(alpha, beta / x) / Gamma(alpha)#' ```
+    where `GammaInc` is the [upper incomplete Gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma_function).
+The parameters can be intuited via their relationship to mean and variance
+when these moments exist,
+</pre>
+    <p>mean = beta / (alpha - 1) when alpha &gt; 1
+variance = beta**2 / (alpha - 1)**2 / (alpha - 2)   when alpha &gt; 2</p><pre>i.e., under the same conditions:
+</pre>
+    <p>alpha = mean<strong>2 / variance + 2
+beta = mean * (mean</strong>2 / variance + 1)</p><pre>
+Distribution parameters are automatically broadcast in all functions; see
+examples for details.
+Samples of this distribution are reparameterized (pathwise differentiable).
+The derivatives are computed using the approach described in the paper
+[Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
+    [gamma function]: R:gamma%20function
+[upper incomplete Gamma function]: R:upper%20incomplete%20Gamma%20function
+[Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018]: R:Michael%20Figurnov,%20Shakir%20Mohamed,%20Andriy%20Mnih.%20Implicit%20Reparameterization%20Gradients,%202018
+</pre>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other distributions: <code><a href='tfd_categorical.html'>tfd_categorical</a></code>,
+    <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
+  <code><a href='tfd_categorical.html'>tfd_categorical</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
   <code><a href='tfd_horseshoe.html'>tfd_horseshoe</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
-  <code><a href='tfd_inverse_gamma.html'>tfd_inverse_gamma</a></code>,
   <code><a href='tfd_inverse_gaussian.html'>tfd_inverse_gaussian</a></code>,
   <code><a href='tfd_joint_distribution_sequential.html'>tfd_joint_distribution_sequential</a></code>,
   <code><a href='tfd_kumaraswamy.html'>tfd_kumaraswamy</a></code>, <code><a href='tfd_laplace.html'>tfd_laplace</a></code>,
@@ -204,6 +220,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

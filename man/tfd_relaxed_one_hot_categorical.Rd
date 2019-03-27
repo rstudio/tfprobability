@@ -45,17 +45,24 @@ distributions for use as a reparameterized continuous approximation to the
 \code{Categorical} one-hot distribution. If you use this distribution, please cite
 both papers.
 }
-\details{
-Eric Jang, Shixiang Gu, and Ben Poole. Categorical Reparameterization with
+\section{References}{
+
+\itemize{
+\item Eric Jang, Shixiang Gu, and Ben Poole. Categorical Reparameterization with
 Gumbel-Softmax. 2016.
-Chris J. Maddison, Andriy Mnih, and Yee Whye Teh. The Concrete Distribution:
+\item Chris J. Maddison, Andriy Mnih, and Yee Whye Teh. The Concrete Distribution:
 A Continuous Relaxation of Discrete Random Variables. 2016.
 }
+}
+
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
+  \code{\link{tfd_inverse_gamma}},
+  \code{\link{tfd_inverse_gaussian}},
   \code{\link{tfd_joint_distribution_sequential}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},

@@ -44,13 +44,16 @@ the special case \code{eta = 1}.
 }
 \details{
 The distribution is named after Lewandowski, Kurowicka, and Joe, who gave a
-sampler for the distribution in \link[=1]{(Lewandowski, Kurowicka, Joe, 2009)}.
+sampler for the distribution in \link{(Lewandowski, Kurowicka, Joe, 2009)}.
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
+  \code{\link{tfd_inverse_gamma}},
+  \code{\link{tfd_inverse_gaussian}},
   \code{\link{tfd_joint_distribution_sequential}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},

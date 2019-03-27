@@ -270,9 +270,10 @@ tfd_one_hot_categorical <- function(logits = NULL,
 #' `Categorical` one-hot distribution. If you use this distribution, please cite
 #' both papers.
 #'
-#' Eric Jang, Shixiang Gu, and Ben Poole. Categorical Reparameterization with
+#' @section References:
+#' - Eric Jang, Shixiang Gu, and Ben Poole. Categorical Reparameterization with
 #' Gumbel-Softmax. 2016.
-#' Chris J. Maddison, Andriy Mnih, and Yee Whye Teh. The Concrete Distribution:
+#' - Chris J. Maddison, Andriy Mnih, and Yee Whye Teh. The Concrete Distribution:
 #'  A Continuous Relaxation of Discrete Random Variables. 2016.
 #'
 #' @param temperature An 0-D Tensor, representing the temperature of a set of RelaxedOneHotCategorical distributions.
@@ -1161,7 +1162,7 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #'
 #' The default quadrature scheme chooses `z_{N, n}` as `N` midpoints of
 #' the quantiles of `p(z)` (generalized quantiles if `K > 2`).
-#' See [Dillon and Langmore (2018)][1] for more details.
+#' See [Dillon and Langmore (2018)] for more details.
 #'
 #' About `Vector` distributions in TensorFlow.
 #'
@@ -1190,10 +1191,9 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #' distribution is both: not `FULLY_REPARAMETERIZED` and a function of trainable
 #' variables, then the gradient is not guaranteed correct!
 
-#' References
-#' [1]: Joshua Dillon and Ian Langmore.
-#' Quadrature Compound: An approximating family of distributions.
-#' _arXiv preprint arXiv:1801.03080_, 2018. https://arxiv.org/abs/1801.03080
+#' @section References:
+#' - [Joshua Dillon and Ian Langmore. Quadrature Compound: An approximating family of distributions.
+#' _arXiv preprint arXiv:1801.03080_, 2018.](https://arxiv.org/abs/1801.03080)
 
 #' @param mix_loc: `float`-like `Tensor` with shape `[b1, ..., bB, K-1]`.
 #' In terms of samples, larger `mix_loc[..., k]` ==>
@@ -1261,7 +1261,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' Posterior predictive of a variational Gaussian process.
 #'
 #' This distribution implements the variational Gaussian process (VGP), as
-#' described in [Titsias, 2009][1] and [Hensman, 2013][2]. The VGP is an
+#' described in [Titsias, 2009] and [Hensman, 2013]. The VGP is an
 #' inducing point-based approximation of an exact GP posterior.
 #' Ultimately, this Distribution class represents a marginal distribution over function values at a
 #' collection of `index_points`. It is parameterized by
@@ -1274,14 +1274,14 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' distribution over function values at the inducing points, conditional on some observations.
 #'
 #' A VGP is "trained" by selecting any kernel parameters, the locations of the
-#' inducing index points, and the variational parameters. [Titsias, 2009][1] and
-#' [Hensman, 2013][2] describe a variational lower bound on the marginal log
+#' inducing index points, and the variational parameters. [Titsias, 2009] and
+#' [Hensman, 2013] describe a variational lower bound on the marginal log
 #' likelihood of observed data, which this class offers through the
 #' `variational_loss` method (this is the negative lower bound, for convenience
 #' when plugging into a TF Optimizer's `minimize` function).
 #' Training may be done in minibatches.
 #'
-#' [Titsias, 2009][1] describes a closed form for the optimal variational
+#' [Titsias, 2009] describes a closed form for the optimal variational
 #' parameters, in the case of sufficiently small observational data (ie,
 #' small enough to fit in memory but big enough to warrant approximating the GP
 #' posterior). A method to compute these optimal parameters in terms of the full
@@ -1342,7 +1342,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #'  ```
 #'
 #'  Posterior inference is possible in analytical closed form but becomes
-#'  intractible as data sizes get large. See [Rasmussen, 2006][3] for details.
+#'  intractible as data sizes get large. See [Rasmussen, 2006] for details.
 #'
 #'  The VGP
 #'
@@ -1375,8 +1375,8 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #'  Model selection in this framework entails choosing the kernel parameters,
 #'  inducing point locations, and variational parameters. We do this by optimizing
 #'  a variational lower bound on the marginal log likelihood of observed data. The
-#'  lower bound takes the following form (see [Titsias, 2009][1] and
-#'  [Hensman, 2013][2] for details on the derivation):
+#'  lower bound takes the following form (see [Titsias, 2009] and
+#'  [Hensman, 2013] for details on the derivation):
 #'  ```
 #'  L(Z, m, S, Y) = MVN(loc=
 #'  (K_zx @ K_zz^-1) @ m, scale_diag=sigma).log_prob(Y) -
@@ -1392,7 +1392,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #'
 #'  Optimal variational parameters
 #'
-#'  As described in [Titsias, 2009][1], a closed form optimum for the variational
+#'  As described in [Titsias, 2009], a closed form optimum for the variational
 #'  location and scale parameters, `m` and `S`, can be computed when the
 #'  observational data are not prohibitively voluminous. The
 #'  `optimal_variational_posterior` function to computes the optimal variational
@@ -1408,11 +1408,10 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #'  optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
 #'  ```
 #'
-#' References
-#' [1]: Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.
-#' http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf
-#' [2]: Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013. https://arxiv.org/abs/1309.6835
-#' [3]: Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006. http://www.gaussianprocess.org/gpml/
+#' @section References:
+#' - [Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.](http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf)
+#' - [Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013.](https://arxiv.org/abs/1309.6835)
+#' - [Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006.](http://www.gaussianprocess.org/gpml/)
 
 #' @param  kernel `PositiveSemidefiniteKernel`-like instance representing the
 #' GP's covariance function.
@@ -1720,7 +1719,7 @@ tfd_student_t <- function(df,
 #' For this to be a valid covariance matrix, it must be symmetric and positive
 #' definite; hence the requirement that `k` be a positive definite function
 #' (which, by definition, says that the above procedure will yield PD matrices).
-#' Note also we use a parameterization as suggested in [1], which requires `df`
+#' Note also we use a parameterization as suggested in Shat et al. (2014), which requires `df`
 #' to be greater than 2. This allows for the covariance for any finite
 #' dimensional marginal of the TP (a multivariate Student's T distribution) to
 #' just be the PD matrix generated by the kernel.
@@ -1746,10 +1745,8 @@ tfd_student_t <- function(df,
 #' * `eye(N)` is an N-by-N identity matrix.
 
 #'
-#' # References
-#' [1]: Amar Shah, Andrew Gordon Wilson, and Zoubin Ghahramani. Student-t
-#' Processes as Alternatives to Gaussian Processes. In _Artificial
-#' Intelligence and Statistics_, 2014. https://www.cs.cmu.edu/~andrewgw/tprocess.pdf
+#' @section References:
+#' - [Amar Shah, Andrew Gordon Wilson, and Zoubin Ghahramani. Student-t Processes as Alternatives to Gaussian Processes. In _Artificial Intelligence and Statistics_, 2014.](https://www.cs.cmu.edu/~andrewgw/tprocess.pdf)
 #'
 #' @param df Positive Floating-point `Tensor` representing the degrees of freedom.
 #' Must be greater than 2.
@@ -1935,14 +1932,9 @@ tfd_sinh_arcsinh <- function(loc,
 #'
 #'  `P[Y = j]` is still the mass of `X` within the `jth` interval.
 #'
-#'  References
-#'  [1]: Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma.
-#'  PixelCNN++: Improving the PixelCNN with discretized logistic mixture
-#'  likelihood and other modifications.
-#'  International Conference on Learning Representations_, 2017.
-#'  https://arxiv.org/abs/1701.05517
-#'  [2]: Aaron van den Oord et al. Parallel WaveNet: Fast High-Fidelity Speech
-#'  Synthesis. _arXiv preprint arXiv:1711.10433_, 2017. https://arxiv.org/abs/1711.10433
+#'  @section References:
+#'  - [Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. PixelCNN++: Improving the PixelCNN with discretized logistic mixture likelihood and other modifications. International Conference on Learning Representations_, 2017.](https://arxiv.org/abs/1701.05517)
+#'  - [Aaron van den Oord et al. Parallel WaveNet: Fast High-Fidelity Speech Synthesis. _arXiv preprint arXiv:1711.10433_, 2017.](https://arxiv.org/abs/1711.10433)
 #'
 #' @param distribution  The base distribution class to transform. Typically an
 #' instance of `Distribution`.
@@ -2730,8 +2722,8 @@ tfd_categorical <- function(logits = NULL,
 #' Right-most batch dimension indexes components.
 #' @param reparameterize Logical, default `FALSE`. Whether to reparameterize
 #' samples of the distribution using implicit reparameterization gradients
-#' [(Figurnov et al., 2018)][1]. The gradients for the mixture logits are
-#' equivalent to the ones described by [(Graves, 2016)][2]. The gradients
+#' [(Figurnov et al., 2018)]. The gradients for the mixture logits are
+#' equivalent to the ones described by [(Graves, 2016)]. The gradients
 #' for the components parameters are also computed using implicit
 #' reparameterization (as opposed to ancestral sampling), meaning that
 #' all components are updated every step.
@@ -2742,12 +2734,9 @@ tfd_categorical <- function(logits = NULL,
 #' (3) batch shape has a known rank.
 #' Experimental, may be slow and produce infs/NaNs.
 #'
-#' References
-#' [1]: Michael Figurnov, Shakir Mohamed and Andriy Mnih. Implicit
-#' reparameterization gradients. In _Neural Information Processing
-#' Systems_, 2018. https://arxiv.org/abs/1805.08498
-#' [2]: Alex Graves. Stochastic Backpropagation through Mixture Density
-#' Distributions. _arXiv_, 2016. https://arxiv.org/abs/1607.05690
+#' @section References:
+#' - [Michael Figurnov, Shakir Mohamed and Andriy Mnih. Implicit reparameterization gradients. In _Neural Information Processing Systems_, 2018. ](https://arxiv.org/abs/1805.08498)
+#' - [Alex Graves. Stochastic Backpropagation through Mixture Density Distributions. _arXiv_, 2016.](https://arxiv.org/abs/1607.05690)
 
 #' @inheritParams tfd_normal
 #' @family distributions
@@ -2851,7 +2840,7 @@ tfd_logistic <- function(loc,
 #' the special case `eta = 1`.
 #'
 #' The distribution is named after Lewandowski, Kurowicka, and Joe, who gave a
-#' sampler for the distribution in [(Lewandowski, Kurowicka, Joe, 2009)][1].
+#' sampler for the distribution in [(Lewandowski, Kurowicka, Joe, 2009)].
 
 #' @param dimension  `integer`. The dimension of the correlation matrices
 #' to sample.
@@ -2902,7 +2891,7 @@ tfd_lkj <- function(dimension,
 #'
 #' This Distribution represents the marginal distribution on
 #' observations, `p(x)`. The marginal `log_prob` is computed by
-#' Kalman filtering [1], and `sample` by an efficient forward
+#' Kalman filtering, and `sample` by an efficient forward
 #' recursion. Both operations require time linear in `T`, the total
 #' number of timesteps.
 #'
@@ -3259,3 +3248,170 @@ tfd_gamma <- function(concentration,
   do.call(tfp$distributions$Gamma,
           args)
 }
+
+#' Inverse Gaussian distribution.
+#'
+#' The [inverse Gaussian distribution] (https://en.wikipedia.org/wiki/Inverse_Gaussian_distribution)
+#' is parameterized by a `loc` and a `concentration` parameter. It's also known
+#' as the Wald distribution. Some, e.g., the Python scipy package, refer to the
+#' special case when `loc` is 1 as the Wald distribution.
+#'
+#' The "inverse" in the name does not refer to the distribution associated to
+#' the multiplicative inverse of a random variable. Rather, the cumulant
+#' generating function of this distribution is the inverse to that of a Gaussian
+#' random variable.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; mu, lambda) = [lambda / (2 pi x ** 3)] ** 0.5
+#' exp{-lambda(x - mu) ** 2 / (2 mu ** 2 x)}
+#' ```
+#'
+#' where
+#' * `loc = mu`
+#' * `concentration = lambda`.
+#'
+#' The support of the distribution is defined on `(0, infinity)`.
+#' Mapping to R and Python scipy's parameterization:
+#'
+#' * R: statmod::invgauss
+#' - mean = loc
+#' - shape = concentration
+#' - dispersion = 1 / concentration. Used only if shape is NULL.
+#' * Python: scipy.stats.invgauss
+#' - mu = loc / concentration
+#' - scale = concentration
+#' @param loc Floating-point `Tensor`, the loc params. Must contain only positive values.
+#' @param concentration Floating-point `Tensor`, the concentration params. Must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_inverse_gaussian <- function(loc,
+                                 concentration,
+                                 validate_args = FALSE,
+                                 allow_nan_stats = TRUE,
+                                 name = "InverseGaussian") {
+  args <- list(
+    loc = loc,
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$InverseGaussian,
+          args)
+}
+
+#' InverseGamma distribution.
+#'
+#' The `InverseGamma` distribution is defined over positive real numbers using
+#' parameters `concentration` (aka "alpha") and `scale` (aka "beta").
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; alpha, beta, x > 0) = x**(-alpha - 1) exp(-beta / x) / Z
+#' Z = Gamma(alpha) beta**-alpha
+#' ```
+#'
+#' where:
+#' * `concentration = alpha`,
+#' * `scale = beta`,
+#' * `Z` is the normalizing constant, and,
+#' * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#' The cumulative density function (cdf) is,
+#' ```
+#' cdf(x; alpha, beta, x > 0) = GammaInc(alpha, beta / x) / Gamma(alpha)#' ```
+#'
+#' where `GammaInc` is the [upper incomplete Gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma_function).
+#' The parameters can be intuited via their relationship to mean and variance
+#' when these moments exist,
+#' ```
+#' mean = beta / (alpha - 1) when alpha > 1
+#' variance = beta**2 / (alpha - 1)**2 / (alpha - 2)   when alpha > 2
+#' ```
+#' i.e., under the same conditions:
+#' ```
+#' alpha = mean**2 / variance + 2
+#' beta = mean * (mean**2 / variance + 1)
+#' ```
+#'
+#' Distribution parameters are automatically broadcast in all functions; see
+#' examples for details.
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#' The derivatives are computed using the approach described in the paper
+#' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_inverse_gamma <- function(concentration,
+                              rate,
+                              validate_args = FALSE,
+                              allow_nan_stats = TRUE,
+                              name = "InverseGamma") {
+  args <- list(
+    concentration = concentration,
+    rate = rate,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$InverseGamma,
+          args)
+}
+
+#' Horseshoe distribution.
+#'
+#' The so-called 'horseshoe' distribution is a Cauchy-Normal scale mixture,
+#' proposed as a sparsity-inducing prior for Bayesian regression. It is
+#' symmetric around zero, has heavy (Cauchy-like) tails, so that large
+#' coefficients face relatively little shrinkage, but an infinitely tall spike at
+#' 0, which pushes small coefficients towards zero. It is parameterized by a
+#' positive scalar `scale` parameter: higher values yield a weaker
+#' sparsity-inducing effect.
+#'
+#' Mathematical details
+#'
+#' The Horseshoe distribution is centered at zero, with scale parameter
+#' \eqn{lambda}. It is defined by:
+#' \deqn{X \sim \text {Horseshoe}(scale=\lambda) \, \equiv \, X \sim \text{Normal} (0, \, \lambda \cdot \sigma) \quad \text{where} \quad \sigma \sim  \text{HalfCauchy} (0, \,1)}
+#'
+#' The probability density function,
+#' \deqn{\pi_\lambda(x) = \int_0^\infty \, \frac{1}{\sqrt{ 2\pi \lambda^2 t^2 }} \, \exp \left\{ -\frac{x^2}{2\lambda^2t^2} \right\} \, \frac{2}{\pi\left(1+t^2\right)} \mathrm{d} t}
+#'
+#' can be rewritten as
+#' \deqn{\pi_\lambda(x) = \frac{1}{\sqrt{2 \pi^3 \lambda^2}} \, \exp \left\{ \frac{x^2}{2\lambda^2} \right\} \, E_1\left(\frac{x^2}{2\lambda^2}\right)}
+#' where \eqn{E_1(.)} is the exponential integral function which can
+#' be approximated by elementary functions.
+#'
+#' @section References:
+#' - [Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)](http://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf).
+#' - [Barry, Parlange, Li. Approximation for the exponential integral (2000)](https://doi.org/10.1016/S0022-1694(99)00184-5).
+
+#' @param scale Floating point tensor; the scales of the distribution(s). Must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_horseshoe <- function(scale,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "Horseshoe") {
+  args <- list(
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Horseshoe,
+          args)
+}
+
+

@@ -92,7 +92,7 @@ it a density on the \code{K}-simplex.  That is,
 
 The default quadrature scheme chooses \code{z_{N, n}} as \code{N} midpoints of
 the quantiles of \code{p(z)} (generalized quantiles if \code{K > 2}).
-See \link[=1]{Dillon and Langmore (2018)} for more details.
+See \link{Dillon and Langmore (2018)} for more details.
 
 About \code{Vector} distributions in TensorFlow.
 
@@ -120,16 +120,22 @@ approximation of an expectation and arise throughout scientific computing.
 WARNING: If you backprop through a VectorDiffeomixture sample and the "base"
 distribution is both: not \code{FULLY_REPARAMETERIZED} and a function of trainable
 variables, then the gradient is not guaranteed correct!
-References
-\link{1}: Joshua Dillon and Ian Langmore.
-Quadrature Compound: An approximating family of distributions.
-\emph{arXiv preprint arXiv:1801.03080}, 2018. https://arxiv.org/abs/1801.03080
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1801.03080}{Joshua Dillon and Ian Langmore. Quadrature Compound: An approximating family of distributions. arXiv preprint arXiv:1801.03080, 2018.}
+}
+}
+
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
+  \code{\link{tfd_inverse_gamma}},
+  \code{\link{tfd_inverse_gaussian}},
   \code{\link{tfd_joint_distribution_sequential}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},

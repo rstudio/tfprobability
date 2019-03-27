@@ -60,20 +60,20 @@ and \code{j} is re-assigned:\preformatted{ R = (-infty, 0](0, 1](1, infty)
 
 \code{P[Y = j]} is still the mass of \code{X} within the \code{jth} interval.
 
-References
-\link{1}: Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma.
-PixelCNN++: Improving the PixelCNN with discretized logistic mixture
-likelihood and other modifications.
-International Conference on Learning Representations_, 2017.
-https://arxiv.org/abs/1701.05517
-\link{2}: Aaron van den Oord et al. Parallel WaveNet: Fast High-Fidelity Speech
-Synthesis. \emph{arXiv preprint arXiv:1711.10433}, 2017. https://arxiv.org/abs/1711.10433
+@section References:
+\itemize{
+\item \href{https://arxiv.org/abs/1701.05517}{Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. PixelCNN++: Improving the PixelCNN with discretized logistic mixture likelihood and other modifications. International Conference on Learning Representations_, 2017.}
+\item \href{https://arxiv.org/abs/1711.10433}{Aaron van den Oord et al. Parallel WaveNet: Fast High-Fidelity Speech Synthesis. arXiv preprint arXiv:1711.10433, 2017.}
+}
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
+  \code{\link{tfd_inverse_gamma}},
+  \code{\link{tfd_inverse_gaussian}},
   \code{\link{tfd_joint_distribution_sequential}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},
