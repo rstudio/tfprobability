@@ -13,6 +13,9 @@ layer_kl_divergence_regularizer(object, distribution_b,
 \arguments{
 \item{object}{Model or layer object}
 
+\item{distribution_b}{Distribution instance corresponding to b as in  \code{KL[a, b]}.
+The previous layer's output is presumed to be a Distribution instance and is a.}
+
 \item{use_exact_kl}{Logical indicating if KL divergence should be
 calculated exactly via \code{tfp$distributions$kl_divergence} or via Monte Carlo approximation.
 Default value: FALSE.}
@@ -50,9 +53,6 @@ isn't provided.}
 \item{trainable}{Whether the layer weights will be updated during training.}
 
 \item{weights}{Initial weights for layer.}
-
-\item{distribution}{Distribution instance corresponding to b as in  \code{KL[a, b]}.
-The previous layer's output is presumed to be a Distribution instance and is a.}
 }
 \description{
 When using Monte Carlo approximation (e.g., \code{use_exact = FALSE}), it is presumed that the input

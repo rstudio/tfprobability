@@ -197,23 +197,7 @@ layer_kl_divergence_add_loss <- function(object,
 #'   sample. To override this behavior, set test_points_fn.
 #'
 #' @inheritParams keras::layer_dense
-#'
-#' @inheritParams keras::layer_dense
-#'
-#' @param distribution Distribution instance corresponding to b as in  `KL[a, b]`.
-#'  The previous layer's output is presumed to be a Distribution instance and is a.
-#' @param use_exact_kl Logical indicating if KL divergence should be
-#'  calculated exactly via `tfp$distributions$kl_divergence` or via Monte Carlo approximation.
-#'  Default value: FALSE.
-#' @param test_points_reduce_axis Integer vector or scalar representing dimensions
-#'  over which to reduce_mean while calculating the Monte Carlo approximation of the KL divergence.
-#'  As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
-#'  () means reduce over none of them. Default value: () (i.e., no reduction).
-#' @param test_points_fn A callable taking a `tfp$distributions$Distribution` instance and returning a tensor
-#'  used for random test points to approximate the KL divergence.
-#'  Default value: tf$convert_to_tensor.
-#' @param weight Multiplier applied to the calculated KL divergence for each Keras batch member.
-#' Default value: NULL (i.e., do not weight each batch member).
+#' @inheritParams layer_kl_divergence_add_loss
 #'
 #' @family Probabilistic layers (require TensorFlow probability)
 #'
