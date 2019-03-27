@@ -110,7 +110,10 @@ so that TensorFlow can switch between operators appropriately at runtime.
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
-  \code{\link{tfd_independent}}, \code{\link{tfd_laplace}},
+  \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_joint_distribution_sequential}},
+  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
   \code{\link{tfd_logistic}},
   \code{\link{tfd_mixture_same_family}},

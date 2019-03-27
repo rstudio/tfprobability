@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code>. — tfd_vector_sinh_arcsinh_diag • tfprobability</title>
+<title>Joint distribution parameterized by distribution-making functions. — tfd_joint_distribution_sequential • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,16 +30,10 @@
 
 
 
-<meta property="og:title" content="The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code>. — tfd_vector_sinh_arcsinh_diag" />
+<meta property="og:title" content="Joint distribution parameterized by distribution-making functions. — tfd_joint_distribution_sequential" />
 
-<meta property="og:description" content="This distribution models a random vector Y = (Y1,...,Yk), making use of
-a SinhArcsinh transformation (which has adjustable tailweight and skew),
-a rescaling, and a shift.
-The SinhArcsinh transformation of the Normal is described in great depth in
-Sinh-arcsinh distributions.
-Here we use a slightly different parameterization, in terms of tailweight
-and skewness.  Additionally we allow for distributions other than Normal,
-and control over scale as well as a &quot;shift&quot; parameter loc." />
+<meta property="og:description" content="This distribution enables both sampling and joint probability computation from
+a single model specification." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -104,88 +98,29 @@ and control over scale as well as a &quot;shift&quot; parameter loc." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code>.</h1>
+    <h1>Joint distribution parameterized by distribution-making functions.</h1>
     
-    <div class="hidden name"><code>tfd_vector_sinh_arcsinh_diag.Rd</code></div>
+    <div class="hidden name"><code>tfd_joint_distribution_sequential.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This distribution models a random vector <code>Y = (Y1,...,Yk)</code>, making use of
-a SinhArcsinh transformation (which has adjustable tailweight and skew),
-a rescaling, and a shift.
-The SinhArcsinh transformation of the Normal is described in great depth in
-<a href='https://www.jstor.org/stable/27798865'>Sinh-arcsinh distributions</a>.
-Here we use a slightly different parameterization, in terms of tailweight
-and skewness.  Additionally we allow for distributions other than Normal,
-and control over scale as well as a "shift" parameter loc.</p>
+    <p>This distribution enables both sampling and joint probability computation from
+a single model specification.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_vector_sinh_arcsinh_diag</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale_diag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>scale_identity_multiplier</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>skewness</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tailweight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VectorSinhArcsinhDiag"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_joint_distribution_sequential</span>(<span class='no'>distribution_fn</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>loc</th>
-      <td><p>Floating-point Tensor. If this is set to NULL, loc is
-implicitly 0. When specified, may have shape <code>[B1, ..., Bb, k]</code> where
-b &gt;= 0 and k is the event size.</p></td>
-    </tr>
-    <tr>
-      <th>scale_diag</th>
-      <td><p>Non-zero, floating-point Tensor representing a diagonal
-matrix added to scale. May have shape <code>[B1, ..., Bb, k]</code>, b &gt;= 0,
-and characterizes b-batches of k x k diagonal matrices added to
-scale. When both scale_identity_multiplier and scale_diag are
-NULL then scale is the Identity.</p></td>
-    </tr>
-    <tr>
-      <th>scale_identity_multiplier</th>
-      <td><p>Non-zero, floating-point Tensor representing
-a scale-identity-matrix added to scale. May have shape
-<code>[B1, ..., Bb]</code>, b &gt;= 0, and characterizes b-batches of scale
-k x k identity matrices added to scale. When both
-scale_identity_multiplier and scale_diag are NULL then scale
-is the Identity.</p></td>
-    </tr>
-    <tr>
-      <th>skewness</th>
-      <td><p>Skewness parameter.  floating-point Tensor with shape
-broadcastable with event_shape.</p></td>
-    </tr>
-    <tr>
-      <th>tailweight</th>
-      <td><p>Tailweight parameter.  floating-point Tensor with shape
-broadcastable with event_shape.</p></td>
-    </tr>
-    <tr>
-      <th>distribution</th>
-      <td><p><code>tf$distributions$Distribution</code>-like instance. Distribution from which k
-iid samples are used as input to transformation F.  Default is
-tfd_normal(loc = 0, scale = 1).
-Must be a scalar-batch, scalar-event distribution.  Typically
-distribution$reparameterization_type = FULLY_REPARAMETERIZED or it is
-a function of non-trainable parameters. WARNING: If you backprop through
-a VectorSinhArcsinhDiag sample and distribution is not
-FULLY_REPARAMETERIZED yet is a function of trainable variables, then
-the gradient will be incorrect!</p></td>
-    </tr>
-    <tr>
       <th>validate_args</th>
       <td><p>Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 silently render incorrect outputs. Default value: FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>allow_nan_stats</th>
-      <td><p>Logical, default TRUE. When TRUE, tatistics (e.g., mean, mode, variance)
-use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
-one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -195,43 +130,34 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Mathematical Details</p>
-<p>Given iid random vector <code>Z = (Z1,...,Zk)</code>, we define the VectorSinhArcsinhDiag
-transformation of <code>Z</code>, <code>Y</code>, parameterized by
-<code>(loc, scale, skewness, tailweight)</code>, via the relation (with <code>@</code> denoting matrix multiplication):</p><pre>Y := loc + scale @ F(Z) * (2 / F_0(2))
-F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
-F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
+    <p>A joint distribution is a collection of possibly interdependent distributions.
+Like <code>tf$keras$Sequential</code>, the <code>JointDistributionSequential</code> can be specified
+via a <code>list</code> of functions (each responsible for making a
+<code>tfp$distributions$Distribution</code>-like instance).  Unlike
+<code>tf$keras$Sequential</code>, each function can depend on the output of all previous
+elements rather than only the immediately previous.</p>
+<p>Mathematical Details</p>
+<p>The <code>JointDistributionSequential</code> implements the chain rule of probability.</p>
+<p>That is, the probability function of a length-<code>d</code> vector <code>x</code> is,</p><pre>p(x) = prod{ p(x[i] | x[:i]) : i = 0, ..., (d - 1) }
 </pre>
-    <p>This distribution is similar to the location-scale transformation
-<code>L(Z) := loc + scale @ Z</code> in the following ways:</p><ul>
-<li><p>If <code>skewness = 0</code> and <code>tailweight = 1</code> (the defaults), <code>F(Z) = Z</code>, and then
-<code>Y = L(Z)</code> exactly.</p></li>
-<li><p><code>loc</code> is used in both to shift the result by a constant factor.</p></li>
-<li><p>The multiplication of <code>scale</code> by <code>2 / F_0(2)</code> ensures that if <code>skewness = 0</code>
-<code>P[Y - loc &lt;= 2 * scale] = P[L(Z) - loc &lt;= 2 * scale]</code>.
-Thus it can be said that the weights in the tails of <code>Y</code> and <code>L(Z)</code> beyond
-<code>loc + 2 * scale</code> are the same.
-This distribution is different than <code>loc + scale @ Z</code> due to the
-reshaping done by <code>F</code>:</p><ul>
-<li><p>Positive (negative) <code>skewness</code> leads to positive (negative) skew.</p></li>
-<li><p>positive skew means, the mode of <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>F(Z)</a></code> is "tilted" to the right.</p></li>
-<li><p>positive skew means positive values of <code><a href='https://www.rdocumentation.org/packages/base/topics/logical'>F(Z)</a></code> become more likely, and
-negative values become less likely.</p></li>
-<li><p>Larger (smaller) <code>tailweight</code> leads to fatter (thinner) tails.</p></li>
-<li><p>Fatter tails mean larger values of <code>|F(Z)|</code> become more likely.</p></li>
-<li><p><code>tailweight &lt; 1</code> leads to a distribution that is "flat" around <code>Y = loc</code>,
-and a very steep drop-off in the tails.</p></li>
-<li><p><code>tailweight &gt; 1</code> leads to a distribution more peaked at the mode with
-heavier tails.
-To see the argument about the tails, note that for <code>|Z| &gt;&gt; 1</code> and
-<code>|Z| &gt;&gt; (|skewness| * tailweight)**tailweight</code>, we have
-<code>Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)</code>.
-To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)</code>,</p></li>
-</ul><pre>P[(Y - loc) / scale &lt;= 2] = P[F(Z) * (2 / F_0(2)) &lt;= 2]
-= P[F(Z) &lt;= F_0(2)]
-= P[Z &lt;= 2]  (if F = F_0).
-</pre></li>
-</ul>
+    <p>The <code>JointDistributionSequential</code> is parameterized by a <code>list</code> comprised of
+either:</p><ol>
+<li><p><code>tfp$distributions$Distribution</code>-like instances or,</p></li>
+<li><p><code>callable</code>s which return a <code>tfp$distributions$Distribution</code>-like instance.
+Each <code>list</code> element implements the <code>i</code>-th <em>full conditional distribution</em>,
+<code>p(x[i] | x[:i])</code>. The "conditioned on" elements are represented by the
+<code>callable</code>'s required arguments. Directly providing a <code>Distribution</code>-like
+instance is a convenience and is semantically identical a zero argument
+<code>callable</code>.
+Denote the <code>i</code>-th <code>callable</code>s non-default arguments as <code>args[i]</code>. Since the
+<code>callable</code> is the conditional manifest, <code>0 &lt;= len(args[i]) &lt;= i - 1</code>. When
+<code>len(args[i]) &lt; i - 1</code>, the <code>callable</code> only depends on a subset of the
+previous distributions, specifically those at indexes:
+<code><a href='https://www.rdocumentation.org/packages/base/topics/range'>range(i - 1, i - 1 - num_args[i], -1)</a></code>.
+@param  distribution_fn  list of either <code>tfp$distributions$Distribution</code> instances and/or
+functions which take the <code>k</code> previous distributions and returns a
+new <code>tfp$distributions$Distribution</code> instance.</p></li>
+</ol>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -239,7 +165,6 @@ To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
-  <code><a href='tfd_joint_distribution_sequential.html'>tfd_joint_distribution_sequential</a></code>,
   <code><a href='tfd_kumaraswamy.html'>tfd_kumaraswamy</a></code>, <code><a href='tfd_laplace.html'>tfd_laplace</a></code>,
   <code><a href='tfd_linear_gaussian_state_space_model.html'>tfd_linear_gaussian_state_space_model</a></code>,
   <code><a href='tfd_lkj.html'>tfd_lkj</a></code>, <code><a href='tfd_log_normal.html'>tfd_log_normal</a></code>,
@@ -273,6 +198,7 @@ To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)
   <code><a href='tfd_vector_exponential_linear_operator.html'>tfd_vector_exponential_linear_operator</a></code>,
   <code><a href='tfd_vector_laplace_diag.html'>tfd_vector_laplace_diag</a></code>,
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
+  <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
   <code><a href='tfd_von_mises_fisher.html'>tfd_von_mises_fisher</a></code>,
   <code><a href='tfd_von_mises.html'>tfd_von_mises</a></code>, <code><a href='tfd_wishart.html'>tfd_wishart</a></code>,
   <code><a href='tfd_zipf.html'>tfd_zipf</a></code></p></div>

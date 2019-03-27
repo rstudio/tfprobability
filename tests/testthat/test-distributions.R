@@ -516,9 +516,46 @@ test_succeeds("LinearGaussianStateSpaceModel distribution works", {
   expect_equal((d %>% tfd_sample())$get_shape()$as_list(), c(100, 2))
 })
 
-test_succeeds("Laplace distribution works", {
+test_succeeds("Kumaraswamy distribution works", {
 
-  d <- tfd_laplace(loc = 1, scale = 1.33)
-  expect_equal(d %>% tfd_variance() %>% tensor_value(), 2 * 1.33^2, tol = 1e-7)
+  alpha <- c(1, 2, 3)
+  beta <- c(1, 2, 3)
+  d <- tfd_kumaraswamy(alpha, beta)
+  x <- matrix(c(0.1, 0.4, 0.5, 0.2, 0.3, 0.5), ncol = 3)
+  prob <- d %>% tfd_prob(x)
+  expect_equal(prob$get_shape()$as_list(), c(2, 3))
 })
+
+test_succeeds("Exponential distribution works", {
+
+  d <- tfd_exponential(rate = 0.1)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 10)
+})
+
+test_succeeds("Gamma distribution works", {
+
+  d <- tfd_gamma(concentration = 1, rate = 2)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 0.5)
+})
+
+# test_succeeds("JointDistributionSequential distribution works", {
+#
+#   d <- tfd_joint_distribution_sequential(
+#     list(tfd_independent(tfd_exponential(rate = c(100, 120)), 1),  # e ~ Exponential(rate=[100,120])
+#          function(e) tfd_gamma(concentration = e[..., 0], rate = e[..., 1]),  # g ~ Gamma(concentration=e[0], rate=e[1])
+#          tfd_normal(loc = 0, scale = 2),  # n ~ Normal(loc=0, scale=2.)
+#          function(n, g) tfd_normal(loc = n, scale = g) # m ~ Normal(loc=n, scale=g)
+#     ))
+#   # (Notice the 1:1 correspondence between "math" and "code".)
+#   x = joint.sample()
+#   # ==> A length-4 list of tfd.Distribution instances
+#   joint.log_prob(x)
+#   # ==> A scalar `Tensor` representing the total log prob under all four
+#   #     distributions.
+#   joint._resolve_graph()
+#   # ==> (('e', ()),
+#   #      ('g', ('e',)),
+#   #      ('n', ()),
+#   #      ('x', ('n', 'g')))
+# })
 

@@ -43,7 +43,10 @@ The support of the distribution is defined on `[scale, infinity)`.
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
-  \code{\link{tfd_independent}}, \code{\link{tfd_laplace}},
+  \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_independent}},
+  \code{\link{tfd_joint_distribution_sequential}},
+  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},
   \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
   \code{\link{tfd_logistic}},

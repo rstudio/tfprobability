@@ -3050,3 +3050,212 @@ tfd_laplace <- function(loc,
           args)
 }
 
+#' Kumaraswamy distribution.
+#'
+#' The Kumaraswamy distribution is defined over the `(0, 1)` interval using
+#' parameters `concentration1` (aka "alpha") and `concentration0` (aka "beta").  It has a
+#' shape similar to the Beta distribution, but is easier to reparameterize.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; alpha, beta) = alpha * beta * x**(alpha - 1) * (1 - x**alpha)**(beta - 1)
+#' ```
+#' where:
+#' * `concentration1 = alpha`,
+#' * `concentration0 = beta`,
+#' Distribution parameters are automatically broadcast in all functions.
+#' @param concentration1 Positive floating-point `Tensor` indicating mean
+#' number of successes; aka "alpha". Implies `self$dtype` and
+#' `self$batch_shape`, i.e.,
+#' `concentration1$shape = [N1, N2, ..., Nm] = self$batch_shape`.
+#' @param concentration0 Positive floating-point `Tensor` indicating mean
+#' number of failures; aka "beta". Otherwise has same semantics as
+#' `concentration1`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_kumaraswamy <- function(concentration1 = 1,
+                            concentration0 = 1,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = "Kumaraswamy") {
+  args <- list(
+    concentration1 = concentration1,
+    concentration0 = concentration0,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Kumaraswamy,
+          args)
+}
+
+#' Joint distribution parameterized by distribution-making functions.
+#'
+#' This distribution enables both sampling and joint probability computation from
+#' a single model specification.
+#'
+#' A joint distribution is a collection of possibly interdependent distributions.
+#' Like `tf$keras$Sequential`, the `JointDistributionSequential` can be specified
+#' via a `list` of functions (each responsible for making a
+#' `tfp$distributions$Distribution`-like instance).  Unlike
+#' `tf$keras$Sequential`, each function can depend on the output of all previous
+#' elements rather than only the immediately previous.
+#'
+#' Mathematical Details
+#'
+#' The `JointDistributionSequential` implements the chain rule of probability.
+#'
+#' That is, the probability function of a length-`d` vector `x` is,
+#' ```
+#' p(x) = prod{ p(x[i] | x[:i]) : i = 0, ..., (d - 1) }
+#' ```
+#'
+#' The `JointDistributionSequential` is parameterized by a `list` comprised of
+#' either:
+#' 1. `tfp$distributions$Distribution`-like instances or,
+#' 2. `callable`s which return a `tfp$distributions$Distribution`-like instance.
+#' Each `list` element implements the `i`-th *full conditional distribution*,
+#' `p(x[i] | x[:i])`. The "conditioned on" elements are represented by the
+#' `callable`'s required arguments. Directly providing a `Distribution`-like
+#'  instance is a convenience and is semantically identical a zero argument
+#'  `callable`.
+#'  Denote the `i`-th `callable`s non-default arguments as `args[i]`. Since the
+#'  `callable` is the conditional manifest, `0 <= len(args[i]) <= i - 1`. When
+#'  `len(args[i]) < i - 1`, the `callable` only depends on a subset of the
+#'  previous distributions, specifically those at indexes:
+#'  `range(i - 1, i - 1 - num_args[i], -1)`.
+#'  @param  distribution_fn  list of either `tfp$distributions$Distribution` instances and/or
+#'  functions which take the `k` previous distributions and returns a
+#'  new `tfp$distributions$Distribution` instance.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_joint_distribution_sequential <- function(distribution_fn,
+                                              validate_args = FALSE,
+                                              name = NULL) {
+  args <- list(
+    distribution_fn = distribution_fn,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$JointDistributionSequential,
+          args)
+}
+
+#' Exponential distribution.
+#'
+#' The Exponential distribution is parameterized by an event `rate` parameter.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; lambda, x > 0) = exp(-lambda x) / Z
+#' Z = 1 / lambda
+#' ```
+#' where `rate = lambda` and `Z` is the normalizing constant.
+#'
+#' The Exponential distribution is a special case of the Gamma distribution,
+#' i.e.,
+#' ```
+#' Exponential(rate) = Gamma(concentration=1., rate)
+#' ```
+#'
+#' The Exponential distribution uses a `rate` parameter, or "inverse scale",
+#' which can be intuited as,
+#' ```
+#' X ~ Exponential(rate=1)
+#' Y = X / rate
+#' ```
+#'
+#' @param rate Floating point tensor, equivalent to `1 / mean`. Must contain only
+#' positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_exponential <- function(rate,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = "Exponential") {
+  args <- list(
+    rate = rate,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Exponential,
+          args)
+}
+
+#' Gamma distribution.
+#'
+#' The Gamma distribution is defined over positive real numbers using
+#' parameters `concentration` (aka "alpha") and `rate` (aka "beta").
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; alpha, beta, x > 0) = x**(alpha - 1) exp(-x beta) / Z
+#' Z = Gamma(alpha) beta**(-alpha)
+#' ```
+#'
+#' where
+#' * `concentration = alpha`, `alpha > 0`,
+#' * `rate = beta`, `beta > 0`,
+#' * `Z` is the normalizing constant, and,
+#' * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#' The cumulative density function (cdf) is,
+#' ```
+#' cdf(x; alpha, beta, x > 0) = GammaInc(alpha, beta x) / Gamma(alpha)
+#' ```
+#'
+#' where `GammaInc` is the [lower incomplete Gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma_function).
+#' The parameters can be intuited via their relationship to mean and stddev,
+#' ```
+#' concentration = alpha = (mean / stddev)**2
+#' rate = beta = mean / stddev**2 = concentration / mean
+#' ```
+#'
+#' Distribution parameters are automatically broadcast in all functions; see
+#' examples for details.
+#'
+#' Warning: The samples of this distribution are always non-negative. However,
+#' the samples that are smaller than `np$finfo(dtype)$tiny` are rounded
+#' to this value, so it appears more often than it should.
+#' This should only be noticeable when the `concentration` is very small, or the
+#' `rate` is very large. See note in `tf$random_gamma` docstring.
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#' The derivatives are computed using the approach described in the paper
+#' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498
+#' @param concentration Floating point tensor, the concentration params of the
+#' distribution(s). Must contain only positive values.
+#' @param rate Floating point tensor, the inverse scale params of the
+#' distribution(s). Must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_gamma <- function(concentration,
+                      rate,
+                      validate_args = FALSE,
+                      allow_nan_stats = TRUE,
+                      name = "Gamma") {
+  args <- list(
+    concentration = concentration,
+    rate = rate,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Gamma,
+          args)
+}
