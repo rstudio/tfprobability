@@ -56,6 +56,7 @@ An Independent-Bernoulli Keras layer from prod(event_shape) params
 \seealso{
 Other distribution_layers: \code{\link{layer_distribution_lambda}},
   \code{\link{layer_kl_divergence_add_loss}},
+  \code{\link{layer_kl_divergence_regularizer}},
   \code{\link{layer_multivariate_normal_tri_l}}
 }
 \concept{distribution_layers}

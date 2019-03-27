@@ -1,65 +1,3 @@
-
-
-#' Pass-through layer that adds a KL divergence penalty to the model loss
-#'
-#' @inheritParams keras::layer_dense
-#'
-#' @param distribution Distribution instance corresponding to b as in  `KL[a, b]`.
-#'  The previous layer's output is presumed to be a Distribution instance and is a.
-#' @param use_exact_kl Logical indicating if KL divergence should be
-#'  calculated exactly via `tfp$distributions$kl_divergence` or via Monte Carlo approximation.
-#'  Default value: FALSE.
-#' @param test_points_reduce_axis Integer vector or scalar representing dimensions
-#'  over which to reduce_mean while calculating the Monte Carlo approximation of the KL divergence.
-#'  As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
-#'  () means reduce over none of them. Default value: () (i.e., no reduction).
-#' @param test_points_fn A callable taking a `tfp$distributions$Distribution` instance and returning a tensor
-#'  used for random test points to approximate the KL divergence.
-#'  Default value: tf$convert_to_tensor.
-#' @param weight Multiplier applied to the calculated KL divergence for each Keras batch member.
-#' Default value: NULL (i.e., do not weight each batch member).
-#'
-#' @family Probabilistic layers (require TensorFlow probability)
-#'
-#' @return a Keras layer that adds a KL divergence penalty to the model loss
-#' @family distribution_layers
-#' @export
-layer_kl_divergence_add_loss <- function(object,
-                                         distribution,
-                                         use_exact_kl = FALSE,
-                                         test_points_reduce_axis = NULL,
-                                         test_points_fn = tf$convert_to_tensor,
-                                         weight = NULL,
-                                         input_shape = NULL,
-                                         batch_input_shape = NULL,
-                                         batch_size = NULL,
-                                         dtype = NULL,
-                                         name = NULL,
-                                         trainable = NULL,
-                                         weights = NULL) {
-  args <- list(
-    distribution_b = distribution,
-    use_exact_kl = use_exact_kl,
-    test_points_reduce_axis = test_points_reduce_axis,
-    test_points_fn = test_points_fn,
-    weight = weight,
-    input_shape = normalize_shape(input_shape),
-    batch_input_shape = normalize_shape(batch_input_shape),
-    batch_size = as_nullable_integer(batch_size),
-    dtype = dtype,
-    name = name,
-    trainable = trainable,
-    weights = weights
-  )
-
-  create_layer(
-    tfp$python$layers$distribution_layer$KLDivergenceAddLoss,
-    object,
-    args
-  )
-}
-
-
 #' A d-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.
 #'
 #' @inheritParams keras::layer_dense
@@ -76,16 +14,16 @@ layer_kl_divergence_add_loss <- function(object,
 #' @family distribution_layers
 #' @export
 layer_multivariate_normal_tri_l <- function(object,
-                                           event_size,
-                                           convert_to_tensor_fn = tfp$distributions$Distribution$sample,
-                                           validate_args = FALSE,
-                                           batch_input_shape = NULL,
-                                           input_shape = NULL,
-                                           batch_size = NULL,
-                                           dtype = NULL,
-                                           name = NULL,
-                                           trainable = NULL,
-                                           weights = NULL) {
+                                            event_size,
+                                            convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                            validate_args = FALSE,
+                                            batch_input_shape = NULL,
+                                            input_shape = NULL,
+                                            batch_size = NULL,
+                                            dtype = NULL,
+                                            name = NULL,
+                                            trainable = NULL,
+                                            weights = NULL) {
   args <- list(
     event_size = as.integer(event_size),
     convert_to_tensor_fn = convert_to_tensor_fn,
@@ -188,6 +126,113 @@ layer_distribution_lambda <- function(object,
 
   create_layer(
     tfp$python$layers$distribution_layer$DistributionLambda,
+    object,
+    args
+  )
+}
+
+#' Pass-through layer that adds a KL divergence penalty to the model loss
+#'
+#' @inheritParams keras::layer_dense
+#'
+#' @param distribution_b Distribution instance corresponding to b as in  `KL[a, b]`.
+#'  The previous layer's output is presumed to be a Distribution instance and is a.
+#' @param use_exact_kl Logical indicating if KL divergence should be
+#'  calculated exactly via `tfp$distributions$kl_divergence` or via Monte Carlo approximation.
+#'  Default value: FALSE.
+#' @param test_points_reduce_axis Integer vector or scalar representing dimensions
+#'  over which to reduce_mean while calculating the Monte Carlo approximation of the KL divergence.
+#'  As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
+#'  () means reduce over none of them. Default value: () (i.e., no reduction).
+#' @param test_points_fn A callable taking a `tfp$distributions$Distribution` instance and returning a tensor
+#'  used for random test points to approximate the KL divergence.
+#'  Default value: tf$convert_to_tensor.
+#' @param weight Multiplier applied to the calculated KL divergence for each Keras batch member.
+#' Default value: NULL (i.e., do not weight each batch member).
+#'
+#' @family Probabilistic layers (require TensorFlow probability)
+#'
+#' @return a Keras layer that adds a KL divergence penalty to the model loss
+#' @family distribution_layers
+#' @export
+layer_kl_divergence_add_loss <- function(object,
+                                         distribution_b,
+                                         use_exact_kl = FALSE,
+                                         test_points_reduce_axis = NULL,
+                                         test_points_fn = tf$convert_to_tensor,
+                                         weight = NULL,
+                                         input_shape = NULL,
+                                         batch_input_shape = NULL,
+                                         batch_size = NULL,
+                                         dtype = NULL,
+                                         name = NULL,
+                                         trainable = NULL,
+                                         weights = NULL) {
+  args <- list(
+    distribution_b = distribution_b,
+    use_exact_kl = use_exact_kl,
+    test_points_reduce_axis = test_points_reduce_axis,
+    test_points_fn = test_points_fn,
+    weight = weight,
+    input_shape = normalize_shape(input_shape),
+    batch_input_shape = normalize_shape(batch_input_shape),
+    batch_size = as_nullable_integer(batch_size),
+    dtype = dtype,
+    name = name,
+    trainable = trainable,
+    weights = weights
+  )
+
+  create_layer(
+    tfp$python$layers$distribution_layer$KLDivergenceAddLoss,
+    object,
+    args
+  )
+}
+
+#' Regularizer that adds a KL divergence penalty to the model loss.
+#'
+#' When using Monte Carlo approximation (e.g., `use_exact = FALSE`), it is presumed that the input
+#'   distribution's concretization (i.e., `tf$convert_to_tensor(distribution)`) corresponds to a random
+#'   sample. To override this behavior, set test_points_fn.
+#'
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_kl_divergence_add_loss
+#'
+#' @family Probabilistic layers (require TensorFlow probability)
+#'
+#' @family distribution_layers
+#' @export
+layer_kl_divergence_regularizer <- function(object,
+                                            distribution_b,
+                                            use_exact_kl = FALSE,
+                                            test_points_reduce_axis = NULL,
+                                            test_points_fn = tf$convert_to_tensor,
+                                            weight = NULL,
+                                            input_shape = NULL,
+                                            batch_input_shape = NULL,
+                                            batch_size = NULL,
+                                            dtype = NULL,
+                                            name = NULL,
+                                            trainable = NULL,
+                                            weights = NULL) {
+  args <- list(
+    distribution_b,
+    use_exact_kl = use_exact_kl,
+    test_points_reduce_axis = test_points_reduce_axis,
+    test_points_fn = test_points_fn,
+    weight = weight,
+    input_shape = input_shape,
+    batch_input_shape = batch_input_shape,
+    batch_size = batch_size,
+    dtype = dtype,
+    name = name,
+    trainable = trainable,
+    weights = weights
+  )
+
+  create_layer(
+    tfp$python$layers$distribution_layer$KLDivergenceRegularizer,
     object,
     args
   )
