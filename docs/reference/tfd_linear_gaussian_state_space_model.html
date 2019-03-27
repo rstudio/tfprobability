@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Logistic distribution with location <code>loc</code> and <code>scale</code> parameters. — tfd_logistic • tfprobability</title>
+<title>Observation distribution from a linear Gaussian state space model. — tfd_linear_gaussian_state_space_model • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,16 @@
 
 
 
-<meta property="og:title" content="The Logistic distribution with location <code>loc</code> and <code>scale</code> parameters. — tfd_logistic" />
+<meta property="og:title" content="Observation distribution from a linear Gaussian state space model. — tfd_linear_gaussian_state_space_model" />
 
-<meta property="og:description" content="Mathematical details" />
+<meta property="og:description" content="The state space model, sometimes called a Kalman filter, posits a
+latent state vector z_t of dimension latent_size that evolves
+over time following linear Gaussian transitions,
+z_{t+1} = F * z_t + N(b; Q)
+for transition matrix F, bias b and covariance matrix
+Q. At each timestep, we observe a noisy projection of the
+latent state x_t = H * z_t + N(c; R). The transition and
+observation models may be fixed or may vary between timesteps." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,31 +104,77 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The Logistic distribution with location <code>loc</code> and <code>scale</code> parameters.</h1>
+    <h1>Observation distribution from a linear Gaussian state space model.</h1>
     
-    <div class="hidden name"><code>tfd_logistic.Rd</code></div>
+    <div class="hidden name"><code>tfd_linear_gaussian_state_space_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mathematical details</p>
+    <p>The state space model, sometimes called a Kalman filter, posits a
+latent state vector <code>z_t</code> of dimension <code>latent_size</code> that evolves
+over time following linear Gaussian transitions,
+<code>z_{t+1} = F * z_t + N(b; Q)</code>
+for transition matrix <code>F</code>, bias <code>b</code> and covariance matrix
+<code>Q</code>. At each timestep, we observe a noisy projection of the
+latent state <code>x_t = H * z_t + N(c; R)</code>. The transition and
+observation models may be fixed or may vary between timesteps.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_logistic</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Logistic"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_linear_gaussian_state_space_model</span>(<span class='no'>num_timesteps</span>, <span class='no'>transition_matrix</span>,
+  <span class='no'>transition_noise</span>, <span class='no'>observation_matrix</span>, <span class='no'>observation_noise</span>,
+  <span class='no'>initial_state_prior</span>, <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"LinearGaussianStateSpaceModel"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>loc</th>
-      <td><p>Floating point tensor, the means of the distribution(s).</p></td>
+      <th>num_timesteps</th>
+      <td><p>Integer <code>Tensor</code> total number of timesteps.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>Floating point tensor, the scales of the distribution(s). Must
-contain only positive values.</p></td>
+      <th>transition_matrix</th>
+      <td><p>A transition operator, represented by a Tensor or
+LinearOperator of shape <code>[latent_size, latent_size]</code>, or by a
+callable taking as argument a scalar integer Tensor <code>t</code> and
+returning a Tensor or LinearOperator representing the transition
+operator from latent state at time <code>t</code> to time <code>t + 1</code>.</p></td>
+    </tr>
+    <tr>
+      <th>transition_noise</th>
+      <td><p>An instance of
+<code>tfd$MultivariateNormalLinearOperator</code> with event shape
+<code>[latent_size]</code>, representing the mean and covariance of the
+transition noise model, or a callable taking as argument a
+scalar integer Tensor <code>t</code> and returning such a distribution
+representing the noise in the transition from time <code>t</code> to time <code>t + 1</code>.</p></td>
+    </tr>
+    <tr>
+      <th>observation_matrix</th>
+      <td><p>An observation operator, represented by a Tensor
+or LinearOperator of shape <code>[observation_size, latent_size]</code>,
+or by a callable taking as argument a scalar integer Tensor
+<code>t</code> and returning a timestep-specific Tensor or LinearOperator.</p></td>
+    </tr>
+    <tr>
+      <th>observation_noise</th>
+      <td><p>An instance of <code>tfd.MultivariateNormalLinearOperator</code>
+with event shape <code>[observation_size]</code>, representing the mean and covariance of
+the observation noise model, or a callable taking as argument
+a scalar integer Tensor <code>t</code> and returning a timestep-specific
+noise model.
+@param initial_state_prior An instance of <code>MultivariateNormalLinearOperator</code>
+representing the prior distribution on latent states; must
+have event shape <code>[latent_size]</code>.</p></td>
+    </tr>
+    <tr>
+      <th>initial_step</th>
+      <td><p>optional <code>integer</code> specifying the time of the first
+modeled timestep.  This is added as an offset when passing
+timesteps <code>t</code> to (optional) callables specifying
+timestep-specific transition and observation models.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -143,21 +196,48 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The cumulative density function of this distribution is:</p><pre>cdf(x; mu, sigma) = 1 / (1 + exp(-(x - mu) / sigma))
+    <p>This Distribution represents the marginal distribution on
+observations, <code>p(x)</code>. The marginal <code>log_prob</code> is computed by
+Kalman filtering 1, and <code>sample</code> by an efficient forward
+recursion. Both operations require time linear in <code>T</code>, the total
+number of timesteps.</p>
+<p>Shapes</p>
+<p>The event shape is <code>[num_timesteps, observation_size]</code>, where
+<code>observation_size</code> is the dimension of each observation <code>x_t</code>.
+The observation and transition models must return consistent
+shapes.
+This implementation supports vectorized computation over a batch of
+models. All of the parameters (prior distribution, transition and
+observation operators and noise models) must have a consistent
+batch shape.</p>
+<p>Time-varying processes</p>
+<p>Any of the model-defining parameters (prior distribution, transition
+and observation operators and noise models) may be specified as a
+callable taking an integer timestep <code>t</code> and returning a
+time-dependent value. The dimensionality (<code>latent_size</code> and
+<code>observation_size</code>) must be the same at all timesteps.</p>
+<p>Importantly, the timestep is passed as a <code>Tensor</code>, not a Python
+integer, so any conditional behavior must occur <em>inside</em> the
+TensorFlow graph. For example, suppose we want to use a different
+transition model on even days than odd days. It does <em>not</em> work to
+write</p><pre>transition_matrix &lt;- function(t) {
+if(t %% 2 == 0) even_day_matrix else odd_day_matrix
+}
 </pre>
-    <p>where <code>loc = mu</code> and <code>scale = sigma</code>.</p>
-<p>The Logistic distribution is a member of the <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
-constructed as,</p><pre>X ~ Logistic(loc=0, scale=1)
-Y = loc + scale * X
+    <p>since the value of <code>t</code> is not fixed at graph-construction
+time. Instead we need to write</p><pre>transition_matrix &lt;- function(t) {
+tf$cond(tf$equal(tf$mod(t, 2), 0), function() even_day_matrix, function() odd_day_matrix)
+}
 </pre>
+    <p>so that TensorFlow can switch between operators appropriately at runtime.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>, <code><a href='tfd_laplace.html'>tfd_laplace</a></code>,
-  <code><a href='tfd_linear_gaussian_state_space_model.html'>tfd_linear_gaussian_state_space_model</a></code>,
   <code><a href='tfd_lkj.html'>tfd_lkj</a></code>, <code><a href='tfd_log_normal.html'>tfd_log_normal</a></code>,
+  <code><a href='tfd_logistic.html'>tfd_logistic</a></code>,
   <code><a href='tfd_mixture_same_family.html'>tfd_mixture_same_family</a></code>,
   <code><a href='tfd_mixture.html'>tfd_mixture</a></code>, <code><a href='tfd_multinomial.html'>tfd_multinomial</a></code>,
   <code><a href='tfd_multivariate_normal_diag_plus_low_rank.html'>tfd_multivariate_normal_diag_plus_low_rank</a></code>,

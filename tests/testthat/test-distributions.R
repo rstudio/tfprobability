@@ -491,4 +491,34 @@ test_succeeds("Logistic distribution works", {
   expect_equal((d %>% tfd_prob(c(0, 1.5)))$get_shape()$as_list(), 2)
 })
 
+test_succeeds("LKJ distribution works", {
+
+  d <- tfd_lkj(dimension = 3, concentration = 1.5)
+  prob <- d %>% tfd_prob(array(rnorm(2 * 3 * 3), dim = c(2, 3, 3)))
+  expect_equal(prob$get_shape()$as_list(), 2)
+})
+
+test_succeeds("LinearGaussianStateSpaceModel distribution works", {
+
+  ndims <- 2L
+  step_std <- 1
+  noise_std <- 5
+  d <- tfd_linear_gaussian_state_space_model(
+    num_timesteps = 100,
+    transition_matrix = tf$linalg$LinearOperatorIdentity(ndims),
+    transition_noise = tfd_multivariate_normal_diag(
+      scale_diag = step_std^2 * tf$ones(list(ndims))),
+    observation_matrix = tf$linalg$LinearOperatorIdentity(ndims),
+    observation_noise = tfd_multivariate_normal_diag(
+      scale_diag = noise_std^2 * tf$ones(list(ndims))),
+    initial_state_prior = tfd_multivariate_normal_diag(
+      scale_diag = noise_std^2 * tf$ones(list(ndims))))
+  expect_equal((d %>% tfd_sample())$get_shape()$as_list(), c(100, 2))
+})
+
+test_succeeds("Laplace distribution works", {
+
+  d <- tfd_laplace(loc = 1, scale = 1.33)
+  expect_equal(d %>% tfd_variance() %>% tensor_value(), 2 * 1.33^2, tol = 1e-7)
+})
 

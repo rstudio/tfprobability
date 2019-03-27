@@ -95,8 +95,10 @@ To see the argument regarding multiplying \code{scale} by \code{2 / F_0(2)},\pre
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_log_normal}}, \code{\link{tfd_logistic}},
+  \code{\link{tfd_independent}}, \code{\link{tfd_laplace}},
+  \code{\link{tfd_linear_gaussian_state_space_model}},
+  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
+  \code{\link{tfd_logistic}},
   \code{\link{tfd_mixture_same_family}},
   \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
   \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},

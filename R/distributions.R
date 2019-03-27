@@ -2842,4 +2842,211 @@ tfd_logistic <- function(loc,
           args)
 }
 
+#' The LKJ distribution on correlation matrices.
+#'
+#' This is a one-parameter family of distributions on correlation matrices.  The
+#' probability density is proportional to the determinant raised to the power of
+#' the parameter: `pdf(X; eta) = Z(eta) * det(X) ** (eta - 1)`, where `Z(eta)` is
+#' a normalization constant.  The uniform distribution on correlation matrices is
+#' the special case `eta = 1`.
+#'
+#' The distribution is named after Lewandowski, Kurowicka, and Joe, who gave a
+#' sampler for the distribution in [(Lewandowski, Kurowicka, Joe, 2009)][1].
+
+#' @param dimension  `integer`. The dimension of the correlation matrices
+#' to sample.
+#' @param concentration `float` or `double` `Tensor`. The positive concentration
+#' parameter of the LKJ distributions. The pdf of a sample matrix `X` is
+#' proportional to `det(X) ** (concentration - 1)`.
+#' @param input_output_cholesky `Logical`. If `TRUE`, functions whose input or
+#' output have the semantics of samples assume inputs are in Cholesky form
+#' and return outputs in Cholesky form. In particular, if this flag is
+#' `TRUE`, input to `log_prob` is presumed of Cholesky form and output from
+#' `sample` is of Cholesky form.  Setting this argument to `TRUE` is purely
+#' a computational optimization and does not change the underlying
+#' distribution. Additionally, validation checks which are only defined on
+#' the multiplied-out form are omitted, even if `validate_args` is `TRUE`.
+#' Default value: `FALSE` (i.e., input/output does not have Cholesky semantics).
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_lkj <- function(dimension,
+                    concentration,
+                    input_output_cholesky = FALSE,
+                    validate_args = FALSE,
+                    allow_nan_stats = TRUE,
+                    name = "LKJ") {
+  args <- list(
+    dimension = as.integer(dimension),
+    concentration = concentration,
+    input_output_cholesky = input_output_cholesky,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$LKJ,
+          args)
+}
+
+#' Observation distribution from a linear Gaussian state space model.
+#'
+#' The state space model, sometimes called a Kalman filter, posits a
+#' latent state vector `z_t` of dimension `latent_size` that evolves
+#' over time following linear Gaussian transitions,
+#' ```z_{t+1} = F * z_t + N(b; Q)```
+#' for transition matrix `F`, bias `b` and covariance matrix
+#' `Q`. At each timestep, we observe a noisy projection of the
+#' latent state `x_t = H * z_t + N(c; R)`. The transition and
+#' observation models may be fixed or may vary between timesteps.
+#'
+#' This Distribution represents the marginal distribution on
+#' observations, `p(x)`. The marginal `log_prob` is computed by
+#' Kalman filtering [1], and `sample` by an efficient forward
+#' recursion. Both operations require time linear in `T`, the total
+#' number of timesteps.
+#'
+#' Shapes
+#'
+#' The event shape is `[num_timesteps, observation_size]`, where
+#' `observation_size` is the dimension of each observation `x_t`.
+#' The observation and transition models must return consistent
+#' shapes.
+#' This implementation supports vectorized computation over a batch of
+#' models. All of the parameters (prior distribution, transition and
+#' observation operators and noise models) must have a consistent
+#' batch shape.
+#'
+#' Time-varying processes
+#'
+#' Any of the model-defining parameters (prior distribution, transition
+#' and observation operators and noise models) may be specified as a
+#' callable taking an integer timestep `t` and returning a
+#' time-dependent value. The dimensionality (`latent_size` and
+#' `observation_size`) must be the same at all timesteps.
+#'
+#' Importantly, the timestep is passed as a `Tensor`, not a Python
+#' integer, so any conditional behavior must occur *inside* the
+#' TensorFlow graph. For example, suppose we want to use a different
+#' transition model on even days than odd days. It does *not* work to
+#' write
+#'
+#' ```
+#' transition_matrix <- function(t) {
+#' if(t %% 2 == 0) even_day_matrix else odd_day_matrix
+#' }
+#' ```
+#'
+#' since the value of `t` is not fixed at graph-construction
+#' time. Instead we need to write
+#'
+#' ```
+#' transition_matrix <- function(t) {
+#' tf$cond(tf$equal(tf$mod(t, 2), 0), function() even_day_matrix, function() odd_day_matrix)
+#' }
+#' ```
+#'
+#' so that TensorFlow can switch between operators appropriately at runtime.
+#' @param num_timesteps Integer `Tensor` total number of timesteps.
+#' @param transition_matrix A transition operator, represented by a Tensor or
+#' LinearOperator of shape `[latent_size, latent_size]`, or by a
+#' callable taking as argument a scalar integer Tensor `t` and
+#' returning a Tensor or LinearOperator representing the transition
+#' operator from latent state at time `t` to time `t + 1`.
+#' @param transition_noise An instance of
+#' `tfd$MultivariateNormalLinearOperator` with event shape
+#' `[latent_size]`, representing the mean and covariance of the
+#' transition noise model, or a callable taking as argument a
+#' scalar integer Tensor `t` and returning such a distribution
+#' representing the noise in the transition from time `t` to time `t + 1`.
+#' @param observation_matrix An observation operator, represented by a Tensor
+#' or LinearOperator of shape `[observation_size, latent_size]`,
+#' or by a callable taking as argument a scalar integer Tensor
+#' `t` and returning a timestep-specific Tensor or LinearOperator.
+#' @param observation_noise An instance of `tfd.MultivariateNormalLinearOperator`
+#'  with event shape `[observation_size]`, representing the mean and covariance of
+#'  the observation noise model, or a callable taking as argument
+#'  a scalar integer Tensor `t` and returning a timestep-specific
+#'  noise model.
+#'  @param initial_state_prior An instance of `MultivariateNormalLinearOperator`
+#'  representing the prior distribution on latent states; must
+#'  have event shape `[latent_size]`.
+#' @param initial_step optional `integer` specifying the time of the first
+#' modeled timestep.  This is added as an offset when passing
+#' timesteps `t` to (optional) callables specifying
+#' timestep-specific transition and observation models.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_linear_gaussian_state_space_model <- function(num_timesteps,
+                                                  transition_matrix,
+                                                  transition_noise,
+                                                  observation_matrix,
+                                                  observation_noise,
+                                                  initial_state_prior,
+                                                  initial_step = 0L,
+                                                  validate_args = FALSE,
+                                                  allow_nan_stats = TRUE,
+                                                  name = "LinearGaussianStateSpaceModel") {
+  args <- list(
+    num_timesteps = as.integer(num_timesteps),
+    transition_matrix = transition_matrix,
+    transition_noise = transition_noise,
+    observation_matrix = observation_matrix,
+    observation_noise = observation_noise,
+    initial_state_prior = initial_state_prior,
+    initial_step = as.integer(initial_step),
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$LinearGaussianStateSpaceModel,
+          args)
+}
+
+#' The Laplace distribution with location `loc` and `scale` parameters.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) of this distribution is,
+#' ```
+#' pdf(x; mu, sigma) = exp(-|x - mu| / sigma) / Z
+#' Z = 2 sigma
+#' ```
+#'
+#' where `loc = mu`, `scale = sigma`, and `Z` is the normalization constant.
+#'
+#' Note that the Laplace distribution can be thought of two exponential
+#' distributions spliced together "back-to-back."
+#' The Laplace distribution is a member of the [location-scale family](
+#' https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ Laplace(loc=0, scale=1)
+#' Y = loc + scale * X
+#' ```
+#' @param loc Floating point tensor which characterizes the location (center)
+#' of the distribution.
+#' @param scale Positive floating point tensor which characterizes the spread of
+#' the distribution.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_laplace <- function(loc,
+                        scale ,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        name = "Laplace") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Laplace,
+          args)
+}
 
