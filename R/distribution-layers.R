@@ -14,16 +14,16 @@
 #' @family distribution_layers
 #' @export
 layer_multivariate_normal_tri_l <- function(object,
-                                           event_size,
-                                           convert_to_tensor_fn = tfp$distributions$Distribution$sample,
-                                           validate_args = FALSE,
-                                           batch_input_shape = NULL,
-                                           input_shape = NULL,
-                                           batch_size = NULL,
-                                           dtype = NULL,
-                                           name = NULL,
-                                           trainable = NULL,
-                                           weights = NULL) {
+                                            event_size,
+                                            convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                            validate_args = FALSE,
+                                            batch_input_shape = NULL,
+                                            input_shape = NULL,
+                                            batch_size = NULL,
+                                            dtype = NULL,
+                                            name = NULL,
+                                            trainable = NULL,
+                                            weights = NULL) {
   args <- list(
     event_size = as.integer(event_size),
     convert_to_tensor_fn = convert_to_tensor_fn,
@@ -204,18 +204,18 @@ layer_kl_divergence_add_loss <- function(object,
 #' @family distribution_layers
 #' @export
 layer_kl_divergence_regularizer <- function(object,
-                                      distribution_b,
-                                      use_exact_kl = FALSE,
-                                      test_points_reduce_axis = NULL,
-                                      test_points_fn = tf$convert_to_tensor,
-                                      weight = NULL,
-                                      input_shape = NULL,
-                                      batch_input_shape = NULL,
-                                      batch_size = NULL,
-                                      dtype = NULL,
-                                      name = NULL,
-                                      trainable = NULL,
-                                      weights = NULL) {
+                                            distribution_b,
+                                            use_exact_kl = FALSE,
+                                            test_points_reduce_axis = NULL,
+                                            test_points_fn = tf$convert_to_tensor,
+                                            weight = NULL,
+                                            input_shape = NULL,
+                                            batch_input_shape = NULL,
+                                            batch_size = NULL,
+                                            dtype = NULL,
+                                            name = NULL,
+                                            trainable = NULL,
+                                            weights = NULL) {
   args <- list(
     distribution_b,
     use_exact_kl = use_exact_kl,
