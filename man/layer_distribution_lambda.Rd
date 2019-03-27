@@ -7,7 +7,7 @@
 layer_distribution_lambda(object, make_distribution_fn,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
   batch_input_shape = NULL, input_shape = NULL, batch_size = NULL,
-  dtype = NULL, name = NULL, trainable = NULL, weights = NULL)
+  dtype = NULL, name = NULL, trainable = NULL, weights = NULL, ...)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -38,6 +38,8 @@ isn't provided.}
 \item{trainable}{Whether the layer weights will be updated during training.}
 
 \item{weights}{Initial weights for layer.}
+
+\item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
 \description{
 Keras layer enabling plumbing TFP distributions through Keras models.
