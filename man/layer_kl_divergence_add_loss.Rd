@@ -4,8 +4,8 @@
 \alias{layer_kl_divergence_add_loss}
 \title{Pass-through layer that adds a KL divergence penalty to the model loss}
 \usage{
-layer_kl_divergence_add_loss(object, distribution, use_exact_kl = FALSE,
-  test_points_reduce_axis = NULL,
+layer_kl_divergence_add_loss(object, distribution_b,
+  use_exact_kl = FALSE, test_points_reduce_axis = NULL,
   test_points_fn = tf$convert_to_tensor, weight = NULL,
   input_shape = NULL, batch_input_shape = NULL, batch_size = NULL,
   dtype = NULL, name = NULL, trainable = NULL, weights = NULL)
@@ -13,7 +13,7 @@ layer_kl_divergence_add_loss(object, distribution, use_exact_kl = FALSE,
 \arguments{
 \item{object}{Model or layer object}
 
-\item{distribution}{Distribution instance corresponding to b as in  \code{KL[a, b]}.
+\item{distribution_b}{Distribution instance corresponding to b as in  \code{KL[a, b]}.
 The previous layer's output is presumed to be a Distribution instance and is a.}
 
 \item{use_exact_kl}{Logical indicating if KL divergence should be

@@ -135,7 +135,7 @@ layer_distribution_lambda <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #'
-#' @param distribution Distribution instance corresponding to b as in  `KL[a, b]`.
+#' @param distribution_b Distribution instance corresponding to b as in  `KL[a, b]`.
 #'  The previous layer's output is presumed to be a Distribution instance and is a.
 #' @param use_exact_kl Logical indicating if KL divergence should be
 #'  calculated exactly via `tfp$distributions$kl_divergence` or via Monte Carlo approximation.
@@ -156,7 +156,7 @@ layer_distribution_lambda <- function(object,
 #' @family distribution_layers
 #' @export
 layer_kl_divergence_add_loss <- function(object,
-                                         distribution,
+                                         distribution_b,
                                          use_exact_kl = FALSE,
                                          test_points_reduce_axis = NULL,
                                          test_points_fn = tf$convert_to_tensor,
@@ -169,7 +169,7 @@ layer_kl_divergence_add_loss <- function(object,
                                          trainable = NULL,
                                          weights = NULL) {
   args <- list(
-    distribution_b = distribution,
+    distribution_b = distribution_b,
     use_exact_kl = use_exact_kl,
     test_points_reduce_axis = test_points_reduce_axis,
     test_points_fn = test_points_fn,
