@@ -100,6 +100,7 @@ layer_independent_bernoulli <- function(object,
 #' @param make_distribution_fn A callable that takes previous layer outputs and returns a `tfd$distributions$Distribution` instance.
 #' @param convert_to_tensor_fn A callable that takes a tfd$Distribution instance and returns a
 #'  tf$Tensor-like object. Default value: `tfd$distributions$Distribution$sample`.
+#' @param ... Additional arguments passed to `args` of `keras::create_layer`.
 #' @family distribution_layers
 #' @export
 layer_distribution_lambda <- function(object,
@@ -111,7 +112,8 @@ layer_distribution_lambda <- function(object,
                                       dtype = NULL,
                                       name = NULL,
                                       trainable = NULL,
-                                      weights = NULL) {
+                                      weights = NULL,
+                                      ...) {
   args <- list(
     make_distribution_fn = make_distribution_fn,
     convert_to_tensor_fn = convert_to_tensor_fn,
@@ -121,7 +123,8 @@ layer_distribution_lambda <- function(object,
     dtype = dtype,
     name = name,
     trainable = trainable,
-    weights = weights
+    weights = weights,
+    ...
   )
 
   create_layer(
