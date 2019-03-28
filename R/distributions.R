@@ -639,7 +639,6 @@ tfd_von_mises_fisher <- function(df,
 #'
 #' The parameters loc and concentration must be shaped in a way that
 #' supports broadcasting (e.g. loc + concentration is a valid operation).
-
 #' @param loc Floating point tensor, the circular means of the distribution(s).
 #' @param concentration Floating point tensor, the level of concentration of the
 #' distribution(s) around loc. Must take non-negative values.
@@ -829,7 +828,6 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
 #' b >= 0 and k is the event size.
 #' @param scale Instance of LinearOperator with same dtype as loc and shape
 #' `[B1, ..., Bb, k, k]`.
-
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
@@ -883,7 +881,7 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #'  Additional leading dimensions (if any) will index batches.
 #'  If both `scale_diag` and `scale_identity_multiplier` are `NULL`, then
 #'  `scale` is the Identity matrix.
-
+#'
 #' About VectorLaplace and Vector distributions in TensorFlow.
 #'
 #' The VectorLaplace is a non-standard distribution that has useful properties.
@@ -914,29 +912,6 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #' k x k identity matrices added to scale. When both
 #' scale_identity_multiplier and scale_diag are NULL then scale is
 #' the Identity.
-
-#' @inheritParams tfd_normal
-#'
-#' @family distributions
-#' @export
-tfd_vector_laplace_diag <- function(loc = NULL,
-                                    scale_diag = NULL,
-                                    scale_identity_multiplier = NULL,
-                                    validate_args = FALSE,
-                                    allow_nan_stats = TRUE,
-                                    name = "VectorLaplaceDiag") {
-  args <- list(
-    loc = loc,
-    scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
-    validate_args = validate_args,
-    allow_nan_stats = allow_nan_stats,
-    name = name
-  )
-
-  do.call(tfp$distributions$VectorLaplaceDiag, args)
-}
-
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
@@ -1012,7 +987,6 @@ tfd_vector_laplace_diag <- function(loc = NULL,
 #' Additional leading dimensions (if any) will index batches.
 #' If both `scale_diag` and `scale_identity_multiplier` are `NULL`, then
 #' `scale` is the Identity matrix.
-
 #'
 #' @param loc Floating-point Tensor. If this is set to NULL, loc is
 #' implicitly 0. When specified, may have shape `[B1, ..., Bb, k]` where
@@ -1028,7 +1002,6 @@ tfd_vector_laplace_diag <- function(loc = NULL,
 #' k x k identity matrices added to scale. When both
 #' scale_identity_multiplier and scale_diag are NULL then scale is
 #' the Identity.
-
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
@@ -1109,7 +1082,6 @@ tfd_vector_exponential_diag <- function(loc = NULL,
 #' b >= 0 and k is the event size.
 #' @param scale Instance of LinearOperator with same dtype as loc and shape
 #' `[B1, ..., Bb, k, k]`.
-
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
@@ -1190,11 +1162,11 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #' WARNING: If you backprop through a VectorDiffeomixture sample and the "base"
 #' distribution is both: not `FULLY_REPARAMETERIZED` and a function of trainable
 #' variables, then the gradient is not guaranteed correct!
-
+#'
 #' @section References:
 #' - [Joshua Dillon and Ian Langmore. Quadrature Compound: An approximating family of distributions.
 #' _arXiv preprint arXiv:1801.03080_, 2018.](https://arxiv.org/abs/1801.03080)
-
+#'
 #' @param mix_loc: `float`-like `Tensor` with shape `[b1, ..., bB, K-1]`.
 #' In terms of samples, larger `mix_loc[..., k]` ==>
 #'   `Z` is more likely to put more weight on its `kth` component.
@@ -1412,7 +1384,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' - [Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.](http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf)
 #' - [Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013.](https://arxiv.org/abs/1309.6835)
 #' - [Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006.](http://www.gaussianprocess.org/gpml/)
-
+#'
 #' @param  kernel `PositiveSemidefiniteKernel`-like instance representing the
 #' GP's covariance function.
 #' @param index_points `float` `Tensor` representing finite (batch of) vector(s) of
@@ -1457,7 +1429,6 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' on noisy observations.
 #' @param jitter `float` scalar `Tensor` added to the diagonal of the covariance
 #' matrix to ensure positive definiteness of the covariance matrix. Default value: `1e-6`.
-
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -1743,7 +1714,6 @@ tfd_student_t <- function(df,
 #' * `jitter` is added to the diagonal to ensure positive definiteness up to
 #' machine precision (otherwise Cholesky-decomposition is prone to failure),
 #' * `eye(N)` is an N-by-N identity matrix.
-
 #'
 #' @section References:
 #' - [Amar Shah, Andrew Gordon Wilson, and Zoubin Ghahramani. Student-t Processes as Alternatives to Gaussian Processes. In _Artificial Intelligence and Statistics_, 2014.](https://www.cs.cmu.edu/~andrewgw/tprocess.pdf)
@@ -1987,7 +1957,6 @@ tfd_quantized <- function(distribution,
 #' `k * log_rate - lgamma(k+1) - rate`, which matches the Poisson pmf
 #' at integer arguments `k` (note that this function is not itself
 #' a normalized probability log-density). Default value: `TRUE`.
-
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -2062,7 +2031,6 @@ tfd_poisson <- function(rate = NULL,
 #'  `quadrature_size`, `validate_args` and returning `tuple(grid, probs)`
 #'  representing the LogNormal grid and corresponding normalized weight.
 #'  Default value: `quadrature_scheme_lognormal_quantiles`.
-
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -2229,7 +2197,6 @@ tfd_negative_binomial <- function(total_count,
 #' Trainable (batch) lower-triangular matrices can be created with
 #' `tfd_matrix_diag_transform()` and/or
 #' `tfd_fill_triangular()`
-
 #' @param loc Floating-point `Tensor`. If this is set to `NULL`, `loc` is
 #' implicitly `0`. When specified, may have shape `[B1, ..., Bb, k]` where
 #' `b >= 0` and `k` is the event size.
@@ -2661,7 +2628,7 @@ tfd_mixture <- function(cat,
 #'  - the maximum `Tensor` index, i.e., `2**31-1`.
 #'
 #'  Note: This condition is validated only when `validate_args = TRUE`.
-
+#'
 #' @param logits An N-D `Tensor`, `N >= 1`, representing the log probabilities
 #' of a set of Categorical distributions. The first `N - 1` dimensions
 #' index into a batch of independent distributions and the last dimension
@@ -2728,7 +2695,7 @@ tfd_categorical <- function(logits = NULL,
 #' @section References:
 #' - [Michael Figurnov, Shakir Mohamed and Andriy Mnih. Implicit reparameterization gradients. In _Neural Information Processing Systems_, 2018. ](https://arxiv.org/abs/1805.08498)
 #' - [Alex Graves. Stochastic Backpropagation through Mixture Density Distributions. _arXiv_, 2016.](https://arxiv.org/abs/1607.05690)
-
+#'
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -3385,7 +3352,7 @@ tfd_inverse_gamma <- function(concentration,
 #' @section References:
 #' - [Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)](http://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf).
 #' - [Barry, Parlange, Li. Approximation for the exponential integral (2000)](https://doi.org/10.1016/S0022-1694(99)00184-5).
-
+#'
 #' @param scale Floating point tensor; the scales of the distribution(s). Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
@@ -3925,7 +3892,6 @@ tfd_gumbel <- function(loc,
 #' represents the probability of success for independent Geometric
 #' distributions and must be in the range `(0, 1]`. Only one of `logits`
 #' or `probs` should be specified.
-
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -4218,33 +4184,33 @@ tfd_batch_reshape <- function(distribution,
 #'
 #' Regarding terminology,
 #' "Autoregressive models decompose the joint density as a product of
-#'  conditionals, and model each conditional in turn. Normalizing flows
-#'  transform a base density (e.g. a standard Gaussian) into the target density
-#'  by an invertible transformation with tractable Jacobian." (Papamakarios et al., 2016)
+#' conditionals, and model each conditional in turn. Normalizing flows
+#' transform a base density (e.g. a standard Gaussian) into the target density
+#' by an invertible transformation with tractable Jacobian." (Papamakarios et al., 2016)
 #'
-#'  In other words, the "autoregressive property" is equivalent to the
-#'  decomposition, `p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }`. The provided
-#'  `shift_and_log_scale_fn`, `masked_autoregressive_default_template`, achieves
-#'  this property by zeroing out weights in its `masked_dense` layers.
-#'  Practically speaking the autoregressive property means that there exists a
-#'  permutation of the event coordinates such that each coordinate is a
-#'  diffeomorphic function of only preceding coordinates
-#'  (van den Oord et al., 2016).
+#' In other words, the "autoregressive property" is equivalent to the
+#' decomposition, `p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }`. The provided
+#' `shift_and_log_scale_fn`, `masked_autoregressive_default_template`, achieves
+#' this property by zeroing out weights in its `masked_dense` layers.
+#' Practically speaking the autoregressive property means that there exists a
+#' permutation of the event coordinates such that each coordinate is a
+#' diffeomorphic function of only preceding coordinates
+#' (van den Oord et al., 2016).
 #'
-#'  Mathematical Details
+#' Mathematical Details
 #'
-#'  The probability function is
-#'  ```
-#'  prob(x; fn, n) = fn(x).prob(x)
-#'  ```
+#' The probability function is
+#' ```
+#' prob(x; fn, n) = fn(x).prob(x)
+#' ```
 #'
-#'  And a sample is generated by
-#'  ```
-#'  x = fn(...fn(fn(x0).sample()).sample()).sample()
-#'  ```
+#' And a sample is generated by
+#' ```
+#' x = fn(...fn(fn(x0).sample()).sample()).sample()
+#' ```
 #'
-#'  where the ellipses (`...`) represent `n-2` composed calls to `fn`, `fn`
-#'  constructs a `tfd$Distribution`-like instance, and `x0` is a fixed initializing `Tensor`.
+#' where the ellipses (`...`) represent `n-2` composed calls to `fn`, `fn`
+#' constructs a `tfd$Distribution`-like instance, and `x0` is a fixed initializing `Tensor`.
 #'
 #' @section References:
 #'  - [George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In _Neural Information Processing Systems_, 2017.](https://arxiv.org/abs/1705.07057)

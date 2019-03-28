@@ -67,8 +67,9 @@ where:
 Additional leading dimensions (if any) will index batches.
 If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{NULL}, then
 \code{scale} is the Identity matrix.
-About VectorLaplace and Vector distributions in TensorFlow.
 }
+
+About VectorLaplace and Vector distributions in TensorFlow.
 
 The VectorLaplace is a non-standard distribution that has useful properties.
 The marginals Y_1, ..., Y_k are \emph{not} Laplace random variables, due to

@@ -1,13 +1,10 @@
-
 #' Compute `Y = g(X) = X`.
 #'
 #' @param validate_args Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 #'  FALSE, and the inputs are invalid, correct behavior is not guaranteed.
 #' @param name name prefixed to Ops created by this class.
-
 #' @family bijectors
 #' @export
-
 tfb_identity <- function(validate_args = FALSE,
                          name = "identity") {
   args <- list(validate_args = validate_args,
@@ -22,7 +19,6 @@ tfb_identity <- function(validate_args = FALSE,
 #'
 #' @family bijectors
 #' @export
-
 tfb_sigmoid <- function(validate_args = FALSE,
                         name = "sigmoid") {
   args <- list(validate_args = validate_args,
@@ -37,7 +33,6 @@ tfb_sigmoid <- function(validate_args = FALSE,
 #'
 #' @family bijectors
 #' @export
-
 tfb_exp <- function(validate_args = FALSE,
                     name = "exp") {
   args <- list(validate_args = validate_args,
@@ -57,11 +52,9 @@ tfb_exp <- function(validate_args = FALSE,
 #' `TransformedDistribution` to produce a left semi-continuous pdf.
 #' For `y < 0`, `tfb_absolute_value$inverse(y)` happily returns the wrong thing, `-y, y`
 #'  This is done for efficiency.  If `validate_args == TRUE`, `y < 0` will raise an exception.
-
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_absolute_value <- function(validate_args = FALSE,
                                name = "absolute_value") {
   args <- list(validate_args = validate_args,
@@ -109,7 +102,6 @@ tfb_absolute_value <- function(validate_args = FALSE,
 #'  common dtype inferred from the args, finally falling back to float32.
 #' @family bijectors
 #' @export
-
 tfb_affine <- function(shift = NULL,
                        scale_identity_multiplier = NULL,
                        scale_diag = NULL,
@@ -148,7 +140,6 @@ tfb_affine <- function(shift = NULL,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_affine_linear_operator <- function(shift = NULL,
                                        scale = NULL,
                                        adjoint = FALSE,
@@ -225,12 +216,10 @@ tfb_affine_scalar <- function(shift = NULL,
 #' @param batchnorm_layer `tf$layers$BatchNormalization` layer object. If NULL, defaults to
 #' `tf$layers$BatchNormalization(gamma_constraint=tf$nn$relu(x) + 1e-6)`.
 #' This ensures positivity of the scale variable.
-
 #' @param training If TRUE, updates running-average statistics during call to inverse().
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_batch_normalization <- function(batchnorm_layer = NULL,
                                     training = TRUE,
                                     validate_args = FALSE,
@@ -319,7 +308,6 @@ tfb_chain <- function(bijectors = NULL,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_cholesky_outer_product <- function(validate_args = FALSE,
                                        name = "cholesky_outer_product") {
   args <- list(validate_args = validate_args,
@@ -338,7 +326,6 @@ tfb_cholesky_outer_product <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
                                          name = "cholesky_to_inv_cholesky") {
   args <- list(validate_args = validate_args,
@@ -365,7 +352,6 @@ tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
 #' Currently, only 2 and 3 are supported.
 #' @family bijectors
 #' @export
-
 tfb_discrete_cosine_transform <-
   function(validate_args = FALSE,
            dct_type = 2,
@@ -390,7 +376,6 @@ tfb_discrete_cosine_transform <-
 #'
 #' @family bijectors
 #' @export
-
 tfb_expm1 <- function(validate_args = FALSE,
                       name = "expm1") {
   args <- list(validate_args = validate_args,
@@ -413,7 +398,6 @@ tfb_expm1 <- function(validate_args = FALSE,
 #'
 #' @family bijectors
 #' @export
-
 tfb_fill_triangular <- function(upper = FALSE,
                                 validate_args = FALSE,
                                 name = "fill_triangular") {
@@ -471,7 +455,6 @@ tfb_gumbel <- function(loc = 0,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_inline <- function(forward_fn = NULL,
                        inverse_fn = NULL,
                        inverse_log_det_jacobian_fn = NULL,
@@ -658,7 +641,6 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-#'
 tfb_masked_autoregressive_flow <-
   function(shift_and_log_scale_fn,
            is_constant_jacobian = FALSE,
@@ -704,7 +686,6 @@ tfb_masked_autoregressive_flow <-
 #' information (for fitting) yet solves the numerical stability problem. I.e.,
 #' log_scale_clip_gradient = FALSE means `grad[exp(clip(x))] = grad[x] exp(clip(x))`
 #' rather than the usual `grad[clip(x)] exp(clip(x))`.
-
 #' @section References:
 #' - [Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In _International Conference on Machine Learning_, 2015.](https://arxiv.org/abs/1502.03509)
 #'
@@ -1077,7 +1058,6 @@ tfb_reciprocal <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_reshape <- function(event_shape_out,
                         event_shape_in = c(-1),
                         validate_args = FALSE,
@@ -1109,7 +1089,6 @@ tfb_reshape <- function(event_shape_out,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_scale_tri_l <- function(diag_bijector = NULL,
                             diag_shift = 1e-5,
                             validate_args = FALSE,
@@ -1150,7 +1129,6 @@ tfb_scale_tri_l <- function(diag_bijector = NULL,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_sinh_arcsinh <- function(skewness = NULL,
                              tailweight = NULL,
                              validate_args = FALSE,
@@ -1175,11 +1153,9 @@ tfb_sinh_arcsinh <- function(skewness = NULL,
 #' At first blush it may seem like the [Invariance of domain](https://en.wikipedia.org/wiki/Invariance_of_domain)
 #' theorem implies this implementation is not a bijection. However, the appended dimension
 #' makes the (forward) image non-open and the theorem does not directly apply.
-
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_softmax_centered <- function(validate_args = FALSE,
                                  name = "softmax_centered") {
   args <- list(validate_args = validate_args,
@@ -1204,7 +1180,6 @@ tfb_softmax_centered <- function(validate_args = FALSE,
 #' * c > 0 but small means f(x) approx ReLu(x) = max(0, x).
 #' * c < 0 flips sign and reflects around the y-axis: f_{-c}(x) = -f_c(-x).
 #' * c = 0 results in a non-bijective transformation and triggers an exception.
-
 #' Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.
 #'
 #' @param hinge_softness Nonzero floating point Tensor.  Controls the softness of what
@@ -1212,7 +1187,6 @@ tfb_softmax_centered <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_softplus <- function(hinge_softness = NULL,
                          validate_args = FALSE,
                          name = "softplus") {
@@ -1231,7 +1205,6 @@ tfb_softplus <- function(hinge_softness = NULL,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_softsign <- function(validate_args = FALSE,
                          name = "softsign") {
   args <- list(validate_args = validate_args,
@@ -1245,7 +1218,6 @@ tfb_softsign <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_square <- function(validate_args = FALSE,
                        name = "square") {
   args <- list(validate_args = validate_args,
@@ -1266,7 +1238,6 @@ tfb_square <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_tanh <- function(validate_args = FALSE,
                      name = "tanh") {
   args <- list(validate_args = validate_args,
@@ -1280,7 +1251,6 @@ tfb_tanh <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_transform_diagonal <- function(diag_bijector,
                                    validate_args = FALSE,
                                    name = "transform_diagonal") {
@@ -1317,7 +1287,6 @@ tfb_transform_diagonal <- function(diag_bijector,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_transpose <- function(perm = NULL,
                           rightmost_transposed_ndims = NULL,
                           validate_args = FALSE,
@@ -1350,7 +1319,6 @@ tfb_transpose <- function(perm = NULL,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-
 tfb_weibull <- function(scale = 1,
                         concentration = 1,
                         validate_args = FALSE,

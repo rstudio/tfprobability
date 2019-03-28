@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-methods.R
 \name{tfd_mode}
 \alias{tfd_mode}
-\title{Mean.}
+\title{Mode.}
 \usage{
 tfd_mode(distribution, name = "mode")
 }
@@ -15,7 +15,7 @@ tfd_mode(distribution, name = "mode")
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
-Mean.
+Mode.
 }
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},

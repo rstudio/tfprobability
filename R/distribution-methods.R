@@ -49,7 +49,6 @@ tfd_prob <- function(distribution, value, name = "prob") {
 #' @inherit tfd_log_prob return params
 #' @family distribution_methods
 #' @export
-#'
 tfd_log_cdf <- function(distribution, value, name = "log_cdf") {
   distribution$log_cdf(value, name)
 }
@@ -106,7 +105,6 @@ tfd_entropy <- function(distribution, name = "entropy") {
 #' @inherit tfd_log_prob return params
 #' @family distribution_methods
 #' @export
-#'
 tfd_mean <- function(distribution, name = "mean") {
   distribution$mean(name)
 }
@@ -175,7 +173,7 @@ tfd_covariance <- function(distribution, name = "covariance") {
   distribution$covariance(name)
 }
 
-#' Mean.
+#' Mode.
 #'
 #' @inherit tfd_log_prob return params
 #' @family distribution_methods
