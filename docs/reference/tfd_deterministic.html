@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Multinomial distribution. — tfd_multinomial • tfprobability</title>
+<title>Scalar <code>Deterministic</code> distribution on the real line. — tfd_deterministic • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,15 +30,12 @@
 
 
 
-<meta property="og:title" content="Multinomial distribution. — tfd_multinomial" />
+<meta property="og:title" content="Scalar <code>Deterministic</code> distribution on the real line. — tfd_deterministic" />
 
-<meta property="og:description" content="This Multinomial distribution is parameterized by probs, a (batch of)
-length-K prob (probability) vectors (K &amp;gt; 1) such that
-tf.reduce_sum(probs, -1) = 1, and a total_count number of trials, i.e.,
-the number of trials per draw from the Multinomial. It is defined over a
-(batch of) length-K vector counts such that
-tf$reduce_sum(counts, -1) = total_count. The Multinomial is identically the
-Binomial distribution when K = 2." />
+<meta property="og:description" content="The scalar Deterministic distribution is parameterized by a batch point
+loc on the real line.  The distribution is supported at this point only,
+and corresponds to a random variable that is constant, equal to loc.
+See Degenerate rv." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,52 +100,43 @@ Binomial distribution when K = 2." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Multinomial distribution.</h1>
+    <h1>Scalar <code>Deterministic</code> distribution on the real line.</h1>
     
-    <div class="hidden name"><code>tfd_multinomial.Rd</code></div>
+    <div class="hidden name"><code>tfd_deterministic.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This Multinomial distribution is parameterized by <code>probs</code>, a (batch of)
-length-<code>K</code> <code>prob</code> (probability) vectors (<code>K &gt; 1</code>) such that
-<code>tf.reduce_sum(probs, -1) = 1</code>, and a <code>total_count</code> number of trials, i.e.,
-the number of trials per draw from the Multinomial. It is defined over a
-(batch of) length-<code>K</code> vector <code>counts</code> such that
-<code>tf$reduce_sum(counts, -1) = total_count</code>. The Multinomial is identically the
-Binomial distribution when <code>K = 2</code>.</p>
+    <p>The scalar <code>Deterministic</code> distribution is parameterized by a batch point
+<code>loc</code> on the real line.  The distribution is supported at this point only,
+and corresponds to a random variable that is constant, equal to <code>loc</code>.
+See <a href='https://en.wikipedia.org/wiki/Degenerate_distribution'>Degenerate rv</a>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_multinomial</span>(<span class='no'>total_count</span>, <span class='kw'>logits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>tfd_deterministic</span>(<span class='no'>loc</span>, <span class='kw'>atol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rtol</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Multinomial"</span>)</pre>
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Deterministic"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>total_count</th>
-      <td><p>Non-negative floating point tensor with shape broadcastable
-to <code>[N1,..., Nm]</code> with <code>m &gt;= 0</code>. Defines this as a batch of
-<code>N1 x ... x Nm</code> different Multinomial distributions. Its components
-should be equal to integer values.</p></td>
+      <th>loc</th>
+      <td><p>Numeric <code>Tensor</code> of shape <code>[B1, ..., Bb]</code>, with <code>b &gt;= 0</code>.
+The point (or batch of points) on which this distribution is supported.</p></td>
     </tr>
     <tr>
-      <th>logits</th>
-      <td><p>Floating point tensor representing unnormalized log-probabilities
-of a positive event with shape broadcastable to
-<code>[N1,..., Nm, K]</code> <code>m &gt;= 0</code>, and the same dtype as <code>total_count</code>. Defines
-this as a batch of <code>N1 x ... x Nm</code> different <code>K</code> class Multinomial
-distributions. Only one of <code>logits</code> or <code>probs</code> should be passed in.</p></td>
+      <th>atol</th>
+      <td><p>Non-negative <code>Tensor</code> of same <code>dtype</code> as <code>loc</code> and broadcastable
+shape.  The absolute tolerance for comparing closeness to <code>loc</code>.
+Default is <code>0</code>.</p></td>
     </tr>
     <tr>
-      <th>probs</th>
-      <td><p>Positive floating point tensor with shape broadcastable to
-<code>[N1,..., Nm, K]</code> <code>m &gt;= 0</code> and same dtype as <code>total_count</code>. Defines
-this as a batch of <code>N1 x ... x Nm</code> different <code>K</code> class Multinomial
-distributions. <code>probs</code>'s components in the last portion of its shape
-should sum to <code>1</code>. Only one of <code>logits</code> or <code>probs</code> should be passed in.</p></td>
+      <th>rtol</th>
+      <td><p>Non-negative <code>Tensor</code> of same <code>dtype</code> as <code>loc</code> and broadcastable
+shape.  The relative tolerance for comparing closeness to <code>loc</code>.
+Default is <code>0</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -171,26 +159,9 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Mathematical Details</p>
-<p>The Multinomial is a distribution over <code>K</code>-class counts, i.e., a length-<code>K</code>
-vector of non-negative integer <code>counts = n = [n_0, ..., n_{K-1}]</code>.
-The probability mass function (pmf) is,</p><pre>pmf(n; pi, N) = prod_j (pi_j)**n_j / Z
-Z = (prod_j n_j!) / N!
+<p>The probability mass function (pmf) and cumulative distribution function (cdf) are</p><pre>pmf(x; loc) = 1, if x == loc, else 0
+cdf(x; loc) = 1, if x &gt;= loc, else 0
 </pre>
-    <p>where:</p><ul>
-<li><p><code>probs = pi = [pi_0, ..., pi_{K-1}]</code>, <code>pi_j &gt; 0</code>, <code>sum_j pi_j = 1</code>,</p></li>
-<li><p><code>total_count = N</code>, <code>N</code> a positive integer,</p></li>
-<li><p><code>Z</code> is the normalization constant, and,</p></li>
-<li><p><code>N!</code> denotes <code>N</code> factorial.</p></li>
-</ul>
-    <p>Distribution parameters are automatically broadcast in all functions; see
-examples for details.</p>
-<p>Pitfalls</p>
-<p>The number of classes, <code>K</code>, must not exceed:</p><ul>
-<li><p>the largest integer representable by <code>self$dtype</code>, i.e.,
-<code>2**(mantissa_bits+1)</code> (IEE754),</p></li>
-<li><p>the maximum <code>Tensor</code> index, i.e., <code>2**31-1</code>.</p></li>
-</ul>
-    <p>Note: This condition is validated only when <code>validate_args = TRUE</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -198,7 +169,6 @@ examples for details.</p>
   <code><a href='tfd_beta.html'>tfd_beta</a></code>, <code><a href='tfd_binomial.html'>tfd_binomial</a></code>,
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>, <code><a href='tfd_cauchy.html'>tfd_cauchy</a></code>,
   <code><a href='tfd_chi2.html'>tfd_chi2</a></code>, <code><a href='tfd_chi.html'>tfd_chi</a></code>,
-  <code><a href='tfd_deterministic.html'>tfd_deterministic</a></code>,
   <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a></code>,
   <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a></code>, <code><a href='tfd_empirical.html'>tfd_empirical</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
@@ -217,7 +187,7 @@ examples for details.</p>
   <code><a href='tfd_lkj.html'>tfd_lkj</a></code>, <code><a href='tfd_log_normal.html'>tfd_log_normal</a></code>,
   <code><a href='tfd_logistic.html'>tfd_logistic</a></code>,
   <code><a href='tfd_mixture_same_family.html'>tfd_mixture_same_family</a></code>,
-  <code><a href='tfd_mixture.html'>tfd_mixture</a></code>,
+  <code><a href='tfd_mixture.html'>tfd_mixture</a></code>, <code><a href='tfd_multinomial.html'>tfd_multinomial</a></code>,
   <code><a href='tfd_multivariate_normal_diag_plus_low_rank.html'>tfd_multivariate_normal_diag_plus_low_rank</a></code>,
   <code><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></code>,
   <code><a href='tfd_multivariate_normal_full_covariance.html'>tfd_multivariate_normal_full_covariance</a></code>,

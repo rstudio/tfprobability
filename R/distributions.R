@@ -4093,4 +4093,94 @@ tfd_dirichlet_multinomial <- function(total_count,
           args)
 }
 
+#' Scalar `Deterministic` distribution on the real line.
+#'
+#' The scalar `Deterministic` distribution is parameterized by a [batch] point
+#' `loc` on the real line.  The distribution is supported at this point only,
+#' and corresponds to a random variable that is constant, equal to `loc`.
+#' See [Degenerate rv](https://en.wikipedia.org/wiki/Degenerate_distribution).
+#'
+#' Mathematical Details
+#'
+#' The probability mass function (pmf) and cumulative distribution function (cdf) are
+#' ```
+#' pmf(x; loc) = 1, if x == loc, else 0
+#' cdf(x; loc) = 1, if x >= loc, else 0
+#' ```
+#' @param loc Numeric `Tensor` of shape `[B1, ..., Bb]`, with `b >= 0`.
+#' The point (or batch of points) on which this distribution is supported.
+#' @param atol  Non-negative `Tensor` of same `dtype` as `loc` and broadcastable
+#' shape.  The absolute tolerance for comparing closeness to `loc`.
+#' Default is `0`.
+#' @param rtol  Non-negative `Tensor` of same `dtype` as `loc` and broadcastable
+#' shape.  The relative tolerance for comparing closeness to `loc`.
+#' Default is `0`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_deterministic <- function(loc,
+                              atol = NULL,
+                              rtol = NULL,
+                              validate_args = FALSE,
+                              allow_nan_stats = TRUE,
+                              name = "Deterministic") {
+  args <- list(
+    loc = loc,
+    atol = atol,
+    rtol = rtol,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Deterministic,
+          args)
+}
+
+#' Empirical distribution.
+#'
+#' The Empirical distribution is parameterized by a [batch] multiset of samples.
+#' It describes the empirical measure (observations) of a variable.
+#' Note: some methods (log_prob, prob, cdf, mode, entropy) are not differentiable
+#' with regard to samples.
+#'
+#' Mathematical Details
+#'
+#' The probability mass function (pmf) and cumulative distribution function (cdf) are
+#' ```
+#' pmf(k; s1, ..., sn) = sum_i I(k)^{k == si} / n
+#' I(k)^{k == si} == 1, if k == si, else 0.
+#' cdf(k; s1, ..., sn) = sum_i I(k)^{k >= si} / n
+#' I(k)^{k >= si} == 1, if k >= si, else 0.
+#' ```
+#' @param samples Numeric `Tensor` of shape [B1, ..., Bk, S, E1, ..., En]`,
+#' `k, n >= 0`. Samples or batches of samples on which the distribution
+#' is based. The first `k` dimensions index into a batch of independent
+#' distributions. Length of `S` dimension determines number of samples
+#' in each multiset. The last `n` dimension represents samples for each
+#' distribution. n is specified by argument event_ndims.
+#' @param event_ndims `int32`, default `0`. number of dimensions for each
+#' event. When `0` this distribution has scalar samples. When `1` this
+#' distribution has vector-like samples.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_empirical <- function(samples,
+                          event_ndims = 0,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "Empirical") {
+  args <- list(
+    samples = samples,
+    event_ndims = as.integer(event_ndims),
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Empirical,
+          args)
+}
+
+
 

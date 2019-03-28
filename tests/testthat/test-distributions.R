@@ -678,4 +678,15 @@ test_succeeds("DirichletMultinomial distribution works", {
   expect_equivalent(d %>% tfd_mean() %>% tensor_value() , c(1/3, 2/3, 1), tol = 1e-7)
 })
 
+test_succeeds("Deterministic distribution works", {
+
+  d <- tfd_deterministic(loc = 1.22)
+  expect_equal(d %>% tfd_prob(1.23) %>% tensor_value() ,0)
+})
+
+test_succeeds("Empirical distribution works", {
+
+  d <- tfd_empirical(samples = c(0, 1, 1, 2))
+  expect_equal(d %>% tfd_cdf(1) %>% tensor_value(), 0.75)
+})
 
