@@ -47,8 +47,8 @@ be approximated by elementary functions.
 \section{References}{
 
 \itemize{
-\item [Carvalho, Polson, Scott. \href{http://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf}{Handling Sparsity via the Horseshoe (2008)}.
-\item [Barry, Parlange, Li. \href{https://doi.org/10.1016/S0022-1694(99)00184-5}{Approximation for the exponential integral (2000)}.
+\item \href{http://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf}{Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)}.
+\item \href{https://doi.org/10.1016/S0022-1694(99)00184-5}{Barry, Parlange, Li. Approximation for the exponential integral (2000)}.
 }
 }
 
@@ -56,6 +56,7 @@ be approximated by elementary functions.
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_hidden_markov_model}},
   \code{\link{tfd_independent}},
   \code{\link{tfd_inverse_gamma}},
   \code{\link{tfd_inverse_gaussian}},

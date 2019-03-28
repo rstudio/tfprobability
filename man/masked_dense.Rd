@@ -27,14 +27,15 @@ If NULL (default), weights are initialized using the \code{tf$glorot_random_init
 \item{...}{\code{tf$layers$dense} arguments}
 }
 \description{
-See \link[=1]{Germain et al. (2015)} for detailed explanation.
+See Germain et al. (2015)for detailed explanation.
 }
-\details{
-References
-\link{1}: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
-MADE: Masked Autoencoder for Distribution Estimation.
-In \emph{International Conference on Machine Learning}, 2015. https://arxiv.org/abs/1502.03509
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1502.03509}{Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In International Conference on Machine Learning, 2015.}
 }
+}
+
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},
   \code{\link{real_nvp_default_template}},

@@ -61,13 +61,9 @@ a Keras layer that adds a KL divergence penalty to the model loss
 Pass-through layer that adds a KL divergence penalty to the model loss
 }
 \seealso{
-Other Probabilistic layers (require TensorFlow probability): \code{\link{layer_kl_divergence_regularizer}},
-  \code{\link{layer_multivariate_normal_tri_l}}
-
 Other distribution_layers: \code{\link{layer_distribution_lambda}},
   \code{\link{layer_independent_bernoulli}},
   \code{\link{layer_kl_divergence_regularizer}},
   \code{\link{layer_multivariate_normal_tri_l}}
 }
-\concept{Probabilistic layers (require TensorFlow probability)}
 \concept{distribution_layers}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Logistic distribution with location <code>loc</code> and <code>scale</code> parameters. — tfd_logistic • tfprobability</title>
+<title>Hidden Markov model distribution. — tfd_hidden_markov_model • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="The Logistic distribution with location <code>loc</code> and <code>scale</code> parameters. — tfd_logistic" />
+<meta property="og:title" content="Hidden Markov model distribution. — tfd_hidden_markov_model" />
 
-<meta property="og:description" content="Mathematical details" />
+<meta property="og:description" content="The HiddenMarkovModel distribution implements a (batch of) hidden
+Markov models where the initial states, transition probabilities
+and observed states are all given by user-provided distributions." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,31 +99,47 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The Logistic distribution with location <code>loc</code> and <code>scale</code> parameters.</h1>
+    <h1>Hidden Markov model distribution.</h1>
     
-    <div class="hidden name"><code>tfd_logistic.Rd</code></div>
+    <div class="hidden name"><code>tfd_hidden_markov_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mathematical details</p>
+    <p>The <code>HiddenMarkovModel</code> distribution implements a (batch of) hidden
+Markov models where the initial states, transition probabilities
+and observed states are all given by user-provided distributions.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_logistic</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Logistic"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_hidden_markov_model</span>(<span class='no'>initial_distribution</span>, <span class='no'>transition_distribution</span>,
+  <span class='no'>observation_distribution</span>, <span class='no'>num_steps</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"HiddenMarkovModel"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>loc</th>
-      <td><p>Floating point tensor, the means of the distribution(s).</p></td>
+      <th>initial_distribution</th>
+      <td><p>A <code>Categorical</code>-like instance.
+Determines probability of first hidden state in Markov chain.
+The number of categories must match the number of categories of
+<code>transition_distribution</code> as well as both the rightmost batch
+dimension of <code>transition_distribution</code> and the rightmost batch
+dimension of <code>observation_distribution</code>.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>Floating point tensor, the scales of the distribution(s). Must
-contain only positive values.</p></td>
+      <th>transition_distribution</th>
+      <td><p>A <code>Categorical</code>-like instance.
+The rightmost batch dimension indexes the probability distribution
+of each hidden state conditioned on the previous hidden state.
+observation_distribution: A <code>tfp$distributions$Distribution</code>-like
+instance.  The rightmost batch dimension indexes the distribution
+of each observation conditioned on the corresponding hidden state.</p></td>
+    </tr>
+    <tr>
+      <th>num_steps</th>
+      <td><p>The number of steps taken in Markov chain. An <code>integer</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -143,20 +161,31 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The cumulative density function of this distribution is:</p><pre>cdf(x; mu, sigma) = 1 / (1 + exp(-(x - mu) / sigma))
-</pre>
-    <p>where <code>loc = mu</code> and <code>scale = sigma</code>.</p>
-<p>The Logistic distribution is a member of the <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
-constructed as,</p><pre>X ~ Logistic(loc=0, scale=1)
-Y = loc + scale * X
-</pre>
+    <p>This model assumes that the transition matrices are fixed over time.
+In this model, there is a sequence of integer-valued hidden states:
+<code>z[0], z[1], ..., z[num_steps - 1]</code> and a sequence of observed states:
+<code>x[0], ..., x[num_steps - 1]</code>.</p>
+<p>The distribution of <code>z[0]</code> is given by <code>initial_distribution</code>.
+The conditional probability of <code>z[i  +  1]</code> given <code>z[i]</code> is described by
+the batch of distributions in <code>transition_distribution</code>.
+For a batch of hidden Markov models, the coordinates before the rightmost one
+of the <code>transition_distribution</code> batch correspond to indices into the hidden
+Markov model batch. The rightmost coordinate of the batch is used to select
+which distribution <code>z[i + 1]</code> is drawn from.  The distributions corresponding
+to the probability of <code>z[i + 1]</code> conditional on <code>z[i] == k</code> is given by the
+elements of the batch whose rightmost coordinate is <code>k</code>.</p>
+<p>Similarly, the conditional distribution of <code>z[i]</code> given <code>x[i]</code> is given by
+the batch of <code>observation_distribution</code>.
+When the rightmost coordinate of <code>observation_distribution</code> is <code>k</code> it
+gives the conditional probabilities of <code>x[i]</code> given <code>z[i] == k</code>.
+The probability distribution associated with the <code>HiddenMarkovModel</code>
+distribution is the marginal distribution of <code>x[0],...,x[num_steps - 1]</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
-  <code><a href='tfd_hidden_markov_model.html'>tfd_hidden_markov_model</a></code>,
   <code><a href='tfd_horseshoe.html'>tfd_horseshoe</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
   <code><a href='tfd_inverse_gamma.html'>tfd_inverse_gamma</a></code>,
@@ -165,6 +194,7 @@ Y = loc + scale * X
   <code><a href='tfd_kumaraswamy.html'>tfd_kumaraswamy</a></code>, <code><a href='tfd_laplace.html'>tfd_laplace</a></code>,
   <code><a href='tfd_linear_gaussian_state_space_model.html'>tfd_linear_gaussian_state_space_model</a></code>,
   <code><a href='tfd_lkj.html'>tfd_lkj</a></code>, <code><a href='tfd_log_normal.html'>tfd_log_normal</a></code>,
+  <code><a href='tfd_logistic.html'>tfd_logistic</a></code>,
   <code><a href='tfd_mixture_same_family.html'>tfd_mixture_same_family</a></code>,
   <code><a href='tfd_mixture.html'>tfd_mixture</a></code>, <code><a href='tfd_multinomial.html'>tfd_multinomial</a></code>,
   <code><a href='tfd_multivariate_normal_diag_plus_low_rank.html'>tfd_multivariate_normal_diag_plus_low_rank</a></code>,

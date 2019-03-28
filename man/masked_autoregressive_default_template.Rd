@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{masked_autoregressive_default_template}
 \alias{masked_autoregressive_default_template}
-\title{Build the Masked Autoregressive Density Estimator (Germain et al., 2015).}
+\title{Build the Masked Autoregressive Density Estimator}
 \usage{
 masked_autoregressive_default_template(hidden_layers, shift_only = FALSE,
   activation = tf$nn$relu, log_scale_min_clip = -5,
@@ -31,18 +31,20 @@ computed. Default: FALSE.}
 \description{
 This will be wrapped in a make_template to ensure the variables are only
 created once. It takes the input and returns the loc ("mu" in
-\link[=1]{Germain et al. (2015)}) and log_scale ("alpha" in \link[=1]{Germain et al. (2015)}) from
+Germain et al. (2015)) and log_scale ("alpha" in Germain et al. (2015)) from
 the MADE network.
 }
 \details{
 Warning: This function uses masked_dense to create randomly initialized
 \code{tf$Variables}. It is presumed that these will be fit, just as you would any
-other neural architecture which uses \code{tf$layers$dense}.About Hidden Layers
+other neural architecture which uses \code{tf$layers$dense}.
 
+About Hidden Layers
 Each element of hidden_layers should be greater than the input_depth
 (i.e., \code{input_depth = tf$shape(input)[-1]} where input is the input to the
 neural network). This is necessary to ensure the autoregressivity property.
 
+About Clipping
 This function also optionally clips the log_scale (but possibly not its
 gradient). This is useful because if log_scale is too small/large it might
 underflow/overflow making it impossible for the MaskedAutoregressiveFlow
@@ -52,11 +54,14 @@ not clip the gradient; this is useful because it still provides gradient
 information (for fitting) yet solves the numerical stability problem. I.e.,
 log_scale_clip_gradient = FALSE means \code{grad[exp(clip(x))] = grad[x] exp(clip(x))}
 rather than the usual \code{grad[clip(x)] exp(clip(x))}.
-References
-\link{1}: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
-MADE: Masked Autoencoder for Distribution Estimation.
-In \emph{International Conference on Machine Learning}, 2015. https://arxiv.org/abs/1502.03509
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1502.03509}{Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In International Conference on Machine Learning, 2015.}
+}
+}
+
 \seealso{
 Other bijectors: \code{\link{masked_dense}},
   \code{\link{real_nvp_default_template}},

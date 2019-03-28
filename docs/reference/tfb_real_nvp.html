@@ -43,7 +43,7 @@ For scale-and-shift transforms that do not depend on any masked units, i.e.
 d=0, use the tfb_affine bijector with learned parameters instead.
 Masking is currently only supported for base distributions with
 event_ndims=1. For more sophisticated masking schemes like checkerboard or
-channel-wise masking [(Papamakarios et al., 2016)4, use the tfb_permute
+channel-wise masking (Papamakarios et al., 2016), use the tfb_permute
 bijector to re-order desired masked units into the first d units. For base
 distributions with event_ndims &amp;gt; 1, use the tfb_reshape bijector to
 flatten the event shape." />
@@ -129,7 +129,7 @@ For scale-and-shift transforms that do not depend on any masked units, i.e.
 d=0, use the tfb_affine bijector with learned parameters instead.
 Masking is currently only supported for base distributions with
 event_ndims=1. For more sophisticated masking schemes like checkerboard or
-channel-wise masking [(Papamakarios et al., 2016)4, use the tfb_permute
+channel-wise masking (Papamakarios et al., 2016), use the tfb_permute
 bijector to re-order desired masked units into the first d units. For base
 distributions with event_ndims &gt; 1, use the tfb_reshape bijector to
 flatten the event shape.</p>
@@ -184,7 +184,7 @@ can sample in parallel. In contrast, Real NVP can compute both forward and
 inverse computations in parallel. However, the lack of an autoregressive
 transformations makes it less expressive on a per-bijector basis.</p>
 <p>A "valid" shift_and_log_scale_fn must compute each shift (aka loc or
-"mu" in Papamakarios et al. (2016)) and log(scale) (aka "alpha" in
+"mu" in Papamakarios et al. (2016) and log(scale) (aka "alpha" in
 Papamakarios et al. (2016)) such that each are broadcastable with the
 arguments to forward and inverse, i.e., such that the calculations in
 forward, inverse below are possible. For convenience,
@@ -201,18 +201,16 @@ construction time. The first call to any of forward(x), inverse(x),
 inverse_log_det_jacobian(x), or forward_log_det_jacobian(x) memoizes
 D, which is re-used in subsequent calls. This shape must be known prior to
 graph execution (which is the case if using <code>tf$layers</code>).</p>
-<p>References
-1: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio.
-Density Estimation using Real NVP.
-In <em>International Conference on Learning Representations</em>, 2017. https://arxiv.org/abs/1605.08803
-2: Laurent Dinh, David Krueger, and Yoshua Bengio.
-NICE: Non-linear Independent Components Estimation.
-<em>arXiv preprint arXiv:1410.8516</em>,2014. https://arxiv.org/abs/1410.8516
-3: Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows.
-Technical Report_, 2018. http://blog.evjang.com/2018/01/nf2.html
-4: George Papamakarios, Theo Pavlakou, and Iain Murray.
-Masked Autoregressive Flow for Density Estimation.
-In <em>Neural Information Processing Systems</em>, 2017. https://arxiv.org/abs/1705.07057</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+    <ul>
+<li><p><a href='https://arxiv.org/abs/1705.07057'>George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In Neural Information Processing Systems, 2017.</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1605.08803'>Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP. In International Conference on Learning Representations, 2017.</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1410.8516'>Laurent Dinh, David Krueger, and Yoshua Bengio. NICE: Non-linear Independent Components Estimation.arXiv preprint arXiv:1410.8516,2014.</a></p></li>
+<li><p><a href='http://blog.evjang.com/2018/01/nf2.html'>Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows. Technical Report_, 2018.</a></p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -256,6 +254,8 @@ In <em>Neural Information Processing Systems</em>, 2017. https://arxiv.org/abs/1
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

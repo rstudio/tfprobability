@@ -108,8 +108,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>layer_kl_divergence_add_loss</span>(<span class='no'>object</span>, <span class='no'>distribution</span>, <span class='kw'>use_exact_kl</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>test_points_reduce_axis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>layer_kl_divergence_add_loss</span>(<span class='no'>object</span>, <span class='no'>distribution_b</span>,
+  <span class='kw'>use_exact_kl</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>test_points_reduce_axis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>test_points_fn</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>convert_to_tensor</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
@@ -122,7 +122,7 @@
       <td><p>Model or layer object</p></td>
     </tr>
     <tr>
-      <th>distribution</th>
+      <th>distribution_b</th>
       <td><p>Distribution instance corresponding to b as in  <code>KL[a, b]</code>.
 The previous layer's output is presumed to be a Distribution instance and is a.</p></td>
     </tr>
@@ -194,9 +194,9 @@ isn't provided.</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other Probabilistic layers (require TensorFlow probability): <code><a href='layer_multivariate_normal_tri_l.html'>layer_multivariate_normal_tri_l</a></code></p>
-<p>Other distribution_layers: <code><a href='layer_distribution_lambda.html'>layer_distribution_lambda</a></code>,
+    <div class='dont-index'><p>Other distribution_layers: <code><a href='layer_distribution_lambda.html'>layer_distribution_lambda</a></code>,
   <code><a href='layer_independent_bernoulli.html'>layer_independent_bernoulli</a></code>,
+  <code><a href='layer_kl_divergence_regularizer.html'>layer_kl_divergence_regularizer</a></code>,
   <code><a href='layer_multivariate_normal_tri_l.html'>layer_multivariate_normal_tri_l</a></code></p></div>
     
 

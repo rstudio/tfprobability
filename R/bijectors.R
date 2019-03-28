@@ -193,9 +193,9 @@ tfb_affine_scalar <- function(shift = NULL,
 
 #' Compute `Y = g(X)` s.t. `X = g^-1(Y) = (Y - mean(Y)) / std(Y)`.
 #'
-#' Applies Batch Normalization [(Ioffe and Szegedy, 2015)][1] to samples from a
+#' Applies Batch Normalization (Ioffe and Szegedy, 2015) to samples from a
 #' data distribution. This can be used to stabilize training of normalizing
-#' flows ([Papamakarios et al., 2016][3]; [Dinh et al., 2017][2])
+#' flows (Papamakarios et al., 2016; Dinh et al., 2017)
 #'
 #' When training Deep Neural Networks (DNNs), it is common practice to
 #' normalize or whiten features by shifting them to have zero mean and
@@ -217,15 +217,10 @@ tfb_affine_scalar <- function(shift = NULL,
 #'  `tfb_batch_normalization()$forward(tfb_batch_normalization()$inverse(...))` will be identical when
 #'   training=FALSE but may be different when training=TRUE.
 #'
-#' References
-#' [1]: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training
-#'  by Reducing Internal Covariate Shift.
-#'  In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03167
-#' [2]: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP.
-#' In _International Conference on Learning Representations_, 2017. https://arxiv.org/abs/1605.08803
-#' [3]: George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation.
-#' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
-
+#' @section References:
+#' - [Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift. In _International Conference on Machine Learning_, 2015.](https://arxiv.org/abs/1502.03167)
+#' - [Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP. In _International Conference on Learning Representations_, 2017.](https://arxiv.org/abs/1605.08803)
+#' - [George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In _Neural Information Processing Systems_, 2017.](https://arxiv.org/abs/1705.07057)
 #'
 #' @param batchnorm_layer `tf$layers$BatchNormalization` layer object. If NULL, defaults to
 #' `tf$layers$BatchNormalization(gamma_constraint=tf$nn$relu(x) + 1e-6)`.
@@ -359,12 +354,11 @@ tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
 #' the innermost event dimension.
 #' The inverse `X = g^{-1}(Y) = IDCT(Y)`, where IDCT is DCT-III for type==2.
 #' This bijector can be interleaved with Affine bijectors to build a cascade of
-#' structured efficient linear layers as in [1].
+#' structured efficient linear layers as in [Moczulski et al., 2016].
 #' Note that the operator applied is orthonormal (i.e. norm='ortho').
 #'
-#' References
-#' [1]: Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer.
-#' In _International Conference on Learning Representations_, 2016. https://arxiv.org/abs/1511.05946
+#' @section References:
+#' [Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer. In _International Conference on Learning Representations_, 2016.](https://arxiv.org/abs/1511.05946)
 #'
 #' @inheritParams tfb_identity
 #' @param dct_type integer, the DCT type performed by the forward transformation.
@@ -568,14 +562,14 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 
 #' Affine MaskedAutoregressiveFlow bijector.
 #'
-#' The affine autoregressive flow [(Papamakarios et al., 2016)][3] provides a
+#' The affine autoregressive flow (Papamakarios et al., 2016) provides a
 #' relatively simple framework for user-specified (deep) architectures to learn a
 #' distribution over continuous events. Regarding terminology,
 #'
 #' "Autoregressive models decompose the joint density as a product of
 #' conditionals, and model each conditional in turn. Normalizing flows
 #' transform a base density (e.g. a standard Gaussian) into the target density
-#' by an invertible transformation with tractable Jacobian." [(Papamakarios et al., 2016)][3]
+#' by an invertible transformation with tractable Jacobian." (Papamakarios et al., 2016)
 #'
 #' In other words, the "autoregressive property" is equivalent to the
 #' decomposition, `p(x) = prod{ p(x[perm[i]] | x[perm[0:i]]) : i=0, ..., d }`
@@ -598,14 +592,14 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #'
 #' Given a shift_and_log_scale_fn, the forward and inverse transformations are
 #' (a sequence of) affine transformations. A "valid" shift_and_log_scale_fn
-#' must compute each shift (aka loc or "mu" in [Germain et al. (2015)][1])
-#' and log(scale) (aka "alpha" in [Germain et al. (2015)][1]) such that each
+#' must compute each shift (aka loc or "mu" in Germain et al. (2015)])
+#' and log(scale) (aka "alpha" in Germain et al. (2015)) such that ech
 #' are broadcastable with the arguments to forward and inverse, i.e., such
 #' that the calculations in forward, inverse [below] are possible.
 #'
 #' For convenience, masked_autoregressive_default_template is offered as a
 #' possible shift_and_log_scale_fn function. It implements the MADE
-#' architecture [(Germain et al., 2015)][1]. MADE is a feed-forward network that
+#' architecture (Germain et al., 2015). MADE is a feed-forward network that
 #' computes a shift and log(scale) using masked_dense layers in a deep
 #' neural network. Weights are masked to ensure the autoregressive property. It
 #' is possible that this architecture is suboptimal for your task. To build
@@ -641,16 +635,10 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' the "last" y used to compute shift, log_scale.
 #' (Roughly speaking, this also proves the transform is bijective.)
 #'
-#' References:
-#' [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
-#' MADE: Masked Autoencoder for Distribution Estimation.
-#'  In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
-#' [2]: Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling.
-#'  Improving Variational Inference with Inverse Autoregressive Flow.
-#'  In _Neural Information Processing Systems_, 2016. https://arxiv.org/abs/1606.04934
-#' [3]: George Papamakarios, Theo Pavlakou, and Iain Murray.
-#'  Masked Autoregressive Flow for Density Estimation.
-#'  In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+#' @section References:
+#' - [Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In _International Conference on Machine Learning_, 2015.](https://arxiv.org/abs/1502.03509)
+#' - [Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling. Improving Variational Inference with Inverse Autoregressive Flow. In _Neural Information Processing Systems_, 2016.](https://arxiv.org/abs/1606.04934)
+#' - [George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In _Neural Information Processing Systems_, 2017.](https://arxiv.org/abs/1705.07057)
 #'
 #' @param shift_and_log_scale_fn Function which computes shift and log_scale from both the
 #' forward domain (x) and the inverse domain (y).
@@ -690,23 +678,23 @@ tfb_masked_autoregressive_flow <-
     do.call(tfp$bijectors$MaskedAutoregressiveFlow, args)
   }
 
-#' Build the Masked Autoregressive Density Estimator (Germain et al., 2015).
+#' Build the Masked Autoregressive Density Estimator
 #'
 #' This will be wrapped in a make_template to ensure the variables are only
 #' created once. It takes the input and returns the loc ("mu" in
-#' [Germain et al. (2015)][1]) and log_scale ("alpha" in [Germain et al. (2015)][1]) from
+#' Germain et al. (2015)) and log_scale ("alpha" in Germain et al. (2015)) from
 #' the MADE network.
 #'
 #' Warning: This function uses masked_dense to create randomly initialized
 #' `tf$Variables`. It is presumed that these will be fit, just as you would any
 #' other neural architecture which uses `tf$layers$dense`.
 #'
-#' # About Hidden Layers
+#' About Hidden Layers
 #' Each element of hidden_layers should be greater than the input_depth
 #' (i.e., `input_depth = tf$shape(input)[-1]` where input is the input to the
 #' neural network). This is necessary to ensure the autoregressivity property.
 #'
-# About Clipping
+#' About Clipping
 #' This function also optionally clips the log_scale (but possibly not its
 #' gradient). This is useful because if log_scale is too small/large it might
 #' underflow/overflow making it impossible for the MaskedAutoregressiveFlow
@@ -717,10 +705,8 @@ tfb_masked_autoregressive_flow <-
 #' log_scale_clip_gradient = FALSE means `grad[exp(clip(x))] = grad[x] exp(clip(x))`
 #' rather than the usual `grad[clip(x)] exp(clip(x))`.
 
-#' References
-#' [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
-#' MADE: Masked Autoencoder for Distribution Estimation.
-#' In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
+#' @section References:
+#' - [Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In _International Conference on Machine Learning_, 2015.](https://arxiv.org/abs/1502.03509)
 #'
 #' @param hidden_layers list-like of non-negative integer, scalars indicating the number
 #'  of units in each hidden layer. Default: `list(512, 512)`.
@@ -756,12 +742,10 @@ masked_autoregressive_default_template <- function(hidden_layers,
 
 #' An autoregressively masked dense layer. Analogous to `tf$layers$dense`.
 #'
-#' See [Germain et al. (2015)][1] for detailed explanation.
+#' See Germain et al. (2015)for detailed explanation.
 #'
-#' References
-#' [1]: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
-#' MADE: Masked Autoencoder for Distribution Estimation.
-#' In _International Conference on Machine Learning_, 2015. https://arxiv.org/abs/1502.03509
+#' @section References:
+#' - [Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In _International Conference on Machine Learning_, 2015.](https://arxiv.org/abs/1502.03509)
 #'
 #' @param inputs Tensor input.
 #' @param units integer scalar representing the dimensionality of the output space.
@@ -806,11 +790,8 @@ masked_dense <- function(inputs,
 #' real nvp bijector, implement a conditioned shift/scale template that
 #' handles the condition_kwargs.
 #'
-#' References
-#' [1]: George Papamakarios, Theo Pavlakou, and Iain Murray.
-#' Masked Autoregressive Flow for Density Estimation.
-#' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
-
+#' @section References:
+#' - [George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In _Neural Information Processing Systems_, 2017.](https://arxiv.org/abs/1705.07057)
 #' @param hidden_layers list-like of non-negative integer, scalars indicating the number
 #'  of units in each hidden layer. Default: `list(512, 512)`.
 #' @param shift_only logical indicating if only the shift term shall be
@@ -835,7 +816,7 @@ real_nvp_default_template <- function(hidden_layers,
 #' RealNVP "affine coupling layer" for vector-valued events.
 #'
 #' Real NVP models a normalizing flow on a D-dimensional distribution via a
-#' single D-d-dimensional conditional distribution [(Dinh et al., 2017)][1]:
+#' single D-d-dimensional conditional distribution (Dinh et al., 2017):
 #' `y[d:D] = x[d:D] * tf.exp(log_scale_fn(x[0:d])) + shift_fn(x[0:d])`
 #' `y[0:d] = x[0:d]`
 #' The last D-d units are scaled and shifted based on the first d units only,
@@ -845,12 +826,12 @@ real_nvp_default_template <- function(hidden_layers,
 #' d=0, use the tfb_affine bijector with learned parameters instead.
 #' Masking is currently only supported for base distributions with
 #' event_ndims=1. For more sophisticated masking schemes like checkerboard or
-#' channel-wise masking [(Papamakarios et al., 2016)[4], use the tfb_permute
+#' channel-wise masking (Papamakarios et al., 2016), use the tfb_permute
 #' bijector to re-order desired masked units into the first d units. For base
 #' distributions with event_ndims > 1, use the tfb_reshape bijector to
 #' flatten the event shape.
 #'
-#' Recall that the MAF bijector [(Papamakarios et al., 2016)][4] implements a
+#' Recall that the MAF bijector (Papamakarios et al., 2016) implements a
 #' normalizing flow via an autoregressive transformation. MAF and IAF have
 #' opposite computational tradeoffs - MAF can train all units in parallel but
 #' must sample units sequentially, while IAF must train units sequentially but
@@ -859,13 +840,13 @@ real_nvp_default_template <- function(hidden_layers,
 #' transformations makes it less expressive on a per-bijector basis.
 #'
 #' A "valid" shift_and_log_scale_fn must compute each shift (aka loc or
-#' "mu" in [Papamakarios et al. (2016)][4]) and log(scale) (aka "alpha" in
-#' [Papamakarios et al. (2016)][4]) such that each are broadcastable with the
+#' "mu" in Papamakarios et al. (2016) and log(scale) (aka "alpha" in
+#' Papamakarios et al. (2016)) such that each are broadcastable with the
 #' arguments to forward and inverse, i.e., such that the calculations in
 #' forward, inverse [below] are possible. For convenience,
 #' real_nvp_default_nvp is offered as a possible shift_and_log_scale_fn function.
 #'
-#' NICE [(Dinh et al., 2014)][2] is a special case of the Real NVP bijector
+#' NICE (Dinh et al., 2014) is a special case of the Real NVP bijector
 #' which discards the scale transformation, resulting in a constant-time
 #' inverse-log-determinant-Jacobian. To use a NICE bijector instead of Real
 #' NVP, shift_and_log_scale_fn should return (shift, NULL), and
@@ -879,18 +860,11 @@ real_nvp_default_template <- function(hidden_layers,
 #' D, which is re-used in subsequent calls. This shape must be known prior to
 #'  graph execution (which is the case if using `tf$layers`).
 #'
-#' References
-#' [1]: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio.
-#' Density Estimation using Real NVP.
-#' In _International Conference on Learning Representations_, 2017. https://arxiv.org/abs/1605.08803
-#' [2]: Laurent Dinh, David Krueger, and Yoshua Bengio.
-#' NICE: Non-linear Independent Components Estimation.
-#' _arXiv preprint arXiv:1410.8516_,2014. https://arxiv.org/abs/1410.8516
-#' [3]: Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows.
-#' Technical Report_, 2018. http://blog.evjang.com/2018/01/nf2.html
-#' [4]: George Papamakarios, Theo Pavlakou, and Iain Murray.
-#' Masked Autoregressive Flow for Density Estimation.
-#' In _Neural Information Processing Systems_, 2017. https://arxiv.org/abs/1705.07057
+#' @section References:
+#' - [George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In _Neural Information Processing Systems_, 2017.](https://arxiv.org/abs/1705.07057)
+#' - [Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP. In _International Conference on Learning Representations_, 2017.](https://arxiv.org/abs/1605.08803)
+#' - [Laurent Dinh, David Krueger, and Yoshua Bengio. NICE: Non-linear Independent Components Estimation._arXiv preprint arXiv:1410.8516_,2014.](https://arxiv.org/abs/1410.8516)
+#' - [Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows. Technical Report_, 2018.](http://blog.evjang.com/2018/01/nf2.html)
 #'
 #' @param num_masked integer indicating that the first d units of the event
 #' should be masked. Must be in the closed interval `[1, D-1]`, where D
@@ -948,14 +922,13 @@ tfb_matrix_inverse_tri_l <- function(validate_args = FALSE,
 
 #' Matrix-vector multiply using LU decomposition.
 #'
-#' This bijector is identical to the "Convolution1x1" used in Glow [(Kingma and Dhariwal, 2018)[1].
+#' This bijector is identical to the "Convolution1x1" used in Glow (Kingma and Dhariwal, 2018).
 #'
 #' Warning: this bijector never verifies the scale matrix (as parameterized by LU
 #' ecomposition) is invertible. Ensuring this is the case is the caller's responsibility.
 #'
-#' References
-#' [1]: Diederik P. Kingma, Prafulla Dhariwal. Glow: Generative Flow with Invertible 1x1 Convolutions.
-#' _arXiv preprint arXiv:1807.03039_, 2018. https://arxiv.org/abs/1807.03039
+#' @section References:
+#' - [Diederik P. Kingma, Prafulla Dhariwal. Glow: Generative Flow with Invertible 1x1 Convolutions. _arXiv preprint arXiv:1807.03039_, 2018.](https://arxiv.org/abs/1807.03039)
 #'
 #' @param lower_upper The LU factorization as returned by `tf$linalg$lu`.
 #' @param permutation The LU factorization permutation as returned by `tf$linalg$lu`.

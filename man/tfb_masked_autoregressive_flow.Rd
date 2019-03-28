@@ -33,7 +33,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The affine autoregressive flow \link[=3]{(Papamakarios et al., 2016)} provides a
+The affine autoregressive flow (Papamakarios et al., 2016) provides a
 relatively simple framework for user-specified (deep) architectures to learn a
 distribution over continuous events. Regarding terminology,
 }
@@ -41,7 +41,7 @@ distribution over continuous events. Regarding terminology,
 "Autoregressive models decompose the joint density as a product of
 conditionals, and model each conditional in turn. Normalizing flows
 transform a base density (e.g. a standard Gaussian) into the target density
-by an invertible transformation with tractable Jacobian." \link[=3]{(Papamakarios et al., 2016)}
+by an invertible transformation with tractable Jacobian." (Papamakarios et al., 2016)
 
 In other words, the "autoregressive property" is equivalent to the
 decomposition, \code{p(x) = prod{ p(x[perm[i]] | x[perm[0:i]]) : i=0, ..., d }}
@@ -64,14 +64,14 @@ the (expensive) forward-mode calculation to compute log-probabilities and the
 
 Given a shift_and_log_scale_fn, the forward and inverse transformations are
 (a sequence of) affine transformations. A "valid" shift_and_log_scale_fn
-must compute each shift (aka loc or "mu" in \link[=1]{Germain et al. (2015)})
-and log(scale) (aka "alpha" in \link[=1]{Germain et al. (2015)}) such that each
+must compute each shift (aka loc or "mu" in Germain et al. (2015)])
+and log(scale) (aka "alpha" in Germain et al. (2015)) such that ech
 are broadcastable with the arguments to forward and inverse, i.e., such
 that the calculations in forward, inverse \link{below} are possible.
 
 For convenience, masked_autoregressive_default_template is offered as a
 possible shift_and_log_scale_fn function. It implements the MADE
-architecture \link[=1]{(Germain et al., 2015)}. MADE is a feed-forward network that
+architecture (Germain et al., 2015). MADE is a feed-forward network that
 computes a shift and log(scale) using masked_dense layers in a deep
 neural network. Weights are masked to ensure the autoregressive property. It
 is possible that this architecture is suboptimal for your task. To build
@@ -104,18 +104,16 @@ calculated so far (not x). In the inverse, the y is fully known, thus is
 equivalent to the scaling used in forward after event_size passes, i.e.,
 the "last" y used to compute shift, log_scale.
 (Roughly speaking, this also proves the transform is bijective.)
-
-References:
-\link{1}: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
-MADE: Masked Autoencoder for Distribution Estimation.
-In \emph{International Conference on Machine Learning}, 2015. https://arxiv.org/abs/1502.03509
-\link{2}: Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling.
-Improving Variational Inference with Inverse Autoregressive Flow.
-In \emph{Neural Information Processing Systems}, 2016. https://arxiv.org/abs/1606.04934
-\link{3}: George Papamakarios, Theo Pavlakou, and Iain Murray.
-Masked Autoregressive Flow for Density Estimation.
-In \emph{Neural Information Processing Systems}, 2017. https://arxiv.org/abs/1705.07057
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1502.03509}{Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In International Conference on Machine Learning, 2015.}
+\item \href{https://arxiv.org/abs/1606.04934}{Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling. Improving Variational Inference with Inverse Autoregressive Flow. In Neural Information Processing Systems, 2016.}
+\item \href{https://arxiv.org/abs/1705.07057}{George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In Neural Information Processing Systems, 2017.}
+}
+}
+
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},
   \code{\link{masked_dense}},

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An Independent-Bernoulli Keras layer from prod(event_shape) params — layer_independent_bernoulli • tfprobability</title>
+<title>Regularizer that adds a KL divergence penalty to the model loss. — layer_kl_divergence_regularizer • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="An Independent-Bernoulli Keras layer from prod(event_shape) params — layer_independent_bernoulli" />
+<meta property="og:title" content="Regularizer that adds a KL divergence penalty to the model loss. — layer_kl_divergence_regularizer" />
 
-<meta property="og:description" content="An Independent-Bernoulli Keras layer from prod(event_shape) params" />
+<meta property="og:description" content="When using Monte Carlo approximation (e.g., use_exact = FALSE), it is presumed that the input
+distribution's concretization (i.e., tf$convert_to_tensor(distribution)) corresponds to a random
+sample. To override this behavior, set test_points_fn." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,21 +99,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>An Independent-Bernoulli Keras layer from prod(event_shape) params</h1>
+    <h1>Regularizer that adds a KL divergence penalty to the model loss.</h1>
     
-    <div class="hidden name"><code>layer_independent_bernoulli.Rd</code></div>
+    <div class="hidden name"><code>layer_kl_divergence_regularizer.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>An Independent-Bernoulli Keras layer from prod(event_shape) params</p>
+    <p>When using Monte Carlo approximation (e.g., <code>use_exact = FALSE</code>), it is presumed that the input
+distribution's concretization (i.e., <code>tf$convert_to_tensor(distribution)</code>) corresponds to a random
+sample. To override this behavior, set test_points_fn.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>layer_independent_bernoulli</span>(<span class='no'>object</span>, <span class='no'>event_shape</span>,
-  <span class='kw'>convert_to_tensor_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>distributions</span>$<span class='no'>Distribution</span>$<span class='no'>sample</span>,
-  <span class='kw'>sample_dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>batch_input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>layer_kl_divergence_regularizer</span>(<span class='no'>object</span>, <span class='no'>distribution_b</span>,
+  <span class='kw'>use_exact_kl</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>test_points_reduce_axis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>test_points_fn</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>convert_to_tensor</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -122,24 +126,39 @@
       <td><p>Model or layer object</p></td>
     </tr>
     <tr>
-      <th>event_shape</th>
-      <td><p>Scalar integer representing the size of single draw from this distribution.</p></td>
+      <th>distribution_b</th>
+      <td><p>Distribution instance corresponding to b as in  <code>KL[a, b]</code>.
+The previous layer's output is presumed to be a Distribution instance and is a.</p></td>
     </tr>
     <tr>
-      <th>convert_to_tensor_fn</th>
-      <td><p>A callable that takes a tfd$Distribution instance and returns a
-tf$Tensor-like object. Default value: <code>tfd$distributions$Distribution$sample</code>.</p></td>
+      <th>use_exact_kl</th>
+      <td><p>Logical indicating if KL divergence should be
+calculated exactly via <code>tfp$distributions$kl_divergence</code> or via Monte Carlo approximation.
+Default value: FALSE.</p></td>
     </tr>
     <tr>
-      <th>sample_dtype</th>
-      <td><p>dtype of samples produced by this distribution.
-Default value: NULL (i.e., previous layer's dtype).</p></td>
+      <th>test_points_reduce_axis</th>
+      <td><p>Integer vector or scalar representing dimensions
+over which to reduce_mean while calculating the Monte Carlo approximation of the KL divergence.
+As is with all tf$reduce_* ops, NULL means reduce over all dimensions;
+() means reduce over none of them. Default value: () (i.e., no reduction).</p></td>
     </tr>
     <tr>
-      <th>validate_args</th>
-      <td><p>Logical, default FALSE. When TRUE distribution parameters are checked
-for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
-silently render incorrect outputs. Default value: FALSE.</p></td>
+      <th>test_points_fn</th>
+      <td><p>A callable taking a <code>tfp$distributions$Distribution</code> instance and returning a tensor
+used for random test points to approximate the KL divergence.
+Default value: tf$convert_to_tensor.</p></td>
+    </tr>
+    <tr>
+      <th>weight</th>
+      <td><p>Multiplier applied to the calculated KL divergence for each Keras batch member.
+Default value: NULL (i.e., do not weight each batch member).</p></td>
+    </tr>
+    <tr>
+      <th>input_shape</th>
+      <td><p>Dimensionality of the input (integer) not including the
+samples axis. This argument is required when using this layer as the first
+layer in a model.</p></td>
     </tr>
     <tr>
       <th>batch_input_shape</th>
@@ -147,12 +166,6 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
 <code>batch_input_shape=c(10, 32)</code> indicates that the expected input will be
 batches of 10 32-dimensional vectors. <code>batch_input_shape=list(NULL, 32)</code>
 indicates batches of an arbitrary number of 32-dimensional vectors.</p></td>
-    </tr>
-    <tr>
-      <th>input_shape</th>
-      <td><p>Dimensionality of the input (integer) not including the
-samples axis. This argument is required when using this layer as the first
-layer in a model.</p></td>
     </tr>
     <tr>
       <th>batch_size</th>
@@ -179,15 +192,11 @@ isn't provided.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a Keras layer that wraps a Bernoulli distribution</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distribution_layers: <code><a href='layer_distribution_lambda.html'>layer_distribution_lambda</a></code>,
+  <code><a href='layer_independent_bernoulli.html'>layer_independent_bernoulli</a></code>,
   <code><a href='layer_kl_divergence_add_loss.html'>layer_kl_divergence_add_loss</a></code>,
-  <code><a href='layer_kl_divergence_regularizer.html'>layer_kl_divergence_regularizer</a></code>,
   <code><a href='layer_multivariate_normal_tri_l.html'>layer_multivariate_normal_tri_l</a></code></p></div>
     
 
@@ -197,8 +206,6 @@ isn't provided.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#see-also">See also</a></li>
           </ul>
 

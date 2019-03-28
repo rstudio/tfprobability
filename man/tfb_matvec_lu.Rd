@@ -18,16 +18,19 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This bijector is identical to the "Convolution1x1" used in Glow [(Kingma and Dhariwal, 2018)\link{1}.
+This bijector is identical to the "Convolution1x1" used in Glow (Kingma and Dhariwal, 2018).
 }
 \details{
 Warning: this bijector never verifies the scale matrix (as parameterized by LU
 ecomposition) is invertible. Ensuring this is the case is the caller's responsibility.
-
-References
-\link{1}: Diederik P. Kingma, Prafulla Dhariwal. Glow: Generative Flow with Invertible 1x1 Convolutions.
-\emph{arXiv preprint arXiv:1807.03039}, 2018. https://arxiv.org/abs/1807.03039
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1807.03039}{Diederik P. Kingma, Prafulla Dhariwal. Glow: Generative Flow with Invertible 1x1 Convolutions. arXiv preprint arXiv:1807.03039, 2018.}
+}
+}
+
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},
   \code{\link{masked_dense}},

@@ -225,6 +225,7 @@ inducing index points. The optimal parameters are computed as follows:\preformat
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_hidden_markov_model}},
   \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
   \code{\link{tfd_inverse_gamma}},

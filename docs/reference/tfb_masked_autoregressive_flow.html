@@ -181,8 +181,8 @@ the (expensive) forward-mode calculation to compute log-probabilities and the
 (cheap) reverse-mode calculation to compute samples.</p>
 <p>Given a shift_and_log_scale_fn, the forward and inverse transformations are
 (a sequence of) affine transformations. A "valid" shift_and_log_scale_fn
-must compute each shift (aka loc or "mu" in Germain et al. (2015))
-and log(scale) (aka "alpha" in Germain et al. (2015)) such that each
+must compute each shift (aka loc or "mu" in Germain et al. (2015)])
+and log(scale) (aka "alpha" in Germain et al. (2015)) such that ech
 are broadcastable with the arguments to forward and inverse, i.e., such
 that the calculations in forward, inverse below are possible.</p>
 <p>For convenience, masked_autoregressive_default_template is offered as a
@@ -215,16 +215,15 @@ calculated so far (not x). In the inverse, the y is fully known, thus is
 equivalent to the scaling used in forward after event_size passes, i.e.,
 the "last" y used to compute shift, log_scale.
 (Roughly speaking, this also proves the transform is bijective.)</p>
-<p>References:
-1: Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle.
-MADE: Masked Autoencoder for Distribution Estimation.
-In <em>International Conference on Machine Learning</em>, 2015. https://arxiv.org/abs/1502.03509
-2: Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling.
-Improving Variational Inference with Inverse Autoregressive Flow.
-In <em>Neural Information Processing Systems</em>, 2016. https://arxiv.org/abs/1606.04934
-3: George Papamakarios, Theo Pavlakou, and Iain Murray.
-Masked Autoregressive Flow for Density Estimation.
-In <em>Neural Information Processing Systems</em>, 2017. https://arxiv.org/abs/1705.07057</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+    <ul>
+<li><p><a href='https://arxiv.org/abs/1502.03509'>Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In International Conference on Machine Learning, 2015.</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1606.04934'>Diederik P. Kingma, Tim Salimans, Rafal Jozefowicz, Xi Chen, Ilya Sutskever, and Max Welling. Improving Variational Inference with Inverse Autoregressive Flow. In Neural Information Processing Systems, 2016.</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1705.07057'>George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In Neural Information Processing Systems, 2017.</a></p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -268,6 +267,8 @@ In <em>Neural Information Processing Systems</em>, 2017. https://arxiv.org/abs/1
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

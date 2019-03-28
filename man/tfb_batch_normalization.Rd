@@ -20,9 +20,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Applies Batch Normalization \link[=1]{(Ioffe and Szegedy, 2015)} to samples from a
+Applies Batch Normalization (Ioffe and Szegedy, 2015) to samples from a
 data distribution. This can be used to stabilize training of normalizing
-flows (\link[=3]{Papamakarios et al., 2016}; \link[=2]{Dinh et al., 2017})
+flows (Papamakarios et al., 2016; Dinh et al., 2017)
 }
 \details{
 When training Deep Neural Networks (DNNs), it is common practice to
@@ -44,16 +44,16 @@ while \code{forward(x)} uses running-average statistics accumulated from trainin
 In other words, \code{tfb_batch_normalization()$inverse(tfb_batch_normalization()$forward(...))} and
 \code{tfb_batch_normalization()$forward(tfb_batch_normalization()$inverse(...))} will be identical when
 training=FALSE but may be different when training=TRUE.
-
-References
-\link{1}: Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training
-by Reducing Internal Covariate Shift.
-In \emph{International Conference on Machine Learning}, 2015. https://arxiv.org/abs/1502.03167
-\link{2}: Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP.
-In \emph{International Conference on Learning Representations}, 2017. https://arxiv.org/abs/1605.08803
-\link{3}: George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation.
-In \emph{Neural Information Processing Systems}, 2017. https://arxiv.org/abs/1705.07057
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1502.03167}{Sergey Ioffe and Christian Szegedy. Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift. In International Conference on Machine Learning, 2015.}
+\item \href{https://arxiv.org/abs/1605.08803}{Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP. In International Conference on Learning Representations, 2017.}
+\item \href{https://arxiv.org/abs/1705.07057}{George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In Neural Information Processing Systems, 2017.}
+}
+}
+
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},
   \code{\link{masked_dense}},

@@ -30,12 +30,14 @@ The default template does not support conditioning and will raise an
 exception if condition_kwargs are passed to it. To use conditioning in
 real nvp bijector, implement a conditioned shift/scale template that
 handles the condition_kwargs.
-
-References
-\link{1}: George Papamakarios, Theo Pavlakou, and Iain Murray.
-Masked Autoregressive Flow for Density Estimation.
-In \emph{Neural Information Processing Systems}, 2017. https://arxiv.org/abs/1705.07057
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1705.07057}{George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In Neural Information Processing Systems, 2017.}
+}
+}
+
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},
   \code{\link{masked_dense}},

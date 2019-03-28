@@ -3414,4 +3414,71 @@ tfd_horseshoe <- function(scale,
           args)
 }
 
+#' Hidden Markov model distribution.
+#'
+#' The `HiddenMarkovModel` distribution implements a (batch of) hidden
+#' Markov models where the initial states, transition probabilities
+#' and observed states are all given by user-provided distributions.
+#'
+#' This model assumes that the transition matrices are fixed over time.
+#' In this model, there is a sequence of integer-valued hidden states:
+#' `z[0], z[1], ..., z[num_steps - 1]` and a sequence of observed states:
+#' `x[0], ..., x[num_steps - 1]`.
+#'
+#' The distribution of `z[0]` is given by `initial_distribution`.
+#' The conditional probability of `z[i  +  1]` given `z[i]` is described by
+#' the batch of distributions in `transition_distribution`.
+#' For a batch of hidden Markov models, the coordinates before the rightmost one
+#' of the `transition_distribution` batch correspond to indices into the hidden
+#' Markov model batch. The rightmost coordinate of the batch is used to select
+#' which distribution `z[i + 1]` is drawn from.  The distributions corresponding
+#' to the probability of `z[i + 1]` conditional on `z[i] == k` is given by the
+#' elements of the batch whose rightmost coordinate is `k`.
+#'
+#' Similarly, the conditional distribution of `z[i]` given `x[i]` is given by
+#' the batch of `observation_distribution`.
+#' When the rightmost coordinate of `observation_distribution` is `k` it
+#' gives the conditional probabilities of `x[i]` given `z[i] == k`.
+#' The probability distribution associated with the `HiddenMarkovModel`
+#' distribution is the marginal distribution of `x[0],...,x[num_steps - 1]`.
+#'
+#' @param initial_distribution A `Categorical`-like instance.
+#' Determines probability of first hidden state in Markov chain.
+#' The number of categories must match the number of categories of
+#' `transition_distribution` as well as both the rightmost batch
+#' dimension of `transition_distribution` and the rightmost batch
+#' dimension of `observation_distribution`.
+#' @param transition_distribution A `Categorical`-like instance.
+#' The rightmost batch dimension indexes the probability distribution
+#' of each hidden state conditioned on the previous hidden state.
+#' observation_distribution: A `tfp$distributions$Distribution`-like
+#' instance.  The rightmost batch dimension indexes the distribution
+#' of each observation conditioned on the corresponding hidden state.
+#' @param num_steps The number of steps taken in Markov chain. An `integer`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_hidden_markov_model <- function(initial_distribution,
+                          transition_distribution,
+                          observation_distribution,
+                          num_steps,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "HiddenMarkovModel") {
+  args <- list(
+    initial_distribution = initial_distribution,
+    transition_distribution = transition_distribution,
+    observation_distribution = observation_distribution,
+    num_steps = as.integer(num_steps),
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$HiddenMarkovModel,
+          args)
+}
+
+
+
 
