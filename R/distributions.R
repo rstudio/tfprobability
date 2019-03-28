@@ -860,7 +860,7 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #' scale matrix:  `covariance = 2 * scale @ scale.T`, where @ denotes
 #' matrix-multiplication.
 #'
-#'#' Mathematical Details
+#' Mathematical Details
 #' The probability density function (pdf) is,
 #' ```
 #' pdf(x; loc, scale) = exp(-||y||_1) / Z,
@@ -3865,3 +3865,94 @@ tfd_chi2 <- function(df,
   do.call(tfp$distributions$Chi2,
           args)
 }
+
+#' The scalar Gumbel distribution with location `loc` and `scale` parameters.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) of this distribution is,
+#' ```
+#' pdf(x; mu, sigma) = exp(-(x - mu) / sigma - exp(-(x - mu) / sigma)) / sigma
+#' ```
+#' where `loc = mu` and `scale = sigma`.
+#'
+#' The cumulative density function of this distribution is,
+#' ```cdf(x; mu, sigma) = exp(-exp(-(x - mu) / sigma))```
+#'
+#' The Gumbel distribution is a member of the [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#'
+#' ```
+#' X ~ Gumbel(loc=0, scale=1)
+#' Y = loc + scale * X
+#' ```
+#' @param  loc Floating point tensor, the means of the distribution(s).
+#' @param scale Floating point tensor, the scales of the distribution(s). `scale`` must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_gumbel <- function(loc,
+                       scale,
+                       validate_args = FALSE,
+                       allow_nan_stats = TRUE,
+                       name = "Gumbel") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Gumbel,
+          args)
+}
+
+#' Geometric distribution.
+#'
+#' The Geometric distribution is parameterized by p, the probability of a
+#' positive event. It represents the probability that in k + 1 Bernoulli trials,
+#' the first k trials failed, before seeing a success.
+#' The pmf of this distribution is:
+#'
+#' Mathematical Details
+#'
+#' ```
+#' pmf(k; p) = (1 - p)**k * p
+#' ```
+#'
+#' where:
+#' * `p` is the success probability, `0 < p <= 1`, and,
+#' * `k` is a non-negative integer.
+#' @param logits Floating-point `Tensor` with shape `[B1, ..., Bb]` where `b >= 0`
+#' indicates the number of batch dimensions. Each entry represents logits
+#' for the probability of success for independent Geometric distributions
+#' and must be in the range `(-inf, inf]`. Only one of `logits` or `probs`
+#' should be specified.
+#' @param  probs Positive floating-point `Tensor` with shape `[B1, ..., Bb]`
+#' where `b >= 0` indicates the number of batch dimensions. Each entry
+#' represents the probability of success for independent Geometric
+#' distributions and must be in the range `(0, 1]`. Only one of `logits`
+#' or `probs` should be specified.
+
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_geometric <- function(logits = NULL,
+                          probs = NULL,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "Geometric") {
+  args <- list(
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Geometric,
+          args)
+}
+
+

@@ -43,7 +43,7 @@ scale matrix:  \code{covariance = 2 * scale @ scale.T}, where @ denotes
 matrix-multiplication.
 }
 \details{
-#' Mathematical Details
+Mathematical Details
 The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = exp(-||y||_1) / Z,
 y = inv(scale) @ (x - loc),
 Z = 2**k |det(scale)|,
@@ -91,6 +91,7 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
   \code{\link{tfd_exponential}},
   \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
   \code{\link{tfd_half_cauchy}},
   \code{\link{tfd_half_normal}},
   \code{\link{tfd_hidden_markov_model}},

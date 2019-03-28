@@ -654,3 +654,15 @@ test_succeeds("Chi2 distribution works", {
   expect_equal(d %>% tfd_mean() %>% tensor_value() , 1)
 })
 
+test_succeeds("Gumbel distribution works", {
+
+  d <- tfd_gumbel(loc = 3, scale = 1.5)
+  expect_equal(d %>% tfd_variance() %>% tensor_value() , pi^2/6 * 1.5^2, tol = 1e-7)
+})
+
+test_succeeds("Geometric distribution works", {
+
+  d <- tfd_geometric(probs = 0.6)
+  expect_equal(d %>% tfd_variance() %>% tensor_value() , (1 - 0.6)/0.6^2, tol = 1e-7)
+})
+
