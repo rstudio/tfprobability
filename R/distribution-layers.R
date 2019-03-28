@@ -8,8 +8,6 @@
 #'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 #'  silently render incorrect outputs. Default value: FALSE.
 #'
-#' @family Probabilistic layers (require TensorFlow probability)
-#'
 #' @return a Keras layer that wraps a MultivariateNormalTriL distribution
 #' @family distribution_layers
 #' @export
@@ -152,9 +150,7 @@ layer_distribution_lambda <- function(object,
 #'  Default value: tf$convert_to_tensor.
 #' @param weight Multiplier applied to the calculated KL divergence for each Keras batch member.
 #' Default value: NULL (i.e., do not weight each batch member).
-#'
-#' @family Probabilistic layers (require TensorFlow probability)
-#'
+
 #' @return a Keras layer that adds a KL divergence penalty to the model loss
 #' @family distribution_layers
 #' @export
@@ -201,8 +197,6 @@ layer_kl_divergence_add_loss <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_kl_divergence_add_loss
-#'
-#' @family Probabilistic layers (require TensorFlow probability)
 #'
 #' @family distribution_layers
 #' @export
