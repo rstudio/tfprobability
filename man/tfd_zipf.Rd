@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_zipf}
 \alias{tfd_zipf}
-\title{Zipf distribution.}
+\title{Zipf distribution}
 \usage{
 tfd_zipf(power, dtype = tf$int32, interpolate_nondiscrete = TRUE,
   sample_maximum_iterations = 100, validate_args = FALSE,

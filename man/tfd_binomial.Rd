@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_binomial}
 \alias{tfd_binomial}
-\title{Binomial distribution.}
+\title{Binomial distribution}
 \usage{
 tfd_binomial(total_count, logits = NULL, probs = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "Beta")

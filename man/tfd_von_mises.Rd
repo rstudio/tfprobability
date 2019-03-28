@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_von_mises}
 \alias{tfd_von_mises}
-\title{The von Mises distribution over angles.}
+\title{The von Mises distribution over angles}
 \usage{
 tfd_von_mises(loc, concentration, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "VonMises")

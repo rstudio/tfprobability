@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_negative_binomial}
 \alias{tfd_negative_binomial}
-\title{NegativeBinomial distribution.}
+\title{NegativeBinomial distribution}
 \usage{
 tfd_negative_binomial(total_count, logits = NULL, probs = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

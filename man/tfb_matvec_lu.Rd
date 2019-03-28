@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_matvec_lu}
 \alias{tfb_matvec_lu}
-\title{Matrix-vector multiply using LU decomposition.}
+\title{Matrix-vector multiply using LU decomposition}
 \usage{
 tfb_matvec_lu(lower_upper, permutation, validate_args = FALSE,
   name = NULL)

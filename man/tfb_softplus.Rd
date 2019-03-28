@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_softplus}
 \alias{tfb_softplus}
-\title{Bijector which computes \code{Y = g(X) = Log[1 + exp(X)]}.}
+\title{Computes \code{Y = g(X) = Log[1 + exp(X)]}}
 \usage{
 tfb_softplus(hinge_softness = NULL, validate_args = FALSE,
   name = "softplus")

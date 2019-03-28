@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_vector_sinh_arcsinh_diag}
 \alias{tfd_vector_sinh_arcsinh_diag}
-\title{The (diagonal) SinhArcsinh transformation of a distribution on \code{R^k}.}
+\title{The (diagonal) SinhArcsinh transformation of a distribution on \code{R^k}}
 \usage{
 tfd_vector_sinh_arcsinh_diag(loc = NULL, scale_diag = NULL,
   scale_identity_multiplier = NULL, skewness = NULL,

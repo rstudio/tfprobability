@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_horseshoe}
 \alias{tfd_horseshoe}
-\title{Horseshoe distribution.}
+\title{Horseshoe distribution}
 \usage{
 tfd_horseshoe(scale, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Horseshoe")

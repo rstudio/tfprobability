@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_fill_triangular}
 \alias{tfb_fill_triangular}
-\title{Transforms vectors to triangular.}
+\title{Transforms vectors to triangular}
 \usage{
 tfb_fill_triangular(upper = FALSE, validate_args = FALSE,
   name = "fill_triangular")

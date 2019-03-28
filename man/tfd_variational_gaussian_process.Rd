@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_variational_gaussian_process}
 \alias{tfd_variational_gaussian_process}
-\title{Posterior predictive of a variational Gaussian process.}
+\title{Posterior predictive of a variational Gaussian process}
 \usage{
 tfd_variational_gaussian_process(kernel, index_points,
   inducing_index_points, variational_inducing_observations_loc,

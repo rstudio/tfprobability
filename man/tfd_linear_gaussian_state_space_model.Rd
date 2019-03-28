@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_linear_gaussian_state_space_model}
 \alias{tfd_linear_gaussian_state_space_model}
-\title{Observation distribution from a linear Gaussian state space model.}
+\title{Observation distribution from a linear Gaussian state space model}
 \usage{
 tfd_linear_gaussian_state_space_model(num_timesteps, transition_matrix,
   transition_noise, observation_matrix, observation_noise,

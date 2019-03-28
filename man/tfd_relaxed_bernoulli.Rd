@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_relaxed_bernoulli}
 \alias{tfd_relaxed_bernoulli}
-\title{RelaxedBernoulli distribution with temperature and logits parameters.}
+\title{RelaxedBernoulli distribution with temperature and logits parameters}
 \usage{
 tfd_relaxed_bernoulli(temperature, logits = NULL, probs = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

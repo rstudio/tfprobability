@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_softmax_centered}
 \alias{tfb_softmax_centered}
-\title{Bijector which computes \code{Y = g(X) = exp([X 0]) / sum(exp([X 0]))}.}
+\title{Computes \code{Y = g(X) = exp([X 0]) / sum(exp([X 0]))}}
 \usage{
 tfb_softmax_centered(validate_args = FALSE, name = "softmax_centered")
 }

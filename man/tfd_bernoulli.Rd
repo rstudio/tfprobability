@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_bernoulli}
 \alias{tfd_bernoulli}
-\title{The Bernoulli distribution.}
+\title{Bernoulli distribution}
 \usage{
 tfd_bernoulli(logits = NULL, probs = NULL, dtype = tf$int32,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "Bernoulli")

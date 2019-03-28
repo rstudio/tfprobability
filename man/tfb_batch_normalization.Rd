@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_batch_normalization}
 \alias{tfb_batch_normalization}
-\title{Compute \code{Y = g(X)} s.t. \code{X = g^-1(Y) = (Y - mean(Y)) / std(Y)}.}
+\title{Computes\code{Y = g(X)} s.t. \code{X = g^-1(Y) = (Y - mean(Y)) / std(Y)}}
 \usage{
 tfb_batch_normalization(batchnorm_layer = NULL, training = TRUE,
   validate_args = FALSE, name = "batch_normalization")

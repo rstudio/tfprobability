@@ -20,7 +20,7 @@ tfb_inverse <-
     bijector$inverse(as_tf_float(y), name)
   }
 
-#' Returns both the forward_log_det_jacobian.
+#' Returns the result of the forward evaluation of the log determinant of the Jacobian
 #'
 #' @param bijector The bijector to apply
 #' @param x Tensor. The input to the "forward" Jacobian determinant evaluation.
@@ -35,7 +35,7 @@ tfb_forward_log_det_jacobian <-
     bijector$forward_log_det_jacobian(as_tf_float(x), as.integer(event_ndims), name)
   }
 
-#' Returns the `(log o det o Jacobian o inverse)(y)`.
+#' Returns the result of the inverse evaluation of the log determinant of the Jacobian
 #'
 #' @param bijector The bijector to apply
 #' @param y Tensor. The input to the "inverse" Jacobian determinant evaluation.

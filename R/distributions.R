@@ -1,4 +1,4 @@
-#' The Normal distribution with loc and scale parameters
+#' Normal distribution with loc and scale parameters
 #'
 #' Mathematical details
 #'
@@ -105,7 +105,7 @@ tfd_independent <- function(distribution,
 
 
 
-#' The Bernoulli distribution.
+#' Bernoulli distribution
 #'
 #' The Bernoulli distribution with `probs` parameter, i.e., the probability of a
 #' `1` outcome (vs a `0` outcome).
@@ -140,7 +140,7 @@ tfd_bernoulli <- function(logits = NULL,
   do.call(tfp$distributions$Bernoulli, args)
 }
 
-#' The multivariate normal distribution on `R^k`.
+#' Multivariate normal distribution on `R^k`
 #'
 #' The Multivariate Normal distribution is defined over `R^k`` and parameterized
 #' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
@@ -213,7 +213,7 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalDiag, args)
 }
 
-#' OneHotCategorical distribution.
+#' OneHotCategorical distribution
 #'
 #' The categorical distribution is parameterized by the log-probabilities of a set of classes.
 #'   The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical
@@ -254,7 +254,7 @@ tfd_one_hot_categorical <- function(logits = NULL,
   do.call(tfp$distributions$OneHotCategorical, args)
 }
 
-#' RelaxedOneHotCategorical distribution with temperature and logits.
+#' RelaxedOneHotCategorical distribution with temperature and logits
 #'
 #' The RelaxedOneHotCategorical is a distribution over random probability
 #' vectors, vectors of positive real values that sum to one, which continuously
@@ -307,7 +307,7 @@ tfd_relaxed_one_hot_categorical <- function(temperature,
   do.call(tfp$distributions$RelaxedOneHotCategorical, args)
 }
 
-#' RelaxedBernoulli distribution with temperature and logits parameters.
+#' RelaxedBernoulli distribution with temperature and logits parameters
 #'
 #' The RelaxedBernoulli is a distribution over the unit interval (0,1), which continuously approximates a Bernoulli.
 #' The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli
@@ -368,7 +368,7 @@ tfd_relaxed_bernoulli <- function(temperature,
   do.call(tfp$distributions$RelaxedBernoulli, args)
 }
 
-#' A Transformed Distribution.
+#' A Transformed Distribution
 #'
 #' A TransformedDistribution models `p(y)` given a base distribution `p(x)`,
 #' and a deterministic, invertible, differentiable transform,`Y = g(X)`. The
@@ -435,7 +435,7 @@ tfd_transformed <- function(distribution,
   do.call(tfp$distributions$TransformedDistribution, args)
 }
 
-#' Zipf distribution.
+#' Zipf distribution
 #'
 #' The Zipf distribution is parameterized by a power parameter.
 #'
@@ -492,7 +492,7 @@ tfd_zipf <- function(power,
   do.call(tfp$distributions$Zipf, args)
 }
 
-#' The matrix Wishart distribution on positive definite matrices.
+#' The matrix Wishart distribution on positive definite matrices
 #'
 #' This distribution is defined by a scalar number of degrees of freedom df and
 #' an instance of LinearOperator, which provides matrix-free access to a
@@ -554,7 +554,7 @@ tfd_wishart <- function(df,
   do.call(tfp$distributions$Wishart, args)
 }
 
-#' The von Mises-Fisher distribution over unit vectors on `S^{n-1}`.
+#' The von Mises-Fisher distribution over unit vectors on `S^{n-1}`
 #'
 #' The von Mises-Fisher distribution is a directional distribution over vectors
 #' on the unit hypersphere `S^{n-1}` embedded in n dimensions `(R^n)`.
@@ -606,7 +606,7 @@ tfd_von_mises_fisher <- function(df,
   do.call(tfp$distributions$VonMisesFisher, args)
 }
 
-#' The von Mises distribution over angles.
+#' The von Mises distribution over angles
 #'
 #' The von Mises distribution is a univariate directional distribution.
 #' Similarly to Normal distribution, it is a maximum entropy distribution.
@@ -664,7 +664,7 @@ tfd_von_mises <- function(loc,
   do.call(tfp$distributions$VonMises, args)
 }
 
-#' The (diagonal) SinhArcsinh transformation of a distribution on `R^k`.
+#' The (diagonal) SinhArcsinh transformation of a distribution on `R^k`
 #'
 #' This distribution models a random vector `Y = (Y1,...,Yk)`, making use of
 #' a SinhArcsinh transformation (which has adjustable tailweight and skew),
@@ -772,7 +772,7 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
   do.call(tfp$distributions$VectorSinhArcsinhDiag, args)
 }
 
-#' The vectorization of the Laplace distribution on `R^k`.
+#' The vectorization of the Laplace distribution on `R^k`
 #'
 #' The vector laplace distribution is defined over `R^k`, and parameterized by
 #' a (batch of) length-k loc vector (the means) and a (batch of) k x k
@@ -800,7 +800,7 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
 #' Y = (Y_1, ...,Y_k) = scale @ X + loc
 #' ```
 #'
-#' About VectorLaplace and Vector distributions in TensorFlow.
+#' About VectorLaplace and Vector distributions in TensorFlow
 #'
 #' The VectorLaplace is a non-standard distribution that has useful properties.
 #' The marginals Y_1, ..., Y_k are *not* Laplace random variables, due to
@@ -851,7 +851,7 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
   )
 }
 
-#' The vectorization of the Laplace distribution on `R^k`.
+#' The vectorization of the Laplace distribution on `R^k`
 #'
 #' The vector laplace distribution is defined over `R^k`, and parameterized by
 #' a (batch of) length-k loc vector (the means) and a (batch of) k x k
@@ -882,7 +882,7 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #'  If both `scale_diag` and `scale_identity_multiplier` are `NULL`, then
 #'  `scale` is the Identity matrix.
 #'
-#' About VectorLaplace and Vector distributions in TensorFlow.
+#' About VectorLaplace and Vector distributions in TensorFlow
 #'
 #' The VectorLaplace is a non-standard distribution that has useful properties.
 #' The marginals Y_1, ..., Y_k are *not* Laplace random variables, due to
@@ -934,7 +934,7 @@ tfd_vector_laplace_diag <- function(loc = NULL,
   do.call(tfp$distributions$VectorLaplaceDiag, args)
 }
 
-#' The vectorization of the Exponential distribution on `R^k`.
+#' The vectorization of the Exponential distribution on `R^k`
 #'
 #' The vector exponential distribution is defined over a subset of `R^k`, and
 #' parameterized by a (batch of) length-`k` `loc` vector and a (batch of) `k x k`
@@ -1024,7 +1024,7 @@ tfd_vector_exponential_diag <- function(loc = NULL,
   do.call(tfp$distributions$VectorExponentialDiag, args)
 }
 
-#' The vectorization of the Exponential distribution on `R^k`.
+#' The vectorization of the Exponential distribution on `R^k`
 #'
 #' The vector exponential distribution is defined over a subset of `R^k`, and
 #' parameterized by a (batch of) length-`k` `loc` vector and a (batch of) `k x k`
@@ -1106,7 +1106,7 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 }
 
 
-#' VectorDiffeomixture distribution.
+#' VectorDiffeomixture distribution
 #'
 #' A vector diffeomixture (VDM) is a distribution parameterized by a convex
 #' combination of `K` component `loc` vectors, `loc[k], k = 0,...,K-1`, and `K`
@@ -1230,7 +1230,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
   do.call(tfp$distributions$VectorDiffeomixture, args)
 }
 
-#' Posterior predictive of a variational Gaussian process.
+#' Posterior predictive of a variational Gaussian process
 #'
 #' This distribution implements the variational Gaussian process (VGP), as
 #' described in [Titsias, 2009] and [Hensman, 2013]. The VGP is an
@@ -1462,7 +1462,7 @@ tfd_variational_gaussian_process <- function(kernel,
   do.call(tfp$distributions$VariationalGaussianProcess, args)
 }
 
-#' Uniform distribution with `low` and `high` parameters.
+#' Uniform distribution with `low` and `high` parameters
 #'
 #' Mathematical Details
 #'
@@ -1505,7 +1505,7 @@ tfd_uniform <- function(low = 0,
   do.call(tfp$distributions$Uniform, args)
 }
 
-#' The Truncated Normal distribution.
+#' Truncated Normal distribution
 #'
 #' The truncated normal is a normal distribution bounded between `low`
 #' and `high` (the pdf is 0 outside these bounds and renormalized).
@@ -1558,7 +1558,7 @@ tfd_truncated_normal <- function(loc,
   do.call(tfp$distributions$TruncatedNormal, args)
 }
 
-#' Triangular distribution with `low`, `high` and `peak` parameters.
+#' Triangular distribution with `low`, `high` and `peak` parameters
 #'
 #' The parameters `low`, `high` and `peak` must be shaped in a way that supports
 #' broadcasting (e.g., `high - low` is a valid operation).
@@ -1591,7 +1591,7 @@ tfd_triangular <- function(low = 0,
   do.call(tfp$distributions$Triangular, args)
 }
 
-#' Student's t-distribution.
+#' Student's t-distribution
 #'
 #' This distribution has parameters: degree of freedom `df`, location `loc`, and `scale`.
 #'
@@ -1653,7 +1653,7 @@ tfd_student_t <- function(df,
   do.call(tfp$distributions$StudentT, args)
 }
 
-#' Marginal distribution of a Student's T process at finitely many points.
+#' Marginal distribution of a Student's T process at finitely many points
 #'
 #' A Student's T process (TP) is an indexed collection of random variables, any
 #' finite collection of which are jointly Multivariate Student's T. While this
@@ -1762,7 +1762,7 @@ tfd_student_t_process <- function(df,
   do.call(tfp$distributions$StudentTProcess, args)
 }
 
-#' The SinhArcsinh transformation of a distribution on `(-inf, inf)`.
+#' The SinhArcsinh transformation of a distribution on `(-inf, inf)`
 #'
 #' This distribution models a random variable, making use of
 #' a `SinhArcsinh` transformation (which has adjustable tailweight and skew),
@@ -1858,7 +1858,7 @@ tfd_sinh_arcsinh <- function(loc,
 }
 
 
-#' Distribution representing the quantization `Y = ceiling(X)`.
+#' Distribution representing the quantization `Y = ceiling(X)`
 #'
 #' Definition in Terms of Sampling
 #'
@@ -1934,7 +1934,7 @@ tfd_quantized <- function(distribution,
   do.call(tfp$distributions$QuantizedDistribution, args)
 }
 
-#' Poisson distribution.
+#' Poisson distribution
 #'
 #' The Poisson distribution is parameterized by an event `rate` parameter.
 #'
@@ -1978,7 +1978,7 @@ tfd_poisson <- function(rate = NULL,
   do.call(tfp$distributions$Poisson, args)
 }
 
-#' `PoissonLogNormalQuadratureCompound` distribution.
+#' `PoissonLogNormalQuadratureCompound` distribution
 #'
 #' The `PoissonLogNormalQuadratureCompound` is an approximation to a
 #' Poisson-LogNormal [compound distribution](
@@ -2055,7 +2055,7 @@ tfd_poisson_log_normal_quadrature_compound <- function(loc,
           args)
 }
 
-#' Pareto distribution.
+#' Pareto distribution
 #'
 #' The Pareto distribution is parameterized by a `scale` and a
 #' `concentration` parameter.
@@ -2097,7 +2097,7 @@ tfd_pareto <- function(concentration,
           args)
 }
 
-#' NegativeBinomial distribution.
+#' NegativeBinomial distribution
 #'
 #' The NegativeBinomial distribution is related to the experiment of performing
 #' Bernoulli trials in sequence. Given a Bernoulli trial with probability `p` of
@@ -2156,7 +2156,7 @@ tfd_negative_binomial <- function(total_count,
           args)
 }
 
-#' The multivariate normal distribution on `R^k`.
+#' The multivariate normal distribution on `R^k`
 #'
 #' The Multivariate Normal distribution is defined over `R^k`` and parameterized
 #' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
@@ -2222,7 +2222,7 @@ tfd_multivariate_normal_tri_l <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalTriL, args)
 }
 
-#' The multivariate normal distribution on `R^k`.
+#' The multivariate normal distribution on `R^k`
 #'
 #' The Multivariate Normal distribution is defined over `R^k`` and parameterized
 #' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
@@ -2281,7 +2281,7 @@ tfd_multivariate_normal_linear_operator <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalLinearOperator, args)
 }
 
-#' The multivariate normal distribution on `R^k`.
+#' Multivariate normal distribution on `R^k`
 #'
 #' The Multivariate Normal distribution is defined over `R^k`` and parameterized
 #' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
@@ -2346,7 +2346,7 @@ tfd_multivariate_normal_full_covariance <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalFullCovariance, args)
 }
 
-#' The multivariate normal distribution on `R^k`.
+#' Multivariate normal distribution on `R^k`
 #'
 #' The Multivariate Normal distribution is defined over `R^k`` and parameterized
 #' by a (batch of) length-k loc vector (aka "mu") and a (batch of) `k x k`
@@ -2437,7 +2437,7 @@ tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
   do.call(tfp$distributions$MultivariateNormalDiagPlusLowRank, args)
 }
 
-#' The Multivariate Student's t-distribution on `R^k`.
+#' Multivariate Student's t-distribution on `R^k`
 #'
 #' Mathematical Details
 #'
@@ -2491,7 +2491,7 @@ tfd_multivariate_student_t_linear_operator <- function(df,
           args)
 }
 
-#' Multinomial distribution.
+#' Multinomial distribution
 #'
 #' This Multinomial distribution is parameterized by `probs`, a (batch of)
 #' length-`K` `prob` (probability) vectors (`K > 1`) such that
@@ -2564,7 +2564,7 @@ tfd_multinomial <- function(total_count,
           args)
 }
 
-#' Mixture distribution.
+#' Mixture distribution
 #'
 #' The `Mixture` object implements batched mixture distributions.
 #' The mixture model is defined by a `Categorical` distribution (the mixture)
@@ -2603,7 +2603,7 @@ tfd_mixture <- function(cat,
           args)
 }
 
-#' Categorical distribution over integers.
+#' Categorical distribution over integers
 #'
 #' The Categorical distribution is parameterized by either probabilities or
 #' log-probabilities of a set of `K` classes. It is defined over the integers
@@ -2662,7 +2662,7 @@ tfd_categorical <- function(logits = NULL,
           args)
 }
 
-#' Mixture (same-family) distribution.
+#' Mixture (same-family) distribution
 #'
 #' The `MixtureSameFamily` distribution implements a (batch of) mixture
 #' distribution where all components are from different parameterizations of the
@@ -2718,7 +2718,7 @@ tfd_mixture_same_family <- function(mixture_distribution,
           args)
 }
 
-#' The log-normal distribution.
+#' Log-normal distribution
 #'
 #' The LogNormal distribution models positive-valued random variables
 #' whose logarithm is normally distributed with mean `loc` and
@@ -2748,7 +2748,7 @@ tfd_log_normal <- function(loc = NULL,
           args)
 }
 
-#' The Logistic distribution with location `loc` and `scale` parameters.
+#' Logistic distribution with location `loc` and `scale` parameters
 #'
 #' Mathematical details
 #'
@@ -2789,7 +2789,7 @@ tfd_logistic <- function(loc,
           args)
 }
 
-#' The LKJ distribution on correlation matrices.
+#' LKJ distribution on correlation matrices
 #'
 #' This is a one-parameter family of distributions on correlation matrices.  The
 #' probability density is proportional to the determinant raised to the power of
@@ -2836,7 +2836,7 @@ tfd_lkj <- function(dimension,
           args)
 }
 
-#' Observation distribution from a linear Gaussian state space model.
+#' Observation distribution from a linear Gaussian state space model
 #'
 #' The state space model, sometimes called a Kalman filter, posits a
 #' latent state vector `z_t` of dimension `latent_size` that evolves
@@ -2952,7 +2952,7 @@ tfd_linear_gaussian_state_space_model <- function(num_timesteps,
           args)
 }
 
-#' The Laplace distribution with location `loc` and `scale` parameters.
+#' Laplace distribution with location `loc` and `scale` parameters
 #'
 #' Mathematical details
 #'
@@ -2997,7 +2997,7 @@ tfd_laplace <- function(loc,
           args)
 }
 
-#' Kumaraswamy distribution.
+#' Kumaraswamy distribution
 #'
 #' The Kumaraswamy distribution is defined over the `(0, 1)` interval using
 #' parameters `concentration1` (aka "alpha") and `concentration0` (aka "beta").  It has a
@@ -3041,7 +3041,7 @@ tfd_kumaraswamy <- function(concentration1 = 1,
           args)
 }
 
-#' Joint distribution parameterized by distribution-making functions.
+#' Joint distribution parameterized by distribution-making functions
 #'
 #' This distribution enables both sampling and joint probability computation from
 #' a single model specification.
@@ -3095,7 +3095,7 @@ tfd_joint_distribution_sequential <- function(distribution_fn,
           args)
 }
 
-#' Exponential distribution.
+#' Exponential distribution
 #'
 #' The Exponential distribution is parameterized by an event `rate` parameter.
 #'
@@ -3141,7 +3141,7 @@ tfd_exponential <- function(rate,
           args)
 }
 
-#' Gamma distribution.
+#' Gamma distribution
 #'
 #' The Gamma distribution is defined over positive real numbers using
 #' parameters `concentration` (aka "alpha") and `rate` (aka "beta").
@@ -3207,7 +3207,7 @@ tfd_gamma <- function(concentration,
           args)
 }
 
-#' Inverse Gaussian distribution.
+#' Inverse Gaussian distribution
 #'
 #' The [inverse Gaussian distribution] (https://en.wikipedia.org/wiki/Inverse_Gaussian_distribution)
 #' is parameterized by a `loc` and a `concentration` parameter. It's also known
@@ -3264,7 +3264,7 @@ tfd_inverse_gaussian <- function(loc,
           args)
 }
 
-#' InverseGamma distribution.
+#' InverseGamma distribution
 #'
 #' The `InverseGamma` distribution is defined over positive real numbers using
 #' parameters `concentration` (aka "alpha") and `scale` (aka "beta").
@@ -3325,7 +3325,7 @@ tfd_inverse_gamma <- function(concentration,
           args)
 }
 
-#' Horseshoe distribution.
+#' Horseshoe distribution
 #'
 #' The so-called 'horseshoe' distribution is a Cauchy-Normal scale mixture,
 #' proposed as a sparsity-inducing prior for Bayesian regression. It is
@@ -3372,7 +3372,7 @@ tfd_horseshoe <- function(scale,
           args)
 }
 
-#' Hidden Markov model distribution.
+#' Hidden Markov model distribution
 #'
 #' The `HiddenMarkovModel` distribution implements a (batch of) hidden
 #' Markov models where the initial states, transition probabilities
@@ -3437,7 +3437,7 @@ tfd_hidden_markov_model <- function(initial_distribution,
           args)
 }
 
-#' The Half Normal distribution with scale `scale`.
+#' Half-Normal distribution with scale `scale`
 #'
 #' Mathematical details
 #'
@@ -3477,7 +3477,7 @@ tfd_half_normal <- function(scale,
           args)
 }
 
-#' Half-Cauchy distribution.
+#' Half-Cauchy distribution
 #'
 #' The half-Cauchy distribution is parameterized by a `loc` and a
 #' `scale` parameter. It represents the right half of the two symmetric halves in
@@ -3517,7 +3517,7 @@ tfd_half_cauchy <- function(loc,
           args)
 }
 
-#' Beta distribution.
+#' Beta distribution
 #'
 #' The Beta distribution is defined over the `(0, 1)` interval using parameters
 #' `concentration1` (aka "alpha") and `concentration0` (aka "beta").
@@ -3578,7 +3578,7 @@ tfd_beta <- function(concentration1 = NULL,
           args)
 }
 
-#' Binomial distribution.
+#' Binomial distribution
 #'
 #' This distribution is parameterized by `probs`, a (batch of) probabilities for
 #' drawing a `1` and `total_count`, the number of trials per draw from the
@@ -3636,7 +3636,7 @@ tfd_binomial <- function(total_count,
           args)
 }
 
-#' The Cauchy distribution with location `loc` and scale `scale`.
+#' Cauchy distribution with location `loc` and scale `scale`
 #'
 #' Mathematical details
 #'
@@ -3676,7 +3676,7 @@ tfd_cauchy <- function(loc,
           args)
 }
 
-#' Gamma-Gamma distribution.
+#' Gamma-Gamma distribution
 #'
 #' Gamma-Gamma is a [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution)
 #' defined over positive real numbers using parameters `concentration`,
@@ -3742,7 +3742,7 @@ tfd_gamma_gamma <- function(concentration,
           args)
 }
 
-#' Chi distribution.
+#' Chi distribution
 #'
 #' The Chi distribution is defined over nonnegative real numbers and uses a
 #' degrees of freedom ("df") parameter.
@@ -3783,7 +3783,7 @@ tfd_chi <- function(df,
           args)
 }
 
-#' Chi2 distribution.
+#' Chi Square distribution
 #'
 #' The Chi2 distribution is defined over positive real numbers using a degrees of
 #' freedom ("df") parameter.
@@ -3824,7 +3824,7 @@ tfd_chi2 <- function(df,
           args)
 }
 
-#' The scalar Gumbel distribution with location `loc` and `scale` parameters.
+#' Scalar Gumbel distribution with location `loc` and `scale` parameters
 #'
 #' Mathematical details
 #'
@@ -3866,7 +3866,7 @@ tfd_gumbel <- function(loc,
           args)
 }
 
-#' Geometric distribution.
+#' Geometric distribution
 #'
 #' The Geometric distribution is parameterized by p, the probability of a
 #' positive event. It represents the probability that in k + 1 Bernoulli trials,
@@ -3912,7 +3912,7 @@ tfd_geometric <- function(logits = NULL,
           args)
 }
 
-#' Dirichlet distribution.
+#' Dirichlet distribution
 #'
 #' The Dirichlet distribution is defined over the
 #' [`(k-1)`-simplex](https://en.wikipedia.org/wiki/Simplex) using a positive,
@@ -3977,7 +3977,7 @@ tfd_dirichlet <- function(concentration,
           args)
 }
 
-#' Dirichlet-Multinomial compound distribution.
+#' Dirichlet-Multinomial compound distribution
 #'
 #' The Dirichlet-Multinomial distribution is parameterized by a (batch of)
 #' length-`K` `concentration` vectors (`K > 1`) and a `total_count` number of
@@ -4059,7 +4059,7 @@ tfd_dirichlet_multinomial <- function(total_count,
           args)
 }
 
-#' Scalar `Deterministic` distribution on the real line.
+#' Scalar `Deterministic` distribution on the real line
 #'
 #' The scalar `Deterministic` distribution is parameterized by a [batch] point
 #' `loc` on the real line.  The distribution is supported at this point only,
@@ -4103,7 +4103,7 @@ tfd_deterministic <- function(loc,
           args)
 }
 
-#' Empirical distribution.
+#' Empirical distribution
 #'
 #' The Empirical distribution is parameterized by a [batch] multiset of samples.
 #' It describes the empirical measure (observations) of a variable.
@@ -4148,7 +4148,7 @@ tfd_empirical <- function(samples,
           args)
 }
 
-#' The Batch-Reshaping distribution.
+#' Batch-Reshaping distribution
 #'
 #' This "meta-distribution" reshapes the batch dimensions of another distribution.
 #' @param distribution The base distribution instance to reshape. Typically an
@@ -4176,7 +4176,7 @@ tfd_batch_reshape <- function(distribution,
           args)
 }
 
-#' Autoregressive distributions.
+#' Autoregressive distribution
 #'
 #' The Autoregressive distribution enables learning (often) richer multivariate
 #' distributions by repeatedly applying a [diffeomorphic](https://en.wikipedia.org/wiki/Diffeomorphism)

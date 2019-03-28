@@ -1,4 +1,4 @@
-#' A d-variate MVNTriL Keras layer from `d+d*(d+1)/ 2` params.
+#' A d-variate Multivariate Normal TriL Keras layer from `d+d*(d+1)/ 2` params
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_distribution_lambda
@@ -91,7 +91,7 @@ layer_independent_bernoulli <- function(object,
   )
 }
 
-#' Keras layer enabling plumbing TFP distributions through Keras models.
+#' Keras layer enabling plumbing TFP distributions through Keras models
 #'
 #' @inheritParams keras::layer_dense
 #'
@@ -189,7 +189,7 @@ layer_kl_divergence_add_loss <- function(object,
   )
 }
 
-#' Regularizer that adds a KL divergence penalty to the model loss.
+#' Regularizer that adds a KL divergence penalty to the model loss
 #'
 #' When using Monte Carlo approximation (e.g., `use_exact = FALSE`), it is presumed that the input
 #'   distribution's concretization (i.e., `tf$convert_to_tensor(distribution)`) corresponds to a random

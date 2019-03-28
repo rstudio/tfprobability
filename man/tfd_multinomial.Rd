@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multinomial}
 \alias{tfd_multinomial}
-\title{Multinomial distribution.}
+\title{Multinomial distribution}
 \usage{
 tfd_multinomial(total_count, logits = NULL, probs = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

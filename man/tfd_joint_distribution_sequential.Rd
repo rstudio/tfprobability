@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_joint_distribution_sequential}
 \alias{tfd_joint_distribution_sequential}
-\title{Joint distribution parameterized by distribution-making functions.}
+\title{Joint distribution parameterized by distribution-making functions}
 \usage{
 tfd_joint_distribution_sequential(distribution_fn, validate_args = FALSE,
   name = NULL)

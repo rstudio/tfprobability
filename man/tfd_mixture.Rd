@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_mixture}
 \alias{tfd_mixture}
-\title{Mixture distribution.}
+\title{Mixture distribution}
 \usage{
 tfd_mixture(cat, components, validate_args = FALSE,
   allow_nan_stats = TRUE, use_static_graph = FALSE, name = "Mixture")

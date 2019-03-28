@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_poisson_log_normal_quadrature_compound}
 \alias{tfd_poisson_log_normal_quadrature_compound}
-\title{\code{PoissonLogNormalQuadratureCompound} distribution.}
+\title{\code{PoissonLogNormalQuadratureCompound} distribution}
 \usage{
 tfd_poisson_log_normal_quadrature_compound(loc, scale,
   quadrature_size = 8,

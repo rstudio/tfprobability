@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_uniform}
 \alias{tfd_uniform}
-\title{Uniform distribution with \code{low} and \code{high} parameters.}
+\title{Uniform distribution with \code{low} and \code{high} parameters}
 \usage{
 tfd_uniform(low = 0, high = 1, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "Uniform")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_softsign}
 \alias{tfb_softsign}
-\title{Bijector which computes \code{Y = g(X) = X / (1 + |X|)}.}
+\title{Computes \code{Y = g(X) = X / (1 + |X|)}}
 \usage{
 tfb_softsign(validate_args = FALSE, name = "softsign")
 }

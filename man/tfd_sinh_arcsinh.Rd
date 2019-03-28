@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_sinh_arcsinh}
 \alias{tfd_sinh_arcsinh}
-\title{The SinhArcsinh transformation of a distribution on \code{(-inf, inf)}.}
+\title{The SinhArcsinh transformation of a distribution on \code{(-inf, inf)}}
 \usage{
 tfd_sinh_arcsinh(loc, scale, skewness = NULL, tailweight = NULL,
   distribution = NULL, validate_args = FALSE, allow_nan_stats = TRUE,

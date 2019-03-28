@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-layers.R
 \name{layer_distribution_lambda}
 \alias{layer_distribution_lambda}
-\title{Keras layer enabling plumbing TFP distributions through Keras models.}
+\title{Keras layer enabling plumbing TFP distributions through Keras models}
 \usage{
 layer_distribution_lambda(object, make_distribution_fn,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
@@ -42,7 +42,7 @@ isn't provided.}
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
 \description{
-Keras layer enabling plumbing TFP distributions through Keras models.
+Keras layer enabling plumbing TFP distributions through Keras models
 }
 \seealso{
 Other distribution_layers: \code{\link{layer_independent_bernoulli}},

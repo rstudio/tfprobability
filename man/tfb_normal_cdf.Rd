@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_normal_cdf}
 \alias{tfb_normal_cdf}
-\title{Compute \code{Y = g(X) = NormalCDF(x)}.}
+\title{Computes\code{Y = g(X) = NormalCDF(x)}}
 \usage{
 tfb_normal_cdf(validate_args = FALSE, name = "normal")
 }

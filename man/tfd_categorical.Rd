@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_categorical}
 \alias{tfd_categorical}
-\title{Categorical distribution over integers.}
+\title{Categorical distribution over integers}
 \usage{
 tfd_categorical(logits = NULL, probs = NULL, dtype = tf$int32,
   validate_args = FALSE, allow_nan_stats = TRUE,

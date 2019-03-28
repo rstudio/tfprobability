@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_sinh_arcsinh}
 \alias{tfb_sinh_arcsinh}
-\title{Compute \code{Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )}.}
+\title{Computes\code{Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )}}
 \usage{
 tfb_sinh_arcsinh(skewness = NULL, tailweight = NULL,
   validate_args = FALSE, name = "SinhArcsinh")

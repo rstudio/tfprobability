@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_dirichlet}
 \alias{tfd_dirichlet}
-\title{Dirichlet distribution.}
+\title{Dirichlet distribution}
 \usage{
 tfd_dirichlet(concentration, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "Dirichlet")

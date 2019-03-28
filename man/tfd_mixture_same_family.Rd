@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_mixture_same_family}
 \alias{tfd_mixture_same_family}
-\title{Mixture (same-family) distribution.}
+\title{Mixture (same-family) distribution}
 \usage{
 tfd_mixture_same_family(mixture_distribution, components_distribution,
   reparameterize = FALSE, validate_args = FALSE,

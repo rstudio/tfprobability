@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_cholesky_outer_product}
 \alias{tfb_cholesky_outer_product}
-\title{Compute \code{g(X) = X @ X.T}; \code{X} is lower-triangular, positive-diagonal matrix.}
+\title{Computes\code{g(X) = X @ X.T} where \code{X} is lower-triangular, positive-diagonal matrix}
 \usage{
 tfb_cholesky_outer_product(validate_args = FALSE,
   name = "cholesky_outer_product")

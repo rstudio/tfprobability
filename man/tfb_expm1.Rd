@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_expm1}
 \alias{tfb_expm1}
-\title{Compute \code{Y = g(X) = exp(X) - 1}.}
+\title{Computes\code{Y = g(X) = exp(X) - 1}}
 \usage{
 tfb_expm1(validate_args = FALSE, name = "expm1")
 }

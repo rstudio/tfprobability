@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_autoregressive}
 \alias{tfd_autoregressive}
-\title{Autoregressive distributions.}
+\title{Autoregressive distribution}
 \usage{
 tfd_autoregressive(distribution_fn, sample0 = NULL, num_steps = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

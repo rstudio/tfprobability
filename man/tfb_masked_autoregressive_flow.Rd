@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_masked_autoregressive_flow}
 \alias{tfb_masked_autoregressive_flow}
-\title{Affine MaskedAutoregressiveFlow bijector.}
+\title{Affine MaskedAutoregressiveFlow bijector}
 \usage{
 tfb_masked_autoregressive_flow(shift_and_log_scale_fn,
   is_constant_jacobian = FALSE, unroll_loop = FALSE,
@@ -90,13 +90,13 @@ event_size = x.shape\link{-event_dims:}.num_elements()
 for _ in range(event_size):
 shift, log_scale = shift_and_log_scale_fn(y)
 y = x * tf.exp(log_scale) + shift
-return y
+return y#'
 
 and the inverse transformation is
 
 def inverse(y):
 shift, log_scale = shift_and_log_scale_fn(y)
-return (y - shift) / tf.exp(log_scale)
+return (y - shift) / tf.exp(log_scale)#'
 
 Notice that the inverse does not need a for-loop. This is because in the
 forward pass each calculation of shift and log_scale is based on the y

@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multivariate_normal_diag_plus_low_rank}
 \alias{tfd_multivariate_normal_diag_plus_low_rank}
-\title{The multivariate normal distribution on \code{R^k}.}
+\title{Multivariate normal distribution on \code{R^k}}
 \usage{
 tfd_multivariate_normal_diag_plus_low_rank(loc = NULL,
   scale_diag = NULL, scale_identity_multiplier = NULL,

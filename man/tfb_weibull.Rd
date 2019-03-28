@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_weibull}
 \alias{tfb_weibull}
-\title{Compute \code{Y = g(X) = 1 - exp((-X / scale) ** concentration)}, X >= 0.}
+\title{Computes\code{Y = g(X) = 1 - exp((-X / scale) ** concentration)} where X >= 0}
 \usage{
 tfb_weibull(scale = 1, concentration = 1, validate_args = FALSE,
   name = "weibull")

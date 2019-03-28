@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_discrete_cosine_transform}
 \alias{tfb_discrete_cosine_transform}
-\title{Compute \code{Y = g(X) = DCT(X)}, where DCT type is indicated by the type arg.}
+\title{Computes\code{Y = g(X) = DCT(X)}, where DCT type is indicated by the type arg}
 \usage{
 tfb_discrete_cosine_transform(validate_args = FALSE, dct_type = 2,
   name = "dct")
@@ -27,7 +27,9 @@ Note that the operator applied is orthonormal (i.e. norm='ortho').
 }
 \section{References}{
 
-\href{https://arxiv.org/abs/1511.05946}{Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer. In International Conference on Learning Representations, 2016.}
+\itemize{
+\item \href{https://arxiv.org/abs/1511.05946}{Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer. In International Conference on Learning Representations, 2016.}
+}
 }
 
 \seealso{

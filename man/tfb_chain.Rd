@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_chain}
 \alias{tfb_chain}
-\title{Bijector which applies a sequence of bijectors.}
+\title{Bijector which applies a sequence of bijectors}
 \usage{
 tfb_chain(bijectors = NULL, validate_args = FALSE, name = NULL)
 }
@@ -16,7 +16,7 @@ bijector equivalent to the Identity bijector.}
 E.g., \code{tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"}.}
 }
 \description{
-Bijector which applies a sequence of bijectors.
+Bijector which applies a sequence of bijectors
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

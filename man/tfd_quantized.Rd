@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_quantized}
 \alias{tfd_quantized}
-\title{Distribution representing the quantization \code{Y = ceiling(X)}.}
+\title{Distribution representing the quantization \code{Y = ceiling(X)}}
 \usage{
 tfd_quantized(distribution, low = NULL, high = NULL,
   validate_args = FALSE, name = "QuantizedDistribution")

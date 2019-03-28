@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multivariate_normal_tri_l}
 \alias{tfd_multivariate_normal_tri_l}
-\title{The multivariate normal distribution on \code{R^k}.}
+\title{The multivariate normal distribution on \code{R^k}}
 \usage{
 tfd_multivariate_normal_tri_l(loc = NULL, scale_tril = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

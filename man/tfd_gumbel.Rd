@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_gumbel}
 \alias{tfd_gumbel}
-\title{The scalar Gumbel distribution with location \code{loc} and \code{scale} parameters.}
+\title{Scalar Gumbel distribution with location \code{loc} and \code{scale} parameters}
 \usage{
 tfd_gumbel(loc, scale, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Gumbel")

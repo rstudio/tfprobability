@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_gamma_gamma}
 \alias{tfd_gamma_gamma}
-\title{Gamma-Gamma distribution.}
+\title{Gamma-Gamma distribution}
 \usage{
 tfd_gamma_gamma(concentration, mixing_concentration, mixing_rate,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "GammaGamma")

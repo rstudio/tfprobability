@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_half_cauchy}
 \alias{tfd_half_cauchy}
-\title{Half-Cauchy distribution.}
+\title{Half-Cauchy distribution}
 \usage{
 tfd_half_cauchy(loc, scale, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "HalfCauchy")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_one_hot_categorical}
 \alias{tfd_one_hot_categorical}
-\title{OneHotCategorical distribution.}
+\title{OneHotCategorical distribution}
 \usage{
 tfd_one_hot_categorical(logits = NULL, probs = NULL,
   dtype = tf$int32, validate_args = FALSE, allow_nan_stats = TRUE,

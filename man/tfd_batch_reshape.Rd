@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_batch_reshape}
 \alias{tfd_batch_reshape}
-\title{The Batch-Reshaping distribution.}
+\title{Batch-Reshaping distribution}
 \usage{
 tfd_batch_reshape(distribution, batch_shape, validate_args = FALSE,
   allow_nan_stats = TRUE, name = NULL)

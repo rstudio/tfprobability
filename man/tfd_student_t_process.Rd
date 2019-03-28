@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_student_t_process}
 \alias{tfd_student_t_process}
-\title{Marginal distribution of a Student's T process at finitely many points.}
+\title{Marginal distribution of a Student's T process at finitely many points}
 \usage{
 tfd_student_t_process(df, kernel, index_points, mean_fn = NULL,
   jitter = 1e-06, validate_args = FALSE, allow_nan_stats = FALSE,

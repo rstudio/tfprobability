@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_kumaraswamy}
 \alias{tfd_kumaraswamy}
-\title{Kumaraswamy distribution.}
+\title{Kumaraswamy distribution}
 \usage{
 tfd_kumaraswamy(concentration1 = 1, concentration0 = 1,
   validate_args = FALSE, allow_nan_stats = TRUE,

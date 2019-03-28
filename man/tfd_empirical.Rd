@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_empirical}
 \alias{tfd_empirical}
-\title{Empirical distribution.}
+\title{Empirical distribution}
 \usage{
 tfd_empirical(samples, event_ndims = 0, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "Empirical")

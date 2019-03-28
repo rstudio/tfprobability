@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_pareto}
 \alias{tfd_pareto}
-\title{Pareto distribution.}
+\title{Pareto distribution}
 \usage{
 tfd_pareto(concentration, scale = 1, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "Pareto")

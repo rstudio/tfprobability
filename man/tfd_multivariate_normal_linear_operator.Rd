@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multivariate_normal_linear_operator}
 \alias{tfd_multivariate_normal_linear_operator}
-\title{The multivariate normal distribution on \code{R^k}.}
+\title{The multivariate normal distribution on \code{R^k}}
 \usage{
 tfd_multivariate_normal_linear_operator(loc = NULL, scale = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

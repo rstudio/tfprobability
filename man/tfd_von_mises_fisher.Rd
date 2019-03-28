@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_von_mises_fisher}
 \alias{tfd_von_mises_fisher}
-\title{The von Mises-Fisher distribution over unit vectors on \code{S^{n-1}}.}
+\title{The von Mises-Fisher distribution over unit vectors on \code{S^{n-1}}}
 \usage{
 tfd_von_mises_fisher(df, mean_direction, concentration,
   validate_args = FALSE, allow_nan_stats = TRUE,

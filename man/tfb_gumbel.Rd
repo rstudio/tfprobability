@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_gumbel}
 \alias{tfb_gumbel}
-\title{Compute \code{Y = g(X) = exp(-exp(-(X - loc) / scale))}.}
+\title{Computes\code{Y = g(X) = exp(-exp(-(X - loc) / scale))}}
 \usage{
 tfb_gumbel(loc = 0, scale = 1, validate_args = FALSE,
   name = "gumbel")

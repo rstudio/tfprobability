@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_student_t}
 \alias{tfd_student_t}
-\title{Student's t-distribution.}
+\title{Student's t-distribution}
 \usage{
 tfd_student_t(df, loc, scale, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "StudentT")

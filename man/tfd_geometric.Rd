@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_geometric}
 \alias{tfd_geometric}
-\title{Geometric distribution.}
+\title{Geometric distribution}
 \usage{
 tfd_geometric(logits = NULL, probs = NULL, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "Geometric")

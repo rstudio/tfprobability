@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_triangular}
 \alias{tfd_triangular}
-\title{Triangular distribution with \code{low}, \code{high} and \code{peak} parameters.}
+\title{Triangular distribution with \code{low}, \code{high} and \code{peak} parameters}
 \usage{
 tfd_triangular(low = 0, high = 1, peak = 0.5,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "Triangular")

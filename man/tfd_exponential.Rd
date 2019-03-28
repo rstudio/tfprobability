@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_exponential}
 \alias{tfd_exponential}
-\title{Exponential distribution.}
+\title{Exponential distribution}
 \usage{
 tfd_exponential(rate, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Exponential")

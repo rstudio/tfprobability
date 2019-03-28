@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_logistic}
 \alias{tfd_logistic}
-\title{The Logistic distribution with location \code{loc} and \code{scale} parameters.}
+\title{Logistic distribution with location \code{loc} and \code{scale} parameters}
 \usage{
 tfd_logistic(loc, scale, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Logistic")

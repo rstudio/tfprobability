@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_transform_diagonal}
 \alias{tfb_transform_diagonal}
-\title{Applies a Bijector to the diagonal of a matrix.}
+\title{Applies a Bijector to the diagonal of a matrix}
 \usage{
 tfb_transform_diagonal(diag_bijector, validate_args = FALSE,
   name = "transform_diagonal")
@@ -16,7 +16,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Applies a Bijector to the diagonal of a matrix.
+Applies a Bijector to the diagonal of a matrix
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

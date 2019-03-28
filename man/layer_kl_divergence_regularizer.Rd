@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-layers.R
 \name{layer_kl_divergence_regularizer}
 \alias{layer_kl_divergence_regularizer}
-\title{Regularizer that adds a KL divergence penalty to the model loss.}
+\title{Regularizer that adds a KL divergence penalty to the model loss}
 \usage{
 layer_kl_divergence_regularizer(object, distribution_b,
   use_exact_kl = FALSE, test_points_reduce_axis = NULL,

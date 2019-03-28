@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_vector_diffeomixture}
 \alias{tfd_vector_diffeomixture}
-\title{VectorDiffeomixture distribution.}
+\title{VectorDiffeomixture distribution}
 \usage{
 tfd_vector_diffeomixture(mix_loc, temperature, distribution, loc = NULL,
   scale = NULL, quadrature_size = 8,

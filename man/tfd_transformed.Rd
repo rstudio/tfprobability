@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_transformed}
 \alias{tfd_transformed}
-\title{A Transformed Distribution.}
+\title{A Transformed Distribution}
 \usage{
 tfd_transformed(distribution, bijector, batch_shape = NULL,
   event_shape = NULL, validate_args = FALSE, name = NULL)

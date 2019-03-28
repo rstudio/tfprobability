@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_dirichlet_multinomial}
 \alias{tfd_dirichlet_multinomial}
-\title{Dirichlet-Multinomial compound distribution.}
+\title{Dirichlet-Multinomial compound distribution}
 \usage{
 tfd_dirichlet_multinomial(total_count, concentration,
   validate_args = FALSE, allow_nan_stats = TRUE,

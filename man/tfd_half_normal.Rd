@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_half_normal}
 \alias{tfd_half_normal}
-\title{The Half Normal distribution with scale \code{scale}.}
+\title{Half-Normal distribution with scale \code{scale}}
 \usage{
 tfd_half_normal(scale, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "HalfNormal")

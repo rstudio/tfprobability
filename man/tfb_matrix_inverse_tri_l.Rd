@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_matrix_inverse_tri_l}
 \alias{tfb_matrix_inverse_tri_l}
-\title{Computes \code{g(L) = inv(L)}, where L is a lower-triangular matrix.}
+\title{Computes \code{g(L) = inv(L)}, where L is a lower-triangular matrix}
 \usage{
 tfb_matrix_inverse_tri_l(validate_args = FALSE,
   name = "matrix_inverse_tril")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_chi}
 \alias{tfd_chi}
-\title{Chi distribution.}
+\title{Chi distribution}
 \usage{
 tfd_chi(df, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Chi")

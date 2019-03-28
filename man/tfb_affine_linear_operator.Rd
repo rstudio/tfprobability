@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_affine_linear_operator}
 \alias{tfb_affine_linear_operator}
-\title{Compute \code{Y = g(X; shift, scale) = scale @ X + shift}.}
+\title{Computes\code{Y = g(X; shift, scale) = scale @ X + shift}}
 \usage{
 tfb_affine_linear_operator(shift = NULL, scale = NULL,
   adjoint = FALSE, validate_args = FALSE,

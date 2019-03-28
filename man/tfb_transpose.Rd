@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_transpose}
 \alias{tfb_transpose}
-\title{Compute \code{Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)}.}
+\title{Computes\code{Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)}}
 \usage{
 tfb_transpose(perm = NULL, rightmost_transposed_ndims = NULL,
   validate_args = FALSE, name = "transpose")

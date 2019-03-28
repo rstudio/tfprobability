@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_absolute_value}
 \alias{tfb_absolute_value}
-\title{Compute \code{Y = g(X) = Abs(X)}, element-wise.}
+\title{Computes\code{Y = g(X) = Abs(X)}, element-wise}
 \usage{
 tfb_absolute_value(validate_args = FALSE, name = "absolute_value")
 }

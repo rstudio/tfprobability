@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_deterministic}
 \alias{tfd_deterministic}
-\title{Scalar \code{Deterministic} distribution on the real line.}
+\title{Scalar \code{Deterministic} distribution on the real line}
 \usage{
 tfd_deterministic(loc, atol = NULL, rtol = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

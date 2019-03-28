@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_scale_tri_l}
 \alias{tfb_scale_tri_l}
-\title{Transforms unconstrained vectors to TriL matrices with positive diagonal.}
+\title{Transforms unconstrained vectors to TriL matrices with positive diagonal}
 \usage{
 tfb_scale_tri_l(diag_bijector = NULL, diag_shift = 1e-05,
   validate_args = FALSE, name = "scale_tril")

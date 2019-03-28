@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multivariate_student_t_linear_operator}
 \alias{tfd_multivariate_student_t_linear_operator}
-\title{The Multivariate Student's t-distribution on \code{R^k}.}
+\title{Multivariate Student's t-distribution on \code{R^k}}
 \usage{
 tfd_multivariate_student_t_linear_operator(df, loc, scale,
   validate_args = FALSE, allow_nan_stats = TRUE,

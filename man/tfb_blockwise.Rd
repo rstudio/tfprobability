@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_blockwise}
 \alias{tfb_blockwise}
-\title{Bijector which applies a list of bijectors to blocks of a Tensor.}
+\title{Bijector which applies a list of bijectors to blocks of a Tensor}
 \usage{
 tfb_blockwise(bijectors, block_sizes = NULL, validate_args = FALSE,
   name = NULL)

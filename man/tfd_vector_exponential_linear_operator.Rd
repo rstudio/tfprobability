@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_vector_exponential_linear_operator}
 \alias{tfd_vector_exponential_linear_operator}
-\title{The vectorization of the Exponential distribution on \code{R^k}.}
+\title{The vectorization of the Exponential distribution on \code{R^k}}
 \usage{
 tfd_vector_exponential_linear_operator(loc = NULL, scale = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,

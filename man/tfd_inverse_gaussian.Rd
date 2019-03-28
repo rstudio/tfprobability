@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_inverse_gaussian}
 \alias{tfd_inverse_gaussian}
-\title{Inverse Gaussian distribution.}
+\title{Inverse Gaussian distribution}
 \usage{
 tfd_inverse_gaussian(loc, concentration, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "InverseGaussian")

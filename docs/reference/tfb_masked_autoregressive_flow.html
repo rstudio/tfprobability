@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Affine MaskedAutoregressiveFlow bijector. — tfb_masked_autoregressive_flow • tfprobability</title>
+<title>Affine MaskedAutoregressiveFlow bijector — tfb_masked_autoregressive_flow • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Affine MaskedAutoregressiveFlow bijector. — tfb_masked_autoregressive_flow" />
+<meta property="og:title" content="Affine MaskedAutoregressiveFlow bijector — tfb_masked_autoregressive_flow" />
 
 <meta property="og:description" content="The affine autoregressive flow (Papamakarios et al., 2016) provides a
 relatively simple framework for user-specified (deep) architectures to learn a
@@ -99,7 +99,7 @@ distribution over continuous events. Regarding terminology," />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Affine MaskedAutoregressiveFlow bijector.</h1>
+    <h1>Affine MaskedAutoregressiveFlow bijector</h1>
     
     <div class="hidden name"><code>tfb_masked_autoregressive_flow.Rd</code></div>
     </div>
@@ -204,11 +204,11 @@ event_size = x.shape-event_dims:.num_elements()
 for _ in range(event_size):
 shift, log_scale = shift_and_log_scale_fn(y)
 y = x * tf.exp(log_scale) + shift
-return y</p>
+return y#'</p>
 <p>and the inverse transformation is</p>
 <p>def inverse(y):
 shift, log_scale = shift_and_log_scale_fn(y)
-return (y - shift) / tf.exp(log_scale)</p>
+return (y - shift) / tf.exp(log_scale)#'</p>
 <p>Notice that the inverse does not need a for-loop. This is because in the
 forward pass each calculation of shift and log_scale is based on the y
 calculated so far (not x). In the inverse, the y is fully known, thus is

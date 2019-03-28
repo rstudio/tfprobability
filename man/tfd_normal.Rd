@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_normal}
 \alias{tfd_normal}
-\title{The Normal distribution with loc and scale parameters}
+\title{Normal distribution with loc and scale parameters}
 \usage{
 tfd_normal(loc, scale, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Normal")

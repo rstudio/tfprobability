@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-layers.R
 \name{layer_multivariate_normal_tri_l}
 \alias{layer_multivariate_normal_tri_l}
-\title{A d-variate MVNTriL Keras layer from \code{d+d*(d+1)/ 2} params.}
+\title{A d-variate Multivariate Normal TriL Keras layer from \code{d+d*(d+1)/ 2} params}
 \usage{
 layer_multivariate_normal_tri_l(object, event_size,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
@@ -48,7 +48,7 @@ isn't provided.}
 a Keras layer that wraps a MultivariateNormalTriL distribution
 }
 \description{
-A d-variate MVNTriL Keras layer from \code{d+d*(d+1)/ 2} params.
+A d-variate Multivariate Normal TriL Keras layer from \code{d+d*(d+1)/ 2} params
 }
 \seealso{
 Other distribution_layers: \code{\link{layer_distribution_lambda}},

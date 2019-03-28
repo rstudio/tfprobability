@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_truncated_normal}
 \alias{tfd_truncated_normal}
-\title{The Truncated Normal distribution.}
+\title{Truncated Normal distribution}
 \usage{
 tfd_truncated_normal(loc, scale, low, high, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "TruncatedNormal")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_inline}
 \alias{tfb_inline}
-\title{Bijector constructed from custom callables.}
+\title{Bijector constructed from custom functions}
 \usage{
 tfb_inline(forward_fn = NULL, inverse_fn = NULL,
   inverse_log_det_jacobian_fn = NULL,
@@ -41,7 +41,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Bijector constructed from custom callables.
+Bijector constructed from custom functions
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

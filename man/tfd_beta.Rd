@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_beta}
 \alias{tfd_beta}
-\title{Beta distribution.}
+\title{Beta distribution}
 \usage{
 tfd_beta(concentration1 = NULL, concentration0 = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "Beta")

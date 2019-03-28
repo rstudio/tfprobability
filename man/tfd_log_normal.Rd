@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_log_normal}
 \alias{tfd_log_normal}
-\title{The log-normal distribution.}
+\title{Log-normal distribution}
 \usage{
 tfd_log_normal(loc = NULL, scale = NULL, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "LogNormal")

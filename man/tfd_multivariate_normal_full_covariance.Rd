@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_multivariate_normal_full_covariance}
 \alias{tfd_multivariate_normal_full_covariance}
-\title{The multivariate normal distribution on \code{R^k}.}
+\title{Multivariate normal distribution on \code{R^k}}
 \usage{
 tfd_multivariate_normal_full_covariance(loc = NULL,
   covariance_matrix = NULL, validate_args = FALSE,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_permute}
 \alias{tfb_permute}
-\title{Permutes the rightmost dimension of a Tensor.}
+\title{Permutes the rightmost dimension of a Tensor}
 \usage{
 tfb_permute(permutation, axis = -1L, validate_args = FALSE,
   name = NULL)
@@ -21,7 +21,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-Permutes the rightmost dimension of a Tensor.
+Permutes the rightmost dimension of a Tensor
 }
 \seealso{
 Other bijectors: \code{\link{masked_autoregressive_default_template}},

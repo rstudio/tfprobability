@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{real_nvp_default_template}
 \alias{real_nvp_default_template}
-\title{Build a scale-and-shift function using a multi-layer neural network.}
+\title{Build a scale-and-shift function using a multi-layer neural network}
 \usage{
 real_nvp_default_template(hidden_layers, shift_only = FALSE,
   activation = tf$nn$relu, name = NULL, ...)

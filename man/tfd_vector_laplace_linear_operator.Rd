@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_vector_laplace_linear_operator}
 \alias{tfd_vector_laplace_linear_operator}
-\title{The vectorization of the Laplace distribution on \code{R^k}.}
+\title{The vectorization of the Laplace distribution on \code{R^k}}
 \usage{
 tfd_vector_laplace_linear_operator(loc = NULL, scale = NULL,
   validate_args = FALSE, allow_nan_stats = TRUE,
@@ -52,7 +52,7 @@ constructed as,\preformatted{X = (X_1, ..., X_k), each X_i ~ Laplace(loc=0, scal
 Y = (Y_1, ...,Y_k) = scale @ X + loc
 }
 
-About VectorLaplace and Vector distributions in TensorFlow.
+About VectorLaplace and Vector distributions in TensorFlow
 
 The VectorLaplace is a non-standard distribution that has useful properties.
 The marginals Y_1, ..., Y_k are \emph{not} Laplace random variables, due to

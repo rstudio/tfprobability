@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_hidden_markov_model}
 \alias{tfd_hidden_markov_model}
-\title{Hidden Markov model distribution.}
+\title{Hidden Markov model distribution}
 \usage{
 tfd_hidden_markov_model(initial_distribution, transition_distribution,
   observation_distribution, num_steps, validate_args = FALSE,

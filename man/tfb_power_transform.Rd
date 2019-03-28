@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_power_transform}
 \alias{tfb_power_transform}
-\title{Compute \code{Y = g(X) = (1 + X * c)**(1 / c)}, \code{X >= -1 / c}.}
+\title{Computes\code{Y = g(X) = (1 + X * c)**(1 / c)}, where \code{X >= -1 / c}}
 \usage{
 tfb_power_transform(power, validate_args = FALSE,
   name = "power_transform")

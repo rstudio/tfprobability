@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_cholesky_to_inv_cholesky}
 \alias{tfb_cholesky_to_inv_cholesky}
-\title{Maps the Cholesky factor of M to the Cholesky factor of \code{M^{-1}}.}
+\title{Maps the Cholesky factor of M to the Cholesky factor of \code{M^{-1}}}
 \usage{
 tfb_cholesky_to_inv_cholesky(validate_args = FALSE,
   name = "cholesky_to_inv_cholesky")

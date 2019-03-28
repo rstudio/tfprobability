@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_relaxed_one_hot_categorical}
 \alias{tfd_relaxed_one_hot_categorical}
-\title{RelaxedOneHotCategorical distribution with temperature and logits.}
+\title{RelaxedOneHotCategorical distribution with temperature and logits}
 \usage{
 tfd_relaxed_one_hot_categorical(temperature, logits = NULL,
   probs = NULL, validate_args = FALSE, allow_nan_stats = TRUE,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_inverse_gamma}
 \alias{tfd_inverse_gamma}
-\title{InverseGamma distribution.}
+\title{InverseGamma distribution}
 \usage{
 tfd_inverse_gamma(concentration, rate, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "InverseGamma")

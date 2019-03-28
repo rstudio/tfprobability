@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_vector_laplace_diag}
 \alias{tfd_vector_laplace_diag}
-\title{The vectorization of the Laplace distribution on \code{R^k}.}
+\title{The vectorization of the Laplace distribution on \code{R^k}}
 \usage{
 tfd_vector_laplace_diag(loc = NULL, scale_diag = NULL,
   scale_identity_multiplier = NULL, validate_args = FALSE,
@@ -69,7 +69,7 @@ If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{NULL}, 
 \code{scale} is the Identity matrix.
 }
 
-About VectorLaplace and Vector distributions in TensorFlow.
+About VectorLaplace and Vector distributions in TensorFlow
 
 The VectorLaplace is a non-standard distribution that has useful properties.
 The marginals Y_1, ..., Y_k are \emph{not} Laplace random variables, due to

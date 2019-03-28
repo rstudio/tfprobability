@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_cauchy}
 \alias{tfd_cauchy}
-\title{The Cauchy distribution with location \code{loc} and scale \code{scale}.}
+\title{Cauchy distribution with location \code{loc} and scale \code{scale}}
 \usage{
 tfd_cauchy(loc, scale, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Cauchy")

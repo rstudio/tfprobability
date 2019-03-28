@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_kumaraswamy}
 \alias{tfb_kumaraswamy}
-\title{Compute \code{Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)}, X in \code{[0, 1]}.}
+\title{Computes\code{Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)}, with X in \code{[0, 1]}}
 \usage{
 tfb_kumaraswamy(concentration1 = NULL, concentration0 = NULL,
   validate_args = FALSE, name = "kumaraswamy")

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_reshape}
 \alias{tfb_reshape}
-\title{Reshapes the event_shape of a Tensor.}
+\title{Reshapes the event_shape of a Tensor}
 \usage{
 tfb_reshape(event_shape_out, event_shape_in = c(-1),
   validate_args = FALSE, name = NULL)

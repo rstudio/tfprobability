@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_affine_scalar}
 \alias{tfb_affine_scalar}
-\title{AffineScalar bijector.}
+\title{AffineScalar bijector}
 \usage{
 tfb_affine_scalar(shift = NULL, scale = NULL, validate_args = FALSE,
   name = "affine_scalar")

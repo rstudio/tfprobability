@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_real_nvp}
 \alias{tfb_real_nvp}
-\title{RealNVP "affine coupling layer" for vector-valued events.}
+\title{RealNVP affine coupling layer for vector-valued events}
 \usage{
 tfb_real_nvp(num_masked, shift_and_log_scale_fn,
   is_constant_jacobian = FALSE, validate_args = FALSE, name = NULL)

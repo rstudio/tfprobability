@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_lkj}
 \alias{tfd_lkj}
-\title{The LKJ distribution on correlation matrices.}
+\title{LKJ distribution on correlation matrices}
 \usage{
 tfd_lkj(dimension, concentration, input_output_cholesky = FALSE,
   validate_args = FALSE, allow_nan_stats = TRUE, name = "LKJ")

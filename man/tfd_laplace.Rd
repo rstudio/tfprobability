@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_laplace}
 \alias{tfd_laplace}
-\title{The Laplace distribution with location \code{loc} and \code{scale} parameters.}
+\title{Laplace distribution with location \code{loc} and \code{scale} parameters}
 \usage{
 tfd_laplace(loc, scale, validate_args = FALSE, allow_nan_stats = TRUE,
   name = "Laplace")

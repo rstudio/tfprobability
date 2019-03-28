@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_poisson}
 \alias{tfd_poisson}
-\title{Poisson distribution.}
+\title{Poisson distribution}
 \usage{
 tfd_poisson(rate = NULL, log_rate = NULL,
   interpolate_nondiscrete = TRUE, validate_args = FALSE,

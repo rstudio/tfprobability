@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{masked_dense}
 \alias{masked_dense}
-\title{An autoregressively masked dense layer. Analogous to \code{tf$layers$dense}.}
+\title{Autoregressively masked dense layer}
 \usage{
 masked_dense(inputs, units, num_blocks = NULL, exclusive = FALSE,
   kernel_initializer = NULL, reuse = NULL, name = NULL, ...)
@@ -27,6 +27,9 @@ If NULL (default), weights are initialized using the \code{tf$glorot_random_init
 \item{...}{\code{tf$layers$dense} arguments}
 }
 \description{
+Analogous to \code{tf$layers$dense}.
+}
+\details{
 See Germain et al. (2015)for detailed explanation.
 }
 \section{References}{

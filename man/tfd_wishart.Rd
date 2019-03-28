@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_wishart}
 \alias{tfd_wishart}
-\title{The matrix Wishart distribution on positive definite matrices.}
+\title{The matrix Wishart distribution on positive definite matrices}
 \usage{
 tfd_wishart(df, scale = NULL, scale_tril = NULL,
   input_output_cholesky = FALSE, validate_args = FALSE,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_ordered}
 \alias{tfb_ordered}
-\title{Bijector which maps a tensor x_k that has increasing elements in the last dimension to an unconstrained tensor y_k.}
+\title{Bijector which maps a tensor x_k that has increasing elements in the last dimension to an unconstrained tensor y_k}
 \usage{
 tfb_ordered(validate_args = FALSE, name = "ordered")
 }

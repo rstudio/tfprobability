@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{masked_autoregressive_default_template}
 \alias{masked_autoregressive_default_template}
-\title{Build the Masked Autoregressive Density Estimator}
+\title{Masked Autoregressive Density Estimator}
 \usage{
 masked_autoregressive_default_template(hidden_layers, shift_only = FALSE,
   activation = tf$nn$relu, log_scale_min_clip = -5,

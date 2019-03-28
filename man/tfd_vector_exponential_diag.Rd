@@ -2,7 +2,7 @@
 % Please edit documentation in R/distributions.R
 \name{tfd_vector_exponential_diag}
 \alias{tfd_vector_exponential_diag}
-\title{The vectorization of the Exponential distribution on \code{R^k}.}
+\title{The vectorization of the Exponential distribution on \code{R^k}}
 \usage{
 tfd_vector_exponential_diag(loc = NULL, scale_diag = NULL,
   scale_identity_multiplier = NULL, validate_args = FALSE,

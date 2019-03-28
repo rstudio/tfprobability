@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_invert}
 \alias{tfb_invert}
-\title{Bijector which inverts another Bijector.}
+\title{Bijector which inverts another Bijector}
 \usage{
 tfb_invert(bijector, validate_args = FALSE, name = NULL)
 }

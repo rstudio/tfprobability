@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijector-methods.R
 \name{tfb_forward_log_det_jacobian}
 \alias{tfb_forward_log_det_jacobian}
-\title{Returns both the forward_log_det_jacobian.}
+\title{Returns the result of the forward evaluation of the log determinant of the Jacobian}
 \usage{
 tfb_forward_log_det_jacobian(bijector, x, event_ndims,
   name = "forward_log_det_jacobian")
@@ -18,7 +18,7 @@ dimensions to produce a scalar Jacobian determinant for each event, i.e. it has 
 x$shape$ndims - event_ndims dimensions.}
 }
 \description{
-Returns both the forward_log_det_jacobian.
+Returns the result of the forward evaluation of the log determinant of the Jacobian
 }
 \seealso{
 Other bijector_methods: \code{\link{tfb_forward}},

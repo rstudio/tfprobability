@@ -1,4 +1,4 @@
-#' Compute `Y = g(X) = X`.
+#' Computes`Y = g(X) = X`
 #'
 #' @param validate_args Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 #'  FALSE, and the inputs are invalid, correct behavior is not guaranteed.
@@ -13,7 +13,7 @@ tfb_identity <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Identity, args)
 }
 
-#' Compute `Y = g(X) = 1 / (1 + exp(-X))`.
+#' Computes`Y = g(X) = 1 / (1 + exp(-X))`
 #'
 #' @inheritParams tfb_identity
 #'
@@ -27,7 +27,7 @@ tfb_sigmoid <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Sigmoid, args)
 }
 
-#' Compute `Y=g(X)=exp(X)`
+#' Computes`Y=g(X)=exp(X)`
 #'
 #' @inheritParams tfb_identity
 #'
@@ -41,7 +41,7 @@ tfb_exp <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Exp, args)
 }
 
-#' Compute `Y = g(X) = Abs(X)`, element-wise.
+#' Computes`Y = g(X) = Abs(X)`, element-wise
 #'
 #' This non-injective bijector allows for transformations of scalar distributions
 #' with the absolute value function, which maps `(-inf, inf)` to `[0, inf)`.
@@ -63,7 +63,7 @@ tfb_absolute_value <- function(validate_args = FALSE,
   do.call(tfp$bijectors$AbsoluteValue, args)
 }
 
-#' Affine bijector.
+#' Affine bijector
 #'
 #' This Bijector is initialized with shift Tensor and scale arguments,
 #' giving the forward operation: `Y = g(X) = scale @ X + shift`
@@ -127,7 +127,7 @@ tfb_affine <- function(shift = NULL,
   do.call(tfp$bijectors$Affine, args)
 }
 
-#' Compute `Y = g(X; shift, scale) = scale @ X + shift`.
+#' Computes`Y = g(X; shift, scale) = scale @ X + shift`
 #'
 #' `shift` is a numeric Tensor and scale is a LinearOperator.
 #' If `X` is a scalar then the forward transformation is: `scale * X + shift`
@@ -156,7 +156,7 @@ tfb_affine_linear_operator <- function(shift = NULL,
 }
 
 
-#' AffineScalar bijector.
+#' AffineScalar bijector
 #'
 #' This Bijector is initialized with shift Tensor and scale arguments, giving the forward operation:
 #' `Y = g(X) = scale * X + shift`
@@ -182,7 +182,7 @@ tfb_affine_scalar <- function(shift = NULL,
   do.call(tfp$bijectors$AffineScalar, args)
 }
 
-#' Compute `Y = g(X)` s.t. `X = g^-1(Y) = (Y - mean(Y)) / std(Y)`.
+#' Computes`Y = g(X)` s.t. `X = g^-1(Y) = (Y - mean(Y)) / std(Y)`
 #'
 #' Applies Batch Normalization (Ioffe and Szegedy, 2015) to samples from a
 #' data distribution. This can be used to stabilize training of normalizing
@@ -233,7 +233,7 @@ tfb_batch_normalization <- function(batchnorm_layer = NULL,
   do.call(tfp$bijectors$BatchNormalization, args)
 }
 
-#' Bijector which applies a list of bijectors to blocks of a Tensor.
+#' Bijector which applies a list of bijectors to blocks of a Tensor
 #'
 #' More specifically, given `[F_0, F_1, ... F_n]` which are scalar or vector
 #' bijectors this bijector creates a transformation which operates on the vector
@@ -264,7 +264,7 @@ tfb_blockwise <- function(bijectors,
 }
 
 
-#' Bijector which applies a sequence of bijectors.
+#' Bijector which applies a sequence of bijectors
 #'
 #' @param bijectors list of bijector instances. An empty list makes this
 #' bijector equivalent to the Identity bijector.
@@ -284,7 +284,7 @@ tfb_chain <- function(bijectors = NULL,
 
 
 
-#' Compute `g(X) = X @ X.T`; `X` is lower-triangular, positive-diagonal matrix.
+#' Computes`g(X) = X @ X.T` where `X` is lower-triangular, positive-diagonal matrix
 #'
 #' Note: the upper-triangular part of X is ignored (whether or not its zero).
 #'
@@ -316,7 +316,7 @@ tfb_cholesky_outer_product <- function(validate_args = FALSE,
   do.call(tfp$bijectors$CholeskyOuterProduct, args)
 }
 
-#' Maps the Cholesky factor of M to the Cholesky factor of `M^{-1}`.
+#' Maps the Cholesky factor of M to the Cholesky factor of `M^{-1}`
 #'
 #' The forward and inverse calculations are conceptually identical to:
 #' `forward <- function(x) tf$cholesky(tf$linalg$inv(tf$matmul(x, x, adjoint_b=TRUE)))`
@@ -334,7 +334,7 @@ tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
   do.call(tfp$bijectors$CholeskyToInvCholesky, args)
 }
 
-#' Compute `Y = g(X) = DCT(X)`, where DCT type is indicated by the type arg.
+#' Computes`Y = g(X) = DCT(X)`, where DCT type is indicated by the type arg
 #'
 #' The [discrete cosine transform](https://en.wikipedia.org/wiki/Discrete_cosine_transform)
 #' efficiently applies a unitary DCT operator. This can be useful for mixing and decorrelating across
@@ -345,7 +345,7 @@ tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
 #' Note that the operator applied is orthonormal (i.e. norm='ortho').
 #'
 #' @section References:
-#' [Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer. In _International Conference on Learning Representations_, 2016.](https://arxiv.org/abs/1511.05946)
+#' - [Moczulski M, Denil M, Appleyard J, de Freitas N. ACDC: A structured efficient linear layer. In _International Conference on Learning Representations_, 2016.](https://arxiv.org/abs/1511.05946)
 #'
 #' @inheritParams tfb_identity
 #' @param dct_type integer, the DCT type performed by the forward transformation.
@@ -363,7 +363,7 @@ tfb_discrete_cosine_transform <-
     do.call(tfp$bijectors$DiscreteCosineTransform, args)
   }
 
-#' Compute `Y = g(X) = exp(X) - 1`.
+#' Computes`Y = g(X) = exp(X) - 1`
 #'
 #' This Bijector is no different from `tfb_chain(list(tfb_affine_scalar(shift=-1), tfb_exp()))`.
 #' However, this makes use of the more numerically stable routines
@@ -385,7 +385,7 @@ tfb_expm1 <- function(validate_args = FALSE,
 }
 
 
-#' Transforms vectors to triangular.
+#' Transforms vectors to triangular
 #'
 #' Triangular matrix elements are filled in a clockwise spiral.
 #' Given input with shape `batch_shape + [d]`, produces output with
@@ -408,7 +408,7 @@ tfb_fill_triangular <- function(upper = FALSE,
   do.call(tfp$bijectors$FillTriangular, args)
 }
 
-#' Compute `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' Computes`Y = g(X) = exp(-exp(-(X - loc) / scale))`
 #'
 #' This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
 #' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
@@ -439,7 +439,7 @@ tfb_gumbel <- function(loc = 0,
   do.call(tfp$bijectors$Gumbel, args)
 }
 
-#' Bijector constructed from custom callables.
+#' Bijector constructed from custom functions
 #'
 #' @param forward_fn Function implementing the forward transformation.
 #' @param inverse_fn Function implementing the inverse transformation.
@@ -487,7 +487,7 @@ tfb_inline <- function(forward_fn = NULL,
   do.call(tfp$bijectors$Inline, args)
 }
 
-#' Bijector which inverts another Bijector.
+#' Bijector which inverts another Bijector
 #'
 #' Creates a Bijector which swaps the meaning of inverse and forward.
 #' Note: An inverted bijector's inverse_log_det_jacobian is often more
@@ -512,7 +512,7 @@ tfb_invert <- function(bijector,
   do.call(tfp$bijectors$Invert, args)
 }
 
-#' Compute `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)`, X in `[0, 1]`.
+#' Computes`Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)`, with X in `[0, 1]`
 #'
 #' This bijector maps inputs from [0, 1] to [0, 1]. The inverse of the
 #' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
@@ -543,7 +543,7 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 }
 
 
-#' Affine MaskedAutoregressiveFlow bijector.
+#' Affine MaskedAutoregressiveFlow bijector
 #'
 #' The affine autoregressive flow (Papamakarios et al., 2016) provides a
 #' relatively simple framework for user-specified (deep) architectures to learn a
@@ -601,15 +601,13 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #'    for _ in range(event_size):
 #'      shift, log_scale = shift_and_log_scale_fn(y)
 #'      y = x * tf.exp(log_scale) + shift
-#'    return y
-#'
+#'    return y#'
 #'
 #' and the inverse transformation is
 #'
 #' def inverse(y):
 #'   shift, log_scale = shift_and_log_scale_fn(y)
-#'   return (y - shift) / tf.exp(log_scale)
-#'
+#'   return (y - shift) / tf.exp(log_scale)#'
 #'
 #' Notice that the inverse does not need a for-loop. This is because in the
 #' forward pass each calculation of shift and log_scale is based on the y
@@ -660,7 +658,7 @@ tfb_masked_autoregressive_flow <-
     do.call(tfp$bijectors$MaskedAutoregressiveFlow, args)
   }
 
-#' Build the Masked Autoregressive Density Estimator
+#' Masked Autoregressive Density Estimator
 #'
 #' This will be wrapped in a make_template to ensure the variables are only
 #' created once. It takes the input and returns the loc ("mu" in
@@ -686,6 +684,7 @@ tfb_masked_autoregressive_flow <-
 #' information (for fitting) yet solves the numerical stability problem. I.e.,
 #' log_scale_clip_gradient = FALSE means `grad[exp(clip(x))] = grad[x] exp(clip(x))`
 #' rather than the usual `grad[clip(x)] exp(clip(x))`.
+#'
 #' @section References:
 #' - [Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In _International Conference on Machine Learning_, 2015.](https://arxiv.org/abs/1502.03509)
 #'
@@ -721,7 +720,9 @@ masked_autoregressive_default_template <- function(hidden_layers,
   )
 }
 
-#' An autoregressively masked dense layer. Analogous to `tf$layers$dense`.
+#' Autoregressively masked dense layer
+#'
+#' Analogous to `tf$layers$dense`.
 #'
 #' See Germain et al. (2015)for detailed explanation.
 #'
@@ -760,7 +761,7 @@ masked_dense <- function(inputs,
   )
 }
 
-#' Build a scale-and-shift function using a multi-layer neural network.
+#' Build a scale-and-shift function using a multi-layer neural network
 #'
 #' This will be wrapped in a make_template to ensure the variables are only
 #' created once. It takes the d-dimensional input `x[0:d]` and returns the `D-d`
@@ -794,7 +795,7 @@ real_nvp_default_template <- function(hidden_layers,
                                           ...)
 }
 
-#' RealNVP "affine coupling layer" for vector-valued events.
+#' RealNVP affine coupling layer for vector-valued events
 #'
 #' Real NVP models a normalizing flow on a D-dimensional distribution via a
 #' single D-d-dimensional conditional distribution (Dinh et al., 2017):
@@ -863,7 +864,6 @@ real_nvp_default_template <- function(hidden_layers,
 #' @inheritParams tfb_identity
 #' @family bijectors
 #' @export
-#'
 tfb_real_nvp <-
   function(num_masked,
            shift_and_log_scale_fn,
@@ -882,7 +882,7 @@ tfb_real_nvp <-
   }
 
 
-#' Computes `g(L) = inv(L)`, where L is a lower-triangular matrix.
+#' Computes `g(L) = inv(L)`, where L is a lower-triangular matrix
 #'
 #' L must be nonsingular; equivalently, all diagonal entries of L must be nonzero.
 #' The input must have rank >= 2.  The input is treated as a batch of matrices
@@ -901,7 +901,7 @@ tfb_matrix_inverse_tri_l <- function(validate_args = FALSE,
 }
 
 
-#' Matrix-vector multiply using LU decomposition.
+#' Matrix-vector multiply using LU decomposition
 #'
 #' This bijector is identical to the "Convolution1x1" used in Glow (Kingma and Dhariwal, 2018).
 #'
@@ -931,7 +931,7 @@ tfb_matvec_lu <- function(lower_upper,
   do.call(tfp$bijectors$MatvecLU, args)
 }
 
-#' Compute `Y = g(X) = NormalCDF(x)`.
+#' Computes`Y = g(X) = NormalCDF(x)`
 #'
 #' This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
 #' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
@@ -951,7 +951,7 @@ tfb_normal_cdf <- function(validate_args = FALSE,
   do.call(tfp$bijectors$NormalCDF, args)
 }
 
-#' Bijector which maps a tensor x_k that has increasing elements in the last dimension to an unconstrained tensor y_k.
+#' Bijector which maps a tensor x_k that has increasing elements in the last dimension to an unconstrained tensor y_k
 #'
 #' Both the domain and the codomain of the mapping is `[-inf, inf]`, however,
 #' the input of the forward mapping must be strictly increasing.
@@ -975,7 +975,7 @@ tfb_ordered <- function(validate_args = FALSE,
 }
 
 
-#' Permutes the rightmost dimension of a Tensor.
+#' Permutes the rightmost dimension of a Tensor
 #'
 #' @param permutation An integer-like vector-shaped Tensor representing the
 #' permutation to apply to the axis dimension of the transformed Tensor.
@@ -1000,7 +1000,7 @@ tfb_permute <- function(permutation,
   do.call(tfp$bijectors$Permute, args)
 }
 
-#' Compute `Y = g(X) = (1 + X * c)**(1 / c)`, `X >= -1 / c`.
+#' Computes`Y = g(X) = (1 + X * c)**(1 / c)`, where `X >= -1 / c`
 #'
 #' The [power transform](https://en.wikipedia.org/wiki/Power_transform) maps
 #' inputs from `[0, inf]` to `[-1/c, inf]`; this is equivalent to the inverse of this bijector.
@@ -1023,7 +1023,7 @@ tfb_power_transform <- function(power,
 }
 
 
-#' A Bijector that computes `b(x) = 1. / x`.
+#' A Bijector that computes `b(x) = 1. / x`
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
@@ -1036,7 +1036,7 @@ tfb_reciprocal <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Reciprocal, args)
 }
 
-#' Reshapes the event_shape of a Tensor.
+#' Reshapes the event_shape of a Tensor
 #'
 #' The semantics generally follow that of `tf$reshape()`, with a few differences:
 #'   * The user must provide both the input and output shape, so that
@@ -1073,7 +1073,7 @@ tfb_reshape <- function(event_shape_out,
 }
 
 
-#' Transforms unconstrained vectors to TriL matrices with positive diagonal.
+#' Transforms unconstrained vectors to TriL matrices with positive diagonal
 #'
 #' This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
 #' tfb_transform_diagonal, and provided mostly as a convenience.
@@ -1102,7 +1102,7 @@ tfb_scale_tri_l <- function(diag_bijector = NULL,
   do.call(tfp$bijectors$ScaleTriL, args)
 }
 
-#' Compute `Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )`.
+#' Computes`Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )`
 #'
 #' For skewness in `(-inf, inf)` and tailweight in `(0, inf)`, this
 #' transformation is a diffeomorphism of the real line `(-inf, inf)`.
@@ -1142,7 +1142,7 @@ tfb_sinh_arcsinh <- function(skewness = NULL,
   do.call(tfp$bijectors$SinhArcsinh, args)
 }
 
-#' Bijector which computes `Y = g(X) = exp([X 0]) / sum(exp([X 0]))`.
+#' Computes `Y = g(X) = exp([X 0]) / sum(exp([X 0]))`
 #'
 #' To implement [softmax](https://en.wikipedia.org/wiki/Softmax_function) as a
 #' bijection, the forward transformation appends a value to the input and the
@@ -1163,7 +1163,7 @@ tfb_softmax_centered <- function(validate_args = FALSE,
   do.call(tfp$bijectors$SoftmaxCentered, args)
 }
 
-#' Bijector which computes `Y = g(X) = Log[1 + exp(X)]`.
+#' Computes `Y = g(X) = Log[1 + exp(X)]`
 #'
 #' The softplus Bijector has the following two useful properties:
 #' * The domain is the positive real numbers
@@ -1196,7 +1196,7 @@ tfb_softplus <- function(hinge_softness = NULL,
   do.call(tfp$bijectors$Softplus, args)
 }
 
-#' Bijector which computes `Y = g(X) = X / (1 + |X|)`.
+#' Computes `Y = g(X) = X / (1 + |X|)`
 #'
 #' The softsign Bijector has the following two useful properties:
 #' * The domain is all real numbers
@@ -1212,7 +1212,7 @@ tfb_softsign <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Softsign, args)
 }
 
-#' Compute `g(X) = X^2`; X is a positive real number.
+#' Computes`g(X) = X^2`; X is a positive real number.
 #'
 #' g is a bijection between the non-negative real numbers (R_+) and the non-negative real numbers.
 #' @inheritParams tfb_identity
@@ -1225,7 +1225,9 @@ tfb_square <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Square, args)
 }
 
-#' Bijector that computes `Y = tanh(X)`, therefore Y in `(-1, 1)`.
+#' Computes `Y = tanh(X)`
+#'
+#' `Y = tanh(X)`, therefore Y in `(-1, 1)`.
 #'
 #' This can be achieved by an affine transform of the Sigmoid bijector, i.e., it is equivalent to
 #'
@@ -1245,7 +1247,7 @@ tfb_tanh <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Tanh, args)
 }
 
-#' Applies a Bijector to the diagonal of a matrix.
+#' Applies a Bijector to the diagonal of a matrix
 #'
 #' @param diag_bijector Bijector instance used to transform the diagonal.
 #' @inheritParams tfb_identity
@@ -1260,7 +1262,7 @@ tfb_transform_diagonal <- function(diag_bijector,
   do.call(tfp$bijectors$TransformDiagonal, args)
 }
 
-#' Compute `Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)`.
+#' Computes`Y = g(X) = transpose_rightmost_dims(X, rightmost_perm)`
 #'
 #' This bijector is semantically similar to tf.transpose except that it
 #' transposes only the rightmost "event" dimensions. That is, unlike
@@ -1300,7 +1302,7 @@ tfb_transpose <- function(perm = NULL,
   do.call(tfp$bijectors$Transpose, args)
 }
 
-#' Compute `Y = g(X) = 1 - exp((-X / scale) ** concentration)`, X >= 0.
+#' Computes`Y = g(X) = 1 - exp((-X / scale) ** concentration)` where X >= 0
 #'
 #' This bijector maps inputs from `[0, inf]` to `[0, 1]`. The inverse of the
 #' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
