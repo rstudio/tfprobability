@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gamma distribution. — tfd_gamma • tfprobability</title>
+<title>Dirichlet distribution. — tfd_dirichlet • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,12 @@
 
 
 
-<meta property="og:title" content="Gamma distribution. — tfd_gamma" />
+<meta property="og:title" content="Dirichlet distribution. — tfd_dirichlet" />
 
-<meta property="og:description" content="The Gamma distribution is defined over positive real numbers using
-parameters concentration (aka &quot;alpha&quot;) and rate (aka &quot;beta&quot;)." />
+<meta property="og:description" content="The Dirichlet distribution is defined over the
+(k-1)-simplex using a positive,
+length-k vector concentration (k &amp;gt; 1). The Dirichlet is identically the
+Beta distribution when k = 2." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,33 +100,33 @@ parameters concentration (aka &quot;alpha&quot;) and rate (aka &quot;beta&quot;)
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gamma distribution.</h1>
+    <h1>Dirichlet distribution.</h1>
     
-    <div class="hidden name"><code>tfd_gamma.Rd</code></div>
+    <div class="hidden name"><code>tfd_dirichlet.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The Gamma distribution is defined over positive real numbers using
-parameters <code>concentration</code> (aka "alpha") and <code>rate</code> (aka "beta").</p>
+    <p>The Dirichlet distribution is defined over the
+<a href='https://en.wikipedia.org/wiki/Simplex'>(k-1)-simplex</a> using a positive,
+length-<code>k</code> vector <code>concentration</code> (<code>k &gt; 1</code>). The Dirichlet is identically the
+Beta distribution when <code>k = 2</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_gamma</span>(<span class='no'>concentration</span>, <span class='no'>rate</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Gamma"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_dirichlet</span>(<span class='no'>concentration</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Dirichlet"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>concentration</th>
-      <td><p>Floating point tensor, the concentration params of the
-distribution(s). Must contain only positive values.</p></td>
-    </tr>
-    <tr>
-      <th>rate</th>
-      <td><p>Floating point tensor, the inverse scale params of the
-distribution(s). Must contain only positive values.</p></td>
+      <td><p>Positive floating-point <code>Tensor</code> indicating mean number
+of class occurrences; aka "alpha". Implies <code>self$dtype</code>, and
+<code>self$batch_shape</code>, <code>self$event_shape</code>, i.e., if
+<code>concentration$shape = [N1, N2, ..., Nm, k]</code> then
+<code>batch_shape = [N1, N2, ..., Nm]</code> and <code>event_shape = [k]</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -147,31 +149,30 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Mathematical Details</p>
-<p>The probability density function (pdf) is,</p><pre>pdf(x; alpha, beta, x &gt; 0) = x**(alpha - 1) exp(-x beta) / Z
-Z = Gamma(alpha) beta**(-alpha)
+<p>The Dirichlet is a distribution over the open <code>(k-1)</code>-simplex, i.e.,</p><pre>S^{k-1} = { (x_0, ..., x_{k-1}) in R^k : sum_j x_j = 1 and all_j x_j &gt; 0 }.
 </pre>
-    <p>where</p><ul>
-<li><p><code>concentration = alpha</code>, <code>alpha &gt; 0</code>,</p></li>
-<li><p><code>rate = beta</code>, <code>beta &gt; 0</code>,</p></li>
-<li><p><code>Z</code> is the normalizing constant, and,</p></li>
+    <p>The probability density function (pdf) is,</p><pre>pdf(x; alpha) = prod_j x_j**(alpha_j - 1) / Z
+Z = prod_j Gamma(alpha_j) / Gamma(sum_j alpha_j)
+</pre>
+    <p>where:</p><ul>
+<li><p><code>x in S^{k-1}</code>, i.e., the <code>(k-1)</code>-simplex,</p></li>
+<li><p><code>concentration = alpha = [alpha_0, ..., alpha_{k-1}]</code>, <code>alpha_j &gt; 0</code>,</p></li>
+<li><p><code>Z</code> is the normalization constant aka the <a href='https://en.wikipedia.org/wiki/Beta_function#Multivariate_beta_function'>multivariate beta function</a>,
+and,</p></li>
 <li><p><code>Gamma</code> is the <a href='https://en.wikipedia.org/wiki/Gamma_function'>gamma function</a>.</p></li>
 </ul>
-    <p>The cumulative density function (cdf) is,</p><pre>cdf(x; alpha, beta, x &gt; 0) = GammaInc(alpha, beta x) / Gamma(alpha)
+    <p>The <code>concentration</code> represents mean total counts of class occurrence, i.e.,</p><pre>concentration = alpha = mean * total_concentration
 </pre>
-    <p>where <code>GammaInc</code> is the <a href='https://en.wikipedia.org/wiki/Incomplete_gamma_function'>lower incomplete Gamma function</a>.
-The parameters can be intuited via their relationship to mean and stddev,</p><pre>concentration = alpha = (mean / stddev)**2
-rate = beta = mean / stddev**2 = concentration / mean
-</pre>
-    <p>Distribution parameters are automatically broadcast in all functions; see
-examples for details.</p>
-<p>Warning: The samples of this distribution are always non-negative. However,
-the samples that are smaller than <code>np$finfo(dtype)$tiny</code> are rounded
-to this value, so it appears more often than it should.
-This should only be noticeable when the <code>concentration</code> is very small, or the
-<code>rate</code> is very large. See note in <code>tf$random_gamma</code> docstring.
+    <p>where <code>mean</code> in <code>S^{k-1}</code> and <code>total_concentration</code> is a positive real number
+representing a mean total count.
+Distribution parameters are automatically broadcast in all functions; see
+examples for details.
+Warning: Some components of the samples can be zero due to finite precision.
+This happens more often when some of the concentrations are very small.
+Make sure to round the samples to <code>np$finfo(dtype)$tiny</code> before computing the density.
 Samples of this distribution are reparameterized (pathwise differentiable).
 The derivatives are computed using the approach described in the paper
-Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018(https://arxiv.org/abs/1805.08498</p>
+<a href='https://arxiv.org/abs/1805.08498'>Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -180,9 +181,8 @@ Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradi
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>, <code><a href='tfd_cauchy.html'>tfd_cauchy</a></code>,
   <code><a href='tfd_chi2.html'>tfd_chi2</a></code>, <code><a href='tfd_chi.html'>tfd_chi</a></code>,
   <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a></code>,
-  <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
-  <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>,
+  <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
   <code><a href='tfd_geometric.html'>tfd_geometric</a></code>, <code><a href='tfd_gumbel.html'>tfd_gumbel</a></code>,
   <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a></code>,
   <code><a href='tfd_half_normal.html'>tfd_half_normal</a></code>,

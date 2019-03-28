@@ -2560,11 +2560,6 @@ tfd_multivariate_student_t_linear_operator <- function(df,
 #' `2**(mantissa_bits+1)` (IEE754),
 #' - the maximum `Tensor` index, i.e., `2**31-1`.
 #'
-#' In other words,
-#' ```
-#' K <= min(2**31-1, {tf$float16: 2**11, tf$float32: 2**24, tf$float64: 2**53 }[param$dtype])
-#' ```
-#'
 #' Note: This condition is validated only when `validate_args = TRUE`.
 #' @param total_count Non-negative floating point tensor with shape broadcastable
 #' to `[N1,..., Nm]` with `m >= 0`. Defines this as a batch of
@@ -2664,10 +2659,6 @@ tfd_mixture <- function(cat,
 #'  - the largest integer representable by `self$dtype`, i.e.,
 #'  `2**(mantissa_bits+1)` (IEEE 754),
 #'  - the maximum `Tensor` index, i.e., `2**31-1`.
-#'  In other words,
-#'  ```
-#'  K <= min(2**31-1, {tf$float16: 2**11, tf$float32: 2**24, tf$float64: 2**53 }[param$dtype])
-#'  ```
 #'
 #'  Note: This condition is validated only when `validate_args = TRUE`.
 
@@ -3952,6 +3943,153 @@ tfd_geometric <- function(logits = NULL,
   )
 
   do.call(tfp$distributions$Geometric,
+          args)
+}
+
+#' Dirichlet distribution.
+#'
+#' The Dirichlet distribution is defined over the
+#' [`(k-1)`-simplex](https://en.wikipedia.org/wiki/Simplex) using a positive,
+#' length-`k` vector `concentration` (`k > 1`). The Dirichlet is identically the
+#' Beta distribution when `k = 2`.
+#'
+#' Mathematical Details
+#'
+#' The Dirichlet is a distribution over the open `(k-1)`-simplex, i.e.,
+#' ```
+#' S^{k-1} = { (x_0, ..., x_{k-1}) in R^k : sum_j x_j = 1 and all_j x_j > 0 }.
+#' ```
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; alpha) = prod_j x_j**(alpha_j - 1) / Z
+#' Z = prod_j Gamma(alpha_j) / Gamma(sum_j alpha_j)
+#' ```
+#'
+#' where:
+#'  * `x in S^{k-1}`, i.e., the `(k-1)`-simplex,
+#'  * `concentration = alpha = [alpha_0, ..., alpha_{k-1}]`, `alpha_j > 0`,
+#'  * `Z` is the normalization constant aka the [multivariate beta function]( https://en.wikipedia.org/wiki/Beta_function#Multivariate_beta_function),
+#'  and,
+#'  * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#' The `concentration` represents mean total counts of class occurrence, i.e.,
+#' ```
+#' concentration = alpha = mean * total_concentration
+#'  ```
+#' where `mean` in `S^{k-1}` and `total_concentration` is a positive real number
+#' representing a mean total count.
+#' Distribution parameters are automatically broadcast in all functions; see
+#' examples for details.
+#' Warning: Some components of the samples can be zero due to finite precision.
+#' This happens more often when some of the concentrations are very small.
+#' Make sure to round the samples to `np$finfo(dtype)$tiny` before computing the density.
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#' The derivatives are computed using the approach described in the paper
+#' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
+#'
+#' @param concentration Positive floating-point `Tensor` indicating mean number
+#' of class occurrences; aka "alpha". Implies `self$dtype`, and
+#' `self$batch_shape`, `self$event_shape`, i.e., if
+#' `concentration$shape = [N1, N2, ..., Nm, k]` then
+#' `batch_shape = [N1, N2, ..., Nm]` and `event_shape = [k]`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_dirichlet <- function(concentration,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "Dirichlet") {
+  args <- list(
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Dirichlet,
+          args)
+}
+
+#' Dirichlet-Multinomial compound distribution.
+#'
+#' The Dirichlet-Multinomial distribution is parameterized by a (batch of)
+#' length-`K` `concentration` vectors (`K > 1`) and a `total_count` number of
+#' trials, i.e., the number of trials per draw from the DirichletMultinomial. It
+#' is defined over a (batch of) length-`K` vector `counts` such that
+#' `tf$reduce_sum(counts, -1) = total_count`. The Dirichlet-Multinomial is
+#' identically the Beta-Binomial distribution when `K = 2`.
+#'
+#' Mathematical Details
+#'
+#' The Dirichlet-Multinomial is a distribution over `K`-class counts, i.e., a
+#' length-`K` vector of non-negative integer `counts = n = [n_0, ..., n_{K-1}]`.
+#'
+#' The probability mass function (pmf) is,
+#'
+#' ```
+#' pmf(n; alpha, N) = Beta(alpha + n) / (prod_j n_j!) / Z
+#' Z = Beta(alpha) / N!
+#' ```
+#'
+#' where:
+#'
+#'  * `concentration = alpha = [alpha_0, ..., alpha_{K-1}]`, `alpha_j > 0`,
+#'  * `total_count = N`, `N` a positive integer,
+#'  * `N!` is `N` factorial, and,
+#'  * `Beta(x) = prod_j Gamma(x_j) / Gamma(sum_j x_j)` is the
+#'  [multivariate beta function](https://en.wikipedia.org/wiki/Beta_function#Multivariate_beta_function),
+#'  and,
+#'  * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#'  Dirichlet-Multinomial is a [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution), i.e., its
+#'  samples are generated as follows.
+#'
+#'  1. Choose class probabilities:
+#'  `probs = [p_0,...,p_{K-1}] ~ Dir(concentration)`
+#'  2. Draw integers:
+#'  `counts = [n_0,...,n_{K-1}] ~ Multinomial(total_count, probs)`
+#'
+#'  The last `concentration` dimension parametrizes a single Dirichlet-Multinomial
+#'  distribution. When calling distribution functions (e.g., `dist$prob(counts)`),
+#'  `concentration`, `total_count` and `counts` are broadcast to the same shape.
+#'  The last dimension of `counts` corresponds single Dirichlet-Multinomial distributions.
+#'  Distribution parameters are automatically broadcast in all functions; see examples for details.
+#'
+#'  Pitfalls
+#'  The number of classes, `K`, must not exceed:
+#'  - the largest integer representable by `self$dtype`, i.e.,
+#'    `2**(mantissa_bits+1)` (IEE754),
+#'  - the maximum `Tensor` index, i.e., `2**31-1`.
+#'
+#' Note: This condition is validated only when `validate_args = TRUE`.
+#'
+#' @param total_count  Non-negative floating point tensor, whose dtype is the same
+#' as `concentration`. The shape is broadcastable to `[N1,..., Nm]` with
+#' `m >= 0`. Defines this as a batch of `N1 x ... x Nm` different
+#' Dirichlet multinomial distributions. Its components should be equal to
+#' integer values.
+#' @param concentration Positive floating point tensor, whose dtype is the
+#' same as `n` with shape broadcastable to `[N1,..., Nm, K]` `m >= 0`.
+#' Defines this as a batch of `N1 x ... x Nm` different `K` class Dirichlet
+#' multinomial distributions.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_dirichlet_multinomial <- function(total_count,
+                                      concentration,
+                                      validate_args = FALSE,
+                                      allow_nan_stats = TRUE,
+                                      name = "DirichletMultinomial") {
+  args <- list(
+    total_count = total_count,
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$DirichletMultinomial,
           args)
 }
 

@@ -74,9 +74,6 @@ The number of classes, \code{K}, must not exceed:
 \item the maximum \code{Tensor} index, i.e., \code{2**31-1}.
 }
 
-In other words,\preformatted{K <= min(2**31-1, {tf$float16: 2**11, tf$float32: 2**24, tf$float64: 2**53 }[param$dtype])
-}
-
 Note: This condition is validated only when \code{validate_args = TRUE}.
 }
 \seealso{
@@ -84,6 +81,8 @@ Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_beta}}, \code{\link{tfd_binomial}},
   \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
   \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
+  \code{\link{tfd_dirichlet_multinomial}},
+  \code{\link{tfd_dirichlet}},
   \code{\link{tfd_exponential}},
   \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
   \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},

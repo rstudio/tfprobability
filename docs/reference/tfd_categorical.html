@@ -170,10 +170,8 @@ being identical to <code>argmax{ Multinomial(probs, total_count=1) }</code>.</p>
 <p>The number of classes, <code>K</code>, must not exceed:</p><ul>
 <li><p>the largest integer representable by <code>self$dtype</code>, i.e.,
 <code>2**(mantissa_bits+1)</code> (IEEE 754),</p></li>
-<li><p>the maximum <code>Tensor</code> index, i.e., <code>2**31-1</code>.
-In other words,</p></li>
-</ul><pre>K &lt;= min(2**31-1, {tf$float16: 2**11, tf$float32: 2**24, tf$float64: 2**53 }[param$dtype])
-</pre>
+<li><p>the maximum <code>Tensor</code> index, i.e., <code>2**31-1</code>.</p></li>
+</ul>
     <p>Note: This condition is validated only when <code>validate_args = TRUE</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -181,7 +179,10 @@ In other words,</p></li>
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
   <code><a href='tfd_beta.html'>tfd_beta</a></code>, <code><a href='tfd_binomial.html'>tfd_binomial</a></code>,
   <code><a href='tfd_cauchy.html'>tfd_cauchy</a></code>, <code><a href='tfd_chi2.html'>tfd_chi2</a></code>,
-  <code><a href='tfd_chi.html'>tfd_chi</a></code>, <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
+  <code><a href='tfd_chi.html'>tfd_chi</a></code>,
+  <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a></code>,
+  <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a></code>,
+  <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
   <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
   <code><a href='tfd_geometric.html'>tfd_geometric</a></code>, <code><a href='tfd_gumbel.html'>tfd_gumbel</a></code>,
   <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a></code>,

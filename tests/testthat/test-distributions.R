@@ -666,3 +666,16 @@ test_succeeds("Geometric distribution works", {
   expect_equal(d %>% tfd_variance() %>% tensor_value() , (1 - 0.6)/0.6^2, tol = 1e-7)
 })
 
+test_succeeds("Dirichlet distribution works", {
+
+  d <- tfd_dirichlet(concentration = c(1, 2, 3))
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value() , c(1/6, 1/3, 1/2))
+})
+
+test_succeeds("DirichletMultinomial distribution works", {
+
+  d <- tfd_dirichlet_multinomial(total_count = 2, concentration = c(1, 2, 3))
+  expect_equivalent(d %>% tfd_mean() %>% tensor_value() , c(1/3, 2/3, 1), tol = 1e-7)
+})
+
+

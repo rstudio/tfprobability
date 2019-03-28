@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gamma distribution. — tfd_gamma • tfprobability</title>
+<title>Dirichlet-Multinomial compound distribution. — tfd_dirichlet_multinomial • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,14 @@
 
 
 
-<meta property="og:title" content="Gamma distribution. — tfd_gamma" />
+<meta property="og:title" content="Dirichlet-Multinomial compound distribution. — tfd_dirichlet_multinomial" />
 
-<meta property="og:description" content="The Gamma distribution is defined over positive real numbers using
-parameters concentration (aka &quot;alpha&quot;) and rate (aka &quot;beta&quot;)." />
+<meta property="og:description" content="The Dirichlet-Multinomial distribution is parameterized by a (batch of)
+length-K concentration vectors (K &amp;gt; 1) and a total_count number of
+trials, i.e., the number of trials per draw from the DirichletMultinomial. It
+is defined over a (batch of) length-K vector counts such that
+tf$reduce_sum(counts, -1) = total_count. The Dirichlet-Multinomial is
+identically the Beta-Binomial distribution when K = 2." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -98,33 +102,43 @@ parameters concentration (aka &quot;alpha&quot;) and rate (aka &quot;beta&quot;)
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gamma distribution.</h1>
+    <h1>Dirichlet-Multinomial compound distribution.</h1>
     
-    <div class="hidden name"><code>tfd_gamma.Rd</code></div>
+    <div class="hidden name"><code>tfd_dirichlet_multinomial.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The Gamma distribution is defined over positive real numbers using
-parameters <code>concentration</code> (aka "alpha") and <code>rate</code> (aka "beta").</p>
+    <p>The Dirichlet-Multinomial distribution is parameterized by a (batch of)
+length-<code>K</code> <code>concentration</code> vectors (<code>K &gt; 1</code>) and a <code>total_count</code> number of
+trials, i.e., the number of trials per draw from the DirichletMultinomial. It
+is defined over a (batch of) length-<code>K</code> vector <code>counts</code> such that
+<code>tf$reduce_sum(counts, -1) = total_count</code>. The Dirichlet-Multinomial is
+identically the Beta-Binomial distribution when <code>K = 2</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_gamma</span>(<span class='no'>concentration</span>, <span class='no'>rate</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Gamma"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_dirichlet_multinomial</span>(<span class='no'>total_count</span>, <span class='no'>concentration</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"DirichletMultinomial"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>concentration</th>
-      <td><p>Floating point tensor, the concentration params of the
-distribution(s). Must contain only positive values.</p></td>
+      <th>total_count</th>
+      <td><p>Non-negative floating point tensor, whose dtype is the same
+as <code>concentration</code>. The shape is broadcastable to <code>[N1,..., Nm]</code> with
+<code>m &gt;= 0</code>. Defines this as a batch of <code>N1 x ... x Nm</code> different
+Dirichlet multinomial distributions. Its components should be equal to
+integer values.</p></td>
     </tr>
     <tr>
-      <th>rate</th>
-      <td><p>Floating point tensor, the inverse scale params of the
-distribution(s). Must contain only positive values.</p></td>
+      <th>concentration</th>
+      <td><p>Positive floating point tensor, whose dtype is the
+same as <code>n</code> with shape broadcastable to <code>[N1,..., Nm, K]</code> <code>m &gt;= 0</code>.
+Defines this as a batch of <code>N1 x ... x Nm</code> different <code>K</code> class Dirichlet
+multinomial distributions.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -147,31 +161,39 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Mathematical Details</p>
-<p>The probability density function (pdf) is,</p><pre>pdf(x; alpha, beta, x &gt; 0) = x**(alpha - 1) exp(-x beta) / Z
-Z = Gamma(alpha) beta**(-alpha)
+<p>The Dirichlet-Multinomial is a distribution over <code>K</code>-class counts, i.e., a
+length-<code>K</code> vector of non-negative integer <code>counts = n = [n_0, ..., n_{K-1}]</code>.</p>
+<p>The probability mass function (pmf) is,</p><pre>pmf(n; alpha, N) = Beta(alpha + n) / (prod_j n_j!) / Z
+Z = Beta(alpha) / N!
 </pre>
-    <p>where</p><ul>
-<li><p><code>concentration = alpha</code>, <code>alpha &gt; 0</code>,</p></li>
-<li><p><code>rate = beta</code>, <code>beta &gt; 0</code>,</p></li>
-<li><p><code>Z</code> is the normalizing constant, and,</p></li>
+    <p>where:</p><ul>
+<li><p><code>concentration = alpha = [alpha_0, ..., alpha_{K-1}]</code>, <code>alpha_j &gt; 0</code>,</p></li>
+<li><p><code>total_count = N</code>, <code>N</code> a positive integer,</p></li>
+<li><p><code>N!</code> is <code>N</code> factorial, and,</p></li>
+<li><p><code>Beta(x) = prod_j Gamma(x_j) / Gamma(sum_j x_j)</code> is the
+<a href='https://en.wikipedia.org/wiki/Beta_function#Multivariate_beta_function'>multivariate beta function</a>,
+and,</p></li>
 <li><p><code>Gamma</code> is the <a href='https://en.wikipedia.org/wiki/Gamma_function'>gamma function</a>.</p></li>
 </ul>
-    <p>The cumulative density function (cdf) is,</p><pre>cdf(x; alpha, beta, x &gt; 0) = GammaInc(alpha, beta x) / Gamma(alpha)
-</pre>
-    <p>where <code>GammaInc</code> is the <a href='https://en.wikipedia.org/wiki/Incomplete_gamma_function'>lower incomplete Gamma function</a>.
-The parameters can be intuited via their relationship to mean and stddev,</p><pre>concentration = alpha = (mean / stddev)**2
-rate = beta = mean / stddev**2 = concentration / mean
-</pre>
-    <p>Distribution parameters are automatically broadcast in all functions; see
-examples for details.</p>
-<p>Warning: The samples of this distribution are always non-negative. However,
-the samples that are smaller than <code>np$finfo(dtype)$tiny</code> are rounded
-to this value, so it appears more often than it should.
-This should only be noticeable when the <code>concentration</code> is very small, or the
-<code>rate</code> is very large. See note in <code>tf$random_gamma</code> docstring.
-Samples of this distribution are reparameterized (pathwise differentiable).
-The derivatives are computed using the approach described in the paper
-Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018(https://arxiv.org/abs/1805.08498</p>
+    <p>Dirichlet-Multinomial is a <a href='https://en.wikipedia.org/wiki/Compound_probability_distribution'>compound distribution</a>, i.e., its
+samples are generated as follows.</p><ol>
+<li><p>Choose class probabilities:
+<code>probs = [p_0,...,p_{K-1}] ~ Dir(concentration)</code></p></li>
+<li><p>Draw integers:
+<code>counts = [n_0,...,n_{K-1}] ~ Multinomial(total_count, probs)</code></p></li>
+</ol>
+    <p>The last <code>concentration</code> dimension parametrizes a single Dirichlet-Multinomial
+distribution. When calling distribution functions (e.g., <code>dist$prob(counts)</code>),
+<code>concentration</code>, <code>total_count</code> and <code>counts</code> are broadcast to the same shape.
+The last dimension of <code>counts</code> corresponds single Dirichlet-Multinomial distributions.
+Distribution parameters are automatically broadcast in all functions; see examples for details.</p>
+<p>Pitfalls
+The number of classes, <code>K</code>, must not exceed:</p><ul>
+<li><p>the largest integer representable by <code>self$dtype</code>, i.e.,
+<code>2**(mantissa_bits+1)</code> (IEE754),</p></li>
+<li><p>the maximum <code>Tensor</code> index, i.e., <code>2**31-1</code>.</p></li>
+</ul>
+    <p>Note: This condition is validated only when <code>validate_args = TRUE</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -179,10 +201,9 @@ Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradi
   <code><a href='tfd_beta.html'>tfd_beta</a></code>, <code><a href='tfd_binomial.html'>tfd_binomial</a></code>,
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>, <code><a href='tfd_cauchy.html'>tfd_cauchy</a></code>,
   <code><a href='tfd_chi2.html'>tfd_chi2</a></code>, <code><a href='tfd_chi.html'>tfd_chi</a></code>,
-  <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a></code>,
   <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
-  <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>,
+  <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
   <code><a href='tfd_geometric.html'>tfd_geometric</a></code>, <code><a href='tfd_gumbel.html'>tfd_gumbel</a></code>,
   <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a></code>,
   <code><a href='tfd_half_normal.html'>tfd_half_normal</a></code>,
