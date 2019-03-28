@@ -3,8 +3,6 @@ Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: c(
     person("Sigrid", "Keydana", email = "sigrid@rstudio.com", role = c("aut", "cre")),
-    person("Kevin", "Kuo", role = "aut", email = "kevin.kuo@rstudio.com",
-           comment = c(ORCID = "0000-0001-7803-7901")),
     person(family = "RStudio", role = c("cph"))
     )
 Description: R interface to TensorFlow Probability (TFP), a Python library built on TensorFlow
