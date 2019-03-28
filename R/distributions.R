@@ -3678,3 +3678,109 @@ tfd_binomial <- function(total_count,
           args)
 }
 
+#' The Cauchy distribution with location `loc` and scale `scale`.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale) = 1 / (pi scale (1 + z**2))
+#' z = (x - loc) / scale
+#' ```
+#'
+#' where `loc` is the location, and `scale` is the scale.
+#' The Cauchy distribution is a member of the [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e.
+#' `Y ~ Cauchy(loc, scale)` is equivalent to,
+#' ```
+#' X ~ Cauchy(loc=0, scale=1)
+#' Y = loc + scale * X
+#' ```
+#' @param loc Floating point tensor; the modes of the distribution(s).
+#' @param scale Floating point tensor; the locations of the distribution(s).
+#' Must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_cauchy <- function(loc,
+                       scale,
+                       validate_args = FALSE,
+                       allow_nan_stats = TRUE,
+                       name = "Cauchy") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Cauchy,
+          args)
+}
+
+#' Gamma-Gamma distribution.
+#'
+#' Gamma-Gamma is a [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution)
+#' defined over positive real numbers using parameters `concentration`,
+#' `mixing_concentration` and `mixing_rate`.
+#'
+#' This distribution is also referred to as the beta of the second kind (B2), and
+#' can be useful for transaction value modeling, as in Fader and Hardi, 2013.
+#'
+#'  Mathematical Details
+#'
+#'  It is derived from the following Gamma-Gamma hierarchical model by integrating
+#'  out the random variable `beta`.
+#'
+#'  ```
+#'  beta ~ Gamma(alpha0, beta0)
+#'  X | beta ~ Gamma(alpha, beta)
+#'  ```
+#'
+#'  where
+#'  * `concentration = alpha`
+#'  * `mixing_concentration = alpha0`
+#'  * `mixing_rate = beta0`
+#'
+#'  The probability density function (pdf) is
+#'  ```
+#'  x**(alpha - 1)
+#'  pdf(x; alpha, alpha0, beta0) =  Z * (x + beta0)**(alpha + alpha0)
+#'  ```
+#'
+#'  where the normalizing constant `Z = Beta(alpha, alpha0) * beta0**(-alpha0)`.
+#'  Samples of this distribution are reparameterized as samples of the Gamma
+#'  distribution are reparameterized using the technique described in
+#'  (Figurnov et al., 2018).
+#'
+#'  @section References:
+#'  - [Peter S. Fader, Bruce G. S. Hardi. The Gamma-Gamma Model of Monetary Value. _Technical Report_, 2013.](http://www.brucehardie.com/notes/025/gamma_gamma.pdf)
+#'  - [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. _arXiv preprint arXiv:1805.08498_, 2018]() https://arxiv.org/abs/1805.08498)
+#' @param concentration Floating point tensor, the concentration params of the
+#' distribution(s). Must contain only positive values.
+#' @param mixing_concentration Floating point tensor, the concentration params of
+#' the mixing Gamma distribution(s). Must contain only positive values.
+#' @param mixing_rate Floating point tensor, the rate params of the mixing Gamma
+#' distribution(s). Must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_gamma_gamma <- function(concentration,
+                            mixing_concentration,
+                            mixing_rate,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = "GammaGamma") {
+  args <- list(
+    concentration = concentration,
+    mixing_concentration = mixing_concentration,
+    mixing_rate = mixing_rate,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$GammaGamma,
+          args)
+}
+

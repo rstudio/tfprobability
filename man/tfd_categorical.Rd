@@ -65,7 +65,8 @@ Note: This condition is validated only when \code{validate_args = TRUE}.
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_beta}}, \code{\link{tfd_binomial}},
-  \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_cauchy}}, \code{\link{tfd_exponential}},
+  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
   \code{\link{tfd_half_cauchy}},
   \code{\link{tfd_half_normal}},
   \code{\link{tfd_hidden_markov_model}},

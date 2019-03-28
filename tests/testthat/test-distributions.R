@@ -630,3 +630,16 @@ test_succeeds("Binomial distribution works", {
   expect_equal(d %>% tfd_mean() %>% tensor_value(), 7 * 0.3, tol = 1e-7)
 })
 
+test_succeeds("Cauchy distribution works", {
+
+  d <- tfd_cauchy(loc = 1, scale = 1)
+  expect_equal(d %>% tfd_entropy() %>% tensor_value(), log(4 * pi * 1))
+})
+
+test_succeeds("Gamma-Gamma distribution works", {
+
+  d <- tfd_gamma_gamma(concentration = 1, mixing_concentration = 2, mixing_rate = 0.5)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 0.5)
+})
+
+
