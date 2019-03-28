@@ -65,6 +65,7 @@ The derivatives are computed using the approach described in the paper
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
+  \code{\link{tfd_beta}}, \code{\link{tfd_binomial}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}},
   \code{\link{tfd_half_cauchy}},

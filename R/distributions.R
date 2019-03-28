@@ -3559,3 +3559,122 @@ tfd_half_cauchy <- function(loc,
           args)
 }
 
+#' Beta distribution.
+#'
+#' The Beta distribution is defined over the `(0, 1)` interval using parameters
+#' `concentration1` (aka "alpha") and `concentration0` (aka "beta").
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; alpha, beta) = x**(alpha - 1) (1 - x)**(beta - 1) / Z
+#' Z = Gamma(alpha) Gamma(beta) / Gamma(alpha + beta)
+#' ```
+#'
+#' where:
+#' * `concentration1 = alpha`,
+#' * `concentration0 = beta`,
+#' * `Z` is the normalization constant, and,
+#' * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#' The concentration parameters represent mean total counts of a `1` or a `0`,
+#' i.e.,
+#' ```
+#' concentration1 = alpha = mean * total_concentration
+#' concentration0 = beta  = (1. - mean) * total_concentration
+#' ```
+#'
+#' where `mean` in `(0, 1)` and `total_concentration` is a positive real number
+#' representing a mean `total_count = concentration1 + concentration0`.
+#' Distribution parameters are automatically broadcast in all functions; see
+#' examples for details.
+#' Warning: The samples can be zero due to finite precision.
+#' This happens more often when some of the concentrations are very small.
+#' Make sure to round the samples to `np$finfo(dtype)$tiny` before computing the density.
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#' The derivatives are computed using the approach described in the paper
+#' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
+#' @param concentration1 Positive floating-point `Tensor` indicating mean
+#' number of successes; aka "alpha". Implies `self$dtype` and `self$batch_shape`, i.e.,
+#' `concentration1$shape = [N1, N2, ..., Nm] = self$batch_shape`.
+#' @param concentration0 Positive floating-point `Tensor` indicating mean
+#' number of failures; aka "beta". Otherwise has same semantics as `concentration1`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_beta <- function(concentration1 = NULL,
+                     concentration0 = NULL,
+                     validate_args = FALSE,
+                     allow_nan_stats = TRUE,
+                     name = "Beta") {
+  args <- list(
+    concentration1 = concentration1,
+    concentration0 = concentration0,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Beta,
+          args)
+}
+
+#' Binomial distribution.
+#'
+#' This distribution is parameterized by `probs`, a (batch of) probabilities for
+#' drawing a `1` and `total_count`, the number of trials per draw from the
+#' Binomial.
+#'
+#' Mathematical Details
+#'
+#' The Binomial is a distribution over the number of `1`'s in `total_count`
+#' independent trials, with each trial having the same probability of `1`, i.e.,
+#' `probs`.
+#'
+#' The probability mass function (pmf) is,
+#' ```
+#' pmf(k; n, p) = p**k (1 - p)**(n - k) / Z
+#' Z = k! (n - k)! / n!
+#' ```
+#'
+#' where:
+#' * `total_count = n`,
+#' * `probs = p`,
+#' * `Z` is the normalizing constant, and,
+#' * `n!` is the factorial of `n`.
+#' @param total_count Non-negative floating point tensor with shape broadcastable
+#' to `[N1,..., Nm]` with `m >= 0` and the same dtype as `probs` or
+#' `logits`. Defines this as a batch of `N1 x ...  x Nm` different Binomial
+#' distributions. Its components should be equal to integer values.
+#' @param logits Floating point tensor representing the log-odds of a
+#' positive event with shape broadcastable to `[N1,..., Nm]` `m >= 0`, and
+#' the same dtype as `total_count`. Each entry represents logits for the
+#' probability of success for independent Binomial distributions. Only one
+#' of `logits` or `probs` should be passed in.
+#' @param probs Positive floating point tensor with shape broadcastable to
+#' `[N1,..., Nm]` `m >= 0`, `probs in [0, 1]`. Each entry represents the
+#' probability of success for independent Binomial distributions. Only one
+#' of `logits` or `probs` should be passed in.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_binomial <- function(total_count,
+                         logits = NULL,
+                         probs = NULL,
+                         validate_args = FALSE,
+                         allow_nan_stats = TRUE,
+                         name = "Beta") {
+  args <- list(
+    total_count = total_count,
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Binomial,
+          args)
+}
+

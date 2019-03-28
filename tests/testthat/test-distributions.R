@@ -618,3 +618,15 @@ test_succeeds("Half cauchy distribution works", {
   expect_equal(d %>% tfd_mode() %>% tensor_value(), 1)
 })
 
+test_succeeds("Beta distribution works", {
+
+  d <- tfd_beta(concentration1 = 3, concentration0 = 1)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 3/4)
+})
+
+test_succeeds("Binomial distribution works", {
+
+  d <- tfd_binomial(total_count = 7, probs = 0.3)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 7 * 0.3, tol = 1e-7)
+})
+

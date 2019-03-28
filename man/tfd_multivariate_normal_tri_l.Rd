@@ -66,6 +66,7 @@ Trainable (batch) lower-triangular matrices can be created with
 }
 \seealso{
 Other distributions: \code{\link{tfd_bernoulli}},
+  \code{\link{tfd_beta}}, \code{\link{tfd_binomial}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
   \code{\link{tfd_half_cauchy}},
