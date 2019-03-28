@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gamma-Gamma distribution. — tfd_gamma_gamma • tfprobability</title>
+<title>The Batch-Reshaping distribution. — tfd_batch_reshape • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,9 @@
 
 
 
-<meta property="og:title" content="Gamma-Gamma distribution. — tfd_gamma_gamma" />
+<meta property="og:title" content="The Batch-Reshaping distribution. — tfd_batch_reshape" />
 
-<meta property="og:description" content="Gamma-Gamma is a compound distribution
-defined over positive real numbers using parameters concentration,
-mixing_concentration and mixing_rate." />
+<meta property="og:description" content="This &quot;meta-distribution&quot; reshapes the batch dimensions of another distribution." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,39 +97,33 @@ mixing_concentration and mixing_rate." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Gamma-Gamma distribution.</h1>
+    <h1>The Batch-Reshaping distribution.</h1>
     
-    <div class="hidden name"><code>tfd_gamma_gamma.Rd</code></div>
+    <div class="hidden name"><code>tfd_batch_reshape.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Gamma-Gamma is a <a href='https://en.wikipedia.org/wiki/Compound_probability_distribution'>compound distribution</a>
-defined over positive real numbers using parameters <code>concentration</code>,
-<code>mixing_concentration</code> and <code>mixing_rate</code>.</p>
+    <p>This "meta-distribution" reshapes the batch dimensions of another distribution.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_gamma_gamma</span>(<span class='no'>concentration</span>, <span class='no'>mixing_concentration</span>, <span class='no'>mixing_rate</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"GammaGamma"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_batch_reshape</span>(<span class='no'>distribution</span>, <span class='no'>batch_shape</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>concentration</th>
-      <td><p>Floating point tensor, the concentration params of the
-distribution(s). Must contain only positive values.</p></td>
+      <th>distribution</th>
+      <td><p>The base distribution instance to reshape. Typically an
+instance of <code>Distribution</code>.</p></td>
     </tr>
     <tr>
-      <th>mixing_concentration</th>
-      <td><p>Floating point tensor, the concentration params of
-the mixing Gamma distribution(s). Must contain only positive values.</p></td>
-    </tr>
-    <tr>
-      <th>mixing_rate</th>
-      <td><p>Floating point tensor, the rate params of the mixing Gamma
-distribution(s). Must contain only positive values.</p></td>
+      <th>batch_shape</th>
+      <td><p>Positive <code>integer</code>-like vector-shaped <code>Tensor</code> representing
+the new shape of the batch dimensions. Up to one dimension may contain
+<code>-1</code>, meaning the remainder of the batch size.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -151,36 +143,9 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>This distribution is also referred to as the beta of the second kind (B2), and
-can be useful for transaction value modeling, as in Fader and Hardi, 2013.</p>
-<p>Mathematical Details</p>
-<p>It is derived from the following Gamma-Gamma hierarchical model by integrating
-out the random variable <code>beta</code>.</p><pre> beta ~ Gamma(alpha0, beta0)
- X | beta ~ Gamma(alpha, beta)
-</pre>
-    <p>where</p><ul>
-<li><p><code>concentration = alpha</code></p></li>
-<li><p><code>mixing_concentration = alpha0</code></p></li>
-<li><p><code>mixing_rate = beta0</code></p></li>
-</ul>
-    <p>The probability density function (pdf) is</p><pre>x**(alpha - 1)
-pdf(x; alpha, alpha0, beta0) =  Z * (x + beta0)**(alpha + alpha0)
-</pre>
-    <p>where the normalizing constant <code>Z = Beta(alpha, alpha0) * beta0**(-alpha0)</code>.
-Samples of this distribution are reparameterized as samples of the Gamma
-distribution are reparameterized using the technique described in
-(Figurnov et al., 2018).</p>
-<p>@section References:</p><ul>
-<li><p><a href='http://www.brucehardie.com/notes/025/gamma_gamma.pdf'>Peter S. Fader, Bruce G. S. Hardi. The Gamma-Gamma Model of Monetary Value. Technical Report, 2013.</a></p></li>
-<li><p><a href='Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. arXiv preprint arXiv:1805.08498, 2018'>Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. arXiv preprint arXiv:1805.08498, 2018</a> https://arxiv.org/abs/1805.08498)</p></li>
-</ul>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_autoregressive.html'>tfd_autoregressive</a></code>,
-  <code><a href='tfd_batch_reshape.html'>tfd_batch_reshape</a></code>,
   <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>, <code><a href='tfd_beta.html'>tfd_beta</a></code>,
   <code><a href='tfd_binomial.html'>tfd_binomial</a></code>,
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>, <code><a href='tfd_cauchy.html'>tfd_cauchy</a></code>,
@@ -188,7 +153,8 @@ distribution are reparameterized using the technique described in
   <code><a href='tfd_deterministic.html'>tfd_deterministic</a></code>,
   <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a></code>,
   <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a></code>, <code><a href='tfd_empirical.html'>tfd_empirical</a></code>,
-  <code><a href='tfd_exponential.html'>tfd_exponential</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
+  <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
+  <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
   <code><a href='tfd_geometric.html'>tfd_geometric</a></code>, <code><a href='tfd_gumbel.html'>tfd_gumbel</a></code>,
   <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a></code>,
   <code><a href='tfd_half_normal.html'>tfd_half_normal</a></code>,
@@ -243,8 +209,6 @@ distribution are reparameterized using the technique described in
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
           </ul>
 

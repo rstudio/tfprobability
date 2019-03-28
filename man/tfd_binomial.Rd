@@ -59,10 +59,12 @@ where:
 }
 }
 \seealso{
-Other distributions: \code{\link{tfd_bernoulli}},
-  \code{\link{tfd_beta}}, \code{\link{tfd_categorical}},
-  \code{\link{tfd_cauchy}}, \code{\link{tfd_chi2}},
-  \code{\link{tfd_chi}}, \code{\link{tfd_deterministic}},
+Other distributions: \code{\link{tfd_autoregressive}},
+  \code{\link{tfd_batch_reshape}},
+  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
+  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
+  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
+  \code{\link{tfd_deterministic}},
   \code{\link{tfd_dirichlet_multinomial}},
   \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
   \code{\link{tfd_exponential}},

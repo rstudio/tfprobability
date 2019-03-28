@@ -1,6 +1,4 @@
 # from keras
-# leave for now, decide later
-
 # Helper function to coerce shape arguments to tuple
 normalize_shape <- function(shape) {
   # reflect NULL back
@@ -21,6 +19,7 @@ normalize_shape <- function(shape) {
   reticulate::tuple(shape)
 }
 
+# from keras
 as_nullable_integer <- function(x) {
   if (is.null(x))
     x
@@ -28,6 +27,7 @@ as_nullable_integer <- function(x) {
     as.integer(x)
 }
 
+# from keras
 as_axis <- function(axis) {
   if (length(axis) > 1) {
     sapply(axis, as_axis)

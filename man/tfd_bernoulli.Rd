@@ -33,7 +33,8 @@ The Bernoulli distribution with \code{probs} parameter, i.e., the probability of
 \code{1} outcome (vs a \code{0} outcome).
 }
 \seealso{
-Other distributions: \code{\link{tfd_beta}},
+Other distributions: \code{\link{tfd_autoregressive}},
+  \code{\link{tfd_batch_reshape}}, \code{\link{tfd_beta}},
   \code{\link{tfd_binomial}},
   \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
   \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},

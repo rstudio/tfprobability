@@ -690,3 +690,42 @@ test_succeeds("Empirical distribution works", {
   expect_equal(d %>% tfd_cdf(1) %>% tensor_value(), 0.75)
 })
 
+test_succeeds("BatchReshape distribution works", {
+
+  dims <- 2
+  new_batch_shape <- c(1, 2, -1)
+  old_batch_shape <- 6
+  scale <- matrix(rep(1, old_batch_shape * dims), nrow = old_batch_shape)
+  mvn <- tfd_multivariate_normal_diag(scale_diag = scale)
+  d <- tfd_batch_reshape(
+    distribution = mvn,
+    batch_shape = new_batch_shape,
+    validate_args = TRUE)
+  expect_equal(d$batch_shape$as_list() %>% length(), 3)
+})
+
+test_succeeds("Autoregressive distribution works", {
+
+  normal_fn <- function(event_size) {
+    n <- event_size * (event_size + 1) / 2 %>% trunc()
+    n <- tf$cast(n, tf$int32)
+    p <- tf$Variable(tfd_normal(loc = 0, scale = 1)$sample(n))
+    # distributions/__init__.py:from tensorflow_probability.python.internal.distribution_util import fill_triangular
+    affine <- tfb_affine(scale_tril = tfp$distributions$fill_triangular(0.25 * p))
+
+    fn <- function(samples) {
+      scale <- tf$exp(affine %>% tfb_forward(samples))
+      tfd_independent(tfd_normal(loc = 0, scale = scale, validate_args = TRUE),
+        reinterpreted_batch_ndims = 1)
+    }
+    fn
+  }
+
+  batch_and_event_shape <- c(3, 2, 4)
+  sample0 <- tf$zeros(batch_and_event_shape, dtype = tf$int32)
+  ar <- tfd_autoregressive(normal_fn(batch_and_event_shape[3]), sample0)
+  x <- ar %>% tfd_sample(c(6, 5))
+  expect_equal(x$get_shape()$as_list(), c(6, 5, 3, 2, 4))
+
+})
+

@@ -77,8 +77,10 @@ The number of classes, \code{K}, must not exceed:
 Note: This condition is validated only when \code{validate_args = TRUE}.
 }
 \seealso{
-Other distributions: \code{\link{tfd_bernoulli}},
-  \code{\link{tfd_beta}}, \code{\link{tfd_binomial}},
+Other distributions: \code{\link{tfd_autoregressive}},
+  \code{\link{tfd_batch_reshape}},
+  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
+  \code{\link{tfd_binomial}},
   \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
   \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
   \code{\link{tfd_deterministic}},
