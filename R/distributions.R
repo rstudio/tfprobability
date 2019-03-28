@@ -3479,6 +3479,83 @@ tfd_hidden_markov_model <- function(initial_distribution,
           args)
 }
 
+#' The Half Normal distribution with scale `scale`.
+#'
+#' Mathematical details
+#'
+#' The half normal is a transformation of a centered normal distribution.
+#' If some random variable `X` has normal distribution,
+#' ```
+#' X ~ Normal(0.0, scale)
+#' Y = |X|
+#' ```
+#'
+#' Then `Y` will have half normal distribution. The probability density
+#' function (pdf) is:
+#'
+#' ```
+#' pdf(x; scale, x > 0) = sqrt(2) / (scale * sqrt(pi)) * exp(- 1/2 * (x / scale) ** 2))
+#' ```
+#'
+#' Where `scale = sigma` is the standard deviation of the underlying normal
+#' distribution.
+#' @param scale Floating point tensor; the scales of the distribution(s).
+#' Must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_half_normal <- function(scale,
+                                    validate_args = FALSE,
+                                    allow_nan_stats = TRUE,
+                                    name = "HalfNormal") {
+  args <- list(
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
 
+  do.call(tfp$distributions$HalfNormal,
+          args)
+}
 
+#' Half-Cauchy distribution.
+#'
+#' The half-Cauchy distribution is parameterized by a `loc` and a
+#' `scale` parameter. It represents the right half of the two symmetric halves in
+#' a [Cauchy distribution](https://en.wikipedia.org/wiki/Cauchy_distribution).
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) for the half-Cauchy distribution
+#' is given by
+#' ```
+#' pdf(x; loc, scale) = 2 / (pi scale (1 + z**2))
+#' z = (x - loc) / scale
+#' ```
+#'
+#' where `loc` is a scalar in `R` and `scale` is a positive scalar in `R`.
+#' The support of the distribution is given by the interval `[loc, infinity)`.
+#' @param  loc Floating-point `Tensor`; the location(s) of the distribution(s).
+#' @param scale Floating-point `Tensor`; the scale(s) of the distribution(s).
+#' Must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_half_cauchy <- function(loc,
+                            scale,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = "HalfCauchy") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$HalfCauchy,
+          args)
+}
 

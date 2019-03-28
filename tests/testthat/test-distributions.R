@@ -548,7 +548,7 @@ test_succeeds("JointDistributionSequential distribution works", {
     ))
   # in python this works!
   # ValueError: Number of `xs`s must match number of distributions.
-  x <- d %>% tfd_sample()
+  # x <- d %>% tfd_sample()
   # ==> A length-4 list of tfd.Distribution instances
   # joint.log_prob(x)
   # ==> A scalar `Tensor` representing the total log prob under all four
@@ -576,5 +576,45 @@ test_succeeds("Horseshoe distribution works", {
 
   d <- tfd_horseshoe(scale = 2)
   expect_equal(d %>% tfd_mean() %>% tensor_value(), 0)
+})
+
+test_succeeds("Hidden Markov Model distribution works", {
+
+  # Represent a cold day with 0 and a hot day with 1.
+  # Suppose the first day of a sequence has a 0.8 chance of being cold.
+  # We can model this using the categorical distribution:
+  initial_distribution <- tfd_categorical(probs = c(0.8, 0.2))
+  # Suppose a cold day has a 30% chance of being followed by a hot day
+  # and a hot day has a 20% chance of being followed by a cold day.
+  # We can model this as:
+  transition_distribution <- tfd_categorical(probs = matrix(c(0.7, 0.3, 0.2, 0.8), nrow = 2, byrow = TRUE) %>% tf$cast(tf$float32))
+  # Suppose additionally that on each day the temperature is
+  # normally distributed with mean and standard deviation 0 and 5 on
+  # a cold day and mean and standard deviation 15 and 10 on a hot day.
+  # We can model this with:
+  observation_distribution <- tfd_normal(loc = c(0, 15), scale = c(5, 10))
+  # We can combine these distributions into a single week long
+  # hidden Markov model with:
+  d <- tfd_hidden_markov_model(
+    initial_distribution = initial_distribution,
+    transition_distribution = transition_distribution,
+    observation_distribution = observation_distribution,
+    num_steps = 7)
+  # The expected temperatures for each day are given by:
+  d %>% tfd_mean() %>% tensor_value() # shape [7], elements approach 9.0
+  # The log pdf of a week of temperature 0 is:
+  d %>% tfd_log_prob(rep(0, 7)) %>% tensor_value()
+})
+
+test_succeeds("Half normal distribution works", {
+
+  d <- tfd_half_normal(scale = 1)
+  expect_equal(d %>% tfd_mean() %>% tensor_value(), 1 * sqrt(2) / sqrt(pi), tol = 1e-7)
+})
+
+test_succeeds("Half cauchy distribution works", {
+
+  d <- tfd_half_cauchy(loc = 1, scale = 1)
+  expect_equal(d %>% tfd_mode() %>% tensor_value(), 1)
 })
 

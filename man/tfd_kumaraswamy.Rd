@@ -50,6 +50,8 @@ Distribution parameters are automatically broadcast in all functions.
 Other distributions: \code{\link{tfd_bernoulli}},
   \code{\link{tfd_categorical}},
   \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
+  \code{\link{tfd_half_cauchy}},
+  \code{\link{tfd_half_normal}},
   \code{\link{tfd_hidden_markov_model}},
   \code{\link{tfd_horseshoe}},
   \code{\link{tfd_independent}},
