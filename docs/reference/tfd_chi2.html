@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Horseshoe distribution. — tfd_horseshoe • tfprobability</title>
+<title>Chi2 distribution. — tfd_chi2 • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,15 +30,10 @@
 
 
 
-<meta property="og:title" content="Horseshoe distribution. — tfd_horseshoe" />
+<meta property="og:title" content="Chi2 distribution. — tfd_chi2" />
 
-<meta property="og:description" content="The so-called 'horseshoe' distribution is a Cauchy-Normal scale mixture,
-proposed as a sparsity-inducing prior for Bayesian regression. It is
-symmetric around zero, has heavy (Cauchy-like) tails, so that large
-coefficients face relatively little shrinkage, but an infinitely tall spike at
-0, which pushes small coefficients towards zero. It is parameterized by a
-positive scalar scale parameter: higher values yield a weaker
-sparsity-inducing effect." />
+<meta property="og:description" content="The Chi2 distribution is defined over positive real numbers using a degrees of
+freedom (&quot;df&quot;) parameter." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -103,32 +98,28 @@ sparsity-inducing effect." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Horseshoe distribution.</h1>
+    <h1>Chi2 distribution.</h1>
     
-    <div class="hidden name"><code>tfd_horseshoe.Rd</code></div>
+    <div class="hidden name"><code>tfd_chi2.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The so-called 'horseshoe' distribution is a Cauchy-Normal scale mixture,
-proposed as a sparsity-inducing prior for Bayesian regression. It is
-symmetric around zero, has heavy (Cauchy-like) tails, so that large
-coefficients face relatively little shrinkage, but an infinitely tall spike at
-0, which pushes small coefficients towards zero. It is parameterized by a
-positive scalar <code>scale</code> parameter: higher values yield a weaker
-sparsity-inducing effect.</p>
+    <p>The Chi2 distribution is defined over positive real numbers using a degrees of
+freedom ("df") parameter.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_horseshoe</span>(<span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Horseshoe"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_chi2</span>(<span class='no'>df</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Chi2"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>scale</th>
-      <td><p>Floating point tensor; the scales of the distribution(s). Must contain only positive values.</p></td>
+      <th>df</th>
+      <td><p>Floating point tensor, the degrees of freedom of the
+distribution(s). <code>df</code> must contain only positive values.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -150,36 +141,29 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Mathematical details</p>
-<p>The Horseshoe distribution is centered at zero, with scale parameter
-\(lambda\). It is defined by:
-$$X \sim \text {Horseshoe}(scale=\lambda) \, \equiv \, X \sim \text{Normal} (0, \, \lambda \cdot \sigma) \quad \text{where} \quad \sigma \sim  \text{HalfCauchy} (0, \,1)$$</p>
-<p>The probability density function,
-$$\pi_\lambda(x) = \int_0^\infty \, \frac{1}{\sqrt{ 2\pi \lambda^2 t^2 }} \, \exp \left\{ -\frac{x^2}{2\lambda^2t^2} \right\} \, \frac{2}{\pi\left(1+t^2\right)} \mathrm{d} t$$</p>
-<p>can be rewritten as
-$$\pi_\lambda(x) = \frac{1}{\sqrt{2 \pi^3 \lambda^2}} \, \exp \left\{ \frac{x^2}{2\lambda^2} \right\} \, E_1\left(\frac{x^2}{2\lambda^2}\right)$$
-where \(E_1(.)\) is the exponential integral function which can
-be approximated by elementary functions.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    
-    <ul>
-<li><p><a href='http://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf'>Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)</a>.</p></li>
-<li><p><a href='https://doi.org/10.1016/S0022-1694(99)00184-5'>Barry, Parlange, Li. Approximation for the exponential integral (2000)</a>.</p></li>
-</ul>
+    <p>Mathematical Details</p>
+<p>The probability density function (pdf) is,</p><pre>pdf(x; df, x &gt; 0) = x**(0.5 df - 1) exp(-0.5 x) / Z
+Z = 2**(0.5 df) Gamma(0.5 df)
+</pre>
+    <p>where</p><ul>
+<li><p><code>df</code> denotes the degrees of freedom,</p></li>
+<li><p><code>Z</code> is the normalization constant, and,</p></li>
+<li><p><code>Gamma</code> is the <a href='https://en.wikipedia.org/wiki/Gamma_function'>gamma function</a>.
+The Chi2 distribution is a special case of the Gamma distribution, i.e.,</p></li>
+</ul><pre>Chi2(df) = Gamma(concentration=0.5 * df, rate=0.5)
+</pre>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>,
   <code><a href='tfd_beta.html'>tfd_beta</a></code>, <code><a href='tfd_binomial.html'>tfd_binomial</a></code>,
   <code><a href='tfd_categorical.html'>tfd_categorical</a></code>, <code><a href='tfd_cauchy.html'>tfd_cauchy</a></code>,
-  <code><a href='tfd_chi2.html'>tfd_chi2</a></code>, <code><a href='tfd_chi.html'>tfd_chi</a></code>,
-  <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
+  <code><a href='tfd_chi.html'>tfd_chi</a></code>, <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
   <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
   <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a></code>,
   <code><a href='tfd_half_normal.html'>tfd_half_normal</a></code>,
   <code><a href='tfd_hidden_markov_model.html'>tfd_hidden_markov_model</a></code>,
+  <code><a href='tfd_horseshoe.html'>tfd_horseshoe</a></code>,
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
   <code><a href='tfd_inverse_gamma.html'>tfd_inverse_gamma</a></code>,
   <code><a href='tfd_inverse_gaussian.html'>tfd_inverse_gaussian</a></code>,
@@ -230,8 +214,6 @@ be approximated by elementary functions.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

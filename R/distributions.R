@@ -3784,3 +3784,84 @@ tfd_gamma_gamma <- function(concentration,
           args)
 }
 
+#' Chi distribution.
+#'
+#' The Chi distribution is defined over nonnegative real numbers and uses a
+#' degrees of freedom ("df") parameter.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; df, x >= 0) = x**(df - 1) exp(-0.5 x**2) / Z
+#' Z = 2**(0.5 df - 1) Gamma(0.5 df)
+#' ```
+#'
+#' where:
+#' * `df` denotes the degrees of freedom,
+#' * `Z` is the normalization constant, and,
+#' * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#' The Chi distribution is a transformation of the Chi2 distribution; it is the
+#' distribution of the positive square root of a variable obeying a Chi
+#' distribution.
+#' @param  df Floating point tensor, the degrees of freedom of the distribution(s).
+#'  `df` must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_chi <- function(df,
+                    validate_args = FALSE,
+                    allow_nan_stats = TRUE,
+                    name = "Chi") {
+  args <- list(
+    df = df,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Chi,
+          args)
+}
+
+#' Chi2 distribution.
+#'
+#' The Chi2 distribution is defined over positive real numbers using a degrees of
+#' freedom ("df") parameter.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; df, x > 0) = x**(0.5 df - 1) exp(-0.5 x) / Z
+#' Z = 2**(0.5 df) Gamma(0.5 df)
+#' ```
+#' where
+#' * `df` denotes the degrees of freedom,
+#' * `Z` is the normalization constant, and,
+#' * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#' The Chi2 distribution is a special case of the Gamma distribution, i.e.,
+#' ```
+#' Chi2(df) = Gamma(concentration=0.5 * df, rate=0.5)
+#' ```
+#' @param df Floating point tensor, the degrees of freedom of the
+#' distribution(s). `df` must contain only positive values.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_chi2 <- function(df,
+                    validate_args = FALSE,
+                    allow_nan_stats = TRUE,
+                    name = "Chi2") {
+  args <- list(
+    df = df,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Chi2,
+          args)
+}

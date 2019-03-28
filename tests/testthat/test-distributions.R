@@ -642,4 +642,15 @@ test_succeeds("Gamma-Gamma distribution works", {
   expect_equal(d %>% tfd_mean() %>% tensor_value(), 0.5)
 })
 
+test_succeeds("Chi distribution works", {
+
+  d <- tfd_chi(df = 1)
+  expect_equal((d %>% tfd_prob(c(0, 1)))$get_shape()$as_list() , 2)
+})
+
+test_succeeds("Chi2 distribution works", {
+
+  d <- tfd_chi2(df = 1)
+  expect_equal(d %>% tfd_mean() %>% tensor_value() , 1)
+})
 
