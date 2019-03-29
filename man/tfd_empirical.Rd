@@ -8,7 +8,11 @@ tfd_empirical(samples, event_ndims = 0, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "Empirical")
 }
 \arguments{
-\item{samples}{Numeric \code{Tensor} of shape \link{B1, ..., Bk, S, E1, ..., En}\code{, }k, n >= 0\code{. Samples or batches of samples on which the distribution is based. The first }k\code{dimensions index into a batch of independent distributions. Length of}S\code{dimension determines number of samples in each multiset. The last}n` dimension represents samples for each
+\item{samples}{Numeric \code{Tensor} of shape \code{[B1, ..., Bk, S, E1, ..., En]},
+\code{k, n >= 0}. Samples or batches of samples on which the distribution
+is based. The first \code{k} dimensions index into a batch of independent
+distributions. Length of \code{S} dimension determines number of samples
+in each multiset. The last \code{n} dimension represents samples for each
 distribution. n is specified by argument event_ndims.}
 
 \item{event_ndims}{\code{int32}, default \code{0}. number of dimensions for each
@@ -26,7 +30,7 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The Empirical distribution is parameterized by a \link{batch} multiset of samples.
+The Empirical distribution is parameterized by a (batch) multiset of samples.
 It describes the empirical measure (observations) of a variable.
 Note: some methods (log_prob, prob, cdf, mode, entropy) are not differentiable
 with regard to samples.

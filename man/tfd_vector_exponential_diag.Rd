@@ -21,7 +21,7 @@ NULL then scale is the Identity.}
 
 \item{scale_identity_multiplier}{Non-zero, floating-point Tensor representing
 a scaled-identity-matrix added to scale. May have shape
-\link{B1, ..., Bb}, b >= 0, and characterizes b-batches of scaled
+\code{[B1, ..., Bb]}, b >= 0, and characterizes b-batches of scaled
 k x k identity matrices added to scale. When both
 scale_identity_multiplier and scale_diag are NULL then scale is
 the Identity.}

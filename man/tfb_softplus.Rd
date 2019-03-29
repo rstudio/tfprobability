@@ -25,18 +25,27 @@ The softplus Bijector has the following two useful properties:
 }
 \details{
 The optional nonzero hinge_softness parameter changes the transition at zero.
-With hinge_softness = c, the bijector is:
-f_c(x) := c * g(x / c) = c * Log\link{1 + exp(x / c)}.
-For large x >> 1, c * Log\link{1 + exp(x / c)} approx c * Log\link{exp(x / c)} = x,
+With hinge_softness = c, the bijector is:\preformatted{f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
+```
+
+For large x >> 1,
+
+```
+c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x
+```
+
 so the behavior for large x is the same as the standard softplus.
 As c > 0 approaches 0 from the right, f_c(x) becomes less and less soft,
 approaching max(0, x).
-\itemize{
-\item c = 1 is the default.
-\item c > 0 but small means f(x) approx ReLu(x) = max(0, x).
-\item c < 0 flips sign and reflects around the y-axis: f_{-c}(x) = -f_c(-x).
-\item c = 0 results in a non-bijective transformation and triggers an exception.
+* c = 1 is the default.
+* c > 0 but small means f(x) approx ReLu(x) = max(0, x).
+* c < 0 flips sign and reflects around the y-axis: f_{-c}(x) = -f_c(-x).
+* c = 0 results in a non-bijective transformation and triggers an exception.
 Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.
+
+[1 + exp(x / c)]: R:1\%20+\%20exp(x\%20/\%20c)
+[1 + exp(x / c)]: R:1\%20+\%20exp(x\%20/\%20c)
+[exp(x / c)]: R:exp(x\%20/\%20c)
 }
 }
 \seealso{

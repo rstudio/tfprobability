@@ -136,7 +136,7 @@ NULL then scale is the Identity.</p></td>
       <th>scale_identity_multiplier</th>
       <td><p>Non-zero, floating-point Tensor representing
 a scaled-identity-matrix added to scale. May have shape
-B1, ..., Bb, b &gt;= 0, and characterizes b-batches of scaled
+<code>[B1, ..., Bb]</code>, b &gt;= 0, and characterizes b-batches of scaled
 k x k identity matrices added to scale. When both
 scale_identity_multiplier and scale_diag are NULL then scale is
 the Identity.</p></td>
@@ -162,9 +162,9 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Mathematical Details
-The probability density function (pdf) is,</p><pre>pdf(x; loc, scale) = exp(-||y||_1) / Z,
-y = inv(scale) @ (x - loc),
-Z = 2**k |det(scale)|,
+The probability density function (pdf) is,</p><pre>pdf(x; loc, scale) = exp(-||y||_1) / Z
+y = inv(scale) @ (x - loc)
+Z = 2**k |det(scale)|
 </pre>
     <p>where:</p><ul>
 <li><p><code>loc</code> is a vector in <code>R^k</code>,</p></li>

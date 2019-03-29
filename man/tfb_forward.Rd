@@ -10,6 +10,8 @@ tfb_forward(bijector, x, name = "forward")
 \item{bijector}{The bijector to apply}
 
 \item{x}{Tensor. The input to the "forward" evaluation.}
+
+\item{name}{name of the operation}
 }
 \description{
 Returns the forward Bijector evaluation, i.e., \code{X = g(Y)}.

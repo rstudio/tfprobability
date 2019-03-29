@@ -8,6 +8,12 @@ tfd_inverse_gamma(concentration, rate, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "InverseGamma")
 }
 \arguments{
+\item{concentration}{Floating point tensor, the concentration params of the
+distribution(s). Must contain only positive values.}
+
+\item{rate}{Floating point tensor, the scale params of the distribution(s).
+Must contain only positive values.}
+
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 silently render incorrect outputs. Default value: FALSE.}

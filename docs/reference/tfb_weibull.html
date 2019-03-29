@@ -116,6 +116,18 @@ random variable with the <a href='https://en.wikipedia.org/wiki/Weibull_distribu
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>scale</th>
+      <td><p>Positive Float-type Tensor that is the same dtype and is
+broadcastable with concentration.
+This is l in <code>Y = g(X) = 1 - exp((-x / l) ** k)</code>.</p></td>
+    </tr>
+    <tr>
+      <th>concentration</th>
+      <td><p>Positive Float-type Tensor that is the same dtype and is
+broadcastable with scale.
+This is k in <code>Y = g(X) = 1 - exp((-x / l) ** k)</code>.</p></td>
+    </tr>
+    <tr>
       <th>validate_args</th>
       <td><p>Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
@@ -123,18 +135,6 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <tr>
       <th>name</th>
       <td><p>name prefixed to Ops created by this class.</p></td>
-    </tr>
-    <tr>
-      <th>scale:</th>
-      <td><p>Positive Float-type Tensor that is the same dtype and is
-broadcastable with concentration.
-This is l in <code>Y = g(X) = 1 - exp((-x / l) ** k)</code>.</p></td>
-    </tr>
-    <tr>
-      <th>concentration:</th>
-      <td><p>Positive Float-type Tensor that is the same dtype and is
-broadcastable with scale.
-This is k in <code>Y = g(X) = 1 - exp((-x / l) ** k)</code>.</p></td>
     </tr>
     </table>
     

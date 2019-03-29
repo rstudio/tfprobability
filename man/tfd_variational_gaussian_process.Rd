@@ -77,7 +77,7 @@ one or more of the statistic's batch members are undefined.}
 }
 \description{
 This distribution implements the variational Gaussian process (VGP), as
-described in \link{Titsias, 2009} and \link{Hensman, 2013}. The VGP is an
+described in Titsias (2009) and Hensman (2013). The VGP is an
 inducing point-based approximation of an exact GP posterior.
 Ultimately, this Distribution class represents a marginal distribution over function values at a
 collection of \code{index_points}. It is parameterized by
@@ -93,14 +93,14 @@ distribution over function values at the inducing points, conditional on some ob
 }
 \details{
 A VGP is "trained" by selecting any kernel parameters, the locations of the
-inducing index points, and the variational parameters. \link{Titsias, 2009} and
-\link{Hensman, 2013} describe a variational lower bound on the marginal log
+inducing index points, and the variational parameters. Titsias (2009) and
+Hensman (2013) describe a variational lower bound on the marginal log
 likelihood of observed data, which this class offers through the
 \code{variational_loss} method (this is the negative lower bound, for convenience
 when plugging into a TF Optimizer's \code{minimize} function).
 Training may be done in minibatches.
 
-\link{Titsias, 2009} describes a closed form for the optimal variational
+Titsias (2009) describes a closed form for the optimal variational
 parameters, in the case of sufficiently small observational data (ie,
 small enough to fit in memory but big enough to warrant approximating the GP
 posterior). A method to compute these optimal parameters in terms of the full
@@ -154,7 +154,7 @@ Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
 }
 
 Posterior inference is possible in analytical closed form but becomes
-intractible as data sizes get large. See \link{Rasmussen, 2006} for details.
+intractible as data sizes get large. See Rasmussen (2006) for details.
 
 The VGP
 
@@ -184,8 +184,8 @@ The approximate posterior predictive distribution \code{q(f(T))} is what the
 Model selection in this framework entails choosing the kernel parameters,
 inducing point locations, and variational parameters. We do this by optimizing
 a variational lower bound on the marginal log likelihood of observed data. The
-lower bound takes the following form (see \link{Titsias, 2009} and
-\link{Hensman, 2013} for details on the derivation):\preformatted{L(Z, m, S, Y) = MVN(loc=
+lower bound takes the following form (see Titsias (2009) and
+Hensman (2013) for details on the derivation):\preformatted{L(Z, m, S, Y) = MVN(loc=
 (K_zx @ K_zz^-1) @ m, scale_diag=sigma).log_prob(Y) -
 (Tr(K_xx - K_zx @ K_zz^-1 @ K_xz) +
 Tr(S @ S^T @ K_zz^1 @ K_zx @ K_xz @ K_zz^-1)) / (2 * sigma^2) -
@@ -199,7 +199,7 @@ lower bound is implemented as \code{VariationalGaussianProcess$variational_loss}
 
 Optimal variational parameters
 
-As described in \link{Titsias, 2009}, a closed form optimum for the variational
+As described in Titsias (2009), a closed form optimum for the variational
 location and scale parameters, \code{m} and \code{S}, can be computed when the
 observational data are not prohibitively voluminous. The
 \code{optimal_variational_posterior} function to computes the optimal variational

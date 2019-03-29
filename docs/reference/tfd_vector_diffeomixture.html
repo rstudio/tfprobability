@@ -36,7 +36,6 @@
 combination of K component loc vectors, loc[k], k = 0,...,K-1, and K
 scale matrices scale[k], k = 0,..., K-1.  It approximates the following
 compound distribution
-(https://en.wikipedia.org/wiki/Compound_probability_distribution)
 p(x) = int p(x | z) p(z) dz, where z is in the K-simplex, and
 p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])" />
 <meta name="twitter:card" content="summary" />
@@ -110,8 +109,7 @@ p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])" />
     <p>A vector diffeomixture (VDM) is a distribution parameterized by a convex
 combination of <code>K</code> component <code>loc</code> vectors, <code>loc[k], k = 0,...,K-1</code>, and <code>K</code>
 <code>scale</code> matrices <code>scale[k], k = 0,..., K-1</code>.  It approximates the following
-compound distribution
-(https://en.wikipedia.org/wiki/Compound_probability_distribution)
+<a href='https://en.wikipedia.org/wiki/Compound_probability_distribution'>compound distribution</a>
 <code>p(x) = int p(x | z) p(z) dz</code>, where z is in the K-simplex, and
 <code>p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])</code></p>
     
@@ -126,6 +124,12 @@ compound distribution
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>mix_loc</th>
+      <td><p><code>float</code>-like <code>Tensor</code> with shape <code>[b1, ..., bB, K-1]</code>.
+In terms of samples, larger <code>mix_loc[..., k]</code> ==&gt;
+<code>Z</code> is more likely to put more weight on its <code>kth</code> component.</p></td>
+    </tr>
     <tr>
       <th>temperature</th>
       <td><p><code>float</code>-like <code>Tensor</code>. Broadcastable with <code>mix_loc</code>.
@@ -154,8 +158,25 @@ size.</p></td>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>loating point tensor; the stddevs of the distribution(s).
-Must contain only positive values.</p></td>
+      <td><p>Length-<code>K</code> list of <code>LinearOperator</code>s. Each should be
+positive-definite and operate on a <code>d</code>-dimensional vector space. The
+<code>k</code>-th element represents the <code>scale</code> used for the <code>k</code>-th affine
+transformation. <code>LinearOperator</code>s must have shape <code>[B1, ..., Bb, d, d]</code>,
+<code>b &gt;= 0</code>, i.e., characterizes <code>b</code>-batches of <code>d x d</code> matrices</p></td>
+    </tr>
+    <tr>
+      <th>quadrature_size</th>
+      <td><p><code>integer</code> scalar representing number of
+quadrature points.  Larger <code>quadrature_size</code> means <code>q_N(x)</code> better
+approximates <code>p(x)</code>.</p></td>
+    </tr>
+    <tr>
+      <th>quadrature_fn</th>
+      <td><p>Function taking <code>normal_loc</code>, <code>normal_scale</code>,
+<code>quadrature_size</code>, <code>validate_args</code> and returning <code>tuple(grid, probs)</code>
+representing the SoftmaxNormal grid and corresponding normalized weight.
+normalized) weight.
+Default value: <code>quadrature_scheme_softmaxnormal_quantiles</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -172,34 +193,6 @@ one or more of the statistic's batch members are undefined.</p></td>
     <tr>
       <th>name</th>
       <td><p>name prefixed to Ops created by this class.</p></td>
-    </tr>
-    <tr>
-      <th>mix_loc:</th>
-      <td><p><code>float</code>-like <code>Tensor</code> with shape <code>[b1, ..., bB, K-1]</code>.
-In terms of samples, larger <code>mix_loc[..., k]</code> ==&gt;
-<code>Z</code> is more likely to put more weight on its <code>kth</code> component.</p></td>
-    </tr>
-    <tr>
-      <th>scale:</th>
-      <td><p>Length-<code>K</code> list of <code>LinearOperator</code>s. Each should be
-positive-definite and operate on a <code>d</code>-dimensional vector space. The
-<code>k</code>-th element represents the <code>scale</code> used for the <code>k</code>-th affine
-transformation. <code>LinearOperator</code>s must have shape <code>[B1, ..., Bb, d, d]</code>,
-<code>b &gt;= 0</code>, i.e., characterizes <code>b</code>-batches of <code>d x d</code> matrices</p></td>
-    </tr>
-    <tr>
-      <th>quadrature_size:</th>
-      <td><p><code>integer</code> scalar representing number of
-quadrature points.  Larger <code>quadrature_size</code> means <code>q_N(x)</code> better
-approximates <code>p(x)</code>.</p></td>
-    </tr>
-    <tr>
-      <th>quadrature_fn:</th>
-      <td><p>Function taking <code>normal_loc</code>, <code>normal_scale</code>,
-<code>quadrature_size</code>, <code>validate_args</code> and returning <code>tuple(grid, probs)</code>
-representing the SoftmaxNormal grid and corresponding normalized weight.
-normalized) weight.
-Default value: <code>quadrature_scheme_softmaxnormal_quantiles</code>.</p></td>
     </tr>
     </table>
     

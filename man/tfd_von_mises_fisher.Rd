@@ -4,7 +4,7 @@
 \alias{tfd_von_mises_fisher}
 \title{The von Mises-Fisher distribution over unit vectors on \code{S^{n-1}}}
 \usage{
-tfd_von_mises_fisher(df, mean_direction, concentration,
+tfd_von_mises_fisher(mean_direction, concentration,
   validate_args = FALSE, allow_nan_stats = TRUE,
   name = "VonMisesFisher")
 }

@@ -8,6 +8,10 @@ tfd_joint_distribution_sequential(distribution_fn, validate_args = FALSE,
   name = NULL)
 }
 \arguments{
+\item{distribution_fn}{list of either \code{tfp$distributions$Distribution} instances and/or
+functions which take the \code{k} previous distributions and returns a
+new \code{tfp$distributions$Distribution} instance.}
+
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 silently render incorrect outputs. Default value: FALSE.}
@@ -41,16 +45,13 @@ either:
 Each \code{list} element implements the \code{i}-th \emph{full conditional distribution},
 \code{p(x[i] | x[:i])}. The "conditioned on" elements are represented by the
 \code{callable}'s required arguments. Directly providing a \code{Distribution}-like
-instance is a convenience and is semantically identical a zero argument
+nstance is a convenience and is semantically identical a zero argument
 \code{callable}.
 Denote the \code{i}-th \code{callable}s non-default arguments as \code{args[i]}. Since the
 \code{callable} is the conditional manifest, \code{0 <= len(args[i]) <= i - 1}. When
 \code{len(args[i]) < i - 1}, the \code{callable} only depends on a subset of the
 previous distributions, specifically those at indexes:
 \code{range(i - 1, i - 1 - num_args[i], -1)}.
-@param  distribution_fn  list of either \code{tfp$distributions$Distribution} instances and/or
-functions which take the \code{k} previous distributions and returns a
-new \code{tfp$distributions$Distribution} instance.
 }
 }
 \seealso{

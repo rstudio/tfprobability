@@ -114,6 +114,12 @@ a single model specification.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>distribution_fn</th>
+      <td><p>list of either <code>tfp$distributions$Distribution</code> instances and/or
+functions which take the <code>k</code> previous distributions and returns a
+new <code>tfp$distributions$Distribution</code> instance.</p></td>
+    </tr>
+    <tr>
       <th>validate_args</th>
       <td><p>Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
@@ -144,16 +150,13 @@ either:</p><ol>
 Each <code>list</code> element implements the <code>i</code>-th <em>full conditional distribution</em>,
 <code>p(x[i] | x[:i])</code>. The "conditioned on" elements are represented by the
 <code>callable</code>'s required arguments. Directly providing a <code>Distribution</code>-like
-instance is a convenience and is semantically identical a zero argument
+nstance is a convenience and is semantically identical a zero argument
 <code>callable</code>.
 Denote the <code>i</code>-th <code>callable</code>s non-default arguments as <code>args[i]</code>. Since the
 <code>callable</code> is the conditional manifest, <code>0 &lt;= len(args[i]) &lt;= i - 1</code>. When
 <code>len(args[i]) &lt; i - 1</code>, the <code>callable</code> only depends on a subset of the
 previous distributions, specifically those at indexes:
-<code><a href='https://www.rdocumentation.org/packages/base/topics/range'>range(i - 1, i - 1 - num_args[i], -1)</a></code>.
-@param  distribution_fn  list of either <code>tfp$distributions$Distribution</code> instances and/or
-functions which take the <code>k</code> previous distributions and returns a
-new <code>tfp$distributions$Distribution</code> instance.</p></li>
+<code><a href='https://www.rdocumentation.org/packages/base/topics/range'>range(i - 1, i - 1 - num_args[i], -1)</a></code>.</p></li>
 </ol>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

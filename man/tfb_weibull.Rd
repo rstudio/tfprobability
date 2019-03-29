@@ -8,18 +8,18 @@ tfb_weibull(scale = 1, concentration = 1, validate_args = FALSE,
   name = "weibull")
 }
 \arguments{
+\item{scale}{Positive Float-type Tensor that is the same dtype and is
+broadcastable with concentration.
+This is l in \code{Y = g(X) = 1 - exp((-x / l) ** k)}.}
+
+\item{concentration}{Positive Float-type Tensor that is the same dtype and is
+broadcastable with scale.
+This is k in \code{Y = g(X) = 1 - exp((-x / l) ** k)}.}
+
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
-
-\item{scale:}{Positive Float-type Tensor that is the same dtype and is
-broadcastable with concentration.
-This is l in \code{Y = g(X) = 1 - exp((-x / l) ** k)}.}
-
-\item{concentration:}{Positive Float-type Tensor that is the same dtype and is
-broadcastable with scale.
-This is k in \code{Y = g(X) = 1 - exp((-x / l) ** k)}.}
 }
 \description{
 This bijector maps inputs from \code{[0, inf]} to \code{[0, 1]}. The inverse of the

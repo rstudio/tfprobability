@@ -22,7 +22,7 @@ efficiently applies a unitary DCT operator. This can be useful for mixing and de
 the innermost event dimension.
 The inverse \code{X = g^{-1}(Y) = IDCT(Y)}, where IDCT is DCT-III for type==2.
 This bijector can be interleaved with Affine bijectors to build a cascade of
-structured efficient linear layers as in \link{Moczulski et al., 2016}.
+structured efficient linear layers as in Moczulski et al., 2016.
 Note that the operator applied is orthonormal (i.e. norm='ortho').
 }
 \section{References}{

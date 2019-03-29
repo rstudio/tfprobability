@@ -20,8 +20,8 @@ Right-most batch dimension indexes components.}
 
 \item{reparameterize}{Logical, default \code{FALSE}. Whether to reparameterize
 samples of the distribution using implicit reparameterization gradients
-\link{(Figurnov et al., 2018)}. The gradients for the mixture logits are
-equivalent to the ones described by \link{(Graves, 2016)}. The gradients
+(Figurnov et al., 2018). The gradients for the mixture logits are
+equivalent to the ones described by (Graves, 2016). The gradients
 for the components parameters are also computed using implicit
 reparameterization (as opposed to ancestral sampling), meaning that
 all components are updated every step.

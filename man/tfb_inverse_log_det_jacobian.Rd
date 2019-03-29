@@ -16,6 +16,8 @@ tfb_inverse_log_det_jacobian(bijector, y, event_ndims,
 Must be greater than or equal to bijector$inverse_min_event_ndims. The result is summed over the final
 dimensions to produce a scalar Jacobian determinant for each event, i.e. it has shape
 x$shape$ndims - event_ndims dimensions.}
+
+\item{name}{name of the operation}
 }
 \description{
 Returns the result of the inverse evaluation of the log determinant of the Jacobian

@@ -33,7 +33,7 @@
 <meta property="og:title" content="Posterior predictive of a variational Gaussian process — tfd_variational_gaussian_process" />
 
 <meta property="og:description" content="This distribution implements the variational Gaussian process (VGP), as
-described in Titsias, 2009 and Hensman, 2013. The VGP is an
+described in Titsias (2009) and Hensman (2013). The VGP is an
 inducing point-based approximation of an exact GP posterior.
 Ultimately, this Distribution class represents a marginal distribution over function values at a
 collection of index_points. It is parameterized by
@@ -114,7 +114,7 @@ distribution over function values at the inducing points, conditional on some ob
     <div class="ref-description">
     
     <p>This distribution implements the variational Gaussian process (VGP), as
-described in Titsias, 2009 and Hensman, 2013. The VGP is an
+described in Titsias (2009) and Hensman (2013). The VGP is an
 inducing point-based approximation of an exact GP posterior.
 Ultimately, this Distribution class represents a marginal distribution over function values at a
 collection of <code>index_points</code>. It is parameterized by</p><ul>
@@ -231,13 +231,13 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A VGP is "trained" by selecting any kernel parameters, the locations of the
-inducing index points, and the variational parameters. Titsias, 2009 and
-Hensman, 2013 describe a variational lower bound on the marginal log
+inducing index points, and the variational parameters. Titsias (2009) and
+Hensman (2013) describe a variational lower bound on the marginal log
 likelihood of observed data, which this class offers through the
 <code>variational_loss</code> method (this is the negative lower bound, for convenience
 when plugging into a TF Optimizer's <code>minimize</code> function).
 Training may be done in minibatches.</p>
-<p>Titsias, 2009 describes a closed form for the optimal variational
+<p>Titsias (2009) describes a closed form for the optimal variational
 parameters, in the case of sufficiently small observational data (ie,
 small enough to fit in memory but big enough to warrant approximating the GP
 posterior). A method to compute these optimal parameters in terms of the full
@@ -283,7 +283,7 @@ we can write</p><pre>f(X) ~ MVN(loc=m(X), cov=K_xx)
 Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
 </pre>
     <p>Posterior inference is possible in analytical closed form but becomes
-intractible as data sizes get large. See Rasmussen, 2006 for details.</p>
+intractible as data sizes get large. See Rasmussen (2006) for details.</p>
 <p>The VGP</p>
 <p>The VGP is an inducing point-based approximation of an exact GP posterior,
 where two approximating assumptions have been made:</p><ol>
@@ -306,8 +306,8 @@ B = K_tt - A @ (K_zz - S S^T) A^T
 <p>Model selection in this framework entails choosing the kernel parameters,
 inducing point locations, and variational parameters. We do this by optimizing
 a variational lower bound on the marginal log likelihood of observed data. The
-lower bound takes the following form (see Titsias, 2009 and
-Hensman, 2013 for details on the derivation):</p><pre>L(Z, m, S, Y) = MVN(loc=
+lower bound takes the following form (see Titsias (2009) and
+Hensman (2013) for details on the derivation):</p><pre>L(Z, m, S, Y) = MVN(loc=
 (K_zx @ K_zz^-1) @ m, scale_diag=sigma).log_prob(Y) -
 (Tr(K_xx - K_zx @ K_zz^-1 @ K_xz) +
 Tr(S @ S^T @ K_zz^1 @ K_zx @ K_xz @ K_zz^-1)) / (2 * sigma^2) -
@@ -318,7 +318,7 @@ function values. This variational lower bound can be computed on minibatches
 of the full data set <code>(X, Y)</code>. A method to compute the <em>negative</em> variational
 lower bound is implemented as <code>VariationalGaussianProcess$variational_loss</code>.</p>
 <p>Optimal variational parameters</p>
-<p>As described in Titsias, 2009, a closed form optimum for the variational
+<p>As described in Titsias (2009), a closed form optimum for the variational
 location and scale parameters, <code>m</code> and <code>S</code>, can be computed when the
 observational data are not prohibitively voluminous. The
 <code>optimal_variational_posterior</code> function to computes the optimal variational

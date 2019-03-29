@@ -11,6 +11,10 @@ tfd_vector_diffeomixture(mix_loc, temperature, distribution, loc = NULL,
   name = "VectorDiffeomixture")
 }
 \arguments{
+\item{mix_loc}{\code{float}-like \code{Tensor} with shape \code{[b1, ..., bB, K-1]}.
+In terms of samples, larger \code{mix_loc[..., k]} ==>
+\code{Z} is more likely to put more weight on its \code{kth} component.}
+
 \item{temperature}{\code{float}-like \code{Tensor}. Broadcastable with \code{mix_loc}.
 In terms of samples, smaller \code{temperature} means one component is more
 likely to dominate.  I.e., smaller \code{temperature} makes the VDM look more
@@ -31,8 +35,21 @@ the \code{k}-th item is \code{NULL}, \code{loc} is implicitly \code{0}.  When sp
 must have shape \code{[B1, ..., Bb, d]} where \code{b >= 0} and \code{d} is the event
 size.}
 
-\item{scale}{loating point tensor; the stddevs of the distribution(s).
-Must contain only positive values.}
+\item{scale}{Length-\code{K} list of \code{LinearOperator}s. Each should be
+positive-definite and operate on a \code{d}-dimensional vector space. The
+\code{k}-th element represents the \code{scale} used for the \code{k}-th affine
+transformation. \code{LinearOperator}s must have shape \code{[B1, ..., Bb, d, d]},
+\code{b >= 0}, i.e., characterizes \code{b}-batches of \code{d x d} matrices}
+
+\item{quadrature_size}{\code{integer} scalar representing number of
+quadrature points.  Larger \code{quadrature_size} means \code{q_N(x)} better
+approximates \code{p(x)}.}
+
+\item{quadrature_fn}{Function taking \code{normal_loc}, \code{normal_scale},
+\code{quadrature_size}, \code{validate_args} and returning \code{tuple(grid, probs)}
+representing the SoftmaxNormal grid and corresponding normalized weight.
+normalized) weight.
+Default value: \code{quadrature_scheme_softmaxnormal_quantiles}.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
@@ -43,33 +60,12 @@ use the value NaN to indicate the result is undefined. When FALSE, an exception 
 one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
-
-\item{mix_loc:}{\code{float}-like \code{Tensor} with shape \code{[b1, ..., bB, K-1]}.
-In terms of samples, larger \code{mix_loc[..., k]} ==>
-\code{Z} is more likely to put more weight on its \code{kth} component.}
-
-\item{scale:}{Length-\code{K} list of \code{LinearOperator}s. Each should be
-positive-definite and operate on a \code{d}-dimensional vector space. The
-\code{k}-th element represents the \code{scale} used for the \code{k}-th affine
-transformation. \code{LinearOperator}s must have shape \code{[B1, ..., Bb, d, d]},
-\code{b >= 0}, i.e., characterizes \code{b}-batches of \code{d x d} matrices}
-
-\item{quadrature_size:}{\code{integer} scalar representing number of
-quadrature points.  Larger \code{quadrature_size} means \code{q_N(x)} better
-approximates \code{p(x)}.}
-
-\item{quadrature_fn:}{Function taking \code{normal_loc}, \code{normal_scale},
-\code{quadrature_size}, \code{validate_args} and returning \code{tuple(grid, probs)}
-representing the SoftmaxNormal grid and corresponding normalized weight.
-normalized) weight.
-Default value: \code{quadrature_scheme_softmaxnormal_quantiles}.}
 }
 \description{
 A vector diffeomixture (VDM) is a distribution parameterized by a convex
 combination of \code{K} component \code{loc} vectors, \code{loc[k], k = 0,...,K-1}, and \code{K}
 \code{scale} matrices \code{scale[k], k = 0,..., K-1}.  It approximates the following
-\link{compound distribution}
-(https://en.wikipedia.org/wiki/Compound_probability_distribution)
+\href{https://en.wikipedia.org/wiki/Compound_probability_distribution}{compound distribution}
 \code{p(x) = int p(x | z) p(z) dz}, where z is in the K-simplex, and
 \code{p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])}
 }
@@ -92,7 +88,7 @@ it a density on the \code{K}-simplex.  That is,
 
 The default quadrature scheme chooses \code{z_{N, n}} as \code{N} midpoints of
 the quantiles of \code{p(z)} (generalized quantiles if \code{K > 2}).
-See \link{Dillon and Langmore (2018)} for more details.
+See Dillon and Langmore (2018) for more details.
 
 About \code{Vector} distributions in TensorFlow.
 

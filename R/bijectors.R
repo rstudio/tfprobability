@@ -341,7 +341,7 @@ tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
 #' the innermost event dimension.
 #' The inverse `X = g^{-1}(Y) = IDCT(Y)`, where IDCT is DCT-III for type==2.
 #' This bijector can be interleaved with Affine bijectors to build a cascade of
-#' structured efficient linear layers as in [Moczulski et al., 2016].
+#' structured efficient linear layers as in Moczulski et al., 2016.
 #' Note that the operator applied is orthonormal (i.e. norm='ortho').
 #'
 #' @section References:
@@ -514,7 +514,7 @@ tfb_invert <- function(bijector,
 
 #' Computes`Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)`, with X in `[0, 1]`
 #'
-#' This bijector maps inputs from [0, 1] to [0, 1]. The inverse of the
+#' This bijector maps inputs from `[0, 1]` to `[0, 1]`. The inverse of the
 #' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 #' random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
 #' `Y ~ Kumaraswamy(a, b)`
@@ -578,7 +578,7 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' must compute each shift (aka loc or "mu" in Germain et al. (2015)])
 #' and log(scale) (aka "alpha" in Germain et al. (2015)) such that ech
 #' are broadcastable with the arguments to forward and inverse, i.e., such
-#' that the calculations in forward, inverse [below] are possible.
+#' that the calculations in forward, inverse below are possible.
 #'
 #' For convenience, masked_autoregressive_default_template is offered as a
 #' possible shift_and_log_scale_fn function. It implements the MADE
@@ -595,19 +595,23 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' Assuming shift_and_log_scale_fn has valid shape and autoregressive semantics,
 #' the forward transformation is
 #'
+#' ```
 #' def forward(x):
 #'    y = zeros_like(x)
 #'    event_size = x.shape[-event_dims:].num_elements()
 #'    for _ in range(event_size):
 #'      shift, log_scale = shift_and_log_scale_fn(y)
 #'      y = x * tf.exp(log_scale) + shift
-#'    return y#'
+#'    return y
+#' ```
 #'
 #' and the inverse transformation is
 #'
+#' ```
 #' def inverse(y):
 #'   shift, log_scale = shift_and_log_scale_fn(y)
-#'   return (y - shift) / tf.exp(log_scale)#'
+#'   return (y - shift) / tf.exp(log_scale)
+#' ```
 #'
 #' Notice that the inverse does not need a for-loop. This is because in the
 #' forward pass each calculation of shift and log_scale is based on the y
@@ -825,7 +829,7 @@ real_nvp_default_template <- function(hidden_layers,
 #' "mu" in Papamakarios et al. (2016) and log(scale) (aka "alpha" in
 #' Papamakarios et al. (2016)) such that each are broadcastable with the
 #' arguments to forward and inverse, i.e., such that the calculations in
-#' forward, inverse [below] are possible. For convenience,
+#' forward, inverse below are possible. For convenience,
 #' real_nvp_default_nvp is offered as a possible shift_and_log_scale_fn function.
 #'
 #' NICE (Dinh et al., 2014) is a special case of the Real NVP bijector
@@ -1171,8 +1175,17 @@ tfb_softmax_centered <- function(validate_args = FALSE,
 #'
 #' The optional nonzero hinge_softness parameter changes the transition at zero.
 #' With hinge_softness = c, the bijector is:
+#'
+#' ````
 #' f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
-#' For large x >> 1, c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x,
+#' ```
+#'
+#' For large x >> 1,
+#'
+#' ```
+#' c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x
+#' ```
+#'
 #' so the behavior for large x is the same as the standard softplus.
 #' As c > 0 approaches 0 from the right, f_c(x) becomes less and less soft,
 #' approaching max(0, x).
@@ -1312,10 +1325,10 @@ tfb_transpose <- function(perm = NULL,
 #' `pdf(y; scale, concentration, y >= 0) = (concentration / scale) * (y / scale)**(concentration - 1) * exp(-(y / scale)**concentration)`
 #'
 #'
-#' @param scale: Positive Float-type Tensor that is the same dtype and is
+#' @param scale Positive Float-type Tensor that is the same dtype and is
 #' broadcastable with concentration.
 #' This is l in `Y = g(X) = 1 - exp((-x / l) ** k)`.
-#' @param concentration: Positive Float-type Tensor that is the same dtype and is
+#' @param concentration Positive Float-type Tensor that is the same dtype and is
 #' broadcastable with scale.
 #' This is k in `Y = g(X) = 1 - exp((-x / l) ** k)`.
 #' @inheritParams tfb_identity

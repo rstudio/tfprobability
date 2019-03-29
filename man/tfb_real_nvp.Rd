@@ -58,7 +58,7 @@ A "valid" shift_and_log_scale_fn must compute each shift (aka loc or
 "mu" in Papamakarios et al. (2016) and log(scale) (aka "alpha" in
 Papamakarios et al. (2016)) such that each are broadcastable with the
 arguments to forward and inverse, i.e., such that the calculations in
-forward, inverse \link{below} are possible. For convenience,
+forward, inverse below are possible. For convenience,
 real_nvp_default_nvp is offered as a possible shift_and_log_scale_fn function.
 
 NICE (Dinh et al., 2014) is a special case of the Real NVP bijector

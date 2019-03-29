@@ -589,8 +589,7 @@ tfd_wishart <- function(df,
 #'
 #' @family distributions
 #' @export
-tfd_von_mises_fisher <- function(df,
-                                 mean_direction,
+tfd_von_mises_fisher <- function(mean_direction,
                                  concentration,
                                  validate_args = FALSE,
                                  allow_nan_stats = TRUE,
@@ -861,9 +860,9 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #' Mathematical Details
 #' The probability density function (pdf) is,
 #' ```
-#' pdf(x; loc, scale) = exp(-||y||_1) / Z,
-#' y = inv(scale) @ (x - loc),
-#' Z = 2**k |det(scale)|,
+#' pdf(x; loc, scale) = exp(-||y||_1) / Z
+#' y = inv(scale) @ (x - loc)
+#' Z = 2**k |det(scale)|
 #' ```
 #' where:
 #' * `loc` is a vector in `R^k`,
@@ -908,7 +907,7 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #' NULL then scale is the Identity.
 #' @param scale_identity_multiplier Non-zero, floating-point Tensor representing
 #' a scaled-identity-matrix added to scale. May have shape
-#' [B1, ..., Bb], b >= 0, and characterizes b-batches of scaled
+#' `[B1, ..., Bb]`, b >= 0, and characterizes b-batches of scaled
 #' k x k identity matrices added to scale. When both
 #' scale_identity_multiplier and scale_diag are NULL then scale is
 #' the Identity.
@@ -998,7 +997,7 @@ tfd_vector_laplace_diag <- function(loc = NULL,
 #' NULL then scale is the Identity.
 #' @param scale_identity_multiplier Non-zero, floating-point Tensor representing
 #' a scaled-identity-matrix added to scale. May have shape
-#' [B1, ..., Bb], b >= 0, and characterizes b-batches of scaled
+#' `[B1, ..., Bb]`, b >= 0, and characterizes b-batches of scaled
 #' k x k identity matrices added to scale. When both
 #' scale_identity_multiplier and scale_diag are NULL then scale is
 #' the Identity.
@@ -1111,8 +1110,7 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #' A vector diffeomixture (VDM) is a distribution parameterized by a convex
 #' combination of `K` component `loc` vectors, `loc[k], k = 0,...,K-1`, and `K`
 #' `scale` matrices `scale[k], k = 0,..., K-1`.  It approximates the following
-#' [compound distribution]
-#' (https://en.wikipedia.org/wiki/Compound_probability_distribution)
+#' [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution)
 #' `p(x) = int p(x | z) p(z) dz`, where z is in the K-simplex, and
 #' `p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])`
 #'
@@ -1134,7 +1132,7 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #'
 #' The default quadrature scheme chooses `z_{N, n}` as `N` midpoints of
 #' the quantiles of `p(z)` (generalized quantiles if `K > 2`).
-#' See [Dillon and Langmore (2018)] for more details.
+#' See Dillon and Langmore (2018) for more details.
 #'
 #' About `Vector` distributions in TensorFlow.
 #'
@@ -1167,7 +1165,7 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #' - [Joshua Dillon and Ian Langmore. Quadrature Compound: An approximating family of distributions.
 #' _arXiv preprint arXiv:1801.03080_, 2018.](https://arxiv.org/abs/1801.03080)
 #'
-#' @param mix_loc: `float`-like `Tensor` with shape `[b1, ..., bB, K-1]`.
+#' @param mix_loc `float`-like `Tensor` with shape `[b1, ..., bB, K-1]`.
 #' In terms of samples, larger `mix_loc[..., k]` ==>
 #'   `Z` is more likely to put more weight on its `kth` component.
 #' @param temperature `float`-like `Tensor`. Broadcastable with `mix_loc`.
@@ -1187,15 +1185,15 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #' the `k`-th item is `NULL`, `loc` is implicitly `0`.  When specified,
 #' must have shape `[B1, ..., Bb, d]` where `b >= 0` and `d` is the event
 #' size.
-#' @param scale: Length-`K` list of `LinearOperator`s. Each should be
+#' @param scale Length-`K` list of `LinearOperator`s. Each should be
 #' positive-definite and operate on a `d`-dimensional vector space. The
 #' `k`-th element represents the `scale` used for the `k`-th affine
 #' transformation. `LinearOperator`s must have shape `[B1, ..., Bb, d, d]`,
 #' `b >= 0`, i.e., characterizes `b`-batches of `d x d` matrices
-#' @param quadrature_size: `integer` scalar representing number of
+#' @param quadrature_size `integer` scalar representing number of
 #' quadrature points.  Larger `quadrature_size` means `q_N(x)` better
 #' approximates `p(x)`.
-#' @param quadrature_fn: Function taking `normal_loc`, `normal_scale`,
+#' @param quadrature_fn Function taking `normal_loc`, `normal_scale`,
 #' `quadrature_size`, `validate_args` and returning `tuple(grid, probs)`
 #' representing the SoftmaxNormal grid and corresponding normalized weight.
 #' normalized) weight.
@@ -1233,7 +1231,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' Posterior predictive of a variational Gaussian process
 #'
 #' This distribution implements the variational Gaussian process (VGP), as
-#' described in [Titsias, 2009] and [Hensman, 2013]. The VGP is an
+#' described in Titsias (2009) and Hensman (2013). The VGP is an
 #' inducing point-based approximation of an exact GP posterior.
 #' Ultimately, this Distribution class represents a marginal distribution over function values at a
 #' collection of `index_points`. It is parameterized by
@@ -1246,14 +1244,14 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' distribution over function values at the inducing points, conditional on some observations.
 #'
 #' A VGP is "trained" by selecting any kernel parameters, the locations of the
-#' inducing index points, and the variational parameters. [Titsias, 2009] and
-#' [Hensman, 2013] describe a variational lower bound on the marginal log
+#' inducing index points, and the variational parameters. Titsias (2009) and
+#' Hensman (2013) describe a variational lower bound on the marginal log
 #' likelihood of observed data, which this class offers through the
 #' `variational_loss` method (this is the negative lower bound, for convenience
 #' when plugging into a TF Optimizer's `minimize` function).
 #' Training may be done in minibatches.
 #'
-#' [Titsias, 2009] describes a closed form for the optimal variational
+#' Titsias (2009) describes a closed form for the optimal variational
 #' parameters, in the case of sufficiently small observational data (ie,
 #' small enough to fit in memory but big enough to warrant approximating the GP
 #' posterior). A method to compute these optimal parameters in terms of the full
@@ -1314,7 +1312,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #'  ```
 #'
 #'  Posterior inference is possible in analytical closed form but becomes
-#'  intractible as data sizes get large. See [Rasmussen, 2006] for details.
+#'  intractible as data sizes get large. See Rasmussen (2006) for details.
 #'
 #'  The VGP
 #'
@@ -1347,8 +1345,8 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #'  Model selection in this framework entails choosing the kernel parameters,
 #'  inducing point locations, and variational parameters. We do this by optimizing
 #'  a variational lower bound on the marginal log likelihood of observed data. The
-#'  lower bound takes the following form (see [Titsias, 2009] and
-#'  [Hensman, 2013] for details on the derivation):
+#'  lower bound takes the following form (see Titsias (2009) and
+#'  Hensman (2013) for details on the derivation):
 #'  ```
 #'  L(Z, m, S, Y) = MVN(loc=
 #'  (K_zx @ K_zz^-1) @ m, scale_diag=sigma).log_prob(Y) -
@@ -1364,7 +1362,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #'
 #'  Optimal variational parameters
 #'
-#'  As described in [Titsias, 2009], a closed form optimum for the variational
+#'  As described in Titsias (2009), a closed form optimum for the variational
 #'  location and scale parameters, `m` and `S`, can be computed when the
 #'  observational data are not prohibitively voluminous. The
 #'  `optimal_variational_posterior` function to computes the optimal variational
@@ -1981,56 +1979,55 @@ tfd_poisson <- function(rate = NULL,
 #' `PoissonLogNormalQuadratureCompound` distribution
 #'
 #' The `PoissonLogNormalQuadratureCompound` is an approximation to a
-#' Poisson-LogNormal [compound distribution](
-#'  https://en.wikipedia.org/wiki/Compound_probability_distribution), i.e.,
-#'  ```
-#'  p(k|loc, scale) = int_{R_+} dl LogNormal(l | loc, scale) Poisson(k | l)
-#'  approx= sum{ prob[d] Poisson(k | lambda(grid[d])) : d=0, ..., deg-1 }
-#'  ```
+#' Poisson-LogNormal [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution), i.e.,
+#' ```
+#' p(k|loc, scale) = int_{R_+} dl LogNormal(l | loc, scale) Poisson(k | l)
+#' approx= sum{ prob[d] Poisson(k | lambda(grid[d])) : d=0, ..., deg-1 }
+#' ```
 #'
-#'  By default, the `grid` is chosen as quantiles of the `LogNormal` distribution
-#'  parameterized by `loc`, `scale` and the `prob` vector is
-#'  `[1. / quadrature_size]*quadrature_size`.
+#' By default, the `grid` is chosen as quantiles of the `LogNormal` distribution
+#' parameterized by `loc`, `scale` and the `prob` vector is
+#' `[1. / quadrature_size]*quadrature_size`.
 #'
-#'  In the non-approximation case, a draw from the LogNormal prior represents the
-#'  Poisson rate parameter. Unfortunately, the non-approximate distribution lacks
-#'  an analytical probability density function (pdf). Therefore the
-#'  `PoissonLogNormalQuadratureCompound` class implements an approximation based
-#'  on [quadrature](https://en.wikipedia.org/wiki/Numerical_integration).
-#'  Note: although the `PoissonLogNormalQuadratureCompound` is approximately the
-#'  Poisson-LogNormal compound distribution, it is itself a valid distribution.
-#'  Viz., it possesses a `sample`, `log_prob`, `mean`, `variance`, etc. which are
-#'  all mutually consistent.
+#' In the non-approximation case, a draw from the LogNormal prior represents the
+#' Poisson rate parameter. Unfortunately, the non-approximate distribution lacks
+#' an analytical probability density function (pdf). Therefore the
+#' `PoissonLogNormalQuadratureCompound` class implements an approximation based
+#' on [quadrature](https://en.wikipedia.org/wiki/Numerical_integration).
+#' Note: although the `PoissonLogNormalQuadratureCompound` is approximately the
+#' Poisson-LogNormal compound distribution, it is itself a valid distribution.
+#' Viz., it possesses a `sample`, `log_prob`, `mean`, `variance`, etc. which are
+#' all mutually consistent.
 #'
-#'  Mathematical Details
+#' Mathematical Details
 #'
-#'  The `PoissonLogNormalQuadratureCompound` approximates a Poisson-LogNormal
-#'  [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution).
-#'  Using variable-substitution and [numerical quadrature](
-#'  https://en.wikipedia.org/wiki/Numerical_integration) (default:
-#'  based on `LogNormal` quantiles) we can redefine the distribution to be a
-#'  parameter-less convex combination of `deg` different Poisson samples.
-#'  That is, defined over positive integers, this distribution is parameterized
-#'  by a (batch of) `loc` and `scale` scalars.
+#' The `PoissonLogNormalQuadratureCompound` approximates a Poisson-LogNormal
+#' [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution).
+#' Using variable-substitution and [numerical quadrature](
+#' https://en.wikipedia.org/wiki/Numerical_integration) (default:
+#' based on `LogNormal` quantiles) we can redefine the distribution to be a
+#' parameter-less convex combination of `deg` different Poisson samples.
+#' That is, defined over positive integers, this distribution is parameterized
+#' by a (batch of) `loc` and `scale` scalars.
 #'
-#'  The probability density function (pdf) is,
-#'  ```
-#'  pdf(k | loc, scale, deg) = sum{ prob[d] Poisson(k | lambda=exp(grid[d])) : d=0, ..., deg-1 }
-#'  ```
-#'  Note: `probs` returned by (optional) `quadrature_fn` are presumed to be
-#'  either a length-`quadrature_size` vector or a batch of vectors in 1-to-1
-#'  correspondence with the returned `grid`. (I.e., broadcasting is only partially supported.)
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(k | loc, scale, deg) = sum{ prob[d] Poisson(k | lambda=exp(grid[d])) : d=0, ..., deg-1 }
+#' ```
+#' Note: `probs` returned by (optional) `quadrature_fn` are presumed to be
+#' either a length-`quadrature_size` vector or a batch of vectors in 1-to-1
+#' correspondence with the returned `grid`. (I.e., broadcasting is only partially supported.)
 #'
-#'  @param loc `float`-like (batch of) scalar `Tensor`; the location parameter of
-#'  the LogNormal prior.
-#'  @param scale `float`-like (batch of) scalar `Tensor`; the scale parameter of
-#'  the LogNormal prior.
-#'  @param quadrature_size  `integer` scalar representing the number of quadrature
-#'  points.
-#'  @param  quadrature_fn Function taking `loc`, `scale`,
-#'  `quadrature_size`, `validate_args` and returning `tuple(grid, probs)`
-#'  representing the LogNormal grid and corresponding normalized weight.
-#'  Default value: `quadrature_scheme_lognormal_quantiles`.
+#' @param loc `float`-like (batch of) scalar `Tensor`; the location parameter of
+#' the LogNormal prior.
+#' @param scale `float`-like (batch of) scalar `Tensor`; the scale parameter of
+#' the LogNormal prior.
+#' @param quadrature_size  `integer` scalar representing the number of quadrature
+#' points.
+#' @param  quadrature_fn Function taking `loc`, `scale`,
+#' `quadrature_size`, `validate_args` and returning `tuple(grid, probs)`
+#' representing the LogNormal grid and corresponding normalized weight.
+#' Default value: `quadrature_scheme_lognormal_quantiles`.
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -2680,8 +2677,8 @@ tfd_categorical <- function(logits = NULL,
 #' Right-most batch dimension indexes components.
 #' @param reparameterize Logical, default `FALSE`. Whether to reparameterize
 #' samples of the distribution using implicit reparameterization gradients
-#' [(Figurnov et al., 2018)]. The gradients for the mixture logits are
-#' equivalent to the ones described by [(Graves, 2016)]. The gradients
+#' (Figurnov et al., 2018). The gradients for the mixture logits are
+#' equivalent to the ones described by (Graves, 2016). The gradients
 #' for the components parameters are also computed using implicit
 #' reparameterization (as opposed to ancestral sampling), meaning that
 #' all components are updated every step.
@@ -2799,7 +2796,7 @@ tfd_logistic <- function(loc,
 #' the special case `eta = 1`.
 #'
 #' The distribution is named after Lewandowski, Kurowicka, and Joe, who gave a
-#' sampler for the distribution in [(Lewandowski, Kurowicka, Joe, 2009)].
+#' sampler for the distribution in Lewandowski, Kurowicka, Joe, 2009.
 
 #' @param dimension  `integer`. The dimension of the correlation matrices
 #' to sample.
@@ -2912,13 +2909,13 @@ tfd_lkj <- function(dimension,
 #' or by a callable taking as argument a scalar integer Tensor
 #' `t` and returning a timestep-specific Tensor or LinearOperator.
 #' @param observation_noise An instance of `tfd.MultivariateNormalLinearOperator`
-#'  with event shape `[observation_size]`, representing the mean and covariance of
-#'  the observation noise model, or a callable taking as argument
-#'  a scalar integer Tensor `t` and returning a timestep-specific
-#'  noise model.
-#'  @param initial_state_prior An instance of `MultivariateNormalLinearOperator`
-#'  representing the prior distribution on latent states; must
-#'  have event shape `[latent_size]`.
+#' with event shape `[observation_size]`, representing the mean and covariance of
+#' the observation noise model, or a callable taking as argument
+#' a scalar integer Tensor `t` and returning a timestep-specific
+#' noise model.
+#' @param initial_state_prior An instance of `MultivariateNormalLinearOperator`
+#' representing the prior distribution on latent states; must
+#' have event shape `[latent_size]`.
 #' @param initial_step optional `integer` specifying the time of the first
 #' modeled timestep.  This is added as an offset when passing
 #' timesteps `t` to (optional) callables specifying
@@ -3070,16 +3067,16 @@ tfd_kumaraswamy <- function(concentration1 = 1,
 #' Each `list` element implements the `i`-th *full conditional distribution*,
 #' `p(x[i] | x[:i])`. The "conditioned on" elements are represented by the
 #' `callable`'s required arguments. Directly providing a `Distribution`-like
-#'  instance is a convenience and is semantically identical a zero argument
-#'  `callable`.
-#'  Denote the `i`-th `callable`s non-default arguments as `args[i]`. Since the
-#'  `callable` is the conditional manifest, `0 <= len(args[i]) <= i - 1`. When
-#'  `len(args[i]) < i - 1`, the `callable` only depends on a subset of the
-#'  previous distributions, specifically those at indexes:
-#'  `range(i - 1, i - 1 - num_args[i], -1)`.
-#'  @param  distribution_fn  list of either `tfp$distributions$Distribution` instances and/or
-#'  functions which take the `k` previous distributions and returns a
-#'  new `tfp$distributions$Distribution` instance.
+#'  nstance is a convenience and is semantically identical a zero argument
+#' `callable`.
+#' Denote the `i`-th `callable`s non-default arguments as `args[i]`. Since the
+#' `callable` is the conditional manifest, `0 <= len(args[i]) <= i - 1`. When
+#' `len(args[i]) < i - 1`, the `callable` only depends on a subset of the
+#' previous distributions, specifically those at indexes:
+#' `range(i - 1, i - 1 - num_args[i], -1)`.
+#' @param  distribution_fn  list of either `tfp$distributions$Distribution` instances and/or
+#' functions which take the `k` previous distributions and returns a
+#' new `tfp$distributions$Distribution` instance.
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -3183,7 +3180,7 @@ tfd_exponential <- function(rate,
 #' `rate` is very large. See note in `tf$random_gamma` docstring.
 #' Samples of this distribution are reparameterized (pathwise differentiable).
 #' The derivatives are computed using the approach described in the paper
-#' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498
+#' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
 #' @param concentration Floating point tensor, the concentration params of the
 #' distribution(s). Must contain only positive values.
 #' @param rate Floating point tensor, the inverse scale params of the
@@ -3210,7 +3207,7 @@ tfd_gamma <- function(concentration,
 
 #' Inverse Gaussian distribution
 #'
-#' The [inverse Gaussian distribution] (https://en.wikipedia.org/wiki/Inverse_Gaussian_distribution)
+#' The [inverse Gaussian distribution](https://en.wikipedia.org/wiki/Inverse_Gaussian_distribution)
 #' is parameterized by a `loc` and a `concentration` parameter. It's also known
 #' as the Wald distribution. Some, e.g., the Python scipy package, refer to the
 #' special case when `loc` is 1 as the Wald distribution.
@@ -3306,6 +3303,10 @@ tfd_inverse_gaussian <- function(loc,
 #' Samples of this distribution are reparameterized (pathwise differentiable).
 #' The derivatives are computed using the approach described in the paper
 #' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
+#' @param concentration Floating point tensor, the concentration params of the
+#' distribution(s). Must contain only positive values.
+#' @param rate Floating point tensor, the scale params of the distribution(s).
+#' Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
@@ -3410,7 +3411,7 @@ tfd_horseshoe <- function(scale,
 #' @param transition_distribution A `Categorical`-like instance.
 #' The rightmost batch dimension indexes the probability distribution
 #' of each hidden state conditioned on the previous hidden state.
-#' observation_distribution: A `tfp$distributions$Distribution`-like
+#' @param observation_distribution A `tfp$distributions$Distribution`-like
 #' instance.  The rightmost batch dimension indexes the distribution
 #' of each observation conditioned on the corresponding hidden state.
 #' @param num_steps The number of steps taken in Markov chain. An `integer`.
@@ -4062,7 +4063,7 @@ tfd_dirichlet_multinomial <- function(total_count,
 
 #' Scalar `Deterministic` distribution on the real line
 #'
-#' The scalar `Deterministic` distribution is parameterized by a [batch] point
+#' The scalar `Deterministic` distribution is parameterized by a (batch) point
 #' `loc` on the real line.  The distribution is supported at this point only,
 #' and corresponds to a random variable that is constant, equal to `loc`.
 #' See [Degenerate rv](https://en.wikipedia.org/wiki/Degenerate_distribution).
@@ -4106,7 +4107,7 @@ tfd_deterministic <- function(loc,
 
 #' Empirical distribution
 #'
-#' The Empirical distribution is parameterized by a [batch] multiset of samples.
+#' The Empirical distribution is parameterized by a (batch) multiset of samples.
 #' It describes the empirical measure (observations) of a variable.
 #' Note: some methods (log_prob, prob, cdf, mode, entropy) are not differentiable
 #' with regard to samples.
@@ -4120,7 +4121,7 @@ tfd_deterministic <- function(loc,
 #' cdf(k; s1, ..., sn) = sum_i I(k)^{k >= si} / n
 #' I(k)^{k >= si} == 1, if k >= si, else 0.
 #' ```
-#' @param samples Numeric `Tensor` of shape [B1, ..., Bk, S, E1, ..., En]`,
+#' @param samples Numeric `Tensor` of shape `[B1, ..., Bk, S, E1, ..., En]`,
 #' `k, n >= 0`. Samples or batches of samples on which the distribution
 #' is based. The first `k` dimensions index into a batch of independent
 #' distributions. Length of `S` dimension determines number of samples

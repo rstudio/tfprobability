@@ -111,7 +111,7 @@ tfd_mean <- function(distribution, name = "mean") {
 
 #' Quantile function. Aka "inverse cdf" or "percent point function".
 #'
-#' Given random variable X and p in [0, 1], the quantile is:
+#' Given random variable X and p in `[0, 1]`, the quantile is:
 #' `tfd_quantile(p) := x` such that `P[X <= x] == p`
 #'
 #' @inherit tfd_log_prob return params
@@ -207,8 +207,8 @@ tfd_cross_entropy <- function(distribution, other, name = "cross_entropy") {
 #' Assuming p, q are absolutely continuous with respect to reference measure r,
 #' the KL divergence is defined as:
 #' `KL[p, q] = E_p[log(p(X)/q(X))] = -int_F p(x) log q(x) dr(x) + int_F p(x) log p(x) dr(x) = H[p, q] - H[p]`
-#' where F denotes the support of the random variable X ~ p, H[., .]
-#' denotes (Shannon) cross entropy, and H[.] denotes (Shannon) entropy.
+#' where F denotes the support of the random variable `X ~ p`, `H[., .]`
+#' denotes (Shannon) cross entropy, and `H[.]` denotes (Shannon) entropy.
 #'
 #' @param distribution The distribution being used.
 #' @param other `tfp$distributions$Distribution` instance.

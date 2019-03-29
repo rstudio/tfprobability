@@ -34,8 +34,9 @@ or by a callable taking as argument a scalar integer Tensor
 with event shape \code{[observation_size]}, representing the mean and covariance of
 the observation noise model, or a callable taking as argument
 a scalar integer Tensor \code{t} and returning a timestep-specific
-noise model.
-@param initial_state_prior An instance of \code{MultivariateNormalLinearOperator}
+noise model.}
+
+\item{initial_state_prior}{An instance of \code{MultivariateNormalLinearOperator}
 representing the prior distribution on latent states; must
 have event shape \code{[latent_size]}.}
 

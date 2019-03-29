@@ -17,7 +17,7 @@ tfd_quantile(distribution, value, name = "quantile")
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
 }
 \description{
-Given random variable X and p in \link{0, 1}, the quantile is:
+Given random variable X and p in \code{[0, 1]}, the quantile is:
 \code{tfd_quantile(p) := x} such that \code{P[X <= x] == p}
 }
 \seealso{

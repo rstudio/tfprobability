@@ -22,8 +22,8 @@ Denote this distribution by p and the other distribution by q.
 Assuming p, q are absolutely continuous with respect to reference measure r,
 the KL divergence is defined as:
 \code{KL[p, q] = E_p[log(p(X)/q(X))] = -int_F p(x) log q(x) dr(x) + int_F p(x) log p(x) dr(x) = H[p, q] - H[p]}
-where F denotes the support of the random variable X ~ p, H\link{., .}
-denotes (Shannon) cross entropy, and H\link{.} denotes (Shannon) entropy.
+where F denotes the support of the random variable \code{X ~ p}, \code{H[., .]}
+denotes (Shannon) cross entropy, and \code{H[.]} denotes (Shannon) entropy.
 }
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},

@@ -18,8 +18,9 @@ dimension of \code{observation_distribution}.}
 
 \item{transition_distribution}{A \code{Categorical}-like instance.
 The rightmost batch dimension indexes the probability distribution
-of each hidden state conditioned on the previous hidden state.
-observation_distribution: A \code{tfp$distributions$Distribution}-like
+of each hidden state conditioned on the previous hidden state.}
+
+\item{observation_distribution}{A \code{tfp$distributions$Distribution}-like
 instance.  The rightmost batch dimension indexes the distribution
 of each observation conditioned on the corresponding hidden state.}
 

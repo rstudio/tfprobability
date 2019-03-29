@@ -122,12 +122,25 @@ approx= sum{ prob[d] Poisson(k | lambda(grid[d])) : d=0, ..., deg-1 }
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>loc</th>
-      <td><p>Floating point tensor; the means of the distribution(s).</p></td>
+      <td><p><code>float</code>-like (batch of) scalar <code>Tensor</code>; the location parameter of
+the LogNormal prior.</p></td>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>loating point tensor; the stddevs of the distribution(s).
-Must contain only positive values.</p></td>
+      <td><p><code>float</code>-like (batch of) scalar <code>Tensor</code>; the scale parameter of
+the LogNormal prior.</p></td>
+    </tr>
+    <tr>
+      <th>quadrature_size</th>
+      <td><p><code>integer</code> scalar representing the number of quadrature
+points.</p></td>
+    </tr>
+    <tr>
+      <th>quadrature_fn</th>
+      <td><p>Function taking <code>loc</code>, <code>scale</code>,
+<code>quadrature_size</code>, <code>validate_args</code> and returning <code>tuple(grid, probs)</code>
+representing the LogNormal grid and corresponding normalized weight.
+Default value: <code>quadrature_scheme_lognormal_quantiles</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -174,16 +187,6 @@ by a (batch of) <code>loc</code> and <code>scale</code> scalars.</p>
     <p>Note: <code>probs</code> returned by (optional) <code>quadrature_fn</code> are presumed to be
 either a length-<code>quadrature_size</code> vector or a batch of vectors in 1-to-1
 correspondence with the returned <code>grid</code>. (I.e., broadcasting is only partially supported.)</p>
-<p>@param loc <code>float</code>-like (batch of) scalar <code>Tensor</code>; the location parameter of
-the LogNormal prior.
-@param scale <code>float</code>-like (batch of) scalar <code>Tensor</code>; the scale parameter of
-the LogNormal prior.
-@param quadrature_size  <code>integer</code> scalar representing the number of quadrature
-points.
-@param  quadrature_fn Function taking <code>loc</code>, <code>scale</code>,
-<code>quadrature_size</code>, <code>validate_args</code> and returning <code>tuple(grid, probs)</code>
-representing the LogNormal grid and corresponding normalized weight.
-Default value: <code>quadrature_scheme_lognormal_quantiles</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

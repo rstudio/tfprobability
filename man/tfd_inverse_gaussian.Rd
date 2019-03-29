@@ -23,7 +23,7 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-The \link{inverse Gaussian distribution} (https://en.wikipedia.org/wiki/Inverse_Gaussian_distribution)
+The \href{https://en.wikipedia.org/wiki/Inverse_Gaussian_distribution}{inverse Gaussian distribution}
 is parameterized by a \code{loc} and a \code{concentration} parameter. It's also known
 as the Wald distribution. Some, e.g., the Python scipy package, refer to the
 special case when \code{loc} is 1 as the Wald distribution.

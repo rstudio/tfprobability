@@ -20,7 +20,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This bijector maps inputs from \link{0, 1} to \link{0, 1}. The inverse of the
+This bijector maps inputs from \code{[0, 1]} to \code{[0, 1]}. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 random variable with the \href{https://en.wikipedia.org/wiki/Kumaraswamy_distribution}{Kumaraswamy distribution}:
 \code{Y ~ Kumaraswamy(a, b)}

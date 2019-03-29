@@ -114,6 +114,16 @@ parameters <code>concentration</code> (aka "alpha") and <code>scale</code> (aka 
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>concentration</th>
+      <td><p>Floating point tensor, the concentration params of the
+distribution(s). Must contain only positive values.</p></td>
+    </tr>
+    <tr>
+      <th>rate</th>
+      <td><p>Floating point tensor, the scale params of the distribution(s).
+Must contain only positive values.</p></td>
+    </tr>
+    <tr>
       <th>validate_args</th>
       <td><p>Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may

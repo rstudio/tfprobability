@@ -44,7 +44,7 @@ the special case \code{eta = 1}.
 }
 \details{
 The distribution is named after Lewandowski, Kurowicka, and Joe, who gave a
-sampler for the distribution in \link{(Lewandowski, Kurowicka, Joe, 2009)}.
+sampler for the distribution in Lewandowski, Kurowicka, Joe, 2009.
 }
 \seealso{
 Other distributions: \code{\link{tfd_autoregressive}},

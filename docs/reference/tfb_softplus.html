@@ -136,18 +136,24 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The optional nonzero hinge_softness parameter changes the transition at zero.
-With hinge_softness = c, the bijector is:
-f_c(x) := c * g(x / c) = c * Log1 + exp(x / c).
-For large x &gt;&gt; 1, c * Log1 + exp(x / c) approx c * Logexp(x / c) = x,
-so the behavior for large x is the same as the standard softplus.
+With hinge_softness = c, the bijector is:</p><pre>f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
+```
+    For large x &gt;&gt; 1,
+    ```
+c * Log[1 + exp(x / c)] approx c * Log[exp(x / c)] = x
+```
+    so the behavior for large x is the same as the standard softplus.
 As c &gt; 0 approaches 0 from the right, f_c(x) becomes less and less soft,
-approaching max(0, x).</p><ul>
-<li><p>c = 1 is the default.</p></li>
-<li><p>c &gt; 0 but small means f(x) approx ReLu(x) = max(0, x).</p></li>
-<li><p>c &lt; 0 flips sign and reflects around the y-axis: f_-c(x) = -f_c(-x).</p></li>
-<li><p>c = 0 results in a non-bijective transformation and triggers an exception.
-Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.</p></li>
-</ul>
+approaching max(0, x).
+* c = 1 is the default.
+* c &gt; 0 but small means f(x) approx ReLu(x) = max(0, x).
+* c &lt; 0 flips sign and reflects around the y-axis: f_{-c}(x) = -f_c(-x).
+* c = 0 results in a non-bijective transformation and triggers an exception.
+Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction over the event space.
+    [1 + exp(x / c)]: R:1%20+%20exp(x%20/%20c)
+[1 + exp(x / c)]: R:1%20+%20exp(x%20/%20c)
+[exp(x / c)]: R:exp(x%20/%20c)
+</pre>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

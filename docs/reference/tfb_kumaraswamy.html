@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Computes<code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code>, with X in <code>[0, 1]</code> — tfb_kumaraswamy" />
 
-<meta property="og:description" content="This bijector maps inputs from 0, 1 to 0, 1. The inverse of the
+<meta property="og:description" content="This bijector maps inputs from [0, 1] to [0, 1]. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 random variable with the Kumaraswamy distribution:
 Y ~ Kumaraswamy(a, b)
@@ -105,7 +105,7 @@ pdf(y; a, b, 0 &amp;lt;= y &amp;lt;= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (
 
     <div class="ref-description">
     
-    <p>This bijector maps inputs from 0, 1 to 0, 1. The inverse of the
+    <p>This bijector maps inputs from <code>[0, 1]</code> to <code>[0, 1]</code>. The inverse of the
 bijector applied to a uniform random variable X ~ U(0, 1) gives back a
 random variable with the <a href='https://en.wikipedia.org/wiki/Kumaraswamy_distribution'>Kumaraswamy distribution</a>:
 <code>Y ~ Kumaraswamy(a, b)</code>

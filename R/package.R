@@ -1,6 +1,8 @@
 # globals
 .globals <- new.env(parent = emptyenv())
 
+#' Handle to the `tensorflow_probability` module
+#'
 #' @export
 tfp <- NULL
 

@@ -61,7 +61,7 @@ This should only be noticeable when the \code{concentration} is very small, or t
 \code{rate} is very large. See note in \code{tf$random_gamma} docstring.
 Samples of this distribution are reparameterized (pathwise differentiable).
 The derivatives are computed using the approach described in the paper
-\link{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018}(https://arxiv.org/abs/1805.08498
+\href{https://arxiv.org/abs/1805.08498}{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018}
 }
 \seealso{
 Other distributions: \code{\link{tfd_autoregressive}},

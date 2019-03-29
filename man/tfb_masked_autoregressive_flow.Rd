@@ -67,7 +67,7 @@ Given a shift_and_log_scale_fn, the forward and inverse transformations are
 must compute each shift (aka loc or "mu" in Germain et al. (2015)])
 and log(scale) (aka "alpha" in Germain et al. (2015)) such that ech
 are broadcastable with the arguments to forward and inverse, i.e., such
-that the calculations in forward, inverse \link{below} are possible.
+that the calculations in forward, inverse below are possible.
 
 For convenience, masked_autoregressive_default_template is offered as a
 possible shift_and_log_scale_fn function. It implements the MADE
@@ -82,21 +82,19 @@ Warning: no attempt is made to validate that the shift_and_log_scale_fn
 enforces the "autoregressive property".
 
 Assuming shift_and_log_scale_fn has valid shape and autoregressive semantics,
-the forward transformation is
+the forward transformation is\preformatted{def forward(x):
+   y = zeros_like(x)
+   event_size = x.shape[-event_dims:].num_elements()
+   for _ in range(event_size):
+     shift, log_scale = shift_and_log_scale_fn(y)
+     y = x * tf.exp(log_scale) + shift
+   return y
+}
 
-def forward(x):
-y = zeros_like(x)
-event_size = x.shape\link{-event_dims:}.num_elements()
-for _ in range(event_size):
-shift, log_scale = shift_and_log_scale_fn(y)
-y = x * tf.exp(log_scale) + shift
-return y#'
-
-and the inverse transformation is
-
-def inverse(y):
-shift, log_scale = shift_and_log_scale_fn(y)
-return (y - shift) / tf.exp(log_scale)#'
+and the inverse transformation is\preformatted{def inverse(y):
+  shift, log_scale = shift_and_log_scale_fn(y)
+  return (y - shift) / tf.exp(log_scale)
+}
 
 Notice that the inverse does not need a for-loop. This is because in the
 forward pass each calculation of shift and log_scale is based on the y

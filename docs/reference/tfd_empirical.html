@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Empirical distribution — tfd_empirical" />
 
-<meta property="og:description" content="The Empirical distribution is parameterized by a batch multiset of samples.
+<meta property="og:description" content="The Empirical distribution is parameterized by a (batch) multiset of samples.
 It describes the empirical measure (observations) of a variable.
 Note: some methods (log_prob, prob, cdf, mode, entropy) are not differentiable
 with regard to samples." />
@@ -104,7 +104,7 @@ with regard to samples." />
 
     <div class="ref-description">
     
-    <p>The Empirical distribution is parameterized by a batch multiset of samples.
+    <p>The Empirical distribution is parameterized by a (batch) multiset of samples.
 It describes the empirical measure (observations) of a variable.
 Note: some methods (log_prob, prob, cdf, mode, entropy) are not differentiable
 with regard to samples.</p>
@@ -119,7 +119,11 @@ with regard to samples.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>samples</th>
-      <td><p>Numeric <code>Tensor</code> of shape B1, ..., Bk, S, E1, ..., En<code>, </code>k, n &gt;= 0<code>. Samples or batches of samples on which the distribution is based. The first </code>k<code>dimensions index into a batch of independent distributions. Length of</code>S<code>dimension determines number of samples in each multiset. The last</code>n` dimension represents samples for each
+      <td><p>Numeric <code>Tensor</code> of shape <code>[B1, ..., Bk, S, E1, ..., En]</code>,
+<code>k, n &gt;= 0</code>. Samples or batches of samples on which the distribution
+is based. The first <code>k</code> dimensions index into a batch of independent
+distributions. Length of <code>S</code> dimension determines number of samples
+in each multiset. The last <code>n</code> dimension represents samples for each
 distribution. n is specified by argument event_ndims.</p></td>
     </tr>
     <tr>

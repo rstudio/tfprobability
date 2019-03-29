@@ -11,10 +11,19 @@ tfd_poisson_log_normal_quadrature_compound(loc, scale,
   name = "PoissonLogNormalQuadratureCompound")
 }
 \arguments{
-\item{loc}{Floating point tensor; the means of the distribution(s).}
+\item{loc}{\code{float}-like (batch of) scalar \code{Tensor}; the location parameter of
+the LogNormal prior.}
 
-\item{scale}{loating point tensor; the stddevs of the distribution(s).
-Must contain only positive values.}
+\item{scale}{\code{float}-like (batch of) scalar \code{Tensor}; the scale parameter of
+the LogNormal prior.}
+
+\item{quadrature_size}{\code{integer} scalar representing the number of quadrature
+points.}
+
+\item{quadrature_fn}{Function taking \code{loc}, \code{scale},
+\code{quadrature_size}, \code{validate_args} and returning \code{tuple(grid, probs)}
+representing the LogNormal grid and corresponding normalized weight.
+Default value: \code{quadrature_scheme_lognormal_quantiles}.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
@@ -63,17 +72,6 @@ The probability density function (pdf) is,\preformatted{pdf(k | loc, scale, deg)
 Note: \code{probs} returned by (optional) \code{quadrature_fn} are presumed to be
 either a length-\code{quadrature_size} vector or a batch of vectors in 1-to-1
 correspondence with the returned \code{grid}. (I.e., broadcasting is only partially supported.)
-
-@param loc \code{float}-like (batch of) scalar \code{Tensor}; the location parameter of
-the LogNormal prior.
-@param scale \code{float}-like (batch of) scalar \code{Tensor}; the scale parameter of
-the LogNormal prior.
-@param quadrature_size  \code{integer} scalar representing the number of quadrature
-points.
-@param  quadrature_fn Function taking \code{loc}, \code{scale},
-\code{quadrature_size}, \code{validate_args} and returning \code{tuple(grid, probs)}
-representing the LogNormal grid and corresponding normalized weight.
-Default value: \code{quadrature_scheme_lognormal_quantiles}.
 }
 \seealso{
 Other distributions: \code{\link{tfd_autoregressive}},
