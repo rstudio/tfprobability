@@ -1,0 +1,40 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+language: r
+
+dist: trusty
+sudo: false
+warnings_are_errors: false
+
+cache:
+  packages: true
+  directories:
+    - $HOME/.cache/pip
+
+matrix:
+  include:
+    - name: "tf-stable"
+      env: TENSORFLOW_VERSION="1.13.1"
+    - name: "2.0-preview"
+      env:
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/ba/98/b0b9b83c9eddb9a112e0f928481c78232e1675397ccc717d1dcd92b8544b/tf_nightly_2.0_preview-2.0.0.dev20190319-cp27-cp27mu-manylinux1_x86_64.whl"
+        - TENSORFLOW_TEST_EXAMPLES=""
+    - name: "nightly"
+      env:
+        - TENSORFLOW_VERSION="nightly"
+        - TENSORFLOW_PYTHON="/usr/bin/python3"
+  allow_failures:
+    - name: "2.0-preview"
+      env:
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/ba/98/b0b9b83c9eddb9a112e0f928481c78232e1675397ccc717d1dcd92b8544b/tf_nightly_2.0_preview-2.0.0.dev20190319-cp27-cp27mu-manylinux1_x86_64.whl"
+        - TENSORFLOW_TEST_EXAMPLES=""
+    - name: "nightly"
+      env:
+        - TENSORFLOW_VERSION="nightly"
+        - TENSORFLOW_PYTHON="/usr/bin/python3"
+
+before_script:
+  - sudo apt-get update
+  - sudo apt-get install python3
+  - pip install --upgrade --ignore-installed --user travis virtualenv
+  - R CMD INSTALL .
+  - R -e 'tensorflow::install_tensorflow(version = Sys.getenv("TENSORFLOW_VERSION"))'
