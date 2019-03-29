@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Logistic distribution with location <code>loc</code> and <code>scale</code> parameters — tfd_logistic • tfprobability</title>
+<title>Marginal distribution of a Gaussian process at finitely many points. — tfd_gaussian_process • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,14 @@
 
 
 
-<meta property="og:title" content="Logistic distribution with location <code>loc</code> and <code>scale</code> parameters — tfd_logistic" />
+<meta property="og:title" content="Marginal distribution of a Gaussian process at finitely many points. — tfd_gaussian_process" />
 
-<meta property="og:description" content="Mathematical details" />
+<meta property="og:description" content="A Gaussian process (GP) is an indexed collection of random variables, any
+finite collection of which are jointly Gaussian. While this definition applies
+to finite index sets, it is typically implicit that the index set is infinite;
+in applications, it is often some finite dimensional real or complex vector
+space. In such cases, the GP may be thought of as a distribution over
+(real- or complex-valued) functions defined over the index set." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,31 +99,67 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Logistic distribution with location <code>loc</code> and <code>scale</code> parameters</h1>
+    <h1>Marginal distribution of a Gaussian process at finitely many points.</h1>
     
-    <div class="hidden name"><code>tfd_logistic.Rd</code></div>
+    <div class="hidden name"><code>tfd_gaussian_process.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Mathematical details</p>
+    <p>A Gaussian process (GP) is an indexed collection of random variables, any
+finite collection of which are jointly Gaussian. While this definition applies
+to finite index sets, it is typically implicit that the index set is infinite;
+in applications, it is often some finite dimensional real or complex vector
+space. In such cases, the GP may be thought of as a distribution over
+(real- or complex-valued) functions defined over the index set.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_logistic</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Logistic"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_gaussian_process</span>(<span class='no'>kernel</span>, <span class='no'>index_points</span>, <span class='kw'>mean_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>observation_noise_variance</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"GaussianProcess"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>loc</th>
-      <td><p>Floating point tensor, the means of the distribution(s).</p></td>
+      <th>kernel</th>
+      <td><p><code>PositiveSemidefiniteKernel</code>-like instance representing the
+GP's covariance function.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>Floating point tensor, the scales of the distribution(s). Must
-contain only positive values.</p></td>
+      <th>index_points</th>
+      <td><p><code>float</code> <code>Tensor</code> representing finite (batch of) vector(s) of
+points in the index set over which the GP is defined. Shape has the
+form <code>[b1, ..., bB, e1, f1, ..., fF]</code> where <code>F</code> is the number of feature
+dimensions and must equal <code>kernel$feature_ndims</code> and <code>e1</code> is the number
+(size) of index points in each batch (we denote it <code>e1</code> to distinguish
+it from the numer of inducing index points, denoted <code>e2</code> below).
+Ultimately the GaussianProcess distribution corresponds to an
+<code>e1</code>-dimensional multivariate normal. The batch shape must be
+broadcastable with <code>kernel$batch_shape</code>, the batch shape of
+<code>inducing_index_points</code>, and any batch dims yielded by <code>mean_fn</code>.</p></td>
+    </tr>
+    <tr>
+      <th>mean_fn</th>
+      <td><p>function that acts on index points to produce a (batch
+of) vector(s) of mean values at those index points. Takes a <code>Tensor</code> of
+shape <code>[b1, ..., bB, f1, ..., fF]</code> and returns a <code>Tensor</code> whose shape is
+(broadcastable with) <code>[b1, ..., bB]</code>. Default value: <code>NULL</code> implies constant zero function.</p></td>
+    </tr>
+    <tr>
+      <th>observation_noise_variance</th>
+      <td><p><code>float</code> <code>Tensor</code> representing the variance
+of the noise in the Normal likelihood distribution of the model. May be
+batched, in which case the batch shape must be broadcastable with the
+shapes of all other batched parameters (<code>kernel$batch_shape</code>, <code>index_points</code>, etc.).
+Default value: <code>0.</code></p></td>
+    </tr>
+    <tr>
+      <th>jitter</th>
+      <td><p><code>float</code> scalar <code>Tensor</code> added to the diagonal of the covariance
+matrix to ensure positive definiteness of the covariance matrix. Default value: <code>1e-6</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -140,13 +181,63 @@ one or more of the statistic's batch members are undefined.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The cumulative density function of this distribution is:</p><pre>cdf(x; mu, sigma) = 1 / (1 + exp(-(x - mu) / sigma))
+    <p>Just as Gaussian distributions are fully specified by their first and second
+moments, a Gaussian process can be completely specified by a mean and
+covariance function.
+Let <code>S</code> denote the index set and <code>K</code> the space in which
+each indexed random variable takes its values (again, often R or C). The mean
+function is then a map <code>m: S -&gt; K</code>, and the covariance function, or kernel, is
+a positive-definite function <code>k: (S x S) -&gt; K</code>. The properties of functions
+drawn from a GP are entirely dictated (up to translation) by the form of the
+kernel function.</p>
+<p>This <code>Distribution</code> represents the marginal joint distribution over function
+values at a given finite collection of points <code>[x[1], ..., x[N]]</code> from the
+index set <code>S</code>. By definition, this marginal distribution is just a
+multivariate normal distribution, whose mean is given by the vector
+<code>[ m(x[1]), ..., m(x[N]) ]</code> and whose covariance matrix is constructed from
+pairwise applications of the kernel function to the given inputs:</p><pre>| k(x[1], x[1])    k(x[1], x[2])  ...  k(x[1], x[N]) |
+| k(x[2], x[1])    k(x[2], x[2])  ...  k(x[2], x[N]) |
+|      ...              ...                 ...      |
+| k(x[N], x[1])    k(x[N], x[2])  ...  k(x[N], x[N]) |
 </pre>
-    <p>where <code>loc = mu</code> and <code>scale = sigma</code>.</p>
-<p>The Logistic distribution is a member of the <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
-constructed as,</p><pre>X ~ Logistic(loc=0, scale=1)
-Y = loc + scale * X
+    <p>For this to be a valid covariance matrix, it must be symmetric and positive
+definite; hence the requirement that <code>k</code> be a positive definite function
+(which, by definition, says that the above procedure will yield PD matrices).</p>
+<p>We also support the inclusion of zero-mean Gaussian noise in the model, via
+the <code>observation_noise_variance</code> parameter. This augments the generative model
+to</p><pre>f ~ GP(m, k)
+(y[i] | f, x[i]) ~ Normal(f(x[i]), s)
 </pre>
+    <p>where</p><ul>
+<li><p><code>m</code> is the mean function</p></li>
+<li><p><code>k</code> is the covariance kernel function</p></li>
+<li><p><code>f</code> is the function drawn from the GP</p></li>
+<li><p><code>x[i]</code> are the index points at which the function is observed</p></li>
+<li><p><code>y[i]</code> are the observed values at the index points</p></li>
+<li><p><code>s</code> is the scale of the observation noise.</p></li>
+</ul>
+    <p>Note that this class represents an <em>unconditional</em> Gaussian process; it does
+not implement posterior inference conditional on observed function
+evaluations. This class is useful, for example, if one wishes to combine a GP
+prior with a non-conjugate likelihood using MCMC to sample from the posterior.</p>
+<p>Mathematical Details</p>
+<p>The probability density function (pdf) is a multivariate normal whose
+parameters are derived from the GP's properties:</p><pre>pdf(x; index_points, mean_fn, kernel) = exp(-0.5 * y) / Z
+K = (kernel.matrix(index_points, index_points) +
+    (observation_noise_variance + jitter) * eye(N))
+y = (x - mean_fn(index_points))^T @ K @ (x - mean_fn(index_points))
+Z = (2 * pi)**(.5 * N) |det(K)|**(.5)
+</pre>
+    <p>where:</p><ul>
+<li><p><code>index_points</code> are points in the index set over which the GP is defined,</p></li>
+<li><p><code>mean_fn</code> is a callable mapping the index set to the GP's mean values,</p></li>
+<li><p><code>kernel</code> is <code>PositiveSemidefiniteKernel</code>-like and represents the covariance
+function of the GP,</p></li>
+<li><p><code>observation_noise_variance</code> represents (optional) observation noise.</p></li>
+<li><p><code>jitter</code> is added to the diagonal to ensure positive definiteness up to
+machine precision (otherwise Cholesky-decomposition is prone to failure),</p></li>
+<li><p><code>eye(N)</code> is an N-by-N identity matrix.</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -161,7 +252,6 @@ Y = loc + scale * X
   <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a></code>, <code><a href='tfd_empirical.html'>tfd_empirical</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
   <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
-  <code><a href='tfd_gaussian_process.html'>tfd_gaussian_process</a></code>,
   <code><a href='tfd_geometric.html'>tfd_geometric</a></code>, <code><a href='tfd_gumbel.html'>tfd_gumbel</a></code>,
   <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a></code>,
   <code><a href='tfd_half_normal.html'>tfd_half_normal</a></code>,
@@ -174,6 +264,7 @@ Y = loc + scale * X
   <code><a href='tfd_kumaraswamy.html'>tfd_kumaraswamy</a></code>, <code><a href='tfd_laplace.html'>tfd_laplace</a></code>,
   <code><a href='tfd_linear_gaussian_state_space_model.html'>tfd_linear_gaussian_state_space_model</a></code>,
   <code><a href='tfd_lkj.html'>tfd_lkj</a></code>, <code><a href='tfd_log_normal.html'>tfd_log_normal</a></code>,
+  <code><a href='tfd_logistic.html'>tfd_logistic</a></code>,
   <code><a href='tfd_mixture_same_family.html'>tfd_mixture_same_family</a></code>,
   <code><a href='tfd_mixture.html'>tfd_mixture</a></code>, <code><a href='tfd_multinomial.html'>tfd_multinomial</a></code>,
   <code><a href='tfd_multivariate_normal_diag_plus_low_rank.html'>tfd_multivariate_normal_diag_plus_low_rank</a></code>,

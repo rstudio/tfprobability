@@ -4246,5 +4246,134 @@ tfd_autoregressive <- function(distribution_fn,
           args)
 }
 
+#' Marginal distribution of a Gaussian process at finitely many points.
+#'
+#' A Gaussian process (GP) is an indexed collection of random variables, any
+#' finite collection of which are jointly Gaussian. While this definition applies
+#' to finite index sets, it is typically implicit that the index set is infinite;
+#' in applications, it is often some finite dimensional real or complex vector
+#' space. In such cases, the GP may be thought of as a distribution over
+#' (real- or complex-valued) functions defined over the index set.
+#'
+#' Just as Gaussian distributions are fully specified by their first and second
+#' moments, a Gaussian process can be completely specified by a mean and
+#' covariance function.
+#' Let `S` denote the index set and `K` the space in which
+#' each indexed random variable takes its values (again, often R or C). The mean
+#' function is then a map `m: S -> K`, and the covariance function, or kernel, is
+#' a positive-definite function `k: (S x S) -> K`. The properties of functions
+#' drawn from a GP are entirely dictated (up to translation) by the form of the
+#' kernel function.
+#'
+#' This `Distribution` represents the marginal joint distribution over function
+#' values at a given finite collection of points `[x[1], ..., x[N]]` from the
+#' index set `S`. By definition, this marginal distribution is just a
+#' multivariate normal distribution, whose mean is given by the vector
+#' `[ m(x[1]), ..., m(x[N]) ]` and whose covariance matrix is constructed from
+#' pairwise applications of the kernel function to the given inputs:
+#'
+#' ```
+#' | k(x[1], x[1])    k(x[1], x[2])  ...  k(x[1], x[N]) |
+#' | k(x[2], x[1])    k(x[2], x[2])  ...  k(x[2], x[N]) |
+#' |      ...              ...                 ...      |
+#' | k(x[N], x[1])    k(x[N], x[2])  ...  k(x[N], x[N]) |
+#' ```
+#'
+#' For this to be a valid covariance matrix, it must be symmetric and positive
+#' definite; hence the requirement that `k` be a positive definite function
+#' (which, by definition, says that the above procedure will yield PD matrices).
+#'
+#' We also support the inclusion of zero-mean Gaussian noise in the model, via
+#' the `observation_noise_variance` parameter. This augments the generative model
+#' to
+#'
+#' ```
+#' f ~ GP(m, k)
+#' (y[i] | f, x[i]) ~ Normal(f(x[i]), s)
+#' ```
+#' where
+#' * `m` is the mean function
+#' * `k` is the covariance kernel function
+#' * `f` is the function drawn from the GP
+#' * `x[i]` are the index points at which the function is observed
+#' * `y[i]` are the observed values at the index points
+#' * `s` is the scale of the observation noise.
+#'
+#' Note that this class represents an *unconditional* Gaussian process; it does
+#' not implement posterior inference conditional on observed function
+#' evaluations. This class is useful, for example, if one wishes to combine a GP
+#' prior with a non-conjugate likelihood using MCMC to sample from the posterior.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is a multivariate normal whose
+#' parameters are derived from the GP's properties:
+#'
+#' ```
+#' pdf(x; index_points, mean_fn, kernel) = exp(-0.5 * y) / Z
+#' K = (kernel.matrix(index_points, index_points) +
+#'     (observation_noise_variance + jitter) * eye(N))
+#' y = (x - mean_fn(index_points))^T @ K @ (x - mean_fn(index_points))
+#' Z = (2 * pi)**(.5 * N) |det(K)|**(.5)
+#' ```
+#'
+#' where:
+#' * `index_points` are points in the index set over which the GP is defined,
+#' * `mean_fn` is a callable mapping the index set to the GP's mean values,
+#' * `kernel` is `PositiveSemidefiniteKernel`-like and represents the covariance
+#' function of the GP,
+#' * `observation_noise_variance` represents (optional) observation noise.
+#' * `jitter` is added to the diagonal to ensure positive definiteness up to
+#' machine precision (otherwise Cholesky-decomposition is prone to failure),
+#' * `eye(N)` is an N-by-N identity matrix.
+#'
+#' @param  kernel `PositiveSemidefiniteKernel`-like instance representing the
+#' GP's covariance function.
+#' @param index_points `float` `Tensor` representing finite (batch of) vector(s) of
+#' points in the index set over which the GP is defined. Shape has the
+#' form `[b1, ..., bB, e1, f1, ..., fF]` where `F` is the number of feature
+#' dimensions and must equal `kernel$feature_ndims` and `e1` is the number
+#' (size) of index points in each batch (we denote it `e1` to distinguish
+#' it from the numer of inducing index points, denoted `e2` below).
+#' Ultimately the GaussianProcess distribution corresponds to an
+#' `e1`-dimensional multivariate normal. The batch shape must be
+#' broadcastable with `kernel$batch_shape`, the batch shape of
+#' `inducing_index_points`, and any batch dims yielded by `mean_fn`.
+#' @param mean_fn function that acts on index points to produce a (batch
+#' of) vector(s) of mean values at those index points. Takes a `Tensor` of
+#' shape `[b1, ..., bB, f1, ..., fF]` and returns a `Tensor` whose shape is
+#' (broadcastable with) `[b1, ..., bB]`. Default value: `NULL` implies constant zero function.
+#' @param observation_noise_variance `float` `Tensor` representing the variance
+#' of the noise in the Normal likelihood distribution of the model. May be
+#' batched, in which case the batch shape must be broadcastable with the
+#' shapes of all other batched parameters (`kernel$batch_shape`, `index_points`, etc.).
+#' Default value: `0.`
+#' @param jitter `float` scalar `Tensor` added to the diagonal of the covariance
+#' matrix to ensure positive definiteness of the covariance matrix. Default value: `1e-6`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_gaussian_process <- function(kernel,
+                                 index_points,
+                                 mean_fn = NULL,
+                                 observation_noise_variance = 0,
+                                 jitter = 1e-6,
+                                 validate_args = FALSE,
+                                 allow_nan_stats = FALSE,
+                                 name = "GaussianProcess") {
+  args <- list(
+    kernel = kernel,
+    index_points = index_points,
+    mean_fn = mean_fn,
+    observation_noise_variance = observation_noise_variance,
+    jitter = jitter,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$GaussianProcess, args)
+}
+
 
 

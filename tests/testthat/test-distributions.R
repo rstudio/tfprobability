@@ -734,3 +734,16 @@ test_succeeds("Autoregressive distribution works", {
 
 })
 
+
+test_succeeds("BatchReshape distribution works", {
+
+  num_points <- 100
+  kernel <- tfp$positive_semidefinite_kernels$ExponentiatedQuadratic()
+  index_points <-
+    matrix(seq(-1, 1, length.out = num_points), nrow = num_points) %>%
+    tf$cast(tf$float32)
+
+  gp <- tfd_gaussian_process(kernel, index_points, observation_noise_variance = .05)
+  samples <- gp %>% tfd_sample(10)
+  expect_equal(samples$get_shape()$as_list(), c(10, 100))
+})
