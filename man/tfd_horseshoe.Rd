@@ -32,7 +32,11 @@ sparsity-inducing effect.
 \details{
 Mathematical details
 
-\deqn{\pi_= \frac{1}{\sqrt{2 \pi^3 \lambda^2}}}
+The Horseshoe distribution is centered at zero, with scale parameter $lambda$.
+It is defined by:\preformatted{ horseshoe(scale = lambda) ~ Normal(0, lamda * sigma)
+}
+
+where \code{sigma ~ half_cauchy(0, 1)}
 }
 \section{References}{
 

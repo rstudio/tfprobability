@@ -5,6 +5,9 @@ dist: trusty
 sudo: false
 warnings_are_errors: false
 
+r_packages:
+    - covr
+
 cache:
   packages: true
   directories:

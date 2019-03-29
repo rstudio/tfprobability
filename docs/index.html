@@ -84,47 +84,153 @@ devtools::install_github("rstudio/keras")</a></code></pre>
 <pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(tensorflow)
 install_tensorflow()</a></code></pre>
 <p>you will automatically get the current stable version of TensorFlow Probability. Correspondingly, if you need nightly builds,</p>
-<pre><code>install_tensorflow(version = "nightly")</code></pre>
+<pre><code><a href="https://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow(version = "nightly")</a></code></pre>
 <p>will get you the nightly build of TensorFlow Probability.</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Over time, vignettes will be added to the package explaining the usage of the various modules. Also, the <a href="https://blogs.rstudio.com/tensorflow/">TensorFlow for R blog</a> will feature interesting applications and provide conceptual background.</p>
-<p>Here are a few examples using distributions and bijectors:</p>
+<p>Here are a few examples using distributions, bijectors, and probabilistic <code>keras</code> layers. We enable eager execution (not <em>yet</em> the default in TensorFlow) to display values, not tensors.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tfprobability)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tensorflow)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/tensorflow/topics/tfe_enable_eager_execution">tfe_enable_eager_execution</a></span>()</a></code></pre></div>
 <div id="distributions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distributions" class="anchor"></a>Distributions</h3>
-<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(tfprobability)
-
-# create a binomial distribution with n = 7 and p = 0.3
-d &lt;- tfd_binomial(total_count = 7, probs = 0.3)
-
-# compute mean
-d %&gt;% tfd_mean()
-
-# compute variance
-d %&gt;% tfd_variance()
-
-# compute probability
-d %&gt;% tfd_prob(2.3)</a></code></pre>
+<div id="example-binomial-distribution" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-binomial-distribution" class="anchor"></a>Example: Binomial distribution</h4>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># create a binomial distribution with n = 7 and p = 0.3</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">d &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_binomial.html">tfd_binomial</a></span>(<span class="dt">total_count =</span> <span class="dv">7</span>, <span class="dt">probs =</span> <span class="fl">0.3</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># compute mean</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_mean.html">tfd_mean</a></span>()</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt; tf.Tensor(2.1000001, shape=(), dtype=float32)</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co"># compute variance</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_variance.html">tfd_variance</a></span>()</a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; tf.Tensor(1.47, shape=(), dtype=float32)</span></a>
+<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co"># compute probability</span></a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_prob.html">tfd_prob</a></span>(<span class="fl">2.3</span>)</a>
+<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; tf.Tensor(0.30379143, shape=(), dtype=float32)</span></a></code></pre></div>
+</div>
+<div id="example-hidden-markov-model" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-hidden-markov-model" class="anchor"></a>Example: Hidden Markov Model</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Represent a cold day with 0 and a hot day with 1.</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># Suppose the first day of a sequence has a 0.8 chance of being cold.</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># We can model this using the categorical distribution:</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">initial_distribution &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(<span class="dt">probs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>))</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Suppose a cold day has a 30% chance of being followed by a hot day</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co"># and a hot day has a 20% chance of being followed by a cold day.</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co"># We can model this as:</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">transition_distribution &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(</a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="dt">probs =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.8</span>), <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="st">    </span>tf<span class="op">$</span><span class="kw">cast</span>(tf<span class="op">$</span>float32)</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">)</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co"># Suppose additionally that on each day the temperature is</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co"># normally distributed with mean and standard deviation 0 and 5 on</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co"># a cold day and mean and standard deviation 15 and 10 on a hot day.</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co"># We can model this with:</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16">observation_distribution &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="dt">loc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">15</span>), <span class="dt">scale =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>, <span class="dv">10</span>))</a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co"># We can combine these distributions into a single week long</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co"># hidden Markov model with:</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">d &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_hidden_markov_model.html">tfd_hidden_markov_model</a></span>(</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">  <span class="dt">initial_distribution =</span> initial_distribution,</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">  <span class="dt">transition_distribution =</span> transition_distribution,</a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">  <span class="dt">observation_distribution =</span> observation_distribution,</a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">  <span class="dt">num_steps =</span> <span class="dv">7</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24">)</a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co"># The expected temperatures for each day are given by:</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_mean.html">tfd_mean</a></span>()  <span class="co"># shape [7], elements approach 9.0</span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt; tf.Tensor([2.9999998 5.9999995 7.4999995 8.25      8.625001  8.812501  8.90625  ], shape=(7,), dtype=float32)</span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co"># The log pdf of a week of temperature 0 is:</span></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="dv">0</span>, <span class="dv">7</span>)) </a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; tf.Tensor(-20.120832, shape=(), dtype=float32)</span></a></code></pre></div>
+</div>
 </div>
 <div id="bijectors" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bijectors" class="anchor"></a>Bijectors</h3>
-<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(tfprobability)
-
-# create a bijector to that performs the discrete cosine transform (DCT)
-b &lt;- tfb_discrete_cosine_transform()
-
-# run on sample data
-x &lt;- matrix(runif(10))
-b %&gt;% tfb_forward(x)</a></code></pre>
+<div id="discrete-cosine-transform-bijector" class="section level4">
+<h4 class="hasAnchor">
+<a href="#discrete-cosine-transform-bijector" class="anchor"></a>Discrete cosine transform bijector</h4>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># create a bijector to that performs the discrete cosine transform (DCT)</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform</a></span>()</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># run on sample data</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; tf.Tensor(</span></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; [[0.46049857]</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  [0.8341656 ]</span></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  [0.43533072]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
+</div>
+<div id="affine-bijector" class="section level4">
+<h4 class="hasAnchor">
+<a href="#affine-bijector" class="anchor"></a>Affine bijector</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># create an affine transformation that shifts by 3.33 and scales by 0.5</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_affine_scalar.html">tfb_affine_scalar</a></span>(<span class="dt">shift =</span> <span class="fl">3.33</span>, <span class="dt">scale =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># apply the transformation</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; tf.Tensor([  53.33  503.33 5003.33], shape=(3,), dtype=float32)</span></a></code></pre></div>
 </div>
 </div>
-<div id="state" class="section level2">
+<div id="keras-layers" class="section level3">
+<h3 class="hasAnchor">
+<a href="#keras-layers" class="anchor"></a>Keras layers</h3>
+<p>We can use a probabilistic layer (<code>layer_kl_divergence_add_loss</code>) to fit a VAE (variational autoencoder):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(keras)</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">encoded_size &lt;-<span class="st"> </span><span class="dv">2</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">input_shape &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(2L, 2L, 1L)</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">train_size &lt;-<span class="st"> </span><span class="dv">100</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">x_train &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/array">array</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(train_size <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/funprog">Reduce</a></span>(<span class="st">`</span><span class="dt">*</span><span class="st">`</span>, input_shape)), <span class="dt">dim =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(train_size, input_shape))</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co"># encoder is a keras sequential model</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">encoder_model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/keras_model_sequential">keras_model_sequential</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/layer_flatten">layer_flatten</a></span>(<span class="dt">input_shape =</span> input_shape) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">"relu"</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(<span class="dt">units =</span> <span class="kw"><a href="reference/params_size_multivariate_normal_tri_l.html">params_size_multivariate_normal_tri_l</a></span>(encoded_size)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="reference/layer_multivariate_normal_tri_l.html">layer_multivariate_normal_tri_l</a></span>(<span class="dt">event_size =</span> encoded_size) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="st">  </span><span class="co"># last layer adds KL divergence loss</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="reference/layer_kl_divergence_add_loss.html">layer_kl_divergence_add_loss</a></span>(</a>
+<a class="sourceLine" id="cb10-16" data-line-number="16">      <span class="dt">distribution =</span> <span class="kw"><a href="reference/tfd_independent.html">tfd_independent</a></span>(</a>
+<a class="sourceLine" id="cb10-17" data-line-number="17">        <span class="kw"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="dt">loc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">scale =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb10-18" data-line-number="18">        <span class="dt">reinterpreted_batch_ndims =</span> 1L</a>
+<a class="sourceLine" id="cb10-19" data-line-number="19">      ),</a>
+<a class="sourceLine" id="cb10-20" data-line-number="20">      <span class="dt">weight =</span> train_size)</a>
+<a class="sourceLine" id="cb10-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co"># decoder is a keras sequential model</span></a>
+<a class="sourceLine" id="cb10-23" data-line-number="23">decoder_model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/keras_model_sequential">keras_model_sequential</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(<span class="dt">units =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb10-25" data-line-number="25">              <span class="dt">activation =</span> <span class="st">'relu'</span>,</a>
+<a class="sourceLine" id="cb10-26" data-line-number="26">              <span class="dt">input_shape =</span> encoded_size) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/layer_dense">layer_dense</a></span>(<span class="kw"><a href="reference/params_size_independent_bernoulli.html">params_size_independent_bernoulli</a></span>(input_shape)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="st">  </span><span class="kw"><a href="reference/layer_independent_bernoulli.html">layer_independent_bernoulli</a></span>(<span class="dt">event_shape =</span> input_shape,</a>
+<a class="sourceLine" id="cb10-29" data-line-number="29">                              <span class="dt">convert_to_tensor_fn =</span> tfp<span class="op">$</span>distributions<span class="op">$</span>Bernoulli<span class="op">$</span>logits)</a>
+<a class="sourceLine" id="cb10-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co"># keras functional model uniting them both</span></a>
+<a class="sourceLine" id="cb10-32" data-line-number="32">vae_model &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/keras_model">keras_model</a></span>(<span class="dt">inputs =</span> encoder_model<span class="op">$</span>inputs,</a>
+<a class="sourceLine" id="cb10-33" data-line-number="33">                         <span class="dt">outputs =</span> <span class="kw">decoder_model</span>(encoder_model<span class="op">$</span>outputs[<span class="dv">1</span>]))</a>
+<a class="sourceLine" id="cb10-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb10-35" data-line-number="35"><span class="co"># VAE loss now is just log probability of the data</span></a>
+<a class="sourceLine" id="cb10-36" data-line-number="36">vae_loss &lt;-<span class="st"> </span><span class="cf">function</span> (x, rv_x)</a>
+<a class="sourceLine" id="cb10-37" data-line-number="37">    <span class="op">-</span><span class="st"> </span>(rv_x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(x))</a>
+<a class="sourceLine" id="cb10-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb10-39" data-line-number="39">vae_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/reexports">compile</a></span>(</a>
+<a class="sourceLine" id="cb10-40" data-line-number="40">  <span class="dt">optimizer =</span> tf<span class="op">$</span>keras<span class="op">$</span>optimizers<span class="op">$</span><span class="kw">Adam</span>(),</a>
+<a class="sourceLine" id="cb10-41" data-line-number="41">  <span class="dt">loss =</span> vae_loss</a>
+<a class="sourceLine" id="cb10-42" data-line-number="42">)</a>
+<a class="sourceLine" id="cb10-43" data-line-number="43"></a>
+<a class="sourceLine" id="cb10-44" data-line-number="44">vae_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/reexports">fit</a></span>(x_train, x_train, <span class="dt">batch_size =</span> <span class="dv">25</span>, <span class="dt">epochs =</span> <span class="dv">1</span>)</a></code></pre></div>
+</div>
+</div>
+<div id="package-state" class="section level2">
 <h2 class="hasAnchor">
-<a href="#state" class="anchor"></a>State</h2>
+<a href="#package-state" class="anchor"></a>Package State</h2>
 <p>This project is under active development. As of this writing, <code>distributions</code> and <code>bijectors</code> are covered comprehensively, <code>layers</code> in part, and modules like <code>mcmc</code> and variational inference are upcoming.</p>
 </div>
 </div>

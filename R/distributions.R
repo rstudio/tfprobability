@@ -3339,7 +3339,13 @@ tfd_inverse_gamma <- function(concentration,
 #'
 #' Mathematical details
 #'
-#' \deqn{\pi_= \frac{1}{\sqrt{2 \pi^3 \lambda^2}}}
+#' The Horseshoe distribution is centered at zero, with scale parameter $lambda$.
+#' It is defined by:
+#' ```
+#'  horseshoe(scale = lambda) ~ Normal(0, lamda * sigma)
+#' ```
+#' where `sigma ~ half_cauchy(0, 1)`
+#'
 #'
 #' @section References:
 #' - [Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)](http://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf).
