@@ -67,9 +67,66 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-<div id="tfprobability-an-r-interface-to-tensorflow-probability" class="section level1">
+<div id="tfprobability-r-interface-to-tensorflow-probability" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#tfprobability-an-r-interface-to-tensorflow-probability" class="anchor"></a>tfprobability: An R interface to TensorFlow Probability</h1></div>
+<a href="#tfprobability-r-interface-to-tensorflow-probability" class="anchor"></a>tfprobability: R interface to TensorFlow Probability</h1></div>
+<p><a href="https://www.tensorflow.org/probability/">TensorFlow Probability</a> is a library for statistical analysis and probabilistic computation built on top of TensorFlow.</p>
+<p>Its building blocks include a vast range of distributions and invertible transformations (<em>bijectors</em>), probabilistic layers that may be used in <code>keras</code> models, and tools for probabilistic reasoning including variational inference and Markov Chain Monte Carlo.</p>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<p>To install <code>tfprobability</code> from this repository, do</p>
+<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("rstudio/tfprobability")</a></code></pre>
+<p>TensorFlow Probability depends on TensorFlow, and in the same way, <code>tfprobability</code> depends on a working installation of the R packages <code>tensorflow</code> and <code>keras</code>. To get the most up-to-date versions of these packages, install them from github as well:</p>
+<pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("rstudio/tensorflow")
+devtools::install_github("rstudio/keras")</a></code></pre>
+<p>As to the Python backend, if you do</p>
+<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(tensorflow)
+install_tensorflow()</a></code></pre>
+<p>you will automatically get the current stable version of TensorFlow Probability. Correspondingly, if you need nightly builds,</p>
+<pre><code>install_tensorflow(version = "nightly")</code></pre>
+<p>will get you the nightly build of TensorFlow Probability.</p>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>Over time, vignettes will be added to the package explaining the usage of the various modules. Also, the <a href="https://blogs.rstudio.com/tensorflow/">TensorFlow for R blog</a> will feature interesting applications and provide conceptual background.</p>
+<p>Here are a few examples using distributions and bijectors:</p>
+<div id="distributions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#distributions" class="anchor"></a>Distributions</h3>
+<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(tfprobability)
+
+# create a binomial distribution with n = 7 and p = 0.3
+d &lt;- tfd_binomial(total_count = 7, probs = 0.3)
+
+# compute mean
+d %&gt;% tfd_mean()
+
+# compute variance
+d %&gt;% tfd_variance()
+
+# compute probability
+d %&gt;% tfd_prob(2.3)</a></code></pre>
+</div>
+<div id="bijectors" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bijectors" class="anchor"></a>Bijectors</h3>
+<pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(tfprobability)
+
+# create a bijector to that performs the discrete cosine transform (DCT)
+b &lt;- tfb_discrete_cosine_transform()
+
+# run on sample data
+x &lt;- matrix(runif(10))
+b %&gt;% tfb_forward(x)</a></code></pre>
+</div>
+</div>
+<div id="state" class="section level2">
+<h2 class="hasAnchor">
+<a href="#state" class="anchor"></a>State</h2>
+<p>This project is under active development. As of this writing, <code>distributions</code> and <code>bijectors</code> are covered comprehensively, <code>layers</code> in part, and modules like <code>mcmc</code> and variational inference are upcoming.</p>
+</div>
 </div>
   </div>
 
