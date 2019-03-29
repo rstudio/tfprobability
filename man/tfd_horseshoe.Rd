@@ -32,17 +32,7 @@ sparsity-inducing effect.
 \details{
 Mathematical details
 
-The Horseshoe distribution is centered at zero, with scale parameter
-\eqn{lambda}. It is defined by:
-\deqn{X \sim \text {Horseshoe}(scale=\lambda) \, \equiv \, X \sim \text{Normal} (0, \, \lambda \cdot \sigma) \quad \text{where} \quad \sigma \sim  \text{HalfCauchy} (0, \,1)}
-
-The probability density function,
-\deqn{\pi_\lambda(x) = \int_0^\infty \, \frac{1}{\sqrt{ 2\pi \lambda^2 t^2 }} \, \exp \left\{ -\frac{x^2}{2\lambda^2t^2} \right\} \, \frac{2}{\pi\left(1+t^2\right)} \mathrm{d} t}
-
-can be rewritten as
-\deqn{\pi_\lambda(x) = \frac{1}{\sqrt{2 \pi^3 \lambda^2}} \, \exp \left\{ \frac{x^2}{2\lambda^2} \right\} \, E_1\left(\frac{x^2}{2\lambda^2}\right)}
-where \eqn{E_1(.)} is the exponential integral function which can
-be approximated by elementary functions.
+\deqn{\pi_= \frac{1}{\sqrt{2 \pi^3 \lambda^2}}}
 }
 \section{References}{
 
