@@ -2708,11 +2708,12 @@ tfd_mixture_same_family <- function(mixture_distribution,
   args <- list(
     mixture_distribution = mixture_distribution,
     components_distribution = components_distribution,
-    reparameterize = reparameterize,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
   )
+
+  if (tfp_version() >= "0.7") args$reparameterize <- reparameterize
 
   do.call(tfp$distributions$MixtureSameFamily,
           args)
@@ -2826,12 +2827,12 @@ tfd_lkj <- function(dimension,
   args <- list(
     dimension = as.integer(dimension),
     concentration = concentration,
-    input_output_cholesky = input_output_cholesky,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
   )
 
+  if (tfp_version() >= "0.7") args$input_output_cholesky <- input_output_cholesky
   do.call(tfp$distributions$LKJ,
           args)
 }

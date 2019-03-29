@@ -20,4 +20,6 @@ Status](https://travis-ci.org/rstudio/tfprobability.svg?branch=master)](https://
 [![codecov](https://codecov.io/gh/rstudio/tfprobability/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/tfprobability)
 <!-- badges: end -->
 
-text
+# tfprobability: An interface to TensorFlow Probability
+
+

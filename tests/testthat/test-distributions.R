@@ -232,6 +232,8 @@ test_succeeds("VectorDiffeoMixture distribution works", {
 
 test_succeeds("VariationalGaussianProcess distribution works", {
 
+  skip_if_tfp_below("0.7")
+
   # Important:
   # This test only creates the distribution and does not train it.
   # Consider enhancing as per examples in
@@ -540,6 +542,8 @@ test_succeeds("Gamma distribution works", {
 
 test_succeeds("JointDistributionSequential distribution works", {
 
+  skip_if_tfp_below("0.7")
+
   d <- tfd_joint_distribution_sequential(
     list(tfd_independent(tfd_exponential(rate = c(100, 120)), 1),  # e ~ Exponential(rate=[100,120])
          function(e) tfd_gamma(concentration = e[ , 1], rate = e[ , 2]),  # g ~ Gamma(concentration=e[0], rate=e[1])
@@ -686,6 +690,7 @@ test_succeeds("Deterministic distribution works", {
 
 test_succeeds("Empirical distribution works", {
 
+  skip_if_tfp_below("0.7")
   d <- tfd_empirical(samples = c(0, 1, 1, 2))
   expect_equal(d %>% tfd_cdf(1) %>% tensor_value(), 0.75)
 })
