@@ -24,6 +24,6 @@ Imports:
 Suggests: 
     testthat
 Remotes:
-    rstudio/tensorflow
+    rstudio/tensorflow,
     rstudio/keras
 
