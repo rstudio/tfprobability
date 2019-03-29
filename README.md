@@ -127,22 +127,77 @@ d %>% tfd_log_prob(rep(0, 7))
 b <- tfb_discrete_cosine_transform()
 
 # run on sample data
-x <- matrix(runif(10))
+x <- matrix(runif(3))
 b %>% tfb_forward(x)
 #> tf.Tensor(
-#> [[0.81395715]
-#>  [0.91802233]
-#>  [0.21701626]
-#>  [0.7964485 ]
-#>  [0.5835809 ]
-#>  [0.36585388]
-#>  [0.43929157]
-#>  [0.73955095]
-#>  [0.7171121 ]
-#>  [0.32015073]], shape=(10, 1), dtype=float32)
+#> [[0.61940026]
+#>  [0.66759837]
+#>  [0.04708293]], shape=(3, 1), dtype=float32)
 ```
 
-#### 
+#### Affine bijector
+
+``` r
+# create an affine transformation that shifts by 3.33 and scales by 0.5
+b <- tfb_affine_scalar(shift = 3.33, scale = 0.5)
+
+# apply the transformation
+x <- c(100, 1000, 10000)
+b %>% tfb_forward(x)
+#> tf.Tensor([  53.33  503.33 5003.33], shape=(3,), dtype=float32)
+```
+
+### Keras layers
+
+We can use a probabilistic layer (`layer_kl_divergence_add_loss`) to fit
+a VAE (variational autoencoder):
+
+``` r
+library(keras)
+
+encoded_size <- 2
+input_shape <- c(2L, 2L, 1L)
+train_size <- 100
+x_train <- array(runif(train_size * Reduce(`*`, input_shape)), dim = c(train_size, input_shape))
+
+# encoder is a keras sequential model
+encoder_model <- keras_model_sequential() %>%
+  layer_flatten(input_shape = input_shape) %>%
+  layer_dense(units = 10, activation = "relu") %>%
+  layer_dense(units = params_size_multivariate_normal_tri_l(encoded_size)) %>%
+  layer_multivariate_normal_tri_l(event_size = encoded_size) %>%
+  # last layer adds KL divergence loss
+  layer_kl_divergence_add_loss(
+      distribution = tfd_independent(
+        tfd_normal(loc = c(0, 0), scale = 1),
+        reinterpreted_batch_ndims = 1L
+      ),
+      weight = train_size)
+
+# decoder is a keras sequential model
+decoder_model <- keras_model_sequential() %>%
+  layer_dense(units = 10,
+              activation = 'relu',
+              input_shape = encoded_size) %>%
+  layer_dense(params_size_independent_bernoulli(input_shape)) %>%
+  layer_independent_bernoulli(event_shape = input_shape,
+                              convert_to_tensor_fn = tfp$distributions$Bernoulli$logits)
+
+# keras functional model uniting them both
+vae_model <- keras_model(inputs = encoder_model$inputs,
+                         outputs = decoder_model(encoder_model$outputs[1]))
+
+# VAE loss now is just log probability of the data
+vae_loss <- function (x, rv_x)
+    - (rv_x %>% tfd_log_prob(x))
+
+vae_model %>% compile(
+  optimizer = tf$keras$optimizers$Adam(),
+  loss = vae_loss
+)
+
+vae_model %>% fit(x_train, x_train, batch_size = 25, epochs = 1)
+```
 
 ## Package State
 

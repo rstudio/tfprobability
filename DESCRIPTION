@@ -1,5 +1,5 @@
 Package: tfprobability
-Title: What the Package Does (One Line, Title Case)
+Title: R interface to TensorFlow Probability
 Version: 0.0.0.9000
 Authors@R: c(
     person("Sigrid", "Keydana", email = "sigrid@rstudio.com", role = c("aut", "cre")),
