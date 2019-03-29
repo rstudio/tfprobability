@@ -38,3 +38,6 @@ before_script:
   - pip install --upgrade --ignore-installed --user travis virtualenv
   - R CMD INSTALL .
   - R -e 'tensorflow::install_tensorflow(version = Sys.getenv("TENSORFLOW_VERSION"))'
+
+after_success:
+  - Rscript -e 'covr::codecov()'
