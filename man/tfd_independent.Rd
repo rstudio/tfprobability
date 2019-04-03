@@ -4,7 +4,7 @@
 \alias{tfd_independent}
 \title{Independent distribution from batch of distributions}
 \usage{
-tfd_independent(distribution, reinterpreted_batch_ndims,
+tfd_independent(distribution, reinterpreted_batch_ndims = NULL,
   validate_args = FALSE, name = paste0("Independent",
   distribution$name))
 }
