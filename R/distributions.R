@@ -93,11 +93,9 @@ tfd_independent <- function(distribution,
                             reinterpreted_batch_ndims = NULL,
                             validate_args = FALSE,
                             name = paste0("Independent", distribution$name)) {
-  reinterpreted_batch_ndims <- if (!is.null(reinterpreted_batch_ndims))
-    as.integer(reinterpreted_batch_ndims)
   args <- list(
     distribution = distribution,
-    reinterpreted_batch_ndims = reinterpreted_batch_ndims,
+    reinterpreted_batch_ndims = as_nullable_integer(reinterpreted_batch_ndims),
     validate_args = validate_args,
     name = name
   )
