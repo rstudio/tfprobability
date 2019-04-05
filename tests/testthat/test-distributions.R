@@ -548,7 +548,8 @@ test_succeeds("JointDistributionSequential distribution works", {
     list(tfd_independent(tfd_exponential(rate = c(100, 120)), 1),  # e ~ Exponential(rate=[100,120])
          function(e) tfd_gamma(concentration = e[ , 1], rate = e[ , 2]),  # g ~ Gamma(concentration=e[0], rate=e[1])
          tfd_normal(loc = 0, scale = 2),  # n ~ Normal(loc=0, scale=2.)
-         function(n, g) tfd_normal(loc = n, scale = g) # m ~ Normal(loc=n, scale=g)
+         function(n, g) tfd_normal(loc = n, scale = g), # m ~ Normal(loc=n, scale=g)
+         function(m)  tfd_sample(tfd_bernoulli(logits = m), 12) # x
     ))
   # in python this works!
   # ValueError: Number of `xs`s must match number of distributions.
