@@ -14,7 +14,7 @@ tfd_sample <- function(distribution,
                        sample_shape = list(),
                        seed = NULL,
                        name = "sample") {
-  distribution$sample(as.integer(sample_shape), seed, name)
+  distribution$sample(normalize_shape(sample_shape), seed, name)
 }
 
 #' Log probability density/mass function.
