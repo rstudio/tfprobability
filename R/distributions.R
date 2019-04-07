@@ -23,7 +23,7 @@
 #' @param validate_args Logical, default FALSE. When TRUE distribution parameters are checked
 #'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 #'  silently render incorrect outputs. Default value: FALSE.
-#' @param allow_nan_stats Logical, default TRUE. When TRUE, tatistics (e.g., mean, mode, variance)
+#' @param allow_nan_stats Logical, default TRUE. When TRUE, statistics (e.g., mean, mode, variance)
 #'  use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
 #'  one or more of the statistic's batch members are undefined.
 #' @param name name prefixed to Ops created by this class.
@@ -3083,6 +3083,11 @@ tfd_kumaraswamy <- function(concentration1 = 1,
 tfd_joint_distribution_sequential <- function(distribution_fn,
                                               validate_args = FALSE,
                                               name = NULL) {
+  distribution_fn <- Map(
+    function(d) if (is.function(d)) reticulate::py_func(d) else d,
+    distribution_fn
+  )
+
   args <- list(
     distribution_fn = distribution_fn,
     validate_args = validate_args,
