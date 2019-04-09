@@ -5,7 +5,7 @@
 \title{Generate samples of the specified shape.}
 \usage{
 tfd_sample(distribution, sample_shape = list(), seed = NULL,
-  name = "sample")
+  value = NULL, name = "sample")
 }
 \arguments{
 \item{distribution}{The distribution being used.}
@@ -13,6 +13,10 @@ tfd_sample(distribution, sample_shape = list(), seed = NULL,
 \item{sample_shape}{0D or 1D int32 Tensor. Shape of the generated samples.}
 
 \item{seed}{integer seed for RNG}
+
+\item{value}{Only for JointDistributionSequential: \code{list} of \code{Tensor}s in \code{distribution_fn} order
+to use to parameterize other ("downstream") distribution makers.
+Default value: \code{NULL} (i.e., draw a sample from each distribution).}
 
 \item{name}{name to give to the op.}
 }

@@ -23,7 +23,7 @@ raised (unless \code{validate_args is TRUE}).  \code{covariance_matrix} has shap
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 silently render incorrect outputs. Default value: FALSE.}
 
-\item{allow_nan_stats}{Logical, default TRUE. When TRUE, tatistics (e.g., mean, mode, variance)
+\item{allow_nan_stats}{Logical, default TRUE. When TRUE, statistics (e.g., mean, mode, variance)
 use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
 one or more of the statistic's batch members are undefined.}
 
