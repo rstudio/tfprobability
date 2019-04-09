@@ -45,7 +45,7 @@ test_succeeds("Independent distribution works", {
 
 test_succeeds("Transformed distribution works", {
 
-  d <- tfd_transformed(
+  d <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_exp()
   )
