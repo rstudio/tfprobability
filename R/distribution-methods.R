@@ -5,6 +5,9 @@
 #' @param distribution The distribution being used.
 #' @param sample_shape 0D or 1D int32 Tensor. Shape of the generated samples.
 #' @param seed integer seed for RNG
+#' @param value Only for JointDistributionSequential: `list` of `Tensor`s in `distribution_fn` order
+#' to use to parameterize other ("downstream") distribution makers.
+#' Default value: `NULL` (i.e., draw a sample from each distribution).
 #' @param name name to give to the op.
 #'
 #' @return a Tensor with prepended dimensions sample_shape.
@@ -13,8 +16,17 @@
 tfd_sample <- function(distribution,
                        sample_shape = list(),
                        seed = NULL,
+                       value = NULL,
                        name = "sample") {
-  distribution$sample(as.integer(sample_shape), seed, name)
+  if (inherits(
+    distribution,
+    "tensorflow_probability.python.distributions.joint_distribution.JointDistributionSequential"
+  )) {
+    distribution$sample(normalize_shape(sample_shape), seed, value, name)
+  } else {
+    distribution$sample(normalize_shape(sample_shape), seed, name)
+  }
+
 }
 
 #' Log probability density/mass function.
