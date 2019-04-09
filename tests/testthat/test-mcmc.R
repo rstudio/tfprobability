@@ -32,8 +32,7 @@ test_succeeds("HamiltonianMonteCarlo with SimpleStepSizeAdaptation works", {
   num_burnin_steps <- 500
   num_results <- 500
   num_chains <- 64L
-  step_size <- 0.1
-  #step_size <- tf$fill(list(num_chains), 0.1)
+  step_size <- tf$fill(list(num_chains), 0.1)
 
   kernel <- mcmc_hamiltonian_monte_carlo(
      target_log_prob_fn = target_log_prob_fn,
@@ -42,17 +41,21 @@ test_succeeds("HamiltonianMonteCarlo with SimpleStepSizeAdaptation works", {
     mcmc_simple_step_size_adaptation(
       num_adaptation_steps = round(num_burnin_steps * 0.8))
 
-    # _hmc_like_step_size_setter_fn() missing 1 required positional argument: 'new_step_size'
-    zeallot::`%<-%`(c(samples, c(step_size, log_accept_ratio)), kernel %>% mcmc_sample_chain(
+   res <- kernel %>% mcmc_sample_chain(
       num_results = num_results,
       num_burnin_steps = num_burnin_steps,
       current_state = tf$zeros(num_chains),
       trace_fn = function(x, pkr) {list (pkr$inner_results$accepted_results$step_size,
-                                         pkr$inner_results$log_accept_ratio)}))
+                                         pkr$inner_results$log_accept_ratio)})
 
+  # check for nicer unpacking
+  # python: samples, [step_size, log_accept_ratio]
 
-  # # ~0.75
-  # p_accept = tf.reduce_mean(tf.exp(tf.minimum(log_accept_ratio, 0.)))
-
+  samples <- res$all_states
+  step_size <- res$trace[[1]]
+  log_accept_ratio <- res$trace[[2]]
+  #  ~0.75
+  p_accept <- tf$reduce_mean(tf$exp(tf$minimum(log_accept_ratio, 0)))
+  expect_lt(p_accept %>% tensor_value(), 1)
 
 })
