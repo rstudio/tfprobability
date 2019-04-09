@@ -559,13 +559,9 @@ test_succeeds("JointDistributionSequential distribution works", {
       # reticulate::py_func(function(m) tfd_sample(tfd_bernoulli(logits = m), 12))
     ))
 
-
-  x <- d$sample()
+  x <- d %>% tfd_sample()
   expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
   expect_equal(d$`_resolve_graph`() %>% length(), 4)
-
-  # error
-  #x <- d %>% tfd_sample()
 
 })
 
