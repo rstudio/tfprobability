@@ -123,9 +123,9 @@ kernels' docstrings for guidance.</p>
 
     <pre class="usage"><span class='fu'>mcmc_simple_step_size_adaptation</span>(<span class='no'>inner_kernel</span>, <span class='no'>num_adaptation_steps</span>,
   <span class='kw'>target_accept_prob</span> <span class='kw'>=</span> <span class='fl'>0.75</span>, <span class='kw'>adaptation_rate</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>step_size_setter_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>mcmc</span>$<span class='no'>simple_step_size_adaptation</span>$<span class='no'>`_hmc_like_step_size_setter_fn`</span>,
-  <span class='kw'>step_size_getter_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>mcmc</span>$<span class='no'>simple_step_size_adaptation</span>$<span class='no'>`_hmc_like_step_size_getter_fn`</span>,
-  <span class='kw'>log_accept_prob_getter_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>mcmc</span>$<span class='no'>simple_step_size_adaptation</span>$<span class='no'>`_hmc_like_log_accept_prob_getter_fn`</span>,
+  <span class='kw'>step_size_setter_fn</span> <span class='kw'>=</span> <span class='fu'>tfp_mcmc_sssa</span>()$<span class='no'>`_hmc_like_step_size_setter_fn`</span>,
+  <span class='kw'>step_size_getter_fn</span> <span class='kw'>=</span> <span class='fu'>tfp_mcmc_sssa</span>()$<span class='no'>`_hmc_like_step_size_getter_fn`</span>,
+  <span class='kw'>log_accept_prob_getter_fn</span> <span class='kw'>=</span> <span class='fu'>tfp_mcmc_sssa</span>()$<span class='no'>`_hmc_like_log_accept_prob_getter_fn`</span>,
   <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
