@@ -560,7 +560,7 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' the permutation is identity this reduces to:
 #'
 #' `p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }`. The provided
-#' shift_and_log_scale_fn, masked_autoregressive_default_template, achieves
+#' shift_and_log_scale_fn, tfb_masked_autoregressive_default_template, achieves
 #' this property by zeroing out weights in its masked_dense layers.
 #' In TensorFlow Probability, "normalizing flows" are implemented as
 #' tfp.bijectors.Bijectors. The forward "autoregression" is implemented
@@ -580,14 +580,14 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' are broadcastable with the arguments to forward and inverse, i.e., such
 #' that the calculations in forward, inverse below are possible.
 #'
-#' For convenience, masked_autoregressive_default_template is offered as a
+#' For convenience, tfb_masked_autoregressive_default_template is offered as a
 #' possible shift_and_log_scale_fn function. It implements the MADE
 #' architecture (Germain et al., 2015). MADE is a feed-forward network that
 #' computes a shift and log(scale) using masked_dense layers in a deep
 #' neural network. Weights are masked to ensure the autoregressive property. It
 #' is possible that this architecture is suboptimal for your task. To build
 #' alternative networks, either change the arguments to
-#' masked_autoregressive_default_template, use the masked_dense function to
+#' tfb_masked_autoregressive_default_template, use the masked_dense function to
 #' roll-out your own, or use some other architecture, e.g., using tf.layers.
 #' Warning: no attempt is made to validate that the shift_and_log_scale_fn
 #' enforces the "autoregressive property".
@@ -628,7 +628,7 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' @param shift_and_log_scale_fn Function which computes shift and log_scale from both the
 #' forward domain (x) and the inverse domain (y).
 #' Calculation must respect the "autoregressive property". Suggested default:
-#' masked_autoregressive_default_template(hidden_layers=...).
+#' tfb_masked_autoregressive_default_template(hidden_layers=...).
 #' Typically the function contains `tf$Variables` and is wrapped using `tf$make_template`.
 #'  Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.
 #' @param is_constant_jacobian Logical, default: FALSE. When TRUE the implementation assumes log_scale
@@ -638,7 +638,7 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #' static for loop. Requires that the final dimension of x be known at graph construction time. Defaults to FALSE.
 #' @param event_ndims integer, the intrinsic dimensionality of this bijector.
 #' 1 corresponds to a simple vector autoregressive bijector as implemented by the
-#' `masked_autoregressive_default_template`, 2 might be useful for a 2D convolutional shift_and_log_scale_fn and so on.
+#' `tfb_masked_autoregressive_default_template`, 2 might be useful for a 2D convolutional shift_and_log_scale_fn and so on.
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
@@ -700,11 +700,11 @@ tfb_masked_autoregressive_flow <-
 #' @param log_scale_min_clip float-like scalar Tensor, or a Tensor with the same shape as log_scale. The minimum value to clip by. Default: -5.
 #' @param log_scale_max_clip float-like scalar Tensor, or a Tensor with the same shape as log_scale. The maximum value to clip by. Default: 3.
 #' @param log_scale_clip_gradient logical indicating that the gradient of tf$clip_by_value should be preserved. Default: FALSE.
-#' @param name A name for ops managed by this function. Default: "masked_autoregressive_default_template".
+#' @param name A name for ops managed by this function. Default: "tfb_masked_autoregressive_default_template".
 #' @param ... `tf$layers$dense` arguments
 #' @family bijectors
 #' @export
-masked_autoregressive_default_template <- function(hidden_layers,
+tfb_masked_autoregressive_default_template <- function(hidden_layers,
                                                    shift_only = FALSE,
                                                    activation = tf$nn$relu,
                                                    log_scale_min_clip = -5,
@@ -745,7 +745,7 @@ masked_autoregressive_default_template <- function(hidden_layers,
 #' @param ... `tf$layers$dense` arguments
 #' @family bijectors
 #' @export
-masked_dense <- function(inputs,
+tfb_masked_dense <- function(inputs,
                          units,
                          num_blocks = NULL,
                          exclusive = FALSE,
@@ -783,11 +783,11 @@ masked_dense <- function(inputs,
 #' @param shift_only logical indicating if only the shift term shall be
 #' computed (i.e. NICE bijector). Default: FALSE.
 #' @param activation Activation function (callable). Explicitly setting to NULL implies a linear activation.
-#' @param name A name for ops managed by this function. Default: "real_nvp_default_template".
+#' @param name A name for ops managed by this function. Default: "tfb_real_nvp_default_template".
 #' @param ... tf$layers$dense arguments
 #' @family bijectors
 #' @export
-real_nvp_default_template <- function(hidden_layers,
+tfb_real_nvp_default_template <- function(hidden_layers,
                                       shift_only = FALSE,
                                       activation = tf$nn$relu,
                                       name = NULL,
@@ -837,7 +837,7 @@ real_nvp_default_template <- function(hidden_layers,
 #' inverse-log-determinant-Jacobian. To use a NICE bijector instead of Real
 #' NVP, shift_and_log_scale_fn should return (shift, NULL), and
 #' is_constant_jacobian should be set to TRUE in the RealNVP constructor.
-#' Calling real_nvp_default_template with shift_only=TRUE returns one such
+#' Calling tfb_real_nvp_default_template with shift_only=TRUE returns one such
 #' NICE-compatible shift_and_log_scale_fn.
 #'
 #' Caching: the scalar input depth D of the base distribution is not known at
@@ -858,7 +858,7 @@ real_nvp_default_template <- function(hidden_layers,
 #' @param shift_and_log_scale_fn Function which computes shift and log_scale from both the
 #' forward domain (x) and the inverse domain (y).
 #' Calculation must respect the "autoregressive property". Suggested default:
-#' `real_nvp_default_template(hidden_layers=...)`.
+#' `tfb_real_nvp_default_template(hidden_layers=...)`.
 #' Typically the function contains `tf$Variables` and is wrapped using `tf$make_template`.
 #'  Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.
 #' @param is_constant_jacobian Logical, default: FALSE. When TRUE the implementation assumes log_scale

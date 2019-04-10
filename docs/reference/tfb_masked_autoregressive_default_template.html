@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bijector which applies a list of bijectors to blocks of a Tensor — tfb_blockwise • tfprobability</title>
+<title>Masked Autoregressive Density Estimator — tfb_masked_autoregressive_default_template • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,12 @@
 
 
 
-<meta property="og:title" content="Bijector which applies a list of bijectors to blocks of a Tensor — tfb_blockwise" />
+<meta property="og:title" content="Masked Autoregressive Density Estimator — tfb_masked_autoregressive_default_template" />
 
-<meta property="og:description" content="More specifically, given [F_0, F_1, ... F_n] which are scalar or vector
-bijectors this bijector creates a transformation which operates on the vector
-[x_0, ... x_n] with the transformation [F_0(x_0), F_1(x_1) ..., F_n(x_n)]
-where x_0, ..., x_n are blocks (partitions) of the vector." />
+<meta property="og:description" content="This will be wrapped in a make_template to ensure the variables are only
+created once. It takes the input and returns the loc (&quot;mu&quot; in
+Germain et al. (2015)) and log_scale (&quot;alpha&quot; in Germain et al. (2015)) from
+the MADE network." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,47 +97,90 @@ where x_0, ..., x_n are blocks (partitions) of the vector." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bijector which applies a list of bijectors to blocks of a Tensor</h1>
+    <h1>Masked Autoregressive Density Estimator</h1>
     
-    <div class="hidden name"><code>tfb_blockwise.Rd</code></div>
+    <div class="hidden name"><code>tfb_masked_autoregressive_default_template.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>More specifically, given <code>[F_0, F_1, ... F_n]</code> which are scalar or vector
-bijectors this bijector creates a transformation which operates on the vector
-<code>[x_0, ... x_n]</code> with the transformation <code>[F_0(x_0), F_1(x_1) ..., F_n(x_n)]</code>
-where <code>x_0, ..., x_n</code> are blocks (partitions) of the vector.</p>
+    <p>This will be wrapped in a make_template to ensure the variables are only
+created once. It takes the input and returns the loc ("mu" in
+Germain et al. (2015)) and log_scale ("alpha" in Germain et al. (2015)) from
+the MADE network.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_blockwise</span>(<span class='no'>bijectors</span>, <span class='kw'>block_sizes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tfb_masked_autoregressive_default_template</span>(<span class='no'>hidden_layers</span>,
+  <span class='kw'>shift_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>activation</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>nn</span>$<span class='no'>relu</span>,
+  <span class='kw'>log_scale_min_clip</span> <span class='kw'>=</span> -<span class='fl'>5</span>, <span class='kw'>log_scale_max_clip</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>log_scale_clip_gradient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bijectors</th>
-      <td><p>A non-empty list of bijectors.</p></td>
+      <th>hidden_layers</th>
+      <td><p>list-like of non-negative integer, scalars indicating the number
+of units in each hidden layer. Default: <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(512, 512)</a></code>.</p></td>
     </tr>
     <tr>
-      <th>block_sizes</th>
-      <td><p>A 1-D integer Tensor with each element signifying the
-length of the block of the input vector to pass to the corresponding
-bijector. The length of block_sizes must be be equal to the length of
-bijectors. If left as NULL, a vector of 1's is used.</p></td>
+      <th>shift_only</th>
+      <td><p>logical indicating if only the shift term shall be
+computed. Default: FALSE.</p></td>
     </tr>
     <tr>
-      <th>validate_args</th>
-      <td><p>Logical indicating whether arguments should be checked for correctness.</p></td>
+      <th>activation</th>
+      <td><p>Activation function (callable). Explicitly setting to NULL implies a linear activation.</p></td>
+    </tr>
+    <tr>
+      <th>log_scale_min_clip</th>
+      <td><p>float-like scalar Tensor, or a Tensor with the same shape as log_scale. The minimum value to clip by. Default: -5.</p></td>
+    </tr>
+    <tr>
+      <th>log_scale_max_clip</th>
+      <td><p>float-like scalar Tensor, or a Tensor with the same shape as log_scale. The maximum value to clip by. Default: 3.</p></td>
+    </tr>
+    <tr>
+      <th>log_scale_clip_gradient</th>
+      <td><p>logical indicating that the gradient of tf$clip_by_value should be preserved. Default: FALSE.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>String, name given to ops managed by this object. Default:
-E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of_exp_and_softplus'</code>.</p></td>
+      <td><p>A name for ops managed by this function. Default: "tfb_masked_autoregressive_default_template".</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p><code>tf$layers$dense</code> arguments</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Warning: This function uses masked_dense to create randomly initialized
+<code>tf$Variables</code>. It is presumed that these will be fit, just as you would any
+other neural architecture which uses <code>tf$layers$dense</code>.</p>
+<p>About Hidden Layers
+Each element of hidden_layers should be greater than the input_depth
+(i.e., <code>input_depth = tf$shape(input)[-1]</code> where input is the input to the
+neural network). This is necessary to ensure the autoregressivity property.</p>
+<p>About Clipping
+This function also optionally clips the log_scale (but possibly not its
+gradient). This is useful because if log_scale is too small/large it might
+underflow/overflow making it impossible for the MaskedAutoregressiveFlow
+bijector to implement a bijection. Additionally, the log_scale_clip_gradient
+bool indicates whether the gradient should also be clipped. The default does
+not clip the gradient; this is useful because it still provides gradient
+information (for fitting) yet solves the numerical stability problem. I.e.,
+log_scale_clip_gradient = FALSE means <code>grad[exp(clip(x))] = grad[x] exp(clip(x))</code>
+rather than the usual <code>grad[clip(x)] exp(clip(x))</code>.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+    <ul>
+<li><p><a href='https://arxiv.org/abs/1502.03509'>Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In International Conference on Machine Learning, 2015.</a></p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -146,7 +189,7 @@ E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of
   <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a></code>,
   <code><a href='tfb_affine.html'>tfb_affine</a></code>,
   <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a></code>,
-  <code><a href='tfb_chain.html'>tfb_chain</a></code>,
+  <code><a href='tfb_blockwise.html'>tfb_blockwise</a></code>, <code><a href='tfb_chain.html'>tfb_chain</a></code>,
   <code><a href='tfb_cholesky_outer_product.html'>tfb_cholesky_outer_product</a></code>,
   <code><a href='tfb_cholesky_to_inv_cholesky.html'>tfb_cholesky_to_inv_cholesky</a></code>,
   <code><a href='tfb_discrete_cosine_transform.html'>tfb_discrete_cosine_transform</a></code>,
@@ -155,7 +198,6 @@ E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of
   <code><a href='tfb_gumbel.html'>tfb_gumbel</a></code>, <code><a href='tfb_identity.html'>tfb_identity</a></code>,
   <code><a href='tfb_inline.html'>tfb_inline</a></code>, <code><a href='tfb_invert.html'>tfb_invert</a></code>,
   <code><a href='tfb_kumaraswamy.html'>tfb_kumaraswamy</a></code>,
-  <code><a href='tfb_masked_autoregressive_default_template.html'>tfb_masked_autoregressive_default_template</a></code>,
   <code><a href='tfb_masked_autoregressive_flow.html'>tfb_masked_autoregressive_flow</a></code>,
   <code><a href='tfb_masked_dense.html'>tfb_masked_dense</a></code>,
   <code><a href='tfb_matrix_inverse_tri_l.html'>tfb_matrix_inverse_tri_l</a></code>,
@@ -181,6 +223,10 @@ E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

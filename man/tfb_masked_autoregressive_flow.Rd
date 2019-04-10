@@ -12,7 +12,7 @@ tfb_masked_autoregressive_flow(shift_and_log_scale_fn,
 \item{shift_and_log_scale_fn}{Function which computes shift and log_scale from both the
 forward domain (x) and the inverse domain (y).
 Calculation must respect the "autoregressive property". Suggested default:
-masked_autoregressive_default_template(hidden_layers=...).
+tfb_masked_autoregressive_default_template(hidden_layers=...).
 Typically the function contains \code{tf$Variables} and is wrapped using \code{tf$make_template}.
 Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.}
 
@@ -25,7 +25,7 @@ static for loop. Requires that the final dimension of x be known at graph constr
 
 \item{event_ndims}{integer, the intrinsic dimensionality of this bijector.
 1 corresponds to a simple vector autoregressive bijector as implemented by the
-\code{masked_autoregressive_default_template}, 2 might be useful for a 2D convolutional shift_and_log_scale_fn and so on.}
+\code{tfb_masked_autoregressive_default_template}, 2 might be useful for a 2D convolutional shift_and_log_scale_fn and so on.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
@@ -49,7 +49,7 @@ where perm is some permutation of \code{{0, ..., d}}. In the simple case where
 the permutation is identity this reduces to:
 
 \code{p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }}. The provided
-shift_and_log_scale_fn, masked_autoregressive_default_template, achieves
+shift_and_log_scale_fn, tfb_masked_autoregressive_default_template, achieves
 this property by zeroing out weights in its masked_dense layers.
 In TensorFlow Probability, "normalizing flows" are implemented as
 tfp.bijectors.Bijectors. The forward "autoregression" is implemented
@@ -69,14 +69,14 @@ and log(scale) (aka "alpha" in Germain et al. (2015)) such that ech
 are broadcastable with the arguments to forward and inverse, i.e., such
 that the calculations in forward, inverse below are possible.
 
-For convenience, masked_autoregressive_default_template is offered as a
+For convenience, tfb_masked_autoregressive_default_template is offered as a
 possible shift_and_log_scale_fn function. It implements the MADE
 architecture (Germain et al., 2015). MADE is a feed-forward network that
 computes a shift and log(scale) using masked_dense layers in a deep
 neural network. Weights are masked to ensure the autoregressive property. It
 is possible that this architecture is suboptimal for your task. To build
 alternative networks, either change the arguments to
-masked_autoregressive_default_template, use the masked_dense function to
+tfb_masked_autoregressive_default_template, use the masked_dense function to
 roll-out your own, or use some other architecture, e.g., using tf.layers.
 Warning: no attempt is made to validate that the shift_and_log_scale_fn
 enforces the "autoregressive property".
@@ -113,10 +113,7 @@ the "last" y used to compute shift, log_scale.
 }
 
 \seealso{
-Other bijectors: \code{\link{masked_autoregressive_default_template}},
-  \code{\link{masked_dense}},
-  \code{\link{real_nvp_default_template}},
-  \code{\link{tfb_absolute_value}},
+Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_affine_linear_operator}},
   \code{\link{tfb_affine_scalar}},
   \code{\link{tfb_affine}},
@@ -130,11 +127,14 @@ Other bijectors: \code{\link{masked_autoregressive_default_template}},
   \code{\link{tfb_gumbel}}, \code{\link{tfb_identity}},
   \code{\link{tfb_inline}}, \code{\link{tfb_invert}},
   \code{\link{tfb_kumaraswamy}},
+  \code{\link{tfb_masked_autoregressive_default_template}},
+  \code{\link{tfb_masked_dense}},
   \code{\link{tfb_matrix_inverse_tri_l}},
   \code{\link{tfb_matvec_lu}},
   \code{\link{tfb_normal_cdf}}, \code{\link{tfb_ordered}},
   \code{\link{tfb_permute}},
   \code{\link{tfb_power_transform}},
+  \code{\link{tfb_real_nvp_default_template}},
   \code{\link{tfb_real_nvp}}, \code{\link{tfb_reciprocal}},
   \code{\link{tfb_reshape}}, \code{\link{tfb_scale_tri_l}},
   \code{\link{tfb_sigmoid}},

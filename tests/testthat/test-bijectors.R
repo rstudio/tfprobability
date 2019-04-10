@@ -5,11 +5,11 @@ source("utils.R")
 # Flows -------------------------------------------------------------------
 
 
-test_succeeds("Use masked_dense", {
+test_succeeds("Use tfb_masked_dense", {
   input <-
     tf$constant(matrix(1:40, ncol = 4, byrow = TRUE), dtype = tf$float32)
   m <-
-    masked_dense(
+    tfb_masked_dense(
       input = input,
       units = 22,
       num_blocks = 4,
@@ -17,15 +17,15 @@ test_succeeds("Use masked_dense", {
     )
 })
 
-test_succeeds("Use masked_autoregressive_default_template", {
+test_succeeds("Use tfb_real_nvp_default_template", {
   m <-
-    masked_autoregressive_default_template(hidden_layers = 17,
+    tfb_masked_autoregressive_default_template(hidden_layers = 17,
                                            bias_initializer = tf$constant_initializer(0))
 })
 
-test_succeeds("Use masked_autoregressive_default_template", {
+test_succeeds("Use tfb_masked_autoregressive_default_template", {
   m <-
-    real_nvp_default_template(hidden_layers = 17, activity_regularizer = "l2")
+    tfb_real_nvp_default_template(hidden_layers = 17, activity_regularizer = "l2")
 })
 
 test_succeeds("Use masked autoregressive flow with template", {
@@ -33,7 +33,7 @@ test_succeeds("Use masked autoregressive flow with template", {
   dims <- 5L
   maf <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
-    bijector = tfb_masked_autoregressive_flow(shift_and_log_scale_fn = masked_autoregressive_default_template(hidden_layers = c(7, 7))),
+    bijector = tfb_masked_autoregressive_flow(shift_and_log_scale_fn = tfb_masked_autoregressive_default_template(hidden_layers = c(7, 7))),
     event_shape = tf$TensorShape(dims)
   )
   target_dist <- tfd_normal(loc = 2.2, scale = 0.23)
@@ -52,7 +52,7 @@ test_succeeds("Use an tfb_inverse autoregressive flow", {
   iaf <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_invert(
-      tfb_masked_autoregressive_flow(shift_and_log_scale_fn = masked_autoregressive_default_template(hidden_layers = c(7, 7)))
+      tfb_masked_autoregressive_flow(shift_and_log_scale_fn = tfb_masked_autoregressive_default_template(hidden_layers = c(7, 7)))
     ),
     event_shape = tf$TensorShape(dims)
   )
@@ -73,7 +73,7 @@ test_succeeds("Use real NVP with template", {
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_real_nvp(
       num_masked = 1,
-      shift_and_log_scale_fn = real_nvp_default_template(hidden_layers = c(7, 7))
+      shift_and_log_scale_fn = tfb_real_nvp_default_template(hidden_layers = c(7, 7))
     ),
     event_shape = tf$TensorShape(dims)
   )

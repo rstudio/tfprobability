@@ -4193,7 +4193,7 @@ tfd_batch_reshape <- function(distribution,
 #'
 #' In other words, the "autoregressive property" is equivalent to the
 #' decomposition, `p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }`. The provided
-#' `shift_and_log_scale_fn`, `masked_autoregressive_default_template`, achieves
+#' `shift_and_log_scale_fn`, `tfb_masked_autoregressive_default_template`, achieves
 #' this property by zeroing out weights in its `masked_dense` layers.
 #' Practically speaking the autoregressive property means that there exists a
 #' permutation of the event coordinates such that each coordinate is a
