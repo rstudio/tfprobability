@@ -75,6 +75,9 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
   do.call(tfp$mcmc$HamiltonianMonteCarlo, args)
 }
 
+# hack due to https://github.com/r-lib/pkgdown/issues/330
+tfp_mcmc_sssa <- function() tfp$mcmc$simple_step_size_adaptation
+
 #' Adapts the inner kernel's `step_size` based on `log_accept_prob`.
 #'
 #' The simple policy multiplicatively increases or decreases the `step_size` of
@@ -173,11 +176,11 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
                                              target_accept_prob = 0.75,
                                              adaptation_rate = 0.01,
                                              step_size_setter_fn =
-                                               tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_setter_fn`,
+                                               tfp_mcmc_sssa()$`_hmc_like_step_size_setter_fn`,
                                              step_size_getter_fn =
-                                               tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_getter_fn`,
+                                               tfp_mcmc_sssa()$`_hmc_like_step_size_getter_fn`,
                                              log_accept_prob_getter_fn =
-                                               tfp$mcmc$simple_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`,
+                                               tfp_mcmc_sssa()$`_hmc_like_log_accept_prob_getter_fn`,
                                              validate_args = FALSE,
                                              name = NULL) {
   args <- list(
