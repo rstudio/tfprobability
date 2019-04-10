@@ -23,8 +23,4 @@ Imports:
     magrittr
 Suggests: 
     testthat
-Remotes:
-    rstudio/tensorflow,
-    rstudio/keras,
-    rstudio/reticulate
 
