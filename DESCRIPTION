@@ -25,5 +25,6 @@ Suggests:
     testthat
 Remotes:
     rstudio/tensorflow,
-    rstudio/keras
+    rstudio/keras,
+    rstudio/reticulate
 
