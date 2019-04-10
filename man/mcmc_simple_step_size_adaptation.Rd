@@ -66,7 +66,7 @@ kernels' docstrings for guidance.
 \details{
 In general, adaptation prevents the chain from reaching a stationary
 distribution, so obtaining consistent samples requires \code{num_adaptation_steps}
-be set to a value \link[=2]{somewhat smaller} than the number of burnin steps.
+be set to a value somewhat smaller than the number of burnin steps.
 However, it may sometimes be helpful to set \code{num_adaptation_steps} to a larger
 value during development in order to inspect the behavior of the chain during
 adaptation.
@@ -84,23 +84,23 @@ has shape \code{[C0, C1, Y]} (meaning that there are \code{C0 * C1} total chains
 \code{log_accept_prob} has shape \code{[C0, C1]} (one acceptance probability per chain),
 then depending on the shape of the step size, the following will happen:
 \itemize{
-\item Step size has shape [], \link{S} or \link{1}, the \code{log_accept_prob} will be averaged
+\item Step size has shape \code{[]}, \code{[S]} or \code{[1]}, the \code{log_accept_prob} will be averaged
 across its \code{C0} and \code{C1} dimensions. This means that you will learn a shared
 step size based on the mean acceptance probability across all chains. This
 can be useful if you don't have a lot of steps to adapt and want to average
 away the noise.
-\item Step size has shape \link{C1, 1} or \link{C1, S}, the \code{log_accept_prob} will be
+\item Step size has shape \code{[C1, 1]} or \code{[C1, S]}, the \code{log_accept_prob} will be
 averaged across its \code{C0} dimension. This means that you will learn a shared
 step size based on the mean acceptance probability across chains that share
 the coordinate across the \code{C1} dimension. This can be useful when the \code{C1}
 dimension indexes different distributions, while \code{C0} indexes replicas of a
 single distribution, all sampled in parallel.
-\item Step size has shape \link{C0, C1, 1} or \link{C0, C1, S}, then no averaging will
+\item Step size has shape \code{[C0, C1, 1]} or \code{[C0, C1, S]}, then no averaging will
 happen. This means that each chain will learn its own step size. This can be
 useful when all chains are sampling from different distributions. Even when
 all chains are for the same distribution, this can help during the initial
 warmup period.
-\item Step size has shape \link{C0, 1, 1} or \link{C0, 1, S}, the \code{log_accept_prob} will be
+\item Step size has shape \code{[C0, 1, 1]} or \code{[C0, 1, S]}, the \code{log_accept_prob} will be
 averaged across its \code{C1} dimension. This means that you will learn a shared
 step size based on the mean acceptance probability across chains that share
 the coordinate across the \code{C0} dimension. This can be useful when the \code{C0}

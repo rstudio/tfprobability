@@ -89,7 +89,7 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
 #'
 #' In general, adaptation prevents the chain from reaching a stationary
 #' distribution, so obtaining consistent samples requires `num_adaptation_steps`
-#' be set to a value [somewhat smaller][2] than the number of burnin steps.
+#' be set to a value somewhat smaller than the number of burnin steps.
 #' However, it may sometimes be helpful to set `num_adaptation_steps` to a larger
 #' value during development in order to inspect the behavior of the chain during
 #' adaptation.
@@ -106,23 +106,23 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
 #' has shape `[C0, C1, Y]` (meaning that there are `C0 * C1` total chains) and
 #' `log_accept_prob` has shape `[C0, C1]` (one acceptance probability per chain),
 #' then depending on the shape of the step size, the following will happen:
-#' - Step size has shape [], [S] or [1], the `log_accept_prob` will be averaged
+#' - Step size has shape `[]`, `[S]` or `[1]`, the `log_accept_prob` will be averaged
 #' across its `C0` and `C1` dimensions. This means that you will learn a shared
 #' step size based on the mean acceptance probability across all chains. This
 #' can be useful if you don't have a lot of steps to adapt and want to average
 #' away the noise.
-#' - Step size has shape [C1, 1] or [C1, S], the `log_accept_prob` will be
+#' - Step size has shape `[C1, 1]` or `[C1, S]`, the `log_accept_prob` will be
 #' averaged across its `C0` dimension. This means that you will learn a shared
 #' step size based on the mean acceptance probability across chains that share
 #' the coordinate across the `C1` dimension. This can be useful when the `C1`
 #' dimension indexes different distributions, while `C0` indexes replicas of a
 #' single distribution, all sampled in parallel.
-#' - Step size has shape [C0, C1, 1] or [C0, C1, S], then no averaging will
+#' - Step size has shape `[C0, C1, 1]` or `[C0, C1, S]`, then no averaging will
 #' happen. This means that each chain will learn its own step size. This can be
 #' useful when all chains are sampling from different distributions. Even when
 #' all chains are for the same distribution, this can help during the initial
 #' warmup period.
-#' - Step size has shape [C0, 1, 1] or [C0, 1, S], the `log_accept_prob` will be
+#' - Step size has shape `[C0, 1, 1]` or `[C0, 1, S]`, the `log_accept_prob` will be
 #' averaged across its `C1` dimension. This means that you will learn a shared
 #' step size based on the mean acceptance probability across chains that share
 #' the coordinate across the `C0` dimension. This can be useful when the `C0`
@@ -172,9 +172,12 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
                                              num_adaptation_steps,
                                              target_accept_prob = 0.75,
                                              adaptation_rate = 0.01,
-                                             step_size_setter_fn = tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_setter_fn`,
-                                             step_size_getter_fn = tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_getter_fn`,
-                                             log_accept_prob_getter_fn = tfp$mcmc$simple_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`,
+                                             step_size_setter_fn =
+                                               tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_setter_fn`,
+                                             step_size_getter_fn =
+                                               tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_getter_fn`,
+                                             log_accept_prob_getter_fn =
+                                               tfp$mcmc$simple_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`,
                                              validate_args = FALSE,
                                              name = NULL) {
   args <- list(
