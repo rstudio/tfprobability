@@ -46,7 +46,7 @@ by an invertible transformation with tractable Jacobian." (Papamakarios et al., 
 
 In other words, the "autoregressive property" is equivalent to the
 decomposition, \code{p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }}. The provided
-\code{shift_and_log_scale_fn}, \code{masked_autoregressive_default_template}, achieves
+\code{shift_and_log_scale_fn}, \code{tfb_masked_autoregressive_default_template}, achieves
 this property by zeroing out weights in its \code{masked_dense} layers.
 Practically speaking the autoregressive property means that there exists a
 permutation of the event coordinates such that each coordinate is a

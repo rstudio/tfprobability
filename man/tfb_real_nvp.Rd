@@ -15,7 +15,7 @@ is the event size of the base distribution.}
 \item{shift_and_log_scale_fn}{Function which computes shift and log_scale from both the
 forward domain (x) and the inverse domain (y).
 Calculation must respect the "autoregressive property". Suggested default:
-\code{real_nvp_default_template(hidden_layers=...)}.
+\code{tfb_real_nvp_default_template(hidden_layers=...)}.
 Typically the function contains \code{tf$Variables} and is wrapped using \code{tf$make_template}.
 Returning NULL for either (both) shift, log_scale is equivalent to (but more efficient than) returning zero.}
 
@@ -66,7 +66,7 @@ which discards the scale transformation, resulting in a constant-time
 inverse-log-determinant-Jacobian. To use a NICE bijector instead of Real
 NVP, shift_and_log_scale_fn should return (shift, NULL), and
 is_constant_jacobian should be set to TRUE in the RealNVP constructor.
-Calling real_nvp_default_template with shift_only=TRUE returns one such
+Calling tfb_real_nvp_default_template with shift_only=TRUE returns one such
 NICE-compatible shift_and_log_scale_fn.
 
 Caching: the scalar input depth D of the base distribution is not known at
@@ -86,10 +86,7 @@ graph execution (which is the case if using \code{tf$layers}).
 }
 
 \seealso{
-Other bijectors: \code{\link{masked_autoregressive_default_template}},
-  \code{\link{masked_dense}},
-  \code{\link{real_nvp_default_template}},
-  \code{\link{tfb_absolute_value}},
+Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_affine_linear_operator}},
   \code{\link{tfb_affine_scalar}},
   \code{\link{tfb_affine}},
@@ -103,12 +100,15 @@ Other bijectors: \code{\link{masked_autoregressive_default_template}},
   \code{\link{tfb_gumbel}}, \code{\link{tfb_identity}},
   \code{\link{tfb_inline}}, \code{\link{tfb_invert}},
   \code{\link{tfb_kumaraswamy}},
+  \code{\link{tfb_masked_autoregressive_default_template}},
   \code{\link{tfb_masked_autoregressive_flow}},
+  \code{\link{tfb_masked_dense}},
   \code{\link{tfb_matrix_inverse_tri_l}},
   \code{\link{tfb_matvec_lu}},
   \code{\link{tfb_normal_cdf}}, \code{\link{tfb_ordered}},
   \code{\link{tfb_permute}},
   \code{\link{tfb_power_transform}},
+  \code{\link{tfb_real_nvp_default_template}},
   \code{\link{tfb_reciprocal}}, \code{\link{tfb_reshape}},
   \code{\link{tfb_scale_tri_l}}, \code{\link{tfb_sigmoid}},
   \code{\link{tfb_sinh_arcsinh}},

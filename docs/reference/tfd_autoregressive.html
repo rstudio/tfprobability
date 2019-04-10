@@ -162,7 +162,7 @@ transform a base density (e.g. a standard Gaussian) into the target density
 by an invertible transformation with tractable Jacobian." (Papamakarios et al., 2016)</p>
 <p>In other words, the "autoregressive property" is equivalent to the
 decomposition, <code>p(x) = prod{ p(x[i] | x[0:i]) : i=0, ..., d }</code>. The provided
-<code>shift_and_log_scale_fn</code>, <code>masked_autoregressive_default_template</code>, achieves
+<code>shift_and_log_scale_fn</code>, <code>tfb_masked_autoregressive_default_template</code>, achieves
 this property by zeroing out weights in its <code>masked_dense</code> layers.
 Practically speaking the autoregressive property means that there exists a
 permutation of the event coordinates such that each coordinate is a

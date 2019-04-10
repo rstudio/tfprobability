@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bijector which applies a list of bijectors to blocks of a Tensor — tfb_blockwise • tfprobability</title>
+<title>Autoregressively masked dense layer — tfb_masked_dense • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,9 @@
 
 
 
-<meta property="og:title" content="Bijector which applies a list of bijectors to blocks of a Tensor — tfb_blockwise" />
+<meta property="og:title" content="Autoregressively masked dense layer — tfb_masked_dense" />
 
-<meta property="og:description" content="More specifically, given [F_0, F_1, ... F_n] which are scalar or vector
-bijectors this bijector creates a transformation which operates on the vector
-[x_0, ... x_n] with the transformation [F_0(x_0), F_1(x_1) ..., F_n(x_n)]
-where x_0, ..., x_n are blocks (partitions) of the vector." />
+<meta property="og:description" content="Analogous to tf$layers$dense." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,47 +94,69 @@ where x_0, ..., x_n are blocks (partitions) of the vector." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bijector which applies a list of bijectors to blocks of a Tensor</h1>
+    <h1>Autoregressively masked dense layer</h1>
     
-    <div class="hidden name"><code>tfb_blockwise.Rd</code></div>
+    <div class="hidden name"><code>tfb_masked_dense.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>More specifically, given <code>[F_0, F_1, ... F_n]</code> which are scalar or vector
-bijectors this bijector creates a transformation which operates on the vector
-<code>[x_0, ... x_n]</code> with the transformation <code>[F_0(x_0), F_1(x_1) ..., F_n(x_n)]</code>
-where <code>x_0, ..., x_n</code> are blocks (partitions) of the vector.</p>
+    <p>Analogous to <code>tf$layers$dense</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_blockwise</span>(<span class='no'>bijectors</span>, <span class='kw'>block_sizes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tfb_masked_dense</span>(<span class='no'>inputs</span>, <span class='no'>units</span>, <span class='kw'>num_blocks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>exclusive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>kernel_initializer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>reuse</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bijectors</th>
-      <td><p>A non-empty list of bijectors.</p></td>
+      <th>inputs</th>
+      <td><p>Tensor input.</p></td>
     </tr>
     <tr>
-      <th>block_sizes</th>
-      <td><p>A 1-D integer Tensor with each element signifying the
-length of the block of the input vector to pass to the corresponding
-bijector. The length of block_sizes must be be equal to the length of
-bijectors. If left as NULL, a vector of 1's is used.</p></td>
+      <th>units</th>
+      <td><p>integer scalar representing the dimensionality of the output space.</p></td>
     </tr>
     <tr>
-      <th>validate_args</th>
-      <td><p>Logical indicating whether arguments should be checked for correctness.</p></td>
+      <th>num_blocks</th>
+      <td><p>integer scalar representing the number of blocks for the MADE masks.</p></td>
+    </tr>
+    <tr>
+      <th>exclusive</th>
+      <td><p>logical scalar representing whether to zero the diagonal of
+the mask, used for the first layer of a MADE.</p></td>
+    </tr>
+    <tr>
+      <th>kernel_initializer</th>
+      <td><p>Initializer function for the weight matrix.
+If NULL (default), weights are initialized using the <code>tf$glorot_random_initializer</code></p></td>
+    </tr>
+    <tr>
+      <th>reuse</th>
+      <td><p>logical scalar representing whether to reuse the weights of a previous layer by the same name.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>String, name given to ops managed by this object. Default:
-E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of_exp_and_softplus'</code>.</p></td>
+      <td><p>string used to describe ops managed by this function.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p><code>tf$layers$dense</code> arguments</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>See Germain et al. (2015)for detailed explanation.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+    <ul>
+<li><p><a href='https://arxiv.org/abs/1502.03509'>Mathieu Germain, Karol Gregor, Iain Murray, and Hugo Larochelle. MADE: Masked Autoencoder for Distribution Estimation. In International Conference on Machine Learning, 2015.</a></p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -146,7 +165,7 @@ E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of
   <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a></code>,
   <code><a href='tfb_affine.html'>tfb_affine</a></code>,
   <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a></code>,
-  <code><a href='tfb_chain.html'>tfb_chain</a></code>,
+  <code><a href='tfb_blockwise.html'>tfb_blockwise</a></code>, <code><a href='tfb_chain.html'>tfb_chain</a></code>,
   <code><a href='tfb_cholesky_outer_product.html'>tfb_cholesky_outer_product</a></code>,
   <code><a href='tfb_cholesky_to_inv_cholesky.html'>tfb_cholesky_to_inv_cholesky</a></code>,
   <code><a href='tfb_discrete_cosine_transform.html'>tfb_discrete_cosine_transform</a></code>,
@@ -157,7 +176,6 @@ E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of
   <code><a href='tfb_kumaraswamy.html'>tfb_kumaraswamy</a></code>,
   <code><a href='tfb_masked_autoregressive_default_template.html'>tfb_masked_autoregressive_default_template</a></code>,
   <code><a href='tfb_masked_autoregressive_flow.html'>tfb_masked_autoregressive_flow</a></code>,
-  <code><a href='tfb_masked_dense.html'>tfb_masked_dense</a></code>,
   <code><a href='tfb_matrix_inverse_tri_l.html'>tfb_matrix_inverse_tri_l</a></code>,
   <code><a href='tfb_matvec_lu.html'>tfb_matvec_lu</a></code>,
   <code><a href='tfb_normal_cdf.html'>tfb_normal_cdf</a></code>, <code><a href='tfb_ordered.html'>tfb_ordered</a></code>,
@@ -181,6 +199,10 @@ E.g., <code>tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 
