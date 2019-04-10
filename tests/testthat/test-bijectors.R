@@ -31,7 +31,7 @@ test_succeeds("Use tfb_masked_autoregressive_default_template", {
 test_succeeds("Use masked autoregressive flow with template", {
   skip_if_not_eager()
   dims <- 5L
-  maf <- tfd_transformed(
+  maf <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_masked_autoregressive_flow(shift_and_log_scale_fn = tfb_masked_autoregressive_default_template(hidden_layers = c(7, 7))),
     event_shape = tf$TensorShape(dims)
@@ -49,7 +49,7 @@ test_succeeds("Use masked autoregressive flow with template", {
 test_succeeds("Use an tfb_inverse autoregressive flow", {
   skip_if_not_eager()
   dims <- 5L
-  iaf <- tfd_transformed(
+  iaf <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_invert(
       tfb_masked_autoregressive_flow(shift_and_log_scale_fn = tfb_masked_autoregressive_default_template(hidden_layers = c(7, 7)))
@@ -69,7 +69,7 @@ test_succeeds("Use an tfb_inverse autoregressive flow", {
 test_succeeds("Use real NVP with template", {
   skip_if_not_eager()
   dims <- 5L
-  rnvp <- tfd_transformed(
+  rnvp <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_real_nvp(
       num_masked = 1,
@@ -260,7 +260,7 @@ test_succeeds("Define an affine scalar bijector", {
 
 test_succeeds("Define a batch norm bijector", {
   dist <-
-    tfd_transformed(distribution = tfd_normal(loc = 0, scale = 1),
+    tfd_transformed_distribution(distribution = tfd_normal(loc = 0, scale = 1),
                     bijector = tfb_batch_normalization())
   y <-
     tfd_normal(loc = 1, scale = 2) %>% tfd_sample(100)  # ~ N(1, 2)

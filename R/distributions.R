@@ -416,7 +416,7 @@ tfd_relaxed_bernoulli <- function(temperature,
 #' @param name The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.
 #' @family distributions
 #' @export
-tfd_transformed <- function(distribution,
+tfd_transformed_distribution <- function(distribution,
                             bijector,
                             batch_shape = NULL,
                             event_shape = NULL,
