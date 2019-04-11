@@ -20,7 +20,7 @@ tfd_sample <- function(distribution,
                        name = "sample") {
   if (inherits(
     distribution,
-    "tensorflow_probability.python.distributions.joint_distribution.JointDistributionSequential"
+    "tensorflow_probability.python.distributions.joint_distribution_sequential.JointDistributionSequential"
   )) {
     distribution$sample(normalize_shape(sample_shape), seed, value, name)
   } else {
