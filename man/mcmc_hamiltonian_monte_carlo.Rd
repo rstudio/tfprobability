@@ -74,6 +74,6 @@ chains is \code{tf.size(target_log_prob_fn(*current_state))}.)
 }
 
 \seealso{
-Other mcmc-kernels: \code{\link{mcmc_simple_step_size_adaptation}}
+Other mcmc_kernels: \code{\link{mcmc_simple_step_size_adaptation}}
 }
-\concept{mcmc-kernels}
+\concept{mcmc_kernels}

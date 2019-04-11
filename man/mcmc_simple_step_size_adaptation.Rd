@@ -117,6 +117,6 @@ single distribution, all sampled in parallel.
 }
 
 \seealso{
-Other mcmc-kernels: \code{\link{mcmc_hamiltonian_monte_carlo}}
+Other mcmc_kernels: \code{\link{mcmc_hamiltonian_monte_carlo}}
 }
-\concept{mcmc-kernels}
+\concept{mcmc_kernels}

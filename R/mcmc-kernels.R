@@ -50,7 +50,7 @@
 #' @param name string prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., 'hmc_kernel').
 #'
-#' @family mcmc-kernels
+#' @family mcmc_kernels
 #' @export
 mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
                                          step_size,
@@ -167,7 +167,7 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
 #' outputs.
 #' @param name string prefixed to Ops created by this class. Default: "simple_step_size_adaptation".
 #'
-#' @family mcmc-kernels
+#' @family mcmc_kernels
 #' @export
 mcmc_simple_step_size_adaptation <- function(inner_kernel,
                                              num_adaptation_steps,
