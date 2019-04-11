@@ -52,7 +52,6 @@
 #'
 #' @family mcmc-kernels
 #' @export
-#'
 mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
                                          step_size,
                                          num_leapfrog_steps,
@@ -134,7 +133,7 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
 #' @section References:
 #' - [Andrieu, Christophe, Thoms, Johannes. A tutorial on adaptive MCMC. _Statistics and Computing_, 2008.](https://people.eecs.berkeley.edu/~jordan/sail/readings/andrieu-thoms.pdf)
 #' - http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745
-#' - [Betancourt, M. J., Byrne, S., & Girolami, M. (2014). _Optimizing The Integrator Step Size for Hamiltonian Monte Carlo_.)(http://arxiv.org/abs/1411.6669)
+#' - [Betancourt, M. J., Byrne, S., & Girolami, M. (2014). _Optimizing The Integrator Step Size for Hamiltonian Monte Carlo_.](http://arxiv.org/abs/1411.6669)
 #'
 #' @param inner_kernel `TransitionKernel`-like object.
 #' @param num_adaptation_steps Scalar `integer` `Tensor` number of initial steps to
@@ -174,7 +173,6 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
                                              num_adaptation_steps,
                                              target_accept_prob = 0.75,
                                              adaptation_rate = 0.01,
-                                             # see https://github.com/r-lib/pkgdown/issues/330
                                              step_size_setter_fn = NULL,
                                              step_size_getter_fn = NULL,
                                              log_accept_prob_getter_fn = NULL,
@@ -189,6 +187,7 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
     name = name
   )
 
+  # see https://github.com/r-lib/pkgdown/issues/330
   args$step_size_setter_fn <-
     if (!is.null(step_size_setter_fn))
       step_size_setter_fn
