@@ -6,10 +6,9 @@
 \usage{
 mcmc_simple_step_size_adaptation(inner_kernel, num_adaptation_steps,
   target_accept_prob = 0.75, adaptation_rate = 0.01,
-  step_size_setter_fn = tfp_mcmc_sssa()$`_hmc_like_step_size_setter_fn`,
-  step_size_getter_fn = tfp_mcmc_sssa()$`_hmc_like_step_size_getter_fn`,
-  log_accept_prob_getter_fn = tfp_mcmc_sssa()$`_hmc_like_log_accept_prob_getter_fn`,
-  validate_args = FALSE, name = NULL)
+  step_size_setter_fn = NULL, step_size_getter_fn = NULL,
+  log_accept_prob_getter_fn = NULL, validate_args = FALSE,
+  name = NULL)
 }
 \arguments{
 \item{inner_kernel}{\code{TransitionKernel}-like object.}

@@ -68,15 +68,14 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
     state_gradients_are_stopped = state_gradients_are_stopped,
     step_size_update_fn = step_size_update_fn,
     seed = seed,
-    store_parameters_in_results = store_parameters_in_results,
     name = name
   )
+
+  if (tfp_version() >= "0.7") args$store_parameters_in_results <- store_parameters_in_results
 
   do.call(tfp$mcmc$HamiltonianMonteCarlo, args)
 }
 
-# hack due to https://github.com/r-lib/pkgdown/issues/330
-tfp_mcmc_sssa <- function() tfp$mcmc$simple_step_size_adaptation
 
 #' Adapts the inner kernel's `step_size` based on `log_accept_prob`.
 #'
@@ -175,12 +174,10 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
                                              num_adaptation_steps,
                                              target_accept_prob = 0.75,
                                              adaptation_rate = 0.01,
-                                             step_size_setter_fn =
-                                               tfp_mcmc_sssa()$`_hmc_like_step_size_setter_fn`,
-                                             step_size_getter_fn =
-                                               tfp_mcmc_sssa()$`_hmc_like_step_size_getter_fn`,
-                                             log_accept_prob_getter_fn =
-                                               tfp_mcmc_sssa()$`_hmc_like_log_accept_prob_getter_fn`,
+                                             # see https://github.com/r-lib/pkgdown/issues/330
+                                             step_size_setter_fn = NULL,
+                                             step_size_getter_fn = NULL,
+                                             log_accept_prob_getter_fn = NULL,
                                              validate_args = FALSE,
                                              name = NULL) {
   args <- list(
@@ -188,12 +185,25 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
     num_adaptation_steps = as.integer(num_adaptation_steps),
     target_accept_prob = target_accept_prob,
     adaptation_rate = adaptation_rate,
-    step_size_setter_fn = step_size_setter_fn,
-    step_size_getter_fn = step_size_getter_fn,
-    log_accept_prob_getter_fn = log_accept_prob_getter_fn,
     validate_args = validate_args,
     name = name
   )
+
+  args$step_size_setter_fn <-
+    if (!is.null(step_size_setter_fn))
+      step_size_setter_fn
+  else
+    tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_setter_fn`
+  args$step_size_getter_fn <-
+    if (!is.null(step_size_getter_fn))
+      step_size_getter_fn
+  else
+    tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_getter_fn`
+  args$log_accept_prob_getter_fn <-
+    if (!is.null(log_accept_prob_getter_fn))
+      log_accept_prob_getter_fn
+  else
+    tfp$mcmc$simple_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`
 
   do.call(tfp$mcmc$SimpleStepSizeAdaptation, args)
 }

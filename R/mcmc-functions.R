@@ -66,15 +66,22 @@ mcmc_sample_chain <- function(
   parallel_iterations = 10,
   name = NULL) {
 
-  tfp$mcmc$sample_chain(as.integer(num_results),
-                        current_state,
-                        previous_kernel_results,
-                        kernel,
-                        as.integer(num_burnin_steps),
-                        as.integer(num_steps_between_results),
-                        trace_fn,
-                        return_final_kernel_results,
-                        as.integer(parallel_iterations),
-                        name)
+
+  args <- list(
+    num_results = as.integer(num_results),
+    current_state = current_state,
+    previous_kernel_results = previous_kernel_results,
+    kernel = kernel,
+    num_burnin_steps = as.integer(num_burnin_steps),
+    num_steps_between_results = as.integer(num_steps_between_results),
+    parallel_iterations = as.integer(parallel_iterations),
+    name = name)
+
+  if (tfp_version() >= "0.7") {
+    args$return_final_kernel_results <- return_final_kernel_results
+    args$trace_fn <- trace_fn
+  }
+
+  do.call(tfp$mcmc$sample_chain, args)
 }
 
