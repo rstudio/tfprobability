@@ -54,34 +54,40 @@
 #'
 #' @family mcmc_functions
 #' @export
-mcmc_sample_chain <- function(
-  kernel = NULL,
-  num_results,
-  current_state,
-  previous_kernel_results = NULL,
-  num_burnin_steps = 0,
-  num_steps_between_results = 0,
-  trace_fn = function(current_state, kernel_results) kernel_results,
-  return_final_kernel_results = FALSE,
-  parallel_iterations = 10,
-  name = NULL) {
-
-
-  args <- list(
-    num_results = as.integer(num_results),
-    current_state = current_state,
-    previous_kernel_results = previous_kernel_results,
-    kernel = kernel,
-    num_burnin_steps = as.integer(num_burnin_steps),
-    num_steps_between_results = as.integer(num_steps_between_results),
-    parallel_iterations = as.integer(parallel_iterations),
-    name = name)
-
+mcmc_sample_chain <- function(kernel = NULL,
+                              num_results,
+                              current_state,
+                              previous_kernel_results = NULL,
+                              num_burnin_steps = 0,
+                              num_steps_between_results = 0,
+                              trace_fn = NULL,
+                              return_final_kernel_results = FALSE,
+                              parallel_iterations = 10,
+                              name = NULL) {
+  # need to make sure we keep trace_fn here, even if NULL, so no do.call
   if (tfp_version() >= "0.7") {
-    args$return_final_kernel_results <- return_final_kernel_results
-    args$trace_fn <- trace_fn
+    tfp$mcmc$sample_chain(
+      num_results = as.integer(num_results),
+      current_state = current_state,
+      previous_kernel_results = previous_kernel_results,
+      kernel = kernel,
+      num_burnin_steps = as.integer(num_burnin_steps),
+      num_steps_between_results = as.integer(num_steps_between_results),
+      return_final_kernel_results = return_final_kernel_results,
+      trace_fn = trace_fn,
+      parallel_iterations = as.integer(parallel_iterations),
+      name = name
+    )
+  } else {
+    tfp$mcmc$sample_chain(
+      num_results = as.integer(num_results),
+      current_state = current_state,
+      previous_kernel_results = previous_kernel_results,
+      kernel = kernel,
+      num_burnin_steps = as.integer(num_burnin_steps),
+      num_steps_between_results = as.integer(num_steps_between_results),
+      parallel_iterations = as.integer(parallel_iterations),
+      name = name
+    )
   }
-
-  do.call(tfp$mcmc$sample_chain, args)
 }
-

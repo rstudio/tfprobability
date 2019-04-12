@@ -6,9 +6,9 @@
 \usage{
 mcmc_sample_chain(kernel = NULL, num_results, current_state,
   previous_kernel_results = NULL, num_burnin_steps = 0,
-  num_steps_between_results = 0, trace_fn = function(current_state,
-  kernel_results) kernel_results, return_final_kernel_results = FALSE,
-  parallel_iterations = 10, name = NULL)
+  num_steps_between_results = 0, trace_fn = NULL,
+  return_final_kernel_results = FALSE, parallel_iterations = 10,
+  name = NULL)
 }
 \arguments{
 \item{kernel}{An instance of \code{tfp$mcmc$TransitionKernel} which implements one step
