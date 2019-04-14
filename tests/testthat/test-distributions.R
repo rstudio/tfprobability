@@ -748,3 +748,18 @@ test_succeeds("BatchReshape distribution works", {
   samples <- gp %>% tfd_sample(10)
   expect_equal(samples$get_shape()$as_list(), c(10, 100))
 })
+
+test_succeeds("Sample distribution works", {
+
+  skip_if_tfp_below("0.7")
+  d <- tfd_sample_distribution(
+    tfd_independent(tfd_normal(loc = tf$zeros(list(3, 2)), scale = 1),
+                    reinterpreted_batch_ndims = 1),
+    sample_shape = list(5, 4))
+
+  samples <- d %>% tfd_sample(list(6, 1))
+  expect_equal(samples$get_shape()$as_list(), c(6, 1, 3, 5, 4, 2))
+  logprob <- d %>% tfd_log_prob(samples)
+  expect_equal(logprob$get_shape()$as_list(), c(6, 1, 3))
+})
+
