@@ -4381,4 +4381,37 @@ tfd_gaussian_process <- function(kernel,
 }
 
 
+#' Sample distribution via independent draws.
+#'
+#' This distribution is useful for reducing over a collection of independent,
+#' identical draws. It is otherwise identical to the input distribution.
+#'
+#' Mathematical Details
+#' The probability function is,
+#' ```
+#' p(x) = prod{ p(x[i]) : i = 0, ..., (n - 1) }
+#' ```
+#' @param distribution The base distribution instance to transform. Typically an
+#' instance of `Distribution`.
+#' @param sample_shape `integer` scalar or vector `Tensor` representing the shape of a
+#' single sample.
+#' @param name The name for ops managed by the distribution.
+#' Default value: `NULL` (i.e., `'Sample' + distribution$name`).
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_sample_distribution <- function(distribution,
+                                    sample_shape = list(),
+                                    validate_args = FALSE,
+                                    name = NULL) {
+  args <- list(
+    distribution = distribution,
+    sample_shape = sample_shape,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$Sample, args)
+}
+
 
