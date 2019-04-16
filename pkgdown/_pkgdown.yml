@@ -13,6 +13,9 @@ reference:
   - title: "Distribution layers"
     contents:
       - has_concept("distribution_layers")
+  - title: "(Keras) Layers"
+    contents:
+      - has_concept("layers")
   - title: "Bijectors"
     contents:
       - has_concept("bijectors")

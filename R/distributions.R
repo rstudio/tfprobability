@@ -425,8 +425,8 @@ tfd_transformed_distribution <- function(distribution,
   args <- list(
     distribution = distribution,
     bijector = bijector,
-    batch_shape = batch_shape,
-    event_shape = event_shape,
+    batch_shape = normalize_shape(batch_shape),
+    event_shape = normalize_shape(event_shape),
     # wrap in tf$TensorShape?
     validate_args = validate_args,
     name = name

@@ -1,5 +1,5 @@
 
-context("tensorflow probability layer methods")
+context("tensorflow probability distribution layers")
 
 source("utils.R")
 
