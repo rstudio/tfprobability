@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Truncated Normal distribution — tfd_truncated_normal • tfprobability</title>
+<title>Sample distribution via independent draws. — tfd_sample_distribution • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +30,10 @@
 
 
 
-<meta property="og:title" content="Truncated Normal distribution — tfd_truncated_normal" />
+<meta property="og:title" content="Sample distribution via independent draws. — tfd_sample_distribution" />
 
-<meta property="og:description" content="The truncated normal is a normal distribution bounded between low
-and high (the pdf is 0 outside these bounds and renormalized).
-Samples from this distribution are differentiable with respect to loc,
-scale as well as the bounds, low and high, i.e., this
-implementation is fully reparameterizeable.
-For more details, see here." />
+<meta property="og:description" content="This distribution is useful for reducing over a collection of independent,
+identical draws. It is otherwise identical to the input distribution." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,46 +95,33 @@ For more details, see here." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Truncated Normal distribution</h1>
+    <h1>Sample distribution via independent draws.</h1>
     
-    <div class="hidden name"><code>tfd_truncated_normal.Rd</code></div>
+    <div class="hidden name"><code>tfd_sample_distribution.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The truncated normal is a normal distribution bounded between <code>low</code>
-and <code>high</code> (the pdf is 0 outside these bounds and renormalized).
-Samples from this distribution are differentiable with respect to <code>loc</code>,
-<code>scale</code> as well as the bounds, <code>low</code> and <code>high</code>, i.e., this
-implementation is fully reparameterizeable.
-For more details, see <a href='https://en.wikipedia.org/wiki/Truncated_normal_distribution'>here</a>.</p>
+    <p>This distribution is useful for reducing over a collection of independent,
+identical draws. It is otherwise identical to the input distribution.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_truncated_normal</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='no'>low</span>, <span class='no'>high</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"TruncatedNormal"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_sample_distribution</span>(<span class='no'>distribution</span>, <span class='kw'>sample_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>loc</th>
-      <td><p>Floating point tensor; the means of the distribution(s).</p></td>
+      <th>distribution</th>
+      <td><p>The base distribution instance to transform. Typically an
+instance of <code>Distribution</code>.</p></td>
     </tr>
     <tr>
-      <th>scale</th>
-      <td><p>loating point tensor; the stddevs of the distribution(s).
-Must contain only positive values.</p></td>
-    </tr>
-    <tr>
-      <th>low</th>
-      <td><p><code>float</code> <code>Tensor</code> representing lower bound of the distribution's
-support. Must be such that <code>low &lt; high</code>.</p></td>
-    </tr>
-    <tr>
-      <th>high</th>
-      <td><p><code>float</code> <code>Tensor</code> representing upper bound of the distribution's
-support. Must be such that <code>low &lt; high</code>.</p></td>
+      <th>sample_shape</th>
+      <td><p><code>integer</code> scalar or vector <code>Tensor</code> representing the shape of a
+single sample.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -147,16 +130,17 @@ for validity despite possibly degrading runtime performance. When FALSE invalid 
 silently render incorrect outputs. Default value: FALSE.</p></td>
     </tr>
     <tr>
-      <th>allow_nan_stats</th>
-      <td><p>Logical, default TRUE. When TRUE, statistics (e.g., mean, mode, variance)
-use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
-one or more of the statistic's batch members are undefined.</p></td>
-    </tr>
-    <tr>
       <th>name</th>
-      <td><p>name prefixed to Ops created by this class.</p></td>
+      <td><p>The name for ops managed by the distribution.
+Default value: <code>NULL</code> (i.e., <code>'Sample' + distribution$name</code>).</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details
+The probability function is,</p><pre>p(x) = prod{ p(x[i]) : i = 0, ..., (n - 1) }
+</pre>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -201,12 +185,13 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_poisson.html'>tfd_poisson</a></code>, <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
-  <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a></code>,
   <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a></code>,
   <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a></code>,
   <code><a href='tfd_student_t.html'>tfd_student_t</a></code>,
   <code><a href='tfd_transformed_distribution.html'>tfd_transformed_distribution</a></code>,
-  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>, <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
+  <code><a href='tfd_triangular.html'>tfd_triangular</a></code>,
+  <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a></code>,
+  <code><a href='tfd_uniform.html'>tfd_uniform</a></code>,
   <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a></code>,
   <code><a href='tfd_vector_diffeomixture.html'>tfd_vector_diffeomixture</a></code>,
   <code><a href='tfd_vector_exponential_diag.html'>tfd_vector_exponential_diag</a></code>,
@@ -225,6 +210,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 
