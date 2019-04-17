@@ -3,7 +3,7 @@ context("tensorflow probability keras layers")
 
 source("utils.R")
 
-test_succeeds("can use layer_autoregressive in a keras model", {
+test_succeeds("use layer_autoregressive with 1d autoregressivity", {
 
   skip_if_tfp_below("0.7")
 
@@ -13,12 +13,12 @@ test_succeeds("can use layer_autoregressive in a keras model", {
   x1 <- rnorm(n) %>% tf$cast(tf$float32) + (x2 * x2 / 4)
   data <- tf$stack(list(x1, x2), axis = -1L)
 
-  made <- layer_autoregressive(params = 2, hidden_units = list(10, 10))
+  made <- layer_autoregressive(params = 2, hidden_units = list(10, 10)) # output will be (n, 2, 2)
   distribution <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_masked_autoregressive_flow(
-      function(x) tf$unstack(made(x), num = 2L, axis = -1L)),
-    event_shape = list(2))
+      function(x) tf$unstack(made(x), num = 2L, axis = -1L)), # output is list of (2000, 2) of length 2
+    event_shape = list(2)) # distribution has shapes () and (2,)
 
   x_ <- layer_input(shape = c(2), dtype = "float32")
   log_prob_ <- distribution$log_prob(x_)
@@ -50,10 +50,10 @@ test_succeeds("can use layer_autoregressive in a keras model", {
 # |  /  ____/           \  |  /           \____  \  |
 # | /__/                 \ | /                 \__\ |
 # r1    g1   b1     r1 <- g1   b1       r1   g1 <- b1
-# ^          |
-#   \_________/
+#                                        ^          |
+#                                         \_________/
 
-test_succeeds("can use layer_autoregressive to model rank-3 tensors with full autoregression", {
+test_succeeds("use layer_autoregressive to model rank-3 tensors with full autoregressivity", {
 
   skip_if_tfp_below("0.7")
 
@@ -71,6 +71,7 @@ test_succeeds("can use layer_autoregressive to model rank-3 tensors with full au
   event_shape <- height * width * channels
   reshaped_images <- tf$reshape(images, c(n, event_shape))
 
+  # yields (n, 192, 2)
   made <-
     layer_autoregressive(
       params = 2,
@@ -83,7 +84,7 @@ test_succeeds("can use layer_autoregressive to model rank-3 tensors with full au
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_masked_autoregressive_flow(function (x)
       tf$unstack(
-        made(x), num = 2, axis = -1L
+        made(x), num = 2, axis = -1L # yields list (1000, 192) of length 2
       )),
     event_shape = event_shape
   )
@@ -106,5 +107,65 @@ test_succeeds("can use layer_autoregressive to model rank-3 tensors with full au
   )
 
   expect_equal((distribution %>% tfd_sample(c(3, 1)))$get_shape()$as_list(),
-               c(3, 1, 192))
+               c(3, 1, event_shape))
   })
+
+test_succeeds("use layer_autoregressive to model rank-3 tensors without autoregressivity over channels", {
+
+  skip_if_tfp_below("0.7")
+
+  library(keras)
+
+  n <- 1000L
+  width <- 8L
+  height <- 8L
+  channels <- 3L
+  images <-
+    sample(0:1, n * height * width * channels, replace = TRUE) %>% array(dim = c(n, height, width, channels)) %>%
+    tf$cast(tf$float32)
+
+  # Reshape images to achieve desired autoregressivity.
+  event_shape <- height * width
+  # (n, 3, 64)
+  reshaped_images <- tf$reshape(images, c(n, event_shape, channels)) %>% tf$transpose(perm = c(0L, 2L, 1L))
+
+  # yields (n, 192, 2)
+  made <-
+    layer_autoregressive(
+      params = 1,
+      event_shape = event_shape,
+      hidden_units = list(20, 20),
+      activation = "relu"
+    )
+  # batch_shape=(), event_shape=(3, 64)
+  distribution = tfd_autoregressive(
+    # batch_shape=(1000,), event_shape=(3, 64)
+    function(x) tfd_independent(
+      # batch_shape=(1000, 3, 64), event_shape=()
+      tfd_bernoulli(logits = tf$unstack(made(x), axis = -1L)[[1]], # (1000, 3, 64)
+                    dtype = tf$float32),
+      reinterpreted_batch_ndims = 2),
+    sample0 = tf$zeros(list(channels, width * height), dtype = tf$float32))
+
+
+  x_ <- layer_input(shape = c(channels, event_shape), dtype = "float32")
+  log_prob_ <- distribution %>% tfd_log_prob(x_)
+
+  model <- keras_model(x_, log_prob_)
+  loss <- function(x, log_prob)
+    - log_prob
+  model %>% compile(optimizer = "adam", loss = loss)
+
+  model %>% fit(
+    x = reshaped_images,
+    y = rep(0, n),
+    batch_size = 10,
+    epochs = 1,
+    steps_per_epoch = 1,
+    verbose = 0
+  )
+
+  expect_equal((distribution %>% tfd_sample(c(7)))$get_shape()$as_list(),
+               c(7, channels, event_shape))
+})
+
