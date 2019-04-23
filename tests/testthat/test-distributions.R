@@ -558,10 +558,10 @@ test_succeeds("JointDistributionSequential distribution works", {
       function(m) tfd_sample_distribution(tfd_bernoulli(logits = m), 12)
     ))
 
-  #x <- d %>% tfd_sample()
-  #expect_equal(length(x), 5)
-  #expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
-  #expect_equal(d$`_resolve_graph`() %>% length(), 5)
+  x <- d %>% tfd_sample()
+  expect_equal(length(x), 5)
+  expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
+  expect_equal(d$`_resolve_graph`() %>% length(), 5)
 
 })
 
