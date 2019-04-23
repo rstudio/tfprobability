@@ -108,3 +108,29 @@ test_succeeds("RandomWalkMetropolis works", {
 
   expect_equal(states$get_shape() %>% length(), 2)
 })
+
+test_succeeds("Can write summaries from trace_fn", {
+
+  skip_if_tfp_below("0.7")
+
+  d <- tfd_normal(0, 1)
+  kernel <- mcmc_hamiltonian_monte_carlo(d$log_prob, step_size = 0.1, num_leapfrog_steps = 3) %>%
+    mcmc_simple_step_size_adaptation(num_adaptation_steps=100)
+
+  path <- "/tmp/summary_chain"
+  summary_writer <- tf$compat$v2$summary$create_file_writer(path, flush_millis = 10000L)
+
+  trace_fn <- function(state, results) {
+    with(tf$compat$v2$summary$record_if(tf$equal(results$step %% 10L, 1L)), {
+      tf$compat$v2$summary$scalar("state", state, step = tf$cast(results$step, tf$int64))
+    })
+  }
+
+  with (summary_writer$as_default(), {
+    chain_and_results <- kernel %>% mcmc_sample_chain(current_state = 0, num_results = 200, trace_fn = trace_fn)
+  })
+  summary_writer$close()
+
+  expect_equal(list.files(path) %>% length, 1)
+})
+
