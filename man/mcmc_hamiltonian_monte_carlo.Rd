@@ -58,12 +58,12 @@ Neal (2011).
 The \code{one_step} function can update multiple chains in parallel. It assumes
 that all leftmost dimensions of \code{current_state} index independent chain states
 (and are therefore updated independently). The output of
-\code{target_log_prob_fn(*current_state)} should sum log-probabilities across all
+\code{target_log_prob_fn(current_state)} should sum log-probabilities across all
 event dimensions. Slices along the rightmost dimensions may have different
 target distributions; for example, \code{current_state[0, :]} could have a
 different target distribution from \code{current_state[1, :]}. These semantics are
-governed by \code{target_log_prob_fn(*current_state)}. (The number of independent
-chains is \code{tf.size(target_log_prob_fn(*current_state))}.)
+governed by \code{target_log_prob_fn(current_state)}. (The number of independent
+chains is \code{tf$size(target_log_prob_fn(current_state))}.)
 }
 \section{References}{
 
@@ -74,6 +74,9 @@ chains is \code{tf.size(target_log_prob_fn(*current_state))}.)
 }
 
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_simple_step_size_adaptation}}
+Other mcmc_kernels: \code{\link{mcmc_metropolis_hastings}},
+  \code{\link{mcmc_random_walk_metropolis}},
+  \code{\link{mcmc_simple_step_size_adaptation}},
+  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}}
 }
 \concept{mcmc_kernels}

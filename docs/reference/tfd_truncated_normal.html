@@ -158,6 +158,22 @@ one or more of the statistic's batch members are undefined.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details</p>
+<p>The probability density function (pdf) of this distribution is:</p><pre>pdf(x; loc, scale, low, high) =
+  { (2 pi)**(-0.5) exp(-0.5 y**2) / (scale * z)} for low &lt;= x &lt;= high
+  { 0 }                                  otherwise
+y = (x - loc)/scale
+z = NormalCDF((high - loc) / scale) - NormalCDF((lower - loc) / scale)
+</pre>
+    <p>where:</p><ul>
+<li><p><code>NormalCDF</code> is the cumulative density function of the Normal distribution
+with 0 mean and unit variance.</p></li>
+</ul>
+    <p>This is a scalar distribution so the event shape is always scalar and the
+dimensions of the parameters defined the batch_shape.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_autoregressive.html'>tfd_autoregressive</a></code>,
@@ -180,6 +196,7 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
   <code><a href='tfd_inverse_gamma.html'>tfd_inverse_gamma</a></code>,
   <code><a href='tfd_inverse_gaussian.html'>tfd_inverse_gaussian</a></code>,
+  <code><a href='tfd_joint_distribution_named.html'>tfd_joint_distribution_named</a></code>,
   <code><a href='tfd_joint_distribution_sequential.html'>tfd_joint_distribution_sequential</a></code>,
   <code><a href='tfd_kumaraswamy.html'>tfd_kumaraswamy</a></code>, <code><a href='tfd_laplace.html'>tfd_laplace</a></code>,
   <code><a href='tfd_linear_gaussian_state_space_model.html'>tfd_linear_gaussian_state_space_model</a></code>,
@@ -225,6 +242,8 @@ one or more of the statistic's batch members are undefined.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 
