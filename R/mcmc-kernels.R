@@ -9,12 +9,12 @@
 #' The `one_step` function can update multiple chains in parallel. It assumes
 #' that all leftmost dimensions of `current_state` index independent chain states
 #' (and are therefore updated independently). The output of
-#' `target_log_prob_fn(*current_state)` should sum log-probabilities across all
+#' `target_log_prob_fn(current_state)` should sum log-probabilities across all
 #' event dimensions. Slices along the rightmost dimensions may have different
 #' target distributions; for example, `current_state[0, :]` could have a
 #' different target distribution from `current_state[1, :]`. These semantics are
-#' governed by `target_log_prob_fn(*current_state)`. (The number of independent
-#' chains is `tf.size(target_log_prob_fn(*current_state))`.)
+#' governed by `target_log_prob_fn(current_state)`. (The number of independent
+#' chains is `tf$size(target_log_prob_fn(current_state))`.)
 #'
 #' @section References:
 #' - [Radford Neal. MCMC Using Hamiltonian Dynamics. _Handbook of Markov Chain Monte Carlo_, 2011.](https://arxiv.org/abs/1206.1901)
@@ -73,6 +73,38 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
   if (tfp_version() >= "0.7") args$store_parameters_in_results <- store_parameters_in_results
 
   do.call(tfp$mcmc$HamiltonianMonteCarlo, args)
+}
+
+#' Runs one step of Uncalibrated Hamiltonian Monte Carlo
+#'
+#' Warning: this kernel will not result in a chain which converges to the
+#' `target_log_prob`. To get a convergent MCMC, use `mcmc_hamiltonian_monte_carlo(...)`
+#' or `mcmc_metropolis_hastings(mcmc_uncalibrated_hamiltonian_monte_carlo(...))`.
+#' For more details on `UncalibratedHamiltonianMonteCarlo`, see `HamiltonianMonteCarlo`.
+#'
+#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @family mcmc_kernels
+#' @export
+mcmc_uncalibrated_hamiltonian_monte_carlo <- function(target_log_prob_fn,
+                                                      step_size,
+                                                      num_leapfrog_steps,
+                                                      state_gradients_are_stopped = FALSE,
+                                                      seed = NULL,
+                                                      store_parameters_in_results = FALSE,
+                                                      name = NULL) {
+  args <- list(
+    target_log_prob_fn = target_log_prob_fn,
+    step_size = step_size,
+    num_leapfrog_steps = as.integer(num_leapfrog_steps),
+    state_gradients_are_stopped = state_gradients_are_stopped,
+    seed = seed,
+    name = name
+  )
+
+  if (tfp_version() >= "0.7")
+    args$store_parameters_in_results <- store_parameters_in_results
+
+  do.call(tfp$mcmc$UncalibratedHamiltonianMonteCarlo, args)
 }
 
 
@@ -206,3 +238,106 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
 
   do.call(tfp$mcmc$SimpleStepSizeAdaptation, args)
 }
+
+#' Runs one step of the Metropolis-Hastings algorithm.
+#'
+#' The Metropolis-Hastings algorithm is a Markov chain Monte Carlo (MCMC) technique which uses a proposal distribution
+#' to eventually sample from a target distribution.
+#'
+#' Note: `inner_kernel$one_step` must return `kernel_results` as a `collections.namedtuple` which must:
+#' - have a `target_log_prob` field,
+#' - optionally have a `log_acceptance_correction` field, and,
+#' - have only fields which are `Tensor`-valued.
+#'
+#' The Metropolis-Hastings log acceptance-probability is computed as:
+#'
+#' ```
+#' log_accept_ratio = (current_kernel_results.target_log_prob
+#'                    - previous_kernel_results.target_log_prob
+#'                    + current_kernel_results.log_acceptance_correction)
+#' ```
+#'
+#' If `current_kernel_results$log_acceptance_correction` does not exist, it is
+#' presumed `0` (i.e., that the proposal distribution is symmetric).
+#' The most common use-case for `log_acceptance_correction` is in the
+#' Metropolis-Hastings algorithm, i.e.,
+#'
+#' ```
+#' accept_prob(x' | x) = p(x') / p(x) (g(x|x') / g(x'|x))
+#' where,
+#' p  represents the target distribution,
+#' g  represents the proposal (conditional) distribution,
+#' x' is the proposed state, and,
+#' x  is current state
+#' ```
+#' The log of the parenthetical term is the `log_acceptance_correction`.
+#' The `log_acceptance_correction` may not necessarily correspond to the ratio of
+#' proposal distributions, e.g, `log_acceptance_correction` has a different
+#' interpretation in Hamiltonian Monte Carlo.
+#' @param inner_kernel `TransitionKernel`-like object which has `collections.namedtuple`
+#' `kernel_results` and which contains a `target_log_prob` member and optionally a `log_acceptance_correction` member.
+#' @param name string prefixed to Ops created by this function. Default value: `NULL` (i.e., "mh_kernel").
+#'
+#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @family mcmc_kernels
+#' @export
+mcmc_metropolis_hastings <- function(inner_kernel,
+                                     seed = NULL,
+                                     name = NULL) {
+  args <- list(
+    inner_kernel = inner_kernel,
+    seed = seed,
+    name = name
+  )
+
+  do.call(tfp$mcmc$MetropolisHastings, args)
+}
+
+#' Runs one step of the RWM algorithm with symmetric proposal.
+#'
+#' Random Walk Metropolis is a gradient-free Markov chain Monte Carlo
+#' (MCMC) algorithm. The algorithm involves a proposal generating step
+#' `proposal_state = current_state + perturb` by a random
+#' perturbation, followed by Metropolis-Hastings accept/reject step. For more
+#' details see [Section 2.1 of Roberts and Rosenthal (2004)](http://emis.ams.org/journals/PS/images/getdoc510c.pdf?id=35&article=15&mode=pdf).
+#'
+#' The current class implements RWM for normal and uniform proposals. Alternatively,
+#' the user can supply any custom proposal generating function.
+#' The function `one_step` can update multiple chains in parallel. It assumes
+#' that all leftmost dimensions of `current_state` index independent chain states
+#' (and are therefore updated independently). The output of
+#' `target_log_prob_fn(current_state)` should sum log-probabilities across all
+#' event dimensions. Slices along the rightmost dimensions may have different
+#' target distributions; for example, `current_state[0, :]` could have a
+#' different target distribution from `current_state[1, :]`. These semantics
+#' are governed by `target_log_prob_fn(current_state)`. (The number of
+#' independent chains is `tf$size(target_log_prob_fn(current_state))`.)
+#'
+#' @param target_log_prob_fn Function which takes an argument like
+#' `current_state` ((if it's a list `current_state` will be unpacked) and returns its
+#' (possibly unnormalized) log-density under the target distribution.
+#' @param new_state_fn Function which takes a list of state parts and a
+#' seed; returns a same-type `list` of `Tensor`s, each being a perturbation
+#' of the input state parts. The perturbation distribution is assumed to be
+#' a symmetric distribution centered at the input state part.
+#' Default value: `NULL` which is mapped to `tfp$mcmc$random_walk_normal_fn()`.
+#' @param name String name prefixed to Ops created by this function.
+#' Default value: `NULL` (i.e., 'rwm_kernel').
+#'
+#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @family mcmc_kernels
+#' @export
+mcmc_random_walk_metropolis <- function(target_log_prob_fn,
+                                        new_state_fn = NULL,
+                                        seed = NULL,
+                                        name = NULL) {
+  args <- list(
+    target_log_prob_fn = target_log_prob_fn,
+    new_state_fn = new_state_fn,
+    seed = seed,
+    name = name
+  )
+
+  do.call(tfp$mcmc$RandomWalkMetropolis, args)
+}
+

@@ -37,6 +37,25 @@ Samples from this distribution are differentiable with respect to \code{loc},
 implementation is fully reparameterizeable.
 For more details, see \href{https://en.wikipedia.org/wiki/Truncated_normal_distribution}{here}.
 }
+\details{
+Mathematical Details
+
+The probability density function (pdf) of this distribution is:\preformatted{pdf(x; loc, scale, low, high) =
+  { (2 pi)**(-0.5) exp(-0.5 y**2) / (scale * z)} for low <= x <= high
+  { 0 }                                  otherwise
+y = (x - loc)/scale
+z = NormalCDF((high - loc) / scale) - NormalCDF((lower - loc) / scale)
+}
+
+where:
+\itemize{
+\item \code{NormalCDF} is the cumulative density function of the Normal distribution
+with 0 mean and unit variance.
+}
+
+This is a scalar distribution so the event shape is always scalar and the
+dimensions of the parameters defined the batch_shape.
+}
 \seealso{
 Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_batch_reshape}},
@@ -58,6 +77,7 @@ Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_independent}},
   \code{\link{tfd_inverse_gamma}},
   \code{\link{tfd_inverse_gaussian}},
+  \code{\link{tfd_joint_distribution_named}},
   \code{\link{tfd_joint_distribution_sequential}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},

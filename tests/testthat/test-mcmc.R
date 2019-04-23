@@ -30,8 +30,6 @@ test_succeeds("sampling from chain works", {
   sample_stddev <- tf$sqrt(tf$reduce_mean(tf$squared_difference(states, sample_mean), axis = 0L))
 
   expect_equal(sample_stddev %>% tensor_value() %>% mean(), mean(true_stddev), tol = 1e-1)
-
-
 })
 
 test_succeeds("HamiltonianMonteCarlo with SimpleStepSizeAdaptation works", {
@@ -68,4 +66,45 @@ test_succeeds("HamiltonianMonteCarlo with SimpleStepSizeAdaptation works", {
   p_accept <- tf$reduce_mean(tf$exp(tf$minimum(log_accept_ratio, 0)))
   expect_lt(p_accept %>% tensor_value(), 1)
 
+})
+
+test_succeeds("MetropolisHastings works", {
+
+  kernel <- mcmc_metropolis_hastings(
+    mcmc_uncalibrated_hamiltonian_monte_carlo(
+      target_log_prob_fn = function(x) -x - x^2,
+      step_size = 0.1,
+      num_leapfrog_steps = 3))
+
+  states_and_results <- kernel %>% mcmc_sample_chain(
+    num_results = 100,
+    current_state = tf$zeros(1L)
+    )
+
+  if(tfp_version() < "0.7") {
+    states <- states_and_results[[1]]
+  } else {
+    states <- states_and_results
+  }
+
+  expect_equal(states$get_shape() %>% length(), 2)
+})
+
+test_succeeds("RandomWalkMetropolis works", {
+
+  kernel <- mcmc_random_walk_metropolis(
+    target_log_prob_fn = function(x)
+      - x - x ^ 2
+  )
+
+  states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
+                                                     current_state = tf$zeros(1L))
+
+  if (tfp_version() < "0.7") {
+    states <- states_and_results[[1]]
+  } else {
+    states <- states_and_results
+  }
+
+  expect_equal(states$get_shape() %>% length(), 2)
 })

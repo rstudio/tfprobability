@@ -107,14 +107,14 @@ a single model specification.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_joint_distribution_sequential</span>(<span class='no'>distribution_fn</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>tfd_joint_distribution_sequential</span>(<span class='no'>model</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>distribution_fn</th>
+      <th>model</th>
       <td><p>list of either <code>tfp$distributions$Distribution</code> instances and/or
 functions which take the <code>k</code> previous distributions and returns a
 new <code>tfp$distributions$Distribution</code> instance.</p></td>
@@ -181,6 +181,7 @@ previous distributions, specifically those at indexes:
   <code><a href='tfd_independent.html'>tfd_independent</a></code>,
   <code><a href='tfd_inverse_gamma.html'>tfd_inverse_gamma</a></code>,
   <code><a href='tfd_inverse_gaussian.html'>tfd_inverse_gaussian</a></code>,
+  <code><a href='tfd_joint_distribution_named.html'>tfd_joint_distribution_named</a></code>,
   <code><a href='tfd_kumaraswamy.html'>tfd_kumaraswamy</a></code>, <code><a href='tfd_laplace.html'>tfd_laplace</a></code>,
   <code><a href='tfd_linear_gaussian_state_space_model.html'>tfd_linear_gaussian_state_space_model</a></code>,
   <code><a href='tfd_lkj.html'>tfd_lkj</a></code>, <code><a href='tfd_log_normal.html'>tfd_log_normal</a></code>,

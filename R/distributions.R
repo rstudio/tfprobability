@@ -417,11 +417,11 @@ tfd_relaxed_bernoulli <- function(temperature,
 #' @family distributions
 #' @export
 tfd_transformed_distribution <- function(distribution,
-                            bijector,
-                            batch_shape = NULL,
-                            event_shape = NULL,
-                            validate_args = FALSE,
-                            name = NULL) {
+                                         bijector,
+                                         batch_shape = NULL,
+                                         event_shape = NULL,
+                                         validate_args = FALSE,
+                                         name = NULL) {
   args <- list(
     distribution = distribution,
     bijector = bijector,
@@ -1517,8 +1517,8 @@ tfd_uniform <- function(low = 0,
 #' The probability density function (pdf) of this distribution is:
 #' ```
 #' pdf(x; loc, scale, low, high) =
-#'   { (2 pi)**(-0.5) exp(-0.5 y**2) / (scale * z) for low <= x <= high
-#'   { 0                                    otherwise
+#'   { (2 pi)**(-0.5) exp(-0.5 y**2) / (scale * z)} for low <= x <= high
+#'   { 0 }                                  otherwise
 #' y = (x - loc)/scale
 #' z = NormalCDF((high - loc) / scale) - NormalCDF((lower - loc) / scale)
 #' ```
@@ -3074,27 +3074,81 @@ tfd_kumaraswamy <- function(concentration1 = 1,
 #' `len(args[i]) < i - 1`, the `callable` only depends on a subset of the
 #' previous distributions, specifically those at indexes:
 #' `range(i - 1, i - 1 - num_args[i], -1)`.
-#' @param  distribution_fn  list of either `tfp$distributions$Distribution` instances and/or
+#' @param  model  list of either `tfp$distributions$Distribution` instances and/or
 #' functions which take the `k` previous distributions and returns a
 #' new `tfp$distributions$Distribution` instance.
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
-tfd_joint_distribution_sequential <- function(distribution_fn,
+tfd_joint_distribution_sequential <- function(model,
                                               validate_args = FALSE,
                                               name = NULL) {
-  distribution_fn <- Map(
+  model <- Map(
     function(d) if (is.function(d)) reticulate::py_func(d) else d,
-    distribution_fn
+    model
   )
 
   args <- list(
-    distribution_fn = distribution_fn,
+    model = model,
     validate_args = validate_args,
     name = name
   )
 
   do.call(tfp$distributions$JointDistributionSequential,
+          args)
+}
+
+#' Joint distribution parameterized by named distribution-making functions.
+#'
+#' This distribution enables both sampling and joint probability computation from
+#' a single model specification.
+#' A joint distribution is a collection of possibly interdependent distributions.
+#' Like `JointDistributionSequential`, `JointDistributionNamed` is parameterized
+#' by several distribution-making functions. Unlike `JointDistributionNamed`,
+#' each distribution-making function must have its own key. Additionally every
+#' distribution-making function's arguments must refer to only specified keys.
+#'
+#' Mathematical Details
+#'
+#' Internally `JointDistributionNamed` implements the chain rule of probability.
+#' That is, the probability function of a length-`d` vector `x` is,
+#'
+#' ```
+#' p(x) = prod{ p(x[i] | x[:i]) : i = 0, ..., (d - 1) }
+#' ```
+#'
+#' The `JointDistributionNamed` is parameterized by a `dict` (or `namedtuple`)
+#' composed of either:
+#' 1. `tfp$distributions$Distribution`-like instances or,
+#' 2. functions which return a `tfp$distributions$Distribution`-like instance.
+#' The "conditioned on" elements are represented by the function's required
+#' arguments; every argument must correspond to a key in the named
+#' distribution-making functions. Distribution-makers which are directly a
+#' `Distribution`-like instance are allowed for convenience and semantically
+#' identical a zero argument function. When the maker takes no arguments it is
+#' preferable to directly provide the distribution instance.
+#'
+#' @param model named list of distribution-making functions each
+#' with required args corresponding only to other keys in the named list.
+#' @param name The name for ops managed by the distribution. Default value: `"JointDistributionNamed"`.
+#' @inheritParams tfd_normal
+#' @family distributions
+#' @export
+tfd_joint_distribution_named <- function(model,
+                                         validate_args = FALSE,
+                                         name = NULL) {
+  model <- Map(
+    function(d) if (is.function(d)) reticulate::py_func(d) else d,
+    model
+  )
+
+  args <- list(
+    model = model,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$JointDistributionNamed,
           args)
 }
 
@@ -3420,12 +3474,12 @@ tfd_horseshoe <- function(scale,
 #' @family distributions
 #' @export
 tfd_hidden_markov_model <- function(initial_distribution,
-                          transition_distribution,
-                          observation_distribution,
-                          num_steps,
-                          validate_args = FALSE,
-                          allow_nan_stats = TRUE,
-                          name = "HiddenMarkovModel") {
+                                    transition_distribution,
+                                    observation_distribution,
+                                    num_steps,
+                                    validate_args = FALSE,
+                                    allow_nan_stats = TRUE,
+                                    name = "HiddenMarkovModel") {
   args <- list(
     initial_distribution = initial_distribution,
     transition_distribution = transition_distribution,
@@ -3466,9 +3520,9 @@ tfd_hidden_markov_model <- function(initial_distribution,
 #' @family distributions
 #' @export
 tfd_half_normal <- function(scale,
-                                    validate_args = FALSE,
-                                    allow_nan_stats = TRUE,
-                                    name = "HalfNormal") {
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = "HalfNormal") {
   args <- list(
     scale = scale,
     validate_args = validate_args,
@@ -3813,9 +3867,9 @@ tfd_chi <- function(df,
 #' @family distributions
 #' @export
 tfd_chi2 <- function(df,
-                    validate_args = FALSE,
-                    allow_nan_stats = TRUE,
-                    name = "Chi2") {
+                     validate_args = FALSE,
+                     allow_nan_stats = TRUE,
+                     name = "Chi2") {
   args <- list(
     df = df,
     validate_args = validate_args,

@@ -4,11 +4,11 @@
 \alias{tfd_joint_distribution_sequential}
 \title{Joint distribution parameterized by distribution-making functions}
 \usage{
-tfd_joint_distribution_sequential(distribution_fn, validate_args = FALSE,
+tfd_joint_distribution_sequential(model, validate_args = FALSE,
   name = NULL)
 }
 \arguments{
-\item{distribution_fn}{list of either \code{tfp$distributions$Distribution} instances and/or
+\item{model}{list of either \code{tfp$distributions$Distribution} instances and/or
 functions which take the \code{k} previous distributions and returns a
 new \code{tfp$distributions$Distribution} instance.}
 
@@ -75,6 +75,7 @@ Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_independent}},
   \code{\link{tfd_inverse_gamma}},
   \code{\link{tfd_inverse_gaussian}},
+  \code{\link{tfd_joint_distribution_named}},
   \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
   \code{\link{tfd_linear_gaussian_state_space_model}},
   \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},

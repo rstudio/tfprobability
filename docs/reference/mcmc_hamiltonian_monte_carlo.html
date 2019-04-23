@@ -181,12 +181,12 @@ Default value: <code>NULL</code> (i.e., 'hmc_kernel').</p></td>
     <p>The <code>one_step</code> function can update multiple chains in parallel. It assumes
 that all leftmost dimensions of <code>current_state</code> index independent chain states
 (and are therefore updated independently). The output of
-<code>target_log_prob_fn(*current_state)</code> should sum log-probabilities across all
+<code>target_log_prob_fn(current_state)</code> should sum log-probabilities across all
 event dimensions. Slices along the rightmost dimensions may have different
 target distributions; for example, <code>current_state[0, :]</code> could have a
 different target distribution from <code>current_state[1, :]</code>. These semantics are
-governed by <code>target_log_prob_fn(*current_state)</code>. (The number of independent
-chains is <code>tf.size(target_log_prob_fn(*current_state))</code>.)</p>
+governed by <code>target_log_prob_fn(current_state)</code>. (The number of independent
+chains is <code>tf$size(target_log_prob_fn(current_state))</code>.)</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -198,7 +198,10 @@ chains is <code>tf.size(target_log_prob_fn(*current_state))</code>.)</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other mcmc_kernels: <code><a href='mcmc_simple_step_size_adaptation.html'>mcmc_simple_step_size_adaptation</a></code></p></div>
+    <div class='dont-index'><p>Other mcmc_kernels: <code><a href='mcmc_metropolis_hastings.html'>mcmc_metropolis_hastings</a></code>,
+  <code><a href='mcmc_random_walk_metropolis.html'>mcmc_random_walk_metropolis</a></code>,
+  <code><a href='mcmc_simple_step_size_adaptation.html'>mcmc_simple_step_size_adaptation</a></code>,
+  <code><a href='mcmc_uncalibrated_hamiltonian_monte_carlo.html'>mcmc_uncalibrated_hamiltonian_monte_carlo</a></code></p></div>
     
 
   </div>
