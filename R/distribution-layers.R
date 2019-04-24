@@ -234,3 +234,81 @@ layer_kl_divergence_regularizer <- function(object,
     args
   )
 }
+
+#' A `d`-variate OneHotCategorical Keras layer from `d` params.
+#'
+#' Typical choices for `convert_to_tensor_fn` include:
+#' - `tfp$distributions$Distribution$sample`
+#' - `tfp$distributions$Distribution$mean`
+#' - `tfp$distributions$Distribution$mode`
+#' - `tfp$distributions$OneHotCategorical$logits`
+#'
+#' @param event_size Scalar `integer` representing the size of single draw from this distribution.
+#' @param sample_dtype `dtype` of samples produced by this distribution.
+#'  Default value: `NULL` (i.e., previous layer's `dtype`).
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_distribution_lambda
+#' @inheritParams layer_multivariate_normal_tri_l
+#' @family distribution_layers
+#' @export
+layer_one_hot_categorical <- function(object,
+                                      event_size,
+                                      convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                      sample_dtype = NULL,
+                                      validate_args = FALSE,
+                                      ...) {
+  args <- list(
+    event_size = as.integer(event_size),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    sample_dtype = sample_dtype,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(
+    tfp$python$layers$distribution_layer$OneHotCategorical,
+    object,
+    args
+  )
+}
+
+#' A OneHotCategorical mixture Keras layer from `k * (1 + d)` params.
+#'
+#' `k` (i.e., `num_components`) represents the number of component
+#' `OneHotCategorical` distributions and `d` (i.e., `event_size`) represents the
+#' number of categories within each `OneHotCategorical` distribution.
+#'
+#' Typical choices for `convert_to_tensor_fn` include:
+#' - `tfp$distributions$Distribution$sample`
+#' - `tfp$distributions$Distribution$mean`
+#' - `tfp$distributions$Distribution$mode`
+#'
+#' @param num_components Scalar `integer` representing the number of mixture
+#' components. Must be at least 1. (If `num_components=1`, it's more
+#' efficient to use the `OneHotCategorical` layer.)
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_one_hot_categorical
+#' @family distribution_layers
+#' @export
+layer_categorical_mixture_of_one_hot_categorical <- function(object,
+                                                             event_size,
+                                                             num_components,
+                                                             convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                                             sample_dtype = NULL,
+                                                             validate_args = FALSE,
+                                                             ...) {
+  args <- list(
+    event_size = as.integer(event_size),
+    num_components = as.integer(num_components),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    sample_dtype = sample_dtype,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(
+    tfp$python$layers$distribution_layer$CategoricalMixtureOfOneHotCategorical,
+    object,
+    args
+  )
+}

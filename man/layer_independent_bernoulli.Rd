@@ -54,9 +54,11 @@ a Keras layer that wraps a Bernoulli distribution
 An Independent-Bernoulli Keras layer from prod(event_shape) params
 }
 \seealso{
-Other distribution_layers: \code{\link{layer_distribution_lambda}},
+Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
+  \code{\link{layer_distribution_lambda}},
   \code{\link{layer_kl_divergence_add_loss}},
   \code{\link{layer_kl_divergence_regularizer}},
-  \code{\link{layer_multivariate_normal_tri_l}}
+  \code{\link{layer_multivariate_normal_tri_l}},
+  \code{\link{layer_one_hot_categorical}}
 }
 \concept{distribution_layers}

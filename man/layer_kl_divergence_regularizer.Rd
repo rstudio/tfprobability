@@ -60,9 +60,11 @@ distribution's concretization (i.e., \code{tf$convert_to_tensor(distribution)}) 
 sample. To override this behavior, set test_points_fn.
 }
 \seealso{
-Other distribution_layers: \code{\link{layer_distribution_lambda}},
+Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
+  \code{\link{layer_distribution_lambda}},
   \code{\link{layer_independent_bernoulli}},
   \code{\link{layer_kl_divergence_add_loss}},
-  \code{\link{layer_multivariate_normal_tri_l}}
+  \code{\link{layer_multivariate_normal_tri_l}},
+  \code{\link{layer_one_hot_categorical}}
 }
 \concept{distribution_layers}
