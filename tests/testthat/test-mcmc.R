@@ -143,8 +143,8 @@ test_succeeds("mcmc_effective_sample_size works", {
     target_log_prob_fn = target$log_prob,
     step_size = 0.05,
     num_leapfrog_steps = 20)  %>%
-    mcmc_sample_chain(num_burnin_steps = 200,
-                      num_results = 10000,
+    mcmc_sample_chain(num_burnin_steps = 20,
+                      num_results = 100,
                       current_state = c(0, 0))
 
   ess <- mcmc_effective_sample_size(states)
@@ -153,3 +153,20 @@ test_succeeds("mcmc_effective_sample_size works", {
   expect_equal(standard_error$get_shape() %>% length(), 2)
 })
 
+test_succeeds("mcmc_potential_scale_reduction works", {
+
+  target <- tfd_multivariate_normal_diag(scale_diag = c(1, 2))
+
+  initial_state <- target %>% tfd_sample(10) * 2
+
+  states <- mcmc_hamiltonian_monte_carlo(
+    target_log_prob_fn = target$log_prob,
+    step_size = 0.05,
+    num_leapfrog_steps = 20)  %>%
+    mcmc_sample_chain(num_burnin_steps = 20,
+                      num_results = 100,
+                      current_state = initial_state)
+
+  rhat <- mcmc_potential_scale_reduction(states)
+  expect_equal(rhat$get_shape() %>% length(), 2)
+})

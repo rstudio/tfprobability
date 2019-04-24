@@ -126,8 +126,64 @@ mcmc_effective_sample_size <- function(states,
  tfp$mcmc$effective_sample_size(
       states,
       filter_threshold,
-      filter_beyond_lag,
+      as_nullable_integer(filter_beyond_lag),
       name
     )
 }
 
+#' Gelman and Rubin (1992)'s potential scale reduction for chain convergence.
+#'
+#' Given `N > 1` states from each of `C > 1` independent chains, the potential
+#' scale reduction factor, commonly referred to as R-hat, measures convergence of
+#' the chains (to the same target) by testing for equality of means.
+#'
+#' Specifically, R-hat measures the degree to which variance (of the means)
+#' between chains exceeds what one would expect if the chains were identically
+#' distributed. See Gelman and Rubin (1992), Brooks and Gelman (1998)].
+#'
+#' Some guidelines:
+#' * The initial state of the chains should be drawn from a distribution overdispersed with respect to the target.
+#' * If all chains converge to the target, then as `N --> infinity`, R-hat --> 1.
+#'   Before that, R-hat > 1 (except in pathological cases, e.g. if the chain paths were identical).
+#' * The above holds for any number of chains `C > 1`.  Increasing `C` improves effectiveness of the diagnostic.
+#' * Sometimes, R-hat < 1.2 is used to indicate approximate convergence, but of
+#' course this is problem dependent. See Brooks and Gelman (1998).
+#' * R-hat only measures non-convergence of the mean. If higher moments, or
+#' other statistics are desired, a different diagnostic should be used. See Brooks and Gelman (1998).
+#'
+#' To see why R-hat is reasonable, let `X` be a random variable drawn uniformly
+#' from the combined states (combined over all chains).  Then, in the limit
+#' `N, C --> infinity`, with `E`, `Var` denoting expectation and variance,
+#' ```R-hat = ( E[Var[X | chain]] + Var[E[X | chain]] ) / E[Var[X | chain]].```
+#' Using the law of total variance, the numerator is the variance of the combined
+#' states, and the denominator is the total variance minus the variance of the
+#' the individual chain means.  If the chains are all drawing from the same
+#' distribution, they will have the same mean, and thus the ratio should be one.
+#'
+#' @section References:
+#' - Stephen P. Brooks and Andrew Gelman. General Methods for Monitoring Convergence of Iterative Simulations.
+#'  _Journal of Computational and Graphical Statistics_, 7(4), 1998.
+#' - Andrew Gelman and Donald B. Rubin. Inference from Iterative Simulation Using Multiple Sequences.
+#'  _Statistical Science_, 7(4):457-472, 1992.
+#' @param chains_states  `Tensor` or `list` of `Tensor`s representing the
+#' state(s) of a Markov Chain at each result step.  The `ith` state is
+#' assumed to have shape `[Ni, Ci1, Ci2,...,CiD] + A`.
+#' Dimension `0` indexes the `Ni > 1` result steps of the Markov Chain.
+#' Dimensions `1` through `D` index the `Ci1 x ... x CiD` independent
+#' chains to be tested for convergence to the same target.
+#' The remaining dimensions, `A`, can have any shape (even empty).
+#' @param independent_chain_ndims Integer type `Tensor` with value `>= 1` giving the
+#' number of giving the number of dimensions, from `dim = 1` to `dim = D`,
+#' holding independent chain results to be tested for convergence.
+#' @param name name to prepend to created tf.  Default: `potential_scale_reduction`.
+#' @family mcmc_functions
+#' @export
+mcmc_potential_scale_reduction <- function(chains_states,
+                                           independent_chain_ndims = 1,
+                                           name = NULL) {
+  tfp$mcmc$potential_scale_reduction(
+    chains_states,
+    as.integer(independent_chain_ndims),
+    name
+  )
+}
