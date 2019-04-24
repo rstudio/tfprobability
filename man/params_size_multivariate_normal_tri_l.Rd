@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution-static-methods.R
 \name{params_size_multivariate_normal_tri_l}
 \alias{params_size_multivariate_normal_tri_l}
-\title{number of \code{params} needed to create a single distribution}
+\title{number of \code{params} needed to create a MultivariateNormalTriL distribution}
 \usage{
 params_size_multivariate_normal_tri_l(event_size)
 }
@@ -10,5 +10,5 @@ params_size_multivariate_normal_tri_l(event_size)
 \item{event_size}{event size of this distribution}
 }
 \description{
-number of \code{params} needed to create a single distribution
+number of \code{params} needed to create a MultivariateNormalTriL distribution
 }

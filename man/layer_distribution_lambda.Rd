@@ -45,9 +45,11 @@ isn't provided.}
 Keras layer enabling plumbing TFP distributions through Keras models
 }
 \seealso{
-Other distribution_layers: \code{\link{layer_independent_bernoulli}},
+Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
+  \code{\link{layer_independent_bernoulli}},
   \code{\link{layer_kl_divergence_add_loss}},
   \code{\link{layer_kl_divergence_regularizer}},
-  \code{\link{layer_multivariate_normal_tri_l}}
+  \code{\link{layer_multivariate_normal_tri_l}},
+  \code{\link{layer_one_hot_categorical}}
 }
 \concept{distribution_layers}

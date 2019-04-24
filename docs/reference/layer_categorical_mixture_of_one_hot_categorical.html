@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Keras layer enabling plumbing TFP distributions through Keras models — layer_distribution_lambda • tfprobability</title>
+<title>A OneHotCategorical mixture Keras layer from <code>k * (1 + d)</code> params. — layer_categorical_mixture_of_one_hot_categorical • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="Keras layer enabling plumbing TFP distributions through Keras models — layer_distribution_lambda" />
+<meta property="og:title" content="A OneHotCategorical mixture Keras layer from <code>k * (1 + d)</code> params. — layer_categorical_mixture_of_one_hot_categorical" />
 
-<meta property="og:description" content="Keras layer enabling plumbing TFP distributions through Keras models" />
+<meta property="og:description" content="k (i.e., num_components) represents the number of component
+OneHotCategorical distributions and d (i.e., event_size) represents the
+number of categories within each OneHotCategorical distribution." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,21 +96,23 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Keras layer enabling plumbing TFP distributions through Keras models</h1>
+    <h1>A OneHotCategorical mixture Keras layer from <code>k * (1 + d)</code> params.</h1>
     
-    <div class="hidden name"><code>layer_distribution_lambda.Rd</code></div>
+    <div class="hidden name"><code>layer_categorical_mixture_of_one_hot_categorical.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Keras layer enabling plumbing TFP distributions through Keras models</p>
+    <p><code>k</code> (i.e., <code>num_components</code>) represents the number of component
+<code>OneHotCategorical</code> distributions and <code>d</code> (i.e., <code>event_size</code>) represents the
+number of categories within each <code>OneHotCategorical</code> distribution.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>layer_distribution_lambda</span>(<span class='no'>object</span>, <span class='no'>make_distribution_fn</span>,
+    <pre class="usage"><span class='fu'>layer_categorical_mixture_of_one_hot_categorical</span>(<span class='no'>object</span>, <span class='no'>event_size</span>,
+  <span class='no'>num_components</span>,
   <span class='kw'>convert_to_tensor_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>distributions</span>$<span class='no'>Distribution</span>$<span class='no'>sample</span>,
-  <span class='kw'>batch_input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>input_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>batch_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>sample_dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -118,8 +122,14 @@
       <td><p>Model or layer object</p></td>
     </tr>
     <tr>
-      <th>make_distribution_fn</th>
-      <td><p>A callable that takes previous layer outputs and returns a <code>tfd$distributions$Distribution</code> instance.</p></td>
+      <th>event_size</th>
+      <td><p>Scalar <code>integer</code> representing the size of single draw from this distribution.</p></td>
+    </tr>
+    <tr>
+      <th>num_components</th>
+      <td><p>Scalar <code>integer</code> representing the number of mixture
+components. Must be at least 1. (If <code>num_components=1</code>, it's more
+efficient to use the <code>OneHotCategorical</code> layer.)</p></td>
     </tr>
     <tr>
       <th>convert_to_tensor_fn</th>
@@ -127,40 +137,15 @@
 tf$Tensor-like object. Default value: <code>tfd$distributions$Distribution$sample</code>.</p></td>
     </tr>
     <tr>
-      <th>batch_input_shape</th>
-      <td><p>Shapes, including the batch size. For instance,
-<code>batch_input_shape=c(10, 32)</code> indicates that the expected input will be
-batches of 10 32-dimensional vectors. <code>batch_input_shape=list(NULL, 32)</code>
-indicates batches of an arbitrary number of 32-dimensional vectors.</p></td>
+      <th>sample_dtype</th>
+      <td><p><code>dtype</code> of samples produced by this distribution.
+Default value: <code>NULL</code> (i.e., previous layer's <code>dtype</code>).</p></td>
     </tr>
     <tr>
-      <th>input_shape</th>
-      <td><p>Dimensionality of the input (integer) not including the
-samples axis. This argument is required when using this layer as the first
-layer in a model.</p></td>
-    </tr>
-    <tr>
-      <th>batch_size</th>
-      <td><p>Fixed batch size for layer</p></td>
-    </tr>
-    <tr>
-      <th>dtype</th>
-      <td><p>The data type expected by the input, as a string (<code>float32</code>,
-<code>float64</code>, <code>int32</code>...)</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>An optional name string for the layer. Should be unique in a
-model (do not reuse the same name twice). It will be autogenerated if it
-isn't provided.</p></td>
-    </tr>
-    <tr>
-      <th>trainable</th>
-      <td><p>Whether the layer weights will be updated during training.</p></td>
-    </tr>
-    <tr>
-      <th>weights</th>
-      <td><p>Initial weights for layer.</p></td>
+      <th>validate_args</th>
+      <td><p>Logical, default FALSE. When TRUE distribution parameters are checked
+for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
+silently render incorrect outputs. Default value: FALSE.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -168,9 +153,17 @@ isn't provided.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Typical choices for <code>convert_to_tensor_fn</code> include:</p><ul>
+<li><p><code>tfp$distributions$Distribution$sample</code></p></li>
+<li><p><code>tfp$distributions$Distribution$mean</code></p></li>
+<li><p><code>tfp$distributions$Distribution$mode</code></p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other distribution_layers: <code><a href='layer_categorical_mixture_of_one_hot_categorical.html'>layer_categorical_mixture_of_one_hot_categorical</a></code>,
+    <div class='dont-index'><p>Other distribution_layers: <code><a href='layer_distribution_lambda.html'>layer_distribution_lambda</a></code>,
   <code><a href='layer_independent_bernoulli.html'>layer_independent_bernoulli</a></code>,
   <code><a href='layer_kl_divergence_add_loss.html'>layer_kl_divergence_add_loss</a></code>,
   <code><a href='layer_kl_divergence_regularizer.html'>layer_kl_divergence_regularizer</a></code>,
@@ -184,6 +177,8 @@ isn't provided.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

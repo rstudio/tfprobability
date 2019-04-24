@@ -134,3 +134,38 @@ test_succeeds("layer_distribution_lambda() works", {
 
   expect_equal(s, array(c(rep(1, 10), rep(0, 10)), dim = c(10, 2)))
 })
+
+
+test_succeeds("can use layer_one_hot_categorical in a keras model", {
+
+  library(keras)
+
+  d <- 3
+  n <- 7L
+  model <- keras_model_sequential(
+    list(
+      layer_dense(units = params_size_one_hot_categorical(d) - 1, input_shape = n),
+      layer_lambda(f = function(x) tf$pad(x, paddings = list(list(0L, 0L), list(1L, 0L)))),
+      layer_one_hot_categorical(event_size = d)
+    )
+  )
+  expect_equal(model$output_shape[[2]], d)
+
+})
+
+test_succeeds("can use layer_categorical_mixture_of_one_hot_categorical in a keras model", {
+
+  library(keras)
+
+  k <- 3
+  d <- 5
+  n <- 7
+  model <- keras_model_sequential(
+    list(
+      layer_dense(units = params_size_categorical_mixture_of_one_hot_categorical(d, k), input_shape = n),
+      layer_categorical_mixture_of_one_hot_categorical(event_size = d, num_components = k)
+    )
+  )
+  expect_equal(model$layers %>% length(), 2)
+
+})
