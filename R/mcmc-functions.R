@@ -68,7 +68,7 @@ mcmc_sample_chain <- function(kernel = NULL,
   if (tfp_version() >= "0.7") {
     tfp$mcmc$sample_chain(
       num_results = as.integer(num_results),
-      current_state = current_state,
+      current_state = tf$convert_to_tensor(current_state),
       previous_kernel_results = previous_kernel_results,
       kernel = kernel,
       num_burnin_steps = as.integer(num_burnin_steps),
@@ -81,7 +81,7 @@ mcmc_sample_chain <- function(kernel = NULL,
   } else {
     tfp$mcmc$sample_chain(
       num_results = as.integer(num_results),
-      current_state = current_state,
+      current_state = tf$convert_to_tensor(current_state),
       previous_kernel_results = previous_kernel_results,
       kernel = kernel,
       num_burnin_steps = as.integer(num_burnin_steps),
@@ -91,3 +91,43 @@ mcmc_sample_chain <- function(kernel = NULL,
     )
   }
 }
+
+#' Estimate a lower bound on effective sample size for each independent chain.
+#'
+#' Roughly speaking, "effective sample size" (ESS) is the size of an iid sample
+#' with the same variance as `state`.
+#'
+#' More precisely, given a stationary sequence of possibly correlated random
+#' variables `X_1, X_2,...,X_N`, each identically distributed ESS is the number
+#' such that
+#' ```Variance{ N**-1 * Sum{X_i} } = ESS**-1 * Variance{ X_1 }.```
+#'
+#' If the sequence is uncorrelated, `ESS = N`.  In general, one should expect
+#' `ESS <= N`, with more highly correlated sequences having smaller `ESS`.
+#'
+#' @param states  `Tensor` or list of `Tensor` objects.  Dimension zero should index
+#' identically distributed states.
+#' @param filter_threshold  `Tensor` or list of `Tensor` objects.
+#' Must broadcast with `state`.  The auto-correlation sequence is truncated
+#' after the first appearance of a term less than `filter_threshold`.
+#' Setting to `NULL` means we use no threshold filter.  Since `|R_k| <= 1`,
+#' setting to any number less than `-1` has the same effect.
+#' @param filter_beyond_lag  `Tensor` or list of `Tensor` objects.  Must be
+#' `int`-like and scalar valued.  The auto-correlation sequence is truncated
+#' to this length.  Setting to `NULL` means we do not filter based on number of lags.
+#' @param name name to prepend to created ops.
+#'
+#' @family mcmc_functions
+#' @export
+mcmc_effective_sample_size <- function(states,
+                              filter_threshold = 0,
+                              filter_beyond_lag = NULL,
+                              name = NULL) {
+ tfp$mcmc$effective_sample_size(
+      states,
+      filter_threshold,
+      filter_beyond_lag,
+      name
+    )
+}
+

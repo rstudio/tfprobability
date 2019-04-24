@@ -78,4 +78,7 @@ accordingly. See below for some examples of this feature.
 }
 }
 
+\seealso{
+Other mcmc_functions: \code{\link{mcmc_effective_sample_size}}
+}
 \concept{mcmc_functions}

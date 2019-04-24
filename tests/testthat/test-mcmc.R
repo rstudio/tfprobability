@@ -17,7 +17,7 @@ test_succeeds("sampling from chain works", {
   states_and_results <- kernel %>% mcmc_sample_chain(
     num_results = 1000,
     num_burnin_steps = 500,
-    current_state = tf$zeros(dims),
+    current_state = rep(0, dims),
     trace_fn = NULL)
 
   if(tfp_version() < "0.7") {
@@ -52,7 +52,7 @@ test_succeeds("HamiltonianMonteCarlo with SimpleStepSizeAdaptation works", {
    res <- kernel %>% mcmc_sample_chain(
       num_results = num_results,
       num_burnin_steps = num_burnin_steps,
-      current_state = tf$zeros(num_chains),
+      current_state = rep(0, num_chains),
       trace_fn = function(x, pkr) {list (pkr$inner_results$accepted_results$step_size,
                                          pkr$inner_results$log_accept_ratio)})
 
@@ -78,7 +78,7 @@ test_succeeds("MetropolisHastings works", {
 
   states_and_results <- kernel %>% mcmc_sample_chain(
     num_results = 100,
-    current_state = tf$zeros(1L)
+    current_state = 1
     )
 
   if(tfp_version() < "0.7") {
@@ -98,7 +98,7 @@ test_succeeds("RandomWalkMetropolis works", {
   )
 
   states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
-                                                     current_state = tf$zeros(1L))
+                                                     current_state = 1)
 
   if (tfp_version() < "0.7") {
     states <- states_and_results[[1]]
@@ -133,5 +133,23 @@ test_succeeds("Can write summaries from trace_fn", {
 
   # does not work on today's master (as opposed to y'day) ... keep checking
   #expect_equal(list.files(path) %>% length, 1)
+})
+
+test_succeeds("mcmc_effective_sample_size works", {
+
+  target <- tfd_multivariate_normal_diag(scale_diag = c(1, 2))
+
+  states <- mcmc_hamiltonian_monte_carlo(
+    target_log_prob_fn = target$log_prob,
+    step_size = 0.05,
+    num_leapfrog_steps = 20)  %>%
+    mcmc_sample_chain(num_burnin_steps = 200,
+                      num_results = 10000,
+                      current_state = c(0, 0))
+
+  ess <- mcmc_effective_sample_size(states)
+  variance <- tf$nn$moments(states, axes = 0L)[[2]]
+  standard_error <- tf$sqrt(variance / ess)
+  expect_equal(standard_error$get_shape() %>% length(), 2)
 })
 
