@@ -139,13 +139,19 @@ test_succeeds("mcmc_effective_sample_size works", {
 
   target <- tfd_multivariate_normal_diag(scale_diag = c(1, 2))
 
-  states <- mcmc_hamiltonian_monte_carlo(
+  states_and_results <- mcmc_hamiltonian_monte_carlo(
     target_log_prob_fn = target$log_prob,
     step_size = 0.05,
     num_leapfrog_steps = 20)  %>%
     mcmc_sample_chain(num_burnin_steps = 20,
                       num_results = 100,
                       current_state = c(0, 0))
+
+  if(tfp_version() < "0.7") {
+    states <- states_and_results[[1]]
+  } else {
+    states <- states_and_results
+  }
 
   ess <- mcmc_effective_sample_size(states)
   variance <- tf$nn$moments(states, axes = 0L)[[2]]
@@ -159,13 +165,19 @@ test_succeeds("mcmc_potential_scale_reduction works", {
 
   initial_state <- target %>% tfd_sample(10) * 2
 
-  states <- mcmc_hamiltonian_monte_carlo(
+  states_and_results <- mcmc_hamiltonian_monte_carlo(
     target_log_prob_fn = target$log_prob,
     step_size = 0.05,
     num_leapfrog_steps = 20)  %>%
     mcmc_sample_chain(num_burnin_steps = 20,
                       num_results = 100,
                       current_state = initial_state)
+
+  if(tfp_version() < "0.7") {
+    states <- states_and_results[[1]]
+  } else {
+    states <- states_and_results
+  }
 
   rhat <- mcmc_potential_scale_reduction(states)
   expect_equal(rhat$get_shape() %>% length(), 2)
