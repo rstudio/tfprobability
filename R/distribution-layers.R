@@ -53,6 +53,7 @@ layer_multivariate_normal_tri_l <- function(object,
 #' @param validate_args  Logical, default FALSE. When TRUE distribution parameters are checked
 #'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 #'  silently render incorrect outputs. Default value: FALSE.
+#'  @param ... Additional arguments passed to `args` of `keras::create_layer`.
 #'
 #' @return a Keras layer that wraps a Bernoulli distribution
 #' @family distribution_layers
@@ -69,7 +70,8 @@ layer_independent_bernoulli <- function(object,
                                         dtype = NULL,
                                         name = NULL,
                                         trainable = NULL,
-                                        weights = NULL) {
+                                        weights = NULL,
+                                        ...) {
   args <- list(
     event_shape = as.integer(event_shape),
     convert_to_tensor_fn = convert_to_tensor_fn,
@@ -312,3 +314,109 @@ layer_categorical_mixture_of_one_hot_categorical <- function(object,
     args
   )
 }
+
+#' An independent Poisson Keras layer.
+#'
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_independent_bernoulli
+#' @family distribution_layers
+#' @export
+layer_independent_poisson <- function(object,
+                                      event_shape,
+                                      convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                      validate_args = FALSE,
+                                      ...) {
+  args <- list(
+    event_shape = as.integer(event_shape),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(tfp$python$layers$distribution_layer$IndependentPoisson,
+               object,
+               args)
+}
+
+#' An independent Normal Keras layer.
+#'
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_independent_bernoulli
+#' @family distribution_layers
+#' @export
+layer_independent_normal <- function(object,
+                                     event_shape,
+                                     convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                     validate_args = FALSE,
+                                     ...) {
+  args <- list(
+    event_shape = as.integer(event_shape),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(tfp$python$layers$distribution_layer$IndependentNormal,
+               object,
+               args)
+}
+
+#' A mixture (same-family) Keras layer.
+#'
+#' @param num_components Number of component distributions in the mixture distribution.
+#' @param component_layer Function that, given a tensor of shape
+#' `batch_shape + [num_components, component_params_size]`, returns a
+#' `tfd.Distribution`-like instance that implements the component
+#' distribution (with batch shape `batch_shape + [num_components]`) --
+#' e.g., a TFP distribution layer.
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_independent_bernoulli
+#' @family distribution_layers
+#' @export
+layer_mixture_same_family <- function(object,
+                                     num_components,
+                                     component_layer,
+                                     convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                     validate_args = FALSE,
+                                     ...) {
+  args <- list(
+    num_components = as.integer(num_components),
+    component_layer = component_layer,
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(tfp$python$layers$distribution_layer$MixtureSameFamily,
+               object,
+               args)
+}
+
+#' A mixture distribution Keras layer, with independent normal components.
+#'
+#' @param num_components Number of component distributions in the mixture distribution.
+#' @param event_shape integer vector `Tensor` representing the shape of single
+#' draw from this distribution.
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_independent_bernoulli
+#' @family distribution_layers
+#' @export
+layer_mixture_normal <- function(object,
+                                 num_components,
+                                 event_shape = list(),
+                                 convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                 validate_args = FALSE,
+                                 ...) {
+  args <- list(
+    num_components = as.integer(num_components),
+    event_shape = normalize_shape(event_shape),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(tfp$python$layers$distribution_layer$MixtureNormal,
+               object,
+               args)
+}
+

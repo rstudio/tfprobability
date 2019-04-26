@@ -169,3 +169,80 @@ test_succeeds("can use layer_categorical_mixture_of_one_hot_categorical in a ker
   expect_equal(model$layers %>% length(), 2)
 
 })
+
+test_succeeds("can use layer_independent_poisson in a keras model", {
+
+  library(keras)
+
+  d <- 1
+  n <- 2
+  model <- keras_model_sequential(
+    list(
+      layer_dense(units = params_size_independent_poisson(d), input_shape = n),
+      layer_independent_poisson(event_shape = d)
+    )
+  )
+  expect_equal(model$output_shape[[2]], d)
+
+})
+
+test_succeeds("can use layer_independent_normal in a keras model", {
+
+  library(keras)
+
+  input_shape <- c(28, 28, 1)
+  encoded_shape <- 2
+  n <- 2
+
+  model <- keras_model_sequential(
+    list(
+      layer_input(shape = input_shape),
+      layer_flatten(),
+      layer_dense(units = n),
+      layer_dense(units = params_size_independent_normal(encoded_shape)),
+      layer_independent_normal(event_shape = encoded_shape)
+    )
+  )
+  expect_equal(model$output_shape[[2]], encoded_shape)
+
+})
+
+test_succeeds("can use layer_mixture_same_family in a keras model", {
+
+  library(keras)
+
+  event_shape <- 1
+  num_components <- 5
+  params_size <- params_size_mixture_same_family(num_components,
+                                                 component_params_size = params_size_independent_normal(event_shape))
+
+  model <- keras_model_sequential(list(
+    layer_dense(units = 12, activation = "relu", input_shape = list(2)),
+    layer_dense(units = params_size),
+    layer_mixture_same_family(
+      num_components = num_components,
+      component_layer = layer_independent_normal(event_shape = event_shape)
+    )
+  ))
+  expect_equal(model$output_shape[[2]], event_shape)
+
+})
+
+test_succeeds("can use layer_mixture_normal in a keras model", {
+
+  library(keras)
+
+  event_shape <- 1
+  num_components <- 5
+  params_size <- params_size_mixture_normal(num_components, event_shape)
+
+  model <- keras_model_sequential(list(
+    layer_dense(units = 12, activation = "relu", input_shape = list(2)),
+    layer_dense(units = params_size),
+    layer_mixture_normal(
+      num_components = num_components,
+      event_shape = event_shape)
+  ))
+  expect_equal(model$output_shape[[2]], event_shape)
+})
+
