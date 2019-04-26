@@ -338,6 +338,30 @@ layer_independent_poisson <- function(object,
                args)
 }
 
+#' An independent Logistic Keras layer.
+#'
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_independent_bernoulli
+#' @family distribution_layers
+#' @export
+layer_independent_logistic <- function(object,
+                                       event_shape,
+                                       convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                       validate_args = FALSE,
+                                       ...) {
+  args <- list(
+    event_shape = as.integer(event_shape),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(tfp$python$layers$distribution_layer$IndependentLogistic,
+               object,
+               args)
+}
+
+
 #' An independent Normal Keras layer.
 #'
 #' @inheritParams keras::layer_dense
@@ -419,4 +443,30 @@ layer_mixture_normal <- function(object,
                object,
                args)
 }
+
+#' A mixture distribution Keras layer, with independent logistic components.
+#'
+#' @inheritParams keras::layer_dense
+#' @inheritParams layer_mixture_normal
+#' @family distribution_layers
+#' @export
+layer_mixture_logistic <- function(object,
+                                   num_components,
+                                   event_shape = list(),
+                                   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+                                   validate_args = FALSE,
+                                   ...) {
+  args <- list(
+    num_components = as.integer(num_components),
+    event_shape = normalize_shape(event_shape),
+    convert_to_tensor_fn = convert_to_tensor_fn,
+    validate_args = validate_args,
+    ...
+  )
+
+  create_layer(tfp$python$layers$distribution_layer$MixtureLogistic,
+               object,
+               args)
+}
+
 

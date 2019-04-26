@@ -186,6 +186,27 @@ test_succeeds("can use layer_independent_poisson in a keras model", {
 
 })
 
+test_succeeds("can use layer_independent_logistic in a keras model", {
+
+  library(keras)
+
+  input_shape <- c(28, 28, 1)
+  encoded_shape <- 2
+  n <- 3
+
+  model <- keras_model_sequential(
+    list(
+      layer_input(shape = input_shape),
+      layer_flatten(),
+      layer_dense(units = n),
+      layer_dense(units = params_size_independent_logistic(encoded_shape)),
+      layer_independent_logistic(event_shape = encoded_shape)
+    )
+  )
+  expect_equal(model$output_shape[[2]], encoded_shape)
+
+})
+
 test_succeeds("can use layer_independent_normal in a keras model", {
 
   library(keras)
@@ -246,3 +267,20 @@ test_succeeds("can use layer_mixture_normal in a keras model", {
   expect_equal(model$output_shape[[2]], event_shape)
 })
 
+test_succeeds("can use layer_mixture_logistic in a keras model", {
+
+  library(keras)
+
+  event_shape <- 1
+  num_components <- 5
+  params_size <- params_size_mixture_logistic(num_components, event_shape)
+
+  model <- keras_model_sequential(list(
+    layer_dense(units = 12, activation = "relu", input_shape = list(2)),
+    layer_dense(units = params_size),
+    layer_mixture_normal(
+      num_components = num_components,
+      event_shape = event_shape)
+  ))
+  expect_equal(model$output_shape[[2]], event_shape)
+})

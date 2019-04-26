@@ -59,10 +59,12 @@ An Independent-Bernoulli Keras layer from prod(event_shape) params
 \seealso{
 Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
   \code{\link{layer_distribution_lambda}},
+  \code{\link{layer_independent_logistic}},
   \code{\link{layer_independent_normal}},
   \code{\link{layer_independent_poisson}},
   \code{\link{layer_kl_divergence_add_loss}},
   \code{\link{layer_kl_divergence_regularizer}},
+  \code{\link{layer_mixture_logistic}},
   \code{\link{layer_mixture_normal}},
   \code{\link{layer_mixture_same_family}},
   \code{\link{layer_multivariate_normal_tri_l}},
