@@ -120,21 +120,6 @@ d %>% tfd_log_prob(rep(0, 7))
 
 ### Bijectors
 
-#### Discrete cosine transform bijector
-
-``` r
-# create a bijector to that performs the discrete cosine transform (DCT)
-b <- tfb_discrete_cosine_transform()
-
-# run on sample data
-x <- matrix(runif(3))
-b %>% tfb_forward(x)
-#> tf.Tensor(
-#> [[0.61940026]
-#>  [0.66759837]
-#>  [0.04708293]], shape=(3, 1), dtype=float32)
-```
-
 #### Affine bijector
 
 ``` r
@@ -145,6 +130,21 @@ b <- tfb_affine_scalar(shift = 3.33, scale = 0.5)
 x <- c(100, 1000, 10000)
 b %>% tfb_forward(x)
 #> tf.Tensor([  53.33  503.33 5003.33], shape=(3,), dtype=float32)
+```
+
+#### Discrete cosine transform bijector
+
+``` r
+# create a bijector to that performs the discrete cosine transform (DCT)
+b <- tfb_discrete_cosine_transform()
+
+# run on sample data
+x <- matrix(runif(3))
+b %>% tfb_forward(x)
+#> tf.Tensor(
+#> [[0.94467545]
+#>  [0.5338531 ]
+#>  [0.43627188]], shape=(3, 1), dtype=float32)
 ```
 
 ### Keras layers
@@ -202,5 +202,7 @@ vae_model %>% fit(x_train, x_train, batch_size = 25, epochs = 1)
 ## Package State
 
 This project is under active development. As of this writing,
-`distributions` and `bijectors` are covered comprehensively, `layers` in
-part, and modules like `mcmc` and variational inference are upcoming.
+
+  - `distributions` and `bijectors` are covered comprehensively,
+  - `layers` (= Keras layers) in part and `mcmc` to high extent, and
+  - `glm`, `vi` and `sts` are upcoming.

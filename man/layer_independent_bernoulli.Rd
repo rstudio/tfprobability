@@ -8,7 +8,7 @@ layer_independent_bernoulli(object, event_shape,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
   sample_dtype = NULL, validate_args = FALSE,
   batch_input_shape = NULL, input_shape = NULL, batch_size = NULL,
-  dtype = NULL, name = NULL, trainable = NULL, weights = NULL)
+  dtype = NULL, name = NULL, trainable = NULL, weights = NULL, ...)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -23,7 +23,8 @@ Default value: NULL (i.e., previous layer's dtype).}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
-silently render incorrect outputs. Default value: FALSE.}
+silently render incorrect outputs. Default value: FALSE.
+@param ... Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 
 \item{batch_input_shape}{Shapes, including the batch size. For instance,
 \code{batch_input_shape=c(10, 32)} indicates that the expected input will be
@@ -46,6 +47,8 @@ isn't provided.}
 \item{trainable}{Whether the layer weights will be updated during training.}
 
 \item{weights}{Initial weights for layer.}
+
+\item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
 \value{
 a Keras layer that wraps a Bernoulli distribution
@@ -56,8 +59,14 @@ An Independent-Bernoulli Keras layer from prod(event_shape) params
 \seealso{
 Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
   \code{\link{layer_distribution_lambda}},
+  \code{\link{layer_independent_logistic}},
+  \code{\link{layer_independent_normal}},
+  \code{\link{layer_independent_poisson}},
   \code{\link{layer_kl_divergence_add_loss}},
   \code{\link{layer_kl_divergence_regularizer}},
+  \code{\link{layer_mixture_logistic}},
+  \code{\link{layer_mixture_normal}},
+  \code{\link{layer_mixture_same_family}},
   \code{\link{layer_multivariate_normal_tri_l}},
   \code{\link{layer_one_hot_categorical}}
 }
