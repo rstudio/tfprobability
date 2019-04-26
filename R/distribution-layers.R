@@ -15,24 +15,12 @@ layer_multivariate_normal_tri_l <- function(object,
                                             event_size,
                                             convert_to_tensor_fn = tfp$distributions$Distribution$sample,
                                             validate_args = FALSE,
-                                            batch_input_shape = NULL,
-                                            input_shape = NULL,
-                                            batch_size = NULL,
-                                            dtype = NULL,
-                                            name = NULL,
-                                            trainable = NULL,
-                                            weights = NULL) {
+                                            ...) {
   args <- list(
     event_size = as.integer(event_size),
     convert_to_tensor_fn = convert_to_tensor_fn,
     validate_args = validate_args,
-    input_shape = normalize_shape(input_shape),
-    batch_input_shape = normalize_shape(batch_input_shape),
-    batch_size = as_nullable_integer(batch_size),
-    dtype = dtype,
-    name = name,
-    trainable = trainable,
-    weights = weights
+    ...
   )
 
   create_layer(
@@ -64,26 +52,13 @@ layer_independent_bernoulli <- function(object,
                                         convert_to_tensor_fn = tfp$distributions$Distribution$sample,
                                         sample_dtype = NULL,
                                         validate_args = FALSE,
-                                        batch_input_shape = NULL,
-                                        input_shape = NULL,
-                                        batch_size = NULL,
-                                        dtype = NULL,
-                                        name = NULL,
-                                        trainable = NULL,
-                                        weights = NULL,
                                         ...) {
   args <- list(
     event_shape = as.integer(event_shape),
     convert_to_tensor_fn = convert_to_tensor_fn,
     sample_dtype = sample_dtype,
     validate_args = validate_args,
-    input_shape = normalize_shape(input_shape),
-    batch_input_shape = normalize_shape(batch_input_shape),
-    batch_size = as_nullable_integer(batch_size),
-    dtype = dtype,
-    name = name,
-    trainable = trainable,
-    weights = weights
+    ...
   )
 
   create_layer(
@@ -106,24 +81,10 @@ layer_independent_bernoulli <- function(object,
 layer_distribution_lambda <- function(object,
                                       make_distribution_fn,
                                       convert_to_tensor_fn = tfp$distributions$Distribution$sample,
-                                      batch_input_shape = NULL,
-                                      input_shape = NULL,
-                                      batch_size = NULL,
-                                      dtype = NULL,
-                                      name = NULL,
-                                      trainable = NULL,
-                                      weights = NULL,
                                       ...) {
   args <- list(
     make_distribution_fn = make_distribution_fn,
     convert_to_tensor_fn = convert_to_tensor_fn,
-    input_shape = normalize_shape(input_shape),
-    batch_input_shape = normalize_shape(batch_input_shape),
-    batch_size = as_nullable_integer(batch_size),
-    dtype = dtype,
-    name = name,
-    trainable = trainable,
-    weights = weights,
     ...
   )
 
@@ -152,6 +113,7 @@ layer_distribution_lambda <- function(object,
 #'  Default value: tf$convert_to_tensor.
 #' @param weight Multiplier applied to the calculated KL divergence for each Keras batch member.
 #' Default value: NULL (i.e., do not weight each batch member).
+#' @param ... Additional arguments passed to `args` of `keras::create_layer`.
 
 #' @return a Keras layer that adds a KL divergence penalty to the model loss
 #' @family distribution_layers
@@ -162,26 +124,14 @@ layer_kl_divergence_add_loss <- function(object,
                                          test_points_reduce_axis = NULL,
                                          test_points_fn = tf$convert_to_tensor,
                                          weight = NULL,
-                                         input_shape = NULL,
-                                         batch_input_shape = NULL,
-                                         batch_size = NULL,
-                                         dtype = NULL,
-                                         name = NULL,
-                                         trainable = NULL,
-                                         weights = NULL) {
+                                         ...) {
   args <- list(
     distribution_b = distribution_b,
     use_exact_kl = use_exact_kl,
     test_points_reduce_axis = test_points_reduce_axis,
     test_points_fn = test_points_fn,
     weight = weight,
-    input_shape = normalize_shape(input_shape),
-    batch_input_shape = normalize_shape(batch_input_shape),
-    batch_size = as_nullable_integer(batch_size),
-    dtype = dtype,
-    name = name,
-    trainable = trainable,
-    weights = weights
+    ...
   )
 
   create_layer(
@@ -208,26 +158,14 @@ layer_kl_divergence_regularizer <- function(object,
                                             test_points_reduce_axis = NULL,
                                             test_points_fn = tf$convert_to_tensor,
                                             weight = NULL,
-                                            input_shape = NULL,
-                                            batch_input_shape = NULL,
-                                            batch_size = NULL,
-                                            dtype = NULL,
-                                            name = NULL,
-                                            trainable = NULL,
-                                            weights = NULL) {
+                                            ...) {
   args <- list(
     distribution_b,
     use_exact_kl = use_exact_kl,
     test_points_reduce_axis = test_points_reduce_axis,
     test_points_fn = test_points_fn,
     weight = weight,
-    input_shape = input_shape,
-    batch_input_shape = batch_input_shape,
-    batch_size = batch_size,
-    dtype = dtype,
-    name = name,
-    trainable = trainable,
-    weights = weights
+    ...
   )
 
   create_layer(
