@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A <code>d</code>-variate OneHotCategorical Keras layer from <code>d</code> params. — layer_one_hot_categorical • tfprobability</title>
+<title>number of <code>params</code> needed to create an IndependentLogistic distribution — params_size_independent_logistic • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,14 +30,9 @@
 
 
 
-<meta property="og:title" content="A <code>d</code>-variate OneHotCategorical Keras layer from <code>d</code> params. — layer_one_hot_categorical" />
+<meta property="og:title" content="number of <code>params</code> needed to create an IndependentLogistic distribution — params_size_independent_logistic" />
 
-<meta property="og:description" content="Typical choices for convert_to_tensor_fn include:
-tfp$distributions$Distribution$sample
-tfp$distributions$Distribution$mean
-tfp$distributions$Distribution$mode
-tfp$distributions$OneHotCategorical$logits
-" />
+<meta property="og:description" content="number of params needed to create an IndependentLogistic distribution" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,73 +94,27 @@ tfp$distributions$OneHotCategorical$logits
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A <code>d</code>-variate OneHotCategorical Keras layer from <code>d</code> params.</h1>
+    <h1>number of <code>params</code> needed to create an IndependentLogistic distribution</h1>
     
-    <div class="hidden name"><code>layer_one_hot_categorical.Rd</code></div>
+    <div class="hidden name"><code>params_size_independent_logistic.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Typical choices for <code>convert_to_tensor_fn</code> include:</p><ul>
-<li><p><code>tfp$distributions$Distribution$sample</code></p></li>
-<li><p><code>tfp$distributions$Distribution$mean</code></p></li>
-<li><p><code>tfp$distributions$Distribution$mode</code></p></li>
-<li><p><code>tfp$distributions$OneHotCategorical$logits</code></p></li>
-</ul>
+    <p>number of <code>params</code> needed to create an IndependentLogistic distribution</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>layer_one_hot_categorical</span>(<span class='no'>object</span>, <span class='no'>event_size</span>,
-  <span class='kw'>convert_to_tensor_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>distributions</span>$<span class='no'>Distribution</span>$<span class='no'>sample</span>,
-  <span class='kw'>sample_dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>params_size_independent_logistic</span>(<span class='no'>event_size</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>Model or layer object</p></td>
-    </tr>
-    <tr>
       <th>event_size</th>
-      <td><p>Scalar <code>integer</code> representing the size of single draw from this distribution.</p></td>
-    </tr>
-    <tr>
-      <th>convert_to_tensor_fn</th>
-      <td><p>A callable that takes a tfd$Distribution instance and returns a
-tf$Tensor-like object. Default value: <code>tfd$distributions$Distribution$sample</code>.</p></td>
-    </tr>
-    <tr>
-      <th>sample_dtype</th>
-      <td><p><code>dtype</code> of samples produced by this distribution.
-Default value: <code>NULL</code> (i.e., previous layer's <code>dtype</code>).</p></td>
-    </tr>
-    <tr>
-      <th>validate_args</th>
-      <td><p>Logical, default FALSE. When TRUE distribution parameters are checked
-for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
-silently render incorrect outputs. Default value: FALSE.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments passed to <code>args</code> of <code><a href='https://www.rdocumentation.org/packages/keras/topics/create_layer'>keras::create_layer</a></code>.</p></td>
+      <td><p>event size of this distribution</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other distribution_layers: <code><a href='layer_categorical_mixture_of_one_hot_categorical.html'>layer_categorical_mixture_of_one_hot_categorical</a></code>,
-  <code><a href='layer_distribution_lambda.html'>layer_distribution_lambda</a></code>,
-  <code><a href='layer_independent_bernoulli.html'>layer_independent_bernoulli</a></code>,
-  <code><a href='layer_independent_logistic.html'>layer_independent_logistic</a></code>,
-  <code><a href='layer_independent_normal.html'>layer_independent_normal</a></code>,
-  <code><a href='layer_independent_poisson.html'>layer_independent_poisson</a></code>,
-  <code><a href='layer_kl_divergence_add_loss.html'>layer_kl_divergence_add_loss</a></code>,
-  <code><a href='layer_kl_divergence_regularizer.html'>layer_kl_divergence_regularizer</a></code>,
-  <code><a href='layer_mixture_logistic.html'>layer_mixture_logistic</a></code>,
-  <code><a href='layer_mixture_normal.html'>layer_mixture_normal</a></code>,
-  <code><a href='layer_mixture_same_family.html'>layer_mixture_same_family</a></code>,
-  <code><a href='layer_multivariate_normal_tri_l.html'>layer_multivariate_normal_tri_l</a></code></p></div>
     
 
   </div>
@@ -173,9 +122,7 @@ silently render incorrect outputs. Default value: FALSE.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

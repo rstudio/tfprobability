@@ -152,30 +152,30 @@ install_tensorflow()</a></code></pre>
 <div id="bijectors" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bijectors" class="anchor"></a>Bijectors</h3>
-<div id="discrete-cosine-transform-bijector" class="section level4">
-<h4 class="hasAnchor">
-<a href="#discrete-cosine-transform-bijector" class="anchor"></a>Discrete cosine transform bijector</h4>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># create a bijector to that performs the discrete cosine transform (DCT)</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform</a></span>()</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># run on sample data</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; tf.Tensor(</span></a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="co">#&gt; [[0.61501515]</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="co">#&gt;  [0.9058176 ]</span></a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt;  [0.0726121 ]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
-</div>
 <div id="affine-bijector" class="section level4">
 <h4 class="hasAnchor">
 <a href="#affine-bijector" class="anchor"></a>Affine bijector</h4>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># create an affine transformation that shifts by 3.33 and scales by 0.5</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_affine_scalar.html">tfb_affine_scalar</a></span>(<span class="dt">shift =</span> <span class="fl">3.33</span>, <span class="dt">scale =</span> <span class="fl">0.5</span>)</a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># create an affine transformation that shifts by 3.33 and scales by 0.5</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_affine_scalar.html">tfb_affine_scalar</a></span>(<span class="dt">shift =</span> <span class="fl">3.33</span>, <span class="dt">scale =</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># apply the transformation</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; tf.Tensor([  53.33  503.33 5003.33], shape=(3,), dtype=float32)</span></a></code></pre></div>
+</div>
+<div id="discrete-cosine-transform-bijector" class="section level4">
+<h4 class="hasAnchor">
+<a href="#discrete-cosine-transform-bijector" class="anchor"></a>Discrete cosine transform bijector</h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># create a bijector to that performs the discrete cosine transform (DCT)</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform</a></span>()</a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># apply the transformation</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># run on sample data</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; tf.Tensor([  53.33  503.33 5003.33], shape=(3,), dtype=float32)</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; tf.Tensor(</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [[0.77259845]</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  [0.7789379 ]</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  [0.30800188]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
 </div>
 </div>
 <div id="keras-layers" class="section level3">
@@ -231,7 +231,15 @@ install_tensorflow()</a></code></pre>
 <div id="package-state" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-state" class="anchor"></a>Package State</h2>
-<p>This project is under active development. As of this writing, <code>distributions</code> and <code>bijectors</code> are covered comprehensively, <code>layers</code> in part, and modules like <code>mcmc</code> and variational inference are upcoming.</p>
+<p>This project is under active development. As of this writing,</p>
+<ul>
+<li>
+<code>distributions</code> and <code>bijectors</code> are covered comprehensively,</li>
+<li>
+<code>layers</code> (= Keras layers) in part and <code>mcmc</code> to high extent, and</li>
+<li>
+<code>glm</code>, <code>vi</code> and <code>sts</code> are upcoming.</li>
+</ul>
 </div>
 </div>
   </div>
