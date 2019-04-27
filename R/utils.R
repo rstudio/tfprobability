@@ -45,3 +45,11 @@ as_axis <- function(axis) {
 as_tf_float <- function(x) {
   tf$cast(x, tf$float32)
 }
+
+as_tensor <- function(x) {
+  if (is.list(x)) {
+    Map(tf$convert_to_tensor, x)
+  } else {
+    tf$convert_to_tensor(x)
+  }
+}

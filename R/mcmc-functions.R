@@ -68,7 +68,7 @@ mcmc_sample_chain <- function(kernel = NULL,
   if (tfp_version() >= "0.7") {
     tfp$mcmc$sample_chain(
       num_results = as.integer(num_results),
-      current_state = tf$convert_to_tensor(current_state),
+      current_state = as_tensor(current_state),
       previous_kernel_results = previous_kernel_results,
       kernel = kernel,
       num_burnin_steps = as.integer(num_burnin_steps),
