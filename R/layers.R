@@ -76,3 +76,107 @@ layer_autoregressive <- function(object,
     args
   )
 }
+
+#' Dense Variational Layer
+#'
+#' This layer uses variational inference to fit a "surrogate" posterior to the
+#'  distribution over both the `kernel` matrix and the `bias` terms which are
+#'  otherwise used in a manner similar to `layer_dense()`.
+#'  This layer fits the "weights posterior" according to the following generative
+#'  process:
+#'    ```none
+#'    [K, b] ~ Prior()
+#'    M = matmul(X, K) + b
+#'    Y ~ Likelihood(M)
+#'    ```
+#'
+#' @inheritParams keras::layer_dense
+#'
+#' @param make_posterior_fn Python callable taking `tf$size(kernel)`,
+#'   `tf$size(bias)`, `dtype` and returns another callable which takes an
+#'   input and produces a `tfd$Distribution` instance.
+#' @param make_prior_fn Python callable taking `tf$size(kernel)`, `tf$size(bias)`,
+#'   `dtype` and returns another callable which takes an input and produces a
+#'   `tfd$Distribution` instance.
+#' @param kl_weight Amount by which to scale the KL divergence loss between prior
+#'   and posterior.
+#' @param kl_use_exact Logical indicating that the analytical KL divergence
+#'   should be used rather than a Monte Carlo approximation.
+#' @param activation An activation function.  See `keras::layer_dense`. Default: `NULL`.
+#' @param use_bias Whether or not the dense layers constructed in this layer
+#' should have a bias term.  See `keras::layer_dense`.  Default: `TRUE`.
+#' @param ... Additional keyword arguments passed to the `keras::layer_dense` constructed by this layer.
+#' @family layers
+#' @export
+layer_dense_variational <- function(object,
+                                    units,
+                                    make_posterior_fn,
+                                    make_prior_fn,
+                                    kl_weight = NULL,
+                                    kl_use_exact = FALSE,
+                                    activation = NULL,
+                                    use_bias = TRUE,
+                                    ...) {
+  args <- list(
+    units = as.integer(units),
+    make_posterior_fn = make_posterior_fn,
+    make_prior_fn = make_prior_fn,
+    kl_weight = kl_weight,
+    kl_use_exact = kl_use_exact,
+    activation = activation,
+    use_bias = use_bias,
+    ...
+  )
+
+  create_layer(
+    tfp$layers$DenseVariational,
+    object,
+    args
+  )
+}
+
+#' Variable Layer
+#'
+#' Simply returns a (trainable) variable, regardless of input.
+#'  This layer implements the mathematical function `f(x) = c` where `c` is a
+#'  constant, i.e., unchanged for all `x`. Like other Keras layers, the constant
+#'  is `trainable`.  This layer can also be interpretted as the special case of
+#'  `layer_dense()` when the `kernel` is forced to be the zero matrix
+#'  (`tf$zeros`).
+#'
+#' @inheritParams keras::layer_dense
+#'
+#' @param shape integer or integer vector specifying the shape of the output of this layer.
+#' @param dtype TensorFlow `dtype` of the variable created by this layer.
+# "   Default value: `NULL` (i.e., `tf$as_dtype(k_floatx())`).
+#' @param activation An activation function.  See `keras::layer_dense`. Default: `NULL`.
+#' @param initializer Initializer for the `constant` vector.
+#' @param regularizer Regularizer function applied to the `constant` vector.
+#' @param constraint Constraint function applied to the `constant` vector.
+#' @param ... Additional keyword arguments passed to the `keras::layer_dense` constructed by this layer.
+#' @family layers
+#' @export
+layer_variable <- function(object,
+                           shape,
+                           dtype = NULL,
+                           activation = NULL,
+                           initializer = "zeros",
+                           regularizer = NULL,
+                           constraint = NULL,
+                           ...) {
+  args <- list(
+    shape = normalize_shape(shape),
+    dtype = dtype,
+    activation = activation,
+    initializer = initializer,
+    regularizer = regularizer,
+    constraint = constraint,
+    ...
+  )
+
+  create_layer(
+    tfp$layers$VariableLayer,
+    object,
+    args
+  )
+}
