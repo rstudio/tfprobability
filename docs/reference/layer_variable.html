@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Keras layer enabling plumbing TFP distributions through Keras models — layer_distribution_lambda • tfprobability</title>
+<title>Variable Layer — layer_variable • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,14 @@
 
 
 
-<meta property="og:title" content="Keras layer enabling plumbing TFP distributions through Keras models — layer_distribution_lambda" />
+<meta property="og:title" content="Variable Layer — layer_variable" />
 
-<meta property="og:description" content="Keras layer enabling plumbing TFP distributions through Keras models" />
+<meta property="og:description" content="Simply returns a (trainable) variable, regardless of input.
+This layer implements the mathematical function f(x) = c where c is a
+constant, i.e., unchanged for all x. Like other Keras layers, the constant
+is trainable.  This layer can also be interpretted as the special case of
+layer_dense() when the kernel is forced to be the zero matrix
+(tf$zeros)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,19 +99,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Keras layer enabling plumbing TFP distributions through Keras models</h1>
+    <h1>Variable Layer</h1>
     
-    <div class="hidden name"><code>layer_distribution_lambda.Rd</code></div>
+    <div class="hidden name"><code>layer_variable.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Keras layer enabling plumbing TFP distributions through Keras models</p>
+    <p>Simply returns a (trainable) variable, regardless of input.
+This layer implements the mathematical function <code>f(x) = c</code> where <code>c</code> is a
+constant, i.e., unchanged for all <code>x</code>. Like other Keras layers, the constant
+is <code>trainable</code>.  This layer can also be interpretted as the special case of
+<code>layer_dense()</code> when the <code>kernel</code> is forced to be the zero matrix
+(<code>tf$zeros</code>).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>layer_distribution_lambda</span>(<span class='no'>object</span>, <span class='no'>make_distribution_fn</span>,
-  <span class='kw'>convert_to_tensor_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>distributions</span>$<span class='no'>Distribution</span>$<span class='no'>sample</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>layer_variable</span>(<span class='no'>object</span>, <span class='no'>shape</span>, <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>activation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>initializer</span> <span class='kw'>=</span> <span class='st'>"zeros"</span>, <span class='kw'>regularizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>constraint</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -116,34 +126,39 @@
       <td><p>Model or layer object</p></td>
     </tr>
     <tr>
-      <th>make_distribution_fn</th>
-      <td><p>A callable that takes previous layer outputs and returns a <code>tfd$distributions$Distribution</code> instance.</p></td>
+      <th>shape</th>
+      <td><p>integer or integer vector specifying the shape of the output of this layer.</p></td>
     </tr>
     <tr>
-      <th>convert_to_tensor_fn</th>
-      <td><p>A callable that takes a tfd$Distribution instance and returns a
-tf$Tensor-like object. Default value: <code>tfd$distributions$Distribution$sample</code>.</p></td>
+      <th>dtype</th>
+      <td><p>TensorFlow <code>dtype</code> of the variable created by this layer.</p></td>
+    </tr>
+    <tr>
+      <th>activation</th>
+      <td><p>An activation function.  See <code><a href='https://www.rdocumentation.org/packages/keras/topics/layer_dense'>keras::layer_dense</a></code>. Default: <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>initializer</th>
+      <td><p>Initializer for the <code>constant</code> vector.</p></td>
+    </tr>
+    <tr>
+      <th>regularizer</th>
+      <td><p>Regularizer function applied to the <code>constant</code> vector.</p></td>
+    </tr>
+    <tr>
+      <th>constraint</th>
+      <td><p>Constraint function applied to the <code>constant</code> vector.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments passed to <code>args</code> of <code><a href='https://www.rdocumentation.org/packages/keras/topics/create_layer'>keras::create_layer</a></code>.</p></td>
+      <td><p>Additional keyword arguments passed to the <code><a href='https://www.rdocumentation.org/packages/keras/topics/layer_dense'>keras::layer_dense</a></code> constructed by this layer.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other distribution_layers: <code><a href='layer_categorical_mixture_of_one_hot_categorical.html'>layer_categorical_mixture_of_one_hot_categorical</a></code>,
-  <code><a href='layer_independent_bernoulli.html'>layer_independent_bernoulli</a></code>,
-  <code><a href='layer_independent_logistic.html'>layer_independent_logistic</a></code>,
-  <code><a href='layer_independent_normal.html'>layer_independent_normal</a></code>,
-  <code><a href='layer_independent_poisson.html'>layer_independent_poisson</a></code>,
-  <code><a href='layer_kl_divergence_add_loss.html'>layer_kl_divergence_add_loss</a></code>,
-  <code><a href='layer_kl_divergence_regularizer.html'>layer_kl_divergence_regularizer</a></code>,
-  <code><a href='layer_mixture_logistic.html'>layer_mixture_logistic</a></code>,
-  <code><a href='layer_mixture_normal.html'>layer_mixture_normal</a></code>,
-  <code><a href='layer_mixture_same_family.html'>layer_mixture_same_family</a></code>,
-  <code><a href='layer_multivariate_normal_tri_l.html'>layer_multivariate_normal_tri_l</a></code>,
-  <code><a href='layer_one_hot_categorical.html'>layer_one_hot_categorical</a></code></p></div>
+    <div class='dont-index'><p>Other layers: <code><a href='layer_autoregressive.html'>layer_autoregressive</a></code>,
+  <code><a href='layer_dense_variational.html'>layer_dense_variational</a></code></p></div>
     
 
   </div>
