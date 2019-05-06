@@ -20,7 +20,7 @@
 #'
 #' @inheritParams keras::layer_dense
 #'
-#' @param params Python integer specifying the number of parameters to output per input.
+#' @param params integer specifying the number of parameters to output per input.
 #' @param event_shape `list`-like of positive integers (or a single int),
 #' specifying the shape of the input to this layer, which is also the
 #' event_shape of the distribution parameterized by this layer.  Currently
@@ -92,10 +92,10 @@ layer_autoregressive <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #'
-#' @param make_posterior_fn Python callable taking `tf$size(kernel)`,
+#' @param make_posterior_fn function taking `tf$size(kernel)`,
 #'   `tf$size(bias)`, `dtype` and returns another callable which takes an
 #'   input and produces a `tfd$Distribution` instance.
-#' @param make_prior_fn Python callable taking `tf$size(kernel)`, `tf$size(bias)`,
+#' @param make_prior_fn function taking `tf$size(kernel)`, `tf$size(bias)`,
 #'   `dtype` and returns another callable which takes an input and produces a
 #'   `tfd$Distribution` instance.
 #' @param kl_weight Amount by which to scale the KL divergence loss between prior

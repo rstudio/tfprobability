@@ -12,7 +12,7 @@ layer_autoregressive(object, params, event_shape = NULL,
 \arguments{
 \item{object}{Model or layer object}
 
-\item{params}{Python integer specifying the number of parameters to output per input.}
+\item{params}{integer specifying the number of parameters to output per input.}
 
 \item{event_shape}{\code{list}-like of positive integers (or a single int),
 specifying the shape of the input to this layer, which is also the
