@@ -66,4 +66,8 @@ which give us a tractable distribution over input \code{x[batch_idx]}:
 For example, when \code{params} is 2, the output of the layer can parameterize
 the location and log-scale of an autoregressive Gaussian distribution.
 }
+\seealso{
+Other layers: \code{\link{layer_dense_variational}},
+  \code{\link{layer_variable}}
+}
 \concept{layers}
