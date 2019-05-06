@@ -169,3 +169,85 @@ test_succeeds("use layer_autoregressive to model rank-3 tensors without autoregr
                c(7, channels, event_shape))
 })
 
+
+test_succeeds("layer_variable works", {
+
+  skip_if_tfp_below("0.7")
+
+  library(keras)
+
+  x = tf$ones(shape = c(3, 4))
+  y = tf$ones(3)
+
+  trainable_normal <- keras_model_sequential(list(
+    layer_variable(shape = 2),
+    layer_distribution_lambda(
+      make_distribution_fn = function (t)
+        tfd_independent(
+          tfd_normal(loc = t[1], scale = tf$math$softplus(t[2])),
+          reinterpreted_batch_ndims = 0
+        )
+    )
+  ))
+
+  negloglik <- function(x, rv_x) -(rv_x %>% tfd_log_prob(x))
+  trainable_normal %>% compile(optimizer = 'adam', loss = negloglik)
+  trainable_normal %>% fit(x, y, steps_per_epoch = 1)
+
+})
+
+test_succeeds("layer_dense_variational works", {
+
+  skip_if_tfp_below("0.7")
+
+  library(keras)
+
+  x = tf$ones(shape = c(150,1))
+  y = tf$ones(150)
+
+  posterior_mean_field <- function(kernel_size, bias_size = 0, dtype = NULL) {
+    n <- kernel_size + bias_size
+    c <- log(expm1(1))
+    keras_model_sequential(list(
+      layer_variable(shape = 2 * n, dtype = dtype),
+      layer_distribution_lambda(make_distribution_fn = function(t) {
+        tfd_independent(
+          tfd_normal(loc = t[1:n], scale = 1e-5 + tf$nn$softplus(c + t[(n+1):(2*n)])),
+          reinterpreted_batch_ndims = 1
+        )
+      })
+    ))
+  }
+
+  prior_trainable <- function(kernel_size, bias_size = 0, dtype = NULL) {
+    n <- kernel_size + bias_size
+    keras_model_sequential() %>%
+      layer_variable(n, dtype = dtype) %>%
+      layer_distribution_lambda(function(t) {
+        tfd_independent(
+          tfd_normal(loc = t, scale = 1),
+          reinterpreted_batch_ndims = 1
+        )
+      })
+  }
+
+  model <- keras_model_sequential(list(
+    layer_dense_variational(
+      units = 1,
+      make_posterior_fn = posterior_mean_field,
+      make_prior_fn = prior_trainable
+    ),
+    layer_distribution_lambda(
+      make_distribution_fn = function(x)
+        tfd_normal(loc = x, scale = 1)
+    )
+  ))
+
+  negloglik <- function(x, rv_x) -(rv_x %>% tfd_log_prob(x))
+  model %>% compile(optimizer = 'adam', loss = negloglik)
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal((yhat %>% tfd_sample())$get_shape()$as_list(), c(150,1))
+
+})

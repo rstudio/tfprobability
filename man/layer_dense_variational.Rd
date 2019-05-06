@@ -13,11 +13,11 @@ layer_dense_variational(object, units, make_posterior_fn, make_prior_fn,
 
 \item{units}{Positive integer, dimensionality of the output space.}
 
-\item{make_posterior_fn}{Python callable taking \code{tf$size(kernel)},
+\item{make_posterior_fn}{function taking \code{tf$size(kernel)},
 \code{tf$size(bias)}, \code{dtype} and returns another callable which takes an
 input and produces a \code{tfd$Distribution} instance.}
 
-\item{make_prior_fn}{Python callable taking \code{tf$size(kernel)}, \code{tf$size(bias)},
+\item{make_prior_fn}{function taking \code{tf$size(kernel)}, \code{tf$size(bias)},
 \code{dtype} and returns another callable which takes an input and produces a
 \code{tfd$Distribution} instance.}
 

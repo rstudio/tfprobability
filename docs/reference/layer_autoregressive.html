@@ -131,7 +131,7 @@ for input dimension <code>i</code> depends only on inputs <code>x[batch_idx, j]<
     </tr>
     <tr>
       <th>params</th>
-      <td><p>Python integer specifying the number of parameters to output per input.</p></td>
+      <td><p>integer specifying the number of parameters to output per input.</p></td>
     </tr>
     <tr>
       <th>event_shape</th>
@@ -195,6 +195,11 @@ which give us a tractable distribution over input <code>x[batch_idx]</code>:</p>
 <p>For example, when <code>params</code> is 2, the output of the layer can parameterize
 the location and log-scale of an autoregressive Gaussian distribution.</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other layers: <code><a href='layer_dense_variational.html'>layer_dense_variational</a></code>,
+  <code><a href='layer_variable.html'>layer_variable</a></code></p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -203,6 +208,8 @@ the location and log-scale of an autoregressive Gaussian distribution.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
           </ul>
 
   </div>
