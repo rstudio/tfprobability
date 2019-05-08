@@ -155,7 +155,7 @@ b %>% tfb_forward(x)
 
 We can use a probabilistic layer (`layer_kl_divergence_add_loss`) to fit a VAE (variational autoencoder):
 
-```{r}
+```{r, eval=FALSE}
 library(keras)
 
 encoded_size <- 2
@@ -173,7 +173,7 @@ encoder_model <- keras_model_sequential() %>%
   layer_kl_divergence_add_loss(
       distribution = tfd_independent(
         tfd_normal(loc = c(0, 0), scale = 1),
-        reinterpreted_batch_ndims = 1L
+        reinterpreted_batch_ndims = 1
       ),
       weight = train_size)
 

@@ -120,6 +120,7 @@ single distribution, all sampled in parallel.
 Other mcmc_kernels: \code{\link{mcmc_hamiltonian_monte_carlo}},
   \code{\link{mcmc_metropolis_hastings}},
   \code{\link{mcmc_random_walk_metropolis}},
+  \code{\link{mcmc_transformed_transition_kernel}},
   \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}}
 }
 \concept{mcmc_kernels}

@@ -182,3 +182,37 @@ test_succeeds("mcmc_potential_scale_reduction works", {
   rhat <- mcmc_potential_scale_reduction(states)
   expect_equal(rhat$get_shape() %>% length(), 2)
 })
+
+test_succeeds("mcmc_potential_scale_reduction works", {
+
+ make_likelihood <- function(true_variances) tfd_multivariate_normal_diag(
+   scale_diag = sqrt(true_variances))
+
+ dims <- 10
+ true_variances <- seq(1, 3, length.out = dims)
+ likelihood <- make_likelihood(true_variances)
+
+ realnvp_hmc <- mcmc_hamiltonian_monte_carlo(
+   target_log_prob_fn = likelihood$log_prob,
+   step_size = 0.5,
+   num_leapfrog_steps = 2) %>%
+   mcmc_transformed_transition_kernel(
+     bijector = tfb_real_nvp(
+       num_masked = 2,
+       shift_and_log_scale_fn = tfb_real_nvp_default_template(
+         hidden_layers = list(512, 512))))
+
+ states_and_results <- realnvp_hmc %>% mcmc_sample_chain(
+   num_results = 10,
+   current_state = rep(0, dims),
+   num_burnin_steps = 5)
+
+ if(tfp_version() < "0.7") {
+   states <- states_and_results[[1]]
+ } else {
+   states <- states_and_results
+ }
+
+ expect_equal(states$get_shape() %>% length(), 2)
+
+})
