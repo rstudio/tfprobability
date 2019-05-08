@@ -51,6 +51,7 @@ interpretation in Hamiltonian Monte Carlo.
 Other mcmc_kernels: \code{\link{mcmc_hamiltonian_monte_carlo}},
   \code{\link{mcmc_random_walk_metropolis}},
   \code{\link{mcmc_simple_step_size_adaptation}},
+  \code{\link{mcmc_transformed_transition_kernel}},
   \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}}
 }
 \concept{mcmc_kernels}

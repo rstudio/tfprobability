@@ -142,9 +142,9 @@ b <- tfb_discrete_cosine_transform()
 x <- matrix(runif(3))
 b %>% tfb_forward(x)
 #> tf.Tensor(
-#> [[0.94467545]
-#>  [0.5338531 ]
-#>  [0.43627188]], shape=(3, 1), dtype=float32)
+#> [[0.24133538]
+#>  [0.8357542 ]
+#>  [0.91943675]], shape=(3, 1), dtype=float32)
 ```
 
 ### Keras layers
@@ -170,7 +170,7 @@ encoder_model <- keras_model_sequential() %>%
   layer_kl_divergence_add_loss(
       distribution = tfd_independent(
         tfd_normal(loc = c(0, 0), scale = 1),
-        reinterpreted_batch_ndims = 1L
+        reinterpreted_batch_ndims = 1
       ),
       weight = train_size)
 

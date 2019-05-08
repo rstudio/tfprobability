@@ -341,3 +341,47 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
   do.call(tfp$mcmc$RandomWalkMetropolis, args)
 }
 
+#' Applies a bijector to the MCMC's state space
+#'
+#' The transformed transition kernel enables fitting
+#' a bijector which serves to decorrelate the Markov chain Monte Carlo (MCMC)
+#' event dimensions thus making the chain mix faster. This is
+#' particularly useful when the geometry of the target distribution is
+#' unfavorable. In such cases it may take many evaluations of the
+#' `target_log_prob_fn` for the chain to mix between faraway states.
+#'
+#' The idea of training an affine function to decorrelate chain event dims was
+#' presented in Parno and Marzouk (2014). Used in conjunction with the
+#' Hamiltonian Monte Carlo transition kernel, the Parno and Marzouk (2014)
+#' idea is an instance of Riemannian manifold HMC (Girolami and Calderhead, 2011).
+#'
+#' The transformed transition kernel enables arbitrary bijective transformations
+#' of arbitrary transition kernels, e.g., one could use bijectors
+#' `tfb_affine`, `tfb_real_nvp`, etc.
+#' with transition kernels `mcmc_hamiltonian_monte_carlo`, `mcmc_random_walk_metropolis`, etc.
+#'
+#' @section References:
+#' - [Matthew Parno and Youssef Marzouk. Transport map accelerated Markov chain Monte Carlo. _arXiv preprint arXiv:1412.5492_, 2014.](https://arxiv.org/abs/1412.5492)
+#' - [Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In _Journal of the Royal Statistical Society_, 2011.](https://doi.org/10.1111/j.1467-9868.2010.00765.x)
+#'
+#' @param inner_kernel `TransitionKernel`-like object which has a `target_log_prob_fn` argument.
+#' @param bijector bijector or list of bijectors. These bijectors use `forward` to map the
+#' `inner_kernel` state space to the state expected by `inner_kernel$target_log_prob_fn`.
+#' @param  name string prefixed to Ops created by this function.
+#' Default value: `NULL` (i.e., "transformed_kernel").
+#'
+#' @family mcmc_kernels
+#' @export
+mcmc_transformed_transition_kernel <- function(inner_kernel,
+                                               bijector,
+                                               name = NULL) {
+  args <- list(
+    inner_kernel = inner_kernel,
+    bijector = bijector,
+    name = name
+  )
+
+  do.call(tfp$mcmc$TransformedTransitionKernel, args)
+}
+
+

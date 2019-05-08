@@ -173,9 +173,9 @@ install_tensorflow()</a></code></pre>
 <a class="sourceLine" id="cb9-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; tf.Tensor(</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [[0.483478  ]</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  [0.65283597]</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  [0.38682273]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [[0.99473417]</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  [0.9943044 ]</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  [0.93120176]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
 </div>
 </div>
 <div id="keras-layers" class="section level3">
@@ -199,7 +199,7 @@ install_tensorflow()</a></code></pre>
 <a class="sourceLine" id="cb10-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="reference/layer_kl_divergence_add_loss.html">layer_kl_divergence_add_loss</a></span>(</a>
 <a class="sourceLine" id="cb10-16" data-line-number="16">      <span class="dt">distribution =</span> <span class="kw"><a href="reference/tfd_independent.html">tfd_independent</a></span>(</a>
 <a class="sourceLine" id="cb10-17" data-line-number="17">        <span class="kw"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="dt">loc =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">scale =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb10-18" data-line-number="18">        <span class="dt">reinterpreted_batch_ndims =</span> 1L</a>
+<a class="sourceLine" id="cb10-18" data-line-number="18">        <span class="dt">reinterpreted_batch_ndims =</span> <span class="dv">1</span></a>
 <a class="sourceLine" id="cb10-19" data-line-number="19">      ),</a>
 <a class="sourceLine" id="cb10-20" data-line-number="20">      <span class="dt">weight =</span> train_size)</a>
 <a class="sourceLine" id="cb10-21" data-line-number="21"></a>
