@@ -21,14 +21,14 @@ matrix:
       env: TENSORFLOW_VERSION="1.13.1"
     - name: "2.0-preview"
       env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/ba/98/b0b9b83c9eddb9a112e0f928481c78232e1675397ccc717d1dcd92b8544b/tf_nightly_2.0_preview-2.0.0.dev20190319-cp27-cp27mu-manylinux1_x86_64.whl"
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/f7/da/3e05cda05e5c3076bc52ca619442648d022deb99d98ce6abd3e0d109768f/tf_nightly_2.0_preview-2.0.0.dev20190509-cp27-cp27mu-manylinux1_x86_64.whl"
     - name: "nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
   allow_failures:
     - name: "2.0-preview"
       env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/ba/98/b0b9b83c9eddb9a112e0f928481c78232e1675397ccc717d1dcd92b8544b/tf_nightly_2.0_preview-2.0.0.dev20190319-cp27-cp27mu-manylinux1_x86_64.whl"
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/f7/da/3e05cda05e5c3076bc52ca619442648d022deb99d98ce6abd3e0d109768f/tf_nightly_2.0_preview-2.0.0.dev20190509-cp27-cp27mu-manylinux1_x86_64.whl"
     - name: "nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
@@ -39,6 +39,14 @@ before_script:
   - pip install --upgrade --ignore-installed --user travis virtualenv
   - R CMD INSTALL .
   - R -e 'tensorflow::install_tensorflow(version = Sys.getenv("TENSORFLOW_VERSION"))'
+  - R -e 'tensorflow::tf_config()'
 
 after_success:
   - Rscript -e 'covr::codecov()'
+
+notifications:
+  email:
+    recipients:
+      - sigrid@rstudio.com
+    on_success: never
+    on_failure: always
