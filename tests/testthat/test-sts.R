@@ -26,7 +26,6 @@ test_succeeds("local level state space model works", {
   expect_equal(y$get_shape()$as_list(), c(5, 10, 10,50, 1))
   lp <- ll %>% tfd_log_prob(y)
   expect_equal(lp$get_shape()$as_list(), c(5, 10, 10))
-
 })
 
 test_succeeds("local linear trend state space model works", {
@@ -41,7 +40,6 @@ test_succeeds("local linear trend state space model works", {
   expect_equal(y$get_shape()$as_list(), c(50, 1))
   lp <- ll %>% tfd_log_prob(y)
   expect_equal(lp$get_shape()$as_list() %>% length(), 0)
-
 })
 
 test_succeeds("semi local linear trend state space model works", {
@@ -58,7 +56,6 @@ test_succeeds("semi local linear trend state space model works", {
   expect_equal(y$get_shape()$as_list(), c(50, 1))
   lp <- ll %>% tfd_log_prob(y)
   expect_equal(lp$get_shape()$as_list() %>% length(), 0)
-
 })
 
 test_succeeds("seasonal works", {
@@ -69,5 +66,13 @@ test_succeeds("seasonal works", {
     drift_scale_prior = tfd_log_normal(loc = -1, scale = 0.1),
     initial_effect_prior = tfd_normal(loc = 0, scale = 5),
     name='month_of_year')
+})
 
+test_succeeds("seasonal state space model works", {
+  day_of_week <- sts_seasonal_state_space_model(
+    num_timesteps = 30,
+    num_seasons = 7,
+    drift_scale = 0.1,
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = rep(1, 7)),
+    num_steps_per_season = 24)
 })

@@ -41,6 +41,7 @@ level: \code{f[t] = level[t] + Normal(0., observation_noise_scale)} at each time
 Other sts: \code{\link{sts_local_level_state_space_model}},
   \code{\link{sts_local_linear_trend_state_space_model}},
   \code{\link{sts_local_linear_trend}},
+  \code{\link{sts_seasonal_state_space_model}},
   \code{\link{sts_seasonal}},
   \code{\link{sts_semi_local_linear_trend_state_space_model}},
   \code{\link{sts_semi_local_linear_trend}}

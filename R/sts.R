@@ -495,3 +495,107 @@ sts_seasonal <- function(observed_time_series = NULL,
   do.call(tfp$sts$Seasonal, args)
 
 }
+
+#' State space model for a seasonal effect.
+#'
+#' A state space model (SSM) posits a set of latent (unobserved) variables that
+#' evolve over time with dynamics specified by a probabilistic transition model
+#' `p(z[t+1] | z[t])`. At each timestep, we observe a value sampled from an
+#' observation model conditioned on the current state, `p(x[t] | z[t])`. The
+#' special case where both the transition and observation models are Gaussians
+#' with mean specified as a linear function of the inputs, is known as a linear
+#' Gaussian state space model and supports tractable exact probabilistic
+#' calculations; see `tfd_linear_gaussian_state_space_model` for
+#' details.
+#'
+#' A seasonal effect model is a special case of a linear Gaussian SSM. The
+#' latent states represent an unknown effect from each of several 'seasons';
+#' these are generally not meteorological seasons, but represent regular
+#' recurring patterns such as hour-of-day or day-of-week effects. The effect of
+#' each season drifts from one occurrence to the next, following a Gaussian random walk:
+#'
+#' ```
+#' effects[season, occurrence[i]] = (effects[season, occurrence[i-1]] + Normal(loc=0., scale=drift_scale))
+#' ```
+#'
+#' The latent state has dimension `num_seasons`, containing one effect for each
+#' seasonal component. The parameters `drift_scale` and
+#' `observation_noise_scale` are each (a batch of) scalars. The batch shape of
+#' this `Distribution` is the broadcast batch shape of these parameters and of
+#' the `initial_state_prior`.
+#' Note: there is no requirement that the effects sum to zero.
+#'
+#' Mathematical Details
+#'
+#' The seasonal effect model implements a `tfd_linear_gaussian_state_space_model` with
+#' `latent_size = num_seasons` and `observation_size = 1`. The latent state
+#' is organized so that the *current* seasonal effect is always in the first
+#' (zeroth) dimension. The transition model rotates the latent state to shift
+#' to a new effect at the end of each season:
+#'
+#' ```
+#' transition_matrix[t] = (permutation_matrix([1, 2, ..., num_seasons-1, 0])
+#'                        if season_is_changing(t)
+#'                        else eye(num_seasons)
+#' transition_noise[t] ~ Normal(loc=0., scale_diag=(
+#'                       [drift_scale, 0, ..., 0]
+#'                       if season_is_changing(t)
+#'                       else [0, 0, ..., 0]))
+#' ```
+#' where `season_is_changing(t)` is `True` if ``t `mod` sum(num_steps_per_season)`` is in
+#' the set of final days for each season, given by `cumsum(num_steps_per_season) - 1`.
+#' The observation model always picks out the effect for the current season, i.e.,
+#' the first element of the latent state:
+#' ```
+#' observation_matrix = [[1., 0., ..., 0.]]
+#' observation_noise ~ Normal(loc=0, scale=observation_noise_scale)
+#' ```
+#' @param num_seasons Scalar `integer` number of seasons.
+#' @param drift_scale Scalar (any additional dimensions are treated as batch
+#' dimensions) `float` `tensor` indicating the standard deviation of the
+#' change in effect between consecutive occurrences of a given season.
+#' This is assumed to be the same for all seasons.
+#' @param initial_state_prior instance of `tfd_multivariate_normal`
+#' representing the prior distribution on latent states; must
+#' have event shape `[num_seasons]`.
+#' @param  num_steps_per_season `integer` number of steps in each
+#' season. This may be either a scalar (shape `[]`), in which case all
+#' seasons have the same length, or an array of shape `[num_seasons]`,
+#' in which seasons have different length, but remain constant around
+#' different cycles, or an array of shape `[num_cycles, num_seasons]`,
+#' in which num_steps_per_season for each season also varies in different
+#' cycle (e.g., a 4 years cycle with leap day). Default value: 1.
+#' @param name string prefixed to ops created by this class.
+#' Default value: "SeasonalStateSpaceModel".
+#'
+#' @inheritParams sts_local_linear_trend_state_space_model
+#' @family sts
+#'
+#' @export
+sts_seasonal_state_space_model <-
+  function(num_timesteps,
+           num_seasons,
+           drift_scale,
+           initial_state_prior,
+           observation_noise_scale = 0,
+           num_steps_per_season = 1,
+           initial_step = 0,
+           validate_args = FALSE,
+           allow_nan_stats = TRUE,
+           name = NULL) {
+    args <- list(
+      num_timesteps = as.integer(num_timesteps),
+      num_seasons = as.integer(num_seasons),
+      drift_scale = drift_scale,
+      initial_state_prior = initial_state_prior,
+      observation_noise_scale = observation_noise_scale,
+      num_steps_per_season = as.integer(num_steps_per_season),
+      initial_step = as.integer(initial_step),
+      validate_args = validate_args,
+      allow_nan_stats = allow_nan_stats,
+      name = name
+    )
+    do.call(tfp$sts$SeasonalStateSpaceModel, args)
+  }
+
+
