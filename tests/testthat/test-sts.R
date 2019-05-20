@@ -61,4 +61,13 @@ test_succeeds("semi local linear trend state space model works", {
 
 })
 
+test_succeeds("seasonal works", {
 
+  month_of_year <- sts_seasonal(
+    num_seasons = 12,
+    num_steps_per_season = list(31, 28, 31, 30, 30, 31, 31, 31, 30, 31, 30, 31),
+    drift_scale_prior = tfd_log_normal(loc = -1, scale = 0.1),
+    initial_effect_prior = tfd_normal(loc = 0, scale = 5),
+    name='month_of_year')
+
+})

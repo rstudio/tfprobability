@@ -426,3 +426,72 @@ sts_semi_local_linear_trend_state_space_model <-
     do.call(tfp$sts$SemiLocalLinearTrendStateSpaceModel, args)
   }
 
+
+#' Formal representation of a seasonal effect model.
+#'
+#' A seasonal effect model posits a fixed set of recurring, discrete 'seasons',
+#' each of which is active for a fixed number of timesteps and, while active,
+#' contributes a different effect to the time series. These are generally not
+#' meteorological seasons, but represent regular recurring patterns such as
+#' hour-of-day or day-of-week effects. Each season lasts for a fixed number of
+#' timesteps. The effect of each season drifts from one occurrence to the next
+#' following a Gaussian random walk:
+#'
+#' ```
+#' effects[season, occurrence[i]] = (
+#'   effects[season, occurrence[i-1]] + Normal(loc=0., scale=drift_scale))
+#' ```
+#'
+#' The `drift_scale` parameter governs the standard deviation of the random walk;
+#' for example, in a day-of-week model it governs the change in effect from this
+#' Monday to next Monday.
+#'
+#' @param num_seasons Scalar `integer` number of seasons.
+#' @param num_steps_per_season `integer` number of steps in each
+#' season. This may be either a scalar (shape `[]`), in which case all
+#' seasons have the same length, or an array of shape `[num_seasons]`,
+#' in which seasons have different length, but remain constant around
+#' different cycles, or an array of shape `[num_cycles, num_seasons]`,
+#' in which num_steps_per_season for each season also varies in different
+#' cycle (e.g., a 4 years cycle with leap day). Default value: 1.
+#' @param drift_scale_prior optional `tfd$Distribution` instance specifying a prior
+#' on the `drift_scale` parameter. If `NULL`, a heuristic default prior is
+#' constructed based on the provided `observed_time_series`. Default value: `NULL`.
+#' @param initial_effect_prior optional `tfd$Distribution` instance specifying a
+#' normal prior on the initial effect of each season. This may be either
+#' a scalar `tfd_normal` prior, in which case it applies independently to
+#' every season, or it may be multivariate normal (e.g.,
+#' `tfd_multivariate_normal_diag`) with event shape `[num_seasons]`, in
+#' which case it specifies a joint prior across all seasons. If `NULL`, a
+#' heuristic default prior is constructed based on the provided
+#' `observed_time_series`. Default value: `NULL`.
+#' @param constrain_mean_effect_to_zero if `TRUE`, use a model parameterization
+#' that constrains the mean effect across all seasons to be zero. This
+#' constraint is generally helpful in identifying the contributions of
+#' different model components and can lead to more interpretable
+#' posterior decompositions. It may be undesirable if you plan to directly
+#' examine the latent space of the underlying state space model. Default value: `TRUE`.
+#' @param name the name of this model component. Default value: 'Seasonal'.
+#'
+#' @inheritParams sts_local_linear_trend
+#' @family sts
+#'
+#' @export
+sts_seasonal <- function(observed_time_series = NULL,
+                         num_seasons,
+                         num_steps_per_season = 1,
+                         drift_scale_prior = NULL,
+                         initial_effect_prior = NULL,
+                         constrain_mean_effect_to_zero = TRUE,
+                         name = NULL) {
+  args <- list(
+    num_seasons = as.integer(num_seasons),
+    num_steps_per_season = as.integer(num_steps_per_season),
+    drift_scale_prior = drift_scale_prior,
+    initial_effect_prior = initial_effect_prior,
+    constrain_mean_effect_to_zero = constrain_mean_effect_to_zero,
+    name = name
+  )
+  do.call(tfp$sts$Seasonal, args)
+
+}
