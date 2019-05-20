@@ -28,3 +28,7 @@ reference:
   - title: "MCMC functions"
     contents:
       - has_concept("mcmc_functions")
+  - title: "Structural Time Series Modeling"
+    contents:
+      - has_concept("sts")
+
