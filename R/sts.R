@@ -489,9 +489,9 @@ sts_seasonal <- function(observed_time_series = NULL,
     num_steps_per_season = as.integer(num_steps_per_season),
     drift_scale_prior = drift_scale_prior,
     initial_effect_prior = initial_effect_prior,
-    constrain_mean_effect_to_zero = constrain_mean_effect_to_zero,
     name = name
   )
+  if (tfp_version() >= "0.7") args$constrain_mean_effect_to_zero <- constrain_mean_effect_to_zero
   do.call(tfp$sts$Seasonal, args)
 
 }
@@ -597,5 +597,3 @@ sts_seasonal_state_space_model <-
     )
     do.call(tfp$sts$SeasonalStateSpaceModel, args)
   }
-
-
