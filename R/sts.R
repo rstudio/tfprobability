@@ -489,6 +489,7 @@ sts_seasonal <- function(observed_time_series = NULL,
     num_steps_per_season = as.integer(num_steps_per_season),
     drift_scale_prior = drift_scale_prior,
     initial_effect_prior = initial_effect_prior,
+    observed_time_series = observed_time_series,
     name = name
   )
   if (tfp_version() >= "0.7") args$constrain_mean_effect_to_zero <- constrain_mean_effect_to_zero
@@ -597,3 +598,56 @@ sts_seasonal_state_space_model <-
     )
     do.call(tfp$sts$SeasonalStateSpaceModel, args)
   }
+
+#' Sum of structural time series components.
+#'
+#' This class enables compositional specification of a structural time series
+#' model from basic components. Given a list of component models, it represents
+#' an additive model, i.e., a model of time series that may be decomposed into a
+#' sum of terms corresponding to the component models.
+#'
+#' Formally, the additive model represents a random process
+#' `g[t] = f1[t] + f2[t] + ... + fN[t] + eps[t]`, where the `f`'s are the
+#' random processes represented by the components, and
+#' `eps[t] ~ Normal(loc=0, scale=observation_noise_scale)` is an observation
+#' noise term. See the `AdditiveStateSpaceModel` documentation for mathematical details.
+#'
+#' This model inherits the parameters (with priors) of its components, and
+#' adds an `observation_noise_scale` parameter governing the level of noise in
+#' the observed time series.
+#'
+#' @param components `list` of one or more StructuralTimeSeries instances.
+#' These must have unique names.
+#' @param constant_offset optional scalar `float` `tensor`, or batch of scalars,
+#' specifying a constant value added to the sum of outputs from the
+#' component models. This allows the components to model the shifted series
+#' `observed_time_series - constant_offset`. If `NULL`, this is set to the
+#' mean of the provided `observed_time_series`. Default value: `NULL`.
+#' @param observation_noise_scale_prior optional `tfd$Distribution` instance
+#' specifying a prior on `observation_noise_scale`. If `NULL`, a heuristic
+#' default prior is constructed based on the provided
+#' `observed_time_series`. Default value: `NULL`.
+#' @param name string name of this model component; used as `name_scope`
+#' for ops created by this class. Default value: 'Sum'.
+#'
+#' @inheritParams sts_local_level
+#' @family sts
+#'
+#' @export
+sts_sum <- function(observed_time_series = NULL,
+                    components,
+                    constant_offset = NULL,
+                    observation_noise_scale_prior = NULL,
+                    name = NULL) {
+
+  args <- list(
+    components = components,
+    constant_offset = constant_offset,
+    observation_noise_scale_prior = observation_noise_scale_prior,
+    observed_time_series = observed_time_series,
+    name = name
+  )
+  do.call(tfp$sts$Sum, args)
+
+}
+
