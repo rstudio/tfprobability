@@ -450,3 +450,18 @@ test_succeeds("Define a reshape bijector", {
   y <- b %>% tfb_inverse(x)
   expect_equal(y$shape$as_list(), c(2))
 })
+
+test_succeeds("Define a correlation_cholesky bijector", {
+
+  skip_if_tfp_below("0.7")
+
+  x <- c(2, 2, 1)
+  b <- tfb_correlation_cholesky()
+  y <- b %>% tfb_forward(x)
+  # Result: [[ 1.        ,  0.        ,  0.        ],
+  #          [ 0.70710678,  0.70710678,  0.        ],
+  #          [ 0.66666667,  0.66666667,  0.33333333]]
+  rev_x <- b %>% tfb_inverse(y)
+  expect_equivalent(rev_x %>% tensor_value(), x)
+})
+

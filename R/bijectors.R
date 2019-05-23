@@ -1346,3 +1346,55 @@ tfb_weibull <- function(scale = 1,
   )
   do.call(tfp$bijectors$Weibull, args)
 }
+
+
+#' Maps unconstrained reals to Cholesky-space correlation matrices.
+#'
+#' This bijector is a mapping between `R^{n}` and the `n`-dimensional manifold of
+#' Cholesky-space correlation matrices embedded in `R^{m^2}`, where `n` is the
+#' `(m - 1)`th triangular number; i.e. `n = 1 + 2 + ... + (m - 1)`.
+#'
+#' Mathematical Details
+#'
+#' The image of unconstrained reals under the `CorrelationCholesky` bijector is
+#' the set of correlation matrices which are positive definite.
+#' A [correlation matrix](https://en.wikipedia.org/wiki/Correlation_and_dependence#Correlation_matrices)
+#' can be characterized as a symmetric positive semidefinite matrix with 1s on
+#' the main diagonal. However, the correlation matrix is positive definite if no
+#' component can be expressed as a linear combination of the other components.
+#' For a lower triangular matrix `L` to be a valid Cholesky-factor of a positive
+#' definite correlation matrix, it is necessary and sufficient that each row of
+#' `L` have unit Euclidean norm. To see this, observe that if `L_i` is the
+#' `i`th row of the Cholesky factor corresponding to the correlation matrix `R`,
+#' then the `i`th diagonal entry of `R` satisfies:
+#' ```
+#' 1 = R_i,i = L_i . L_i = ||L_i||^2
+#' ```
+#' where '.' is the dot product of vectors and `||...||` denotes the Euclidean
+#' norm. Furthermore, observe that `R_i,j` lies in the interval `[-1, 1]`. By the
+#' Cauchy-Schwarz inequality:
+#' ````
+#' |R_i,j| = |L_i . L_j| <= ||L_i|| ||L_j|| = 1
+#' ````
+#' This is a consequence of the fact that `R` is symmetric positive definite with
+#' 1s on the main diagonal.
+#' The LKJ distribution with `input_output_cholesky=TRUE` generates samples from
+#' (and computes log-densities on) the set of Cholesky factors of positive
+#' definite correlation matrices. The `CorrelationCholesky` bijector provides
+#' a bijective mapping from unconstrained reals to the support of the LKJ
+#' distribution.
+#'
+#' @section References:
+#' - [Stan Manual. Section 24.2. Cholesky LKJ Correlation Distribution.](https://mc-stan.org/docs/2_18/functions-reference/cholesky-lkj-correlation-distribution.html)
+#' - Daniel Lewandowski, Dorota Kurowicka, and Harry Joe, "Generating random correlation matrices based on vines and extended onion method," Journal of Multivariate Analysis 100 (2009), pp 1989-2001.
+#'
+#' @inheritParams tfb_identity
+#' @family bijectors
+#' @export
+tfb_correlation_cholesky <- function(validate_args = FALSE,
+                                     name = "correlation_cholesky") {
+  args <- list(validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$CorrelationCholesky, args)
+}
+
