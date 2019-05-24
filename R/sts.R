@@ -651,3 +651,129 @@ sts_sum <- function(observed_time_series = NULL,
 
 }
 
+#' A state space model representing a sum of component state space models.
+#'
+#' A state space model (SSM) posits a set of latent (unobserved) variables that
+#' evolve over time with dynamics specified by a probabilistic transition model
+#' `p(z[t+1] | z[t])`. At each timestep, we observe a value sampled from an
+#' observation model conditioned on the current state, `p(x[t] | z[t])`. The
+#' special case where both the transition and observation models are Gaussians
+#' with mean specified as a linear function of the inputs, is known as a linear
+#' Gaussian state space model and supports tractable exact probabilistic
+#' calculations; see `tfd_linear_gaussian_state_space_model` for details.
+#'
+#' The `sts_additive_state_space_model` represents a sum of component state space
+#' models. Each of the `N` components describes a random process
+#' generating a distribution on observed time series `x1[t], x2[t], ..., xN[t]`.
+#' The additive model represents the sum of these
+#' processes, `y[t] = x1[t] + x2[t] + ... + xN[t] + eps[t]`, where
+#' `eps[t] ~ N(0, observation_noise_scale)` is an observation noise term.
+#'
+#' Mathematical Details
+#'
+#' The additive model concatenates the latent states of its component models.
+#' The generative process runs each component's dynamics in its own subspace of
+#' latent space, and then observes the sum of the observation models from the
+#' components.
+#'
+#' Formally, the transition model is linear Gaussian:
+#'
+#' ```
+#' p(z[t+1] | z[t]) ~ Normal(loc = transition_matrix.matmul(z[t]), cov = transition_cov)
+#' ```
+#'
+#' where each `z[t]` is a latent state vector concatenating the component
+#' state vectors, `z[t] = [z1[t], z2[t], ..., zN[t]]`, so it has size
+#' `latent_size = sum([c.latent_size for c in components])`.
+#'
+#' The transition matrix is the block-diagonal composition of transition
+#' matrices from the component processes:
+#'
+#' ```
+#' transition_matrix =
+#'  [[ c0.transition_matrix,  0.,                   ..., 0.                   ],
+#'   [ 0.,                    c1.transition_matrix, ..., 0.                   ],
+#'   [ ...                    ...                   ...                       ],
+#'   [ 0.,                    0.,                   ..., cN.transition_matrix ]]
+#' ```
+#'
+#' and the noise covariance is similarly the block-diagonal composition of
+#' component noise covariances:
+#'
+#' ```
+#' transition_cov =
+#'  [[ c0.transition_cov, 0.,                ..., 0.                ],
+#'   [ 0.,                c1.transition_cov, ..., 0.                ],
+#'   [ ...                ...                     ...               ],
+#'   [ 0.,                0.,                ..., cN.transition_cov ]]
+#' ```
+#'
+#' The observation model is also linear Gaussian,
+#'
+#' ```
+#' p(y[t] | z[t]) ~ Normal(loc = observation_matrix.matmul(z[t]), stddev = observation_noise_scale)
+#' ```
+#'
+#' This implementation assumes scalar observations, so `observation_matrix` has shape `[1, latent_size]`.
+#' The additive observation matrix simply concatenates the observation matrices from each component:
+#'
+#' ```
+#' observation_matrix = concat([c0.obs_matrix, c1.obs_matrix, ..., cN.obs_matrix], axis=-1)
+#' ```
+#'
+#' The effect is that each component observation matrix acts on the dimensions
+#' of latent state corresponding to that component, and the overall expected
+#' observation is the sum of the expected observations from each component.
+#'
+#' If `observation_noise_scale` is not explicitly specified, it is also computed
+#' by summing the noise variances of the component processes:
+#'
+#' ```
+#' observation_noise_scale = sqrt(sum([c.observation_noise_scale**2 for c in components]))
+#' ```
+#' @param component_ssms `list` containing one or more
+#' `tfd_linear_gaussian_state_space_model` instances. The components
+#' will in general implement different time-series models, with possibly
+#' different `latent_size`, but they must have the same `dtype`, event
+#' shape (`num_timesteps` and `observation_size`), and their batch shapes
+#' must broadcast to a compatible batch shape.#'
+#' @param constant_offset scalar `float` `tensor`, or batch of scalars,
+#' specifying a constant value added to the sum of outputs from the
+#' component models. This allows the components to model the shifted series
+#' `observed_time_series - constant_offset`. Default value: `0`.#'
+#' @param observation_noise_scale Optional scalar `float` `tensor` indicating the
+#' standard deviation of the observation noise. May contain additional
+#' batch dimensions, which must broadcast with the batch shape of elements
+#' in `component_ssms`. If `observation_noise_scale` is specified for the
+#' `sts_additive_state_space_model`, the observation noise scales of component
+#' models are ignored. If `NULL`, the observation noise scale is derived
+#' by summing the noise variances of the component models, i.e.,
+#' `observation_noise_scale = sqrt(sum([ssm.observation_noise_scale**2 for ssm in component_ssms]))`.
+#' @param name string prefixed to ops created by this class.
+#' Default value: "AdditiveStateSpaceModel".
+#' @inheritParams sts_local_linear_trend_state_space_model
+#' @family sts
+#'
+#' @export
+sts_additive_state_space_model <-
+  function(component_ssms,
+           constant_offset = 0,
+           observation_noise_scale = NULL,
+           initial_state_prior = NULL,
+           initial_step = 0,
+           validate_args = FALSE,
+           allow_nan_stats = TRUE,
+           name = NULL) {
+    args <- list(
+      component_ssms = component_ssms,
+      constant_offset = constant_offset,
+      observation_noise_scale = observation_noise_scale,
+      initial_state_prior = initial_state_prior,
+      initial_step = as.integer(initial_step),
+      validate_args = validate_args,
+      allow_nan_stats = allow_nan_stats,
+      name = name
+    )
+    do.call(tfp$sts$AdditiveStateSpaceModel, args)
+  }
+
