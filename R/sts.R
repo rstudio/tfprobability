@@ -642,11 +642,11 @@ sts_sum <- function(observed_time_series = NULL,
 
   args <- list(
     components = components,
-    constant_offset = constant_offset,
     observation_noise_scale_prior = observation_noise_scale_prior,
     observed_time_series = observed_time_series,
     name = name
   )
+  if (tfp_version() >= "0.7") args$constant_offset <- constant_offset
   do.call(tfp$sts$Sum, args)
 
 }
@@ -766,7 +766,6 @@ sts_additive_state_space_model <-
            name = NULL) {
     args <- list(
       component_ssms = component_ssms,
-      constant_offset = constant_offset,
       observation_noise_scale = observation_noise_scale,
       initial_state_prior = initial_state_prior,
       initial_step = as.integer(initial_step),
@@ -774,6 +773,7 @@ sts_additive_state_space_model <-
       allow_nan_stats = allow_nan_stats,
       name = name
     )
+    if (tfp_version() >= "0.7") args$constant_offset <- constant_offset
     do.call(tfp$sts$AdditiveStateSpaceModel, args)
   }
 
