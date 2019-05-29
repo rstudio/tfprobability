@@ -32,15 +32,15 @@ test_succeeds("local level state space model works", {
 
 test_succeeds("local linear trend state space model works", {
 
-  ll <- sts_local_linear_trend_state_space_model(
+  llt <- sts_local_linear_trend_state_space_model(
     num_timesteps = 50,
     level_scale = 0.5,
     slope_scale = 0.5,
     initial_state_prior = tfd_multivariate_normal_diag(scale_diag = list(1, 1)))
 
-  y <- ll %>% tfd_sample()
+  y <- llt %>% tfd_sample()
   expect_equal(y$get_shape()$as_list(), c(50, 1))
-  lp <- ll %>% tfd_log_prob(y)
+  lp <- llt %>% tfd_log_prob(y)
   expect_equal(lp$get_shape()$as_list() %>% length(), 0)
 })
 
@@ -48,7 +48,7 @@ test_succeeds("semi local linear trend state space model works", {
 
   skip_if_tfp_below("0.7")
 
-  ll <- sts_semi_local_linear_trend_state_space_model(
+  sll <- sts_semi_local_linear_trend_state_space_model(
     num_timesteps = 50,
     level_scale = 0.5,
     slope_mean = 0.2,
@@ -56,9 +56,9 @@ test_succeeds("semi local linear trend state space model works", {
     slope_scale = 0.5,
     initial_state_prior = tfd_multivariate_normal_diag(scale_diag = list(1, 1)))
 
-  y <- ll %>% tfd_sample()
+  y <- sll %>% tfd_sample()
   expect_equal(y$get_shape()$as_list(), c(50, 1))
-  lp <- ll %>% tfd_log_prob(y)
+  lp <- sll %>% tfd_log_prob(y)
   expect_equal(lp$get_shape()$as_list() %>% length(), 0)
 })
 
@@ -73,10 +73,51 @@ test_succeeds("seasonal works", {
 })
 
 test_succeeds("seasonal state space model works", {
-  day_of_week <- sts_seasonal_state_space_model(
+
+  sss <- sts_seasonal_state_space_model(
     num_timesteps = 30,
     num_seasons = 7,
     drift_scale = 0.1,
     initial_state_prior = tfd_multivariate_normal_diag(scale_diag = rep(1, 7)),
     num_steps_per_season = 24)
+
+  y <- sss %>% tfd_sample()
+  expect_equal(y$get_shape()$as_list(), c(30, 1))
+  lp <- sss %>% tfd_log_prob(y)
+  expect_equal(lp$get_shape()$as_list() %>% length(), 0)
 })
+
+test_succeeds("sum works", {
+
+  ts <- rep(1.1:7.1, 4)
+  llt <- sts_local_linear_trend(observed_time_series = ts, name='local_trend')
+  dof <- ts %>% sts_seasonal(num_seasons = 7, name='day_of_week_effect')
+  sum <- ts %>% sts_sum(components = list(llt, dof))
+
+  expect_equal(sum$latent_size, llt$latent_size + dof$latent_size)
+})
+
+test_succeeds("additive state space model works", {
+
+  local_ssm <- sts_local_linear_trend_state_space_model(
+    num_timesteps = 30,
+    level_scale = 0.5,
+    slope_scale = 0.1,
+    initial_state_prior = tfd_multivariate_normal_diag(
+      loc = list(0, 0), scale_diag = list(1, 1)))
+
+  day_of_week_ssm <- sts_seasonal_state_space_model(
+    num_timesteps = 30,
+    num_seasons = 7,
+    drift_scale = 0.1,
+    initial_state_prior = tfd_multivariate_normal_diag(
+      loc = rep(0,7), scale_diag = rep(1, 7)))
+
+  additive_ssm <- sts_additive_state_space_model(
+    component_ssms = list(local_ssm, day_of_week_ssm),
+    observation_noise_scale = 0.1)
+
+  y <- additive_ssm %>% tfd_sample()
+  expect_equal(y$get_shape()$as_list(), c(30, 1))
+})
+

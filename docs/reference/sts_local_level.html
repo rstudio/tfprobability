@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bijector which applies a sequence of bijectors — tfb_chain • tfprobability</title>
+<title>Formal representation of a local level model — sts_local_level • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,10 @@
 
 
 
-<meta property="og:title" content="Bijector which applies a sequence of bijectors — tfb_chain" />
+<meta property="og:title" content="Formal representation of a local level model — sts_local_level" />
 
-<meta property="og:description" content="Bijector which applies a sequence of bijectors" />
+<meta property="og:description" content="The local level model posits a level evolving via a Gaussian random walk:level[t] = level[t-1] + Normal(0., level_scale)
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -94,73 +95,71 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bijector which applies a sequence of bijectors</h1>
+    <h1>Formal representation of a local level model</h1>
     
-    <div class="hidden name"><code>tfb_chain.Rd</code></div>
+    <div class="hidden name"><code>sts_local_level.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Bijector which applies a sequence of bijectors</p>
+    <p>The local level model posits a <code>level</code> evolving via a Gaussian random walk:</p><pre>level[t] = level[t-1] + Normal(0., level_scale)
+</pre>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_chain</span>(<span class='kw'>bijectors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_local_level</span>(<span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>level_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>initial_level_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bijectors</th>
-      <td><p>list of bijector instances. An empty list makes this
-bijector equivalent to the Identity bijector.</p></td>
+      <th>observed_time_series</th>
+      <td><p>optional <code>float</code> <code>tensor</code> of shape
+<code>batch_shape + [T, 1]</code> (omitting the trailing unit dimension is also
+supported when <code>T &gt; 1</code>), specifying an observed time series.
+Any priors not explicitly set will be given default values according to
+the scale of the observed time series (or batch of time series). May
+optionally be an instance of <code>sts_masked_time_series</code>, which includes
+a mask <code>tensor</code> to specify timesteps with missing observations.
+Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>validate_args</th>
-      <td><p>Logical indicating whether arguments should be checked for correctness.</p></td>
+      <th>level_scale_prior</th>
+      <td><p>optional <code>tfp$distribution</code> instance specifying a prior
+on the <code>level_scale</code> parameter. If <code>NULL</code>, a heuristic default prior is
+constructed based on the provided <code>observed_time_series</code>.
+Default value: <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>initial_level_prior</th>
+      <td><p>optional <code>tfp$distribution</code> instance specifying a
+prior on the initial level. If <code>NULL</code>, a heuristic default prior is
+constructed based on the provided <code>observed_time_series</code>.
+Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>String, name given to ops managed by this object. Default:
-E.g., <code>tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"</code>.</p></td>
+      <td><p>the name of this model component. Default value: 'LocalLevel'.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The latent state is <code>[level]</code>. We observe a noisy realization of the current
+level: <code>f[t] = level[t] + Normal(0., observation_noise_scale)</code> at each timestep.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other bijectors: <code><a href='tfb_absolute_value.html'>tfb_absolute_value</a></code>,
-  <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a></code>,
-  <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a></code>,
-  <code><a href='tfb_affine.html'>tfb_affine</a></code>,
-  <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a></code>,
-  <code><a href='tfb_blockwise.html'>tfb_blockwise</a></code>,
-  <code><a href='tfb_cholesky_outer_product.html'>tfb_cholesky_outer_product</a></code>,
-  <code><a href='tfb_cholesky_to_inv_cholesky.html'>tfb_cholesky_to_inv_cholesky</a></code>,
-  <code><a href='tfb_correlation_cholesky.html'>tfb_correlation_cholesky</a></code>,
-  <code><a href='tfb_discrete_cosine_transform.html'>tfb_discrete_cosine_transform</a></code>,
-  <code><a href='tfb_expm1.html'>tfb_expm1</a></code>, <code><a href='tfb_exp.html'>tfb_exp</a></code>,
-  <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a></code>,
-  <code><a href='tfb_gumbel.html'>tfb_gumbel</a></code>, <code><a href='tfb_identity.html'>tfb_identity</a></code>,
-  <code><a href='tfb_inline.html'>tfb_inline</a></code>, <code><a href='tfb_invert.html'>tfb_invert</a></code>,
-  <code><a href='tfb_kumaraswamy.html'>tfb_kumaraswamy</a></code>,
-  <code><a href='tfb_masked_autoregressive_default_template.html'>tfb_masked_autoregressive_default_template</a></code>,
-  <code><a href='tfb_masked_autoregressive_flow.html'>tfb_masked_autoregressive_flow</a></code>,
-  <code><a href='tfb_masked_dense.html'>tfb_masked_dense</a></code>,
-  <code><a href='tfb_matrix_inverse_tri_l.html'>tfb_matrix_inverse_tri_l</a></code>,
-  <code><a href='tfb_matvec_lu.html'>tfb_matvec_lu</a></code>,
-  <code><a href='tfb_normal_cdf.html'>tfb_normal_cdf</a></code>, <code><a href='tfb_ordered.html'>tfb_ordered</a></code>,
-  <code><a href='tfb_permute.html'>tfb_permute</a></code>,
-  <code><a href='tfb_power_transform.html'>tfb_power_transform</a></code>,
-  <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a></code>,
-  <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a></code>, <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a></code>,
-  <code><a href='tfb_reshape.html'>tfb_reshape</a></code>, <code><a href='tfb_scale_tri_l.html'>tfb_scale_tri_l</a></code>,
-  <code><a href='tfb_sigmoid.html'>tfb_sigmoid</a></code>,
-  <code><a href='tfb_sinh_arcsinh.html'>tfb_sinh_arcsinh</a></code>,
-  <code><a href='tfb_softmax_centered.html'>tfb_softmax_centered</a></code>,
-  <code><a href='tfb_softplus.html'>tfb_softplus</a></code>, <code><a href='tfb_softsign.html'>tfb_softsign</a></code>,
-  <code><a href='tfb_square.html'>tfb_square</a></code>, <code><a href='tfb_tanh.html'>tfb_tanh</a></code>,
-  <code><a href='tfb_transform_diagonal.html'>tfb_transform_diagonal</a></code>,
-  <code><a href='tfb_transpose.html'>tfb_transpose</a></code>, <code><a href='tfb_weibull.html'>tfb_weibull</a></code></p></div>
+    <div class='dont-index'><p>Other sts: <code><a href='sts_additive_state_space_model.html'>sts_additive_state_space_model</a></code>,
+  <code><a href='sts_local_level_state_space_model.html'>sts_local_level_state_space_model</a></code>,
+  <code><a href='sts_local_linear_trend_state_space_model.html'>sts_local_linear_trend_state_space_model</a></code>,
+  <code><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></code>,
+  <code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a></code>,
+  <code><a href='sts_seasonal.html'>sts_seasonal</a></code>,
+  <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
+  <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
+  <code><a href='sts_sum.html'>sts_sum</a></code></p></div>
     
 
   </div>
@@ -169,6 +168,8 @@ E.g., <code>tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

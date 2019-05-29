@@ -70,7 +70,8 @@ for example, in a day-of-week model it governs the change in effect from this
 Monday to next Monday.
 }
 \seealso{
-Other sts: \code{\link{sts_local_level_state_space_model}},
+Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_local_level_state_space_model}},
   \code{\link{sts_local_level}},
   \code{\link{sts_local_linear_trend_state_space_model}},
   \code{\link{sts_local_linear_trend}},

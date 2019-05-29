@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Transforms unconstrained vectors to TriL matrices with positive diagonal — tfb_scale_tri_l • tfprobability</title>
+<title>Maps unconstrained reals to Cholesky-space correlation matrices. — tfb_correlation_cholesky • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,11 @@
 
 
 
-<meta property="og:title" content="Transforms unconstrained vectors to TriL matrices with positive diagonal — tfb_scale_tri_l" />
+<meta property="og:title" content="Maps unconstrained reals to Cholesky-space correlation matrices. — tfb_correlation_cholesky" />
 
-<meta property="og:description" content="This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
-tfb_transform_diagonal, and provided mostly as a convenience.
-The default setup is somewhat opinionated, using a Softplus transformation followed by a
-small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal." />
+<meta property="og:description" content="This bijector is a mapping between R^{n} and the n-dimensional manifold of
+Cholesky-space correlation matrices embedded in R^{m^2}, where n is the
+(m - 1)th triangular number; i.e. n = 1 + 2 + ... + (m - 1)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -97,38 +96,25 @@ small shift (1e-5) which attempts to avoid numerical issues from zeros on the di
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Transforms unconstrained vectors to TriL matrices with positive diagonal</h1>
+    <h1>Maps unconstrained reals to Cholesky-space correlation matrices.</h1>
     
-    <div class="hidden name"><code>tfb_scale_tri_l.Rd</code></div>
+    <div class="hidden name"><code>tfb_correlation_cholesky.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
-tfb_transform_diagonal, and provided mostly as a convenience.
-The default setup is somewhat opinionated, using a Softplus transformation followed by a
-small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.</p>
+    <p>This bijector is a mapping between <code>R^{n}</code> and the <code>n</code>-dimensional manifold of
+Cholesky-space correlation matrices embedded in <code>R^{m^2}</code>, where <code>n</code> is the
+<code>(m - 1)</code>th triangular number; i.e. <code>n = 1 + 2 + ... + (m - 1)</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_scale_tri_l</span>(<span class='kw'>diag_bijector</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>diag_shift</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"scale_tril"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfb_correlation_cholesky</span>(<span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"correlation_cholesky"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>diag_bijector</th>
-      <td><p>Bijector instance, used to transform the output diagonal to be positive.
-Default value: NULL (i.e., <code><a href='tfb_softplus.html'>tfb_softplus()</a></code>).</p></td>
-    </tr>
-    <tr>
-      <th>diag_shift</th>
-      <td><p>Float value broadcastable and added to all diagonal entries after applying the
-diag_bijector. Setting a positive value forces the output diagonal entries to be positive, but
-prevents inverting the transformation for matrices with diagonal entries less than this value.
-Default value: 1e-5.</p></td>
-    </tr>
     <tr>
       <th>validate_args</th>
       <td><p>Logical, default FALSE. Whether to validate input with asserts. If validate_args is
@@ -140,6 +126,41 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Mathematical Details</p>
+<p>The image of unconstrained reals under the <code>CorrelationCholesky</code> bijector is
+the set of correlation matrices which are positive definite.
+A <a href='https://en.wikipedia.org/wiki/Correlation_and_dependence#Correlation_matrices'>correlation matrix</a>
+can be characterized as a symmetric positive semidefinite matrix with 1s on
+the main diagonal. However, the correlation matrix is positive definite if no
+component can be expressed as a linear combination of the other components.
+For a lower triangular matrix <code>L</code> to be a valid Cholesky-factor of a positive
+definite correlation matrix, it is necessary and sufficient that each row of
+<code>L</code> have unit Euclidean norm. To see this, observe that if <code>L_i</code> is the
+<code>i</code>th row of the Cholesky factor corresponding to the correlation matrix <code>R</code>,
+then the <code>i</code>th diagonal entry of <code>R</code> satisfies:</p><pre>1 = R_i,i = L_i . L_i = ||L_i||^2
+</pre>
+    <p>where '.' is the dot product of vectors and <code>||...||</code> denotes the Euclidean
+norm. Furthermore, observe that <code>R_i,j</code> lies in the interval <code>[-1, 1]</code>. By the
+Cauchy-Schwarz inequality:</p><pre>|R_i,j| = |L_i . L_j| &lt;= ||L_i|| ||L_j|| = 1
+</pre>
+    <p>This is a consequence of the fact that <code>R</code> is symmetric positive definite with
+1s on the main diagonal.
+The LKJ distribution with <code>input_output_cholesky=TRUE</code> generates samples from
+(and computes log-densities on) the set of Cholesky factors of positive
+definite correlation matrices. The <code>CorrelationCholesky</code> bijector provides
+a bijective mapping from unconstrained reals to the support of the LKJ
+distribution.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+    <ul>
+<li><p><a href='https://mc-stan.org/docs/2_18/functions-reference/cholesky-lkj-correlation-distribution.html'>Stan Manual. Section 24.2. Cholesky LKJ Correlation Distribution.</a></p></li>
+<li><p>Daniel Lewandowski, Dorota Kurowicka, and Harry Joe, "Generating random correlation matrices based on vines and extended onion method," Journal of Multivariate Analysis 100 (2009), pp 1989-2001.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other bijectors: <code><a href='tfb_absolute_value.html'>tfb_absolute_value</a></code>,
@@ -150,7 +171,6 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
   <code><a href='tfb_blockwise.html'>tfb_blockwise</a></code>, <code><a href='tfb_chain.html'>tfb_chain</a></code>,
   <code><a href='tfb_cholesky_outer_product.html'>tfb_cholesky_outer_product</a></code>,
   <code><a href='tfb_cholesky_to_inv_cholesky.html'>tfb_cholesky_to_inv_cholesky</a></code>,
-  <code><a href='tfb_correlation_cholesky.html'>tfb_correlation_cholesky</a></code>,
   <code><a href='tfb_discrete_cosine_transform.html'>tfb_discrete_cosine_transform</a></code>,
   <code><a href='tfb_expm1.html'>tfb_expm1</a></code>, <code><a href='tfb_exp.html'>tfb_exp</a></code>,
   <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a></code>,
@@ -167,7 +187,8 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
   <code><a href='tfb_power_transform.html'>tfb_power_transform</a></code>,
   <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a></code>,
   <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a></code>, <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a></code>,
-  <code><a href='tfb_reshape.html'>tfb_reshape</a></code>, <code><a href='tfb_sigmoid.html'>tfb_sigmoid</a></code>,
+  <code><a href='tfb_reshape.html'>tfb_reshape</a></code>, <code><a href='tfb_scale_tri_l.html'>tfb_scale_tri_l</a></code>,
+  <code><a href='tfb_sigmoid.html'>tfb_sigmoid</a></code>,
   <code><a href='tfb_sinh_arcsinh.html'>tfb_sinh_arcsinh</a></code>,
   <code><a href='tfb_softmax_centered.html'>tfb_softmax_centered</a></code>,
   <code><a href='tfb_softplus.html'>tfb_softplus</a></code>, <code><a href='tfb_softsign.html'>tfb_softsign</a></code>,
@@ -182,6 +203,10 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
+
       <li><a href="#see-also">See also</a></li>
           </ul>
 

@@ -82,7 +82,8 @@ so a \code{SemiLocalLinearTrend} model will often produce more reasonable
 uncertainties when forecasting over long timescales.
 }
 \seealso{
-Other sts: \code{\link{sts_local_level_state_space_model}},
+Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_local_level_state_space_model}},
   \code{\link{sts_local_level}},
   \code{\link{sts_local_linear_trend_state_space_model}},
   \code{\link{sts_local_linear_trend}},
