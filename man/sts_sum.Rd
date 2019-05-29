@@ -53,7 +53,8 @@ adds an \code{observation_noise_scale} parameter governing the level of noise in
 the observed time series.
 }
 \seealso{
-Other sts: \code{\link{sts_local_level_state_space_model}},
+Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_local_level_state_space_model}},
   \code{\link{sts_local_level}},
   \code{\link{sts_local_linear_trend_state_space_model}},
   \code{\link{sts_local_linear_trend}},

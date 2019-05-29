@@ -85,7 +85,8 @@ which picks out the first latent component, i.e., the \code{level}, as the
 observation at each timestep.
 }
 \seealso{
-Other sts: \code{\link{sts_local_level_state_space_model}},
+Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_local_level_state_space_model}},
   \code{\link{sts_local_level}},
   \code{\link{sts_local_linear_trend}},
   \code{\link{sts_seasonal_state_space_model}},
