@@ -52,4 +52,85 @@ sts_build_factored_variational_loss <- function(observed_time_series,
 
 }
 
+#' Draw posterior samples using Hamiltonian Monte Carlo (HMC)
+#'
+#' Markov chain Monte Carlo (MCMC) methods are considered the gold standard of
+#' Bayesian inference; under suitable conditions and in the limit of infinitely
+#' many draws they generate samples from the true posterior distribution. HMC (Neal, 2011)
+#' uses gradients of the model's log-density function to propose samples,
+#' allowing it to exploit posterior geometry. However, it is computationally more
+#' expensive than variational inference and relatively sensitive to tuning.
+#'
+#' This method attempts to provide a sensible default approach for fitting
+#' StructuralTimeSeries models using HMC. It first runs variational inference as
+#' a fast posterior approximation, and initializes the HMC sampler from the
+#' variational posterior, using the posterior standard deviations to set
+#' per-variable step sizes (equivalently, a diagonal mass matrix). During the
+#' warmup phase, it adapts the step size to target an acceptance rate of 0.75,
+#' which is thought to be in the desirable range for optimal mixing (Betancourt et al., 2014).
+#'
+#' @section References:
+#' - [Radford Neal. MCMC Using Hamiltonian Dynamics. _Handbook of Markov Chain Monte Carlo_, 2011.](https://arxiv.org/abs/1206.1901)
+#' - [M.J. Betancourt, Simon Byrne, and Mark Girolami. Optimizing The Integrator Step Size for Hamiltonian Monte Carlo.](https://arxiv.org/abs/1411.6669)
+#'
+#' @param num_results Integer number of Markov chain draws. Default value: `100`.
+#' @param num_warmup_steps Integer number of steps to take before starting to
+#' collect results. The warmup steps are also used to adapt the step size
+#' towards a target acceptance rate of 0.75. Default value: `50`.
+#' @param num_leapfrog_steps Integer number of steps to run the leapfrog integrator
+#' for. Total progress per HMC step is roughly proportional to `step_size * num_leapfrog_steps`.
+#' Default value: `15`.
+#' @param initial_state Optional Python `list` of `Tensor`s, one for each model
+#' parameter, representing the initial state(s) of the Markov chain(s). These
+#' should have shape `tf$concat(list(chain_batch_shape, param$prior$batch_shape, param$prior$event_shape))`.
+#' If `NULL`, the initial state is set automatically using a sample from a variational posterior.
+#' Default value: `NULL`.
+#' @param initial_step_size `list` of `tensor`s, one for each model parameter,
+#' representing the step size for the leapfrog integrator. Must
+#' broadcast with the shape of `initial_state`. Larger step sizes lead to
+#' faster progress, but too-large step sizes make rejection exponentially
+#' more likely. If `NULL`, the step size is set automatically using the
+#' standard deviation of a variational posterior. Default value: `NULL`.
+#' @param chain_batch_shape Batch shape (`list` or `int`) of chains to run in parallel.
+#' Default value: `list()` (i.e., a single chain).
+#' @param num_variational_steps `int` number of steps to run the variational
+#' optimization to determine the initial state and step sizes. Default value: `150`.
+#' @param variational_optimizer Optional `tf$train$Optimizer` instance to use in
+#' the variational optimization. If `NULL`, defaults to `tf$train$AdamOptimizer(0.1)`.
+#' Default value: `NULL`.
+#' @param name name prefixed to ops created by this function. Default value: `NULL` (i.e., 'fit_with_hmc').
+#'
+#' @inheritParams sts_build_factored_variational_loss
+#' @family sts-functions
+#'
+#' @export
+
+sts_fit_with_hmc <- function(observed_time_series,
+                             model,
+                             num_results = 100,
+                             num_warmup_steps = 50,
+                             num_leapfrog_steps = 15,
+                             initial_state = NULL,
+                             initial_step_size = NULL,
+                             chain_batch_shape = list(),
+                             num_variational_steps = 150,
+                             variational_optimizer = NULL,
+                             seed = NULL,
+                             name = NULL) {
+  tfp$sts$fit_with_hmc(
+    model,
+    observed_time_series,
+    as.integer(num_results),
+    as.integer(num_warmup_steps),
+    as.integer(num_leapfrog_steps),
+    initial_state,
+    initial_step_size,
+    chain_batch_shape,
+    as.integer(num_variational_steps),
+    variational_optimizer,
+    seed,
+    name
+  )
+
+}
 
