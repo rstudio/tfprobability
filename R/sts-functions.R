@@ -149,11 +149,14 @@ sts_fit_with_hmc <- function(observed_time_series,
 #' )`
 #' for all model parameters.
 #' This may optionally also be a named list mapping parameter names to `tensor` values.
+#'
+#' @inheritParams sts_build_factored_variational_loss
+#'
 #' @returns forecast_dist a `tfd_mixture_same_family` instance with event shape
 #' `list(num_timesteps)` and batch shape `tf$concat(list(sample_shape, model$batch_shape))`, with
 #' `num_posterior_draws` mixture components. The `t`th step represents the
 #' forecast distribution `p(observed_time_series[t] | observed_time_series[0:t-1], parameter_samples)`.
-#' @inheritParams sts_build_factored_variational_loss
+#'
 #' @family sts-functions
 #'
 #' @export
@@ -165,3 +168,28 @@ sts_one_step_predictive <- function(observed_time_series,
                               parameter_samples)
 }
 
+#' Construct predictive distribution over future observations
+#'
+#' Given samples from the posterior over parameters, return the predictive
+#' distribution over future observations for num_steps_forecast timesteps.
+#'
+#' @param num_steps_forecast scalar `integer` `tensor` number of steps to forecast
+#'
+#' @inheritParams sts_one_step_predictive
+#'
+#' @returns forecast_dist a `tfd_mixture_same_family` instance with event shape
+#' `list(num_steps_forecast, 1)` and batch shape `tf$concat(list(sample_shape, model$batch_shape))`, with
+#' `num_posterior_draws` mixture components.
+#'
+#' @family sts-functions
+#'
+#' @export
+sts_forecast <- function(observed_time_series,
+                         model,
+                         parameter_samples,
+                         num_steps_forecast) {
+  tfp$sts$forecast(model,
+                   observed_time_series,
+                   parameter_samples,
+                   as.integer(num_steps_forecast))
+}
