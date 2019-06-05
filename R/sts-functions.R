@@ -134,3 +134,34 @@ sts_fit_with_hmc <- function(observed_time_series,
 
 }
 
+#' Compute one-step-ahead predictive distributions for all timesteps
+#'
+#' Given samples from the posterior over parameters, return the predictive
+#' distribution over observations at each time `T`, given observations up
+#' through time `T-1`.
+#'
+#' @param parameter_samples `list` of `tensors` representing posterior samples
+#' of model parameters, with shapes
+#' `list(tf$concat(list(list(num_posterior_draws), param<1>$prior$batch_shape, param<1>$prior$event_shape),
+#'                 list(list(num_posterior_draws), param<2>$prior$batch_shape, param<2>$prior$event_shape),
+#'                 ...
+#'                 )
+#' )`
+#' for all model parameters.
+#' This may optionally also be a named list mapping parameter names to `tensor` values.
+#' @returns forecast_dist a `tfd_mixture_same_family` instance with event shape
+#' `list(num_timesteps)` and batch shape `tf$concat(list(sample_shape, model$batch_shape))`, with
+#' `num_posterior_draws` mixture components. The `t`th step represents the
+#' forecast distribution `p(observed_time_series[t] | observed_time_series[0:t-1], parameter_samples)`.
+#' @inheritParams sts_build_factored_variational_loss
+#' @family sts-functions
+#'
+#' @export
+sts_one_step_predictive <- function(observed_time_series,
+                                    model,
+                                    parameter_samples) {
+  tfp$sts$one_step_predictive(model,
+                              observed_time_series,
+                              parameter_samples)
+}
+

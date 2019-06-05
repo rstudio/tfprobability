@@ -58,6 +58,7 @@ uncertainty when the true posterior contains multiple modes
 }
 
 \seealso{
-Other sts-functions: \code{\link{sts_fit_with_hmc}}
+Other sts-functions: \code{\link{sts_fit_with_hmc}},
+  \code{\link{sts_one_step_predictive}}
 }
 \concept{sts-functions}
