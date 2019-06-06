@@ -74,6 +74,11 @@ observation_noise ~ N(loc = 0, scale = observation_noise_scale)
 }
 \seealso{
 Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_autoregressive_state_space_model}},
+  \code{\link{sts_autoregressive}},
+  \code{\link{sts_dynamic_linear_regression_state_space_model}},
+  \code{\link{sts_dynamic_linear_regression}},
+  \code{\link{sts_linear_regression}},
   \code{\link{sts_local_level}},
   \code{\link{sts_local_linear_trend_state_space_model}},
   \code{\link{sts_local_linear_trend}},

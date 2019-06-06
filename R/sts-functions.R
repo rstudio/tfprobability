@@ -152,7 +152,7 @@ sts_fit_with_hmc <- function(observed_time_series,
 #'
 #' @inheritParams sts_build_factored_variational_loss
 #'
-#' @returns forecast_dist a `tfd_mixture_same_family` instance with event shape
+#' @return forecast_dist a `tfd_mixture_same_family` instance with event shape
 #' `list(num_timesteps)` and batch shape `tf$concat(list(sample_shape, model$batch_shape))`, with
 #' `num_posterior_draws` mixture components. The `t`th step represents the
 #' forecast distribution `p(observed_time_series[t] | observed_time_series[0:t-1], parameter_samples)`.
@@ -177,7 +177,7 @@ sts_one_step_predictive <- function(observed_time_series,
 #'
 #' @inheritParams sts_one_step_predictive
 #'
-#' @returns forecast_dist a `tfd_mixture_same_family` instance with event shape
+#' @return forecast_dist a `tfd_mixture_same_family` instance with event shape
 #' `list(num_steps_forecast, 1)` and batch shape `tf$concat(list(sample_shape, model$batch_shape))`, with
 #' `num_posterior_draws` mixture components.
 #'

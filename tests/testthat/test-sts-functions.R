@@ -104,30 +104,6 @@ test_succeeds("sts_one_step_predictive works", {
 
 })
 
-test_succeeds("sts_one_step_predictive works", {
-
-  skip_if_tfp_below("0.7")
-
-  observed_time_series <-
-    rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
-
-  day_of_week <-
-    observed_time_series %>% sts_seasonal(num_seasons = 7)
-  local_linear_trend <-
-    observed_time_series %>% sts_local_linear_trend()
-  model <-
-    observed_time_series %>% sts_sum(components = list(day_of_week, local_linear_trend))
-
-  states_and_results <- observed_time_series %>% sts_fit_with_hmc(model)
-  samples <- states_and_results[[1]]
-
-  preds <- observed_time_series %>% sts_one_step_predictive(model, parameter_samples = samples)
-  pred_means <- preds %>% tfd_mean()
-  pred_sds <- preds %>% tfd_stddev()
-  expect_equal(preds$event_shape %>% length(), 2)
-
-})
-
 test_succeeds("sts_forecast works", {
 
   skip_if_tfp_below("0.7")
@@ -147,10 +123,7 @@ test_succeeds("sts_forecast works", {
 
   preds <- observed_time_series %>% sts_forecast(model, parameter_samples = samples, num_steps_forecast = 50)
   predictions <- preds %>% tfd_sample(10)
-  expect_equal(predictions$event_shape %>% length(), 3)
+  expect_equal(predictions$get_shape()$as_list() %>% length(), 3)
 
 })
-
-
-
 
