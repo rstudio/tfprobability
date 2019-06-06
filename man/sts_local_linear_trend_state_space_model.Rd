@@ -86,6 +86,7 @@ observation at each timestep.
 }
 \seealso{
 Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_autoregressive_state_space_model}},
   \code{\link{sts_autoregressive}},
   \code{\link{sts_dynamic_linear_regression_state_space_model}},
   \code{\link{sts_dynamic_linear_regression}},

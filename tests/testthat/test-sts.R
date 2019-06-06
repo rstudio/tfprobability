@@ -193,3 +193,40 @@ test_succeeds("sts_autoregressive works", {
 
   model <- sts_autoregressive(order = 3)
 })
+
+test_succeeds("autoregressive state space model works", {
+
+  skip_if_tfp_below("0.7")
+
+  model <- sts_autoregressive_state_space_model(
+    num_timesteps = 50,
+    coefficients = c(0.8,-0.1),
+    level_scale = 0.5,
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = c(1, 1))
+  )
+
+  y <- model %>% tfd_sample()
+  lp <- model %>% tfd_log_prob(y)
+
+  expect_equal(y$get_shape()$as_list() %>% length(), 2)
+  expect_equal(lp$get_shape()$as_list() %>% length(), 0)
+})
+
+test_succeeds("autoregressive state space model works with batches of models", {
+
+  skip_if_tfp_below("0.7")
+
+  model <- sts_autoregressive_state_space_model(
+    num_timesteps = 50,
+    coefficients = c(0.8,-0.1),
+    level_scale = rep(1, 10),
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = array(1, dim = c(10, 10, 2)))
+  )
+
+  y <- model %>% tfd_sample(5)
+  lp <- model %>% tfd_log_prob(y)
+
+  expect_equal(y$get_shape()$as_list() %>% length(), 5)
+  expect_equal(lp$get_shape()$as_list() %>% length(), 3)
+})
+

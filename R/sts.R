@@ -1028,3 +1028,112 @@ sts_autoregressive <- function(observed_time_series = NULL,
   do.call(tfp$sts$Autoregressive, args)
 
 }
+
+#' State space model for an autoregressive process.
+#'
+#' A state space model (SSM) posits a set of latent (unobserved) variables that
+#' evolve over time with dynamics specified by a probabilistic transition model
+#' `p(z[t+1] | z[t])`. At each timestep, we observe a value sampled from an
+#' observation model conditioned on the current state, `p(x[t] | z[t])`. The
+#' special case where both the transition and observation models are Gaussians
+#' with mean specified as a linear function of the inputs, is known as a linear
+#' Gaussian state space model and supports tractable exact probabilistic
+#' calculations; see `tfd_linear_gaussian_state_space_model` for
+#' details.
+#'
+#' In an autoregressive process, the expected level at each timestep is a linear
+#' function of previous levels, with added Gaussian noise:
+#' ```
+#' level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
+#' ```
+#'
+#' The process is characterized by a vector `coefficients` whose size determines
+#' the order of the process (how many previous values it looks at), and by
+#' `level_scale`, the standard deviation of the noise added at each step.
+#' This is formulated as a state space model by letting the latent state encode
+#' the most recent values; see 'Mathematical Details' below.
+#'
+#' The parameters `level_scale` and `observation_noise_scale` are each (a batch
+#' of) scalars, and `coefficients` is a (batch) vector of size `list(order)`. The
+#' batch shape of this `Distribution` is the broadcast batch
+#' shape of these parameters and of the `initial_state_prior`.
+#'
+#' Mathematical Details
+#'
+#' The autoregressive model implements a
+#' `tfd_linear_gaussian_state_space_model` with `latent_size = order`
+#' and `observation_size = 1`. The latent state vector encodes the recent history
+#' of the process, with the current value in the topmost dimension. At each
+#' timestep, the transition sums the previous values to produce the new expected
+#' value, shifts all other values down by a dimension, and adds noise to the
+#' current value. This is formally encoded by the transition model:
+#'
+#' ```
+#' transition_matrix = [ coefs[0], coefs[1], ..., coefs[order]
+#'                       1.,       0 ,       ..., 0.
+#'                       0.,       1.,       ..., 0.
+#'                       ...
+#'                       0.,       0.,  ...,  1., 0.         ]
+#' ```
+#' ```
+#' transition_noise ~ N(loc=0., scale=diag([level_scale, 0., 0., ..., 0.]))
+#' ```
+#'
+#' The observation model simply extracts the current (topmost) value, and
+#' optionally adds independent noise at each step:
+#'
+#' ```
+#' observation_matrix = [[1., 0., ..., 0.]]
+#' observation_noise ~ N(loc=0, scale=observation_noise_scale)
+#' ```
+#'
+#' Models with `observation_noise_scale = 0` are AR processes in the formal
+#' sense. Setting `observation_noise_scale` to a nonzero value corresponds to a
+#' latent AR process observed under an iid noise model.
+#'
+#' @param num_timesteps Scalar `integer` `tensor` number of timesteps to model
+#' with this distribution.
+#' @param coefficients `float` `tensor` of shape `tf$concat(batch_shape, list(order))`
+#' defining  the autoregressive coefficients. The coefficients are defined
+#' backwards in time:
+#' `coefficients[0] * level[t] + coefficients[1] * level[t-1] + ... + coefficients[order-1] * level[t-order+1]`.
+#' @param level_scale Scalar (any additional dimensions are treated as batch
+#' dimensions) `float` `tensor` indicating the standard deviation of the
+#' transition noise at each step.
+#' @param initial_state_prior instance of `tfd_multivariate_normal` representing
+#' the prior distribution on latent states.  Must have event shape `list(order)`.
+#' @param observation_noise_scale Scalar (any additional dimensions are
+#' treated as batch dimensions) `float` `tensor` indicating the standard
+#' deviation of the observation noise. Default value: 0.
+#' @param initial_step Optional scalar `int` `tensor` specifying the starting
+#' timestep. Default value: 0.
+#' @param name name prefixed to ops created by this class. Default value: "AutoregressiveStateSpaceModel".
+#'
+#' @inheritParams sts_local_linear_trend_state_space_model
+#' @family sts
+#'
+#' @export
+sts_autoregressive_state_space_model <-
+  function(num_timesteps,
+           coefficients,
+           level_scale,
+           initial_state_prior,
+           observation_noise_scale = 0,
+           initial_step = 0,
+           validate_args = FALSE,
+           name = NULL) {
+    args <- list(
+      num_timesteps = as.integer(num_timesteps),
+      coefficients = coefficients,
+      level_scale = level_scale,
+      initial_state_prior = initial_state_prior,
+      observation_noise_scale = observation_noise_scale,
+      initial_step = as.integer(initial_step),
+      validate_args = validate_args,
+      name = name
+    )
+
+    do.call(tfp$sts$AutoregressiveStateSpaceModel, args)
+  }
+
+
