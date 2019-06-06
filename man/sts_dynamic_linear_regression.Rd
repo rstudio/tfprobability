@@ -50,6 +50,7 @@ number of columns in the design matrix in linear regression).
 }
 \seealso{
 Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_dynamic_linear_regression_state_space_model}},
   \code{\link{sts_linear_regression}},
   \code{\link{sts_local_level_state_space_model}},
   \code{\link{sts_local_level}},

@@ -139,7 +139,50 @@ test_succeeds("sts_linear_regression works", {
 
 test_succeeds("sts_dynamic_linear_regression works", {
 
+  skip_if_tfp_below("0.7")
+
   model <- sts_dynamic_linear_regression(
     design_matrix = matrix(31 * 3, nrow = 31)
   )
+})
+
+test_succeeds("dynamic linear regression state space model works", {
+
+  skip_if_tfp_below("0.7")
+
+  m <- matrix(777, nrow = 42, ncol = 2) %>% tf$cast(tf$float32)
+
+  model <-sts_dynamic_linear_regression_state_space_model(
+    num_timesteps = 42,
+    design_matrix = m,
+    drift_scale = 3.14,
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = c(1, 2)),
+    observation_noise_scale = 1)
+
+  y <- model %>% tfd_sample()
+  lp <- model %>% tfd_log_prob(y)
+
+  expect_equal(y$get_shape()$as_list() %>% length(), 2)
+  expect_equal(lp$get_shape()$as_list() %>% length(), 0)
+})
+
+test_succeeds("dynamic linear regression state space model works with batches of models", {
+
+  skip_if_tfp_below("0.7")
+
+  m <- matrix(777, nrow = 42, ncol = 2) %>% tf$cast(tf$float32)
+
+  model <-sts_dynamic_linear_regression_state_space_model(
+    num_timesteps = 42,
+    design_matrix = m,
+    drift_scale = c(3.14, 1),
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = c(1, 2)),
+    observation_noise_scale = c(1, 2)
+  )
+
+  y <- model %>% tfd_sample(3)
+  lp <- model %>% tfd_log_prob(y)
+
+  expect_equal(y$get_shape()$as_list() %>% length(), 4)
+  expect_equal(lp$get_shape()$as_list() %>% length(), 2)
 })

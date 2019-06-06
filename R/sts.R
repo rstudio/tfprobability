@@ -874,3 +874,93 @@ sts_dynamic_linear_regression <- function(observed_time_series = NULL,
   do.call(tfp$sts$DynamicLinearRegression, args)
 
 }
+
+
+#' State space model for a dynamic linear regression from provided covariates.
+#'
+#' A state space model (SSM) posits a set of latent (unobserved) variables that
+#' evolve over time with dynamics specified by a probabilistic transition model
+#' `p(z[t+1] | z[t])`. At each timestep, we observe a value sampled from an
+#' observation model conditioned on the current state, `p(x[t] | z[t])`. The
+#' special case where both the transition and observation models are Gaussians
+#' with mean specified as a linear function of the inputs, is known as a linear
+#' Gaussian state space model and supports tractable exact probabilistic
+#' calculations; see `tfd_linear_gaussian_state_space_model` for details.
+#'
+#' The dynamic linear regression model is a special case of a linear Gaussian SSM
+#' and a generalization of typical (static) linear regression. The model
+#' represents regression `weights` with a latent state which evolves via a
+#' Gaussian random walk:
+#'  ```weights[t] ~ Normal(weights[t-1], drift_scale)```
+#'
+#' The latent state (the weights) has dimension `num_features`, while the
+#' parameters `drift_scale` and `observation_noise_scale` are each (a batch of)
+#' scalars. The batch shape of this `Distribution` is the broadcast batch shape
+#' of these parameters, the `initial_state_prior`, and the
+#' `design_matrix`. `num_features` is determined from the last dimension of
+#' `design_matrix` (equivalent to the number of columns in the design matrix in
+#' linear regression).
+#'
+#' Mathematical Details
+#'
+#' The dynamic linear regression model implements a
+#' `tfd_linear_gaussian_state_space_model` with `latent_size = num_features` and
+#' `observation_size = 1` following the transition model:
+#'
+#' ```
+#' transition_matrix = eye(num_features)
+#' transition_noise ~ Normal(0, diag([drift_scale]))
+#' ```
+#'
+#' which implements the evolution of `weights` described above. The observation
+#' model is:
+#' ```
+#' observation_matrix[t] = design_matrix[t]
+#' observation_noise ~ Normal(0, observation_noise_scale)
+#' ```
+#' @param num_timesteps Scalar `integer` `tensor`, number of timesteps to model
+#' with this distribution.
+#' @param design_matrix float `tensor` of shape `tf$concat(list(batch_shape, list(num_timesteps, num_features)))`.
+#' This may also optionally be an instance of `tf$linalg$LinearOperator`.
+#' @param drift_scale Scalar (any additional dimensions are treated as batch
+#' dimensions) `float` `tensor` indicating the standard deviation of the
+#' latent state transitions.
+#' @param initial_state_prior instance of `tfd_multivariate_normal` representing
+#' the prior distribution on latent states.  Must have
+#' event shape `list(num_features)`.
+#' @param observation_noise_scale  Scalar (any additional dimensions are
+#' treated as batch dimensions) `float` `tensor` indicating the standard
+#' deviation of the observation noise. Default value: `0`.
+#' @param initial_step scalar `integer` `tensor` specifying the starting timestep.
+#' Default value: `0`.
+#' @param name name prefixed to ops created by this class. Default value: 'DynamicLinearRegressionStateSpaceModel'.
+#'
+#' @inheritParams sts_local_linear_trend_state_space_model
+#' @family sts
+#'
+#' @export
+sts_dynamic_linear_regression_state_space_model <-
+  function(num_timesteps,
+           design_matrix,
+           drift_scale,
+           initial_state_prior,
+           observation_noise_scale = 0,
+           initial_step = 0,
+           validate_args = FALSE,
+           allow_nan_stats = TRUE,
+           name = NULL) {
+    args <- list(
+      num_timesteps = as.integer(num_timesteps),
+      design_matrix = design_matrix,
+      drift_scale = drift_scale,
+      initial_state_prior = initial_state_prior,
+      observation_noise_scale = observation_noise_scale,
+      initial_step = as.integer(initial_step),
+      validate_args = validate_args,
+      allow_nan_stats = allow_nan_stats,
+      name = name
+    )
+
+    do.call(tfp$sts$DynamicLinearRegressionStateSpaceModel, args)
+  }
+
