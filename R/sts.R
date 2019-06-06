@@ -798,7 +798,7 @@ sts_additive_state_space_model <-
 #'
 #' @param design_matrix float `tensor` of shape `tf$concat(list(batch_shape, list(num_timesteps, num_features)))`.
 #' This may also optionally be an instance of `tf$linalg$LinearOperator`.
-#' @param weights_prior `tfp$Distribution` representing a prior over the regression
+#' @param weights_prior `Distribution` representing a prior over the regression
 #' weights. Must have event shape `list(num_features)` and batch shape
 #' broadcastable to the design matrix's `batch_shape`. Alternately,
 #' `event_shape` may be scalar (`list()`), in which case the prior is
@@ -828,4 +828,49 @@ sts_linear_regression <- function(design_matrix,
 
 }
 
+#' Formal representation of a dynamic linear regression model.
+#'
+#' The dynamic linear regression model is a special case of a linear Gaussian SSM
+#' and a generalization of typical (static) linear regression. The model
+#' represents regression `weights` with a latent state which evolves via a
+#' Gaussian random walk:
+#'
+#' ``` weights[t] ~ Normal(weights[t-1], drift_scale)```
+#'
+#' The latent state has dimension `num_features`, while the parameters
+#' `drift_scale` and `observation_noise_scale` are each (a batch of) scalars. The
+#' batch shape of this distribution is the broadcast batch shape of these
+#' parameters, the `initial_state_prior`, and the `design_matrix`.
+#' `num_features` is determined from the last dimension of `design_matrix` (equivalent to the
+#' number of columns in the design matrix in linear regression).
+#'
+#' @param drift_scale_prior instance of `Distribution` specifying a prior on
+#' the `drift_scale` parameter. If `NULL`, a heuristic default prior is
+#' constructed based on the provided `observed_time_series`. Default value: `NULL`.
+#' @param initial_weights_prior instance of `tfd_multivariate_normal` representing
+#' the prior distribution on the latent states (the regression weights).
+#' Must have event shape `list(num_features)`. If `NULL`, a weakly-informative
+#' Normal(0, 10) prior is used. Default value: `NULL`.
+#' @param name the name of this component. Default value: 'DynamicLinearRegression'.
+#'
+#' @inheritParams sts_local_level
+#' @inheritParams sts_linear_regression
+#' @family sts
+#'
+#' @export
+sts_dynamic_linear_regression <- function(observed_time_series = NULL,
+                                          design_matrix,
+                                          drift_scale_prior = NULL,
+                                          initial_weights_prior = NULL,
+                                          name = NULL) {
+  args <- list(
+    design_matrix = design_matrix,
+    drift_scale_prior = drift_scale_prior,
+    initial_weights_prior = initial_weights_prior,
+    observed_time_series = observed_time_series,
+    name = name
+  )
 
+  do.call(tfp$sts$DynamicLinearRegression, args)
+
+}

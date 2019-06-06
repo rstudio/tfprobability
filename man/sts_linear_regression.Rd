@@ -10,7 +10,7 @@ sts_linear_regression(design_matrix, weights_prior = NULL, name = NULL)
 \item{design_matrix}{float \code{tensor} of shape \code{tf$concat(list(batch_shape, list(num_timesteps, num_features)))}.
 This may also optionally be an instance of \code{tf$linalg$LinearOperator}.}
 
-\item{weights_prior}{\code{tfp$Distribution} representing a prior over the regression
+\item{weights_prior}{\code{Distribution} representing a prior over the regression
 weights. Must have event shape \code{list(num_features)} and batch shape
 broadcastable to the design matrix's \code{batch_shape}. Alternately,
 \code{event_shape} may be scalar (\code{list()}), in which case the prior is
@@ -42,6 +42,7 @@ observation noise from another component such as \code{sts_sum}, as demonstrated
 }
 \seealso{
 Other sts: \code{\link{sts_additive_state_space_model}},
+  \code{\link{sts_dynamic_linear_regression}},
   \code{\link{sts_local_level_state_space_model}},
   \code{\link{sts_local_level}},
   \code{\link{sts_local_linear_trend_state_space_model}},

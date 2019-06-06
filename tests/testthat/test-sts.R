@@ -135,6 +135,11 @@ test_succeeds("sts_linear_regression works", {
   seasonal <- ts %>% sts_seasonal(num_seasons = 7)
 
   model <- ts %>% sts_sum(components = list(holidays, seasonal))
-
 })
 
+test_succeeds("sts_dynamic_linear_regression works", {
+
+  model <- sts_dynamic_linear_regression(
+    design_matrix = matrix(31 * 3, nrow = 31)
+  )
+})
