@@ -777,3 +777,55 @@ sts_additive_state_space_model <-
     do.call(tfp$sts$AdditiveStateSpaceModel, args)
   }
 
+#' Formal representation of a linear regression from provided covariates.
+#'
+#' This model defines a time series given by a linear combination of
+#' covariate time series provided in a design matrix:
+#' ```
+#' observed_time_series <- tf$matmul(design_matrix, weights)
+#' ```
+#'
+#' The design matrix has shape `list(num_timesteps, num_features)`.
+#' The weights are treated as an unknown random variable of size `list(num_features)`
+#' (both components also support batch shape), and are integrated over using the same
+#' approximate inference tools as other model parameters, i.e., generally HMC or
+#' variational inference.
+#'
+#' This component does not itself include observation noise; it defines a
+#' deterministic distribution with mass at the point
+#' `tf$matmul(design_matrix, weights)`. In practice, it should be combined with
+#' observation noise from another component such as `sts_sum`, as demonstrated below.
+#'
+#' @param design_matrix float `tensor` of shape `tf$concat(list(batch_shape, list(num_timesteps, num_features)))`.
+#' This may also optionally be an instance of `tf$linalg$LinearOperator`.
+#' @param weights_prior `tfp$Distribution` representing a prior over the regression
+#' weights. Must have event shape `list(num_features)` and batch shape
+#' broadcastable to the design matrix's `batch_shape`. Alternately,
+#' `event_shape` may be scalar (`list()`), in which case the prior is
+#' internally broadcast as
+#' `tfd_transformed_distribution(weights_prior, tfb_identity(), event_shape = list(num_features), batch_shape = design_matrix$batch_shape)`.
+#' If `NULL`, defaults to `tfd_student_t(df = 5, loc = 0, scale = 10)`,
+#' a weakly-informative prior loosely inspired by the
+#' [Stan prior choice recommendations](https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations).
+#' Default value: `NULL`.
+#' @param name the name of this model component. Default value: 'LinearRegression'.
+#'
+#' @inheritParams sts_local_level
+#' @family sts
+#'
+#' @export
+sts_linear_regression <- function(design_matrix,
+                                  weights_prior = NULL,
+                                  name = NULL) {
+
+  args <- list(
+    design_matrix = design_matrix,
+    weights_prior = weights_prior,
+    name = name
+  )
+
+  do.call(tfp$sts$LinearRegression, args)
+
+}
+
+

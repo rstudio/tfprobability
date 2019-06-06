@@ -121,3 +121,20 @@ test_succeeds("additive state space model works", {
   expect_equal(y$get_shape()$as_list(), c(30, 1))
 })
 
+
+test_succeeds("sts_linear_regression works", {
+
+  holiday_indicators <- matrix(0, nrow = 31, ncol =3)
+  holiday_indicators[23, 0] <- 1
+  holiday_indicators[24, 1] <- 1
+  holiday_indicators[30, 2] <- 1
+
+  holidays <- sts_linear_regression(design_matrix = holiday_indicators)
+
+  ts <- rep(1.1:7.1, 4)
+  seasonal <- ts %>% sts_seasonal(num_seasons = 7)
+
+  model <- ts %>% sts_sum(components = list(holidays, seasonal))
+
+})
+

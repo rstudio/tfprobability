@@ -27,6 +27,11 @@ This may optionally also be a named list mapping parameter names to \code{tensor
 
 \item{num_steps_forecast}{scalar \code{integer} \code{tensor} number of steps to forecast}
 }
+\value{
+forecast_dist a \code{tfd_mixture_same_family} instance with event shape
+\code{list(num_steps_forecast, 1)} and batch shape \code{tf$concat(list(sample_shape, model$batch_shape))}, with
+\code{num_posterior_draws} mixture components.
+}
 \description{
 Given samples from the posterior over parameters, return the predictive
 distribution over future observations for num_steps_forecast timesteps.
