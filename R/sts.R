@@ -825,7 +825,6 @@ sts_linear_regression <- function(design_matrix,
   )
 
   do.call(tfp$sts$LinearRegression, args)
-
 }
 
 #' Formal representation of a dynamic linear regression model.
@@ -872,7 +871,6 @@ sts_dynamic_linear_regression <- function(observed_time_series = NULL,
   )
 
   do.call(tfp$sts$DynamicLinearRegression, args)
-
 }
 
 
@@ -964,3 +962,69 @@ sts_dynamic_linear_regression_state_space_model <-
     do.call(tfp$sts$DynamicLinearRegressionStateSpaceModel, args)
   }
 
+#' Formal representation of an autoregressive model.
+#'
+#' An autoregressive (AR) model posits a latent `level` whose value at each step
+#' is a noisy linear combination of previous steps:
+#' ```
+#' level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
+#' ```
+#'
+#' The latent state is `levels[t:t-order:-1]`. We observe a noisy realization of
+#' the current level: `f[t] = level[t] + Normal(0., observation_noise_scale)` at
+#' each timestep.
+#'
+#' If `coefficients=[1.]`, the AR process is a simple random walk, equivalent to
+#' a `LocalLevel` model. However, a random walk's variance increases with time,
+#' while many AR processes (in particular, any first-order process with
+#' `abs(coefficient) < 1`) are *stationary*, i.e., they maintain a constant
+#' variance over time. This makes AR processes useful models of uncertainty.
+#'
+#' @param order scalar positive `integer` specifying the number of past
+#' timesteps to regress on.
+#' @param coefficients_prior optional `Distribution` instance specifying a
+#' prior on the `coefficients` parameter. If `NULL`, a default standard
+#' normal (`tfd_multivariate_normal_diag(scale_diag = tf$ones(list(order)))`) prior
+#' is used. Default value: `NULL`.
+#' @param level_scale_prior optional `Distribution` instance specifying a prior
+#' on the `level_scale` parameter. If `NULL`, a heuristic default prior is
+#' constructed based on the provided `observed_time_series`. Default value: `NULL`.
+#' @param initial_state_prior optional `Distribution` instance specifying a
+#' prior on the initial state, corresponding to the values of the process
+#' at a set of size `order` of imagined timesteps before the initial step.
+#' If `NULL`, a heuristic default prior is constructed based on the
+#' provided `observed_time_series`. Default value: `NULL`.
+#' @param coefficient_constraining_bijector optional `Bijector` instance
+#' representing a constraining mapping for the autoregressive coefficients.
+#' For example, `tfb_tanh()` constrains the coefficients to lie in
+#' `(-1, 1)`, while `tfb_softplus()` constrains them to be positive, and
+#' `tfb_identity()` implies no constraint. If `NULL`, the default behavior
+#' constrains the coefficients to lie in `(-1, 1)` using a `tanh` bijector.
+#' Default value: `NULL`.
+#' @param name the name of this model component. Default value: 'Autoregressive'.
+#'
+#' @inheritParams sts_local_level
+#' @inheritParams sts_linear_regression
+#' @family sts
+#'
+#' @export
+sts_autoregressive <- function(observed_time_series = NULL,
+                               order,
+                               coefficients_prior = NULL,
+                               level_scale_prior = NULL,
+                               initial_state_prior = NULL,
+                               coefficient_constraining_bijector = NULL,
+                               name = NULL) {
+  args <- list(
+    order = as.integer(order),
+    coefficients_prior = coefficients_prior,
+    level_scale_prior = level_scale_prior,
+    initial_state_prior = initial_state_prior,
+    coefficient_constraining_bijector = coefficient_constraining_bijector,
+    observed_time_series = observed_time_series,
+    name = name
+  )
+
+  do.call(tfp$sts$Autoregressive, args)
+
+}

@@ -186,3 +186,10 @@ test_succeeds("dynamic linear regression state space model works with batches of
   expect_equal(y$get_shape()$as_list() %>% length(), 4)
   expect_equal(lp$get_shape()$as_list() %>% length(), 2)
 })
+
+test_succeeds("sts_autoregressive works", {
+
+  skip_if_tfp_below("0.7")
+
+  model <- sts_autoregressive(order = 3)
+})
