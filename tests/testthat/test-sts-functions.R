@@ -123,7 +123,7 @@ test_succeeds("sts_forecast works", {
 
   preds <- observed_time_series %>% sts_forecast(model, parameter_samples = samples, num_steps_forecast = 50)
   predictions <- preds %>% tfd_sample(10)
-  expect_equal(predictions$event_shape %>% length(), 3)
+  expect_equal(predictions$get_shape()$as_list() %>% length(), 3)
 
 })
 
