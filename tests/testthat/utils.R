@@ -30,6 +30,7 @@ tensor_value <- function(tensor) {
     as.array(tensor)
   } else {
     sess <- tf$Session()
+    sess$run(tf$global_variables_initializer())
     sess$run(tensor)
   }
 }

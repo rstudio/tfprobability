@@ -37,6 +37,7 @@ through time \code{T-1}.
 }
 \seealso{
 Other sts-functions: \code{\link{sts_build_factored_variational_loss}},
+  \code{\link{sts_decompose_by_component}},
   \code{\link{sts_fit_with_hmc}},
   \code{\link{sts_forecast}}
 }

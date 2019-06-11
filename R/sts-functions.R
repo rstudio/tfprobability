@@ -193,3 +193,37 @@ sts_forecast <- function(observed_time_series,
                    parameter_samples,
                    as.integer(num_steps_forecast))
 }
+
+#' Decompose an observed time series into contributions from each component.
+#'
+#' This method decomposes a time series according to the posterior represention
+#' of a structural time series model. In particular, it:
+#' - Computes the posterior marginal mean and covariances over the additive
+#' model's latent space.
+#' - Decomposes the latent posterior into the marginal blocks for each
+#' model component.
+#' - Maps the per-component latent posteriors back through each component's
+#' observation model, to generate the time series modeled by that component.
+#'
+#' @param model An instance of `sts_sum` representing a structural time series model.
+#'
+#' @inheritParams sts_one_step_predictive
+#'
+#' @return component_dists A named list mapping
+#' component StructuralTimeSeries instances (elements of `model$components`)
+#' to `Distribution` instances representing the posterior marginal
+#' distributions on the process modeled by each component. Each distribution
+#' has batch shape matching that of `posterior_means`/`posterior_covs`, and
+#' event shape of `list(num_timesteps)`.
+#'
+#' @family sts-functions
+#'
+#' @export
+sts_decompose_by_component <- function(observed_time_series,
+                                       model,
+                                       parameter_samples) {
+  reticulate::py_call(tfp$sts$decompose_by_component,
+                      model,
+                      observed_time_series,
+                      parameter_samples)
+}
