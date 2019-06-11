@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Formal representation of a seasonal effect model. — sts_seasonal • tfprobability</title>
+<title>Formal representation of a linear regression from provided covariates. — sts_linear_regression • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,15 +30,11 @@
 
 
 
-<meta property="og:title" content="Formal representation of a seasonal effect model. — sts_seasonal" />
+<meta property="og:title" content="Formal representation of a linear regression from provided covariates. — sts_linear_regression" />
 
-<meta property="og:description" content="A seasonal effect model posits a fixed set of recurring, discrete 'seasons',
-each of which is active for a fixed number of timesteps and, while active,
-contributes a different effect to the time series. These are generally not
-meteorological seasons, but represent regular recurring patterns such as
-hour-of-day or day-of-week effects. Each season lasts for a fixed number of
-timesteps. The effect of each season drifts from one occurrence to the next
-following a Gaussian random walk:" />
+<meta property="og:description" content="This model defines a time series given by a linear combination of
+covariate time series provided in a design matrix:observed_time_series &amp;lt;- tf$matmul(design_matrix, weights)
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -100,96 +96,59 @@ following a Gaussian random walk:" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Formal representation of a seasonal effect model.</h1>
+    <h1>Formal representation of a linear regression from provided covariates.</h1>
     
-    <div class="hidden name"><code>sts_seasonal.Rd</code></div>
+    <div class="hidden name"><code>sts_linear_regression.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A seasonal effect model posits a fixed set of recurring, discrete 'seasons',
-each of which is active for a fixed number of timesteps and, while active,
-contributes a different effect to the time series. These are generally not
-meteorological seasons, but represent regular recurring patterns such as
-hour-of-day or day-of-week effects. Each season lasts for a fixed number of
-timesteps. The effect of each season drifts from one occurrence to the next
-following a Gaussian random walk:</p>
+    <p>This model defines a time series given by a linear combination of
+covariate time series provided in a design matrix:</p><pre>observed_time_series &lt;- tf$matmul(design_matrix, weights)
+</pre>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sts_seasonal</span>(<span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>num_seasons</span>,
-  <span class='kw'>num_steps_per_season</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>drift_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial_effect_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>constrain_mean_effect_to_zero</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_linear_regression</span>(<span class='no'>design_matrix</span>, <span class='kw'>weights_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>observed_time_series</th>
-      <td><p>optional <code>float</code> <code>tensor</code> of shape
-<code>batch_shape + [T, 1]</code> (omitting the trailing unit dimension is also
-supported when <code>T &gt; 1</code>), specifying an observed time series.
-Any priors not explicitly set will be given default values according to
-the scale of the observed time series (or batch of time series). May
-optionally be an instance of <code>sts_masked_time_series</code>, which includes
-a mask <code>tensor</code> to specify timesteps with missing observations.
+      <th>design_matrix</th>
+      <td><p>float <code>tensor</code> of shape <code>tf$concat(list(batch_shape, list(num_timesteps, num_features)))</code>.
+This may also optionally be an instance of <code>tf$linalg$LinearOperator</code>.</p></td>
+    </tr>
+    <tr>
+      <th>weights_prior</th>
+      <td><p><code>Distribution</code> representing a prior over the regression
+weights. Must have event shape <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_features)</a></code> and batch shape
+broadcastable to the design matrix's <code>batch_shape</code>. Alternately,
+<code>event_shape</code> may be scalar (<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>), in which case the prior is
+internally broadcast as
+<code><a href='tfd_transformed_distribution.html'>tfd_transformed_distribution(weights_prior, tfb_identity(), event_shape = list(num_features), batch_shape = design_matrix$batch_shape)</a></code>.
+If <code>NULL</code>, defaults to <code><a href='tfd_student_t.html'>tfd_student_t(df = 5, loc = 0, scale = 10)</a></code>,
+a weakly-informative prior loosely inspired by the
+<a href='https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations'>Stan prior choice recommendations</a>.
 Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>num_seasons</th>
-      <td><p>Scalar <code>integer</code> number of seasons.</p></td>
-    </tr>
-    <tr>
-      <th>num_steps_per_season</th>
-      <td><p><code>integer</code> number of steps in each
-season. This may be either a scalar (shape <code>[]</code>), in which case all
-seasons have the same length, or an array of shape <code>[num_seasons]</code>,
-in which seasons have different length, but remain constant around
-different cycles, or an array of shape <code>[num_cycles, num_seasons]</code>,
-in which num_steps_per_season for each season also varies in different
-cycle (e.g., a 4 years cycle with leap day). Default value: 1.</p></td>
-    </tr>
-    <tr>
-      <th>drift_scale_prior</th>
-      <td><p>optional <code>tfd$Distribution</code> instance specifying a prior
-on the <code>drift_scale</code> parameter. If <code>NULL</code>, a heuristic default prior is
-constructed based on the provided <code>observed_time_series</code>. Default value: <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>initial_effect_prior</th>
-      <td><p>optional <code>tfd$Distribution</code> instance specifying a
-normal prior on the initial effect of each season. This may be either
-a scalar <code>tfd_normal</code> prior, in which case it applies independently to
-every season, or it may be multivariate normal (e.g.,
-<code>tfd_multivariate_normal_diag</code>) with event shape <code>[num_seasons]</code>, in
-which case it specifies a joint prior across all seasons. If <code>NULL</code>, a
-heuristic default prior is constructed based on the provided
-<code>observed_time_series</code>. Default value: <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>constrain_mean_effect_to_zero</th>
-      <td><p>if <code>TRUE</code>, use a model parameterization
-that constrains the mean effect across all seasons to be zero. This
-constraint is generally helpful in identifying the contributions of
-different model components and can lead to more interpretable
-posterior decompositions. It may be undesirable if you plan to directly
-examine the latent space of the underlying state space model. Default value: <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
       <th>name</th>
-      <td><p>the name of this model component. Default value: 'Seasonal'.</p></td>
+      <td><p>the name of this model component. Default value: 'LinearRegression'.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <pre>effects[season, occurrence[i]] = (
-  effects[season, occurrence[i-1]] + Normal(loc=0., scale=drift_scale))
-</pre>
-    <p>The <code>drift_scale</code> parameter governs the standard deviation of the random walk;
-for example, in a day-of-week model it governs the change in effect from this
-Monday to next Monday.</p>
+    <p>The design matrix has shape <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_timesteps, num_features)</a></code>.
+The weights are treated as an unknown random variable of size <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_features)</a></code>
+(both components also support batch shape), and are integrated over using the same
+approximate inference tools as other model parameters, i.e., generally HMC or
+variational inference.</p>
+<p>This component does not itself include observation noise; it defines a
+deterministic distribution with mass at the point
+<code>tf$matmul(design_matrix, weights)</code>. In practice, it should be combined with
+observation noise from another component such as <code>sts_sum</code>, as demonstrated below.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -198,12 +157,12 @@ Monday to next Monday.</p>
   <code><a href='sts_autoregressive.html'>sts_autoregressive</a></code>,
   <code><a href='sts_dynamic_linear_regression_state_space_model.html'>sts_dynamic_linear_regression_state_space_model</a></code>,
   <code><a href='sts_dynamic_linear_regression.html'>sts_dynamic_linear_regression</a></code>,
-  <code><a href='sts_linear_regression.html'>sts_linear_regression</a></code>,
   <code><a href='sts_local_level_state_space_model.html'>sts_local_level_state_space_model</a></code>,
   <code><a href='sts_local_level.html'>sts_local_level</a></code>,
   <code><a href='sts_local_linear_trend_state_space_model.html'>sts_local_linear_trend_state_space_model</a></code>,
   <code><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></code>,
   <code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a></code>,
+  <code><a href='sts_seasonal.html'>sts_seasonal</a></code>,
   <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
   <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
   <code><a href='sts_sum.html'>sts_sum</a></code></p></div>

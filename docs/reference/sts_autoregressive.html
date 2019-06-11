@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>State space model for a local linear trend — sts_local_linear_trend_state_space_model • tfprobability</title>
+<title>Formal representation of an autoregressive model. — sts_autoregressive • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,16 +30,11 @@
 
 
 
-<meta property="og:title" content="State space model for a local linear trend — sts_local_linear_trend_state_space_model" />
+<meta property="og:title" content="Formal representation of an autoregressive model. — sts_autoregressive" />
 
-<meta property="og:description" content="A state space model (SSM) posits a set of latent (unobserved) variables that
-evolve over time with dynamics specified by a probabilistic transition model
-p(z[t+1] | z[t]). At each timestep, we observe a value sampled from an
-observation model conditioned on the current state, p(x[t] | z[t]). The
-special case where both the transition and observation models are Gaussians
-with mean specified as a linear function of the inputs, is known as a linear
-Gaussian state space model and supports tractable exact probabilistic
-calculations; see tfd_linear_gaussian_state_space_model for details." />
+<meta property="og:description" content="An autoregressive (AR) model posits a latent level whose value at each step
+is a noisy linear combination of previous steps:level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -101,121 +96,101 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>State space model for a local linear trend</h1>
+    <h1>Formal representation of an autoregressive model.</h1>
     
-    <div class="hidden name"><code>sts_local_linear_trend_state_space_model.Rd</code></div>
+    <div class="hidden name"><code>sts_autoregressive.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A state space model (SSM) posits a set of latent (unobserved) variables that
-evolve over time with dynamics specified by a probabilistic transition model
-<code>p(z[t+1] | z[t])</code>. At each timestep, we observe a value sampled from an
-observation model conditioned on the current state, <code>p(x[t] | z[t])</code>. The
-special case where both the transition and observation models are Gaussians
-with mean specified as a linear function of the inputs, is known as a linear
-Gaussian state space model and supports tractable exact probabilistic
-calculations; see <code>tfd_linear_gaussian_state_space_model</code> for details.</p>
+    <p>An autoregressive (AR) model posits a latent <code>level</code> whose value at each step
+is a noisy linear combination of previous steps:</p><pre>level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
+</pre>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sts_local_linear_trend_state_space_model</span>(<span class='no'>num_timesteps</span>, <span class='no'>level_scale</span>,
-  <span class='no'>slope_scale</span>, <span class='no'>initial_state_prior</span>, <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>sts_autoregressive</span>(<span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>order</span>,
+  <span class='kw'>coefficients_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>level_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>initial_state_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>coefficient_constraining_bijector</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>num_timesteps</th>
-      <td><p>Scalar <code>integer</code> <code>tensor</code> number of timesteps to model
-with this distribution.</p></td>
+      <th>observed_time_series</th>
+      <td><p>optional <code>float</code> <code>tensor</code> of shape
+<code>batch_shape + [T, 1]</code> (omitting the trailing unit dimension is also
+supported when <code>T &gt; 1</code>), specifying an observed time series.
+Any priors not explicitly set will be given default values according to
+the scale of the observed time series (or batch of time series). May
+optionally be an instance of <code>sts_masked_time_series</code>, which includes
+a mask <code>tensor</code> to specify timesteps with missing observations.
+Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>level_scale</th>
-      <td><p>Scalar (any additional dimensions are treated as batch
-dimensions) <code>float</code> <code>tensor</code> indicating the standard deviation of the
-level transitions.</p></td>
+      <th>order</th>
+      <td><p>scalar positive <code>integer</code> specifying the number of past
+timesteps to regress on.</p></td>
     </tr>
     <tr>
-      <th>slope_scale</th>
-      <td><p>Scalar (any additional dimensions are treated as batch
-dimensions) <code>float</code> <code>tensor</code> indicating the standard deviation of the
-slope transitions.</p></td>
+      <th>coefficients_prior</th>
+      <td><p>optional <code>Distribution</code> instance specifying a
+prior on the <code>coefficients</code> parameter. If <code>NULL</code>, a default standard
+normal (<code><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag(scale_diag = tf$ones(list(order)))</a></code>) prior
+is used. Default value: <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>level_scale_prior</th>
+      <td><p>optional <code>Distribution</code> instance specifying a prior
+on the <code>level_scale</code> parameter. If <code>NULL</code>, a heuristic default prior is
+constructed based on the provided <code>observed_time_series</code>. Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>initial_state_prior</th>
-      <td><p>instance of <code>tfd_multivariate_normal</code>
-representing the prior distribution on latent states.  Must have
-event shape <code>[1]</code> (as <code>tfd_linear_gaussian_state_space_model</code> requires a
-rank-1 event shape).</p></td>
+      <td><p>optional <code>Distribution</code> instance specifying a
+prior on the initial state, corresponding to the values of the process
+at a set of size <code>order</code> of imagined timesteps before the initial step.
+If <code>NULL</code>, a heuristic default prior is constructed based on the
+provided <code>observed_time_series</code>. Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
-      <th>observation_noise_scale</th>
-      <td><p>Scalar (any additional dimensions are
-treated as batch dimensions) <code>float</code> <code>tensor</code> indicating the standard
-deviation of the observation noise.</p></td>
-    </tr>
-    <tr>
-      <th>initial_step</th>
-      <td><p>Optional scalar <code>integer</code> <code>tensor</code> specifying the starting
-timestep. Default value: 0.</p></td>
-    </tr>
-    <tr>
-      <th>validate_args</th>
-      <td><p><code>logical</code>. Whether to validate input
-with asserts. If <code>validate_args</code> is <code>FALSE</code>, and the inputs are
-invalid, correct behavior is not guaranteed. Default value: <code>FALSE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>allow_nan_stats</th>
-      <td><p><code>logical</code>. If <code>FALSE</code>, raise an
-exception if a statistic (e.g. mean/mode/etc...) is undefined for any
-batch member. If <code>TRUE</code>, batch members with valid parameters leading to
-undefined statistics will return NaN for this statistic. Default value: <code>TRUE</code>.</p></td>
+      <th>coefficient_constraining_bijector</th>
+      <td><p>optional <code>Bijector</code> instance
+representing a constraining mapping for the autoregressive coefficients.
+For example, <code><a href='tfb_tanh.html'>tfb_tanh()</a></code> constrains the coefficients to lie in
+<code>(-1, 1)</code>, while <code><a href='tfb_softplus.html'>tfb_softplus()</a></code> constrains them to be positive, and
+<code><a href='tfb_identity.html'>tfb_identity()</a></code> implies no constraint. If <code>NULL</code>, the default behavior
+constrains the coefficients to lie in <code>(-1, 1)</code> using a <code>tanh</code> bijector.
+Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string prefixed to ops created by this class.
-Default value: "LocalLinearTrendStateSpaceModel".</p></td>
+      <td><p>the name of this model component. Default value: 'Autoregressive'.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The local linear trend model is a special case of a linear Gaussian SSM, in
-which the latent state posits a <code>level</code> and <code>slope</code>, each evolving via a
-Gaussian random walk:</p><pre>level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
-slope[t] = slope[t-1] + Normal(0., slope_scale)
-</pre>
-    <p>The latent state is the two-dimensional tuple <code>[level, slope]</code>. The
-<code>level</code> is observed at each timestep.</p>
-<p>The parameters <code>level_scale</code>, <code>slope_scale</code>, and <code>observation_noise_scale</code>
-are each (a batch of) scalars. The batch shape of this <code>Distribution</code> is the
-broadcast batch shape of these parameters and of the <code>initial_state_prior</code>.</p>
-<p>Mathematical Details</p>
-<p>The linear trend model implements a <code>tfd_linear_gaussian_state_space_model</code>
-with <code>latent_size = 2</code> and <code>observation_size = 1</code>, following the transition model:</p><pre>transition_matrix = [[1., 1.]
-                     [0., 1.]]
-transition_noise ~ N(loc = 0, scale = diag([level_scale, slope_scale]))
-</pre>
-    <p>which implements the evolution of <code>[level, slope]</code> described above, and the observation model:</p><pre>observation_matrix = [[1., 0.]]
-observation_noise ~ N(loc= 0 , scale = observation_noise_scale)
-</pre>
-    <p>which picks out the first latent component, i.e., the <code>level</code>, as the
-observation at each timestep.</p>
+    <p>The latent state is <code>levels[t:t-order:-1]</code>. We observe a noisy realization of
+the current level: <code>f[t] = level[t] + Normal(0., observation_noise_scale)</code> at
+each timestep.</p>
+<p>If <code>coefficients=[1.]</code>, the AR process is a simple random walk, equivalent to
+a <code>LocalLevel</code> model. However, a random walk's variance increases with time,
+while many AR processes (in particular, any first-order process with
+<code>abs(coefficient) &lt; 1</code>) are <em>stationary</em>, i.e., they maintain a constant
+variance over time. This makes AR processes useful models of uncertainty.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other sts: <code><a href='sts_additive_state_space_model.html'>sts_additive_state_space_model</a></code>,
   <code><a href='sts_autoregressive_state_space_model.html'>sts_autoregressive_state_space_model</a></code>,
-  <code><a href='sts_autoregressive.html'>sts_autoregressive</a></code>,
   <code><a href='sts_dynamic_linear_regression_state_space_model.html'>sts_dynamic_linear_regression_state_space_model</a></code>,
   <code><a href='sts_dynamic_linear_regression.html'>sts_dynamic_linear_regression</a></code>,
   <code><a href='sts_linear_regression.html'>sts_linear_regression</a></code>,
   <code><a href='sts_local_level_state_space_model.html'>sts_local_level_state_space_model</a></code>,
   <code><a href='sts_local_level.html'>sts_local_level</a></code>,
+  <code><a href='sts_local_linear_trend_state_space_model.html'>sts_local_linear_trend_state_space_model</a></code>,
   <code><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></code>,
   <code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a></code>,
   <code><a href='sts_seasonal.html'>sts_seasonal</a></code>,

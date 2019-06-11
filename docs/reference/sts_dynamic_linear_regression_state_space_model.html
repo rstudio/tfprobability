@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>State space model for a semi-local linear trend. — sts_semi_local_linear_trend_state_space_model • tfprobability</title>
+<title>State space model for a dynamic linear regression from provided covariates. — sts_dynamic_linear_regression_state_space_model • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="State space model for a semi-local linear trend. — sts_semi_local_linear_trend_state_space_model" />
+<meta property="og:title" content="State space model for a dynamic linear regression from provided covariates. — sts_dynamic_linear_regression_state_space_model" />
 
 <meta property="og:description" content="A state space model (SSM) posits a set of latent (unobserved) variables that
 evolve over time with dynamics specified by a probabilistic transition model
@@ -101,9 +101,9 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>State space model for a semi-local linear trend.</h1>
+    <h1>State space model for a dynamic linear regression from provided covariates.</h1>
     
-    <div class="hidden name"><code>sts_semi_local_linear_trend_state_space_model.Rd</code></div>
+    <div class="hidden name"><code>sts_dynamic_linear_regression_state_space_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -119,8 +119,8 @@ calculations; see <code>tfd_linear_gaussian_state_space_model</code> for details
     
     </div>
 
-    <pre class="usage"><span class='fu'>sts_semi_local_linear_trend_state_space_model</span>(<span class='no'>num_timesteps</span>, <span class='no'>level_scale</span>,
-  <span class='no'>slope_mean</span>, <span class='no'>slope_scale</span>, <span class='no'>autoregressive_coef</span>, <span class='no'>initial_state_prior</span>,
+    <pre class="usage"><span class='fu'>sts_dynamic_linear_regression_state_space_model</span>(<span class='no'>num_timesteps</span>,
+  <span class='no'>design_matrix</span>, <span class='no'>drift_scale</span>, <span class='no'>initial_state_prior</span>,
   <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
@@ -129,49 +129,36 @@ calculations; see <code>tfd_linear_gaussian_state_space_model</code> for details
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>num_timesteps</th>
-      <td><p>Scalar <code>integer</code> <code>tensor</code> number of timesteps to model
+      <td><p>Scalar <code>integer</code> <code>tensor</code>, number of timesteps to model
 with this distribution.</p></td>
     </tr>
     <tr>
-      <th>level_scale</th>
+      <th>design_matrix</th>
+      <td><p>float <code>tensor</code> of shape <code>tf$concat(list(batch_shape, list(num_timesteps, num_features)))</code>.
+This may also optionally be an instance of <code>tf$linalg$LinearOperator</code>.</p></td>
+    </tr>
+    <tr>
+      <th>drift_scale</th>
       <td><p>Scalar (any additional dimensions are treated as batch
 dimensions) <code>float</code> <code>tensor</code> indicating the standard deviation of the
-level transitions.</p></td>
-    </tr>
-    <tr>
-      <th>slope_mean</th>
-      <td><p>Scalar (any additional dimensions are treated as batch
-dimensions) <code>float</code> <code>tensor</code> indicating the expected long-term mean of
-the latent slope.</p></td>
-    </tr>
-    <tr>
-      <th>slope_scale</th>
-      <td><p>Scalar (any additional dimensions are treated as batch
-dimensions) <code>float</code> <code>tensor</code> indicating the standard deviation of the
-slope transitions.</p></td>
-    </tr>
-    <tr>
-      <th>autoregressive_coef</th>
-      <td><p>Scalar (any additional dimensions are treated as
-batch dimensions) <code>float</code> <code>tensor</code> defining the AR1 process on the latent slope.</p></td>
+latent state transitions.</p></td>
     </tr>
     <tr>
       <th>initial_state_prior</th>
-      <td><p>instance of <code>tfd_multivariate_normal</code>
-representing the prior distribution on latent states.  Must have
-event shape <code>[1]</code> (as <code>tfd_linear_gaussian_state_space_model</code> requires a
-rank-1 event shape).</p></td>
+      <td><p>instance of <code>tfd_multivariate_normal</code> representing
+the prior distribution on latent states.  Must have
+event shape <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_features)</a></code>.</p></td>
     </tr>
     <tr>
       <th>observation_noise_scale</th>
       <td><p>Scalar (any additional dimensions are
 treated as batch dimensions) <code>float</code> <code>tensor</code> indicating the standard
-deviation of the observation noise.</p></td>
+deviation of the observation noise. Default value: <code>0</code>.</p></td>
     </tr>
     <tr>
       <th>initial_step</th>
-      <td><p>Optional scalar <code>integer</code> <code>tensor</code> specifying the starting
-timestep. Default value: 0.</p></td>
+      <td><p>scalar <code>integer</code> <code>tensor</code> specifying the starting timestep.
+Default value: <code>0</code>.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -188,48 +175,40 @@ undefined statistics will return NaN for this statistic. Default value: <code>TR
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string` prefixed to ops created by this class.
-Default value: "SemiLocalLinearTrendStateSpaceModel".</p></td>
+      <td><p>name prefixed to ops created by this class. Default value: 'DynamicLinearRegressionStateSpaceModel'.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The semi-local linear trend model is a special case of a linear Gaussian
-SSM, in which the latent state posits a <code>level</code> and <code>slope</code>. The <code>level</code>
-evolves via a Gaussian random walk centered at the current <code>slope</code>, while
-the <code>slope</code> follows a first-order autoregressive (AR1) process with
-mean <code>slope_mean</code>:</p><pre>level[t] = level[t-1] + slope[t-1] + Normal(0, level_scale)
-slope[t] = (slope_mean + autoregressive_coef * (slope[t-1] - slope_mean) +
-           Normal(0., slope_scale))
-</pre>
-    <p>The latent state is the two-dimensional tuple <code>[level, slope]</code>. The
-<code>level</code> is observed at each timestep.
-The parameters <code>level_scale</code>, <code>slope_mean</code>, <code>slope_scale</code>,
-<code>autoregressive_coef</code>, and <code>observation_noise_scale</code> are each (a batch of)
+    <p>The dynamic linear regression model is a special case of a linear Gaussian SSM
+and a generalization of typical (static) linear regression. The model
+represents regression <code>weights</code> with a latent state which evolves via a
+Gaussian random walk:
+<code>weights[t] ~ Normal(weights[t-1], drift_scale)</code></p>
+<p>The latent state (the weights) has dimension <code>num_features</code>, while the
+parameters <code>drift_scale</code> and <code>observation_noise_scale</code> are each (a batch of)
 scalars. The batch shape of this <code>Distribution</code> is the broadcast batch shape
-of these parameters and of the <code>initial_state_prior</code>.</p>
+of these parameters, the <code>initial_state_prior</code>, and the
+<code>design_matrix</code>. <code>num_features</code> is determined from the last dimension of
+<code>design_matrix</code> (equivalent to the number of columns in the design matrix in
+linear regression).</p>
 <p>Mathematical Details</p>
-<p>The semi-local linear trend model implements a
-<code>tfp.distributions.LinearGaussianStateSpaceModel</code> with <code>latent_size = 2</code>
-and <code>observation_size = 1</code>, following the transition model:</p><pre>transition_matrix = [[1., 1.]
-                     [0., autoregressive_coef]]
-transition_noise ~ N(loc=slope_mean - autoregressive_coef * slope_mean,
-                     scale=diag([level_scale, slope_scale]))
+<p>The dynamic linear regression model implements a
+<code>tfd_linear_gaussian_state_space_model</code> with <code>latent_size = num_features</code> and
+<code>observation_size = 1</code> following the transition model:</p><pre>transition_matrix = eye(num_features)
+transition_noise ~ Normal(0, diag([drift_scale]))
 </pre>
-    <p>which implements the evolution of <code>[level, slope]</code> described above, and
-the observation model:</p><pre>observation_matrix = [[1., 0.]]
-observation_noise ~ N(loc=0, scale=observation_noise_scale)
+    <p>which implements the evolution of <code>weights</code> described above. The observation
+model is:</p><pre>observation_matrix[t] = design_matrix[t]
+observation_noise ~ Normal(0, observation_noise_scale)
 </pre>
-    <p>which picks out the first latent component, i.e., the <code>level</code>, as the
-observation at each timestep.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other sts: <code><a href='sts_additive_state_space_model.html'>sts_additive_state_space_model</a></code>,
   <code><a href='sts_autoregressive_state_space_model.html'>sts_autoregressive_state_space_model</a></code>,
   <code><a href='sts_autoregressive.html'>sts_autoregressive</a></code>,
-  <code><a href='sts_dynamic_linear_regression_state_space_model.html'>sts_dynamic_linear_regression_state_space_model</a></code>,
   <code><a href='sts_dynamic_linear_regression.html'>sts_dynamic_linear_regression</a></code>,
   <code><a href='sts_linear_regression.html'>sts_linear_regression</a></code>,
   <code><a href='sts_local_level_state_space_model.html'>sts_local_level_state_space_model</a></code>,
@@ -238,6 +217,7 @@ observation at each timestep.</p>
   <code><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></code>,
   <code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a></code>,
   <code><a href='sts_seasonal.html'>sts_seasonal</a></code>,
+  <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
   <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
   <code><a href='sts_sum.html'>sts_sum</a></code></p></div>
     
