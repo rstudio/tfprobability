@@ -86,6 +86,7 @@ which is thought to be in the desirable range for optimal mixing (Betancourt et 
 
 \seealso{
 Other sts-functions: \code{\link{sts_build_factored_variational_loss}},
+  \code{\link{sts_decompose_by_component}},
   \code{\link{sts_forecast}},
   \code{\link{sts_one_step_predictive}}
 }

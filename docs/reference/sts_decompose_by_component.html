@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a loss function for variational inference in STS models. — sts_build_factored_variational_loss • tfprobability</title>
+<title>Decompose an observed time series into contributions from each component. — sts_decompose_by_component • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,17 +30,17 @@
 
 
 
-<meta property="og:title" content="Build a loss function for variational inference in STS models. — sts_build_factored_variational_loss" />
+<meta property="og:title" content="Decompose an observed time series into contributions from each component. — sts_decompose_by_component" />
 
-<meta property="og:description" content="Variational inference searches for the distribution within some family of
-approximate posteriors that minimizes a divergence between the approximate
-posterior q(z) and true posterior p(z|observed_time_series). By converting
-inference to optimization, it's generally much faster than sampling-based
-inference algorithms such as HMC. The tradeoff is that the approximating
-family rarely contains the true posterior, so it may miss important aspects of
-posterior structure (in particular, dependence between variables) and should
-not be blindly trusted. Results may vary; it's generally wise to compare to
-HMC to evaluate whether inference quality is sufficient for your task at hand." />
+<meta property="og:description" content="This method decomposes a time series according to the posterior represention
+of a structural time series model. In particular, it:
+Computes the posterior marginal mean and covariances over the additive
+model's latent space.
+Decomposes the latent posterior into the marginal blocks for each
+model component.
+Maps the per-component latent posteriors back through each component's
+observation model, to generate the time series modeled by that component.
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -102,27 +102,26 @@ HMC to evaluate whether inference quality is sufficient for your task at hand." 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a loss function for variational inference in STS models.</h1>
+    <h1>Decompose an observed time series into contributions from each component.</h1>
     
-    <div class="hidden name"><code>sts_build_factored_variational_loss.Rd</code></div>
+    <div class="hidden name"><code>sts_decompose_by_component.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Variational inference searches for the distribution within some family of
-approximate posteriors that minimizes a divergence between the approximate
-posterior <code><a href='https://www.rdocumentation.org/packages/base/topics/quit'>q(z)</a></code> and true posterior <code>p(z|observed_time_series)</code>. By converting
-inference to optimization, it's generally much faster than sampling-based
-inference algorithms such as HMC. The tradeoff is that the approximating
-family rarely contains the true posterior, so it may miss important aspects of
-posterior structure (in particular, dependence between variables) and should
-not be blindly trusted. Results may vary; it's generally wise to compare to
-HMC to evaluate whether inference quality is sufficient for your task at hand.</p>
+    <p>This method decomposes a time series according to the posterior represention
+of a structural time series model. In particular, it:</p><ul>
+<li><p>Computes the posterior marginal mean and covariances over the additive
+model's latent space.</p></li>
+<li><p>Decomposes the latent posterior into the marginal blocks for each
+model component.</p></li>
+<li><p>Maps the per-component latent posteriors back through each component's
+observation model, to generate the time series modeled by that component.</p></li>
+</ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_variational_loss</span>(<span class='no'>observed_time_series</span>, <span class='no'>model</span>,
-  <span class='kw'>init_batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_decompose_by_component</span>(<span class='no'>observed_time_series</span>, <span class='no'>model</span>, <span class='no'>parameter_samples</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -138,49 +137,30 @@ a mask <code>tensor</code> to specify timesteps with missing observations.</p></
     </tr>
     <tr>
       <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.</p></td>
+      <td><p>An instance of <code>sts_sum</code> representing a structural time series model.</p></td>
     </tr>
     <tr>
-      <th>init_batch_shape</th>
-      <td><p>Batch shape (<code>list</code>) of initial
-states to optimize in parallel. Default value: <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list()</a></code>. (i.e., just run a single optimization).</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>integer to seed the random number generator.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>name prefixed to ops created by this function. Default value: <code>NULL</code>
-(i.e., 'build_factored_variational_loss').</p></td>
+      <th>parameter_samples</th>
+      <td><p><code>list</code> of <code>tensors</code> representing posterior samples
+of model parameters, with shapes
+<code>list(tf$concat(list(list(num_posterior_draws), param&lt;1&gt;$prior$batch_shape, param&lt;1&gt;$prior$event_shape), list(list(num_posterior_draws), param&lt;2&gt;$prior$batch_shape, param&lt;2&gt;$prior$event_shape), ... ) )</code>
+for all model parameters.
+This may optionally also be a named list mapping parameter names to <code>tensor</code> values.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>This method constructs a loss function for variational inference using the
-Kullback-Liebler divergence <code>KL[q(z) || p(z|observed_time_series)]</code>, with an
-approximating family given by independent Normal distributions transformed to
-the appropriate parameter space for each parameter. Minimizing this loss (the
-negative ELBO) maximizes a lower bound on the log model evidence
-<code>-log p(observed_time_series)</code>. This is equivalent to the 'mean-field' method
-implemented in Kucukelbir et al. (2017) and is a standard approach.
-The resulting posterior approximations are unimodal; they will tend to underestimate posterior
-uncertainty when the true posterior contains multiple modes
-(the <code>KL[q||p]</code> divergence encourages choosing a single mode) or dependence between variables.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    
-    <ul>
-<li><p><a href='https://arxiv.org/abs/1603.00788'>Alp Kucukelbir, Dustin Tran, Rajesh Ranganath, Andrew Gelman, and David M. Blei. Automatic Differentiation Variational Inference. In Journal of Machine Learning Research, 2017.</a></p></li>
-</ul>
+    <p>component_dists A named list mapping
+component StructuralTimeSeries instances (elements of <code>model$components</code>)
+to <code>Distribution</code> instances representing the posterior marginal
+distributions on the process modeled by each component. Each distribution
+has batch shape matching that of <code>posterior_means</code>/<code>posterior_covs</code>, and
+event shape of <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_timesteps)</a></code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
+    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
   <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
   <code><a href='sts_forecast.html'>sts_forecast</a></code>,
   <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code></p></div>
@@ -192,9 +172,7 @@ uncertainty when the true posterior contains multiple modes
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
+      <li><a href="#value">Value</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>
