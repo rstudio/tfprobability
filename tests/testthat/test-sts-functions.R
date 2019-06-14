@@ -181,7 +181,7 @@ test_succeeds("sts_decompose_by_component works", {
     observed_time_series %>% sts_decompose_by_component(model = model,
                                                         parameter_samples = samples)
 
-  day_of_week_effect_mean <- component_dists[day_of_week] %>% tfd_mean()
+  day_of_week_effect_mean <- component_dists[[1]] %>% tfd_mean()
   expect_equal(day_of_week_effect_mean$get_shape()$as_list() %>% length(), 3)
 
 })
