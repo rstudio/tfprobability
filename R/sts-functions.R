@@ -1,4 +1,5 @@
 
+
 #' Build a loss function for variational inference in STS models.
 #'
 #' Variational inference searches for the distribution within some family of
@@ -43,14 +44,15 @@
 #' @family sts-functions
 #'
 #' @export
-sts_build_factored_variational_loss <- function(observed_time_series,
-                                                model,
-                                                init_batch_shape = list(),
-                                                seed = NULL,
-                                                name = NULL) {
-  tfp$sts$build_factored_variational_loss(model, observed_time_series, init_batch_shape, seed, name)
-
-}
+sts_build_factored_variational_loss <-
+  function(observed_time_series,
+           model,
+           init_batch_shape = list(),
+           seed = NULL,
+           name = NULL) {
+    tfp$sts$build_factored_variational_loss(model, observed_time_series, init_batch_shape, seed, name)
+    
+  }
 
 #' Draw posterior samples using Hamiltonian Monte Carlo (HMC)
 #'
@@ -131,7 +133,7 @@ sts_fit_with_hmc <- function(observed_time_series,
     seed,
     name
   )
-
+  
 }
 
 #' Compute one-step-ahead predictive distributions for all timesteps
@@ -222,8 +224,7 @@ sts_forecast <- function(observed_time_series,
 sts_decompose_by_component <- function(observed_time_series,
                                        model,
                                        parameter_samples) {
-  reticulate::py_call(tfp$sts$decompose_by_component,
-                      model,
-                      observed_time_series,
-                      parameter_samples)
+  tfp$sts$decompose_by_component(model,
+                                 observed_time_series,
+                                 parameter_samples)
 }
