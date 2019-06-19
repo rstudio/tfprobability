@@ -36,7 +36,7 @@ test_succeeds("sts_build_factored_variational_loss works", {
         Map(
           function(d)
             d %>% tfd_sample(50),
-          variational_distributions %>% reticulate::py_to_r() %>% unname()
+          variational_distributions 
         )
     }
 
@@ -59,7 +59,7 @@ test_succeeds("sts_build_factored_variational_loss works", {
         Map(
           function(d)
             d %>% tfd_sample(50),
-          variational_distributions %>% reticulate::py_to_r() %>% unname()
+          variational_distributions 
         ) %>%
         sess$run()
 

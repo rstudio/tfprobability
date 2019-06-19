@@ -23,4 +23,7 @@ Imports:
     magrittr
 Suggests: 
     testthat
+Remotes:
+    rstudio/reticulate
+
 

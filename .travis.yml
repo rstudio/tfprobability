@@ -21,14 +21,14 @@ matrix:
       env: TENSORFLOW_VERSION="1.13.1"
     - name: "2.0-preview"
       env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/a0/9c/155a15331e8ca5b0db43cea547d454234a11a10f32b44fb2056ff7da4284/tf_nightly_2.0_preview-2.0.0.dev20190605-cp27-cp27mu-manylinux1_x86_64.whl"
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/46/af/7a4ddf97eb1f4bacb9a1e22db6d258a38ae6beb4db155e226ba8d28e267d/tf_nightly_2.0_preview-2.0.0.dev20190618-cp27-cp27mu-manylinux1_x86_64.whl"
     - name: "nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
   allow_failures:
     - name: "2.0-preview"
       env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/a0/9c/155a15331e8ca5b0db43cea547d454234a11a10f32b44fb2056ff7da4284/tf_nightly_2.0_preview-2.0.0.dev20190605-cp27-cp27mu-manylinux1_x86_64.whl"
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/46/af/7a4ddf97eb1f4bacb9a1e22db6d258a38ae6beb4db155e226ba8d28e267d/tf_nightly_2.0_preview-2.0.0.dev20190618-cp27-cp27mu-manylinux1_x86_64.whl"
     - name: "nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
