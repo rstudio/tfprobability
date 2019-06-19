@@ -99,6 +99,8 @@ test_succeeds("sum works", {
 
 test_succeeds("additive state space model works", {
 
+  skip_if_tfp_below("0.7")
+
   local_ssm <- sts_local_linear_trend_state_space_model(
     num_timesteps = 30,
     level_scale = 0.5,
