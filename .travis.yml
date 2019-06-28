@@ -18,20 +18,30 @@ cache:
 matrix:
   include:
     - name: "tf-stable"
-      env: TENSORFLOW_VERSION="1.13.1"
-    - name: "2.0-preview"
+      env: TENSORFLOW_VERSION="1.14"
+    - name: "2.0.0b1"
       env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/46/af/7a4ddf97eb1f4bacb9a1e22db6d258a38ae6beb4db155e226ba8d28e267d/tf_nightly_2.0_preview-2.0.0.dev20190618-cp27-cp27mu-manylinux1_x86_64.whl"
-    - name: "nightly"
+        - TENSORFLOW_VERSION="2.0.0b1"
+    - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
+    - name: "tf-nightly with reticulate master"
+      env:
+        - TENSORFLOW_VERSION="tf-nightly"
+      r_github_packages:
+        - rstudio/reticulate
   allow_failures:
-    - name: "2.0-preview"
+    - name: "2.0.0b1"
       env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/46/af/7a4ddf97eb1f4bacb9a1e22db6d258a38ae6beb4db155e226ba8d28e267d/tf_nightly_2.0_preview-2.0.0.dev20190618-cp27-cp27mu-manylinux1_x86_64.whl"
-    - name: "nightly"
+        - TENSORFLOW_VERSION="2.0.0b1"
+    - name: "tf-nightly"
       env:
-        - TENSORFLOW_VERSION="nightly"
+        - TENSORFLOW_VERSION="tf-nightly"
+    - name: "tf-nightly with reticulate master"
+      env:
+        - TENSORFLOW_VERSION="tf-nightly"
+      r_github_packages:
+        - rstudio/reticulate
 
 before_script:
   - sudo apt-get update
