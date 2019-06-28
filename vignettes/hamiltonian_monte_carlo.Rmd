@@ -1,0 +1,220 @@
+---
+title: "Multi-level modeling with Hamiltonian Monte Carlo"
+author: "Sigrid Keydana"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+Hierarchical models of any complexity may be specified using `tfd_joint_distribution_sequential()`.
+As hinted at by that function's name, it builds a representation of a joint distribution where every component may optionally depend on components declared before it. 
+
+The model is then fitted to data using some form of Monte Carlo algorithm -- Hamiltonian Monte Carlo (HMC), in most cases.
+Supplementing Monte Carlo methods is an implementation of Variational Inference (VI), but we don't cover VI in this document.
+
+We illustrate the process by example, using the _reedfrogs_ dataset from Richard McElreath's `rethinking` package.
+Each row in the dataset describes one tadpole tank, with its initial count of inhabitants (`density`) and number of survivors (`surv`).
+
+```{r}
+# assume it's version 1.14, with eager not yet being the default
+library(tensorflow)
+tf$enable_v2_behavior()
+
+library(tfprobability)
+library(rethinking)
+library(zeallot)
+library(purrr)
+
+data("reedfrogs")
+d <- reedfrogs
+str(d)
+```
+
+
+```
+'data.frame':	48 obs. of  5 variables:
+ $ density : int  10 10 10 10 10 10 10 10 10 10 ...
+ $ pred    : Factor w/ 2 levels "no","pred": 1 1 1 1 1 1 1 1 2 2 ...
+ $ size    : Factor w/ 2 levels "big","small": 1 1 1 1 2 2 2 2 1 1 ...
+ $ surv    : int  9 10 7 10 9 9 10 9 4 9 ...
+ $ propsurv: num  0.9 1 0.7 1 0.9 0.9 1 0.9 0.4 0.9 ...
+```
+
+We port to `tfprobability` the partially-pooled model presented in McElreath's book. With partial pooling, each tank gets its own probability of survival.
+
+In the model specification, we list the global priors first; then comes the intermediate layer yielding the per-tank priors; finally we have the likelihood which in this case is a binomial:
+
+```{r}
+n_tadpole_tanks <- nrow(d)
+n_surviving <- d$surv
+n_start <- d$density
+
+model <- tfd_joint_distribution_sequential(
+  list(
+    # a_bar, the prior for the mean of the normal distribution of per-tank logits
+    tfd_normal(loc = 0, scale = 1.5),
+    # sigma, the prior for the variance of the normal distribution of per-tank logits
+    tfd_exponential(rate = 1),
+    # normal distribution of per-tank logits
+    # parameters sigma and a_bar refer to the outputs of the above two distributions
+    function(sigma, a_bar) 
+      tfd_sample_distribution(
+        tfd_normal(loc = a_bar, scale = sigma),
+        sample_shape = list(n_tadpole_tanks)
+      ), 
+    # binomial distribution of survival counts
+    # parameter l refers to the output of the normal distribution immediately above
+    function(l)
+      tfd_independent(
+        tfd_binomial(total_count = n_start, logits = l),
+        reinterpreted_batch_ndims = 1
+      )
+  )
+)
+```
+
+Our model technically being a _distribution_, we can verify it conforms to our expectations by _sampling_ from it: 
+
+```{r}
+s <- model %>% tfd_sample(2)
+s 
+```
+
+```
+[[1]]
+tf.Tensor([2.1276963  0.26374984], shape=(2,), dtype=float32)
+
+[[2]]
+tf.Tensor([1.0527238 2.0026767], shape=(2,), dtype=float32)
+
+[[3]]
+tf.Tensor(
+[[ 5.3084397e-01  4.1868687e-03  6.5364146e-01  2.2994227e+00
+   ...
+   2.0958326e+00  8.9087760e-01  1.6273866e+00  2.7854009e+00]
+ [-5.5288523e-01  1.0414324e+00 -1.3420627e-01  2.5128570e+00
+  ...
+  -6.6325682e-01  3.0505228e+00  8.1649482e-01  1.0340663e+00]], shape=(2, 48), dtype=float32)
+
+[[4]]
+tf.Tensor(
+[[ 7.  6.  7. 10. 10.  8. 10.  9.  7. 10.  9. 10. 10.  7.  9. 10. 22. 25.
+  17. 22. 17. 19. 21. 22. 19. 19. 19. 25. 23. 25. 23. 15. 32. 33. 32. 34.
+  35. 34. 28. 33. 33. 32. 26. 31. 33. 30. 31. 33.]
+ [ 2.  8.  4. 10.  6.  1.  8.  3.  7.  9.  1.  0.  5. 10.  4.  5.  2. 21.
+   1. 14.  4. 14.  9.  6. 12.  0. 20. 19.  1. 15. 15.  7. 30.  7. 12.  4.
+  23.  3. 16. 34. 35.  5. 14. 10. 20. 32. 19. 24.]], shape=(2, 48), dtype=float32)
+```
+
+Another useful correctness check is that it yields a scalar log likelihood:
+
+```{r}
+model %>% tfd_log_prob(s)
+```
+
+```
+tf.Tensor([-149.4476  -193.44107], shape=(2,), dtype=float32)
+```
+`
+
+Besides the model, we need to specify the loss, which here is just the joint log likelihood of the parameters and the target variable:
+
+```{r}
+logprob <- function(a, s, l)
+  model %>% tfd_log_prob(list(a, s, l, n_surviving))
+```
+
+Now we can set up HMC sampling, making use of `mcmc_simple_step_size_adaptation` for dynamic step size evolution based on a desired acceptance probability. 
+
+```{r}
+# number of steps after burnin
+n_steps <- 500
+# number of chains
+n_chain <- 4
+# number of burnin steps
+n_burnin <- 500
+
+hmc <- mcmc_hamiltonian_monte_carlo(
+  target_log_prob_fn = logprob,
+  num_leapfrog_steps = 3,
+  # one step size for each parameter
+  step_size = list(0.1, 0.1, 0.1),
+) %>%
+  mcmc_simple_step_size_adaptation(target_accept_prob = 0.8,
+                                   num_adaptation_steps = n_burnin)
+
+```
+
+The actual sampling should run on the TensorFlow graph for performance. So if we're executing in eager mode, we wrap the call in `tf_function`:
+
+```{r}
+# initial values to start the sampler
+c(initial_a, initial_s, initial_logits, .) %<-% (model %>% tfd_sample(n_chain))
+
+# optionally retrieve metadata such as acceptance ratio and step size
+trace_fn <- function(state, pkr) {
+  list(pkr$inner_results$is_accepted,
+       pkr$inner_results$accepted_results$step_size)
+}
+
+run_mcmc <- function(kernel) {
+  kernel %>% mcmc_sample_chain(
+    num_results = n_steps,
+    num_burnin_steps = n_burnin,
+    current_state = list(initial_a, tf$ones_like(initial_s), initial_logits),
+    trace_fn = trace_fn
+  )
+}
+
+run_mcmc <- tf_function(run_mcmc)
+res <- run_mcmc(hmc)
+```
+ 
+Now `res$all_states` contains the samples from the four chains, while `res$trace` has the diagnostic output.
+
+
+```{r}
+mcmc_trace <- res$all_states
+```
+
+In our example, we have three levels of learned parameters (the two "hyperpriors" and the per-tank prior), so the samples come as a list of three. For each distribution, the first dimension reflects the number of samples per chain, the second, the number of chains and the third, the number of parameters in the chain.
+
+```{r}
+map(mcmc_trace, ~ compose(dim, as.array)(.x))
+```
+
+```
+[[1]]
+[1] 500   4
+
+[[2]]
+[1] 500   4
+
+[[3]]
+[1] 500   4  48
+```
+
+We can obtain the _rhat_ value, as well as the effective sample size, using `mcmc_potential_scale_reduction` and `mcmc_effective_sample_size`, respectively:
+
+```{r}
+mcmc_potential_scale_reduction(mcmc_trace)
+mcmc_effective_sample_size(mcmc_trace)
+```
+
+These again are returned as lists of three.
+
+Rounding up on diagnostic output, we may inspect individual acceptance in `res$trace[[1]]` and step sizes in `res$trace[[2]]`.
+
+
+For ways to plot the samples and create summary output, as well as some background narrative, see [Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability](https://blogs.rstudio.com/tensorflow/posts/2019-05-06-tadpoles-on-tensorflow/) and its follow-up, [Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability](https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/) on the TensorFlow for R blog. 
