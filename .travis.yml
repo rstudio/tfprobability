@@ -24,7 +24,7 @@ matrix:
         - TENSORFLOW_VERSION="2.0.0b1"
     - name: "tf-nightly"
       env:
-        - TENSORFLOW_VERSION="nightly"
+        - TENSORFLOW_VERSION="tf-nightly"
     - name: "tf-nightly with reticulate master"
       env:
         - TENSORFLOW_VERSION="tf-nightly"
