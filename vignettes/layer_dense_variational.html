@@ -12,7 +12,7 @@
 
 <meta name="author" content="Sigrid Keydana" />
 
-<meta name="date" content="2019-06-28" />
+<meta name="date" content="2019-06-29" />
 
 <title>Uncertainty estimates with layer_dense_variational</title>
 
@@ -303,7 +303,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Uncertainty estimates with layer_dense_variational</h1>
 <h4 class="author">Sigrid Keydana</h4>
-<h4 class="date">2019-06-28</h4>
+<h4 class="date">2019-06-29</h4>
 
 
 
@@ -403,7 +403,7 @@ Simulated data
 <a class="sourceLine" id="cb5-13" data-line-number="13">    )</a></code></pre></div>
 <p>The model is then simply trained to minimize the negative log likelihood, and fitted like a normal <code>keras</code> network.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">negloglik &lt;-<span class="st"> </span><span class="cf">function</span>(y, model) <span class="op">-</span><span class="st"> </span>(model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_log_prob</span>(y))</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">compile</span>(<span class="dt">optimizer =</span> <span class="kw">optimizer_adam</span>(<span class="dt">lr =</span> learning_rate), <span class="dt">loss =</span> negloglik)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">compile</span>(<span class="dt">optimizer =</span> <span class="kw">optimizer_adam</span>(<span class="dt">lr =</span> <span class="fl">0.01</span>), <span class="dt">loss =</span> negloglik)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">fit</span>(x, y, <span class="dt">epochs =</span> <span class="dv">1000</span>)</a></code></pre></div>
 <p>Because of the uncertainty in the weights, this model does not predict one line, but an ensemble of lines. Each of these lines has its own opinion about the spread in the data. Here is a way we could display this – each colored line is the mean of a distribution, surrounded by a confidence band indicating +/- two standard deviations.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># each time we ask the model to predict, we get a different line</span></a>
@@ -450,7 +450,7 @@ Simulated data
 Displaying both epistemic and aleatoric uncertainty on the simulated dataset.
 </p>
 </div>
-<p>Summing up, using <code>layer_dense_variational</code> we are able to construct a posterior predictive distribution from an ensemble of models, where each single model by itself learns the spread in the data.</p>
+<p>Summing up, using <code>layer_dense_variational</code> we are able to construct a posterior predictive distribution from an ensemble of models, where each single model by itself learns the spread in the data. For some more background narrative on this topic, see <a href="https://blogs.rstudio.com/tensorflow/posts/2019-06-05-uncertainty-estimates-tfprobability/">Adding uncertainty estimates to Keras models with tfprobability</a>.</p>
 
 
 

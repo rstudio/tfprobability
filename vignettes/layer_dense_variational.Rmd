@@ -137,7 +137,7 @@ The model is then simply trained to minimize the negative log likelihood, and fi
 
 ```{r}
 negloglik <- function(y, model) - (model %>% tfd_log_prob(y))
-model %>% compile(optimizer = optimizer_adam(lr = learning_rate), loss = negloglik)
+model %>% compile(optimizer = optimizer_adam(lr = 0.01), loss = negloglik)
 model %>% fit(x, y, epochs = 1000)
 ```
 
@@ -189,4 +189,4 @@ ggplot(data.frame(x = x, y = y, mean = as.numeric(mean)), aes(x, y)) +
 knitr::include_graphics("images/uncertainty.png")
 ```
 
-Summing up, using `layer_dense_variational` we are able to construct a posterior predictive distribution from an ensemble of models, where each single model by itself learns the spread in the data.
+Summing up, using `layer_dense_variational` we are able to construct a posterior predictive distribution from an ensemble of models, where each single model by itself learns the spread in the data. For some more background narrative on this topic, see [Adding uncertainty estimates to Keras models with tfprobability](https://blogs.rstudio.com/tensorflow/posts/2019-06-05-uncertainty-estimates-tfprobability/).
