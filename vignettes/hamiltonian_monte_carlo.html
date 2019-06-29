@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Sigrid Keydana" />
+
+<meta name="date" content="2019-06-28" />
+
+<title>Multi-level modeling with Hamiltonian Monte Carlo</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Multi-level modeling with Hamiltonian Monte Carlo</h1>
+<h4 class="author">Sigrid Keydana</h4>
+<h4 class="date">2019-06-28</h4>
+
+
+
+<p>Hierarchical models of any complexity may be specified using <code>tfd_joint_distribution_sequential()</code>. As hinted at by that function’s name, it builds a representation of a joint distribution where every component may optionally depend on components declared before it.</p>
+<p>The model is then fitted to data using some form of Monte Carlo algorithm – Hamiltonian Monte Carlo (HMC), in most cases. Supplementing Monte Carlo methods is an implementation of Variational Inference (VI), but we don’t cover VI in this document.</p>
+<p>We illustrate the process by example, using the <em>reedfrogs</em> dataset from Richard McElreath’s <code>rethinking</code> package. Each row in the dataset describes one tadpole tank, with its initial count of inhabitants (<code>density</code>) and number of survivors (<code>surv</code>).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># assume it's version 1.14, with eager not yet being the default</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(tensorflow)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">tf<span class="op">$</span><span class="kw">enable_v2_behavior</span>()</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(tfprobability)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(rethinking)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(zeallot)</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(purrr)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">data</span>(<span class="st">&quot;reedfrogs&quot;</span>)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">d &lt;-<span class="st"> </span>reedfrogs</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">str</span>(d)</a></code></pre></div>
+<pre><code>'data.frame':   48 obs. of  5 variables:
+ $ density : int  10 10 10 10 10 10 10 10 10 10 ...
+ $ pred    : Factor w/ 2 levels &quot;no&quot;,&quot;pred&quot;: 1 1 1 1 1 1 1 1 2 2 ...
+ $ size    : Factor w/ 2 levels &quot;big&quot;,&quot;small&quot;: 1 1 1 1 2 2 2 2 1 1 ...
+ $ surv    : int  9 10 7 10 9 9 10 9 4 9 ...
+ $ propsurv: num  0.9 1 0.7 1 0.9 0.9 1 0.9 0.4 0.9 ...</code></pre>
+<p>We port to <code>tfprobability</code> the partially-pooled model presented in McElreath’s book. With partial pooling, each tank gets its own probability of survival.</p>
+<p>In the model specification, we list the global priors first; then comes the intermediate layer yielding the per-tank priors; finally we have the likelihood which in this case is a binomial:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">n_tadpole_tanks &lt;-<span class="st"> </span><span class="kw">nrow</span>(d)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">n_surviving &lt;-<span class="st"> </span>d<span class="op">$</span>surv</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">n_start &lt;-<span class="st"> </span>d<span class="op">$</span>density</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">model &lt;-<span class="st"> </span><span class="kw">tfd_joint_distribution_sequential</span>(</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="co"># a_bar, the prior for the mean of the normal distribution of per-tank logits</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="kw">tfd_normal</span>(<span class="dt">loc =</span> <span class="dv">0</span>, <span class="dt">scale =</span> <span class="fl">1.5</span>),</a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="co"># sigma, the prior for the variance of the normal distribution of per-tank logits</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">    <span class="kw">tfd_exponential</span>(<span class="dt">rate =</span> <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">    <span class="co"># normal distribution of per-tank logits</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">    <span class="co"># parameters sigma and a_bar refer to the outputs of the above two distributions</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">    <span class="cf">function</span>(sigma, a_bar) </a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">      <span class="kw">tfd_sample_distribution</span>(</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">        <span class="kw">tfd_normal</span>(<span class="dt">loc =</span> a_bar, <span class="dt">scale =</span> sigma),</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">        <span class="dt">sample_shape =</span> <span class="kw">list</span>(n_tadpole_tanks)</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">      ), </a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="co"># binomial distribution of survival counts</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">    <span class="co"># parameter l refers to the output of the normal distribution immediately above</span></a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">    <span class="cf">function</span>(l)</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">      <span class="kw">tfd_independent</span>(</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">        <span class="kw">tfd_binomial</span>(<span class="dt">total_count =</span> n_start, <span class="dt">logits =</span> l),</a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">        <span class="dt">reinterpreted_batch_ndims =</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">      )</a>
+<a class="sourceLine" id="cb3-25" data-line-number="25">  )</a>
+<a class="sourceLine" id="cb3-26" data-line-number="26">)</a></code></pre></div>
+<p>Our model technically being a <em>distribution</em>, we can verify it conforms to our expectations by <em>sampling</em> from it:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">s &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_sample</span>(<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">s </a></code></pre></div>
+<pre><code>[[1]]
+tf.Tensor([2.1276963  0.26374984], shape=(2,), dtype=float32)
+
+[[2]]
+tf.Tensor([1.0527238 2.0026767], shape=(2,), dtype=float32)
+
+[[3]]
+tf.Tensor(
+[[ 5.3084397e-01  4.1868687e-03  6.5364146e-01  2.2994227e+00
+   ...
+   2.0958326e+00  8.9087760e-01  1.6273866e+00  2.7854009e+00]
+ [-5.5288523e-01  1.0414324e+00 -1.3420627e-01  2.5128570e+00
+  ...
+  -6.6325682e-01  3.0505228e+00  8.1649482e-01  1.0340663e+00]], shape=(2, 48), dtype=float32)
+
+[[4]]
+tf.Tensor(
+[[ 7.  6.  7. 10. 10.  8. 10.  9.  7. 10.  9. 10. 10.  7.  9. 10. 22. 25.
+  17. 22. 17. 19. 21. 22. 19. 19. 19. 25. 23. 25. 23. 15. 32. 33. 32. 34.
+  35. 34. 28. 33. 33. 32. 26. 31. 33. 30. 31. 33.]
+ [ 2.  8.  4. 10.  6.  1.  8.  3.  7.  9.  1.  0.  5. 10.  4.  5.  2. 21.
+   1. 14.  4. 14.  9.  6. 12.  0. 20. 19.  1. 15. 15.  7. 30.  7. 12.  4.
+  23.  3. 16. 34. 35.  5. 14. 10. 20. 32. 19. 24.]], shape=(2, 48), dtype=float32)</code></pre>
+<p>Another useful correctness check is that it yields a scalar log likelihood:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_log_prob</span>(s)</a></code></pre></div>
+<pre><code>tf.Tensor([-149.4476  -193.44107], shape=(2,), dtype=float32)</code></pre>
+<p>`</p>
+<p>Besides the model, we need to specify the loss, which here is just the joint log likelihood of the parameters and the target variable:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">logprob &lt;-<span class="st"> </span><span class="cf">function</span>(a, s, l)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_log_prob</span>(<span class="kw">list</span>(a, s, l, n_surviving))</a></code></pre></div>
+<p>Now we can set up HMC sampling, making use of <code>mcmc_simple_step_size_adaptation</code> for dynamic step size evolution based on a desired acceptance probability.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># number of steps after burnin</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">n_steps &lt;-<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># number of chains</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">n_chain &lt;-<span class="st"> </span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># number of burnin steps</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6">n_burnin &lt;-<span class="st"> </span><span class="dv">500</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8">hmc &lt;-<span class="st"> </span><span class="kw">mcmc_hamiltonian_monte_carlo</span>(</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">  <span class="dt">target_log_prob_fn =</span> logprob,</a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">  <span class="dt">num_leapfrog_steps =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">  <span class="co"># one step size for each parameter</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12">  <span class="dt">step_size =</span> <span class="kw">list</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),</a>
+<a class="sourceLine" id="cb9-13" data-line-number="13">) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">  </span><span class="kw">mcmc_simple_step_size_adaptation</span>(<span class="dt">target_accept_prob =</span> <span class="fl">0.8</span>,</a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">                                   <span class="dt">num_adaptation_steps =</span> n_burnin)</a></code></pre></div>
+<p>The actual sampling should run on the TensorFlow graph for performance. So if we’re executing in eager mode, we wrap the call in <code>tf_function</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># initial values to start the sampler</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">c</span>(initial_a, initial_s, initial_logits, .) <span class="op">%&lt;-%</span><span class="st"> </span>(model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_sample</span>(n_chain))</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># optionally retrieve metadata such as acceptance ratio and step size</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">trace_fn &lt;-<span class="st"> </span><span class="cf">function</span>(state, pkr) {</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="kw">list</span>(pkr<span class="op">$</span>inner_results<span class="op">$</span>is_accepted,</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">       pkr<span class="op">$</span>inner_results<span class="op">$</span>accepted_results<span class="op">$</span>step_size)</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">}</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">run_mcmc &lt;-<span class="st"> </span><span class="cf">function</span>(kernel) {</a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">  kernel <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mcmc_sample_chain</span>(</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">    <span class="dt">num_results =</span> n_steps,</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">    <span class="dt">num_burnin_steps =</span> n_burnin,</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">    <span class="dt">current_state =</span> <span class="kw">list</span>(initial_a, tf<span class="op">$</span><span class="kw">ones_like</span>(initial_s), initial_logits),</a>
+<a class="sourceLine" id="cb10-15" data-line-number="15">    <span class="dt">trace_fn =</span> trace_fn</a>
+<a class="sourceLine" id="cb10-16" data-line-number="16">  )</a>
+<a class="sourceLine" id="cb10-17" data-line-number="17">}</a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19">run_mcmc &lt;-<span class="st"> </span><span class="kw">tf_function</span>(run_mcmc)</a>
+<a class="sourceLine" id="cb10-20" data-line-number="20">res &lt;-<span class="st"> </span><span class="kw">run_mcmc</span>(hmc)</a></code></pre></div>
+<p>Now <code>res$all_states</code> contains the samples from the four chains, while <code>res$trace</code> has the diagnostic output.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">mcmc_trace &lt;-<span class="st"> </span>res<span class="op">$</span>all_states</a></code></pre></div>
+<p>In our example, we have three levels of learned parameters (the two “hyperpriors” and the per-tank prior), so the samples come as a list of three. For each distribution, the first dimension reflects the number of samples per chain, the second, the number of chains and the third, the number of parameters in the chain.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">map</span>(mcmc_trace, <span class="op">~</span><span class="st"> </span><span class="kw">compose</span>(dim, as.array)(.x))</a></code></pre></div>
+<pre><code>[[1]]
+[1] 500   4
+
+[[2]]
+[1] 500   4
+
+[[3]]
+[1] 500   4  48</code></pre>
+<p>We can obtain the <em>rhat</em> value, as well as the effective sample size, using <code>mcmc_potential_scale_reduction</code> and <code>mcmc_effective_sample_size</code>, respectively:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">mcmc_potential_scale_reduction</span>(mcmc_trace)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">mcmc_effective_sample_size</span>(mcmc_trace)</a></code></pre></div>
+<p>These again are returned as lists of three.</p>
+<p>Rounding up on diagnostic output, we may inspect individual acceptance in <code>res$trace[[1]]</code> and step sizes in <code>res$trace[[2]]</code>.</p>
+<p>For ways to plot the samples and create summary output, as well as some background narrative, see <a href="https://blogs.rstudio.com/tensorflow/posts/2019-05-06-tadpoles-on-tensorflow/">Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability</a> and its follow-up, <a href="https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/">Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability</a> on the TensorFlow for R blog.</p>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

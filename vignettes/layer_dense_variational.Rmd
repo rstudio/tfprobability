@@ -1,0 +1,192 @@
+---
+title: "Uncertainty estimates with layer_dense_variational"
+author: "Sigrid Keydana"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+With `tfprobability`, we can compute uncertainty estimates for `keras` layers. This vignette shows how to do this for dense layers.
+
+Our example will have two types of uncertainty estimated:
+
+- that due to variation in the data (irreducible; a.k.a. _aleatoric_)
+- that due to the fact that we don't know the true model (theoretically, minimizable in the limit of infinite data, a.k.a. _epistemic_)
+
+To achieve the former, we have our model learn the spread in the data; to achieve the latter, we use a _variational_ layer that learns a posterior over the weights. Internally, this layer works by minimizing the _evidence lower bound_ (ELBO),  thus striving to find an approximative posterior that does two things:
+
+(1) fit the actual data well (put differently: achieve high _log likelihood_), and
+(2) stay close to a _prior_ (as measured by [KL divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)).
+
+As users, we get to specify the form of the posterior as well as that of the prior. But first let's generate some data.
+
+
+```{r}
+library(tensorflow)
+# assume it's version 1.14, with eager not yet being the default
+tf$compat$v1$enable_v2_behavior()
+
+library(tfprobability)
+library(keras)
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# generate the data
+x_min <- -40
+x_max <- 60
+n <- 150
+w0 <- 0.125
+b0 <- 5
+
+normalize <- function(x) (x - x_min) / (x_max - x_min)
+
+# training data; predictor 
+x <- x_min + (x_max - x_min) * runif(n) %>% as.matrix()
+
+# training data; target
+eps <- rnorm(n) * (3 * (0.25 + (normalize(x)) ^ 2))
+y <- (w0 * x * (1 + sin(x)) + b0) + eps
+
+# test data (predictor)
+x_test <- seq(x_min, x_max, length.out = n) %>% as.matrix()
+```
+
+```{r}
+ggplot(data.frame(x = x, y = y), aes(x, y)) + geom_point()
+```
+
+
+```{r, eval=TRUE, echo=FALSE, layout="l-body-outset", fig.cap = "Simulated data"}
+knitr::include_graphics("images/uncertainty_data.png")
+```
+
+Here is a simple, _trainable_ prior (in _empirical Bayesian_ spirit: A normal distribution where the network may learn the mean (but not the scale). Alternatively, we could disallow learning from the data by setting `trainable` to `FALSE`.
+
+```{r}
+prior_trainable <-
+  function(kernel_size,
+           bias_size = 0,
+           dtype = NULL) {
+    n <- kernel_size + bias_size
+    keras_model_sequential() %>%
+      layer_variable(n, dtype = dtype, trainable = TRUE) %>%
+      layer_distribution_lambda(function(t) {
+        tfd_independent(tfd_normal(loc = t, scale = 1),
+                        reinterpreted_batch_ndims = 1)
+      })
+  }
+
+```
+
+The posterior then is a normal, too:
+
+```{r}
+posterior_mean_field <-
+  function(kernel_size,
+           bias_size = 0,
+           dtype = NULL) {
+    n <- kernel_size + bias_size
+    c <- log(expm1(1))
+    keras_model_sequential(list(
+      layer_variable(shape = 2 * n, dtype = dtype),
+      layer_distribution_lambda(
+        make_distribution_fn = function(t) {
+          tfd_independent(tfd_normal(
+            loc = t[1:n],
+            scale = 1e-5 + tf$nn$softplus(c + t[(n + 1):(2 * n)])
+            ), reinterpreted_batch_ndims = 1)
+        }
+      )
+    ))
+  }
+```
+
+Now for the main model. The variational-dense layer is defined to have two units, one for the distribution of means and distribution of scales each. `layer_distribution_lambda` then takes their respective outputs as the mean and scale of the posterior distribution.
+
+```{r}
+model <- keras_model_sequential() %>%
+  layer_dense_variational(
+    units = 2,
+    make_posterior_fn = posterior_mean_field,
+    make_prior_fn = prior_trainable,
+    # scale by the size of the dataset
+    kl_weight = 1 / n
+  ) %>%
+  layer_distribution_lambda(function(x)
+    tfd_normal(loc = x[, 1, drop = FALSE],
+               scale = 1e-3 + tf$math$softplus(0.01 * x[, 2, drop = FALSE])
+               )
+    )
+
+```
+
+The model is then simply trained to minimize the negative log likelihood, and fitted like a normal `keras` network.
+
+```{r}
+negloglik <- function(y, model) - (model %>% tfd_log_prob(y))
+model %>% compile(optimizer = optimizer_adam(lr = 0.01), loss = negloglik)
+model %>% fit(x, y, epochs = 1000)
+```
+
+Because of the uncertainty in the weights, this model does not predict one line, but an ensemble of lines. Each of these lines has its own opinion about the spread in the data. Here is a way we could display this -- each colored line is the mean of a distribution, surrounded by a confidence band indicating +/- two standard deviations.
+
+```{r}
+# each time we ask the model to predict, we get a different line
+yhats <- purrr::map(1:100, function(x) model(tf$constant(x_test)))
+means <-
+  purrr::map(yhats, purrr::compose(as.matrix, tfd_mean)) %>% abind::abind()
+sds <-
+  purrr::map(yhats, purrr::compose(as.matrix, tfd_stddev)) %>% abind::abind()
+
+means_gathered <- data.frame(cbind(x_test, means)) %>%
+  gather(key = run, value = mean_val,-X1)
+sds_gathered <- data.frame(cbind(x_test, sds)) %>%
+  gather(key = run, value = sd_val,-X1)
+
+lines <-
+  means_gathered %>% inner_join(sds_gathered, by = c("X1", "run"))
+mean <- apply(means, 1, mean)
+
+ggplot(data.frame(x = x, y = y, mean = as.numeric(mean)), aes(x, y)) +
+  geom_point() +
+  theme(legend.position = "none") +
+  geom_line(aes(x = x_test, y = mean), color = "violet", size = 1.5) +
+  geom_line(
+    data = lines,
+    aes(x = X1, y = mean_val, color = run),
+    alpha = 0.6,
+    size = 0.5
+  ) +
+  geom_ribbon(
+    data = lines,
+    aes(
+      x = X1,
+      ymin = mean_val - 2 * sd_val,
+      ymax = mean_val + 2 * sd_val,
+      group = run
+    ),
+    alpha = 0.05,
+    fill = "grey",
+    inherit.aes = FALSE
+  )
+```
+
+
+```{r, eval=TRUE, echo=FALSE, layout="l-body-outset", fig.cap = "Displaying both epistemic and aleatoric uncertainty on the simulated dataset."}
+knitr::include_graphics("images/uncertainty.png")
+```
+
+Summing up, using `layer_dense_variational` we are able to construct a posterior predictive distribution from an ensemble of models, where each single model by itself learns the spread in the data. For some more background narrative on this topic, see [Adding uncertainty estimates to Keras models with tfprobability](https://blogs.rstudio.com/tensorflow/posts/2019-06-05-uncertainty-estimates-tfprobability/).
