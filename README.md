@@ -13,7 +13,7 @@ Status](https://travis-ci.org/rstudio/tfprobability.svg?branch=master)](https://
 # tfprobability: R interface to TensorFlow Probability
 
 [TensorFlow Probability](https://www.tensorflow.org/probability/) is a
-library for statistical analysis and probabilistic computation built on
+library for statistical computation and probabilistic modeling built on
 top of TensorFlow.
 
 Its building blocks include a vast range of distributions and invertible
@@ -23,7 +23,7 @@ variational inference and Markov Chain Monte Carlo.
 
 ## Installation
 
-To install `tfprobability` from this repository, do
+To install `tfprobability` from github, do
 
     devtools::install_github("rstudio/tfprobability")
 
@@ -41,22 +41,29 @@ As to the Python backend, if you do
     install_tensorflow()
 
 you will automatically get the current stable version of TensorFlow
-Probability. Correspondingly, if you need nightly builds,
+Probability together with TensorFlow. Correspondingly, if you need
+nightly builds,
 
     install_tensorflow(version = "nightly")
 
-will get you the nightly build of TensorFlow Probability.
+will get you the nightly build of TensorFlow as well as TensorFlow
+Probability.
 
 ## Usage
 
-Over time, vignettes will be added to the package explaining the usage
-of the various modules. Also, the [TensorFlow for R
-blog](https://blogs.rstudio.com/tensorflow/) will feature interesting
-applications and provide conceptual background.
+High-level application of `tfprobability` to tasks like
 
-Here are a few examples using distributions, bijectors, and
-probabilistic `keras` layers. We enable eager execution (not *yet* the
-default in TensorFlow) to display values, not tensors.
+  - probabilistic (multi-level) modeling with MCMC and/or variational
+    inference,
+  - uncertainty estimation for neural networks,
+  - time series modeling with state space models, or
+  - density estimation with autoregressive flows
+
+are described in the vignettes/articles and/or featured on the
+[TensorFlow for R blog](https://blogs.rstudio.com/tensorflow/).
+
+This introductory text illustrates the lower-level building blocks:
+distributions, bijectors, and probabilistic `keras` layers.
 
 ``` r
 library(tfprobability)
@@ -65,6 +72,10 @@ tfe_enable_eager_execution()
 ```
 
 ### Distributions
+
+Distributions are objects with methods to compute summary statistics,
+(log) probability, and (optionally) quantities like entropy and KL
+divergence.
 
 #### Example: Binomial distribution
 
@@ -120,6 +131,13 @@ d %>% tfd_log_prob(rep(0, 7))
 
 ### Bijectors
 
+Bijectors are invertible transformations that allow to derive data
+likelihood under the transformed distribution from that under the base
+distribution. For an in-detail explanation, see [Getting into the flow:
+Bijectors in TensorFlow
+Probability](https://blogs.rstudio.com/tensorflow/posts/2019-04-05-bijectors-flows/)
+on the TensorFlow for R blog.
+
 #### Affine bijector
 
 ``` r
@@ -142,15 +160,19 @@ b <- tfb_discrete_cosine_transform()
 x <- matrix(runif(3))
 b %>% tfb_forward(x)
 #> tf.Tensor(
-#> [[0.24133538]
-#>  [0.8357542 ]
-#>  [0.91943675]], shape=(3, 1), dtype=float32)
+#> [[0.7600307 ]
+#>  [0.1420369 ]
+#>  [0.91421443]], shape=(3, 1), dtype=float32)
 ```
 
 ### Keras layers
 
-We can use a probabilistic layer (`layer_kl_divergence_add_loss`) to fit
-a VAE (variational autoencoder):
+`tfprobality` wraps distributions in Keras layers so we can use them
+seemlessly in a neural network, and work with tensors as targets as
+usual. For example, we can use `layer_kl_divergence_add_loss` to have
+the network take care of the KL loss automatically, and train a
+variational autoencoder with just negative log likelihood only, like
+this:
 
 ``` r
 library(keras)
@@ -192,17 +214,9 @@ vae_loss <- function (x, rv_x)
     - (rv_x %>% tfd_log_prob(x))
 
 vae_model %>% compile(
-  optimizer = tf$keras$optimizers$Adam(),
+  optimizer = "adam",
   loss = vae_loss
 )
 
 vae_model %>% fit(x_train, x_train, batch_size = 25, epochs = 1)
 ```
-
-## Package State
-
-This project is under active development. As of this writing,
-
-  - `distributions` and `bijectors` are covered comprehensively,
-  - `layers` (= Keras layers) in part and `mcmc` to high extent, and
-  - `glm`, `vi` and `sts` are upcoming.
