@@ -88,12 +88,12 @@
 <div id="tfprobability-r-interface-to-tensorflow-probability" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#tfprobability-r-interface-to-tensorflow-probability" class="anchor"></a>tfprobability: R interface to TensorFlow Probability</h1></div>
-<p><a href="https://www.tensorflow.org/probability/">TensorFlow Probability</a> is a library for statistical analysis and probabilistic computation built on top of TensorFlow.</p>
+<p><a href="https://www.tensorflow.org/probability/">TensorFlow Probability</a> is a library for statistical computation and probabilistic modeling built on top of TensorFlow.</p>
 <p>Its building blocks include a vast range of distributions and invertible transformations (<em>bijectors</em>), probabilistic layers that may be used in <code>keras</code> models, and tools for probabilistic reasoning including variational inference and Markov Chain Monte Carlo.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>To install <code>tfprobability</code> from this repository, do</p>
+<p>To install <code>tfprobability</code> from github, do</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("rstudio/tfprobability")</a></code></pre>
 <p>TensorFlow Probability depends on TensorFlow, and in the same way, <code>tfprobability</code> depends on a working installation of the R packages <code>tensorflow</code> and <code>keras</code>. To get the most up-to-date versions of these packages, install them from github as well:</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("rstudio/tensorflow")
@@ -101,21 +101,29 @@ devtools::install_github("rstudio/keras")</a></code></pre>
 <p>As to the Python backend, if you do</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/base/topics/library">library(tensorflow)
 install_tensorflow()</a></code></pre>
-<p>you will automatically get the current stable version of TensorFlow Probability. Correspondingly, if you need nightly builds,</p>
+<p>you will automatically get the current stable version of TensorFlow Probability together with TensorFlow. Correspondingly, if you need nightly builds,</p>
 <pre><code><a href="https://www.rdocumentation.org/packages/tensorflow/topics/install_tensorflow">install_tensorflow(version = "nightly")</a></code></pre>
-<p>will get you the nightly build of TensorFlow Probability.</p>
+<p>will get you the nightly build of TensorFlow as well as TensorFlow Probability.</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>Over time, vignettes will be added to the package explaining the usage of the various modules. Also, the <a href="https://blogs.rstudio.com/tensorflow/">TensorFlow for R blog</a> will feature interesting applications and provide conceptual background.</p>
-<p>Here are a few examples using distributions, bijectors, and probabilistic <code>keras</code> layers. We enable eager execution (not <em>yet</em> the default in TensorFlow) to display values, not tensors.</p>
+<p>High-level application of <code>tfprobability</code> to tasks like</p>
+<ul>
+<li>probabilistic (multi-level) modeling with MCMC and/or variational inference,</li>
+<li>uncertainty estimation for neural networks,</li>
+<li>time series modeling with state space models, or</li>
+<li>density estimation with autoregressive flows</li>
+</ul>
+<p>are described in the vignettes/articles and/or featured on the <a href="https://blogs.rstudio.com/tensorflow/">TensorFlow for R blog</a>.</p>
+<p>This introductory text illustrates the lower-level building blocks: distributions, bijectors, and probabilistic <code>keras</code> layers.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tfprobability)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tensorflow)</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/tensorflow/topics/tfe_enable_eager_execution">tfe_enable_eager_execution</a></span>()</a></code></pre></div>
 <div id="distributions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distributions" class="anchor"></a>Distributions</h3>
+<p>Distributions are objects with methods to compute summary statistics, (log) probability, and (optionally) quantities like entropy and KL divergence.</p>
 <div id="example-binomial-distribution" class="section level4">
 <h4 class="hasAnchor">
 <a href="#example-binomial-distribution" class="anchor"></a>Example: Binomial distribution</h4>
@@ -170,6 +178,7 @@ install_tensorflow()</a></code></pre>
 <div id="bijectors" class="section level3">
 <h3 class="hasAnchor">
 <a href="#bijectors" class="anchor"></a>Bijectors</h3>
+<p>Bijectors are invertible transformations that allow to derive data likelihood under the transformed distribution from that under the base distribution. For an in-detail explanation, see <a href="https://blogs.rstudio.com/tensorflow/posts/2019-04-05-bijectors-flows/">Getting into the flow: Bijectors in TensorFlow Probability</a> on the TensorFlow for R blog.</p>
 <div id="affine-bijector" class="section level4">
 <h4 class="hasAnchor">
 <a href="#affine-bijector" class="anchor"></a>Affine bijector</h4>
@@ -191,15 +200,15 @@ install_tensorflow()</a></code></pre>
 <a class="sourceLine" id="cb9-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; tf.Tensor(</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [[0.06242938]</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  [0.00706812]</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  [0.28498742]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [[0.20962188]</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  [0.7493669 ]</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  [0.8133024 ]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
 </div>
 </div>
 <div id="keras-layers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#keras-layers" class="anchor"></a>Keras layers</h3>
-<p>We can use a probabilistic layer (<code>layer_kl_divergence_add_loss</code>) to fit a VAE (variational autoencoder):</p>
+<p><code>tfprobality</code> wraps distributions in Keras layers so we can use them seemlessly in a neural network, and work with tensors as targets as usual. For example, we can use <code>layer_kl_divergence_add_loss</code> to have the network take care of the KL loss automatically, and train a variational autoencoder with just negative log likelihood only, like this:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(keras)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb10-3" data-line-number="3">encoded_size &lt;-<span class="st"> </span><span class="dv">2</span></a>
@@ -239,25 +248,12 @@ install_tensorflow()</a></code></pre>
 <a class="sourceLine" id="cb10-37" data-line-number="37">    <span class="op">-</span><span class="st"> </span>(rv_x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(x))</a>
 <a class="sourceLine" id="cb10-38" data-line-number="38"></a>
 <a class="sourceLine" id="cb10-39" data-line-number="39">vae_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/reexports">compile</a></span>(</a>
-<a class="sourceLine" id="cb10-40" data-line-number="40">  <span class="dt">optimizer =</span> tf<span class="op">$</span>keras<span class="op">$</span>optimizers<span class="op">$</span><span class="kw">Adam</span>(),</a>
+<a class="sourceLine" id="cb10-40" data-line-number="40">  <span class="dt">optimizer =</span> <span class="st">"adam"</span>,</a>
 <a class="sourceLine" id="cb10-41" data-line-number="41">  <span class="dt">loss =</span> vae_loss</a>
 <a class="sourceLine" id="cb10-42" data-line-number="42">)</a>
 <a class="sourceLine" id="cb10-43" data-line-number="43"></a>
 <a class="sourceLine" id="cb10-44" data-line-number="44">vae_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/keras/topics/reexports">fit</a></span>(x_train, x_train, <span class="dt">batch_size =</span> <span class="dv">25</span>, <span class="dt">epochs =</span> <span class="dv">1</span>)</a></code></pre></div>
 </div>
-</div>
-<div id="package-state" class="section level2">
-<h2 class="hasAnchor">
-<a href="#package-state" class="anchor"></a>Package State</h2>
-<p>This project is under active development. As of this writing,</p>
-<ul>
-<li>
-<code>distributions</code> and <code>bijectors</code> are covered comprehensively,</li>
-<li>
-<code>layers</code> (= Keras layers) in part and <code>mcmc</code> to high extent, and</li>
-<li>
-<code>glm</code>, <code>vi</code> and <code>sts</code> are upcoming.</li>
-</ul>
 </div>
 </div>
   </div>
