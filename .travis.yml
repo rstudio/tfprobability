@@ -7,9 +7,6 @@ warnings_are_errors: false
 
 r_packages:
     - covr
-
-r_github_packages: r-lib/remotes#340
-
 cache:
   packages: true
   directories:
