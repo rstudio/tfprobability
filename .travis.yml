@@ -45,7 +45,7 @@ before_script:
   - sudo apt-get install python3
   - pip install --upgrade --ignore-installed --user travis virtualenv
   - R CMD INSTALL .
-  - R -e 'tensorflow::install_tensorflow(version = Sys.getenv("TENSORFLOW_VERSION"))'
+  - R -e 'tensorflow::install_tensorflow(version = Sys.getenv("TENSORFLOW_VERSION"), extra_packages = if (substr(Sys.getenv("TENSORFLOW_VERSION"), 1, 4) %in% c("1.14")) "tensorflow-probability" else "tfp-nightly")'
   - R -e 'tensorflow::tf_config()'
 
 after_success:
