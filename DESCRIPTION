@@ -22,7 +22,7 @@ Imports:
     keras,
     magrittr
 Remotes:
-    reticulate
+    rstudio/reticulate
 Suggests: 
     testthat
 
