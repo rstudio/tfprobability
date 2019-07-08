@@ -21,6 +21,8 @@ Imports:
     reticulate,
     keras,
     magrittr
+Remotes:
+    reticulate
 Suggests: 
     testthat
 
