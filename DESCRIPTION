@@ -24,5 +24,7 @@ Imports:
 Remotes:
     rstudio/reticulate
 Suggests: 
-    testthat
+    testthat,
+    knitr
+VignetteBuilder: knitr
 
