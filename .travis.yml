@@ -7,6 +7,9 @@ warnings_are_errors: false
 
 r_packages:
     - covr
+
+r_github_packages:
+    - skeydan/reticulate@40aebd90f40e21762965770b00edf819730d9225
 cache:
   packages: true
   directories:
