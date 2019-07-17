@@ -25,7 +25,7 @@ matrix:
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="tf-nightly"
-   allow_failures:
+  allow_failures:
     - name: "2.0.0b1"
       env:
         - TENSORFLOW_VERSION="2.0.0b1"
