@@ -21,8 +21,6 @@ Imports:
     reticulate,
     keras,
     magrittr
-Remotes:
-    rstudio/reticulate
 Suggests: 
     testthat,
     knitr
