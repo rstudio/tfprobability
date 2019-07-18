@@ -8,8 +8,6 @@ warnings_are_errors: false
 r_packages:
     - covr
 
-r_github_packages:
-    - rstudio/reticulate#552
 cache:
   packages: true
   directories:
