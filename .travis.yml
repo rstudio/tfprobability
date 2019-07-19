@@ -17,16 +17,16 @@ matrix:
   include:
     - name: "tf-stable"
       env: TENSORFLOW_VERSION="1.14"
-    - name: "2.0.0b1"
+    - name: "tf-nightly-2.0-preview"
       env:
-        - TENSORFLOW_VERSION="2.0.0b1"
+        - TENSORFLOW_VERSION="tf-nightly-2.0-preview"
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="tf-nightly"
   allow_failures:
-    - name: "2.0.0b1"
+    - name: "tf-nightly-2.0-preview"
       env:
-        - TENSORFLOW_VERSION="2.0.0b1"
+        - TENSORFLOW_VERSION="tf-nightly-2.0-preview"
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="tf-nightly"
