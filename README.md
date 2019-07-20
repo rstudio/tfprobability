@@ -68,7 +68,7 @@ distributions, bijectors, and probabilistic `keras` layers.
 ``` r
 library(tfprobability)
 library(tensorflow)
-tfe_enable_eager_execution()
+tf$compat$v2$enable_v2_behavior()
 ```
 
 ### Distributions
@@ -160,9 +160,9 @@ b <- tfb_discrete_cosine_transform()
 x <- matrix(runif(3))
 b %>% tfb_forward(x)
 #> tf.Tensor(
-#> [[0.7600307 ]
-#>  [0.1420369 ]
-#>  [0.91421443]], shape=(3, 1), dtype=float32)
+#> [[0.8329914 ]
+#>  [0.35072786]
+#>  [0.06882364]], shape=(3, 1), dtype=float32)
 ```
 
 ### Keras layers

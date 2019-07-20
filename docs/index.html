@@ -119,7 +119,7 @@ install_tensorflow()</a></code></pre>
 <p>This introductory text illustrates the lower-level building blocks: distributions, bijectors, and probabilistic <code>keras</code> layers.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tfprobability)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(tensorflow)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/tensorflow/topics/tfe_enable_eager_execution">tfe_enable_eager_execution</a></span>()</a></code></pre></div>
+<a class="sourceLine" id="cb5-3" data-line-number="3">tf<span class="op">$</span>compat<span class="op">$</span>v2<span class="op">$</span><span class="kw">enable_v2_behavior</span>()</a></code></pre></div>
 <div id="distributions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distributions" class="anchor"></a>Distributions</h3>
@@ -200,9 +200,9 @@ install_tensorflow()</a></code></pre>
 <a class="sourceLine" id="cb9-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Uniform">runif</a></span>(<span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb9-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a>
 <a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; tf.Tensor(</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [[0.20962188]</span></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  [0.7493669 ]</span></a>
-<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  [0.8133024 ]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; [[0.6520206 ]</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="co">#&gt;  [0.8710757 ]</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt;  [0.83779186]], shape=(3, 1), dtype=float32)</span></a></code></pre></div>
 </div>
 </div>
 <div id="keras-layers" class="section level3">
