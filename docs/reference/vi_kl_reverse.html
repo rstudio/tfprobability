@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The Amari-alpha Csiszar-function in log-space — vi_amari_alpha • tfprobability</title>
+<title>The reverse Kullback-Leibler Csiszar-function in log-space. — vi_kl_reverse • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="The Amari-alpha Csiszar-function in log-space — vi_amari_alpha" />
+<meta property="og:title" content="The reverse Kullback-Leibler Csiszar-function in log-space. — vi_kl_reverse" />
 
 <meta property="og:description" content="A Csiszar-function is a member of F = { f:R_+ to R : f convex }." />
 <meta name="twitter:card" content="summary" />
@@ -112,9 +112,9 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>The Amari-alpha Csiszar-function in log-space</h1>
+    <h1>The reverse Kullback-Leibler Csiszar-function in log-space.</h1>
     
-    <div class="hidden name"><code>vi_amari_alpha.Rd</code></div>
+    <div class="hidden name"><code>vi_kl_reverse.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -123,7 +123,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>vi_amari_alpha</span>(<span class='no'>logu</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>self_normalized</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>vi_kl_reverse</span>(<span class='no'>logu</span>, <span class='kw'>self_normalized</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,10 +131,6 @@
     <tr>
       <th>logu</th>
       <td><p><code>float</code>-like <code>Tensor</code> representing <code><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log(u)</a></code> from above.</p></td>
-    </tr>
-    <tr>
-      <th>alpha</th>
-      <td><p><code>float</code>-like scalar.</p></td>
     </tr>
     <tr>
       <th>self_normalized</th>
@@ -150,25 +146,15 @@ when <code>p, q</code> are unnormalized measures.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When <code>self_normalized = TRUE</code>, the Amari-alpha Csiszar-function is:</p><pre>f(u) = { -log(u) + (u - 1)},     alpha = 0
-       { u log(u) - (u - 1)},    alpha = 1
-       { [(u^alpha - 1) - alpha (u - 1)] / (alpha (alpha - 1))},    otherwise
-</pre>
-    <p>When <code>self_normalized = FALSE</code> the <code>(u - 1)</code> terms are omitted.</p>
-<p>Warning: when <code>alpha != 0</code> and/or <code>self_normalized = True</code> this function makes
-non-log-space calculations and may therefore be numerically unstable for
-<code>|logu| &gt;&gt; 0</code>.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    
-    <ul>
-<li><p>A. Cichocki and S. Amari. "Families of Alpha-Beta-and GammaDivergences: Flexible and Robust Measures of Similarities." Entropy, vol. 12, no. 6, pp. 1532-1568, 2010.</p></li>
-</ul>
+    <p>When <code>self_normalized = TRUE</code>, the KL-reverse Csiszar-function is <code>f(u) = -log(u) + (u - 1)</code>.
+When <code>self_normalized = False</code> the <code>(u - 1)</code> term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: <code>D_f[p, q] = KL[q, p]</code></p>
+<p>The KL is "reverse" because in maximum likelihood we think of minimizing <code>q</code> as in <code>KL[p, q]</code>.</p>
+<p>Warning: when self_normalized = True<code>this function makes non-log-space calculations and may therefore be numerically unstable for</code>|logu| &gt;&gt; 0`.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other vi-functions: <code><a href='vi_kl_reverse.html'>vi_kl_reverse</a></code></p></div>
+    <div class='dont-index'><p>Other vi-functions: <code><a href='vi_amari_alpha.html'>vi_amari_alpha</a></code></p></div>
     
 
   </div>
@@ -178,8 +164,6 @@ non-log-space calculations and may therefore be numerically unstable for
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
           </ul>

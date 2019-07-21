@@ -39,4 +39,7 @@ non-log-space calculations and may therefore be numerically unstable for
 }
 }
 
+\seealso{
+Other vi-functions: \code{\link{vi_kl_reverse}}
+}
 \concept{vi-functions}
