@@ -22,6 +22,9 @@ reference:
   - title: "Bijector methods"
     contents:
       - has_concept("bijector_methods")
+  - title: "Variational inference"
+    contents:
+      - has_concept("vi-functions")
   - title: "MCMC kernels"
     contents:
       - has_concept("mcmc_kernels")

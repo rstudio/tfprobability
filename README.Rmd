@@ -74,7 +74,7 @@ This introductory text illustrates the lower-level building blocks: distribution
 ```{r}
 library(tfprobability)
 library(tensorflow)
-tfe_enable_eager_execution()
+tf$compat$v2$enable_v2_behavior()
 ```
 
 
