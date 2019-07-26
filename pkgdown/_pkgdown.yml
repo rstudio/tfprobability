@@ -10,10 +10,10 @@ reference:
   - title: "Distribution methods"
     contents:
       - has_concept("distribution_methods")
-  - title: "Distribution layers"
+  - title: "Keras layers: Distribution layers"
     contents:
       - has_concept("distribution_layers")
-  - title: "(Keras) Layers"
+  - title: "Keras layers: Other"
     contents:
       - has_concept("layers")
   - title: "Bijectors"

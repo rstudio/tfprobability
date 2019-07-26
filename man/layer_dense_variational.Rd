@@ -46,6 +46,9 @@ Y ~ Likelihood(M)
 }
 \seealso{
 Other layers: \code{\link{layer_autoregressive}},
+  \code{\link{layer_dense_flipout}},
+  \code{\link{layer_dense_local_reparameterization}},
+  \code{\link{layer_dense_reparameterization}},
   \code{\link{layer_variable}}
 }
 \concept{layers}
