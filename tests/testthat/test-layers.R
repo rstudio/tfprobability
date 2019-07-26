@@ -276,4 +276,28 @@ test_succeeds("layer_dense_reparameterization works", {
   expect_equal(length(model$losses), 2)
 })
 
+test_succeeds("layer_dense_flipout works", {
+
+  library(keras)
+
+  x = tf$ones(shape = c(150,1))
+  y = tf$ones(150)
+
+  model <- keras_model_sequential(list(
+    layer_dense_flipout(
+      units = 512,
+      activation = "relu"
+    ),
+    layer_dense_flipout(
+      units = 1
+    )))
+
+  model %>% compile(optimizer = 'adam', loss = "mse")
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(150,1))
+  expect_equal(length(model$losses), 2)
+})
+
 

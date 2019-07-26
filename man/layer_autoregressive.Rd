@@ -67,7 +67,8 @@ For example, when \code{params} is 2, the output of the layer can parameterize
 the location and log-scale of an autoregressive Gaussian distribution.
 }
 \seealso{
-Other layers: \code{\link{layer_dense_reparameterization}},
+Other layers: \code{\link{layer_dense_flipout}},
+  \code{\link{layer_dense_reparameterization}},
   \code{\link{layer_dense_variational}},
   \code{\link{layer_variable}}
 }

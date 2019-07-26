@@ -281,3 +281,84 @@ layer_dense_reparameterization <- function(object,
                object,
                args)
 }
+
+#' Densely-connected layer class with Flipout estimator.
+#'
+#' This layer implements the Bayesian variational inference analogue to
+#' a dense layer by assuming the `kernel` and/or the `bias` are drawn
+#' from distributions.
+#'
+#' By default, the layer implements a stochastic
+#' forward pass via sampling from the kernel and bias posteriors,
+#'
+#' ```
+#' kernel, bias ~ posterior
+#' outputs = activation(matmul(inputs, kernel) + bias)
+#' ```
+#'
+#' It uses the Flipout estimator (Wen et al., 2018), which performs a Monte
+#' Carlo approximation of the distribution integrating over the `kernel` and
+#' `bias`. Flipout uses roughly twice as many floating point operations as the
+#' reparameterization estimator but has the advantage of significantly lower
+#' variance.
+#'
+#' The arguments permit separate specification of the surrogate posterior
+#' (`q(W|x)`), prior (`p(W)`), and divergence for both the `kernel` and `bias`
+#' distributions.
+#'
+#' Upon being built, this layer adds losses (accessible via the `losses`
+#' property) representing the divergences of `kernel` and/or `bias` surrogate
+#' posteriors and their respective priors. When doing minibatch stochastic
+#' optimization, make sure to scale this loss such that it is applied just once
+#' per epoch (e.g. if `kl` is the sum of `losses` for each element of the batch,
+#' you should pass `kl / num_examples_per_epoch` to your optimizer).
+#'
+#' @section References:
+#' - [Yeming Wen, Paul Vicol, Jimmy Ba, Dustin Tran, and Roger Grosse. Flipout: Efficient Pseudo-Independent Weight Perturbations on Mini-Batches. In _International Conference on Learning Representations_, 2018.](https://arxiv.org/abs/1803.04386)
+#'
+#' @inheritParams layer_dense_reparameterization
+#' @param seed scalar `integer` which initializes the random number generator.
+#' Default value: `NULL` (i.e., use global seed).
+#'
+#' @family layers
+#' @export
+layer_dense_flipout <- function(object,
+                                units,
+                                activation = NULL,
+                                activity_regularizer = NULL,
+                                trainable = TRUE,
+                                kernel_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(),
+                                kernel_posterior_tensor_fn = function(d)
+                                  d %>% tfd_sample(),
+                                kernel_prior_fn = tfp$layers$util$default_multivariate_normal_fn,
+                                kernel_divergence_fn = function(q, p, ignore)
+                                  tfd_kl_divergence(q, p),
+                                bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular = TRUE),
+                                bias_posterior_tensor_fn = function(d)
+                                  d %>% tfd_sample(),
+                                bias_prior_fn = NULL,
+                                bias_divergence_fn = function(q, p, ignore)
+                                  tfd_kl_divergence(q, p),
+                                seed = NULL,
+                                ...) {
+  args <- list(
+    units = as.integer(units),
+    activation = activation,
+    activity_regularizer = activity_regularizer,
+    trainable = trainable,
+    kernel_posterior_fn = kernel_posterior_fn,
+    kernel_posterior_tensor_fn = kernel_posterior_tensor_fn,
+    kernel_prior_fn = kernel_prior_fn,
+    kernel_divergence_fn = kernel_divergence_fn,
+    bias_posterior_fn = bias_posterior_fn,
+    bias_posterior_tensor_fn = bias_posterior_tensor_fn,
+    bias_prior_fn = bias_prior_fn,
+    bias_divergence_fn = bias_divergence_fn,
+    seed = as.integer(seed),
+    ...
+  )
+
+  create_layer(tfp$layers$DenseFlipout,
+               object,
+               args)
+}
