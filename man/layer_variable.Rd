@@ -35,6 +35,7 @@ is \code{trainable}.  This layer can also be interpretted as the special case of
 \seealso{
 Other layers: \code{\link{layer_autoregressive}},
   \code{\link{layer_dense_flipout}},
+  \code{\link{layer_dense_local_reparameterization}},
   \code{\link{layer_dense_reparameterization}},
   \code{\link{layer_dense_variational}}
 }

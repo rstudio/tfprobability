@@ -68,6 +68,7 @@ the location and log-scale of an autoregressive Gaussian distribution.
 }
 \seealso{
 Other layers: \code{\link{layer_dense_flipout}},
+  \code{\link{layer_dense_local_reparameterization}},
   \code{\link{layer_dense_reparameterization}},
   \code{\link{layer_dense_variational}},
   \code{\link{layer_variable}}

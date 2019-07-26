@@ -94,6 +94,7 @@ after the layer is built via the \code{kernel_posterior}, \code{kernel_prior},
 \seealso{
 Other layers: \code{\link{layer_autoregressive}},
   \code{\link{layer_dense_flipout}},
+  \code{\link{layer_dense_local_reparameterization}},
   \code{\link{layer_dense_variational}},
   \code{\link{layer_variable}}
 }

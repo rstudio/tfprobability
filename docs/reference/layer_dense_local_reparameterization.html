@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Densely-connected layer class with reparameterization estimator. — layer_dense_reparameterization • tfprobability</title>
+<title>Densely-connected layer class with local reparameterization estimator. — layer_dense_local_reparameterization • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Densely-connected layer class with reparameterization estimator. — layer_dense_reparameterization" />
+<meta property="og:title" content="Densely-connected layer class with local reparameterization estimator. — layer_dense_local_reparameterization" />
 
 <meta property="og:description" content="This layer implements the Bayesian variational inference analogue to
 a dense layer by assuming the kernel and/or the bias are drawn
@@ -114,9 +114,9 @@ from distributions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Densely-connected layer class with reparameterization estimator.</h1>
+    <h1>Densely-connected layer class with local reparameterization estimator.</h1>
     
-    <div class="hidden name"><code>layer_dense_reparameterization.Rd</code></div>
+    <div class="hidden name"><code>layer_dense_local_reparameterization.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -127,7 +127,7 @@ from distributions.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>layer_dense_reparameterization</span>(<span class='no'>object</span>, <span class='no'>units</span>, <span class='kw'>activation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>layer_dense_local_reparameterization</span>(<span class='no'>object</span>, <span class='no'>units</span>, <span class='kw'>activation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>activity_regularizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>kernel_posterior_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>layers</span>$<span class='no'>util</span>$<span class='fu'>default_mean_field_normal_fn</span>(),
   <span class='kw'>kernel_posterior_tensor_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>d</span>) <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(),
@@ -216,9 +216,13 @@ distributions are <code>tfd$Distribution</code>-like instances and the sample is
 forward pass via sampling from the kernel and bias posteriors,</p><pre>kernel, bias ~ posterior
 outputs = activation(matmul(inputs, kernel) + bias)
 </pre>
-    <p>It uses the reparameterization estimator (Kingma and Welling, 2014)
-which performs a Monte Carlo approximation of the distribution integrating
-over the <code>kernel</code> and <code>bias</code>.</p>
+    <p>It uses the local reparameterization estimator (Kingma et al., 2015),
+which performs a Monte Carlo approximation of the distribution on the hidden
+units induced by the <code>kernel</code> and <code>bias</code>. The default <code>kernel_posterior_fn</code>
+is a normal distribution which factorizes across all elements of the weight
+matrix and bias vector. Unlike that paper's multiplicative parameterization, this
+distribution has trainable location and scale parameters which is known as
+an additive noise parameterization (Molchanov et al., 2017).</p>
 <p>The arguments permit separate specification of the surrogate posterior
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/quit'>q(W|x)</a></code>), prior (<code>p(W)</code>), and divergence for both the <code>kernel</code> and <code>bias</code>
 distributions.</p>
@@ -236,14 +240,15 @@ after the layer is built via the <code>kernel_posterior</code>, <code>kernel_pri
 
     
     <ul>
-<li><p><a href='https://arxiv.org/abs/1312.6114'>Diederik Kingma and Max Welling. Auto-Encoding Variational Bayes. In International Conference on Learning Representations, 2014.</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1506.02557'>Diederik Kingma, Tim Salimans, and Max Welling. Variational Dropout and the Local Reparameterization Trick. In Neural Information Processing Systems, 2015.</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1701.05369'>Dmitry Molchanov, Arsenii Ashukha, Dmitry Vetrov. Variational Dropout Sparsifies Deep Neural Networks. In International Conference on Machine Learning, 2017.</a></p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other layers: <code><a href='layer_autoregressive.html'>layer_autoregressive</a></code>,
   <code><a href='layer_dense_flipout.html'>layer_dense_flipout</a></code>,
-  <code><a href='layer_dense_local_reparameterization.html'>layer_dense_local_reparameterization</a></code>,
+  <code><a href='layer_dense_reparameterization.html'>layer_dense_reparameterization</a></code>,
   <code><a href='layer_dense_variational.html'>layer_dense_variational</a></code>,
   <code><a href='layer_variable.html'>layer_variable</a></code></p></div>
     
