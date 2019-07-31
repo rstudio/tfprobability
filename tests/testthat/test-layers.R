@@ -324,3 +324,27 @@ test_succeeds("layer_dense_local_reparameterization works", {
   expect_equal(yhat$get_shape()$as_list(), c(150,1))
   expect_equal(length(model$losses), 2)
 })
+
+test_succeeds("layer_conv_1d_reparameterization works", {
+
+  library(keras)
+
+  x = tf$ones(shape = c(150, 1, 1))
+  y = tf$ones(150, 10)
+
+  model <- keras_model_sequential(list(
+    layer_conv_1d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_flatten(),
+    layer_dense_reparameterization(units = 1)
+  ))
+
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy")
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(150,1))
+  expect_equal(length(model$losses), 2)
+})
+
+
+
