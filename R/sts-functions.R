@@ -117,22 +117,28 @@ sts_fit_with_hmc <- function(observed_time_series,
                              chain_batch_shape = list(),
                              num_variational_steps = 150,
                              variational_optimizer = NULL,
+                             variational_sample_size = 5,
                              seed = NULL,
                              name = NULL) {
-  tfp$sts$fit_with_hmc(
-    model,
-    observed_time_series,
-    as.integer(num_results),
-    as.integer(num_warmup_steps),
-    as.integer(num_leapfrog_steps),
-    initial_state,
-    initial_step_size,
-    chain_batch_shape,
-    as.integer(num_variational_steps),
-    variational_optimizer,
-    seed,
-    name
+
+  args <- list(
+    model = model,
+    observed_time_series = observed_time_series,
+    num_results = as.integer(num_results),
+    num_warmup_steps = as.integer(num_warmup_steps),
+    num_leapfrog_steps = as.integer(num_leapfrog_steps),
+    initial_state = initial_state,
+    initial_step_size = initial_step_size,
+    chain_batch_shape = chain_batch_shape,
+    num_variational_steps = as.integer(num_variational_steps),
+    variational_optimizer = variational_optimizer,
+    seed = seed,
+    name = name
   )
+
+  if (tfp_version() >= "0.8") args$variational_sample_size = as.integer(variational_sample_size)
+
+  do.call(tfp$sts$fit_with_hmc, args)
 
 }
 

@@ -3364,24 +3364,24 @@ tfd_inverse_gaussian <- function(loc,
 #' [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018](https://arxiv.org/abs/1805.08498)
 #' @param concentration Floating point tensor, the concentration params of the
 #' distribution(s). Must contain only positive values.
-#' @param rate Floating point tensor, the scale params of the distribution(s).
-#' Must contain only positive values.
+#' @param scale Floating point tensor, the scale params of the distribution(s).
+#' Must contain only positive values. This parameter was called `rate` before release 0.8.
 #' @inheritParams tfd_normal
 #' @family distributions
 #' @export
 tfd_inverse_gamma <- function(concentration,
-                              rate,
+                              scale,
                               validate_args = FALSE,
                               allow_nan_stats = TRUE,
                               name = "InverseGamma") {
   args <- list(
     concentration = concentration,
-    rate = rate,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
   )
-
+  if (tfp_version() <= "0.7") args$rate <- scale
+  if (tfp_version() > "0.7") args$scale <- scale
   do.call(tfp$distributions$InverseGamma,
           args)
 }
