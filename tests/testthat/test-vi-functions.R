@@ -21,6 +21,9 @@ test_succeeds("kl_forward works", {
 })
 
 test_succeeds("vi_monte_carlo_variational_loss works", {
+
+  skip_if_tfp_below("0.8")
+
   q <- tfd_normal(loc = 1,
                   scale = c(0.5, 1.0, 1.5, 2.0, 2.5, 3.0)
   )
