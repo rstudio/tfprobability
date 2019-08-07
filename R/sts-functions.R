@@ -51,7 +51,7 @@ sts_build_factored_variational_loss <-
            seed = NULL,
            name = NULL) {
     tfp$sts$build_factored_variational_loss(model, observed_time_series, init_batch_shape, seed, name)
-    
+
   }
 
 #' Draw posterior samples using Hamiltonian Monte Carlo (HMC)
@@ -133,7 +133,7 @@ sts_fit_with_hmc <- function(observed_time_series,
     seed,
     name
   )
-  
+
 }
 
 #' Compute one-step-ahead predictive distributions for all timesteps
@@ -228,3 +228,36 @@ sts_decompose_by_component <- function(observed_time_series,
                                  observed_time_series,
                                  parameter_samples)
 }
+
+#' Build a variational posterior that factors over model parameters.
+#'
+#' The surrogate posterior consists of independent Normal distributions for
+#' each parameter with trainable `loc` and `scale`, transformed using the
+#' parameter's `bijector` to the appropriate support space for that parameter.
+#'
+#' @param model An instance of `StructuralTimeSeries` representing a
+#' time-series model. This represents a joint distribution over
+#' time-series and their parameters with batch shape `[b1, ..., bN]`.#'
+#' @param batch_shape Batch shape (`list`, or `integer`) of initial
+#' states to optimize in parallel.
+#' Default value: `list()`. (i.e., just run a single optimization).
+#' @param seed integer to seed the random number generator.
+#' @param name string prefixed to ops created by this function.
+#' Default value: `NULL` (i.e., 'build_factored_surrogate_posterior').
+#'
+#' @return  variational_posterior `tfd_joint_distribution_named` defining a trainable
+#' surrogate posterior over model parameters. Samples from this
+#' distribution are named lists with  `character` parameter names as keys.
+#'
+#' @family sts-functions
+#'
+#' @export
+sts_build_factored_surrogate_posterior <-
+  function(model,
+           batch_shape = list(),
+           seed = NULL,
+           name = NULL) {
+    tfp$sts$build_factored_surrogate_posterior(model, batch_shape, seed, name)
+
+  }
+

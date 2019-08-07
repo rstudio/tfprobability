@@ -3,6 +3,8 @@ context("sts-functions")
 source("utils.R")
 
 test_succeeds("sts_build_factored_variational_loss works", {
+  skip_if_eager()
+
   observed_time_series <-
     rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
 
@@ -22,50 +24,27 @@ test_succeeds("sts_build_factored_variational_loss works", {
     variational_loss
   }
 
-  if (tf$executing_eagerly()) {
+  loss_and_dists <-
+    observed_time_series %>% sts_build_factored_variational_loss(model = model)
+  variational_loss <- loss_and_dists[[1]]
+  train_op <- optimizer$minimize(variational_loss)
+  with (tf$Session() %as% sess,  {
+    sess$run(tf$compat$v1$global_variables_initializer())
     for (step in 1:5) {
-      optimizer$minimize(build_variational_loss)
-      # Draw multiple samples to reduce Monte Carlo error in the optimized variational bounds.
-      avg_loss <-
-        Map(function(x)
-          build_variational_loss() %>% as.numeric(), 1:3) %>% unlist() %>% mean()
-
-      variational_distributions <-
-        (observed_time_series %>% sts_build_factored_variational_loss(model = model))[[2]]
-      posterior_samples <-
-        Map(
-          function(d)
-            d %>% tfd_sample(50),
-          variational_distributions
-        )
+      res <- sess$run(train_op)
     }
+    avg_loss <-
+      Map(function(x)
+        sess$run(variational_loss), 1:2) %>% unlist() %>% mean()
 
-  } else {
-    loss_and_dists <-
-      observed_time_series %>% sts_build_factored_variational_loss(model = model)
-    variational_loss <- loss_and_dists[[1]]
-    train_op <- optimizer$minimize(variational_loss)
-    with (tf$Session() %as% sess,  {
-      sess$run(tf$compat$v1$global_variables_initializer())
-      for (step in 1:5) {
-        res <- sess$run(train_op)
-      }
-      avg_loss <-
-        Map(function(x)
-          sess$run(variational_loss), 1:2) %>% unlist() %>% mean()
+    variational_distributions <- loss_and_dists[[2]]
+    posterior_samples <-
+      Map(function(d)
+        d %>% tfd_sample(50),
+        variational_distributions) %>%
+      sess$run()
 
-      variational_distributions <- loss_and_dists[[2]]
-      posterior_samples <-
-        Map(
-          function(d)
-            d %>% tfd_sample(50),
-          variational_distributions
-        ) %>%
-        sess$run()
-
-    })
-
-  }
+  })
 
   expect_length(avg_loss, 1)
   expect_length(posterior_samples, 4)
@@ -156,7 +135,6 @@ test_succeeds("sts_forecast works", {
 })
 
 test_succeeds("sts_decompose_by_component works", {
-
   skip_if_tfp_below("0.7")
 
   observed_time_series <-
@@ -182,6 +160,47 @@ test_succeeds("sts_decompose_by_component works", {
                                                         parameter_samples = samples)
 
   day_of_week_effect_mean <- component_dists[[1]] %>% tfd_mean()
-  expect_equal(day_of_week_effect_mean$get_shape()$as_list() %>% length(), 3)
+  expect_equal(day_of_week_effect_mean$get_shape()$as_list() %>% length(),
+               3)
+
+})
+
+test_succeeds("sts_build_factored_surrogate_posterior works", {
+  skip_if_tfp_below("0.8")
+
+  observed_time_series <-
+    rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
+
+  day_of_week <-
+    observed_time_series %>% sts_seasonal(num_seasons = 7)
+  local_linear_trend <-
+    observed_time_series %>% sts_local_linear_trend()
+  model <-
+    observed_time_series %>% sts_sum(components = list(day_of_week, local_linear_trend))
+
+  optimizer <- tf$compat$v1$train$AdamOptimizer(0.1)
+
+  # build the surrogate posterior variables outside of a training loop,
+  # then fit them by optimizing a loss of your choice
+  # or use vi_fit_surrogate_posterior to automate the loss construction and fitting
+  surrogate_posterior <-
+    model %>% sts_build_factored_surrogate_posterior()
+
+  loss_curve <- vi_fit_surrogate_posterior(
+    target_log_prob_fn = model$joint_log_prob(observed_time_series),
+    surrogate_posterior = surrogate_posterior,
+    optimizer = optimizer,
+    num_steps = 200
+  )
+
+  if (tf$executing_eagerly()) {
+    posterior_samples <- surrogate_posterior %>% tfd_sample(50)
+  } else {
+    with (tf$control_dependencies(list(loss_curve)), {
+      posterior_samples <- surrogate_posterior %>% tfd_sample(50)
+    })
+  }
+
+  expect_length(posterior_samples, 4)
 
 })

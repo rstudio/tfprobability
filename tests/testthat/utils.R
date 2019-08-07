@@ -13,8 +13,19 @@ skip_if_tfp_below <- function(version) {
   }
 }
 
+skip_if_tfp_above <- function(version) {
+  if (tfprobability:::tfp_version() > version) {
+    skip(paste0("Skipped since this test requires TensorFlow Probability <= ", version))
+  }
+}
+
 skip_if_not_eager <- function() {
   if (!tf$executing_eagerly())
+    skip("This test requires eager execution")
+}
+
+skip_if_eager <- function() {
+  if (tf$executing_eagerly())
     skip("This test requires eager execution")
 }
 
