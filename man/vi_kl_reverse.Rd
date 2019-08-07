@@ -29,6 +29,7 @@ Warning: when self_normalized = True\code{this function makes non-log-space calc
 }
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_kl_forward}}
+  \code{\link{vi_kl_forward}},
+  \code{\link{vi_monte_carlo_variational_loss}}
 }
 \concept{vi-functions}
