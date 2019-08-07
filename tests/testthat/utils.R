@@ -26,7 +26,7 @@ skip_if_not_eager <- function() {
 
 skip_if_eager <- function() {
   if (tf$executing_eagerly())
-    skip("This test requires eager execution")
+    skip("This test requires graph execution")
 }
 
 test_succeeds <- function(desc, expr) {
@@ -40,7 +40,7 @@ tensor_value <- function(tensor) {
   if (tf$executing_eagerly()) {
     as.array(tensor)
   } else {
-    sess <- tf$Session()
+    sess <- tf$compat$v1$Session()
     sess$run(tf$global_variables_initializer())
     sess$run(tensor)
   }

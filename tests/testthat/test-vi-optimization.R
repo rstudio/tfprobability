@@ -94,10 +94,21 @@ test_succeeds("vi_fit_surrogate_posterior works", {
     variational_loss_fn = forward_kl_loss
   )
 
-  expect_equal(q_z2 %>% tfd_mean() %>% tensor_value(), 2.5, tolerance = 0.1)
-  expect_equal(q_z2 %>% tfd_stddev() %>% tensor_value(),
-               1 / sqrt(2),
-               tolerance = 0.03)
+  if (tf$executing_eagerly()) {
+
+    optimized_mean <- q_z2 %>% tfd_mean()
+    optimized_sd <- q_z2 %>% tfd_stddev()
+
+  } else {
+    with (tf$control_dependencies(list(losses2)), {
+      # tf$identity ensures we create a new op to capture the dependency
+      optimized_mean <- tf$identity(q_z2 %>% tfd_mean())
+      optimized_sd <- tf$identity(q_z2 %>% tfd_stddev())
+    })
+  }
+
+  expect_equal(optimized_mean %>% tensor_value(), 2.5, tolerance = 0.1)
+  expect_equal(optimized_sd %>% tensor_value(), 1 / sqrt(2), tolerance = 0.3)
 
   # 3: Inhomogeneous Poisson Process
   # TBD
