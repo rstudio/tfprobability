@@ -593,7 +593,8 @@ test_succeeds("Inverse Gaussian distribution works", {
 
 test_succeeds("Inverse Gamma distribution works", {
 
-  d <- tfd_inverse_gamma(concentration = 1.5, rate = 2)
+  d <- if (tfp_version() <= "0.7") tfd_inverse_gamma(concentration = 1.5, rate = 2) else
+    tfd_inverse_gamma(concentration = 1.5, scale = 2)
   expect_equal(d %>% tfd_mean() %>% tensor_value(), 2/(1.5-1))
 })
 
