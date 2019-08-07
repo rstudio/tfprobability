@@ -71,7 +71,7 @@ layer_autoregressive <- function(object,
   )
 
   create_layer(
-    tfp$python$bijectors$masked_autoregressive$AutoregressiveLayer,
+    tfp$python$bijectors$masked_autoregressive$AutoregressiveNetwork,
     object,
     args
   )
