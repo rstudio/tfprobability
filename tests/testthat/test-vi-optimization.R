@@ -5,7 +5,7 @@ source("utils.R")
 test_succeeds("vi_fit_surrogate_posterior works", {
   skip_if_tfp_below("0.8")
 
-  skip_if_not_eager()
+  if (!tf$compat$v1$resource_variables_enabled()) tf$compat$v1$enable_resource_variables()
 
   # 1: Normal-Normal model
   # We'll first consider a simple model `z ~ N(0, 1)`, `x ~ N(z, 1)`,
@@ -15,7 +15,8 @@ test_succeeds("vi_fit_surrogate_posterior works", {
     function(z, x)
       tfd_normal(0, 1) %>% tfd_log_prob(z) + tfd_normal(z, 1) %>% tfd_log_prob(x)
 
-  conditioned_log_prob <- function(z) log_prob(z, x = 5)
+  conditioned_log_prob <- function(z)
+    log_prob(z, x = 5)
 
   # The posterior is itself normal by and can be computed analytically (it's `N(loc=5/2., scale=1/sqrt(2)`).
   # But suppose we don't want to bother doing the math: we can use variational inference instead!
@@ -43,8 +44,21 @@ test_succeeds("vi_fit_surrogate_posterior works", {
     num_steps = 100
   )
 
-  expect_equal(q_z %>% tfd_mean() %>% tensor_value(), 2.5, tolerance = 0.1)
-  expect_equal(q_z %>% tfd_stddev() %>% tensor_value(), 1/sqrt(2), tolerance = 0.01)
+  if (tf$executing_eagerly()) {
+
+    optimized_mean <- q_z %>% tfd_mean()
+    optimized_sd <- q_z %>% tfd_stddev()
+
+  } else {
+    with (tf$control_dependencies(list(losses)), {
+      # tf$identity ensures we create a new op to capture the dependency
+      optimized_mean <- tf$identity(q_z %>% tfd_mean())
+      optimized_sd <- tf$identity(q_z %>% tfd_stddev())
+    })
+  }
+
+  expect_equal(optimized_mean %>% tensor_value(), 2.5, tolerance = 0.1)
+  expect_equal(optimized_sd %>% tensor_value(), 1 / sqrt(2), tolerance = 0.3)
 
   # 2: Custom loss function
 
@@ -63,23 +77,27 @@ test_succeeds("vi_fit_surrogate_posterior works", {
                               seed = NULL,
                               name = NULL)
     vi_monte_carlo_variational_loss(
-    target_log_prob_fn,
-    surrogate_posterior,
-    sample_size,
-    discrepancy_fn = vi_kl_forward,
-    use_reparametrization,
-    seed,
-    name)
+      target_log_prob_fn,
+      surrogate_posterior,
+      sample_size,
+      discrepancy_fn = vi_kl_forward,
+      use_reparametrization,
+      seed,
+      name
+    )
 
-  losses2 <-vi_fit_surrogate_posterior(
+  losses2 <- vi_fit_surrogate_posterior(
     target_log_prob_fn = conditioned_log_prob,
     surrogate_posterior = q_z2,
     optimizer = tf$train$AdamOptimizer(learning_rate = 0.1),
     num_steps = 100,
-    variational_loss_fn = forward_kl_loss)
+    variational_loss_fn = forward_kl_loss
+  )
 
   expect_equal(q_z2 %>% tfd_mean() %>% tensor_value(), 2.5, tolerance = 0.1)
-  expect_equal(q_z2 %>% tfd_stddev() %>% tensor_value(), 1/sqrt(2), tolerance = 0.03)
+  expect_equal(q_z2 %>% tfd_stddev() %>% tensor_value(),
+               1 / sqrt(2),
+               tolerance = 0.03)
 
   # 3: Inhomogeneous Poisson Process
   # TBD
