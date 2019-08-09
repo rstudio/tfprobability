@@ -27,7 +27,7 @@ test_succeeds("sampling from chain works", {
   }
 
   sample_mean <- tf$reduce_mean(states, axis = 0L)
-  sample_stddev <- tf$sqrt(tf$reduce_mean(tf$squared_difference(states, sample_mean), axis = 0L))
+  sample_stddev <- tf$sqrt(tf$reduce_mean(tf$math$squared_difference(states, sample_mean), axis = 0L))
 
   expect_equal(sample_stddev %>% tensor_value() %>% mean(), mean(true_stddev), tol = 1e-1)
 })
@@ -121,8 +121,8 @@ test_succeeds("Can write summaries from trace_fn", {
   summary_writer <- tf$compat$v2$summary$create_file_writer(path, flush_millis = 10000L)
 
   trace_fn <- function(state, results) {
-    with(tf$compat$v2$summary$record_if(tf$equal(results$step %% 10L, 1L)), {
-      tf$compat$v2$summary$scalar("state", state, step = tf$cast(results$step, tf$int64))
+    with(tf$compat$v2$summary$record_if(tf$equal(tf$math$mod(results$step, 10L), 1L)), {
+      tf$compat$v2$summary$scalar("state", state, step = tf$cast(results$step,tf$int64))
     })
   }
 

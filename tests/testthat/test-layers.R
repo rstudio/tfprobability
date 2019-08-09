@@ -338,6 +338,7 @@ test_succeeds("layer_conv_1d_reparameterization works", {
     layer_dense_reparameterization(units = 1)
   ))
 
+
   model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy")
   model %>% fit(x, y, steps_per_epoch = 1)
 

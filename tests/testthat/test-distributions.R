@@ -182,7 +182,7 @@ test_succeeds("VectorLaplaceLinearOperator distribution works", {
       nrow = 3,
       byrow = TRUE
     )
-  scal <- tf$cholesky(cov) %>% tf$cast(tf$float32)
+  scal <- tf$linalg$cholesky(cov) %>% tf$cast(tf$float32)
   vla <- tfd_vector_laplace_linear_operator(
     loc = mu,
     scal = tf$linalg$LinearOperatorLowerTriangular(scal / tf$sqrt(2))
@@ -383,7 +383,7 @@ test_succeeds("MultivariateNormalTriL distribution works", {
 
   mu <- c(1, 2, 3)
   cov <- matrix(c(0.36,  0.12,  0.06, 0.12,  0.29, -0.13,  0.06, -0.13,  0.26), nrow = 3, byrow =TRUE)
-  scale <- tf$cholesky(cov)
+  scale <- tf$linalg$cholesky(cov)
   d <- tfd_multivariate_normal_tri_l(loc = mu, scale_tril = scale)
   expect_equivalent(d %>% tfd_mean() %>% tensor_value(), mu)
 })
@@ -392,7 +392,7 @@ test_succeeds("MultivariateNormalLinearOperator distribution works", {
 
   mu <- c(1, 2, 3)
   cov <- matrix(c(0.36,  0.12,  0.06, 0.12,  0.29, -0.13,  0.06, -0.13,  0.26), nrow = 3, byrow =TRUE)
-  scale <- tf$cholesky(cov)
+  scale <- tf$linalg$cholesky(cov)
   d <- tfd_multivariate_normal_linear_operator(loc = mu, scale = tf$linalg$LinearOperatorLowerTriangular(scale))
   expect_equivalent(d %>% tfd_covariance() %>% tensor_value(), cov)
 })

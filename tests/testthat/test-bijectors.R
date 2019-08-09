@@ -34,19 +34,19 @@ test_succeeds("Use masked autoregressive flow with template", {
   maf <- tfd_transformed_distribution(
     distribution = tfd_normal(loc = 0, scale = 1),
     bijector = tfb_masked_autoregressive_flow(shift_and_log_scale_fn = tfb_masked_autoregressive_default_template(hidden_layers = c(7, 7))),
-    event_shape = tf$TensorShape(dims)
+    event_shape = dims
   )
   target_dist <- tfd_normal(loc = 2.2, scale = 0.23)
   y  <-
     target_dist %>% tfd_sample(1000) %>% tf$reshape(shape = shape(200, 5))
   loss <- function()
     - tf$reduce_mean(maf %>% tfd_log_prob(y))
-  optimizer <- tf$train$AdamOptimizer(1e-4)
+  optimizer <- tf$optimizers$Adam(1e-4)
   optimizer$minimize(loss)
   x <- maf %>% tfd_sample() %>% tensor_value()
 })
 
-test_succeeds("Use an tfb_inverse autoregressive flow", {
+test_succeeds("Use a tfb_inverse autoregressive flow", {
   skip_if_not_eager()
   dims <- 5L
   iaf <- tfd_transformed_distribution(
@@ -54,14 +54,14 @@ test_succeeds("Use an tfb_inverse autoregressive flow", {
     bijector = tfb_invert(
       tfb_masked_autoregressive_flow(shift_and_log_scale_fn = tfb_masked_autoregressive_default_template(hidden_layers = c(7, 7)))
     ),
-    event_shape = tf$TensorShape(dims)
+    event_shape = dims
   )
   target_dist <- tfd_normal(loc = 2.2, scale = 0.23)
   y  <-
-    target_dist %>% sample(1000) %>% tf$reshape(shape = shape(200, 5))
+    target_dist %>% tfd_sample(1000) %>% tf$reshape(shape = shape(200, 5))
   loss <- function()
     - tf$reduce_mean(iaf %>% log_prob(y))
-  optimizer <- tf$train$AdamOptimizer(1e-4)
+  optimizer <- tf$optimizers$Adam(1e-4)
   optimizer$minimize(loss)
   x <- iaf %>% sample() %>% tensor_value()
 })
@@ -75,14 +75,14 @@ test_succeeds("Use real NVP with template", {
       num_masked = 1,
       shift_and_log_scale_fn = tfb_real_nvp_default_template(hidden_layers = c(7, 7))
     ),
-    event_shape = tf$TensorShape(dims)
+    event_shape = dims
   )
   target_dist <- tfd_normal(loc = 2.2, scale = 0.23)
   y  <-
     target_dist %>% sample(1000) %>% tf$reshape(shape = shape(200, 5))
   loss <- function()
     - tf$reduce_mean(rnvp %>% log_prob(y))
-  optimizer <- tf$train$AdamOptimizer(1e-4)
+  optimizer <- tf$optimizers$Adam(1e-4)
   optimizer$minimize(loss)
   x <- rnvp %>% sample() %>% tensor_value()
 })
@@ -104,12 +104,12 @@ test_succeeds("Define a matvec_lu bijector", {
                                          name = "matvec_lu_test") {
     with(tf$compat$v1$name_scope(name), {
       event_size <- tf$convert_to_tensor(event_size,
-                                         preferred_dtype = tf$int32,
+                                         dtype_hint = tf$int32,
                                          name = 'event_size')
       batch_shape <- tf$convert_to_tensor(batch_shape,
-                                          preferred_dtype = event_size$dtype,
+                                          dtype_hint = event_size$dtype,
                                           name = 'batch_shape')
-      random_matrix <- tf$random_uniform(
+      random_matrix <- tf$random$uniform(
         shape = tf$concat(list(
           batch_shape, list(event_size, event_size)
         ), axis = 0L),
@@ -136,7 +136,7 @@ test_succeeds("Define a matvec_lu bijector", {
   conv1x1 <- tfb_matvec_lu(fact[[1]],
                            fact[[2]],
                            validate_args = TRUE)
-  x <- tf$random_uniform(shape = list(2L, 28L, 28L, channels))
+  x <- tf$random$uniform(shape = list(2L, 28L, 28L, channels))
   y <- conv1x1$forward(x)
   y_inv = conv1x1$inverse(y)
   # this is not the case, not even in the Python original!?!
@@ -160,7 +160,7 @@ test_succeeds("Define a sinh_arcsinh bijector", {
 
 test_succeeds("Define a softmax_centered bijector", {
   b <- tfb_softmax_centered()
-  x <- tf$log(c(2, 3, 4))
+  x <- tf$math$log(c(2, 3, 4))
   y <- c(0.2, 0.3, 0.4, 0.1)
   expect_equivalent(b %>% tfb_forward(x) %>% tensor_value(), y)
   expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), x %>% tensor_value())
@@ -296,7 +296,7 @@ test_succeeds("Define a Cholesky to inverse Cholesky bijector", {
   chain <- tfb_chain(list(
     tfb_invert(tfb_cholesky_outer_product()),
     tfb_inline(
-      forward_fn = tf$matrix_inverse,
+      forward_fn = tf$linalg$inv,
       forward_min_event_ndims = 1
     ),
     tfb_cholesky_outer_product()
@@ -324,7 +324,7 @@ test_succeeds("Define an expm1 bijector", {
   b <- tfb_expm1()
   x <- matrix(1:8, nrow = 4, byrow = TRUE)
   y <- b %>% tfb_forward(x)
-  expect_equal(b %>% tfb_inverse(y), tf$log1p(tf$cast(x, tf$float32)))
+  expect_equal(b %>% tfb_inverse(y), tf$math$log1p(tf$cast(x, tf$float32)))
 })
 
 test_succeeds("Define a fill_triangular bijector", {
@@ -342,10 +342,10 @@ test_succeeds("Define a Gumbel bijector", {
 
 test_succeeds("Define an inline bijector", {
   b <- tfb_inline(
-    forward_fn = tf$exp,
-    inverse_fn = tf$log,
+    forward_fn = tf$math$exp,
+    inverse_fn = tf$math$log,
     inverse_log_det_jacobian_fn = (function(y)
-      - tf$reduce_sum(tf$log(y), axis = -1)),
+      - tf$reduce_sum(tf$math$log(y), axis = -1)),
     forward_min_event_ndims = 0
   )
   x <- runif(6)
