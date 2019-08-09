@@ -329,10 +329,8 @@ test_succeeds("layer_conv_1d_reparameterization works", {
 
   library(keras)
 
-  #x = tf$ones(shape = c(150, 1, 1))
-  x <- array(rep(1, 150), dim = c(150, 1, 1))
-  y <- matrix(rep(1, 1500), ncol = 10)
-  #y = tf$ones(150, 10)
+  x = tf$ones(shape = c(150, 1, 1))
+  y = tf$ones(150, 10)
 
   model <- keras_model_sequential(list(
     layer_conv_1d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),

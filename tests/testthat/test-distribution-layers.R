@@ -7,23 +7,21 @@ test_succeeds("can use layer_multivariate_normal_tri_l in a keras model", {
   library(keras)
   n <- as.integer(1e3)
   scale_tril <-
-    matrix(c(1.6180, 0.,-2.7183, 3.1416),
+    matrix(c(1.6180, 0,-2.7183, 3.1416),
            ncol = 2,
            byrow = TRUE) %>% keras::k_cast_to_floatx()
   scale_noise <- 0.01
   x <- tfd_normal(loc = 0, scale = 1) %>% tfd_sample(c(n, 2L))
   eps <-
-    tfd_normal(loc = 0, scale = scale_noise) %>% tfd_sample(c(1000L, 2L))
+    tfd_normal(loc = 0, scale = scale_noise) %>% tfd_sample(c(n, 2L))
   y = tf$matmul(x, scale_tril) + eps
-  d <- y$shape[-1]
+  d <- if (tf$executing_eagerly()) y$shape[-1] else y$shape[-1]$value
 
   model <- keras_model_sequential() %>%
-    layer_dense(units = params_size_multivariate_normal_tri_l(d),
-                input_shape = x$shape[-1]) %>%
+    layer_dense(units = params_size_multivariate_normal_tri_l(d)) %>%
     layer_multivariate_normal_tri_l(event_size = d)
 
-  log_loss <- function (y, model)
-    - (model %>% tfd_log_prob(x))
+  log_loss <- function (y, model) - (model %>% tfd_log_prob(y))
 
   model %>% compile(optimizer = "adam",
                     loss = log_loss)
@@ -33,7 +31,7 @@ test_succeeds("can use layer_multivariate_normal_tri_l in a keras model", {
     y,
     batch_size = 100,
     epochs = 1,
-    steps_per_epoch = n / 100
+    steps_per_epoch = 10
   )
 })
 
