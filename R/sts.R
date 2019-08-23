@@ -484,9 +484,11 @@ sts_seasonal <- function(observed_time_series = NULL,
                          initial_effect_prior = NULL,
                          constrain_mean_effect_to_zero = TRUE,
                          name = NULL) {
+
+  storage.mode(num_steps_per_season) <- "integer"
   args <- list(
     num_seasons = as.integer(num_seasons),
-    num_steps_per_season = as.integer(num_steps_per_season),
+    num_steps_per_season = num_steps_per_season,
     drift_scale_prior = drift_scale_prior,
     initial_effect_prior = initial_effect_prior,
     observed_time_series = observed_time_series,
