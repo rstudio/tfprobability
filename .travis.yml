@@ -41,7 +41,7 @@ before_script:
 
 after_success:
   - Rscript -e 'covr::codecov()'
-  - Rscript -e 'testthat::test_dir("tests/testthat/")'
+  - Rscript -e 'library(tfprobability); testthat::test_dir("tests/testthat/")'
 
 notifications:
   email:
