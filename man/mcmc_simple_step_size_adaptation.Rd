@@ -117,8 +117,10 @@ single distribution, all sampled in parallel.
 }
 
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_hamiltonian_monte_carlo}},
+Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
+  \code{\link{mcmc_hamiltonian_monte_carlo}},
   \code{\link{mcmc_metropolis_hastings}},
+  \code{\link{mcmc_no_u_turn_sampler}},
   \code{\link{mcmc_random_walk_metropolis}},
   \code{\link{mcmc_transformed_transition_kernel}},
   \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}}

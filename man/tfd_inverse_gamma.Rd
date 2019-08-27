@@ -4,15 +4,15 @@
 \alias{tfd_inverse_gamma}
 \title{InverseGamma distribution}
 \usage{
-tfd_inverse_gamma(concentration, rate, validate_args = FALSE,
+tfd_inverse_gamma(concentration, scale, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "InverseGamma")
 }
 \arguments{
 \item{concentration}{Floating point tensor, the concentration params of the
 distribution(s). Must contain only positive values.}
 
-\item{rate}{Floating point tensor, the scale params of the distribution(s).
-Must contain only positive values.}
+\item{scale}{Floating point tensor, the scale params of the distribution(s).
+Must contain only positive values. This parameter was called \code{rate} before release 0.8.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may

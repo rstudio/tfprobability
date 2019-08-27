@@ -125,7 +125,7 @@ parameters <code>concentration</code> (aka "alpha") and <code>scale</code> (aka 
     
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_inverse_gamma</span>(<span class='no'>concentration</span>, <span class='no'>rate</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>tfd_inverse_gamma</span>(<span class='no'>concentration</span>, <span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"InverseGamma"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -137,9 +137,9 @@ parameters <code>concentration</code> (aka "alpha") and <code>scale</code> (aka 
 distribution(s). Must contain only positive values.</p></td>
     </tr>
     <tr>
-      <th>rate</th>
+      <th>scale</th>
       <td><p>Floating point tensor, the scale params of the distribution(s).
-Must contain only positive values.</p></td>
+Must contain only positive values. This parameter was called <code>rate</code> before release 0.8.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>

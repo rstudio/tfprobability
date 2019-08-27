@@ -8,7 +8,8 @@ sts_fit_with_hmc(observed_time_series, model, num_results = 100,
   num_warmup_steps = 50, num_leapfrog_steps = 15,
   initial_state = NULL, initial_step_size = NULL,
   chain_batch_shape = list(), num_variational_steps = 150,
-  variational_optimizer = NULL, seed = NULL, name = NULL)
+  variational_optimizer = NULL, variational_sample_size = 5,
+  seed = NULL, name = NULL)
 }
 \arguments{
 \item{observed_time_series}{\code{float} \code{tensor} of shape
@@ -54,6 +55,11 @@ optimization to determine the initial state and step sizes. Default value: \code
 \item{variational_optimizer}{Optional \code{tf$train$Optimizer} instance to use in
 the variational optimization. If \code{NULL}, defaults to \code{tf$train$AdamOptimizer(0.1)}.
 Default value: \code{NULL}.}
+
+\item{variational_sample_size}{integer number of Monte Carlo samples to use
+in estimating the variational divergence. Larger values may stabilize
+the optimization, but at higher cost per step in time and memory.
+Default value: \code{1}.}
 
 \item{seed}{integer to seed the random number generator.}
 

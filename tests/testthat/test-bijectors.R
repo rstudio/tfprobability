@@ -59,8 +59,10 @@ test_succeeds("Use a tfb_inverse autoregressive flow", {
   target_dist <- tfd_normal(loc = 2.2, scale = 0.23)
   y  <-
     target_dist %>% tfd_sample(1000) %>% tf$reshape(shape = shape(200, 5))
-  loss <- function()
+  loss <- function() {
     - tf$reduce_mean(iaf %>% log_prob(y))
+  }
+
   optimizer <- tf$optimizers$Adam(1e-4)
   optimizer$minimize(loss)
   x <- iaf %>% sample() %>% tensor_value()
