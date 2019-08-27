@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_simple_step_size_adaptation • tfprobability</title>
+<title>Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_dual_averaging_step_size_adaptation • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,13 +30,16 @@
 
 
 
-<meta property="og:title" content="Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_simple_step_size_adaptation" />
+<meta property="og:title" content="Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_dual_averaging_step_size_adaptation" />
 
-<meta property="og:description" content="The simple policy multiplicatively increases or decreases the step_size of
-the inner kernel based on the value of log_accept_prob. It is based on
-equation 19 of Andrieu and Thoms (2008). Given enough steps and small
-enough adaptation_rate the median of the distribution of the acceptance
-probability will converge to the target_accept_prob. A good target
+<meta property="og:description" content="The dual averaging policy uses a noisy step size for exploration, while
+averaging over tuning steps to provide a smoothed estimate of an optimal
+value. It is based on section 3.2 of Hoffman and Gelman (2013), which
+modifies the [stochastic convex optimization scheme of Nesterov (2009).
+The modified algorithm applies extra weight to recent iterations while
+keeping the convergence guarantees of Robbins-Monro, and takes care not
+to make the step size too small too quickly when maintaining a constant
+trajectory length, to avoid expensive early iterations. A good target
 acceptance probability depends on the inner kernel. If this kernel is
 HamiltonianMonteCarlo, then 0.6-0.9 is a good range to aim for. For
 RandomWalkMetropolis this should be closer to 0.25. See the individual
@@ -122,16 +125,19 @@ kernels' docstrings for guidance." />
     <div class="page-header">
     <h1>Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>.</h1>
     
-    <div class="hidden name"><code>mcmc_simple_step_size_adaptation.Rd</code></div>
+    <div class="hidden name"><code>mcmc_dual_averaging_step_size_adaptation.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The simple policy multiplicatively increases or decreases the <code>step_size</code> of
-the inner kernel based on the value of <code>log_accept_prob</code>. It is based on
-equation 19 of Andrieu and Thoms (2008). Given enough steps and small
-enough <code>adaptation_rate</code> the median of the distribution of the acceptance
-probability will converge to the <code>target_accept_prob</code>. A good target
+    <p>The dual averaging policy uses a noisy step size for exploration, while
+averaging over tuning steps to provide a smoothed estimate of an optimal
+value. It is based on section 3.2 of Hoffman and Gelman (2013), which
+modifies the [stochastic convex optimization scheme of Nesterov (2009).
+The modified algorithm applies extra weight to recent iterations while
+keeping the convergence guarantees of Robbins-Monro, and takes care not
+to make the step size too small too quickly when maintaining a constant
+trajectory length, to avoid expensive early iterations. A good target
 acceptance probability depends on the inner kernel. If this kernel is
 <code>HamiltonianMonteCarlo</code>, then 0.6-0.9 is a good range to aim for. For
 <code>RandomWalkMetropolis</code> this should be closer to 0.25. See the individual
@@ -139,11 +145,12 @@ kernels' docstrings for guidance.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_simple_step_size_adaptation</span>(<span class='no'>inner_kernel</span>, <span class='no'>num_adaptation_steps</span>,
-  <span class='kw'>target_accept_prob</span> <span class='kw'>=</span> <span class='fl'>0.75</span>, <span class='kw'>adaptation_rate</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>step_size_setter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>step_size_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>log_accept_prob_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mcmc_dual_averaging_step_size_adaptation</span>(<span class='no'>inner_kernel</span>,
+  <span class='no'>num_adaptation_steps</span>, <span class='kw'>target_accept_prob</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
+  <span class='kw'>exploration_shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>step_count_smoothing</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>decay_rate</span> <span class='kw'>=</span> <span class='fl'>0.75</span>, <span class='kw'>step_size_setter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>step_size_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>log_accept_prob_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,49 +169,61 @@ equal to the number of burnin steps.</p></td>
       <th>target_accept_prob</th>
       <td><p>A floating point <code>Tensor</code> representing desired
 acceptance probability. Must be a positive number less than 1. This can
-either be a scalar, or have shape <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_chains)</a></code>. Default value: <code>0.75</code>
+either be a scalar, or have shape num_chains. Default value: <code>0.75</code>
 (the center of asymptotically optimal rate for HMC).</p></td>
     </tr>
     <tr>
-      <th>adaptation_rate</th>
-      <td><p><code>Tensor</code> representing amount to scale the current
-<code>step_size</code>.</p></td>
+      <th>exploration_shrinkage</th>
+      <td><p>Floating point scalar <code>Tensor</code>. How strongly the
+exploration rate is biased towards the shrinkage target.</p></td>
+    </tr>
+    <tr>
+      <th>step_count_smoothing</th>
+      <td><p>Int32 scalar <code>Tensor</code>. Number of "pseudo-steps"
+added to the number of steps taken to prevents noisy exploration during
+the early samples.</p></td>
+    </tr>
+    <tr>
+      <th>decay_rate</th>
+      <td><p>Floating point scalar <code>Tensor</code>. How much to favor recent
+iterations over earlier ones. A value of 1 gives equal weight to all
+history.</p></td>
     </tr>
     <tr>
       <th>step_size_setter_fn</th>
       <td><p>A function with the signature
-<code>(kernel_results, new_step_size) -&gt; new_kernel_results</code> where
-<code>kernel_results</code> are the results of the <code>inner_kernel</code>, <code>new_step_size</code>
-is a <code>Tensor</code> or a nested collection of <code>Tensor</code>s with the same
-structure as returned by the <code>step_size_getter_fn</code>, and
-<code>new_kernel_results</code> are a copy of <code>kernel_results</code> with the step
-size(s) set.</p></td>
+<code>(kernel_results, new_step_size) -&gt; new_kernel_results</code> where <code>kernel_results</code> are the
+results of the <code>inner_kernel</code>, <code>new_step_size</code> is a <code>Tensor</code> or a nested
+collection of <code>Tensor</code>s with the same structure as returned by the
+<code>step_size_getter_fn</code>, and <code>new_kernel_results</code> are a copy of
+<code>kernel_results</code> with the step size(s) set.</p></td>
     </tr>
     <tr>
       <th>step_size_getter_fn</th>
-      <td><p>A function with the signature
-<code>(kernel_results) -&gt; step_size</code> where <code>kernel_results</code> are the results
-of the <code>inner_kernel</code>, and <code>step_size</code> is a floating point <code>Tensor</code> or a
-nested collection of such <code>Tensor</code>s.</p></td>
+      <td><p>A callable with the signature
+<code>(kernel_results) -&gt; step_size</code> where <code>kernel_results</code> are the results of the <code>inner_kernel</code>,
+and <code>step_size</code> is a floating point <code>Tensor</code> or a nested collection of
+such <code>Tensor</code>s.</p></td>
     </tr>
     <tr>
       <th>log_accept_prob_getter_fn</th>
-      <td><p>A function with the signature
-<code>(kernel_results) -&gt; log_accept_prob</code> where <code>kernel_results</code> are the
-results of the <code>inner_kernel</code>, and <code>log_accept_prob</code> is a floating point
-<code>Tensor</code>. <code>log_accept_prob</code> can either be a scalar, or have shape
-<code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_chains)</a></code>. If it's the latter, <code>step_size</code> should also have the same
-leading dimension.</p></td>
+      <td><p>A callable with the signature
+<code>(kernel_results) -&gt; log_accept_prob</code> where <code>kernel_results</code> are the results of the
+<code>inner_kernel</code>, and <code>log_accept_prob</code> is a floating point <code>Tensor</code>.
+<code>log_accept_prob</code> can either be a scalar, or have shape num_chains. If
+it's the latter, <code>step_size</code> should also have the same leading
+dimension.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
-      <td><p><code>Logical</code>. When <code>True</code> kernel parameters are checked
-for validity. When <code>False</code> invalid inputs may silently render incorrect
+      <td><p><code>logical</code>. When <code>TRUE</code> kernel parameters are checked
+for validity. When <code>FALSE</code> invalid inputs may silently render incorrect
 outputs.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string prefixed to Ops created by this class. Default: "simple_step_size_adaptation".</p></td>
+      <td><p>name prefixed to Ops created by this function.
+Default value: <code>NULL</code> (i.e., 'dual_averaging_step_size_adaptation').</p></td>
     </tr>
     </table>
     
@@ -215,16 +234,16 @@ distribution, so obtaining consistent samples requires <code>num_adaptation_step
 be set to a value somewhat smaller than the number of burnin steps.
 However, it may sometimes be helpful to set <code>num_adaptation_steps</code> to a larger
 value during development in order to inspect the behavior of the chain during
-adaptation.</p>
-<p>The step size is assumed to broadcast with the chain state, potentially having
+adaptation.
+The step size is assumed to broadcast with the chain state, potentially having
 leading dimensions corresponding to multiple chains. When there are fewer of
 those leading dimensions than there are chain dimensions, the corresponding
 dimensions in the <code>log_accept_prob</code> are averaged (in the direct space, rather
 than the log space) before being used to adjust the step size. This means that
 this kernel can do both cross-chain adaptation, or per-chain step size
-adaptation, depending on the shape of the step size.</p>
-<p>For example, if your problem has a state with shape <code>[S]</code>, your chain state
-has shape <code>[C0, C1, Y]</code> (meaning that there are <code>C0 * C1</code> total chains) and
+adaptation, depending on the shape of the step size.
+For example, if your problem has a state with shape <code>[S]</code>, your chain state
+has shape <code>[C0, C1, S]</code> (meaning that there are <code>C0 * C1</code> total chains) and
 <code>log_accept_prob</code> has shape <code>[C0, C1]</code> (one acceptance probability per chain),
 then depending on the shape of the step size, the following will happen:</p><ul>
 <li><p>Step size has shape <code>[]</code>, <code>[S]</code> or <code>[1]</code>, the <code>log_accept_prob</code> will be averaged
@@ -232,7 +251,7 @@ across its <code>C0</code> and <code>C1</code> dimensions. This means that you w
 step size based on the mean acceptance probability across all chains. This
 can be useful if you don't have a lot of steps to adapt and want to average
 away the noise.</p></li>
-<li><p>Step size has shape <code>[C1, 1]</code> or <code>[C1, S]</code>, the <code>log_accept_prob</code> will be
+<li><p>Step size has shape C1, 1 or C1, S, the <code>log_accept_prob</code> will be
 averaged across its <code>C0</code> dimension. This means that you will learn a shared
 step size based on the mean acceptance probability across chains that share
 the coordinate across the <code>C1</code> dimension. This can be useful when the <code>C1</code>
@@ -255,18 +274,18 @@ single distribution, all sampled in parallel.</p></li>
 
     
     <ul>
-<li><p><a href='https://people.eecs.berkeley.edu/~jordan/sail/readings/andrieu-thoms.pdf'>Andrieu, Christophe, Thoms, Johannes. A tutorial on adaptive MCMC. Statistics and Computing, 2008.</a></p></li>
-<li><p>http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745</p></li>
-<li><p><a href='http://arxiv.org/abs/1411.6669'>Betancourt, M. J., Byrne, S., &amp; Girolami, M. (2014). Optimizing The Integrator Step Size for Hamiltonian Monte Carlo.</a></p></li>
+<li><p><a href='http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf'>Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In Journal of Machine Learning Research, 15(1):1593-1623, 2014.</a></p></li>
+<li><p><a href='https://link.springer.com/article/10.1007/s10107-007-0149-x'>Yurii Nesterov. Primal-dual subgradient methods for convex problems. Mathematical programming 120.1 (2009): 221-259</a></p></li>
+<li><p><a href='http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745'>http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745</a></p></li>
 </ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other mcmc_kernels: <code><a href='mcmc_dual_averaging_step_size_adaptation.html'>mcmc_dual_averaging_step_size_adaptation</a></code>,
-  <code><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></code>,
+    <div class='dont-index'><p>Other mcmc_kernels: <code><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></code>,
   <code><a href='mcmc_metropolis_hastings.html'>mcmc_metropolis_hastings</a></code>,
   <code><a href='mcmc_no_u_turn_sampler.html'>mcmc_no_u_turn_sampler</a></code>,
   <code><a href='mcmc_random_walk_metropolis.html'>mcmc_random_walk_metropolis</a></code>,
+  <code><a href='mcmc_simple_step_size_adaptation.html'>mcmc_simple_step_size_adaptation</a></code>,
   <code><a href='mcmc_transformed_transition_kernel.html'>mcmc_transformed_transition_kernel</a></code>,
   <code><a href='mcmc_uncalibrated_hamiltonian_monte_carlo.html'>mcmc_uncalibrated_hamiltonian_monte_carlo</a></code></p></div>
     

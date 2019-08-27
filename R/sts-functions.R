@@ -100,6 +100,10 @@ sts_build_factored_variational_loss <-
 #' @param variational_optimizer Optional `tf$train$Optimizer` instance to use in
 #' the variational optimization. If `NULL`, defaults to `tf$train$AdamOptimizer(0.1)`.
 #' Default value: `NULL`.
+#' @param variational_sample_size integer number of Monte Carlo samples to use
+#' in estimating the variational divergence. Larger values may stabilize
+#' the optimization, but at higher cost per step in time and memory.
+#' Default value: `1`.
 #' @param name name prefixed to ops created by this function. Default value: `NULL` (i.e., 'fit_with_hmc').
 #'
 #' @inheritParams sts_build_factored_variational_loss

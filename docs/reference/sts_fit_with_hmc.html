@@ -137,7 +137,8 @@ expensive than variational inference and relatively sensitive to tuning.</p>
   <span class='kw'>num_warmup_steps</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>num_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>15</span>,
   <span class='kw'>initial_state</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>initial_step_size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>chain_batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>num_variational_steps</span> <span class='kw'>=</span> <span class='fl'>150</span>,
-  <span class='kw'>variational_optimizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>variational_optimizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>variational_sample_size</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,6 +206,13 @@ optimization to determine the initial state and step sizes. Default value: <code
       <td><p>Optional <code>tf$train$Optimizer</code> instance to use in
 the variational optimization. If <code>NULL</code>, defaults to <code>tf$train$AdamOptimizer(0.1)</code>.
 Default value: <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>variational_sample_size</th>
+      <td><p>integer number of Monte Carlo samples to use
+in estimating the variational divergence. Larger values may stabilize
+the optimization, but at higher cost per step in time and memory.
+Default value: <code>1</code>.</p></td>
     </tr>
     <tr>
       <th>seed</th>

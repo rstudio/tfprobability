@@ -40,7 +40,7 @@ test_succeeds("vi_fit_surrogate_posterior works", {
   losses <- vi_fit_surrogate_posterior(
     target_log_prob_fn = conditioned_log_prob,
     surrogate_posterior = q_z,
-    optimizer = tf$train$AdamOptimizer(learning_rate = 0.1),
+    optimizer = tf$optimizers$Adam(learning_rate = 0.1),
     num_steps = 100
   )
 

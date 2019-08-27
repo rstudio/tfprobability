@@ -384,4 +384,215 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
   do.call(tfp$mcmc$TransformedTransitionKernel, args)
 }
 
+#' Adapts the inner kernel's `step_size` based on `log_accept_prob`.
+#'
+#' The dual averaging policy uses a noisy step size for exploration, while
+#' averaging over tuning steps to provide a smoothed estimate of an optimal
+#' value. It is based on section 3.2 of Hoffman and Gelman (2013), which
+#' modifies the [stochastic convex optimization scheme of Nesterov (2009).
+#' The modified algorithm applies extra weight to recent iterations while
+#' keeping the convergence guarantees of Robbins-Monro, and takes care not
+#' to make the step size too small too quickly when maintaining a constant
+#' trajectory length, to avoid expensive early iterations. A good target
+#' acceptance probability depends on the inner kernel. If this kernel is
+#' `HamiltonianMonteCarlo`, then 0.6-0.9 is a good range to aim for. For
+#' `RandomWalkMetropolis` this should be closer to 0.25. See the individual
+#' kernels' docstrings for guidance.
+#'
+#' In general, adaptation prevents the chain from reaching a stationary
+#' distribution, so obtaining consistent samples requires `num_adaptation_steps`
+#' be set to a value somewhat smaller than the number of burnin steps.
+#' However, it may sometimes be helpful to set `num_adaptation_steps` to a larger
+#' value during development in order to inspect the behavior of the chain during
+#' adaptation.
+#' The step size is assumed to broadcast with the chain state, potentially having
+#' leading dimensions corresponding to multiple chains. When there are fewer of
+#' those leading dimensions than there are chain dimensions, the corresponding
+#' dimensions in the `log_accept_prob` are averaged (in the direct space, rather
+#' than the log space) before being used to adjust the step size. This means that
+#' this kernel can do both cross-chain adaptation, or per-chain step size
+#' adaptation, depending on the shape of the step size.
+#' For example, if your problem has a state with shape `[S]`, your chain state
+#' has shape `[C0, C1, S]` (meaning that there are `C0 * C1` total chains) and
+#' `log_accept_prob` has shape `[C0, C1]` (one acceptance probability per chain),
+#' then depending on the shape of the step size, the following will happen:
+#'
+#' - Step size has shape `[]`, `[S]` or `[1]`, the `log_accept_prob` will be averaged
+#' across its `C0` and `C1` dimensions. This means that you will learn a shared
+#' step size based on the mean acceptance probability across all chains. This
+#' can be useful if you don't have a lot of steps to adapt and want to average
+#' away the noise.
+#' - Step size has shape `[C1, 1]` or `[C1, S]`, the `log_accept_prob` will be
+#' averaged across its `C0` dimension. This means that you will learn a shared
+#' step size based on the mean acceptance probability across chains that share
+#' the coordinate across the `C1` dimension. This can be useful when the `C1`
+#' dimension indexes different distributions, while `C0` indexes replicas of a
+#' single distribution, all sampled in parallel.
+#' - Step size has shape `[C0, C1, 1]` or `[C0, C1, S]`, then no averaging will
+#' happen. This means that each chain will learn its own step size. This can be
+#' useful when all chains are sampling from different distributions. Even when
+#' all chains are for the same distribution, this can help during the initial
+#' warmup period.
+#' - Step size has shape `[C0, 1, 1]` or `[C0, 1, S]`, the `log_accept_prob` will be
+#' averaged across its `C1` dimension. This means that you will learn a shared
+#' step size based on the mean acceptance probability across chains that share
+#' the coordinate across the `C0` dimension. This can be useful when the `C0`
+#' dimension indexes different distributions, while `C1` indexes replicas of a
+#' single distribution, all sampled in parallel.
+#'
+#' @section References:
+#' - [Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In _Journal of Machine Learning Research_, 15(1):1593-1623, 2014.](http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf)
+#' - [Yurii Nesterov. Primal-dual subgradient methods for convex problems. Mathematical programming 120.1 (2009): 221-259](https://link.springer.com/article/10.1007/s10107-007-0149-x)
+#' - [http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745](http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745)
+#'
+#' @param inner_kernel `TransitionKernel`-like object.
+#' @param num_adaptation_steps Scalar `integer` `Tensor` number of initial steps to
+#' during which to adjust the step size. This may be greater, less than, or
+#' equal to the number of burnin steps.
+#' @param target_accept_prob A floating point `Tensor` representing desired
+#' acceptance probability. Must be a positive number less than 1. This can
+#' either be a scalar, or have shape `[num_chains]`. Default value: `0.75`
+#' (the center of asymptotically optimal rate for HMC).
+#' @param exploration_shrinkage Floating point scalar `Tensor`. How strongly the
+#' exploration rate is biased towards the shrinkage target.
+#' @param step_count_smoothing Int32 scalar `Tensor`. Number of "pseudo-steps"
+#' added to the number of steps taken to prevents noisy exploration during
+#' the early samples.
+#' @param decay_rate Floating point scalar `Tensor`. How much to favor recent
+#' iterations over earlier ones. A value of 1 gives equal weight to all
+#' history.
+#' @param step_size_setter_fn A function with the signature
+#' `(kernel_results, new_step_size) -> new_kernel_results` where `kernel_results` are the
+#' results of the `inner_kernel`, `new_step_size` is a `Tensor` or a nested
+#' collection of `Tensor`s with the same structure as returned by the
+#' `step_size_getter_fn`, and `new_kernel_results` are a copy of
+#' `kernel_results` with the step size(s) set.
+#' @param step_size_getter_fn A callable with the signature
+#' `(kernel_results) -> step_size` where `kernel_results` are the results of the `inner_kernel`,
+#' and `step_size` is a floating point `Tensor` or a nested collection of
+#' such `Tensor`s.
+#' @param log_accept_prob_getter_fn A callable with the signature
+#' `(kernel_results) -> log_accept_prob` where `kernel_results` are the results of the
+#' `inner_kernel`, and `log_accept_prob` is a floating point `Tensor`.
+#' `log_accept_prob` can either be a scalar, or have shape `[num_chains]`. If
+#' it's the latter, `step_size` should also have the same leading
+#' dimension.
+#' @param validate_args `logical`. When `TRUE` kernel parameters are checked
+#' for validity. When `FALSE` invalid inputs may silently render incorrect
+#' outputs.
+#' @param name name prefixed to Ops created by this function.
+#' Default value: `NULL` (i.e., 'dual_averaging_step_size_adaptation').
+#'
+#' @inheritParams mcmc_simple_step_size_adaptation
+#' @family mcmc_kernels
+#' @export
+mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
+                                                     num_adaptation_steps,
+                                                     target_accept_prob = 0.75,
+                                                     exploration_shrinkage = 0.05,
+                                                     step_count_smoothing = 10,
+                                                     decay_rate = 0.75,
+                                                     step_size_setter_fn = NULL,
+                                                     step_size_getter_fn = NULL,
+                                                     log_accept_prob_getter_fn = NULL,
+                                                     validate_args = FALSE,
+                                                     name = NULL) {
+  args <- list(
+    inner_kernel = inner_kernel,
+    num_adaptation_steps = as.integer(num_adaptation_steps),
+    target_accept_prob = target_accept_prob,
+    exploration_shrinkage = exploration_shrinkage,
+    step_count_smoothing = as.integer(step_count_smoothing),
+    decay_rate = decay_rate,
+    validate_args = validate_args,
+    name = name
+  )
 
+  # see https://github.com/r-lib/pkgdown/issues/330
+  args$step_size_setter_fn <-
+    if (!is.null(step_size_setter_fn))
+      step_size_setter_fn
+  else
+    tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_step_size_setter_fn`
+  args$step_size_getter_fn <-
+    if (!is.null(step_size_getter_fn))
+      step_size_getter_fn
+  else
+    tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_step_size_getter_fn`
+  args$log_accept_prob_getter_fn <-
+    if (!is.null(log_accept_prob_getter_fn))
+      log_accept_prob_getter_fn
+  else
+    tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`
+
+  do.call(tfp$mcmc$DualAveragingStepSizeAdaptation, args)
+}
+
+#' Runs one step of the No U-Turn Sampler
+#'
+#' The No U-Turn Sampler (NUTS) is an adaptive variant of the Hamiltonian Monte
+#' Carlo (HMC) method for MCMC.  NUTS adapts the distance traveled in response to
+#' the curvature of the target density.  Conceptually, one proposal consists of
+#' reversibly evolving a trajectory through the sample space, continuing until
+#' that trajectory turns back on itself (hence the name, 'No U-Turn').
+#' This class implements one random NUTS step from a given
+#' `current_state`.  Mathematical details and derivations can be found in
+#' Hoffman & Gelman (2011).
+#'
+#' The `one_step` function can update multiple chains in parallel. It assumes
+#' that a prefix of leftmost dimensions of `current_state` index independent
+#' chain states (and are therefore updated independently).  The output of
+#' `target_log_prob_fn(current_state)` should sum log-probabilities across all
+#' event dimensions.  Slices along the rightmost dimensions may have different
+#' target distributions; for example, `current_state[0][0, ...]` could have a
+#' different target distribution from `current_state[0][1, ...]`.  These
+#' semantics are governed by `target_log_prob_fn(*current_state)`.
+#' (The number of independent chains is `tf$size(target_log_prob_fn(current_state))`.)
+#'
+#' @section References:
+#' - [Matthew D. Hoffman, Andrew Gelman.  The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo.  2011.](https://arxiv.org/pdf/1111.4246.pdf)
+#'
+#' @param target_log_prob_fn function which takes an argument like
+#' `current_state` and returns its (possibly unnormalized) log-density under the target
+#' distribution.
+#' @param step_size `Tensor` or `list` of `Tensor`s representing the step
+#' size for the leapfrog integrator. Must broadcast with the shape of
+#' `current_state`. Larger step sizes lead to faster progress, but
+#' too-large step sizes make rejection exponentially more likely. When
+#' possible, it's often helpful to match per-variable step sizes to the
+#' standard deviations of the target distribution in each variable.
+#' @param max_tree_depth Maximum depth of the tree implicitly built by NUTS. The
+#' maximum number of leapfrog steps is bounded by `2**max_tree_depth` i.e.
+#' the number of nodes in a binary tree `max_tree_depth` nodes deep. The
+#' default setting of 10 takes up to 1024 leapfrog steps.
+#' @param max_energy_diff Scaler threshold of energy differences at each leapfrog,
+#' divergence samples are defined as leapfrog steps that exceed this
+#' threshold. Default to 1000.
+#' @param unrolled_leapfrog_steps The number of leapfrogs to unroll per tree
+#' expansion step. Applies a direct linear multipler to the maximum
+#' trajectory length implied by max_tree_depth. Defaults to 1.
+#' @param seed integer to seed the random number generator.
+#' @param name name prefixed to Ops created by this function.
+#' Default value: `NULL` (i.e., 'nuts_kernel').
+#'
+#' @family mcmc_kernels
+#' @export
+mcmc_no_u_turn_sampler <- function(target_log_prob_fn,
+                                   step_size,
+                                   max_tree_depth = 10,
+                                   max_energy_diff = 1000,
+                                   unrolled_leapfrog_steps = 1,
+                                   seed = NULL,
+                                   name = NULL) {
+  args <- list(
+    target_log_prob_fn = target_log_prob_fn,
+    step_size = step_size,
+    max_tree_depth = as.integer(max_tree_depth),
+    max_energy_diff = max_energy_diff,
+    unrolled_leapfrog_steps = as.integer(unrolled_leapfrog_steps),
+    seed = seed,
+    name = name
+  )
+
+  do.call(tfp$mcmc$NoUTurnSampler, args)
+}
