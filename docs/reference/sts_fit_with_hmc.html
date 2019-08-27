@@ -208,6 +208,13 @@ the variational optimization. If <code>NULL</code>, defaults to <code>tf$train$A
 Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
+      <th>variational_sample_size</th>
+      <td><p>integer number of Monte Carlo samples to use
+in estimating the variational divergence. Larger values may stabilize
+the optimization, but at higher cost per step in time and memory.
+Default value: <code>1</code>.</p></td>
+    </tr>
+    <tr>
       <th>seed</th>
       <td><p>integer to seed the random number generator.</p></td>
     </tr>

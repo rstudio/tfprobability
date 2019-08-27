@@ -417,23 +417,23 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
 #' `log_accept_prob` has shape `[C0, C1]` (one acceptance probability per chain),
 #' then depending on the shape of the step size, the following will happen:
 #'
-#' - Step size has shape [], [S] or [1], the `log_accept_prob` will be averaged
+#' - Step size has shape `[]`, `[S]` or `[1]`, the `log_accept_prob` will be averaged
 #' across its `C0` and `C1` dimensions. This means that you will learn a shared
 #' step size based on the mean acceptance probability across all chains. This
 #' can be useful if you don't have a lot of steps to adapt and want to average
 #' away the noise.
-#' - Step size has shape [C1, 1] or [C1, S], the `log_accept_prob` will be
+#' - Step size has shape `[C1, 1]` or `[C1, S]`, the `log_accept_prob` will be
 #' averaged across its `C0` dimension. This means that you will learn a shared
 #' step size based on the mean acceptance probability across chains that share
 #' the coordinate across the `C1` dimension. This can be useful when the `C1`
 #' dimension indexes different distributions, while `C0` indexes replicas of a
 #' single distribution, all sampled in parallel.
-#' - Step size has shape [C0, C1, 1] or [C0, C1, S], then no averaging will
+#' - Step size has shape `[C0, C1, 1]` or `[C0, C1, S]`, then no averaging will
 #' happen. This means that each chain will learn its own step size. This can be
 #' useful when all chains are sampling from different distributions. Even when
 #' all chains are for the same distribution, this can help during the initial
 #' warmup period.
-#' - Step size has shape [C0, 1, 1] or [C0, 1, S], the `log_accept_prob` will be
+#' - Step size has shape `[C0, 1, 1]` or `[C0, 1, S]`, the `log_accept_prob` will be
 #' averaged across its `C1` dimension. This means that you will learn a shared
 #' step size based on the mean acceptance probability across chains that share
 #' the coordinate across the `C0` dimension. This can be useful when the `C0`
@@ -441,7 +441,7 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
 #' single distribution, all sampled in parallel.
 #'
 #' @section References:
-#' - [Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In _Journal of Machine Learning Research_, 15(1):1593-1623, 2014.](http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf
+#' - [Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In _Journal of Machine Learning Research_, 15(1):1593-1623, 2014.](http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf)
 #' - [Yurii Nesterov. Primal-dual subgradient methods for convex problems. Mathematical programming 120.1 (2009): 221-259](https://link.springer.com/article/10.1007/s10107-007-0149-x)
 #' - [http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745](http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745)
 #'
@@ -451,7 +451,7 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
 #' equal to the number of burnin steps.
 #' @param target_accept_prob A floating point `Tensor` representing desired
 #' acceptance probability. Must be a positive number less than 1. This can
-#' either be a scalar, or have shape [num_chains]. Default value: `0.75`
+#' either be a scalar, or have shape `[num_chains]`. Default value: `0.75`
 #' (the center of asymptotically optimal rate for HMC).
 #' @param exploration_shrinkage Floating point scalar `Tensor`. How strongly the
 #' exploration rate is biased towards the shrinkage target.
@@ -474,7 +474,7 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
 #' @param log_accept_prob_getter_fn A callable with the signature
 #' `(kernel_results) -> log_accept_prob` where `kernel_results` are the results of the
 #' `inner_kernel`, and `log_accept_prob` is a floating point `Tensor`.
-#' `log_accept_prob` can either be a scalar, or have shape [num_chains]. If
+#' `log_accept_prob` can either be a scalar, or have shape `[num_chains]`. If
 #' it's the latter, `step_size` should also have the same leading
 #' dimension.
 #' @param validate_args `logical`. When `TRUE` kernel parameters are checked

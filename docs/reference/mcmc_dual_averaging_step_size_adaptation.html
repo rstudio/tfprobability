@@ -246,7 +246,7 @@ For example, if your problem has a state with shape <code>[S]</code>, your chain
 has shape <code>[C0, C1, S]</code> (meaning that there are <code>C0 * C1</code> total chains) and
 <code>log_accept_prob</code> has shape <code>[C0, C1]</code> (one acceptance probability per chain),
 then depending on the shape of the step size, the following will happen:</p><ul>
-<li><p>Step size has shape [], S or 1, the <code>log_accept_prob</code> will be averaged
+<li><p>Step size has shape <code>[]</code>, <code>[S]</code> or <code>[1]</code>, the <code>log_accept_prob</code> will be averaged
 across its <code>C0</code> and <code>C1</code> dimensions. This means that you will learn a shared
 step size based on the mean acceptance probability across all chains. This
 can be useful if you don't have a lot of steps to adapt and want to average
@@ -257,12 +257,12 @@ step size based on the mean acceptance probability across chains that share
 the coordinate across the <code>C1</code> dimension. This can be useful when the <code>C1</code>
 dimension indexes different distributions, while <code>C0</code> indexes replicas of a
 single distribution, all sampled in parallel.</p></li>
-<li><p>Step size has shape C0, C1, 1 or C0, C1, S, then no averaging will
+<li><p>Step size has shape <code>[C0, C1, 1]</code> or <code>[C0, C1, S]</code>, then no averaging will
 happen. This means that each chain will learn its own step size. This can be
 useful when all chains are sampling from different distributions. Even when
 all chains are for the same distribution, this can help during the initial
 warmup period.</p></li>
-<li><p>Step size has shape C0, 1, 1 or C0, 1, S, the <code>log_accept_prob</code> will be
+<li><p>Step size has shape <code>[C0, 1, 1]</code> or <code>[C0, 1, S]</code>, the <code>log_accept_prob</code> will be
 averaged across its <code>C1</code> dimension. This means that you will learn a shared
 step size based on the mean acceptance probability across chains that share
 the coordinate across the <code>C0</code> dimension. This can be useful when the <code>C0</code>
@@ -274,7 +274,7 @@ single distribution, all sampled in parallel.</p></li>
 
     
     <ul>
-<li><p>Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In Journal of Machine Learning Research, 15(1):1593-1623, 2014.(http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf</p></li>
+<li><p><a href='http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf'>Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In Journal of Machine Learning Research, 15(1):1593-1623, 2014.</a></p></li>
 <li><p><a href='https://link.springer.com/article/10.1007/s10107-007-0149-x'>Yurii Nesterov. Primal-dual subgradient methods for convex problems. Mathematical programming 120.1 (2009): 221-259</a></p></li>
 <li><p><a href='http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745'>http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745</a></p></li>
 </ul>
