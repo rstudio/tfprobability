@@ -119,6 +119,9 @@ after the layer is built via the \code{kernel_posterior}, \code{kernel_prior},
 
 \seealso{
 Other layers: \code{\link{layer_autoregressive}},
+  \code{\link{layer_conv_1d_flipout}},
+  \code{\link{layer_conv_2d_flipout}},
+  \code{\link{layer_conv_2d_reparameterization}},
   \code{\link{layer_dense_flipout}},
   \code{\link{layer_dense_local_reparameterization}},
   \code{\link{layer_dense_reparameterization}},
