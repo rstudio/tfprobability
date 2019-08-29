@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Densely-connected layer class with Flipout estimator. — layer_dense_flipout • tfprobability</title>
+<title>2D convolution layer (e.g. spatial convolution over images) with Flipout — layer_conv_2d_flipout • tfprobability</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,12 @@
 
 
 
-<meta property="og:title" content="Densely-connected layer class with Flipout estimator. — layer_dense_flipout" />
+<meta property="og:title" content="2D convolution layer (e.g. spatial convolution over images) with Flipout — layer_conv_2d_flipout" />
 
-<meta property="og:description" content="This layer implements the Bayesian variational inference analogue to
-a dense layer by assuming the kernel and/or the bias are drawn
-from distributions." />
+<meta property="og:description" content="This layer creates a convolution kernel that is convolved
+(actually cross-correlated) with the layer input to produce a tensor of
+outputs. It may also include a bias addition and activation function
+on the outputs. It assumes the kernel and/or bias are drawn from distributions." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,21 +115,24 @@ from distributions." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Densely-connected layer class with Flipout estimator.</h1>
+    <h1>2D convolution layer (e.g. spatial convolution over images) with Flipout</h1>
     
-    <div class="hidden name"><code>layer_dense_flipout.Rd</code></div>
+    <div class="hidden name"><code>layer_conv_2d_flipout.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This layer implements the Bayesian variational inference analogue to
-a dense layer by assuming the <code>kernel</code> and/or the <code>bias</code> are drawn
-from distributions.</p>
+    <p>This layer creates a convolution kernel that is convolved
+(actually cross-correlated) with the layer input to produce a tensor of
+outputs. It may also include a bias addition and activation function
+on the outputs. It assumes the <code>kernel</code> and/or <code>bias</code> are drawn from distributions.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>layer_dense_flipout</span>(<span class='no'>object</span>, <span class='no'>units</span>, <span class='kw'>activation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>activity_regularizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>layer_conv_2d_flipout</span>(<span class='no'>object</span>, <span class='no'>filters</span>, <span class='no'>kernel_size</span>, <span class='kw'>strides</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>padding</span> <span class='kw'>=</span> <span class='st'>"valid"</span>, <span class='kw'>data_format</span> <span class='kw'>=</span> <span class='st'>"channels_last"</span>,
+  <span class='kw'>dilation_rate</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>activation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>activity_regularizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>kernel_posterior_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>layers</span>$<span class='no'>util</span>$<span class='fu'>default_mean_field_normal_fn</span>(),
   <span class='kw'>kernel_posterior_tensor_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>d</span>) <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(),
   <span class='kw'>kernel_prior_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>layers</span>$<span class='no'>util</span>$<span class='no'>default_multivariate_normal_fn</span>,
@@ -136,7 +140,7 @@ from distributions.</p>
   <span class='kw'>bias_posterior_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>layers</span>$<span class='no'>util</span>$<span class='fu'>default_mean_field_normal_fn</span>(<span class='kw'>is_singular</span>
   <span class='kw'>=</span> <span class='fl'>TRUE</span>), <span class='kw'>bias_posterior_tensor_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>d</span>) <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(),
   <span class='kw'>bias_prior_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>bias_divergence_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>q</span>, <span class='no'>p</span>, <span class='no'>ignore</span>)
-  <span class='fu'><a href='tfd_kl_divergence.html'>tfd_kl_divergence</a></span>(<span class='no'>q</span>, <span class='no'>p</span>), <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
+  <span class='fu'><a href='tfd_kl_divergence.html'>tfd_kl_divergence</a></span>(<span class='no'>q</span>, <span class='no'>p</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -146,8 +150,39 @@ from distributions.</p>
       <td><p>Model or layer object</p></td>
     </tr>
     <tr>
-      <th>units</th>
-      <td><p>integer dimensionality of the output space</p></td>
+      <th>filters</th>
+      <td><p>Integer, the dimensionality of the output space (i.e. the number
+of filters in the convolution).</p></td>
+    </tr>
+    <tr>
+      <th>kernel_size</th>
+      <td><p>An integer or list of a single integer, specifying the
+length of the 1D convolution window.</p></td>
+    </tr>
+    <tr>
+      <th>strides</th>
+      <td><p>An integer or list of a single integer,
+specifying the stride length of the convolution.
+Specifying any stride value != 1 is incompatible with specifying
+any <code>dilation_rate</code> value != 1.</p></td>
+    </tr>
+    <tr>
+      <th>padding</th>
+      <td><p>One of <code>"valid"</code> or <code>"same"</code> (case-insensitive).</p></td>
+    </tr>
+    <tr>
+      <th>data_format</th>
+      <td><p>A string, one of <code>channels_last</code> (default) or
+<code>channels_first</code>. The ordering of the dimensions in the inputs.
+<code>channels_last</code> corresponds to inputs with shape <code>(batch, length, channels)</code> while <code>channels_first</code> corresponds to inputs with shape
+<code>(batch, channels, length)</code>.</p></td>
+    </tr>
+    <tr>
+      <th>dilation_rate</th>
+      <td><p>An integer or tuple/list of a single integer, specifying
+the dilation rate to use for dilated convolution.
+Currently, specifying any <code>dilation_rate</code> value != 1 is
+incompatible with specifying any <code>strides</code> value != 1.</p></td>
     </tr>
     <tr>
       <th>activation</th>
@@ -205,11 +240,6 @@ from the surrogate posterior and computes or approximates the KL divergence. The
 distributions are <code>tfd$Distribution</code>-like instances and the sample is a <code>Tensor</code>.</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>scalar <code>integer</code> which initializes the random number generator.
-Default value: <code>NULL</code> (i.e., use global seed).</p></td>
-    </tr>
-    <tr>
       <th>...</th>
       <td><p>Additional keyword arguments passed to the <code><a href='https://www.rdocumentation.org/packages/keras/topics/layer_dense'>keras::layer_dense</a></code> constructed by this layer.</p></td>
     </tr>
@@ -217,15 +247,16 @@ Default value: <code>NULL</code> (i.e., use global seed).</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>By default, the layer implements a stochastic
-forward pass via sampling from the kernel and bias posteriors,</p><pre>kernel, bias ~ posterior
-outputs = activation(matmul(inputs, kernel) + bias)
+    <p>This layer implements the Bayesian variational inference analogue to
+a dense layer by assuming the <code>kernel</code> and/or the <code>bias</code> are drawn
+from distributions.</p>
+<p>By default, the layer implements a stochastic forward pass via sampling from the kernel and bias posteriors,</p><pre>outputs = f(inputs; kernel, bias), kernel, bias ~ posterior
 </pre>
-    <p>It uses the Flipout estimator (Wen et al., 2018), which performs a Monte
-Carlo approximation of the distribution integrating over the <code>kernel</code> and
-<code>bias</code>. Flipout uses roughly twice as many floating point operations as the
-reparameterization estimator but has the advantage of significantly lower
-variance.</p>
+    <p>where f denotes the layer's calculation. It uses the Flipout
+estimator (Wen et al., 2018), which performs a Monte Carlo approximation
+of the distribution integrating over the <code>kernel</code> and <code>bias</code>. Flipout uses
+roughly twice as many floating point operations as the reparameterization
+estimator but has the advantage of significantly lower variance.</p>
 <p>The arguments permit separate specification of the surrogate posterior
 (<code><a href='https://www.rdocumentation.org/packages/base/topics/quit'>q(W|x)</a></code>), prior (<code>p(W)</code>), and divergence for both the <code>kernel</code> and <code>bias</code>
 distributions.</p>
@@ -234,7 +265,10 @@ property) representing the divergences of <code>kernel</code> and/or <code>bias<
 posteriors and their respective priors. When doing minibatch stochastic
 optimization, make sure to scale this loss such that it is applied just once
 per epoch (e.g. if <code>kl</code> is the sum of <code>losses</code> for each element of the batch,
-you should pass <code>kl / num_examples_per_epoch</code> to your optimizer).</p>
+you should pass <code>kl / num_examples_per_epoch</code> to your optimizer).
+You can access the <code>kernel</code> and/or <code>bias</code> posterior and prior distributions
+after the layer is built via the <code>kernel_posterior</code>, <code>kernel_prior</code>,
+<code>bias_posterior</code> and <code>bias_prior</code> properties.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -248,10 +282,10 @@ you should pass <code>kl / num_examples_per_epoch</code> to your optimizer).</p>
     <div class='dont-index'><p>Other layers: <code><a href='layer_autoregressive.html'>layer_autoregressive</a></code>,
   <code><a href='layer_conv_1d_flipout.html'>layer_conv_1d_flipout</a></code>,
   <code><a href='layer_conv_1d_reparameterization.html'>layer_conv_1d_reparameterization</a></code>,
-  <code><a href='layer_conv_2d_flipout.html'>layer_conv_2d_flipout</a></code>,
   <code><a href='layer_conv_2d_reparameterization.html'>layer_conv_2d_reparameterization</a></code>,
   <code><a href='layer_conv_3d_flipout.html'>layer_conv_3d_flipout</a></code>,
   <code><a href='layer_conv_3d_reparameterization.html'>layer_conv_3d_reparameterization</a></code>,
+  <code><a href='layer_dense_flipout.html'>layer_dense_flipout</a></code>,
   <code><a href='layer_dense_local_reparameterization.html'>layer_dense_local_reparameterization</a></code>,
   <code><a href='layer_dense_reparameterization.html'>layer_dense_reparameterization</a></code>,
   <code><a href='layer_dense_variational.html'>layer_dense_variational</a></code>,
