@@ -107,6 +107,9 @@ test_succeeds("Define a reciprocal bijector", {
 })
 
 test_succeeds("Define a matvec_lu bijector", {
+
+  if (!tf$compat$v1$resource_variables_enabled()) tf$compat$v1$enable_resource_variables()
+
   trainable_lu_factorization <- function(event_size,
                                          batch_shape = list(),
                                          seed = NULL,
@@ -134,7 +137,6 @@ test_succeeds("Define a matvec_lu bijector", {
       lower_upper <- tf$Variable(
         initial_value = lower_upper,
         trainable = TRUE,
-        use_resource = TRUE,
         name = 'lower_upper'
       )
     })

@@ -25,6 +25,12 @@ skip_if_tf_below <- function(version) {
   }
 }
 
+skip_if_tf_above <- function(version) {
+  if (tensorflow:::tf_version() > version) {
+    skip(paste0("Skipped since this test requires TensorFlow <= ", version))
+  }
+}
+
 skip_if_not_eager <- function() {
   if (!tf$executing_eagerly())
     skip("This test requires eager execution")

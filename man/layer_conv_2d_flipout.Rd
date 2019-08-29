@@ -2,7 +2,7 @@
 % Please edit documentation in R/layers.R
 \name{layer_conv_2d_flipout}
 \alias{layer_conv_2d_flipout}
-\title{1D convolution layer (e.g. spatial convolution over images) with Flipout}
+\title{2D convolution layer (e.g. spatial convolution over images) with Flipout}
 \usage{
 layer_conv_2d_flipout(object, filters, kernel_size, strides = 1,
   padding = "valid", data_format = "channels_last",
@@ -124,6 +124,8 @@ Other layers: \code{\link{layer_autoregressive}},
   \code{\link{layer_conv_1d_flipout}},
   \code{\link{layer_conv_1d_reparameterization}},
   \code{\link{layer_conv_2d_reparameterization}},
+  \code{\link{layer_conv_3d_flipout}},
+  \code{\link{layer_conv_3d_reparameterization}},
   \code{\link{layer_dense_flipout}},
   \code{\link{layer_dense_local_reparameterization}},
   \code{\link{layer_dense_reparameterization}},

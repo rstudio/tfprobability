@@ -770,7 +770,7 @@ layer_conv_2d_reparameterization <- function(object,
                args)
 }
 
-#' 1D convolution layer (e.g. spatial convolution over images) with Flipout
+#' 2D convolution layer (e.g. spatial convolution over images) with Flipout
 #'
 #' This layer creates a convolution kernel that is convolved
 #' (actually cross-correlated) with the layer input to produce a tensor of
@@ -879,5 +879,224 @@ layer_conv_2d_flipout <- function(object,
                object,
                args)
 }
+
+#' 3D convolution layer (e.g. spatial convolution over volumes)
+#'
+#' This layer creates a convolution kernel that is convolved
+#' (actually cross-correlated) with the layer input to produce a tensor of
+#' outputs. It may also include a bias addition and activation function
+#' on the outputs. It assumes the `kernel` and/or `bias` are drawn from distributions.
+#'
+#' This layer implements the Bayesian variational inference analogue to
+#' a dense layer by assuming the `kernel` and/or the `bias` are drawn
+#' from distributions.
+#'
+#' By default, the layer implements a stochastic forward pass via sampling from the kernel and bias posteriors,
+#'
+#' ```
+#' outputs = f(inputs; kernel, bias), kernel, bias ~ posterior
+#' ```
+#' where f denotes the layer's calculation. It uses the reparameterization
+#' estimator (Kingma and Welling, 2014), which performs a Monte Carlo
+#' approximation of the distribution integrating over the `kernel` and `bias`.
+#'
+#' The arguments permit separate specification of the surrogate posterior
+#' (`q(W|x)`), prior (`p(W)`), and divergence for both the `kernel` and `bias`
+#' distributions.
+#'
+#' Upon being built, this layer adds losses (accessible via the `losses`
+#' property) representing the divergences of `kernel` and/or `bias` surrogate
+#' posteriors and their respective priors. When doing minibatch stochastic
+#' optimization, make sure to scale this loss such that it is applied just once
+#' per epoch (e.g. if `kl` is the sum of `losses` for each element of the batch,
+#' you should pass `kl / num_examples_per_epoch` to your optimizer).
+#' You can access the `kernel` and/or `bias` posterior and prior distributions
+#' after the layer is built via the `kernel_posterior`, `kernel_prior`,
+#' `bias_posterior` and `bias_prior` properties.
+#'
+#' @section References:
+#' - [Diederik Kingma and Max Welling. Auto-Encoding Variational Bayes. In _International Conference on Learning Representations_, 2014.](https://arxiv.org/abs/1312.6114)
+#'
+#' @param filters Integer, the dimensionality of the output space (i.e. the number
+#' of filters in the convolution).
+#' @param kernel_size An integer or list of a single integer, specifying the
+#' length of the 1D convolution window.
+#' @param strides An integer or list of a single integer,
+#' specifying the stride length of the convolution.
+#' Specifying any stride value != 1 is incompatible with specifying
+#' any `dilation_rate` value != 1.
+#' @param padding One of `"valid"` or `"same"` (case-insensitive).
+#' @param data_format A string, one of `channels_last` (default) or
+#' `channels_first`. The ordering of the dimensions in the inputs.
+#' `channels_last` corresponds to inputs with shape `(batch, length,
+#' channels)` while `channels_first` corresponds to inputs with shape
+#' `(batch, channels, length)`.
+#' @param dilation_rate An integer or tuple/list of a single integer, specifying
+#' the dilation rate to use for dilated convolution.
+#' Currently, specifying any `dilation_rate` value != 1 is
+#' incompatible with specifying any `strides` value != 1.
+#' @inheritParams layer_dense_reparameterization
+#'
+#' @family layers
+#' @export
+layer_conv_3d_reparameterization <- function(object,
+                                             filters,
+                                             kernel_size,
+                                             strides = 1,
+                                             padding = 'valid',
+                                             data_format = 'channels_last',
+                                             dilation_rate = 1,
+                                             activation = NULL,
+                                             activity_regularizer = NULL,
+                                             trainable = TRUE,
+                                             kernel_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(),
+                                             kernel_posterior_tensor_fn = function(d)
+                                               d %>% tfd_sample(),
+                                             kernel_prior_fn = tfp$layers$util$default_multivariate_normal_fn,
+                                             kernel_divergence_fn = function(q, p, ignore)
+                                               tfd_kl_divergence(q, p),
+                                             bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular = TRUE),
+                                             bias_posterior_tensor_fn = function(d)
+                                               d %>% tfd_sample(),
+                                             bias_prior_fn = NULL,
+                                             bias_divergence_fn = function(q, p, ignore)
+                                               tfd_kl_divergence(q, p),
+                                             ...) {
+  args <- list(
+    filters = as.integer(filters),
+    kernel_size = as.integer(kernel_size),
+    strides = as.integer(strides),
+    padding = padding,
+    data_format = data_format,
+    dilation_rate = as.integer(dilation_rate),
+    activation = activation,
+    activity_regularizer = activity_regularizer,
+    trainable = trainable,
+    kernel_posterior_fn = kernel_posterior_fn,
+    kernel_posterior_tensor_fn = kernel_posterior_tensor_fn,
+    kernel_prior_fn = kernel_prior_fn,
+    kernel_divergence_fn = kernel_divergence_fn,
+    bias_posterior_fn = bias_posterior_fn,
+    bias_posterior_tensor_fn = bias_posterior_tensor_fn,
+    bias_prior_fn = bias_prior_fn,
+    bias_divergence_fn = bias_divergence_fn,
+    ...
+  )
+
+  create_layer(tfp$layers$Convolution3DReparameterization,
+               object,
+               args)
+}
+
+#' 3D convolution layer (e.g. spatial convolution over volumes) with Flipout
+#'
+#' This layer creates a convolution kernel that is convolved
+#' (actually cross-correlated) with the layer input to produce a tensor of
+#' outputs. It may also include a bias addition and activation function
+#' on the outputs. It assumes the `kernel` and/or `bias` are drawn from distributions.
+#'
+#' This layer implements the Bayesian variational inference analogue to
+#' a dense layer by assuming the `kernel` and/or the `bias` are drawn
+#' from distributions.
+#'
+#' By default, the layer implements a stochastic forward pass via sampling from the kernel and bias posteriors,
+#'
+#' ```
+#' outputs = f(inputs; kernel, bias), kernel, bias ~ posterior
+#' ```
+#' where f denotes the layer's calculation. It uses the Flipout
+#' estimator (Wen et al., 2018), which performs a Monte Carlo approximation
+#' of the distribution integrating over the `kernel` and `bias`. Flipout uses
+#' roughly twice as many floating point operations as the reparameterization
+#' estimator but has the advantage of significantly lower variance.
+#'
+#' The arguments permit separate specification of the surrogate posterior
+#' (`q(W|x)`), prior (`p(W)`), and divergence for both the `kernel` and `bias`
+#' distributions.
+#'
+#' Upon being built, this layer adds losses (accessible via the `losses`
+#' property) representing the divergences of `kernel` and/or `bias` surrogate
+#' posteriors and their respective priors. When doing minibatch stochastic
+#' optimization, make sure to scale this loss such that it is applied just once
+#' per epoch (e.g. if `kl` is the sum of `losses` for each element of the batch,
+#' you should pass `kl / num_examples_per_epoch` to your optimizer).
+#' You can access the `kernel` and/or `bias` posterior and prior distributions
+#' after the layer is built via the `kernel_posterior`, `kernel_prior`,
+#' `bias_posterior` and `bias_prior` properties.
+#'
+#' @section References:
+#' - [Yeming Wen, Paul Vicol, Jimmy Ba, Dustin Tran, and Roger Grosse. Flipout: Efficient Pseudo-Independent Weight Perturbations on Mini-Batches. In _International Conference on Learning Representations_, 2018.](https://arxiv.org/abs/1803.04386)
+#'
+#' @param filters Integer, the dimensionality of the output space (i.e. the number
+#' of filters in the convolution).
+#' @param kernel_size An integer or list of a single integer, specifying the
+#' length of the 1D convolution window.
+#' @param strides An integer or list of a single integer,
+#' specifying the stride length of the convolution.
+#' Specifying any stride value != 1 is incompatible with specifying
+#' any `dilation_rate` value != 1.
+#' @param padding One of `"valid"` or `"same"` (case-insensitive).
+#' @param data_format A string, one of `channels_last` (default) or
+#' `channels_first`. The ordering of the dimensions in the inputs.
+#' `channels_last` corresponds to inputs with shape `(batch, length,
+#' channels)` while `channels_first` corresponds to inputs with shape
+#' `(batch, channels, length)`.
+#' @param dilation_rate An integer or tuple/list of a single integer, specifying
+#' the dilation rate to use for dilated convolution.
+#' Currently, specifying any `dilation_rate` value != 1 is
+#' incompatible with specifying any `strides` value != 1.
+#' @inheritParams layer_dense_reparameterization
+#'
+#' @family layers
+#' @export
+layer_conv_3d_flipout <- function(object,
+                                  filters,
+                                  kernel_size,
+                                  strides = 1,
+                                  padding = 'valid',
+                                  data_format = 'channels_last',
+                                  dilation_rate = 1,
+                                  activation = NULL,
+                                  activity_regularizer = NULL,
+                                  trainable = TRUE,
+                                  kernel_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(),
+                                  kernel_posterior_tensor_fn = function(d)
+                                    d %>% tfd_sample(),
+                                  kernel_prior_fn = tfp$layers$util$default_multivariate_normal_fn,
+                                  kernel_divergence_fn = function(q, p, ignore)
+                                    tfd_kl_divergence(q, p),
+                                  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular = TRUE),
+                                  bias_posterior_tensor_fn = function(d)
+                                    d %>% tfd_sample(),
+                                  bias_prior_fn = NULL,
+                                  bias_divergence_fn = function(q, p, ignore)
+                                    tfd_kl_divergence(q, p),
+                                  ...) {
+  args <- list(
+    filters = as.integer(filters),
+    kernel_size = as.integer(kernel_size),
+    strides = as.integer(strides),
+    padding = padding,
+    data_format = data_format,
+    dilation_rate = as.integer(dilation_rate),
+    activation = activation,
+    activity_regularizer = activity_regularizer,
+    trainable = trainable,
+    kernel_posterior_fn = kernel_posterior_fn,
+    kernel_posterior_tensor_fn = kernel_posterior_tensor_fn,
+    kernel_prior_fn = kernel_prior_fn,
+    kernel_divergence_fn = kernel_divergence_fn,
+    bias_posterior_fn = bias_posterior_fn,
+    bias_posterior_tensor_fn = bias_posterior_tensor_fn,
+    bias_prior_fn = bias_prior_fn,
+    bias_divergence_fn = bias_divergence_fn,
+    ...
+  )
+
+  create_layer(tfp$layers$Convolution3DFlipout,
+               object,
+               args)
+}
+
 
 
