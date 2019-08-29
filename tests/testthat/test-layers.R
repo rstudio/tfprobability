@@ -335,15 +335,14 @@ test_succeeds("layer_conv_1d_reparameterization works", {
   model <- keras_model_sequential(list(
     layer_conv_1d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
     layer_flatten(),
-    layer_dense_reparameterization(units = 1)
+    layer_dense_reparameterization(units = 10)
   ))
 
-
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy")
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(150,1))
+  expect_equal(yhat$get_shape()$as_list(), c(150,10))
   expect_equal(length(model$losses), 2)
 })
 
