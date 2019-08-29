@@ -327,6 +327,8 @@ test_succeeds("layer_dense_local_reparameterization works", {
 
 test_succeeds("layer_conv_1d_reparameterization works", {
 
+  skip_if_tf_below("2.0")
+
   library(keras)
 
   x = tf$ones(shape = c(150, 1, 1))
@@ -347,6 +349,8 @@ test_succeeds("layer_conv_1d_reparameterization works", {
 })
 
 test_succeeds("layer_conv_1d_flipout works", {
+
+  skip_if_tf_below("2.0")
 
   library(keras)
 
