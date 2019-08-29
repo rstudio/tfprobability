@@ -327,6 +327,8 @@ test_succeeds("layer_dense_local_reparameterization works", {
 
 test_succeeds("layer_conv_1d_reparameterization works", {
 
+  skip_if_tf_below("2.0")
+
   library(keras)
 
   x = tf$ones(shape = c(150, 1, 1))
@@ -335,17 +337,139 @@ test_succeeds("layer_conv_1d_reparameterization works", {
   model <- keras_model_sequential(list(
     layer_conv_1d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
     layer_flatten(),
-    layer_dense_reparameterization(units = 1)
+    layer_dense_reparameterization(units = 10)
   ))
 
-
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy")
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(150,1))
+  expect_equal(yhat$get_shape()$as_list(), c(150,10))
   expect_equal(length(model$losses), 2)
 })
+
+test_succeeds("layer_conv_1d_flipout works", {
+
+  skip_if_tf_below("2.0")
+
+  library(keras)
+
+  x = tf$ones(shape = c(150, 1, 1))
+  y = tf$ones(150, 10)
+
+  model <- keras_model_sequential(list(
+    layer_conv_1d_flipout(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_flatten(),
+    layer_dense_flipout(units = 10)
+  ))
+
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(150,10))
+  expect_equal(length(model$losses), 2)
+})
+
+
+test_succeeds("layer_conv_2d_reparameterization works", {
+
+  skip_if_tf_below("2.0")
+
+  library(keras)
+
+  x = tf$ones(shape = c(7, 32, 32, 3))
+  y = tf$ones(7, 10)
+
+  model <- keras_model_sequential(list(
+    layer_conv_2d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_max_pooling_2d(),
+    layer_flatten(),
+    layer_dense_reparameterization(units = 10)
+  ))
+
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(length(model$losses), 2)
+})
+
+test_succeeds("layer_conv_2d_flipout works", {
+
+  skip_if_tf_below("2.0")
+
+  library(keras)
+
+  x = tf$ones(shape = c(7, 32, 32, 3))
+  y = tf$ones(7, 10)
+
+  model <- keras_model_sequential(list(
+    layer_conv_2d_flipout(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_max_pooling_2d(),
+    layer_flatten(),
+    layer_dense_flipout(units = 10)
+  ))
+
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(length(model$losses), 2)
+})
+
+
+test_succeeds("layer_conv_3d_reparameterization works", {
+
+  skip_if_tf_below("2.0")
+
+  library(keras)
+
+  x = tf$ones(shape = c(7, 16, 4, 4, 3))
+  y = tf$ones(7, 10)
+
+  model <- keras_model_sequential(list(
+    layer_conv_3d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_max_pooling_3d(),
+    layer_flatten(),
+    layer_dense_reparameterization(units = 10)
+  ))
+
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(length(model$losses), 2)
+})
+
+test_succeeds("layer_conv_3d_flipout works", {
+
+  skip_if_tf_below("2.0")
+
+  library(keras)
+
+  x = tf$ones(shape = c(7, 16, 4, 4, 3))
+  y = tf$ones(7, 10)
+
+  model <- keras_model_sequential(list(
+    layer_conv_3d_flipout(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_max_pooling_3d(),
+    layer_flatten(),
+    layer_dense_flipout(units = 10)
+  ))
+
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(length(model$losses), 2)
+})
+
+
 
 
 

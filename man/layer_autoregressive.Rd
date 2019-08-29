@@ -67,7 +67,12 @@ For example, when \code{params} is 2, the output of the layer can parameterize
 the location and log-scale of an autoregressive Gaussian distribution.
 }
 \seealso{
-Other layers: \code{\link{layer_conv_1d_reparameterization}},
+Other layers: \code{\link{layer_conv_1d_flipout}},
+  \code{\link{layer_conv_1d_reparameterization}},
+  \code{\link{layer_conv_2d_flipout}},
+  \code{\link{layer_conv_2d_reparameterization}},
+  \code{\link{layer_conv_3d_flipout}},
+  \code{\link{layer_conv_3d_reparameterization}},
   \code{\link{layer_dense_flipout}},
   \code{\link{layer_dense_local_reparameterization}},
   \code{\link{layer_dense_reparameterization}},

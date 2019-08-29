@@ -169,7 +169,7 @@ equal to the number of burnin steps.</p></td>
       <th>target_accept_prob</th>
       <td><p>A floating point <code>Tensor</code> representing desired
 acceptance probability. Must be a positive number less than 1. This can
-either be a scalar, or have shape num_chains. Default value: <code>0.75</code>
+either be a scalar, or have shape <code>[num_chains]</code>. Default value: <code>0.75</code>
 (the center of asymptotically optimal rate for HMC).</p></td>
     </tr>
     <tr>
@@ -210,7 +210,7 @@ such <code>Tensor</code>s.</p></td>
       <td><p>A callable with the signature
 <code>(kernel_results) -&gt; log_accept_prob</code> where <code>kernel_results</code> are the results of the
 <code>inner_kernel</code>, and <code>log_accept_prob</code> is a floating point <code>Tensor</code>.
-<code>log_accept_prob</code> can either be a scalar, or have shape num_chains. If
+<code>log_accept_prob</code> can either be a scalar, or have shape <code>[num_chains]</code>. If
 it's the latter, <code>step_size</code> should also have the same leading
 dimension.</p></td>
     </tr>
@@ -251,7 +251,7 @@ across its <code>C0</code> and <code>C1</code> dimensions. This means that you w
 step size based on the mean acceptance probability across all chains. This
 can be useful if you don't have a lot of steps to adapt and want to average
 away the noise.</p></li>
-<li><p>Step size has shape C1, 1 or C1, S, the <code>log_accept_prob</code> will be
+<li><p>Step size has shape <code>[C1, 1]</code> or <code>[C1, S]</code>, the <code>log_accept_prob</code> will be
 averaged across its <code>C0</code> dimension. This means that you will learn a shared
 step size based on the mean acceptance probability across chains that share
 the coordinate across the <code>C1</code> dimension. This can be useful when the <code>C1</code>
