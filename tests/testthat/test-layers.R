@@ -207,8 +207,7 @@ test_succeeds("use layer_autoregressive_transform", {
       x = matrix(rep(0.0, n)),
       y = cbind(x1, x2),
       batch_size = 25,
-      epochs = 10,
-      steps_per_epoch=n %/% 25
+      epochs = 10
     )
 
 })
