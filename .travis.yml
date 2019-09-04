@@ -19,14 +19,14 @@ matrix:
       env: TENSORFLOW_VERSION="1.14"
     - name: "tf-2"
       env:
-        - TENSORFLOW_VERSION="2.0.0-rc0"
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/15/45/9dd158365996630e8171ae08c621da885fe88282473830f014c7084f5e72/tf_nightly_2.0_preview-2.0.0.dev20190903-cp27-cp27mu-manylinux2010_x86_64.whl"
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
   allow_failures:
     - name: "tf-2"
       env:
-        - TENSORFLOW_VERSION="2.0.0-rc0"
+        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/15/45/9dd158365996630e8171ae08c621da885fe88282473830f014c7084f5e72/tf_nightly_2.0_preview-2.0.0.dev20190903-cp27-cp27mu-manylinux2010_x86_64.whl"
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="nightly"

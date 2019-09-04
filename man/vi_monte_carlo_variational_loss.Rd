@@ -126,6 +126,7 @@ Journal of the Royal Statistical Society: Series B (Methodological) 28.1 (1966):
 
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}}
 }
 \concept{vi-functions}

@@ -2834,6 +2834,35 @@ tfd_lkj <- function(dimension,
           args)
 }
 
+#' The CholeskyLKJ distribution on cholesky factors of correlation matrices
+#'
+#' This is a one-parameter family of distributions on cholesky factors of
+#' correlation matrices.
+#' In other words, if If `X ~ CholeskyLKJ(c)`, then `X @ X^T ~ LKJ(c)`.
+#' For more details on the LKJ distribution, see `tfd_lkj`.
+
+#' @param concentration `float` or `double` `Tensor`. The positive concentration
+#' parameter of the CholeskyLKJ distributions.
+#' @inheritParams tfd_lkj
+#' @family distributions
+#' @export
+tfd_cholesky_lkj <- function(dimension,
+                             concentration,
+                             validate_args = FALSE,
+                             allow_nan_stats = TRUE,
+                             name = "CholeskyLKJ") {
+  args <- list(
+    dimension = as.integer(dimension),
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$CholeskyLKJ,
+          args)
+}
+
 #' Observation distribution from a linear Gaussian state space model
 #'
 #' The state space model, sometimes called a Kalman filter, posits a
