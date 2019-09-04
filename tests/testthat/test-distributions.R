@@ -500,6 +500,15 @@ test_succeeds("LKJ distribution works", {
   expect_equal(prob$get_shape()$as_list(), 2)
 })
 
+test_succeeds("CholeskyLKJ distribution works", {
+
+  skip_if_tfp_below("0.9")
+
+  d <- tfd_cholesky_lkj(dimension = 3, concentration = 1.5)
+  prob <- d %>% tfd_prob(array(rnorm(2 * 3 * 3), dim = c(2, 3, 3)))
+  expect_equal(prob$get_shape()$as_list(), 2)
+})
+
 test_succeeds("LinearGaussianStateSpaceModel distribution works", {
 
   ndims <- 2L
