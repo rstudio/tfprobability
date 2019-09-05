@@ -60,7 +60,7 @@ layer_autoregressive <- function(object,
   args <- list(
     params = as.integer(params),
     event_shape = normalize_shape(event_shape),
-    hidden_units = as.list(hidden_units),
+    hidden_units = as_integer_list(hidden_units),
     input_order = input_order,
     hidden_degrees = hidden_degrees,
     activation = activation,

@@ -169,7 +169,7 @@ test_succeeds("use layer_autoregressive to model rank-3 tensors without autoregr
                c(7, channels, event_shape))
 })
 
-test_succeeds("use layer_autoregressive_transform", {
+test_succeeds("layer_autoregressive_transform works", {
 
   skip_if_tf_below("2.0.0")
   skip_if_tfp_below("0.8.0")
