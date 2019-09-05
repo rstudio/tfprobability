@@ -47,8 +47,12 @@ as_tf_float <- function(x) {
 }
 
 as_tensor <- function(x) {
+
+  if (is.null(x))
+    return (NULL)
+
   if (is.list(x)) {
-    Map(tf$convert_to_tensor, x)
+    Map(function(x) tf$convert_to_tensor(x), x)
   } else {
     tf$convert_to_tensor(x)
   }
