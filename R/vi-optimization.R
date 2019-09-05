@@ -67,7 +67,7 @@
 #' return type of `result_fn`. Each `Tensor` has an added leading dimension
 #' of size `num_steps`, packing the trajectory of the result over the course of the optimization.
 #'
-#' @family vi-optimization
+#' @family vi-functions
 #'
 #' @export
 vi_fit_surrogate_posterior <-
