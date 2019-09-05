@@ -4,12 +4,14 @@
 \alias{layer_autoregressive_transform}
 \title{An autoregressive normalizing flow layer, given a \code{layer_autoregressive}.}
 \usage{
-layer_autoregressive_transform(object, made)
+layer_autoregressive_transform(object, made, ...)
 }
 \arguments{
 \item{object}{Model or layer object}
 
 \item{made}{A \code{Made} layer, which must output two parameters for each input.}
+
+\item{...}{Additional parameters passed to Keras Layer.}
 }
 \description{
 Following \href{https://arxiv.org/abs/1705.07057}{Papamakarios et al. (2017)}, given

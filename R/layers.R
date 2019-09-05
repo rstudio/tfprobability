@@ -108,11 +108,11 @@ layer_autoregressive <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #' @param made A `Made` layer, which must output two parameters for each input.
+#' @param ... Additional parameters passed to Keras Layer.
 #'
 #' @references
 #' [Papamakarios et al. (2017)](https://arxiv.org/abs/1705.07057)
 #'
-#' @examples
 #'
 #' @export
 layer_autoregressive_transform <- function(object, made, ...) {
