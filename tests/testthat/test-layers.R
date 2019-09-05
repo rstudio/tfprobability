@@ -171,6 +171,9 @@ test_succeeds("use layer_autoregressive to model rank-3 tensors without autoregr
 
 test_succeeds("use layer_autoregressive_transform", {
 
+  skip_if_tf_below("2.0.0")
+  skip_if_tfp_below("0.8.0")
+
   n <- 2000
   x2 <- rnorm(n) * 2
   x1 <- rnorm(n) + (x2 * x2 / 4)
