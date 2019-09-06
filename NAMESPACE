@@ -3,6 +3,7 @@
 export("%>%")
 export(initializer_blockwise)
 export(layer_autoregressive)
+export(layer_autoregressive_transform)
 export(layer_categorical_mixture_of_one_hot_categorical)
 export(layer_conv_1d_flipout)
 export(layer_conv_1d_reparameterization)

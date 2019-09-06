@@ -60,7 +60,7 @@ layer_autoregressive <- function(object,
   args <- list(
     params = as.integer(params),
     event_shape = normalize_shape(event_shape),
-    hidden_units = as.integer(hidden_units),
+    hidden_units = as_integer_list(hidden_units),
     input_order = input_order,
     hidden_degrees = hidden_degrees,
     activation = activation,
@@ -76,6 +76,61 @@ layer_autoregressive <- function(object,
     args
   )
 }
+
+#' An autoregressive normalizing flow layer, given a `layer_autoregressive`.
+#'
+#' Following [Papamakarios et al. (2017)](https://arxiv.org/abs/1705.07057), given
+#' an autoregressive model \eqn{p(x)} with conditional distributions in the location-scale
+#' family, we can construct a normalizing flow for \eqn{p(x)}.
+#'
+#' Specifically, suppose made is a `[layer_autoregressive()]` -- a layer implementing
+#' a Masked Autoencoder for Distribution Estimation (MADE) -- that computes location
+#' and log-scale parameters \eqn{made(x)[i]} for each input \eqn{x[i]}. Then we can represent
+#' the autoregressive model \eqn{p(x)} as \eqn{x = f(u)} where \eqn{u} is drawn
+#' from from some base distribution and where \eqn{f} is an invertible and
+#' differentiable function (i.e., a Bijector) and \eqn{f^{-1}(x)} is defined by:
+#'
+#' ```
+#' library(tensorflow)
+#' library(zeallot)
+#' f_inverse <- function(x) {
+#'   c(shift, log_scale) %<-% tf$unstack(made(x), 2, axis = -1L)
+#'   (x - shift) * tf$math$exp(-log_scale)
+#' }
+#' ```
+#'
+#' Given a [layer_autoregressive()] made, a [layer_autoregressive_transform()]
+#' transforms an input `tfd_*` \eqn{p(u)} to an output `tfd_*` \eqn{p(x)} where
+#' \eqn{x = f(u)}.
+#'
+#' @seealso [tfb_masked_autoregressive_flow()] and [layer_autoregressive()]
+#'
+#'
+#' @inheritParams keras::layer_dense
+#' @param made A `Made` layer, which must output two parameters for each input.
+#' @param ... Additional parameters passed to Keras Layer.
+#'
+#' @references
+#' [Papamakarios et al. (2017)](https://arxiv.org/abs/1705.07057)
+#'
+#'
+#' @export
+layer_autoregressive_transform <- function(object, made, ...) {
+
+  args <- list(
+    made = made,
+    ...
+  )
+
+  create_layer(
+    tfp$layers$AutoregressiveTransform,
+    object,
+    args
+  )
+
+}
+
+
 
 #' Dense Variational Layer
 #'
