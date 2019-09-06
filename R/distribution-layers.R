@@ -408,3 +408,70 @@ layer_mixture_logistic <- function(object,
 }
 
 
+#' A Variational Gaussian Process Layer.
+#'
+#' Create a Variational Gaussian Process distribution whose `index_points` are
+#' the inputs to the layer. Parameterized by number of inducing points and a
+#' `kernel_provider`, which should be a `tf.keras.Layer` with an @property that
+#' late-binds variable parameters to a `tfp.positive_semidefinite_kernel.PositiveSemidefiniteKernel`
+#' instance (this requirement has to do with the way that variables must be created
+#' in a keras model). The mean_fn is an optional argument which, if omitted, will
+#' be automatically configured to be a constant function with trainable variable
+#' output.
+#'
+#' @inheritParams keras::layer_dense
+#'
+#' @param num_inducing_points number of inducing points in the Variational Gaussian
+#'  Process distribution.
+#' @param kernel_provider a `Layer` instance equipped with an `@property`, which
+#'  yields a `PositiveSemidefiniteKernel` instance. The latter is used to parametrize
+#'  the constructed Variational Gaussian Process distribution returned by calling
+#'  the layer.
+#' @param event_shape the shape of the output of the layer. This translates to a
+#'  batch of underlying Variational Gaussian Process distributions. For example,
+#'  `event_shape = 3` means we are modelling a batch of 3 distributions over functions.
+#'  We can think oof this as a distribution over 3-dimensional veector-valued
+#'  functions.
+#' @param inducing_index_points_initializer a `tf.keras.initializer.Initializer`
+#'  used to initialize the trainable `inducing_index_points variables`. Training
+#'  VGP's is pretty sensitive to choice of initial inducing index point locations.
+#'  A reasonable heuristic is to scatter them near the data, not too close to each
+#'  other.
+#' @param unconstrained_observation_noise_variance_initializer a `tf.keras.initializer.Initializer`
+#'  used to initialize the unconstrained observation noise variable. The observation
+#'  noise variance is computed from this variable via the `tf.nn.softplus` function.
+#' @param mean_fn a callable that maps layer inputs to mean function values.
+#'  Passed to the mean_fn parameter of Variational Gaussian Process distribution.
+#'  If omitted, defaults to a constant function with trainable variable value.
+#' @param jitter a small term added to the diagonal of various kernel matrices for
+#'  numerical stability.
+#' @param name name to give to this layer and the scope of ops and variables it
+#'  contains.
+#'
+#' @export
+layer_variational_gaussian_process <- function(object,
+                                               num_inducing_points,
+                                               kernel_provider,
+                                               event_shape = 1,
+                                               inducing_index_points_initializer = NULL,
+                                               unconstrained_observation_noise_variance_initializer=keras::initializer_constant(-10),
+                                               mean_fn = NULL,
+                                               jitter = 1e-06,
+                                               name = NULL) {
+
+  args <- list(
+    num_inducing_points = num_inducing_points,
+    kernel_provider = kernel_provider,
+    event_shape = normalize_shape(event_shape),
+    inducing_index_points_initializer = inducing_index_points_initializer,
+    unconstrained_observation_noise_variance_initializer = unconstrained_observation_noise_variance_initializer,
+    mean_fn = mean_fn,
+    jitter = jitter,
+    name = name
+  )
+
+  create_layer(tfp$layers$VariationalGaussianProcess, object, args)
+}
+
+
+
