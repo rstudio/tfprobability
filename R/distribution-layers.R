@@ -460,7 +460,7 @@ layer_variational_gaussian_process <- function(object,
                                                name = NULL) {
 
   args <- list(
-    num_inducing_points = num_inducing_points,
+    num_inducing_points = as.integer(num_inducing_points),
     kernel_provider = kernel_provider,
     event_shape = normalize_shape(event_shape),
     inducing_index_points_initializer = inducing_index_points_initializer,

@@ -366,11 +366,11 @@ class KernelFn(tf.keras.layers.Layer):
   model <- keras::keras_model_sequential() %>%
     keras::layer_dense(units = 10) %>%
     layer_variational_gaussian_process(
-      num_inducing_points = 30L,
+      num_inducing_points = 30,
       kernel_provider = kernel_fn$KernelFn(dtype = "float32")
     )
 
-  batch_size <- 64L
+  batch_size <- 64
   kl_weight <- batch_size/length(x)
   loss <- function(y, d) {
     d$variational_loss(y, kl_weight=as_tensor(kl_weight))
@@ -380,7 +380,7 @@ class KernelFn(tf.keras.layers.Layer):
     compile(optimizer = "adam", loss = loss)
 
   model %>%
-    fit(x = as_tensor(x), y = as_tensor(y))
+    fit(x = as_tensor(x), y = as_tensor(y), batch_size = batch_size)
 })
 
 
