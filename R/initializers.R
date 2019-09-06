@@ -13,7 +13,7 @@
 initializer_blockwise <- function(initializers, sizes, validate_args = FALSE) {
   tfp$layers$BlockwiseInitializer(
     initializers = initializers,
-    sizes = lapply(sizes, as.integer),
+    sizes = as_integer_list(sizes),
     validate_args = validate_args
   )
 }
