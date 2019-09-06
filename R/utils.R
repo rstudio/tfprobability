@@ -53,3 +53,7 @@ as_tensor <- function(x) {
     tf$convert_to_tensor(x)
   }
 }
+
+as_integer_list <- function(x) {
+  lapply(x, as.integer)
+}

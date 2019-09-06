@@ -169,6 +169,52 @@ test_succeeds("use layer_autoregressive to model rank-3 tensors without autoregr
                c(7, channels, event_shape))
 })
 
+test_succeeds("layer_autoregressive_transform works", {
+
+  skip_if_tf_below("2.0.0")
+  skip_if_tfp_below("0.8.0")
+
+  n <- 2000
+  x2 <- rnorm(n) * 2
+  x1 <- rnorm(n) + (x2 * x2 / 4)
+
+  model <- keras::keras_model_sequential() %>%
+    layer_distribution_lambda(
+      make_distribution_fn = function(t) {
+        tfd_multivariate_normal_diag(
+          loc = tf$constant(matrix(0, nrow = 25, ncol = 2), dtype = "float32"),
+          scale_diag = tf$constant(c(1,1), dtype = "float32")
+        )
+      },
+      dtype = "float32"
+    ) %>%
+    layer_autoregressive_transform(made = layer_autoregressive(
+      params = list(2L),
+      hidden_units = list(10L),
+      activation = "relu",
+      dtype = "float32"
+      ),
+      dtype = "float32"
+    )
+
+  loss_fun <-function(y, rv_y) -rv_y$log_prob(y)
+
+  model %>%
+    keras::compile(
+      optimizer = "adam",
+      loss = loss_fun
+    )
+
+  model %>%
+    keras::fit(
+      x = matrix(rep(0.0, n)),
+      y = cbind(x1, x2),
+      batch_size = 25,
+      epochs = 10
+    )
+
+})
+
 
 test_succeeds("layer_variable works", {
 
