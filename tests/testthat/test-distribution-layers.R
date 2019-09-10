@@ -313,6 +313,8 @@ test_succeeds("layer_conv_3d_reparameterization works", {
 
 test_succeeds("layer_variational_gaussian_process works", {
 
+  skip_if_tf_below("2.0")
+
   x <- runif(1000, 0, 60)
   y <- 5 + sin(2*x) + 0.04*x
 
