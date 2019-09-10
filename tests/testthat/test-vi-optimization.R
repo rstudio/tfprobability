@@ -1,4 +1,4 @@
-context("vi-functions")
+context("vi-optimization")
 
 source("utils.R")
 
