@@ -286,3 +286,87 @@ test_succeeds("can use layer_mixture_logistic in a keras model", {
   ))
   expect_equal(model$output_shape[[2]], event_shape)
 })
+
+test_succeeds("layer_conv_3d_reparameterization works", {
+
+  skip_if_tf_below("2.0")
+
+  library(keras)
+
+  x = tf$ones(shape = c(7, 16, 4, 4, 3))
+  y = tf$ones(7, 10)
+
+  model <- keras_model_sequential(list(
+    layer_conv_3d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_max_pooling_3d(),
+    layer_flatten(),
+    layer_dense_reparameterization(units = 10)
+  ))
+
+  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  model %>% fit(x, y, steps_per_epoch = 1)
+
+  yhat <- model(x)
+  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(length(model$losses), 2)
+})
+
+test_succeeds("layer_variational_gaussian_process works", {
+
+  skip_if_tf_below("2.0")
+
+  x <- runif(1000, 0, 60)
+  y <- 5 + sin(2*x) + 0.04*x
+
+  kernel_fn <- reticulate::py_run_string("
+import tensorflow as tf
+import tensorflow_probability as tfp
+tf1 = tf.compat.v1
+class KernelFn(tf.keras.layers.Layer):
+
+      def __init__(self, **kwargs):
+        super(KernelFn, self).__init__(**kwargs)
+
+        self._amplitude = self.add_variable(
+            initializer=tf1.initializers.constant(.54),
+            dtype='float32',
+            name='amplitude')
+
+      def call(self, x):
+        return x
+
+      @property
+      def kernel(self):
+        return tfp.positive_semidefinite_kernels.ExponentiatedQuadratic(
+            amplitude=tf.nn.softplus(self._amplitude))
+")
+
+  model <- keras::keras_model_sequential() %>%
+    keras::layer_dense(units = 10) %>%
+    layer_variational_gaussian_process(
+      num_inducing_points = 30,
+      kernel_provider = kernel_fn$KernelFn(dtype = "float32")
+    )
+
+  batch_size <- 64
+  kl_weight <- batch_size/length(x)
+  loss <- function(y, d) {
+    d$variational_loss(y, kl_weight=as_tensor(kl_weight))
+  }
+
+  model %>%
+    compile(optimizer = "adam", loss = loss)
+
+  model %>%
+    fit(x = as_tensor(x), y = as_tensor(y), batch_size = batch_size)
+})
+
+
+
+
+
+
+
+
+
+
