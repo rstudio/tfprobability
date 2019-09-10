@@ -741,15 +741,21 @@ test_succeeds("BatchReshape distribution works", {
 
 test_succeeds("Autoregressive distribution works", {
 
+  if (tfp_version() >= 0.8) {
+    fill_triangular <- tfp$math$fill_triangular
+  } else {
+    fill_triangular <- tfp$distributions$fill_triangular
+  }
+
   normal_fn <- function(event_size) {
     n <- event_size * (event_size + 1) / 2 %>% trunc()
     n <- tf$cast(n, tf$int32)
     p <- tf$Variable(tfd_normal(loc = 0, scale = 1)$sample(n))
     # distributions/__init__.py:from tensorflow_probability.python.internal.distribution_util import fill_triangular
-    affine <- tfb_affine(scale_tril = tfp$distributions$fill_triangular(0.25 * p))
+    affine <- tfb_affine(scale_tril = fill_triangular(0.25 * p))
 
     fn <- function(samples) {
-      scale <- tf$exp(affine %>% tfb_forward(samples))
+      scale <- tf$exp(affine %>% tfb_forward(samples)) + 1.0
       tfd_independent(tfd_normal(loc = 0, scale = scale, validate_args = TRUE),
         reinterpreted_batch_ndims = 1)
     }
