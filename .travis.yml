@@ -16,28 +16,31 @@ cache:
 matrix:
   include:
     - name: "tf-stable"
-      env: TENSORFLOW_VERSION="1.14"
+      env:
+        - TENSORFLOW_VERSION="1.14.0"
+        - TFPROBABILITY_VERSION="0.7.0"
     - name: "tf-2"
       env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/15/45/9dd158365996630e8171ae08c621da885fe88282473830f014c7084f5e72/tf_nightly_2.0_preview-2.0.0.dev20190903-cp27-cp27mu-manylinux2010_x86_64.whl"
+        - TENSORFLOW_VERSION="2.0.0rc0"
+        - TFPROBABILITY_VERSION="0.8.0rc0"
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
+        - TFPROBABILITY_VERSION="nightly"
   allow_failures:
-    - name: "tf-2"
-      env:
-        - TENSORFLOW_VERSION="https://files.pythonhosted.org/packages/15/45/9dd158365996630e8171ae08c621da885fe88282473830f014c7084f5e72/tf_nightly_2.0_preview-2.0.0.dev20190903-cp27-cp27mu-manylinux2010_x86_64.whl"
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
+        - TFPROBABILITY_VERSION="nightly"
 
 before_script:
   - sudo apt-get update
   - sudo apt-get install python3
   - pip install --upgrade --ignore-installed --user travis virtualenv
   - R CMD INSTALL .
-  - R -e 'tensorflow::install_tensorflow(version = Sys.getenv("TENSORFLOW_VERSION"), extra_packages = if (substr(Sys.getenv("TENSORFLOW_VERSION"), 1, 4) %in% c("1.14")) "tensorflow-probability" else "tfp-nightly")'
-  - R -e 'tensorflow::tf_config()'
+  - Rscript -e 'tfprobability::install_tfprobability(version = Sys.getenv("TFPROBABILITY_VERSION"), tensorflow = Sys.getenv("TENSORFLOW_VERSION"))'
+  - Rscript -e 'tensorflow::tf_config()'
+  - Rscript -e 'tfprobability::tfp_version'
 
 after_success:
   - Rscript -e 'covr::codecov()'
