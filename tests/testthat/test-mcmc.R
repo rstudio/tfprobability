@@ -283,7 +283,6 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
 
   skip_if_tfp_below("0.8")
 
-  strm <- tfp$distributions$SeedStream(1, salt = "EndtoEndTest")
   predictors <-
     tf$cast(
       c(
@@ -383,9 +382,10 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
     validate_args = TRUE
   )
 
-  log_prob <-
-    function(b0, b1, df)
-      robust_lm %>% tfd_log_prob(list(b0, b1, df, obs))
+  log_prob <-function(b0, b1, df) {
+    robust_lm %>% tfd_log_prob(list(b0, b1, df, obs))
+  }
+
   step_size0 <- Map(function(x)
     tf$cast(x, tf$float32), c(1, .2, .5))
 
@@ -395,7 +395,8 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
 
   run_chain <- function() {
     # random initialization of the starting postion of each chain
-    samples <- robust_lm %>% tfd_sample(nchain, seed = strm())
+
+    samples <- robust_lm %>% tfd_sample(nchain)
     b0 <- samples[[1]]
     b1 <- samples[[2]]
     df <- samples[[3]]
@@ -415,8 +416,7 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
 
     nuts <- mcmc_no_u_turn_sampler(
       target_log_prob_fn = log_prob,
-      step_size = step_size0,
-      seed = strm()
+      step_size = step_size0
     ) %>%
       mcmc_transformed_transition_kernel(bijector = unconstraining_bijectors) %>%
       mcmc_dual_averaging_step_size_adaptation(
@@ -438,6 +438,8 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
       trace_fn = trace_fn
     )
   }
+
+
   run_chain <- tensorflow::tf_function(run_chain)
 
   # mcmc_trace, (step_size, log_accept_ratio)
@@ -446,3 +448,4 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
   log_accept_ratio <- res[1][[2]]
   expect_equal(log_accept_ratio$get_shape() %>% length(), 2)
 })
+

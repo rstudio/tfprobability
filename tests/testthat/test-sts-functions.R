@@ -51,8 +51,13 @@ test_succeeds("sts_build_factored_variational_loss works", {
 })
 
 test_succeeds("sts_fit_with_hmc works", {
+
   observed_time_series <-
     rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
+
+  if (tensorflow::tf_version() >= "2.0")
+    observed_time_series <- tensorflow::tf$convert_to_tensor(observed_time_series, dtype = tensorflow::tf$float64)
+
 
   day_of_week <-
     observed_time_series %>% sts_seasonal(num_seasons = 7)
@@ -78,6 +83,9 @@ test_succeeds("sts_one_step_predictive works", {
 
   observed_time_series <-
     rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
+
+  if (tensorflow::tf_version() >= "2.0")
+    observed_time_series <- tensorflow::tf$convert_to_tensor(observed_time_series, dtype = tensorflow::tf$float64)
 
   day_of_week <-
     observed_time_series %>% sts_seasonal(num_seasons = 7)
@@ -108,6 +116,9 @@ test_succeeds("sts_forecast works", {
 
   observed_time_series <-
     rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
+
+  if (tensorflow::tf_version() >= "2.0")
+    observed_time_series <- tensorflow::tf$convert_to_tensor(observed_time_series, dtype = tensorflow::tf$float64)
 
   day_of_week <-
     observed_time_series %>% sts_seasonal(num_seasons = 7)
