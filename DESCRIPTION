@@ -22,7 +22,8 @@ Imports:
     keras,
     magrittr
 Remotes:
-    rstudio/reticulate
+    rstudio/reticulate,
+    rstudio/tensorflow
 Suggests: 
     testthat,
     knitr
