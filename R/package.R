@@ -30,6 +30,9 @@ tfp <- NULL
 
 }
 
+#' TensorFlow Probability Version
+#'
+#' @export
 tfp_version <- function() {
   version <- (tfp$`__version__` %>% strsplit(".", fixed = TRUE))[[1]]
   pkg_version <- package_version(paste(version[[1]], version[[2]], sep = "."))
