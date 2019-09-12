@@ -4497,4 +4497,28 @@ tfd_sample_distribution <- function(distribution,
   do.call(tfp$distributions$Sample, args)
 }
 
+#' Blockwise distribution
+#'
+#' @inheritParams tfd_normal
+#' @param distributions list of Distribution instances. All distribution instances
+#'  must have the same batch_shape and all must have `event_ndims==1``, i.e., be
+#'  vector-variate distributions.
+#' @param dtype_override samples of distributions will be cast to this dtype. If
+#'  unspecified, all distributions must have the same dtype. Default value:
+#'  `NULL` (i.e., do not cast).
+#'
+#' @export
+tfd_blockwise <- function(distributions,
+                          dtype_override=NULL,
+                          validate_args=FALSE,
+                          allow_nan_stats=FALSE,
+                          name='Blockwise') {
 
+  tfp$distributions$Blockwise(
+    distributions = distributions,
+    dtype_override = dtype_override,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}
