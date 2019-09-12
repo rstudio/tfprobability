@@ -798,3 +798,17 @@ test_succeeds("Sample distribution works", {
   expect_equal(logprob$get_shape()$as_list(), c(6, 1, 3))
 })
 
+test_succeeds("Blockwise distribution works", {
+
+  skip_if_tfp_below("0.7")
+
+  d <- tfd_blockwise(
+    list(
+      tfd_multinomial(total_count = 5, probs = c(0.1, 0.2, 0.3)),
+      tfd_multivariate_normal_diag(loc = c(0,0,0,0))
+      )
+  )
+
+  expect_equal(tfd_sample(d)$get_shape()$as_list(), 7)
+})
+
