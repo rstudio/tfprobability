@@ -812,3 +812,14 @@ test_succeeds("Blockwise distribution works", {
   expect_equal(tfd_sample(d)$get_shape()$as_list(), 7)
 })
 
+test_succeeds("Vector Deterministic distribution works", {
+
+  skip_if_tfp_below("0.8")
+
+  d <- tfd_vector_deterministic(
+    loc = c(1,1,1)
+  )
+
+  expect_equal(tfd_sample(d)$get_shape()$as_list(), 3)
+})
+
