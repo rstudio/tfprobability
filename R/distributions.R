@@ -4522,3 +4522,38 @@ tfd_blockwise <- function(distributions,
     name = name
   )
 }
+
+#' Vector Deterministic Distribution
+#'
+#' The VectorDeterministic distribution is parameterized by a batch point loc in R^k.
+#' The distribution is supported at this point only, and corresponds to a random
+#' variable that is constant, equal to loc.
+#'
+#' See [Degenerate rv](https://en.wikipedia.org/wiki/Degenerate_distribution).
+#'
+#' @inheritParams tfd_normal
+#'
+#' @param loc Numeric Tensor of shape \[B1, ..., Bb, k\], with b >= 0, k >= 0 The
+#'  point (or batch of points) on which this distribution is supported.
+#' @param atol Non-negative Tensor of same dtype as loc and broadcastable shape.
+#'  The absolute tolerance for comparing closeness to loc. Default is 0.
+#' @param rtol Non-negative Tensor of same dtype as loc and broadcastable shape.
+#'  The relative tolerance for comparing closeness to loc. Default is 0.
+#'
+#' @export
+tfd_vector_deterministic <- function(loc,
+                                     atol = NULL,
+                                     rtol = NULL,
+                                     validate_args = FALSE,
+                                     allow_nan_stats = TRUE,
+                                     name = 'VectorDeterministic') {
+
+  tfp$distributions$VectorDeterministic(
+    loc = loc,
+    atol = atol,
+    rtol = rtol,
+    validate_args = FALSE,
+    allow_nan_stats = TRUE,
+    name = 'VectorDeterministic'
+  )
+}
