@@ -9,7 +9,7 @@ tfd_vector_deterministic(loc, atol = NULL, rtol = NULL,
   name = "VectorDeterministic")
 }
 \arguments{
-\item{loc}{Numeric Tensor of shape \link{B1, ..., Bb, k}, with b >= 0, k >= 0 The
+\item{loc}{Numeric Tensor of shape [B1, ..., Bb, k], with b >= 0, k >= 0 The
 point (or batch of points) on which this distribution is supported.}
 
 \item{atol}{Non-negative Tensor of same dtype as loc and broadcastable shape.

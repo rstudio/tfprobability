@@ -4533,7 +4533,7 @@ tfd_blockwise <- function(distributions,
 #'
 #' @inheritParams tfd_normal
 #'
-#' @param loc Numeric Tensor of shape [B1, ..., Bb, k], with b >= 0, k >= 0 The
+#' @param loc Numeric Tensor of shape \[B1, ..., Bb, k\], with b >= 0, k >= 0 The
 #'  point (or batch of points) on which this distribution is supported.
 #' @param atol Non-negative Tensor of same dtype as loc and broadcastable shape.
 #'  The absolute tolerance for comparing closeness to loc. Default is 0.
