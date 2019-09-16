@@ -4619,4 +4619,39 @@ tfd_vector_deterministic <- function(loc,
   )
 }
 
+#' ExpRelaxedOneHotCategorical distribution with temperature and logits.
+#'
+#' @inheritParams tfd_normal
+#' @param temperature An 0-D Tensor, representing the temperature of a set of
+#'  ExpRelaxedCategorical distributions. The temperature should be positive.
+#' @param logits An N-D Tensor, N >= 1, representing the log probabilities of a
+#'  set of ExpRelaxedCategorical distributions. The first N - 1 dimensions index
+#'  into a batch of independent distributions and the last dimension represents a
+#'  vector of logits for each class. Only one of logits or probs should be passed
+#'  in.
+#' @param probs An N-D Tensor, N >= 1, representing the probabilities of a set of
+#'  ExpRelaxedCategorical distributions. The first N - 1 dimensions index into a
+#'  batch of independent distributions and the last dimension represents a vector
+#'  of probabilities for each class. Only one of logits or probs should be passed
+#'  in.
+#'
+#' @export
+tfd_exp_relaxed_one_hot_categorical <- function(temperature,
+                                                logits = NULL,
+                                                probs = NULL,
+                                                validate_args = FALSE,
+                                                allow_nan_stats = TRUE,
+                                                name="ExpRelaxedOneHotCategorical") {
+  tfp$distributions$ExpRelaxedOneHotCategorical(
+    temperature = temperature,
+    logits = logits,
+    probs = probs,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}
+
+
+
 
