@@ -839,3 +839,12 @@ test_succeeds("Gaussian Process Regression Model works", {
   expect_equal(tfd_sample(d)$get_shape()$as_list(), 100)
 })
 
+test_succeeds("Exponential Relaxed One Hot Categorical distribution works", {
+  d <- tfd_exp_relaxed_one_hot_categorical(
+    temperature = 0.5,
+    probs = c(0.1, 0.5, 0.4)
+  )
+
+  expect_equal(tfd_sample(d)$get_shape()$as_list(), 3)
+})
+
