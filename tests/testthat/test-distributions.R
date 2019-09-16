@@ -823,3 +823,19 @@ test_succeeds("Vector Deterministic distribution works", {
   expect_equal(tfd_sample(d)$get_shape()$as_list(), 3)
 })
 
+test_succeeds("Gaussian Process Regression Model works", {
+
+  skip_if_tfp_below("0.8")
+
+  d <- tfd_gaussian_process_regression_model(
+    kernel = tfp$positive_semidefinite_kernels$MaternFiveHalves(),
+    index_points = matrix(seq(-1, 1, length.out = 100), ncol = 1),
+    observation_index_points = matrix(runif(50), ncol = 1),
+    observations = rnorm(50),
+    observation_noise_variance = 0.5
+  )
+
+
+  expect_equal(tfd_sample(d)$get_shape()$as_list(), 100)
+})
+

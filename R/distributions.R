@@ -4518,7 +4518,7 @@ tfd_gaussian_process_regression_model <- function(kernel,
     predictive_noise_variance = predictive_noise_variance,
     mean_fn = mean_fn,
     jitter = jitter,
-    vsalidate_args = validate_args,
+    validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
   )
