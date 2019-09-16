@@ -4463,6 +4463,67 @@ tfd_gaussian_process <- function(kernel,
   do.call(tfp$distributions$GaussianProcess, args)
 }
 
+#' Posterior predictive distribution in a conjugate GP regression model.
+#'
+#' @inheritParams tfd_gaussian_process
+#' @family distributions
+#'
+#' @param observation_index_points Tensor representing finite collection, or batch
+#'  of collections, of points in the index set for which some data has been observed.
+#'  Shape has the form \[b1, ..., bB, e, f1, ..., fF\] where F is the number of
+#'  feature dimensions and must equal `kernel$feature_ndims`, and e is the number
+#'  (size) of index points in each batch. \[b1, ..., bB, e\] must be broadcastable
+#'  with the shape of observations, and \[b1, ..., bB\] must be broadcastable with
+#'  the shapes of all other batched parameters (kernel.batch_shape, index_points, etc).
+#'  The default value is None, which corresponds to the empty set of observations,
+#'  and simply results in the prior predictive model (a GP with noise of variance
+#'  `predictive_noise_variance`).
+#' @param observations Tensor representing collection, or batch of collections,
+#'  of observations corresponding to observation_index_points. Shape has the
+#'  form \[b1, ..., bB, e\], which must be brodcastable with the batch and example
+#'  shapes of observation_index_points. The batch shape \[b1, ..., bB\ ] must be
+#'  broadcastable with the shapes of all other batched parameters (kernel.batch_shape,
+#'  index_points, etc.). The default value is None, which corresponds to the empty
+#'  set of observations, and simply results in the prior predictive model (a GP
+#'  with noise of variance `predictive_noise_variance`).
+#' @param predictive_noise_variance Tensor representing the variance in the posterior
+#'  predictive model. If None, we simply re-use observation_noise_variance for the
+#'  posterior predictive noise. If set explicitly, however, we use this value. This
+#'  allows us, for example, to omit predictive noise variance (by setting this to zero)
+#'  to obtain noiseless posterior predictions of function values, conditioned on noisy
+#'  observations.
+#' @param mean_fn callable that acts on `index_points` to produce a collection, or
+#'  batch of collections, of mean values at index_points. Takes a Tensor of shape
+#'  \[b1, ..., bB, f1, ..., fF\] and returns a Tensor whose shape is broadcastable
+#'  with \[b1, ..., bB\]. Default value: None implies the constant zero function.
+#'
+#' @export
+tfd_gaussian_process_regression_model <- function(kernel,
+                                                  index_points = NULL,
+                                                  observation_index_points = NULL,
+                                                  observations = NULL,
+                                                  observation_noise_variance = 0.0,
+                                                  predictive_noise_variance = NULL,
+                                                  mean_fn = NULL,
+                                                  jitter = 1e-06,
+                                                  validate_args = FALSE,
+                                                  allow_nan_stats = FALSE,
+                                                  name="GaussianProcessRegressionModel") {
+  tfp$distributions$GaussianProcessRegressionModel(
+    kernel = kernel,
+    index_points = index_points,
+    observation_index_points = observation_index_points,
+    observations = observations,
+    observation_noise_variance = observation_noise_variance,
+    predictive_noise_variance = predictive_noise_variance,
+    mean_fn = mean_fn,
+    jitter = jitter,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}
+
 
 #' Sample distribution via independent draws.
 #'
@@ -4557,3 +4618,5 @@ tfd_vector_deterministic <- function(loc,
     name = 'VectorDeterministic'
   )
 }
+
+
