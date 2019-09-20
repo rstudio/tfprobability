@@ -4,6 +4,8 @@
 #'  features.
 #' @param ... other arguments passed to specific methods.
 #'
+#' @seealso [glm_fit.tensorflow.tensor()]
+#'
 #' @export
 glm_fit <- function(x, ...) {
   UseMethod("glm_fit")
@@ -21,9 +23,9 @@ glm_fit.default <- function(x, ...) {
 #' @param response vector-shaped Tensor where each element represents a sample's
 #'  observed response (to the corresponding row of features). Must have same `dtype`
 #'  as `x`.
-#' @param model `tfp$glm$ExponentialFamily-like` instance which implicitly
-#'  characterizes a negative log-likelihood loss by specifying the distribuion's
-#'  mean, gradient_mean, and variance.
+#' @param model a string naming the model (see [glm_families]) or a `tfp$glm$ExponentialFamily-like`
+#'  instance which implicitly characterizes a negative log-likelihood loss by specifying
+#'  the distribuion's mean, gradient_mean, and variance.
 #' @param model_coefficients_start Optional (batch of) vector-shaped Tensor representing
 #'  the initial model coefficients, one for each column in `x`. Must have same `dtype`
 #'  as model_matrix. Default value: Zeros.
@@ -64,6 +66,9 @@ glm_fit.tensorflow.tensor <- function(x,
                                       maximum_iterations = NULL,
                                       name = NULL,
                                       ...) {
+
+  if (is.character(model)) family_from_string(model)
+
   out <- tfp$glm$fit(
     model_matrix = x,
     response = response,
@@ -82,3 +87,51 @@ glm_fit.tensorflow.tensor <- function(x,
   class(out) <- c("glm_fit")
   out
 }
+
+#' GLM families
+#'
+#' A list of models that can be used as the `model` argument in [glm_fit()]:
+#'
+#' * `Bernoulli`: `Bernoulli(probs=mean)` where `mean = sigmoid(matmul(X, weights))`
+#' * `BernoulliNormalCDF`: `Bernoulli(probs=mean)` where `mean = Normal(0, 1).cdf(matmul(X, weights))`
+#' * `GammaExp`: `Gamma(concentration=1, rate=1 / mean)` where `mean = exp(matmul(X, weights))`
+#' * `GammaSoftplus`: `Gamma(concentration=1, rate=1 / mean)` where `mean = softplus(matmul(X, weights))`
+#' * `LogNormal`: `LogNormal(loc=log(mean) - log(2) / 2, scale=sqrt(log(2)))` where
+#'  `mean = exp(matmul(X, weights))`.
+#' * `LogNormalSoftplus`: `LogNormal(loc=log(mean) - log(2) / 2, scale=sqrt(log(2)))` where
+#'  `mean = softplus(matmul(X, weights))`
+#' * `Normal`: `Normal(loc=mean, scale=1)` where `mean = matmul(X, weights)`.
+#' * `NormalReciprocal`: `Normal(loc=mean, scale=1)` where `mean = 1 / matmul(X, weights)`
+#' * `Poisson`: `Poisson(rate=mean)` where `mean = exp(matmul(X, weights))`.
+#' * `PoissonSoftplus`: `Poisson(rate=mean)` where `mean = softplus(matmul(X, weights))`.
+#'
+#' @name glm_families
+#' @rdname glm_families
+NULL
+
+family_from_string <- function(model) {
+
+  if (model == "Bernoulli")
+    tfp$glm$Bernoulli()
+  else if (model == "BernoulliNormalCDF")
+    tfp$glm$BernoulliNormalCDF()
+  else if (model == "GammaExp")
+    tfp$glm$GammaExp()
+  else if (model == "GammaSoftplus")
+    tfp$glm$GammaSoftplus()
+  else if (model == "LogNormal")
+    tfp$glm$LogNormal()
+  else if (model == "LogNormalSoftplus")
+    tfp$glm$LogNormalSoftplus()
+  else if (model == "Normal")
+    tfp$glm$Normal()
+  else if (model == "NormalReciprocal")
+    tfp$glm$NormalReciprocal()
+  else if (model == "Poisson")
+    tfp$glm$Poisson()
+  else if (model == "PoissonSoftplus")
+    tfp$glm$PoissonSoftplus()
+  else
+    stop("Model ", model, "not implemented", call. = FALSE)
+}
+

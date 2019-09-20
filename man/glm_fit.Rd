@@ -15,3 +15,6 @@ features.}
 \description{
 Runs multiple Fisher scoring steps.
 }
+\seealso{
+\code{\link[=glm_fit.tensorflow.tensor]{glm_fit.tensorflow.tensor()}}
+}

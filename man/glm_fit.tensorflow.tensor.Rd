@@ -19,9 +19,9 @@ features.}
 observed response (to the corresponding row of features). Must have same \code{dtype}
 as \code{x}.}
 
-\item{model}{\code{tfp$glm$ExponentialFamily-like} instance which implicitly
-characterizes a negative log-likelihood loss by specifying the distribuion's
-mean, gradient_mean, and variance.}
+\item{model}{a string naming the model (see \link{glm_families}) or a \code{tfp$glm$ExponentialFamily-like}
+instance which implicitly characterizes a negative log-likelihood loss by specifying
+the distribuion's mean, gradient_mean, and variance.}
 
 \item{model_coefficients_start}{Optional (batch of) vector-shaped Tensor representing
 the initial model coefficients, one for each column in \code{x}. Must have same \code{dtype}
