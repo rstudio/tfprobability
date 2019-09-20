@@ -62,7 +62,8 @@ glm_fit.tensorflow.tensor <- function(x,
                                       learning_rate = NULL,
                                       fast_unsafe_numerics=TRUE,
                                       maximum_iterations = NULL,
-                                      name = NULL) {
+                                      name = NULL,
+                                      ...) {
   out <- tfp$glm$fit(
     model_matrix = x,
     response = response,

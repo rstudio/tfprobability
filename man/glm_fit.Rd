@@ -9,6 +9,8 @@ glm_fit(x, ...)
 \arguments{
 \item{x}{float-like, matrix-shaped Tensor where each row represents a sample's
 features.}
+
+\item{...}{other arguments passed to specific methods.}
 }
 \description{
 Runs multiple Fisher scoring steps.

@@ -9,7 +9,7 @@
   predicted_linear_response_start = NULL, l2_regularizer = NULL,
   dispersion = NULL, offset = NULL, convergence_criteria_fn = NULL,
   learning_rate = NULL, fast_unsafe_numerics = TRUE,
-  maximum_iterations = NULL, name = NULL)
+  maximum_iterations = NULL, name = NULL, ...)
 }
 \arguments{
 \item{x}{float-like, matrix-shaped Tensor where each row represents a sample's
@@ -56,6 +56,8 @@ value: TRUE (i.e., "fast but possibly diminished accuracy").}
 "and-ed" with result of \code{convergence_criteria_fn}. Default value: \code{NULL} (i.e., infinity).}
 
 \item{name}{usesed as name prefix to ops created by this function. Default value: "fit".}
+
+\item{...}{other arguments passed to specific methods.}
 }
 \description{
 Runs multiple Fisher scoring steps.
