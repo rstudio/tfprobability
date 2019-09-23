@@ -67,7 +67,7 @@ glm_fit.tensorflow.tensor <- function(x,
                                       name = NULL,
                                       ...) {
 
-  if (is.character(model)) family_from_string(model)
+  if (is.character(model)) model <- family_from_string(model)
 
   out <- tfp$glm$fit(
     model_matrix = x,
