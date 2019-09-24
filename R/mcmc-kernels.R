@@ -626,10 +626,6 @@ mcmc_no_u_turn_sampler <- function(target_log_prob_fn,
 #' `kernel_results`: `collections.namedtuple` of internal calculations used to
 # 'advance the chain.
 #'
-#' @section References:
-#' - [Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. _Journal of the Royal Statistical Society: Series B (Statistical Methodology)_, 60: 255-268, 1998.](https://doi.org/10.1111/1467-9868.00123)
-#' - [T. Xifara et al. Langevin diffusions and the Metropolis-adjusted Langevin algorithm. _arXiv preprint arXiv:1309.2983_, 2013.](https://arxiv.org/abs/1309.2983)
-#'
 #' @inheritParams mcmc_hamiltonian_monte_carlo
 #' @family mcmc_kernels
 #' @export
@@ -652,3 +648,50 @@ mcmc_uncalibrated_langevin <- function(target_log_prob_fn,
 
   do.call(tfp$mcmc$UncalibratedLangevin, args)
 }
+
+#' Runs one step of Metropolis-adjusted Langevin algorithm.
+#'
+#' Metropolis-adjusted Langevin algorithm (MALA) is a Markov chain Monte Carlo
+#' (MCMC) algorithm that takes a step of a discretised Langevin diffusion as a
+#' proposal. This class implements one step of MALA using Euler-Maruyama method
+#' for a given `current_state` and diagonal preconditioning `volatility` matrix.
+#'
+#' Mathematical details and derivations can be found in
+#' Roberts and Rosenthal (1998) and Xifara et al. (2013).
+#'
+#' The `one_step` function can update multiple chains in parallel. It assumes
+#' that all leftmost dimensions of `current_state` index independent chain states
+#' (and are therefore updated independently). The output of
+#' `target_log_prob_fn(current_state)` should reduce log-probabilities across
+#' all event dimensions. Slices along the rightmost dimensions may have different
+#' target distributions; for example, `current_state[0, :]` could have a
+#' different target distribution from `current_state[1, :]`. These semantics are
+#' governed by `target_log_prob_fn(current_state)`. (The number of independent
+#' chains is `tf.size(target_log_prob_fn(current_state))`.)
+#'
+#' @section References:
+#' - [Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. _Journal of the Royal Statistical Society: Series B (Statistical Methodology)_, 60: 255-268, 1998.](https://doi.org/10.1111/1467-9868.00123)
+#' - [T. Xifara et al. Langevin diffusions and the Metropolis-adjusted Langevin algorithm. _arXiv preprint arXiv:1309.2983_, 2013.](https://arxiv.org/abs/1309.2983)
+#'
+#' @inheritParams mcmc_uncalibrated_langevin
+#' @family mcmc_kernels
+#' @export
+  mcmc_metropolis_adjusted_langevin_algorithm <-
+    function(target_log_prob_fn,
+             step_size,
+             volatility_fn = NULL,
+             seed = NULL,
+             parallel_iterations = 10,
+             name = NULL) {
+      args <- list(
+        target_log_prob_fn = target_log_prob_fn,
+        step_size = step_size,
+        volatility_fn = volatility_fn,
+        parallel_iterations = as.integer(parallel_iterations),
+        seed = seed,
+        name = name
+      )
+
+      do.call(tfp$mcmc$MetropolisAdjustedLangevinAlgorithm, args)
+    }
+

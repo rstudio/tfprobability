@@ -75,6 +75,7 @@ chains is \code{tf$size(target_log_prob_fn(current_state))}.)
 
 \seealso{
 Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
+  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
   \code{\link{mcmc_metropolis_hastings}},
   \code{\link{mcmc_no_u_turn_sampler}},
   \code{\link{mcmc_random_walk_metropolis}},

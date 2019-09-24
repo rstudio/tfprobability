@@ -53,17 +53,10 @@ Warning: this kernel will not result in a chain which converges to the
 \code{target_log_prob}. To get a convergent MCMC, use
 \code{MetropolisAdjustedLangevinAlgorithm(...)} or \code{MetropolisHastings(UncalibratedLangevin(...))}.
 }
-\section{References}{
-
-\itemize{
-\item \href{https://doi.org/10.1111/1467-9868.00123}{Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 60: 255-268, 1998.}
-\item \href{https://arxiv.org/abs/1309.2983}{T. Xifara et al. Langevin diffusions and the Metropolis-adjusted Langevin algorithm. arXiv preprint arXiv:1309.2983, 2013.}
-}
-}
-
 \seealso{
 Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
   \code{\link{mcmc_hamiltonian_monte_carlo}},
+  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
   \code{\link{mcmc_metropolis_hastings}},
   \code{\link{mcmc_no_u_turn_sampler}},
   \code{\link{mcmc_random_walk_metropolis}},

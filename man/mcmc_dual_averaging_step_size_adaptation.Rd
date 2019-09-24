@@ -128,6 +128,7 @@ single distribution, all sampled in parallel.
 
 \seealso{
 Other mcmc_kernels: \code{\link{mcmc_hamiltonian_monte_carlo}},
+  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
   \code{\link{mcmc_metropolis_hastings}},
   \code{\link{mcmc_no_u_turn_sampler}},
   \code{\link{mcmc_random_walk_metropolis}},

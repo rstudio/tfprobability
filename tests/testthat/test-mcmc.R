@@ -449,3 +449,23 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
   expect_equal(log_accept_ratio$get_shape() %>% length(), 2)
 })
 
+test_succeeds("MetropolisAdjustedLangevinAlgorithm works", {
+
+  kernel <- mcmc_metropolis_adjusted_langevin_algorithm(
+      target_log_prob_fn = function(x)
+        - x - x ^ 2,
+      step_size = 0.75
+      )
+
+  states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
+                                                     current_state = c(1, 1))
+
+  if (tfp_version() < "0.7") {
+    states <- states_and_results[[1]]
+  } else {
+    states <- states_and_results
+  }
+
+  expect_equal(states$get_shape() %>% length(), 2)
+})
+
