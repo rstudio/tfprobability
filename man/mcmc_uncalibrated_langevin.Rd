@@ -39,11 +39,11 @@ Default value: \code{NULL} (i.e., 'mala_kernel').}
 }
 \value{
 list of
-\code{next_state}: Tensor or Python list of \code{Tensor}s representing the state(s)
+\code{next_state} (Tensor or Python list of \code{Tensor}s representing the state(s)
 of the Markov chain(s) at each result step. Has same shape as
-and \code{current_state}.
-and
-\code{kernel_results}: \code{collections.namedtuple} of internal calculations used to
+and \code{current_state}.) and
+\code{kernel_results} (\code{collections.namedtuple} of internal calculations used to
+'advance the chain).
 }
 \description{
 The class generates a Langevin proposal using \code{_euler_method} function and

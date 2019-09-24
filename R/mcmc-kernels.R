@@ -619,12 +619,11 @@ mcmc_no_u_turn_sampler <- function(target_log_prob_fn,
 #' Default value: `NULL` (i.e., 'mala_kernel').
 #'
 #' @return list of
-#' `next_state`: Tensor or Python list of `Tensor`s representing the state(s)
+#' `next_state` (Tensor or Python list of `Tensor`s representing the state(s)
 #' of the Markov chain(s) at each result step. Has same shape as
-#' and `current_state`.
-#' and
-#' `kernel_results`: `collections.namedtuple` of internal calculations used to
-# 'advance the chain.
+#' and `current_state`.) and
+#' `kernel_results` (`collections.namedtuple` of internal calculations used to
+#' 'advance the chain).
 #'
 #' @inheritParams mcmc_hamiltonian_monte_carlo
 #' @family mcmc_kernels

@@ -38,6 +38,7 @@ If the sequence is uncorrelated, \code{ESS = N}.  In general, one should expect
 }
 \seealso{
 Other mcmc_functions: \code{\link{mcmc_potential_scale_reduction}},
+  \code{\link{mcmc_sample_annealed_importance_chain}},
   \code{\link{mcmc_sample_chain}}
 }
 \concept{mcmc_functions}

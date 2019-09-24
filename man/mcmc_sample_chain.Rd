@@ -80,6 +80,7 @@ accordingly. See below for some examples of this feature.
 
 \seealso{
 Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
-  \code{\link{mcmc_potential_scale_reduction}}
+  \code{\link{mcmc_potential_scale_reduction}},
+  \code{\link{mcmc_sample_annealed_importance_chain}}
 }
 \concept{mcmc_functions}
