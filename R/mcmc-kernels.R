@@ -596,3 +596,59 @@ mcmc_no_u_turn_sampler <- function(target_log_prob_fn,
 
   do.call(tfp$mcmc$NoUTurnSampler, args)
 }
+
+#' Runs one step of Uncalibrated Langevin discretized diffusion.
+#'
+#' The class generates a Langevin proposal using `_euler_method` function and
+#' also computes helper `UncalibratedLangevinKernelResults` for the next
+#' iteration.
+#' Warning: this kernel will not result in a chain which converges to the
+#' `target_log_prob`. To get a convergent MCMC, use
+#' `MetropolisAdjustedLangevinAlgorithm(...)` or `MetropolisHastings(UncalibratedLangevin(...))`.
+#'
+#' @param volatility_fn function which takes an argument like
+#' `current_state` (or `*current_state` if it's a list) and returns
+#' volatility value at `current_state`. Should return a `Tensor` or
+#' `list` of `Tensor`s that must broadcast with the shape of
+#' `current_state`. Defaults to the identity function.
+#' @param parallel_iterations the number of coordinates for which the gradients of
+#' the volatility matrix `volatility_fn` can be computed in parallel.
+#' @param compute_acceptance logical indicating whether to compute the
+#' Metropolis log-acceptance ratio used to construct `MetropolisAdjustedLangevinAlgorithm` kernel.
+#' @param name String prefixed to Ops created by this function.
+#' Default value: `NULL` (i.e., 'mala_kernel').
+#'
+#' @return list of
+#' `next_state`: Tensor or Python list of `Tensor`s representing the state(s)
+#' of the Markov chain(s) at each result step. Has same shape as
+#' and `current_state`.
+#' and
+#' `kernel_results`: `collections.namedtuple` of internal calculations used to
+# 'advance the chain.
+#'
+#' @section References:
+#' - [Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. _Journal of the Royal Statistical Society: Series B (Statistical Methodology)_, 60: 255-268, 1998.](https://doi.org/10.1111/1467-9868.00123)
+#' - [T. Xifara et al. Langevin diffusions and the Metropolis-adjusted Langevin algorithm. _arXiv preprint arXiv:1309.2983_, 2013.](https://arxiv.org/abs/1309.2983)
+#'
+#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @family mcmc_kernels
+#' @export
+mcmc_uncalibrated_langevin <- function(target_log_prob_fn,
+                                       step_size,
+                                       volatility_fn = NULL,
+                                       parallel_iterations = 10,
+                                       compute_acceptance = TRUE,
+                                       seed = NULL,
+                                       name = NULL) {
+  args <- list(
+    target_log_prob_fn = target_log_prob_fn,
+    step_size = step_size,
+    volatility_fn = volatility_fn,
+    parallel_iterations = as.integer(parallel_iterations),
+    compute_acceptance = compute_acceptance,
+    seed = seed,
+    name = name
+  )
+
+  do.call(tfp$mcmc$UncalibratedLangevin, args)
+}
