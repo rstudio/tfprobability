@@ -515,3 +515,29 @@ test_succeeds("mcmc_sample_annealed_importance_chain works", {
 
   expect_equal(log_normalizer_estimate$get_shape()$as_list() %>% length(), 0)
 })
+
+test_succeeds("mcmc_replica_exchange_mc works", {
+
+  target <- tfd_normal(loc = 0, scale = 1)
+  make_kernel_fn <- function(target_log_prob_fn, seed) {
+    mcmc_hamiltonian_monte_carlo(
+      target_log_prob_fn = target_log_prob_fn,
+      seed = seed,
+      step_size = 1,
+      num_leapfrog_steps = 3)
+  }
+
+  remc <- mcmc_replica_exchange_mc(
+    target_log_prob_fn = target$log_prob,
+    inverse_temperatures = list(1., 0.3, 0.1, 0.03),
+    make_kernel_fn = make_kernel_fn)
+
+  res <- remc %>% mcmc_sample_chain(
+    num_results = 10,
+    current_state = 1,
+    num_burnin_steps = 5,
+    parallel_iterations = 1)
+
+  expect_equal(res$get_shape()$as_list() %>% length(), 1)
+
+})

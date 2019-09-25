@@ -675,22 +675,70 @@ mcmc_uncalibrated_langevin <- function(target_log_prob_fn,
 #' @inheritParams mcmc_uncalibrated_langevin
 #' @family mcmc_kernels
 #' @export
-  mcmc_metropolis_adjusted_langevin_algorithm <-
-    function(target_log_prob_fn,
-             step_size,
-             volatility_fn = NULL,
-             seed = NULL,
-             parallel_iterations = 10,
-             name = NULL) {
-      args <- list(
-        target_log_prob_fn = target_log_prob_fn,
-        step_size = step_size,
-        volatility_fn = volatility_fn,
-        parallel_iterations = as.integer(parallel_iterations),
-        seed = seed,
-        name = name
-      )
+mcmc_metropolis_adjusted_langevin_algorithm <- function(target_log_prob_fn,
+                                                        step_size,
+                                                        volatility_fn = NULL,
+                                                        seed = NULL,
+                                                        parallel_iterations = 10,
+                                                        name = NULL) {
+  args <- list(target_log_prob_fn = target_log_prob_fn,
+               step_size = step_size,
+               volatility_fn = volatility_fn,
+               parallel_iterations = as.integer(parallel_iterations),
+               seed = seed,
+               name = name
+               )
+  do.call(tfp$mcmc$MetropolisAdjustedLangevinAlgorithm, args)
+}
 
-      do.call(tfp$mcmc$MetropolisAdjustedLangevinAlgorithm, args)
-    }
-
+#' Runs one step of the Replica Exchange Monte Carlo
+#'
+#' [Replica Exchange Monte Carlo](https://en.wikipedia.org/wiki/Parallel_tempering)
+#' is a Markov chain Monte Carlo (MCMC) algorithm that is also known as Parallel Tempering.
+#' This algorithm performs multiple sampling with different temperatures in parallel,
+#' and exchanges those samplings according to the Metropolis-Hastings criterion.
+#' The `K` replicas are parameterized in terms of `inverse_temperature`'s,
+#' `(beta[0], beta[1], ..., beta[K-1])`.  If the target distribution has
+#' probability density `p(x)`, the `kth` replica has density `p(x)**beta_k`.
+#'
+#' Typically `beta[0] = 1.0`, and `1.0 > beta[1] > beta[2] > ... > 0.0`.
+#'
+#' * `beta[0] == 1` ==> First replicas samples from the target density, `p`.
+#' * `beta[k] < 1`, for `k = 1, ..., K-1` ==> Other replicas sample from
+#' "flattened" versions of `p` (peak is less high, valley less low).  These
+#' distributions are somewhat closer to a uniform on the support of `p`.
+#' Samples from adjacent replicas `i`, `i + 1` are used as proposals for each
+#' other in a Metropolis step.  This allows the lower `beta` samples, which
+#' explore less dense areas of `p`, to occasionally be used to help the
+#' `beta == 1` chain explore new regions of the support.
+#' Samples from replica 0 are returned, and the others are discarded.
+#'
+#' @param  inverse_temperatures `1D` Tensor of inverse temperatures to perform
+#' samplings with each replica. Must have statically known `shape`.
+#' `inverse_temperatures[0]` produces the states returned by samplers,
+#' and is typically == 1.
+#' @param make_kernel_fn Function which takes target_log_prob_fn and seed
+#' args and returns a TransitionKernel instance.
+#' @param exchange_proposed_fn function which take a number of replicas, and
+#' return combinations of replicas for exchange.
+#' @param name string prefixed to Ops created by this function.
+#' Default value: `None` (i.e., "remc_kernel").
+#'
+#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @family mcmc_kernels
+#' @export
+mcmc_replica_exchange_mc <- function(target_log_prob_fn,
+                                     inverse_temperatures,
+                                     make_kernel_fn,
+                                     exchange_proposed_fn = tfp$mcmc$replica_exchange_mc$default_exchange_proposed_fn(1),
+                                     seed = NULL,
+                                     name = NULL) {
+  args <- list(target_log_prob_fn = target_log_prob_fn,
+               inverse_temperatures = inverse_temperatures,
+               make_kernel_fn = make_kernel_fn,
+               exchange_proposed_fn = exchange_proposed_fn,
+               seed = seed,
+               name = name
+               )
+  do.call(tfp$mcmc$ReplicaExchangeMC, args)
+}
