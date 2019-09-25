@@ -38,7 +38,7 @@
 #' Default value: `FALSE` (i.e., do not apply `stop_gradient`).
 #' @param step_size_update_fn Function taking current `step_size`
 #' (typically a `tf$Variable`) and `kernel_results` (typically
-#' `collections.namedtuple`) and returns updated step_size (`Tensor`s).
+#' `collections$namedtuple`) and returns updated step_size (`Tensor`s).
 #' Default value: `NULL` (i.e., do not update `step_size` automatically).
 #' @param seed integer to seed the random number generator.
 #' @param store_parameters_in_results If `TRUE`, then `step_size` and
@@ -70,7 +70,8 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
     name = name
   )
 
-  if (tfp_version() >= "0.7") args$store_parameters_in_results <- store_parameters_in_results
+  if (tfp_version() >= "0.7")
+    args$store_parameters_in_results <- store_parameters_in_results
 
   do.call(tfp$mcmc$HamiltonianMonteCarlo, args)
 }
@@ -85,27 +86,28 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
 #' @inheritParams mcmc_hamiltonian_monte_carlo
 #' @family mcmc_kernels
 #' @export
-mcmc_uncalibrated_hamiltonian_monte_carlo <- function(target_log_prob_fn,
-                                                      step_size,
-                                                      num_leapfrog_steps,
-                                                      state_gradients_are_stopped = FALSE,
-                                                      seed = NULL,
-                                                      store_parameters_in_results = FALSE,
-                                                      name = NULL) {
-  args <- list(
-    target_log_prob_fn = target_log_prob_fn,
-    step_size = step_size,
-    num_leapfrog_steps = as.integer(num_leapfrog_steps),
-    state_gradients_are_stopped = state_gradients_are_stopped,
-    seed = seed,
-    name = name
-  )
+mcmc_uncalibrated_hamiltonian_monte_carlo <-
+  function(target_log_prob_fn,
+           step_size,
+           num_leapfrog_steps,
+           state_gradients_are_stopped = FALSE,
+           seed = NULL,
+           store_parameters_in_results = FALSE,
+           name = NULL) {
+    args <- list(
+      target_log_prob_fn = target_log_prob_fn,
+      step_size = step_size,
+      num_leapfrog_steps = as.integer(num_leapfrog_steps),
+      state_gradients_are_stopped = state_gradients_are_stopped,
+      seed = seed,
+      name = name
+    )
 
-  if (tfp_version() >= "0.7")
-    args$store_parameters_in_results <- store_parameters_in_results
+    if (tfp_version() >= "0.7")
+      args$store_parameters_in_results <- store_parameters_in_results
 
-  do.call(tfp$mcmc$UncalibratedHamiltonianMonteCarlo, args)
-}
+    do.call(tfp$mcmc$UncalibratedHamiltonianMonteCarlo, args)
+  }
 
 
 #' Adapts the inner kernel's `step_size` based on `log_accept_prob`.
@@ -244,7 +246,7 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
 #' The Metropolis-Hastings algorithm is a Markov chain Monte Carlo (MCMC) technique which uses a proposal distribution
 #' to eventually sample from a target distribution.
 #'
-#' Note: `inner_kernel$one_step` must return `kernel_results` as a `collections.namedtuple` which must:
+#' Note: `inner_kernel$one_step` must return `kernel_results` as a `collections$namedtuple` which must:
 #' - have a `target_log_prob` field,
 #' - optionally have a `log_acceptance_correction` field, and,
 #' - have only fields which are `Tensor`-valued.
@@ -274,7 +276,7 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
 #' The `log_acceptance_correction` may not necessarily correspond to the ratio of
 #' proposal distributions, e.g, `log_acceptance_correction` has a different
 #' interpretation in Hamiltonian Monte Carlo.
-#' @param inner_kernel `TransitionKernel`-like object which has `collections.namedtuple`
+#' @param inner_kernel `TransitionKernel`-like object which has `collections$namedtuple`
 #' `kernel_results` and which contains a `target_log_prob` member and optionally a `log_acceptance_correction` member.
 #' @param name string prefixed to Ops created by this function. Default value: `NULL` (i.e., "mh_kernel").
 #'
@@ -284,11 +286,9 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
 mcmc_metropolis_hastings <- function(inner_kernel,
                                      seed = NULL,
                                      name = NULL) {
-  args <- list(
-    inner_kernel = inner_kernel,
-    seed = seed,
-    name = name
-  )
+  args <- list(inner_kernel = inner_kernel,
+               seed = seed,
+               name = name)
 
   do.call(tfp$mcmc$MetropolisHastings, args)
 }
@@ -375,11 +375,9 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
 mcmc_transformed_transition_kernel <- function(inner_kernel,
                                                bijector,
                                                name = NULL) {
-  args <- list(
-    inner_kernel = inner_kernel,
-    bijector = bijector,
-    name = name
-  )
+  args <- list(inner_kernel = inner_kernel,
+               bijector = bijector,
+               name = name)
 
   do.call(tfp$mcmc$TransformedTransitionKernel, args)
 }
@@ -622,7 +620,7 @@ mcmc_no_u_turn_sampler <- function(target_log_prob_fn,
 #' `next_state` (Tensor or Python list of `Tensor`s representing the state(s)
 #' of the Markov chain(s) at each result step. Has same shape as
 #' and `current_state`.) and
-#' `kernel_results` (`collections.namedtuple` of internal calculations used to
+#' `kernel_results` (`collections$namedtuple` of internal calculations used to
 #' 'advance the chain).
 #'
 #' @inheritParams mcmc_hamiltonian_monte_carlo
@@ -675,21 +673,23 @@ mcmc_uncalibrated_langevin <- function(target_log_prob_fn,
 #' @inheritParams mcmc_uncalibrated_langevin
 #' @family mcmc_kernels
 #' @export
-mcmc_metropolis_adjusted_langevin_algorithm <- function(target_log_prob_fn,
-                                                        step_size,
-                                                        volatility_fn = NULL,
-                                                        seed = NULL,
-                                                        parallel_iterations = 10,
-                                                        name = NULL) {
-  args <- list(target_log_prob_fn = target_log_prob_fn,
-               step_size = step_size,
-               volatility_fn = volatility_fn,
-               parallel_iterations = as.integer(parallel_iterations),
-               seed = seed,
-               name = name
-               )
-  do.call(tfp$mcmc$MetropolisAdjustedLangevinAlgorithm, args)
-}
+mcmc_metropolis_adjusted_langevin_algorithm <-
+  function(target_log_prob_fn,
+           step_size,
+           volatility_fn = NULL,
+           seed = NULL,
+           parallel_iterations = 10,
+           name = NULL) {
+    args <- list(
+      target_log_prob_fn = target_log_prob_fn,
+      step_size = step_size,
+      volatility_fn = volatility_fn,
+      parallel_iterations = as.integer(parallel_iterations),
+      seed = seed,
+      name = name
+    )
+    do.call(tfp$mcmc$MetropolisAdjustedLangevinAlgorithm, args)
+  }
 
 #' Runs one step of the Replica Exchange Monte Carlo
 #'
@@ -722,7 +722,14 @@ mcmc_metropolis_adjusted_langevin_algorithm <- function(target_log_prob_fn,
 #' @param exchange_proposed_fn function which take a number of replicas, and
 #' return combinations of replicas for exchange.
 #' @param name string prefixed to Ops created by this function.
-#' Default value: `None` (i.e., "remc_kernel").
+#' Default value: `NULL` (i.e., "remc_kernel").
+#'
+#' @return list of
+#' `next_state` (Tensor or Python list of `Tensor`s representing the state(s)
+#' of the Markov chain(s) at each result step. Has same shape as
+#' and `current_state`.) and
+#' `kernel_results` (`collections$namedtuple` of internal calculations used to
+#' 'advance the chain).
 #'
 #' @inheritParams mcmc_hamiltonian_monte_carlo
 #' @family mcmc_kernels
@@ -733,12 +740,76 @@ mcmc_replica_exchange_mc <- function(target_log_prob_fn,
                                      exchange_proposed_fn = tfp$mcmc$replica_exchange_mc$default_exchange_proposed_fn(1),
                                      seed = NULL,
                                      name = NULL) {
-  args <- list(target_log_prob_fn = target_log_prob_fn,
-               inverse_temperatures = inverse_temperatures,
-               make_kernel_fn = make_kernel_fn,
-               exchange_proposed_fn = exchange_proposed_fn,
-               seed = seed,
-               name = name
-               )
+  args <- list(
+    target_log_prob_fn = target_log_prob_fn,
+    inverse_temperatures = inverse_temperatures,
+    make_kernel_fn = make_kernel_fn,
+    exchange_proposed_fn = exchange_proposed_fn,
+    seed = seed,
+    name = name
+  )
   do.call(tfp$mcmc$ReplicaExchangeMC, args)
+}
+
+#' Runs one step of the slice sampler using a hit and run approach
+#'
+#' Slice Sampling is a Markov Chain Monte Carlo (MCMC) algorithm based, as stated
+#' by Neal (2003), on the observation that "...one can sample from a
+#' distribution by sampling uniformly from the region under the plot of its
+#' density function. A Markov chain that converges to this uniform distribution
+#' can be constructed by alternately uniform sampling in the vertical direction
+#' with uniform sampling from the horizontal `slice` defined by the current
+#' vertical position, or more generally, with some update that leaves the uniform
+#' distribution over this slice invariant". Mathematical details and derivations
+#' can be found in Neal (2003). The one dimensional slice sampler is
+#' extended to n-dimensions through use of a hit-and-run approach: choose a
+#' random direction in n-dimensional space and take a step, as determined by the
+#' one-dimensional slice sampling algorithm, along that direction
+#' (Belisle at al. 1993).
+#'
+#' The `one_step` function can update multiple chains in parallel. It assumes
+#' that all leftmost dimensions of `current_state` index independent chain states
+#' (and are therefore updated independently). The output of
+#' `target_log_prob_fn(*current_state)` should sum log-probabilities across all
+#' event dimensions. Slices along the rightmost dimensions may have different
+#' target distributions; for example, `current_state[0, :]` could have a
+#' different target distribution from `current_state[1, :]`. These semantics are
+#' governed by `target_log_prob_fn(*current_state)`. (The number of independent
+#' chains is `tf$size(target_log_prob_fn(*current_state))`.)
+#'
+#' Note that the sampler only supports states where all components have a common
+#' dtype.
+#'
+#' @param max_doublings Scalar positive int32 `tf$Tensor`. The maximum number of
+#' doublings to consider.
+#' @param name string prefixed to Ops created by this function.
+#' Default value: `NULL` (i.e., 'slice_sampler_kernel').
+#'
+#' @return list of
+#' `next_state` (Tensor or Python list of `Tensor`s representing the state(s)
+#' of the Markov chain(s) at each result step. Has same shape as
+#' and `current_state`.) and
+#' `kernel_results` (`collections$namedtuple` of internal calculations used to
+#' 'advance the chain).
+#'
+#' @section References:
+#' - [Radford M. Neal. Slice Sampling. The Annals of Statistics. 2003, Vol 31, No. 3 , 705-767.](https://projecteuclid.org/download/pdf_1/euclid.aos/1056562461)
+#' - [C.J.P. Belisle, H.E. Romeijn, R.L. Smith. Hit-and-run algorithms for generating multivariate distributions. Math. Oper. Res., 18(1993), 225-266.](https://www.jstor.org/stable/3690278?seq=1#page_scan_tab_contents)
+#'
+#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @family mcmc_kernels
+#' @export
+mcmc_slice_sampler <- function(target_log_prob_fn,
+                               step_size,
+                               max_doublings,
+                               seed = NULL,
+                               name = NULL) {
+  args <- list(
+    target_log_prob_fn = target_log_prob_fn,
+    step_size = step_size,
+    max_doublings = as.integer(max_doublings),
+    seed = seed,
+    name = name
+  )
+  do.call(tfp$mcmc$SliceSampler, args)
 }

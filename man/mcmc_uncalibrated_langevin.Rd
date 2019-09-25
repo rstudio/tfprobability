@@ -42,7 +42,7 @@ list of
 \code{next_state} (Tensor or Python list of \code{Tensor}s representing the state(s)
 of the Markov chain(s) at each result step. Has same shape as
 and \code{current_state}.) and
-\code{kernel_results} (\code{collections.namedtuple} of internal calculations used to
+\code{kernel_results} (\code{collections$namedtuple} of internal calculations used to
 'advance the chain).
 }
 \description{
@@ -62,6 +62,7 @@ Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
   \code{\link{mcmc_random_walk_metropolis}},
   \code{\link{mcmc_replica_exchange_mc}},
   \code{\link{mcmc_simple_step_size_adaptation}},
+  \code{\link{mcmc_slice_sampler}},
   \code{\link{mcmc_transformed_transition_kernel}},
   \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}}
 }

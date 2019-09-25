@@ -541,3 +541,22 @@ test_succeeds("mcmc_replica_exchange_mc works", {
   expect_equal(res$get_shape()$as_list() %>% length(), 1)
 
 })
+
+test_succeeds("mcmc_slice_sampler works", {
+
+  target <- tfd_normal(loc = 0, scale = 1)
+
+  kernel <- mcmc_slice_sampler(
+    target_log_prob_fn = target$log_prob,
+    step_size = 0.1,
+    max_doublings = 5)
+
+  res <- kernel %>% mcmc_sample_chain(
+    num_results = 10,
+    current_state = 1,
+    num_burnin_steps = 5,
+    parallel_iterations = 1)
+
+  expect_equal(res$get_shape()$as_list() %>% length(), 1)
+})
+

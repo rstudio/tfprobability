@@ -28,7 +28,15 @@ return combinations of replicas for exchange.}
 \item{seed}{integer to seed the random number generator.}
 
 \item{name}{string prefixed to Ops created by this function.
-Default value: \code{None} (i.e., "remc_kernel").}
+Default value: \code{NULL} (i.e., "remc_kernel").}
+}
+\value{
+list of
+\code{next_state} (Tensor or Python list of \code{Tensor}s representing the state(s)
+of the Markov chain(s) at each result step. Has same shape as
+and \code{current_state}.) and
+\code{kernel_results} (\code{collections$namedtuple} of internal calculations used to
+'advance the chain).
 }
 \description{
 \href{https://en.wikipedia.org/wiki/Parallel_tempering}{Replica Exchange Monte Carlo}
@@ -61,6 +69,7 @@ Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
   \code{\link{mcmc_no_u_turn_sampler}},
   \code{\link{mcmc_random_walk_metropolis}},
   \code{\link{mcmc_simple_step_size_adaptation}},
+  \code{\link{mcmc_slice_sampler}},
   \code{\link{mcmc_transformed_transition_kernel}},
   \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
   \code{\link{mcmc_uncalibrated_langevin}}

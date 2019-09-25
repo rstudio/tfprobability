@@ -32,7 +32,7 @@ Default value: \code{FALSE} (i.e., do not apply \code{stop_gradient}).}
 
 \item{step_size_update_fn}{Function taking current \code{step_size}
 (typically a \code{tf$Variable}) and \code{kernel_results} (typically
-\code{collections.namedtuple}) and returns updated step_size (\code{Tensor}s).
+\code{collections$namedtuple}) and returns updated step_size (\code{Tensor}s).
 Default value: \code{NULL} (i.e., do not update \code{step_size} automatically).}
 
 \item{seed}{integer to seed the random number generator.}
@@ -81,6 +81,7 @@ Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
   \code{\link{mcmc_random_walk_metropolis}},
   \code{\link{mcmc_replica_exchange_mc}},
   \code{\link{mcmc_simple_step_size_adaptation}},
+  \code{\link{mcmc_slice_sampler}},
   \code{\link{mcmc_transformed_transition_kernel}},
   \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
   \code{\link{mcmc_uncalibrated_langevin}}
