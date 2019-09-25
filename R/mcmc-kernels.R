@@ -813,3 +813,28 @@ mcmc_slice_sampler <- function(target_log_prob_fn,
   )
   do.call(tfp$mcmc$SliceSampler, args)
 }
+
+#' Generate proposal for the Random Walk Metropolis algorithm.
+#'
+#' Warning: this kernel will not result in a chain which converges to the
+#' `target_log_prob`. To get a convergent MCMC, use
+#' `mcmc_random_walk_metropolis(...)` or
+#' `mcmc_metropolis_hastings(mcmc_uncalibrated_random_walk(...))`.
+#'
+#' @inheritParams mcmc_random_walk_metropolis
+#' @family mcmc_kernels
+#' @export
+mcmc_uncalibrated_random_walk <- function(target_log_prob_fn,
+                                        new_state_fn = NULL,
+                                        seed = NULL,
+                                        name = NULL) {
+  args <- list(
+    target_log_prob_fn = target_log_prob_fn,
+    new_state_fn = new_state_fn,
+    seed = seed,
+    name = name
+  )
+
+  do.call(tfp$mcmc$UncalibratedRandomWalk, args)
+}
+
