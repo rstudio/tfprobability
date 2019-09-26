@@ -11,10 +11,25 @@ glm_fit <- function(x, ...) {
   UseMethod("glm_fit")
 }
 
+#' Runs one Fisher scoring step
+#'
+#' @inheritParams glm_fit
+#' @seealso [glm_fit_one_step.tensorflow.tensor()]
+#' @export
+glm_fit_one_step <- function(x, ...) {
+  UseMethod("glm_fit_one_step")
+}
+
 #' @inheritParams glm_fit
 #' @export
 glm_fit.default <- function(x, ...) {
   glm_fit(tensorflow::tf$convert_to_tensor(x), ...)
+}
+
+#' @inheritParams glm_fit
+#' @export
+glm_fit_one_step.default <- function(x, ...) {
+  glm_fit_one_step(tensorflow::tf$convert_to_tensor(x), ...)
 }
 
 #' Runs multiple Fisher scoring steps.
@@ -87,6 +102,38 @@ glm_fit.tensorflow.tensor <- function(x,
   class(out) <- c("glm_fit")
   out
 }
+
+glm_fit_one_step <- function(x,
+                             response,
+                             model,
+                             model_coefficients_start=NULL,
+                             predicted_linear_response_start=NULL,
+                             l2_regularizer=NULL,
+                             dispersion=NULL,
+                             offset=NULL,
+                             learning_rate=NULL,
+                             fast_unsafe_numerics=TRUE,
+                             name=NULL) {
+
+  if (is.character(model)) model <- family_from_string(model)
+
+  out <- tfp$glm$fit_one_step(
+    model_matrix = x,
+    response = response,
+    model = model,
+    model_coefficients_start = model_coefficients_start,
+    predicted_linear_response_start = predicted_linear_response_start,
+    l2_regularizer = l2_regularizer,
+    dispersion = dispersion,
+    offset = offset,
+    learning_rate = learning_rate,
+    fast_unsafe_numerics = fast_unsafe_numerics,
+    name = name
+  )
+  class(out) <- "glm_fit"
+  out
+}
+
 
 #' GLM families
 #'
