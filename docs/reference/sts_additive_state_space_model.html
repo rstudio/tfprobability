@@ -8,21 +8,25 @@
 
 <title>A state space model representing a sum of component state space models. — sts_additive_state_space_model • tfprobability</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,8 +34,8 @@
 
 
 
-<meta property="og:title" content="A state space model representing a sum of component state space models. — sts_additive_state_space_model" />
 
+<meta property="og:title" content="A state space model representing a sum of component state space models. — sts_additive_state_space_model" />
 <meta property="og:description" content="A state space model (SSM) posits a set of latent (unobserved) variables that
 evolve over time with dynamics specified by a probabilistic transition model
 p(z[t+1] | z[t]). At each timestep, we observe a value sampled from an
@@ -44,6 +48,7 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
 
 
 
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -52,6 +57,7 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -78,7 +84,7 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,7 +110,6 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -114,6 +119,7 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -125,7 +131,6 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
     </div>
 
     <div class="ref-description">
-    
     <p>A state space model (SSM) posits a set of latent (unobserved) variables that
 evolve over time with dynamics specified by a probabilistic transition model
 <code>p(z[t+1] | z[t])</code>. At each timestep, we observe a value sampled from an
@@ -134,14 +139,13 @@ special case where both the transition and observation models are Gaussians
 with mean specified as a linear function of the inputs, is known as a linear
 Gaussian state space model and supports tractable exact probabilistic
 calculations; see <code>tfd_linear_gaussian_state_space_model</code> for details.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>sts_additive_state_space_model</span>(<span class='no'>component_ssms</span>, <span class='kw'>constant_offset</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>initial_state_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -203,7 +207,7 @@ undefined statistics will return NaN for this statistic. Default value: <code>TR
 Default value: "AdditiveStateSpaceModel".</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>sts_additive_state_space_model</code> represents a sum of component state space
@@ -219,7 +223,8 @@ latent space, and then observes the sum of the observation models from the
 components.</p>
 <p>Formally, the transition model is linear Gaussian:</p><pre>p(z[t+1] | z[t]) ~ Normal(loc = transition_matrix.matmul(z[t]), cov = transition_cov)
 </pre>
-    <p>where each <code>z[t]</code> is a latent state vector concatenating the component
+
+<p>where each <code>z[t]</code> is a latent state vector concatenating the component
 state vectors, <code>z[t] = [z1[t], z2[t], ..., zN[t]]</code>, so it has size
 <code>latent_size = sum([c.latent_size for c in components])</code>.</p>
 <p>The transition matrix is the block-diagonal composition of transition
@@ -229,25 +234,29 @@ matrices from the component processes:</p><pre>transition_matrix =
   [ ...                    ...                   ...                       ],
   [ 0.,                    0.,                   ..., cN.transition_matrix ]]
 </pre>
-    <p>and the noise covariance is similarly the block-diagonal composition of
+
+<p>and the noise covariance is similarly the block-diagonal composition of
 component noise covariances:</p><pre>transition_cov =
  [[ c0.transition_cov, 0.,                ..., 0.                ],
   [ 0.,                c1.transition_cov, ..., 0.                ],
   [ ...                ...                     ...               ],
   [ 0.,                0.,                ..., cN.transition_cov ]]
 </pre>
-    <p>The observation model is also linear Gaussian,</p><pre>p(y[t] | z[t]) ~ Normal(loc = observation_matrix.matmul(z[t]), stddev = observation_noise_scale)
+
+<p>The observation model is also linear Gaussian,</p><pre>p(y[t] | z[t]) ~ Normal(loc = observation_matrix.matmul(z[t]), stddev = observation_noise_scale)
 </pre>
-    <p>This implementation assumes scalar observations, so <code>observation_matrix</code> has shape <code>[1, latent_size]</code>.
+
+<p>This implementation assumes scalar observations, so <code>observation_matrix</code> has shape <code>[1, latent_size]</code>.
 The additive observation matrix simply concatenates the observation matrices from each component:</p><pre>observation_matrix = concat([c0.obs_matrix, c1.obs_matrix, ..., cN.obs_matrix], axis=-1)
 </pre>
-    <p>The effect is that each component observation matrix acts on the dimensions
+
+<p>The effect is that each component observation matrix acts on the dimensions
 of latent state corresponding to that component, and the overall expected
 observation is the sum of the expected observations from each component.</p>
 <p>If <code>observation_noise_scale</code> is not explicitly specified, it is also computed
 by summing the noise variances of the component processes:</p><pre>observation_noise_scale = sqrt(sum([c.observation_noise_scale**2 for c in components]))
 </pre>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other sts: <code><a href='sts_autoregressive_state_space_model.html'>sts_autoregressive_state_space_model</a></code>,
@@ -264,21 +273,19 @@ by summing the noise variances of the component processes:</p><pre>observation_n
   <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
   <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
   <code><a href='sts_sum.html'>sts_sum</a></code></p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -286,13 +293,16 @@ by summing the noise variances of the component processes:</p><pre>observation_n
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

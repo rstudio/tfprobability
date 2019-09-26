@@ -8,21 +8,25 @@
 
 <title>Posterior predictive of a variational Gaussian process — tfd_variational_gaussian_process • tfprobability</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,8 +34,8 @@
 
 
 
-<meta property="og:title" content="Posterior predictive of a variational Gaussian process — tfd_variational_gaussian_process" />
 
+<meta property="og:title" content="Posterior predictive of a variational Gaussian process — tfd_variational_gaussian_process" />
 <meta property="og:description" content="This distribution implements the variational Gaussian process (VGP), as
 described in Titsias (2009) and Hensman (2013). The VGP is an
 inducing point-based approximation of an exact GP posterior.
@@ -44,8 +48,10 @@ a set of index points,
 a set of inducing index points, and
 the parameters of the (full-rank, Gaussian) variational posterior
 distribution over function values at the inducing points, conditional on some observations.
+
 " />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -57,6 +63,7 @@ distribution over function values at the inducing points, conditional on some ob
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -83,7 +90,7 @@ distribution over function values at the inducing points, conditional on some ob
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,7 +116,6 @@ distribution over function values at the inducing points, conditional on some ob
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -119,6 +125,7 @@ distribution over function values at the inducing points, conditional on some ob
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -130,7 +137,6 @@ distribution over function values at the inducing points, conditional on some ob
     </div>
 
     <div class="ref-description">
-    
     <p>This distribution implements the variational Gaussian process (VGP), as
 described in Titsias (2009) and Hensman (2013). The VGP is an
 inducing point-based approximation of an exact GP posterior.
@@ -144,7 +150,7 @@ collection of <code>index_points</code>. It is parameterized by</p><ul>
 <li><p>the parameters of the (full-rank, Gaussian) variational posterior
 distribution over function values at the inducing points, conditional on some observations.</p></li>
 </ul>
-    
+
     </div>
 
     <pre class="usage"><span class='fu'>tfd_variational_gaussian_process</span>(<span class='no'>kernel</span>, <span class='no'>index_points</span>,
@@ -153,7 +159,7 @@ distribution over function values at the inducing points, conditional on some ob
   <span class='kw'>observation_noise_variance</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>predictive_noise_variance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VariationalGaussianProcess"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -245,7 +251,7 @@ one or more of the statistic's batch members are undefined.</p></td>
       <td><p>name prefixed to Ops created by this class.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A VGP is "trained" by selecting any kernel parameters, the locations of the
@@ -273,7 +279,8 @@ it'll be good to give them names:</p><ul>
 making posterior predictions based on observations and the variational
 parameters.</p></li>
 </ul>
-    <p>To lighten notation, we'll use <code>X, Z, T</code> to denote the above collections.
+
+<p>To lighten notation, we'll use <code>X, Z, T</code> to denote the above collections.
 Similarly, we'll denote by <code>f(X)</code> the collection of function values at each of
 the <code>x[i]</code>, and by <code>Y</code>, the collection of (noisy) observed data at each <code>x[i]</code>.
 We'll denote kernel matrices generated from pairs of index points as <code>K_tt</code>,
@@ -282,8 +289,10 @@ We'll denote kernel matrices generated from pairs of index points as <code>K_tt<
  | k(t[2], z[1])    k(t[2], z[2])  ...  k(t[2], z[M]) |
  |      ...              ...                 ...      |
  | k(t[P], z[1])    k(t[P], z[2])  ...  k(t[P], z[M]) |
-    </pre>
-    <p>Preliminaries
+
+</pre>
+
+<p>Preliminaries
 A Gaussian process is an indexed collection of random variables, any finite
 collection of which are jointly Gaussian. Typically, the index set is some
 finite-dimensional, real vector space, and indeed we make this assumption in
@@ -296,11 +305,13 @@ function <code>k</code>. The generative process, assuming a mean-zero normal lik
 with stddev <code>sigma</code>, is</p><pre> f ~ GP(m, k)
  Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
 </pre>
-    <p>In finite terms (ie, marginalizing out all but a finite number of f(X), sigma),
+
+<p>In finite terms (ie, marginalizing out all but a finite number of f(X), sigma),
 we can write</p><pre>f(X) ~ MVN(loc=m(X), cov=K_xx)
 Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
 </pre>
-    <p>Posterior inference is possible in analytical closed form but becomes
+
+<p>Posterior inference is possible in analytical closed form but becomes
 intractible as data sizes get large. See Rasmussen (2006) for details.</p>
 <p>The VGP</p>
 <p>The VGP is an inducing point-based approximation of an exact GP posterior,
@@ -312,14 +323,17 @@ conditional on obseravtions is replaced with an arbitrary (learnable)
 full-rank Gaussian distribution,</p></li>
 </ol><pre> q(f(Z)) = MVN(loc=m, scale=S),
 </pre>
-    <p>where <code>m</code> and <code>S</code> are parameters to be chosen by optimizing an evidence
+
+<p>where <code>m</code> and <code>S</code> are parameters to be chosen by optimizing an evidence
 lower bound (ELBO).
 The posterior predictive distribution becomes</p><pre>q(f(T)) = integral df(Z) p(f(T) | f(Z)) q(f(Z)) = MVN(loc = A @ m, scale = B^(1/2))
 </pre>
-    <p>where</p><pre>A = K_tz @ K_zz^-1
+
+<p>where</p><pre>A = K_tz @ K_zz^-1
 B = K_tt - A @ (K_zz - S S^T) A^T
 </pre>
-    <p>The approximate posterior predictive distribution <code><a href='https://www.rdocumentation.org/packages/base/topics/quit'>q(f(T))</a></code> is what the
+
+<p>The approximate posterior predictive distribution <code><a href='https://rdrr.io/r/base/quit.html'>q(f(T))</a></code> is what the
 <code>VariationalGaussianProcess</code> class represents.</p>
 <p>Model selection in this framework entails choosing the kernel parameters,
 inducing point locations, and variational parameters. We do this by optimizing
@@ -331,7 +345,8 @@ Hensman (2013) for details on the derivation):</p><pre>L(Z, m, S, Y) = MVN(loc=
 Tr(S @ S^T @ K_zz^1 @ K_zx @ K_xz @ K_zz^-1)) / (2 * sigma^2) -
 KL(q(f(Z)) || p(f(Z))))
 </pre>
-    <p>where in the final KL term, <code>p(f(Z))</code> is the GP prior on inducing point
+
+<p>where in the final KL term, <code>p(f(Z))</code> is the GP prior on inducing point
 function values. This variational lower bound can be computed on minibatches
 of the full data set <code>(X, Y)</code>. A method to compute the <em>negative</em> variational
 lower bound is implemented as <code>VariationalGaussianProcess$variational_loss</code>.</p>
@@ -348,16 +363,17 @@ inducing index points. The optimal parameters are computed as follows:</p><pre> 
  optimal Gaussian covariance: K_zz @ C @ K_zz
  optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
 </pre>
-    
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
-    <ul>
+
+<ul>
 <li><p><a href='http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf'>Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.</a></p></li>
 <li><p><a href='https://arxiv.org/abs/1309.6835'>Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013.</a></p></li>
 <li><p><a href='http://www.gaussianprocess.org/gpml/'>Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006.</a></p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other distributions: <code><a href='tfd_autoregressive.html'>tfd_autoregressive</a></code>,
@@ -372,6 +388,7 @@ inducing index points. The optimal parameters are computed as follows:</p><pre> 
   <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a></code>, <code><a href='tfd_empirical.html'>tfd_empirical</a></code>,
   <code><a href='tfd_exponential.html'>tfd_exponential</a></code>,
   <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a></code>, <code><a href='tfd_gamma.html'>tfd_gamma</a></code>,
+  <code><a href='tfd_gaussian_process_regression_model.html'>tfd_gaussian_process_regression_model</a></code>,
   <code><a href='tfd_gaussian_process.html'>tfd_gaussian_process</a></code>,
   <code><a href='tfd_geometric.html'>tfd_geometric</a></code>, <code><a href='tfd_gumbel.html'>tfd_gumbel</a></code>,
   <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a></code>,
@@ -420,23 +437,20 @@ inducing index points. The optimal parameters are computed as follows:</p><pre> 
   <code><a href='tfd_von_mises_fisher.html'>tfd_von_mises_fisher</a></code>,
   <code><a href='tfd_von_mises.html'>tfd_von_mises</a></code>, <code><a href='tfd_wishart.html'>tfd_wishart</a></code>,
   <code><a href='tfd_zipf.html'>tfd_zipf</a></code></p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -444,13 +458,16 @@ inducing index points. The optimal parameters are computed as follows:</p><pre> 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

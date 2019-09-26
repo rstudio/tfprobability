@@ -8,21 +8,25 @@
 
 <title>Gelman and Rubin (1992)'s potential scale reduction for chain convergence. — mcmc_potential_scale_reduction • tfprobability</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +34,13 @@
 
 
 
-<meta property="og:title" content="Gelman and Rubin (1992)'s potential scale reduction for chain convergence. — mcmc_potential_scale_reduction" />
 
+<meta property="og:title" content="Gelman and Rubin (1992)'s potential scale reduction for chain convergence. — mcmc_potential_scale_reduction" />
 <meta property="og:description" content="Given N &amp;gt; 1 states from each of C &amp;gt; 1 independent chains, the potential
 scale reduction factor, commonly referred to as R-hat, measures convergence of
 the chains (to the same target) by testing for equality of means." />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,6 +52,7 @@ the chains (to the same target) by testing for equality of means." />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -73,7 +79,7 @@ the chains (to the same target) by testing for equality of means." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +105,6 @@ the chains (to the same target) by testing for equality of means." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -109,6 +114,7 @@ the chains (to the same target) by testing for equality of means." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -120,16 +126,14 @@ the chains (to the same target) by testing for equality of means." />
     </div>
 
     <div class="ref-description">
-    
     <p>Given <code>N &gt; 1</code> states from each of <code>C &gt; 1</code> independent chains, the potential
 scale reduction factor, commonly referred to as R-hat, measures convergence of
 the chains (to the same target) by testing for equality of means.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>mcmc_potential_scale_reduction</span>(<span class='no'>chains_states</span>,
   <span class='kw'>independent_chain_ndims</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -154,7 +158,7 @@ holding independent chain results to be tested for convergence.</p></td>
       <td><p>name to prepend to created tf.  Default: <code>potential_scale_reduction</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Specifically, R-hat measures the degree to which variance (of the means)
@@ -170,7 +174,8 @@ course this is problem dependent. See Brooks and Gelman (1998).</p></li>
 <li><p>R-hat only measures non-convergence of the mean. If higher moments, or
 other statistics are desired, a different diagnostic should be used. See Brooks and Gelman (1998).</p></li>
 </ul>
-    <p>To see why R-hat is reasonable, let <code>X</code> be a random variable drawn uniformly
+
+<p>To see why R-hat is reasonable, let <code>X</code> be a random variable drawn uniformly
 from the combined states (combined over all chains).  Then, in the limit
 <code>N, C --&gt; infinity</code>, with <code>E</code>, <code>Var</code> denoting expectation and variance,
 <code>R-hat = ( E[Var[X | chain]] + Var[E[X | chain]] ) / E[Var[X | chain]].</code>
@@ -178,38 +183,37 @@ Using the law of total variance, the numerator is the variance of the combined
 states, and the denominator is the total variance minus the variance of the
 the individual chain means.  If the chains are all drawing from the same
 distribution, they will have the same mean, and thus the ratio should be one.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
-    <ul>
+
+<ul>
 <li><p>Stephen P. Brooks and Andrew Gelman. General Methods for Monitoring Convergence of Iterative Simulations.
 <em>Journal of Computational and Graphical Statistics</em>, 7(4), 1998.</p></li>
 <li><p>Andrew Gelman and Donald B. Rubin. Inference from Iterative Simulation Using Multiple Sequences.
 <em>Statistical Science</em>, 7(4):457-472, 1992.</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other mcmc_functions: <code><a href='mcmc_effective_sample_size.html'>mcmc_effective_sample_size</a></code>,
-  <code><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a></code></p></div>
-    
+  <code><a href='mcmc_sample_annealed_importance_chain.html'>mcmc_sample_annealed_importance_chain</a></code>,
+  <code><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a></code>,
+  <code><a href='mcmc_sample_halton_sequence.html'>mcmc_sample_halton_sequence</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#references">References</a></li>
-
       <li><a href="#see-also">See also</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -217,13 +221,16 @@ distribution, they will have the same mean, and thus the ratio should be one.</p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

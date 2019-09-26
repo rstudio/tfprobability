@@ -8,21 +8,25 @@
 
 <title>Formal representation of a dynamic linear regression model. — sts_dynamic_linear_regression • tfprobability</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,13 +34,14 @@
 
 
 
-<meta property="og:title" content="Formal representation of a dynamic linear regression model. — sts_dynamic_linear_regression" />
 
+<meta property="og:title" content="Formal representation of a dynamic linear regression model. — sts_dynamic_linear_regression" />
 <meta property="og:description" content="The dynamic linear regression model is a special case of a linear Gaussian SSM
 and a generalization of typical (static) linear regression. The model
 represents regression weights with a latent state which evolves via a
 Gaussian random walk:" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -48,6 +53,7 @@ Gaussian random walk:" />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -74,7 +80,7 @@ Gaussian random walk:" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,7 +106,6 @@ Gaussian random walk:" />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -110,6 +115,7 @@ Gaussian random walk:" />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -121,18 +127,16 @@ Gaussian random walk:" />
     </div>
 
     <div class="ref-description">
-    
     <p>The dynamic linear regression model is a special case of a linear Gaussian SSM
 and a generalization of typical (static) linear regression. The model
 represents regression <code>weights</code> with a latent state which evolves via a
 Gaussian random walk:</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>sts_dynamic_linear_regression</span>(<span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>design_matrix</span>,
   <span class='kw'>drift_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>initial_weights_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -162,7 +166,7 @@ constructed based on the provided <code>observed_time_series</code>. Default val
       <th>initial_weights_prior</th>
       <td><p>instance of <code>tfd_multivariate_normal</code> representing
 the prior distribution on the latent states (the regression weights).
-Must have event shape <code><a href='https://www.rdocumentation.org/packages/base/topics/list'>list(num_features)</a></code>. If <code>NULL</code>, a weakly-informative
+Must have event shape <code><a href='https://rdrr.io/r/base/list.html'>list(num_features)</a></code>. If <code>NULL</code>, a weakly-informative
 Normal(0, 10) prior is used. Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
@@ -170,7 +174,7 @@ Normal(0, 10) prior is used. Default value: <code>NULL</code>.</p></td>
       <td><p>the name of this component. Default value: 'DynamicLinearRegression'.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code> weights[t] ~ Normal(weights[t-1], drift_scale)</code></p>
@@ -180,7 +184,6 @@ batch shape of this distribution is the broadcast batch shape of these
 parameters, the <code>initial_state_prior</code>, and the <code>design_matrix</code>.
 <code>num_features</code> is determined from the last dimension of <code>design_matrix</code> (equivalent to the
 number of columns in the design matrix in linear regression).</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other sts: <code><a href='sts_additive_state_space_model.html'>sts_additive_state_space_model</a></code>,
@@ -197,21 +200,19 @@ number of columns in the design matrix in linear regression).</p>
   <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
   <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
   <code><a href='sts_sum.html'>sts_sum</a></code></p></div>
-    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -219,13 +220,16 @@ number of columns in the design matrix in linear regression).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
