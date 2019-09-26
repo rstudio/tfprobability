@@ -71,6 +71,7 @@ reduced to two times in the future).
 \seealso{
 Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
   \code{\link{mcmc_potential_scale_reduction}},
-  \code{\link{mcmc_sample_chain}}
+  \code{\link{mcmc_sample_chain}},
+  \code{\link{mcmc_sample_halton_sequence}}
 }
 \concept{mcmc_functions}

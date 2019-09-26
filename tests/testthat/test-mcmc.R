@@ -560,3 +560,14 @@ test_succeeds("mcmc_slice_sampler works", {
   expect_equal(res$get_shape()$as_list() %>% length(), 1)
 })
 
+test_succeeds("mcmc_sample_halton_sequence works", {
+
+  num_results <- 10
+  dim <- 3
+  sample <- mcmc_sample_halton_sequence(
+    dim,
+    num_results = num_results,
+    seed = 127)
+
+  expect_equal(dim(sample) %>% length(), 2)
+})

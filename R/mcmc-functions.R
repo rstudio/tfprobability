@@ -259,3 +259,94 @@ mcmc_sample_annealed_importance_chain <- function(num_steps,
     name = name
   )
 }
+
+#' Returns a sample from the `dim` dimensional Halton sequence.
+#'
+#' Warning: The sequence elements take values only between 0 and 1. Care must be
+#' taken to appropriately transform the domain of a function if it differs from
+#' the unit cube before evaluating integrals using Halton samples. It is also
+#' important to remember that quasi-random numbers without randomization are not
+#' a replacement for pseudo-random numbers in every context. Quasi random numbers
+#' are completely deterministic and typically have significant negative
+#' autocorrelation unless randomization is used.
+#'
+#' Computes the members of the low discrepancy Halton sequence in dimension
+#' `dim`. The `dim`-dimensional sequence takes values in the unit hypercube in
+#' `dim` dimensions. Currently, only dimensions up to 1000 are supported. The
+#' prime base for the k-th axes is the k-th prime starting from 2. For example,
+#' if `dim` = 3, then the bases will be [2, 3, 5] respectively and the first
+#' element of the non-randomized sequence will be: [0.5, 0.333, 0.2]. For a more
+#' complete description of the Halton sequences see
+#' [here](https://en.wikipedia.org/wiki/Halton_sequence). For low discrepancy
+#' sequences and their applications see
+#' [here](https://en.wikipedia.org/wiki/Low-discrepancy_sequence).
+#'
+#' If `randomized` is true, this function produces a scrambled version of the
+#' Halton sequence introduced by Owen (2017). For the advantages of
+#' randomization of low discrepancy sequences see
+#' [here](https://en.wikipedia.org/wiki/Quasi-Monte_Carlo_method#Randomization_of_quasi-Monte_Carlo).
+#'
+#' The number of samples produced is controlled by the `num_results` and
+#' `sequence_indices` parameters. The user must supply either `num_results` or
+#' `sequence_indices` but not both.
+#' The former is the number of samples to produce starting from the first
+#' element. If `sequence_indices` is given instead, the specified elements of
+#' the sequence are generated. For example, sequence_indices=tf$range(10) is
+#' equivalent to specifying n=10.
+#'
+#' @param dim Positive `integer` representing each sample's `event_size.` Must
+#' not be greater than 1000.
+#' @param num_results (Optional) Positive scalar `Tensor` of dtype int32. The number
+#' of samples to generate. Either this parameter or sequence_indices must
+#' be specified but not both. If this parameter is None, then the behaviour
+#' is determined by the `sequence_indices`. Default value: `NULL`.
+#' @param sequence_indices (Optional) `Tensor` of dtype int32 and rank 1. The
+#' elements of the sequence to compute specified by their position in the
+#' sequence. The entries index into the Halton sequence starting with 0 and
+#' hence, must be whole numbers. For example, sequence_indices=[0, 5, 6] will
+#' produce the first, sixth and seventh elements of the sequence. If this
+#' parameter is None, then the `num_results` parameter must be specified
+#' which gives the number of desired samples starting from the first sample.
+#' Default value: `NULL`.
+#' @param dtype (Optional) The dtype of the sample. One of: `float16`, `float32` or
+#' `float64`. Default value: `tf$float32`.
+#' @param randomized (Optional) bool indicating whether to produce a randomized
+#' Halton sequence. If TRUE, applies the randomization described in
+#' Owen (2017). Default value: `TRUE`.
+#' @param seed (Optional) integer to seed the random number generator. Only
+#' used if `randomized` is TRUE. If not supplied and `randomized` is TRUE,
+#' no seed is set. Default value: `NULL`.
+#' @param name  (Optional) string describing ops managed by this function. If
+#' not supplied the name of this function is used. Default value: "sample_halton_sequence".
+#'
+#' @return halton_elements Elements of the Halton sequence. `Tensor` of supplied dtype
+#' and `shape` `[num_results, dim]` if `num_results` was specified or shape
+#' `[s, dim]` where s is the size of `sequence_indices` if `sequence_indices`
+#' were specified.
+#'
+#' @section References
+#' - [Art B. Owen. A randomized Halton algorithm in R. _arXiv preprint arXiv:1706.02808_, 2017.](https://arxiv.org/abs/1706.02808)
+#' @family mcmc_functions
+#' @export
+mcmc_sample_halton_sequence <- function(dim,
+                                        num_results = NULL,
+                                        sequence_indices = NULL,
+                                        dtype = tf$float32,
+                                        randomized = TRUE,
+                                        seed = NULL,
+                                        name = NULL) {
+
+  args <- list(
+    dim = as.integer(dim),
+    dtype = dtype,
+    randomized = randomized,
+    seed = seed,
+    name = name
+  )
+
+  if (!is.null(num_results)) args$num_results <- as.integer(num_results)
+  if (!is.null(sequence_indices)) args$sequence_indices <- as_integer_list(sequence_indices)
+
+  do.call(tfp$mcmc$sample_halton_sequence, args)
+}
+
