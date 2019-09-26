@@ -697,7 +697,7 @@ test_succeeds("Gumbel distribution works", {
 test_succeeds("Geometric distribution works", {
 
   d <- tfd_geometric(probs = 0.6)
-  expect_equal(d %>% tfd_variance() %>% tensor_value() , (1 - 0.6)/0.6^2, tol = 1e-7)
+  expect_equal(d %>% tfd_variance() %>% tensor_value() , (1 - 0.6)/0.6^2, tol = 1e-6)
 })
 
 test_succeeds("Dirichlet distribution works", {
