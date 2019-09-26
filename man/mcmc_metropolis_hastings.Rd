@@ -7,7 +7,7 @@
 mcmc_metropolis_hastings(inner_kernel, seed = NULL, name = NULL)
 }
 \arguments{
-\item{inner_kernel}{\code{TransitionKernel}-like object which has \code{collections.namedtuple}
+\item{inner_kernel}{\code{TransitionKernel}-like object which has \code{collections$namedtuple}
 \code{kernel_results} and which contains a \code{target_log_prob} member and optionally a \code{log_acceptance_correction} member.}
 
 \item{seed}{integer to seed the random number generator.}
@@ -19,7 +19,7 @@ The Metropolis-Hastings algorithm is a Markov chain Monte Carlo (MCMC) technique
 to eventually sample from a target distribution.
 }
 \details{
-Note: \code{inner_kernel$one_step} must return \code{kernel_results} as a \code{collections.namedtuple} which must:
+Note: \code{inner_kernel$one_step} must return \code{kernel_results} as a \code{collections$namedtuple} which must:
 \itemize{
 \item have a \code{target_log_prob} field,
 \item optionally have a \code{log_acceptance_correction} field, and,
@@ -50,10 +50,15 @@ interpretation in Hamiltonian Monte Carlo.
 \seealso{
 Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
   \code{\link{mcmc_hamiltonian_monte_carlo}},
+  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
   \code{\link{mcmc_no_u_turn_sampler}},
   \code{\link{mcmc_random_walk_metropolis}},
+  \code{\link{mcmc_replica_exchange_mc}},
   \code{\link{mcmc_simple_step_size_adaptation}},
+  \code{\link{mcmc_slice_sampler}},
   \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}}
+  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
+  \code{\link{mcmc_uncalibrated_langevin}},
+  \code{\link{mcmc_uncalibrated_random_walk}}
 }
 \concept{mcmc_kernels}

@@ -449,3 +449,125 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
   expect_equal(log_accept_ratio$get_shape() %>% length(), 2)
 })
 
+test_succeeds("MetropolisAdjustedLangevinAlgorithm works", {
+
+  kernel <- mcmc_metropolis_adjusted_langevin_algorithm(
+      target_log_prob_fn = function(x)
+        - x - x ^ 2,
+      step_size = 0.75
+      )
+
+  states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
+                                                     current_state = c(1, 1))
+
+  if (tfp_version() < "0.7") {
+    states <- states_and_results[[1]]
+  } else {
+    states <- states_and_results
+  }
+
+  expect_equal(states$get_shape() %>% length(), 2)
+})
+
+test_succeeds("mcmc_sample_annealed_importance_chain works", {
+
+  make_prior <- function(dims, dtype) {
+    tfd_multivariate_normal_diag(
+      loc = tf$zeros(dims, dtype))
+  }
+
+  make_likelihood <- function(weights, x) {
+    tfd_multivariate_normal_diag(
+      loc = tf$linalg$matvec(x, weights))
+  }
+
+  num_chains <- 7
+  dims <- 5
+  dtype <- tf$float32
+
+  x <- matrix(rnorm(num_chains * dims), nrow = num_chains, ncol = dims) %>% tf$cast(dtype)
+  true_weights <- rnorm(dims) %>% tf$cast(dtype)
+  y <- tf$linalg$matvec(x, true_weights) + rnorm(num_chains) %>% tf$cast(dtype)
+
+  prior <- make_prior(dims, dtype)
+
+  target_log_prob_fn <- function(weights) {
+    prior$log_prob(weights) + make_likelihood(weights, x)$log_prob(y)
+  }
+
+  proposal <- tfd_multivariate_normal_diag(loc = tf$zeros(dims, dtype))
+
+  res <- mcmc_sample_annealed_importance_chain(
+      num_steps = 6,
+      proposal_log_prob_fn = proposal$log_prob,
+      target_log_prob_fn = target_log_prob_fn,
+      current_state = tf$zeros(list(num_chains, dims), dtype),
+      make_kernel_fn = function(tlp_fn) mcmc_hamiltonian_monte_carlo(
+        target_log_prob_fn = tlp_fn,
+        step_size = 0.1,
+        num_leapfrog_steps = 2))
+
+  weight_samples <- res[[1]]
+  ais_weights <- res[[2]]
+  kernel_results <- res[[3]]
+
+  log_normalizer_estimate <- tf$reduce_logsumexp(ais_weights) - log(num_chains)
+
+  expect_equal(log_normalizer_estimate$get_shape()$as_list() %>% length(), 0)
+})
+
+test_succeeds("mcmc_replica_exchange_mc works", {
+
+  target <- tfd_normal(loc = 0, scale = 1)
+  make_kernel_fn <- function(target_log_prob_fn, seed) {
+    mcmc_hamiltonian_monte_carlo(
+      target_log_prob_fn = target_log_prob_fn,
+      seed = seed,
+      step_size = 1,
+      num_leapfrog_steps = 3)
+  }
+
+  remc <- mcmc_replica_exchange_mc(
+    target_log_prob_fn = target$log_prob,
+    inverse_temperatures = list(1., 0.3, 0.1, 0.03),
+    make_kernel_fn = make_kernel_fn)
+
+  res <- remc %>% mcmc_sample_chain(
+    num_results = 10,
+    current_state = 1,
+    num_burnin_steps = 5,
+    parallel_iterations = 1)
+
+  expect_equal(res$get_shape()$as_list() %>% length(), 1)
+
+})
+
+test_succeeds("mcmc_slice_sampler works", {
+
+  target <- tfd_normal(loc = 0, scale = 1)
+
+  kernel <- mcmc_slice_sampler(
+    target_log_prob_fn = target$log_prob,
+    step_size = 0.1,
+    max_doublings = 5)
+
+  res <- kernel %>% mcmc_sample_chain(
+    num_results = 10,
+    current_state = 1,
+    num_burnin_steps = 5,
+    parallel_iterations = 1)
+
+  expect_equal(res$get_shape()$as_list() %>% length(), 1)
+})
+
+test_succeeds("mcmc_sample_halton_sequence works", {
+
+  num_results <- 10
+  dim <- 3
+  sample <- mcmc_sample_halton_sequence(
+    dim,
+    num_results = num_results,
+    seed = 127)
+
+  expect_equal(dim(sample) %>% length(), 2)
+})

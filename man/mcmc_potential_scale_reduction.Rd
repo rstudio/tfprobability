@@ -65,6 +65,8 @@ distribution, they will have the same mean, and thus the ratio should be one.
 
 \seealso{
 Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
-  \code{\link{mcmc_sample_chain}}
+  \code{\link{mcmc_sample_annealed_importance_chain}},
+  \code{\link{mcmc_sample_chain}},
+  \code{\link{mcmc_sample_halton_sequence}}
 }
 \concept{mcmc_functions}
