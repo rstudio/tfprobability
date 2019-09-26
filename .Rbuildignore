@@ -1,3 +1,4 @@
 ^LICENSE\.md$
 ^tfprobability\.Rproj$
 ^\.Rproj\.user$
+^appveyor\.yml$
