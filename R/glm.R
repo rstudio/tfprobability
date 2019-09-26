@@ -103,7 +103,7 @@ glm_fit.tensorflow.tensor <- function(x,
   out
 }
 
-glm_fit_one_step <- function(x,
+glm_fit_one_step.tensorflow.tensor <- function(x,
                              response,
                              model,
                              model_coefficients_start=NULL,
