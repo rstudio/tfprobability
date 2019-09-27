@@ -1138,4 +1138,108 @@ sts_autoregressive_state_space_model <-
     do.call(tfp$sts$AutoregressiveStateSpaceModel, args)
   }
 
+#' Formal representation of a sparse linear regression.
+#'
+#' This model defines a time series given by a sparse linear combination of
+#' covariate time series provided in a design matrix:
+#'
+#' ```
+#' observed_time_series <- tf$matmul(design_matrix, weights)
+#' ```
+#'
+#' This is identical to `sts_linear_regression`, except that
+#' `sts_sparse_linear_regression` uses a parameterization of a Horseshoe
+#' prior to encode the assumption that many of the `weights` are zero,
+#' i.e., many of the covariate time series are irrelevant. See the mathematical
+#' details section below for further discussion. The prior parameterization used
+#' by `sts_sparse_linear_regression` is more suitable for inference than that
+#' obtained by simply passing the equivalent `tfd_horseshoe` prior to
+#' `sts_linear_regression`; when sparsity is desired, `sts_sparse_linear_regression` will
+#' likely yield better results.
+#'
+#' This component does not itself include observation noise; it defines a
+#' deterministic distribution with mass at the point
+#' `tf$matmul(design_matrix, weights)`. In practice, it should be combined with
+#' observation noise from another component such as `sts_sum`.
+#'
+#' Mathematical Details
+#'
+#' The basic horseshoe prior Carvalho et al. (2009) is defined as a Cauchy-normal scale mixture:
+#' ```
+#' scales[i] ~ HalfCauchy(loc=0, scale=1)
+#' weights[i] ~ Normal(loc=0., scale=scales[i] * global_scale)`
+#' ```
+#'
+#' The Cauchy scale parameters puts substantial mass near zero, encouraging
+#' weights to be sparse, but their heavy tails allow weights far from zero to be
+#' estimated without excessive shrinkage. The horseshoe can be thought of as a
+#' continuous relaxation of a traditional 'spike-and-slab' discrete sparsity
+#' prior, in which the latent Cauchy scale mixes between 'spike'
+#' (`scales[i] ~= 0`) and 'slab' (`scales[i] >> 0`) regimes.
+#'
+#' Following the recommendations in Piironen et al. (2017), `SparseLinearRegression` implements
+#' a horseshoe with the following adaptations:
+#' - The Cauchy prior on `scales[i]` is represented as an InverseGamma-Normal
+#' compound.
+#' - The `global_scale` parameter is integrated out following a `Cauchy(0.,
+#' scale=weights_prior_scale)` hyperprior, which is also represented as an
+#' InverseGamma-Normal compound.
+#' - All compound distributions are implemented using a non-centered
+#' parameterization.
+#' The compound, non-centered representation defines the same marginal prior as
+#' the original horseshoe (up to integrating out the global scale),
+#' but allows samplers to mix more efficiently through the heavy tails; for
+#' variational inference, the compound representation implicity expands the
+#' representational power of the variational model.
+#'
+#' Note that we do not yet implement the regularized ('Finnish') horseshoe,
+#' proposed in Piironen et al. (2017) for models with weak likelihoods, because the likelihood
+#' in STS models is typically Gaussian, where it's not clear that additional
+#' regularization is appropriate. If you need this functionality, please
+#' email tfprobability@tensorflow.org.
+#'
+#' The full prior parameterization implemented in `SparseLinearRegression` is
+#' as follows:
+#'
+#' ```
+#' Sample global_scale from Cauchy(0, scale=weights_prior_scale).
+#' global_scale_variance ~ InverseGamma(alpha=0.5, beta=0.5)
+#' global_scale_noncentered ~ HalfNormal(loc=0, scale=1)
+#' global_scale = (global_scale_noncentered *
+#' sqrt(global_scale_variance) *
+#' weights_prior_scale)
+#' Sample local_scales from Cauchy(0, 1).
+#' local_scale_variances[i] ~ InverseGamma(alpha=0.5, beta=0.5)
+#' local_scales_noncentered[i] ~ HalfNormal(loc=0, scale=1)
+#' local_scales[i] = local_scales_noncentered[i] * sqrt(local_scale_variances[i])
+#' weights[i] ~ Normal(loc=0., scale=local_scales[i] * global_scale)
+#' ```
+#' @param weights_prior_scale float `Tensor` defining the scale of the Horseshoe
+#' prior on regression weights. Small values encourage the weights to be
+#' sparse. The shape must broadcast with `weights_batch_shape`.
+#' Default value: `0.1`.
+#' @param weights_batch_shape if `NULL`, defaults to
+#' `design_matrix.batch_shape_tensor()`. Must broadcast with the batch
+#' shape of `design_matrix`. Default value: `NULL`.
+#'
+#' @section References:
+#' - [Carvalho, C., Polson, N. and Scott, J. Handling Sparsity via the Horseshoe. AISTATS (2009).](http://proceedings.mlr.press/v5/carvalho09a/carvalho09a.pdf)
+#' - [Juho Piironen, Aki Vehtari. Sparsity information and regularization in the horseshoe and other shrinkage priors (2017).](https://arxiv.org/abs/1707.01694)
+#'
+#' @inheritParams sts_linear_regression
+#' @family sts
+#'
+#' @export
+sts_sparse_linear_regression <- function(design_matrix,
+                                         weights_prior_scale = 0.1,
+                                         weights_batch_shape = NULL,
+                                         name = NULL) {
+  args <- list(
+    design_matrix = design_matrix,
+    weights_prior_scale = weights_prior_scale,
+    weights_batch_shape = weights_batch_shape,
+    name = name
+  )
 
+  do.call(tfp$sts$SparseLinearRegression, args)
+}

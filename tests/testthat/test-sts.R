@@ -232,3 +232,8 @@ test_succeeds("autoregressive state space model works with batches of models", {
   expect_equal(lp$get_shape()$as_list() %>% length(), 3)
 })
 
+test_succeeds("sts_sparse_linear_regression works", {
+
+  model <- sts_sparse_linear_regression(design_matrix = matrix(31 * 3, nrow = 31),
+                                        weights_prior_scale = 0.1)
+})

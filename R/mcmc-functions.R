@@ -274,8 +274,8 @@ mcmc_sample_annealed_importance_chain <- function(num_steps,
 #' `dim`. The `dim`-dimensional sequence takes values in the unit hypercube in
 #' `dim` dimensions. Currently, only dimensions up to 1000 are supported. The
 #' prime base for the k-th axes is the k-th prime starting from 2. For example,
-#' if `dim` = 3, then the bases will be [2, 3, 5] respectively and the first
-#' element of the non-randomized sequence will be: [0.5, 0.333, 0.2]. For a more
+#' if `dim` = 3, then the bases will be `[2, 3, 5]` respectively and the first
+#' element of the non-randomized sequence will be: `[0.5, 0.333, 0.2]`. For a more
 #' complete description of the Halton sequences see
 #' [here](https://en.wikipedia.org/wiki/Halton_sequence). For low discrepancy
 #' sequences and their applications see
@@ -303,7 +303,7 @@ mcmc_sample_annealed_importance_chain <- function(num_steps,
 #' @param sequence_indices (Optional) `Tensor` of dtype int32 and rank 1. The
 #' elements of the sequence to compute specified by their position in the
 #' sequence. The entries index into the Halton sequence starting with 0 and
-#' hence, must be whole numbers. For example, sequence_indices=[0, 5, 6] will
+#' hence, must be whole numbers. For example, sequence_indices=`[0, 5, 6]` will
 #' produce the first, sixth and seventh elements of the sequence. If this
 #' parameter is None, then the `num_results` parameter must be specified
 #' which gives the number of desired samples starting from the first sample.
@@ -324,7 +324,7 @@ mcmc_sample_annealed_importance_chain <- function(num_steps,
 #' `[s, dim]` where s is the size of `sequence_indices` if `sequence_indices`
 #' were specified.
 #'
-#' @section References
+#' @section References:
 #' - [Art B. Owen. A randomized Halton algorithm in R. _arXiv preprint arXiv:1706.02808_, 2017.](https://arxiv.org/abs/1706.02808)
 #' @family mcmc_functions
 #' @export

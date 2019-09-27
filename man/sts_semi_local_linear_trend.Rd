@@ -95,6 +95,7 @@ Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_seasonal_state_space_model}},
   \code{\link{sts_seasonal}},
   \code{\link{sts_semi_local_linear_trend_state_space_model}},
+  \code{\link{sts_sparse_linear_regression}},
   \code{\link{sts_sum}}
 }
 \concept{sts}

@@ -20,7 +20,7 @@ is determined by the \code{sequence_indices}. Default value: \code{NULL}.}
 \item{sequence_indices}{(Optional) \code{Tensor} of dtype int32 and rank 1. The
 elements of the sequence to compute specified by their position in the
 sequence. The entries index into the Halton sequence starting with 0 and
-hence, must be whole numbers. For example, sequence_indices=\link{0, 5, 6} will
+hence, must be whole numbers. For example, sequence_indices=\code{[0, 5, 6]} will
 produce the first, sixth and seventh elements of the sequence. If this
 parameter is None, then the \code{num_results} parameter must be specified
 which gives the number of desired samples starting from the first sample.
@@ -60,8 +60,8 @@ Computes the members of the low discrepancy Halton sequence in dimension
 \code{dim}. The \code{dim}-dimensional sequence takes values in the unit hypercube in
 \code{dim} dimensions. Currently, only dimensions up to 1000 are supported. The
 prime base for the k-th axes is the k-th prime starting from 2. For example,
-if \code{dim} = 3, then the bases will be \link{2, 3, 5} respectively and the first
-element of the non-randomized sequence will be: \link{0.5, 0.333, 0.2}. For a more
+if \code{dim} = 3, then the bases will be \code{[2, 3, 5]} respectively and the first
+element of the non-randomized sequence will be: \code{[0.5, 0.333, 0.2]}. For a more
 complete description of the Halton sequences see
 \href{https://en.wikipedia.org/wiki/Halton_sequence}{here}. For low discrepancy
 sequences and their applications see
@@ -80,6 +80,13 @@ element. If \code{sequence_indices} is given instead, the specified elements of
 the sequence are generated. For example, sequence_indices=tf$range(10) is
 equivalent to specifying n=10.
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1706.02808}{Art B. Owen. A randomized Halton algorithm in R. arXiv preprint arXiv:1706.02808, 2017.}
+}
+}
+
 \seealso{
 Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
   \code{\link{mcmc_potential_scale_reduction}},
