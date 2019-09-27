@@ -271,3 +271,34 @@ sts_build_factored_surrogate_posterior <-
 
   }
 
+#' Initialize from a uniform [-2, 2] distribution in unconstrained space.
+#'
+#' @param parameter `sts$Parameter` named tuple instance.
+#' @param return_constrained if `TRUE`, re-applies the constraining bijector
+#' to return initializations in the original domain. Otherwise, returns
+#' initializations in the unconstrained space.
+#' Default value: `TRUE`.
+#' @param init_sample_shape `sample_shape` of the sampled initializations.
+#' Default value: `list()`.
+#' @param seed integer to seed the random number generator.
+#'
+#' @return uniform_initializer `Tensor` of shape
+#' `concat([init_sample_shape, parameter.prior.batch_shape, transformed_event_shape])`, where
+#' `transformed_event_shape` is `parameter.prior.event_shape`, if
+#' `return_constrained=TRUE`, and otherwise it is
+#' `parameter$bijector$inverse_event_shape(parameter$prior$event_shape)`.
+#'
+#' @family sts-functions
+#' @export
+sts_sample_uniform_initial_state <-
+  function(parameter,
+           return_constrained = TRUE,
+           init_sample_shape = list(),
+           seed = NULL) {
+    tfp$sts$sample_uniform_initial_state(parameter,
+                                         return_constrained,
+                                         as_integer_list(init_sample_shape),
+                                         seed)
+  }
+
+
