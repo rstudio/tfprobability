@@ -472,3 +472,15 @@ test_succeeds("Define a correlation_cholesky bijector", {
   expect_equivalent(rev_x %>% tensor_value(), x)
 })
 
+test_succeeds("Define a cumsum bijector", {
+
+  skip_if_tfp_below("0.8")
+
+  x <- rep(1, 5)
+  y <- cumsum(x)
+  b <- tfb_cumsum()
+
+  rev_x <- b %>% tfb_inverse(y)
+  expect_equivalent(rev_x %>% tensor_value(), x)
+})
+

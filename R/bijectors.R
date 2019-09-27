@@ -1398,3 +1398,20 @@ tfb_correlation_cholesky <- function(validate_args = FALSE,
   do.call(tfp$bijectors$CorrelationCholesky, args)
 }
 
+#' Computes the cumulative sum of a tensor along a specified axis.
+#'
+#' @inheritParams identity
+#' @param axis `int` indicating the axis along which to compute the cumulative sum.
+#'  Note that positive (and zero) values are not supported
+#'
+#' @export
+tfb_cumsum <- function(axis = -1,
+                       validate_args = FALSE,
+                       name='cumsum') {
+  tfp$bijectors$Cumsum(
+    axis = as.integer(axis),
+    validate_args = validate_args,
+    name = name
+  )
+}
+
