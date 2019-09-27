@@ -484,3 +484,15 @@ test_succeeds("Define a cumsum bijector", {
   expect_equivalent(rev_x %>% tensor_value(), x)
 })
 
+test_succeeds("Define a iterated_sigmoid_centered bijector", {
+
+  skip_if_tfp_below("0.8")
+
+  x <- runif(10)
+  b <- tfb_iterated_sigmoid_centered()
+
+  f_x <- b %>% tfb_forward(x)
+  rev_x <- b %>% tfb_inverse(f_x)
+  expect_equivalent(rev_x %>% tensor_value(), x, tol = 1e-6)
+})
+
