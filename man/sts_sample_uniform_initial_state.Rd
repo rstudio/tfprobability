@@ -2,7 +2,7 @@
 % Please edit documentation in R/sts-functions.R
 \name{sts_sample_uniform_initial_state}
 \alias{sts_sample_uniform_initial_state}
-\title{Initialize from a uniform \link{-2, 2} distribution in unconstrained space.}
+\title{Initialize from a uniform \code{[-2, 2]} distribution in unconstrained space.}
 \usage{
 sts_sample_uniform_initial_state(parameter, return_constrained = TRUE,
   init_sample_shape = list(), seed = NULL)
@@ -28,7 +28,7 @@ uniform_initializer \code{Tensor} of shape
 \code{parameter$bijector$inverse_event_shape(parameter$prior$event_shape)}.
 }
 \description{
-Initialize from a uniform \link{-2, 2} distribution in unconstrained space.
+Initialize from a uniform \code{[-2, 2]} distribution in unconstrained space.
 }
 \seealso{
 Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},

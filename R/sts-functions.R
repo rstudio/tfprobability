@@ -271,7 +271,7 @@ sts_build_factored_surrogate_posterior <-
 
   }
 
-#' Initialize from a uniform [-2, 2] distribution in unconstrained space.
+#' Initialize from a uniform `[-2, 2]` distribution in unconstrained space.
 #'
 #' @param parameter `sts$Parameter` named tuple instance.
 #' @param return_constrained if `TRUE`, re-applies the constraining bijector
