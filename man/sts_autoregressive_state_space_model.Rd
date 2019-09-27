@@ -92,6 +92,7 @@ latent AR process observed under an iid noise model.
 \seealso{
 Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_autoregressive}},
+  \code{\link{sts_constrained_seasonal_state_space_model}},
   \code{\link{sts_dynamic_linear_regression_state_space_model}},
   \code{\link{sts_dynamic_linear_regression}},
   \code{\link{sts_linear_regression}},
