@@ -9,6 +9,11 @@ tfb_cumsum(axis = -1, validate_args = FALSE, name = "cumsum")
 \arguments{
 \item{axis}{\code{int} indicating the axis along which to compute the cumulative sum.
 Note that positive (and zero) values are not supported}
+
+\item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
+FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
+
+\item{name}{name prefixed to Ops created by this class.}
 }
 \description{
 Computes the cumulative sum of a tensor along a specified axis.

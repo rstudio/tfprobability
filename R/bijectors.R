@@ -1400,7 +1400,7 @@ tfb_correlation_cholesky <- function(validate_args = FALSE,
 
 #' Computes the cumulative sum of a tensor along a specified axis.
 #'
-#' @inheritParams identity
+#' @inheritParams tfb_identity
 #' @param axis `int` indicating the axis along which to compute the cumulative sum.
 #'  Note that positive (and zero) values are not supported
 #'
@@ -1410,6 +1410,18 @@ tfb_cumsum <- function(axis = -1,
                        name='cumsum') {
   tfp$bijectors$Cumsum(
     axis = as.integer(axis),
+    validate_args = validate_args,
+    name = name
+  )
+}
+
+#' Bijector which applies a Stick Breaking procedure.
+#'
+#' @inheritParams tfb_identity
+#' @export
+tfb_iterated_sigmoid_centered <- function(validate_args = FALSE,
+                                          name = 'iterated_sigmoid') {
+  tfp$bijectors$IteratedSigmoidCentered(
     validate_args = validate_args,
     name = name
   )
