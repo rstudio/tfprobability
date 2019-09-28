@@ -232,3 +232,24 @@ test_succeeds("autoregressive state space model works with batches of models", {
   expect_equal(lp$get_shape()$as_list() %>% length(), 3)
 })
 
+test_succeeds("sts_sparse_linear_regression works", {
+
+  model <- sts_sparse_linear_regression(design_matrix = matrix(31 * 3, nrow = 31),
+                                        weights_prior_scale = 0.1)
+})
+
+test_succeeds("constrained seasonal state space model works", {
+
+  sss <- sts_constrained_seasonal_state_space_model(
+    num_timesteps = 30,
+    num_seasons = 7,
+    drift_scale = 0.1,
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = rep(1, 7 - 1)),
+    num_steps_per_season = 24)
+
+  y <- sss %>% tfd_sample()
+  expect_equal(y$get_shape()$as_list(), c(30, 1))
+  lp <- sss %>% tfd_log_prob(y)
+  expect_equal(lp$get_shape()$as_list() %>% length(), 0)
+})
+

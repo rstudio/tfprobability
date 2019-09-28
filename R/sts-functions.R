@@ -271,3 +271,58 @@ sts_build_factored_surrogate_posterior <-
 
   }
 
+#' Initialize from a uniform `[-2, 2]` distribution in unconstrained space.
+#'
+#' @param parameter `sts$Parameter` named tuple instance.
+#' @param return_constrained if `TRUE`, re-applies the constraining bijector
+#' to return initializations in the original domain. Otherwise, returns
+#' initializations in the unconstrained space.
+#' Default value: `TRUE`.
+#' @param init_sample_shape `sample_shape` of the sampled initializations.
+#' Default value: `list()`.
+#' @param seed integer to seed the random number generator.
+#'
+#' @return uniform_initializer `Tensor` of shape
+#' `concat([init_sample_shape, parameter.prior.batch_shape, transformed_event_shape])`, where
+#' `transformed_event_shape` is `parameter.prior.event_shape`, if
+#' `return_constrained=TRUE`, and otherwise it is
+#' `parameter$bijector$inverse_event_shape(parameter$prior$event_shape)`.
+#'
+#' @family sts-functions
+#' @export
+sts_sample_uniform_initial_state <-
+  function(parameter,
+           return_constrained = TRUE,
+           init_sample_shape = list(),
+           seed = NULL) {
+    tfp$sts$sample_uniform_initial_state(parameter,
+                                         return_constrained,
+                                         as_integer_list(init_sample_shape),
+                                         seed)
+  }
+
+#' Decompose a forecast distribution into contributions from each component.
+#'
+#' @inheritParams sts_decompose_by_component
+#'
+#' @param forecast_dist A `Distribution` instance returned by `sts_forecast()`.
+#' (specifically, must be a `tfd.MixtureSameFamily` over a
+#' `tfd_linear_gaussian_state_space_model` parameterized by posterior samples).
+#'
+#' @return component_dists A named list mapping
+#' component StructuralTimeSeries instances (elements of `model$components`)
+#' to `Distribution` instances representing the marginal forecast for each component.
+#' Each distribution has batch shape matching `forecast_dist` (specifically,
+#' the event shape is `[num_steps_forecast]`).
+#'
+#' @family sts-functions
+#'
+#' @export
+sts_decompose_forecast_by_component <- function(model,
+                                                forecast_dist,
+                                                parameter_samples) {
+  tfp$sts$decompose_forecast_by_component(model,
+                                          forecast_dist,
+                                          parameter_samples)
+}
+

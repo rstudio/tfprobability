@@ -215,3 +215,47 @@ test_succeeds("sts_build_factored_surrogate_posterior works", {
   expect_length(posterior_samples, 4)
 
 })
+
+test_succeeds("sts_sample_uniform_initial_state works", {
+
+  model <- sts_sparse_linear_regression(design_matrix = matrix(31 * 3, nrow = 31),
+                                        weights_prior_scale = 0.1)
+  p <- model$parameters[[1]]
+  init <- sts_sample_uniform_initial_state(parameter = p, init_sample_shape = list(2, 2))
+  expect_equal(init$get_shape()$as_list() %>% length(), 2)
+
+})
+
+test_succeeds("sts_decompose_forecast_by_component works", {
+  skip_if_tfp_below("0.7")
+
+  observed_time_series <-
+    array(rnorm(2 * 1 * 12), dim = c(2, 1, 12))
+
+  day_of_week <-
+    observed_time_series %>% sts_seasonal(num_seasons = 7, name = "seasonal")
+  local_linear_trend <-
+    observed_time_series %>% sts_local_linear_trend(name = "local_linear")
+  model <-
+    observed_time_series %>% sts_sum(components = list(day_of_week, local_linear_trend))
+  states_and_results <- observed_time_series %>% sts_fit_with_hmc(
+    model,
+    num_results = 10,
+    num_warmup_steps = 5,
+    num_variational_steps = 15
+  )
+
+  samples <- states_and_results[[1]]
+
+  forecast_dist <-
+    observed_time_series %>% sts_forecast(model,
+                                          parameter_samples = samples,
+                                          num_steps_forecast = 50)
+
+  component_forecasts <-
+    sts_decompose_forecast_by_component(model, forecast_dist, samples)
+
+  day_of_week_effect_mean <- component_forecasts[[1]] %>% tfd_mean()
+  expect_equal(day_of_week_effect_mean$get_shape()$as_list() %>% length(),
+               3)
+})

@@ -61,6 +61,7 @@ then the \code{SemiLocalLinearTrend} model may produce sharper forecasts.
 Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_autoregressive_state_space_model}},
   \code{\link{sts_autoregressive}},
+  \code{\link{sts_constrained_seasonal_state_space_model}},
   \code{\link{sts_dynamic_linear_regression_state_space_model}},
   \code{\link{sts_dynamic_linear_regression}},
   \code{\link{sts_linear_regression}},
@@ -71,6 +72,7 @@ Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_seasonal}},
   \code{\link{sts_semi_local_linear_trend_state_space_model}},
   \code{\link{sts_semi_local_linear_trend}},
+  \code{\link{sts_sparse_linear_regression}},
   \code{\link{sts_sum}}
 }
 \concept{sts}

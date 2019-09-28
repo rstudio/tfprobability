@@ -1138,4 +1138,203 @@ sts_autoregressive_state_space_model <-
     do.call(tfp$sts$AutoregressiveStateSpaceModel, args)
   }
 
+#' Formal representation of a sparse linear regression.
+#'
+#' This model defines a time series given by a sparse linear combination of
+#' covariate time series provided in a design matrix:
+#'
+#' ```
+#' observed_time_series <- tf$matmul(design_matrix, weights)
+#' ```
+#'
+#' This is identical to `sts_linear_regression`, except that
+#' `sts_sparse_linear_regression` uses a parameterization of a Horseshoe
+#' prior to encode the assumption that many of the `weights` are zero,
+#' i.e., many of the covariate time series are irrelevant. See the mathematical
+#' details section below for further discussion. The prior parameterization used
+#' by `sts_sparse_linear_regression` is more suitable for inference than that
+#' obtained by simply passing the equivalent `tfd_horseshoe` prior to
+#' `sts_linear_regression`; when sparsity is desired, `sts_sparse_linear_regression` will
+#' likely yield better results.
+#'
+#' This component does not itself include observation noise; it defines a
+#' deterministic distribution with mass at the point
+#' `tf$matmul(design_matrix, weights)`. In practice, it should be combined with
+#' observation noise from another component such as `sts_sum`.
+#'
+#' Mathematical Details
+#'
+#' The basic horseshoe prior Carvalho et al. (2009) is defined as a Cauchy-normal scale mixture:
+#' ```
+#' scales[i] ~ HalfCauchy(loc=0, scale=1)
+#' weights[i] ~ Normal(loc=0., scale=scales[i] * global_scale)`
+#' ```
+#'
+#' The Cauchy scale parameters puts substantial mass near zero, encouraging
+#' weights to be sparse, but their heavy tails allow weights far from zero to be
+#' estimated without excessive shrinkage. The horseshoe can be thought of as a
+#' continuous relaxation of a traditional 'spike-and-slab' discrete sparsity
+#' prior, in which the latent Cauchy scale mixes between 'spike'
+#' (`scales[i] ~= 0`) and 'slab' (`scales[i] >> 0`) regimes.
+#'
+#' Following the recommendations in Piironen et al. (2017), `SparseLinearRegression` implements
+#' a horseshoe with the following adaptations:
+#' - The Cauchy prior on `scales[i]` is represented as an InverseGamma-Normal
+#' compound.
+#' - The `global_scale` parameter is integrated out following a `Cauchy(0.,
+#' scale=weights_prior_scale)` hyperprior, which is also represented as an
+#' InverseGamma-Normal compound.
+#' - All compound distributions are implemented using a non-centered
+#' parameterization.
+#' The compound, non-centered representation defines the same marginal prior as
+#' the original horseshoe (up to integrating out the global scale),
+#' but allows samplers to mix more efficiently through the heavy tails; for
+#' variational inference, the compound representation implicity expands the
+#' representational power of the variational model.
+#'
+#' Note that we do not yet implement the regularized ('Finnish') horseshoe,
+#' proposed in Piironen et al. (2017) for models with weak likelihoods, because the likelihood
+#' in STS models is typically Gaussian, where it's not clear that additional
+#' regularization is appropriate. If you need this functionality, please
+#' email tfprobability@tensorflow.org.
+#'
+#' The full prior parameterization implemented in `SparseLinearRegression` is
+#' as follows:
+#'
+#' ```
+#' Sample global_scale from Cauchy(0, scale=weights_prior_scale).
+#' global_scale_variance ~ InverseGamma(alpha=0.5, beta=0.5)
+#' global_scale_noncentered ~ HalfNormal(loc=0, scale=1)
+#' global_scale = (global_scale_noncentered *
+#' sqrt(global_scale_variance) *
+#' weights_prior_scale)
+#' Sample local_scales from Cauchy(0, 1).
+#' local_scale_variances[i] ~ InverseGamma(alpha=0.5, beta=0.5)
+#' local_scales_noncentered[i] ~ HalfNormal(loc=0, scale=1)
+#' local_scales[i] = local_scales_noncentered[i] * sqrt(local_scale_variances[i])
+#' weights[i] ~ Normal(loc=0., scale=local_scales[i] * global_scale)
+#' ```
+#' @param weights_prior_scale float `Tensor` defining the scale of the Horseshoe
+#' prior on regression weights. Small values encourage the weights to be
+#' sparse. The shape must broadcast with `weights_batch_shape`.
+#' Default value: `0.1`.
+#' @param weights_batch_shape if `NULL`, defaults to
+#' `design_matrix.batch_shape_tensor()`. Must broadcast with the batch
+#' shape of `design_matrix`. Default value: `NULL`.
+#'
+#' @section References:
+#' - [Carvalho, C., Polson, N. and Scott, J. Handling Sparsity via the Horseshoe. AISTATS (2009).](http://proceedings.mlr.press/v5/carvalho09a/carvalho09a.pdf)
+#' - [Juho Piironen, Aki Vehtari. Sparsity information and regularization in the horseshoe and other shrinkage priors (2017).](https://arxiv.org/abs/1707.01694)
+#'
+#' @inheritParams sts_linear_regression
+#' @family sts
+#'
+#' @export
+sts_sparse_linear_regression <- function(design_matrix,
+                                         weights_prior_scale = 0.1,
+                                         weights_batch_shape = NULL,
+                                         name = NULL) {
+  args <- list(
+    design_matrix = design_matrix,
+    weights_prior_scale = weights_prior_scale,
+    weights_batch_shape = weights_batch_shape,
+    name = name
+  )
 
+  do.call(tfp$sts$SparseLinearRegression, args)
+}
+
+#' Seasonal state space model with effects constrained to sum to zero.
+#'
+#' @seealso [sts_seasonal_state_space_model()].
+#'
+#' Mathematical details
+#'
+#' The constrained model implements a reparameterization of the
+#' naive `SeasonalStateSpaceModel`. Instead of directly representing the
+#' seasonal effects in the latent space, the latent space of the constrained
+#' model represents the difference between each effect and the mean effect.
+#' The following discussion assumes familiarity with the mathematical details
+#' of `SeasonalStateSpaceModel`.
+#'
+#' *Reparameterization and constraints*: let the seasonal effects at a given
+#' timestep be `E = [e_1, ..., e_N]`. The difference between each effect `e_i`
+#' and the mean effect is `z_i = e_i - sum_i(e_i)/N`. By itself, this
+#' transformation is not invertible because recovering the absolute effects
+#' requires that we know the mean as well. To fix this, we'll define
+#' `z_N = sum_i(e_i)/N` as the mean effect. It's easy to see that this is
+#' invertible: given the mean effect and the differences of the first `N - 1`
+#' effects from the mean, it's easy to solve for all `N` effects. Formally,
+#' we've defined the invertible linear reparameterization `Z = R E`, where
+#'
+#' ```
+#' R = [1 - 1/N, -1/N,    ..., -1/N
+#'      -1/N,    1 - 1/N, ..., -1/N,
+#'      ...
+#'      1/N,     1/N,     ...,  1/N]
+#' ```
+#'
+#' represents the change of basis from 'effect coordinates' E to
+#' 'residual coordinates' Z. The `Z`s form the latent space of the
+#' `ConstrainedSeasonalStateSpaceModel`.
+#' To constrain the mean effect `z_N` to zero, we fix the prior to zero,
+#' `p(z_N) ~ N(0., 0)`, and after the transition at each timestep we project
+#' `z_N` back to zero. Note that this projection is linear: to set the Nth
+#' dimension to zero, we simply multiply by the identity matrix with a missing
+#' element in the bottom right, i.e., `Z_constrained = P Z`,
+#' where `P = eye(N) - scatter((N-1, N-1), 1)`.
+#'
+#' *Model*: concretely, suppose a naive seasonal effect model has initial state
+#' prior `N(m, S)`, transition matrix `F` and noise covariance
+#' `Q`, and observation matrix `H`. Then the corresponding constrained seasonal
+#' effect model has initial state prior `N(P R m, P R S R' P')`,
+#' transition matrix `P R F R^-1` and noise covariance `F R Q R' F'`, and
+#' observation matrix `H R^-1`, where the change-of-basis matrix `R` and
+#' constraint projection matrix `P` are as defined above. This follows
+#' directly from applying the reparameterization `Z = R E`, and then enforcing
+#' the zero-sum constraint on the prior and transition noise covariances.
+#' In practice, because the sum of effects `z_N` is constrained to be zero, it
+#' will never contribute a term to any linear operation on the latent space,
+#' so we can drop that dimension from the model entirely.
+#' `ConstrainedSeasonalStateSpaceModel` does this, so that it implements the
+#' `N - 1` dimension latent space `z_1, ..., z_[N-1]`.
+#' Note that since we constrained the mean effect to be zero, the latent
+#' `z_i`'s now recover their interpretation as the *actual* effects,
+#' `z_i = e_i` for `i = `1, ..., N - 1`, even though they were originally
+#' defined as residuals. The `N`th effect is represented only implicitly, as
+#' the nonzero mean of the first `N - 1` effects. Although the computational
+#' represention is not symmetric across all `N` effects, we derived the
+#' `ConstrainedSeasonalStateSpaceModel` by starting with a symmetric
+#' representation and imposing only a symmetric constraint (the zero-sum
+#' constraint), so the probability model remains symmetric over all `N`
+#' seasonal effects.
+#'
+#' @inheritParams sts_seasonal_state_space_model
+#' @family sts
+#'
+#' @export
+sts_constrained_seasonal_state_space_model <-
+  function(num_timesteps,
+           num_seasons,
+           drift_scale,
+           initial_state_prior,
+           observation_noise_scale = 1e-4,
+           num_steps_per_season = 1,
+           initial_step = 0,
+           validate_args = FALSE,
+           allow_nan_stats = TRUE,
+           name = NULL) {
+    args <- list(
+      num_timesteps = as.integer(num_timesteps),
+      num_seasons = as.integer(num_seasons),
+      drift_scale = drift_scale,
+      initial_state_prior = initial_state_prior,
+      observation_noise_scale = observation_noise_scale,
+      num_steps_per_season = as.integer(num_steps_per_season),
+      initial_step = as.integer(initial_step),
+      validate_args = validate_args,
+      allow_nan_stats = allow_nan_stats,
+      name = name
+    )
+    do.call(tfp$sts$ConstrainedSeasonalStateSpaceModel, args)
+  }
