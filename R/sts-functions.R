@@ -301,4 +301,28 @@ sts_sample_uniform_initial_state <-
                                          seed)
   }
 
+#' Decompose a forecast distribution into contributions from each component.
+#'
+#' @inheritParams sts_decompose_by_component
+#'
+#' @param forecast_dist A `Distribution` instance returned by `sts_forecast()`.
+#' (specifically, must be a `tfd.MixtureSameFamily` over a
+#' `tfd_linear_gaussian_state_space_model` parameterized by posterior samples).
+#'
+#' @return component_dists A named list mapping
+#' component StructuralTimeSeries instances (elements of `model$components`)
+#' to `Distribution` instances representing the marginal forecast for each component.
+#' Each distribution has batch shape matching `forecast_dist` (specifically,
+#' the event shape is `[num_steps_forecast]`).
+#'
+#' @family sts-functions
+#'
+#' @export
+sts_decompose_forecast_by_component <- function(model,
+                                                forecast_dist,
+                                                parameter_samples) {
+  tfp$sts$decompose_forecast_by_component(model,
+                                          forecast_dist,
+                                          parameter_samples)
+}
 

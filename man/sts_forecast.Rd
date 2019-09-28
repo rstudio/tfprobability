@@ -40,6 +40,7 @@ distribution over future observations for num_steps_forecast timesteps.
 Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},
   \code{\link{sts_build_factored_variational_loss}},
   \code{\link{sts_decompose_by_component}},
+  \code{\link{sts_decompose_forecast_by_component}},
   \code{\link{sts_fit_with_hmc}},
   \code{\link{sts_one_step_predictive}},
   \code{\link{sts_sample_uniform_initial_state}}

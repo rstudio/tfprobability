@@ -253,13 +253,3 @@ test_succeeds("constrained seasonal state space model works", {
   expect_equal(lp$get_shape()$as_list() %>% length(), 0)
 })
 
-test_succeeds("sts_sample_uniform_initial_state works", {
-
-  model <- sts_sparse_linear_regression(design_matrix = matrix(31 * 3, nrow = 31),
-                                        weights_prior_scale = 0.1)
-  p <- model$parameters[[1]]
-  init <- sts_sample_uniform_initial_state(parameter = p, init_sample_shape = list(2, 2))
-  expect_equal(init$get_shape()$as_list() %>% length(), 2)
-
-  })
-
