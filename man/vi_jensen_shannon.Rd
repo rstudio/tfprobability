@@ -14,11 +14,6 @@ vi_jensen_shannon(logu, self_normalized = FALSE, name = NULL)
 when \code{p, q} are unnormalized measures.}
 
 \item{name}{name prefixed to Ops created by this function.}
-
-\item{References:}{\itemize{
-\item Lin, J. "Divergence measures based on the Shannon entropy." IEEE Trans.
-Inf. Th., 37, 145-151, 1991.
-}}
 }
 \description{
 A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
@@ -42,6 +37,14 @@ This Csiszar-function induces a symmetric f-Divergence, i.e.,
 Warning: this function makes non-log-space calculations and may therefore be
 numerically unstable for \code{|logu| >> 0}.
 }
+\section{References}{
+
+\itemize{
+\item Lin, J. "Divergence measures based on the Shannon entropy." IEEE Trans.
+Inf. Th., 37, 145-151, 1991.
+}
+}
+
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
   \code{\link{vi_fit_surrogate_posterior}},

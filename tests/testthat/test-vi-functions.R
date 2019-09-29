@@ -50,3 +50,10 @@ test_succeeds("vi_jensen_shannon works", {
                tolerance = 1e-6)
 })
 
+test_succeeds("arithmetic_geometric works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_arithmetic_geometric(logu, self_normalized = TRUE) %>% tensor_value(),
+               (1 + u) * log( (1 + u) / sqrt(u) ) - (1 + u)  * log(2),
+               tolerance = 1e-6)
+})

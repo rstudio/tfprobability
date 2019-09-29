@@ -255,7 +255,7 @@ vi_monte_carlo_variational_loss <-
 #' Warning: this function makes non-log-space calculations and may therefore be
 #' numerically unstable for `|logu| >> 0`.
 #'
-#' @param References:
+#' @section References:
 #' - Lin, J. "Divergence measures based on the Shannon entropy." IEEE Trans.
 #' Inf. Th., 37, 145-151, 1991.
 #'
@@ -274,33 +274,44 @@ vi_jensen_shannon <-
   }
 
 
-#' The forward Kullback-Leibler Csiszar-function in log-space.
+#' The Arithmetic-Geometric Csiszar-function in log-space.
 #'
 #' A Csiszar-function is a member of `F = { f:R_+ to R : f convex }`.
 #'
-#' When `self_normalized = TRUE`, the KL-reverse Csiszar-function is `f(u) = u log(u) - (u - 1)`.
-#' When `self_normalized = FALSE` the `(u - 1)` term is omitted.
-#' Observe that as an f-Divergence, this Csiszar-function implies: `D_f[p, q] = KL[q, p]`
+#' When `self_normalized = True` the Arithmetic-Geometric Csiszar-function is:
+#' ```
+#' f(u) = (1 + u) log( (1 + u) / sqrt(u) ) - (1 + u) log(2)
+#' ```
 #'
-#' The KL is "forward" because in maximum likelihood we think of minimizing `q` as in `KL[p, q]`.
+#' When `self_normalized = False` the `(1 + u) log(2)` term is omitted.
+#'
+#' Observe that as an f-Divergence, this Csiszar-function implies:
+#'
+#' ```
+#' D_f[p, q] = KL[m, p] + KL[m, q]
+#' m(x) = 0.5 p(x) + 0.5 q(x)
+#' ```
+#'
+#' In a sense, this divergence is the "reverse" of the Jensen-Shannon
+#' f-Divergence.
+#' This Csiszar-function induces a symmetric f-Divergence, i.e.,
+#' `D_f[p, q] = D_f[q, p]`.
 #'
 #' Warning: when self_normalized = True` this function makes non-log-space calculations and may
 #' therefore be numerically unstable for `|logu| >> 0`.
 #'
-#' @param logu `float`-like `Tensor` representing `log(u)` from above.
-#' @param self_normalized `logical` indicating whether `f'(u=1)=0`. When
-#' `f'(u=1)=0` the implied Csiszar f-Divergence remains non-negative even
-#' when `p, q` are unnormalized measures.
-#' @param name name prefixed to Ops created by this function.
+#' @inheritParams vi_amari_alpha
 #'
-#' @family vi-functions
+#' @return arithmetic_geometric_of_u: `float`-like `Tensor` of the
+#' Csiszar-function evaluated at `u = exp(logu)`.
 #'
+#' @family vi-functions#'
 #' @export
-vi_kl_forward <-
+vi_arithmetic_geometric <-
   function(logu,
            self_normalized = FALSE,
            name = NULL) {
-    tfp$vi$kl_forward(logu, self_normalized, name)
+    tfp$vi$arithmetic_geometric(logu, self_normalized, name)
   }
 
 
