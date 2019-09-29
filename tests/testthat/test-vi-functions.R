@@ -65,4 +65,11 @@ test_succeeds("vi_total_variation works", {
                0.5 * abs(u - 1))
 })
 
+test_succeeds("vi_pearson works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_pearson(logu) %>% tensor_value(),
+               (u - 1)^2)
+})
+
 
