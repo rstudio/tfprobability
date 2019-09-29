@@ -351,14 +351,13 @@ vi_total_variation <-
 #'
 #' Warning: this function makes non-log-space calculations and may therefore be
 #' numerically unstable for `|logu| >> 0`.
-
+#'
 #' @inheritParams vi_amari_alpha
 #'
 #' @return pearson_of_u: `float`-like `Tensor` of the Csiszar-function
 #' evaluated at `u = exp(logu)`.
 #'
 #' @family vi-functions
-#'
 #' @export
 vi_pearson <-
   function(logu,
@@ -367,33 +366,27 @@ vi_pearson <-
   }
 
 
-#' The forward Kullback-Leibler Csiszar-function in log-space.
+#' The Squared-Hellinger Csiszar-function in log-space
 #'
 #' A Csiszar-function is a member of `F = { f:R_+ to R : f convex }`.
 #'
-#' When `self_normalized = TRUE`, the KL-reverse Csiszar-function is `f(u) = u log(u) - (u - 1)`.
-#' When `self_normalized = FALSE` the `(u - 1)` term is omitted.
-#' Observe that as an f-Divergence, this Csiszar-function implies: `D_f[p, q] = KL[q, p]`
+#' The Squared-Hellinger Csiszar-function is:
+#' ```
+#' f(u) = (sqrt(u) - 1)**2
+#' ```
 #'
-#' The KL is "forward" because in maximum likelihood we think of minimizing `q` as in `KL[p, q]`.
+#' This Csiszar-function induces a symmetric f-Divergence, i.e.,
+#' `D_f[p, q] = D_f[q, p]`.
 #'
-#' Warning: when self_normalized = True` this function makes non-log-space calculations and may
+#' Warning: this function makes non-log-space calculations and may
 #' therefore be numerically unstable for `|logu| >> 0`.
 #'
-#' @param logu `float`-like `Tensor` representing `log(u)` from above.
-#' @param self_normalized `logical` indicating whether `f'(u=1)=0`. When
-#' `f'(u=1)=0` the implied Csiszar f-Divergence remains non-negative even
-#' when `p, q` are unnormalized measures.
-#' @param name name prefixed to Ops created by this function.
-#'
 #' @family vi-functions
-#'
 #' @export
-vi_kl_forward <-
+vi_squared_hellinger <-
   function(logu,
-           self_normalized = FALSE,
            name = NULL) {
-    tfp$vi$kl_forward(logu, self_normalized, name)
+    tfp$vi$squared_hellinger(logu, name)
   }
 
 

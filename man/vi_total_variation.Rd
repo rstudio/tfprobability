@@ -21,13 +21,8 @@ A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
 \details{
 The Total-Variation Csiszar-function is:\preformatted{f(u) = 0.5 |u - 1|
 }
+
+Warning: this function makes non-log-space calculations and may therefore be
+numerically unstable for \code{|logu| >> 0}.
 }
-\seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_monte_carlo_variational_loss}}
-}
-\concept{vi-functions}
+\concept{vi-functions#'}

@@ -72,4 +72,11 @@ test_succeeds("vi_pearson works", {
                (u - 1)^2)
 })
 
+test_succeeds("vi_squared_hellinger works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_squared_hellinger(logu) %>% tensor_value(),
+               (sqrt(u) - 1)^2)
+})
+
 
