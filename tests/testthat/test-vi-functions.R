@@ -108,4 +108,11 @@ test_succeeds("vi_jeffreys works", {
                0.5 * (u * log(u) - log(u)))
 })
 
+test_succeeds("vi_chi_square works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_chi_square(logu) %>% tensor_value(),
+               u^2 - 1)
+})
+
 

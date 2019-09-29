@@ -518,3 +518,28 @@ vi_jeffreys <-
     tfp$vi$jeffreys(logu, name)
   }
 
+#' The chi-square Csiszar-function in log-space
+#'
+#' A Csiszar-function is a member of `F = { f:R_+ to R : f convex }`.
+#'
+#' The Chi-square Csiszar-function is:
+#'
+#' ```
+#' f(u) = u**2 - 1
+#' ```
+#'
+#' Warning: this function makes non-log-space calculations and may
+#' therefore be numerically unstable for `|logu| >> 0`.
+#'
+#' @inheritParams vi_amari_alpha
+#' @return chi_square_of_u: `float`-like `Tensor` of the Csiszar-function
+#' evaluated at `u = exp(logu)`.
+#' @family vi-functions
+#' @export
+vi_chi_square <-
+  function(logu,
+           name = NULL) {
+    tfp$vi$chi_square(logu, name)
+  }
+
+
