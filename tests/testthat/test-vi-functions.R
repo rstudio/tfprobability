@@ -101,3 +101,11 @@ test_succeeds("vi_log1p_abs works", {
                u^(sign(u - 1)) - 1)
 })
 
+test_succeeds("vi_jeffreys works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_jeffreys(logu) %>% tensor_value(),
+               0.5 * (u * log(u) - log(u)))
+})
+
+
