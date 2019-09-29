@@ -41,6 +41,7 @@ non-log-space calculations and may therefore be numerically unstable for
 
 \seealso{
 Other vi-functions: \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
   \code{\link{vi_monte_carlo_variational_loss}}
 }

@@ -42,4 +42,11 @@ test_succeeds("vi_monte_carlo_variational_loss works", {
   expect_equal(exact_kl %>% tensor_value(), approx_kl %>% tensor_value(), tolerance = 0.01)
 })
 
+test_succeeds("vi_jensen_shannon works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_jensen_shannon(logu, self_normalized = TRUE) %>% tensor_value(),
+               u * log(u) - (1 + u) * log(1 + u) + (u + 1) * log(2),
+               tolerance = 1e-6)
+})
 

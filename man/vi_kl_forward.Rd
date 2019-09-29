@@ -5,8 +5,78 @@
 \title{The forward Kullback-Leibler Csiszar-function in log-space.}
 \usage{
 vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
+
+vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
+
+vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
+
+vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
+
+vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
+
+vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
+
+vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
+
+vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
 }
 \arguments{
+\item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
+
+\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
+\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \code{p, q} are unnormalized measures.}
+
+\item{name}{name prefixed to Ops created by this function.}
+
+\item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
+
+\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
+\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \code{p, q} are unnormalized measures.}
+
+\item{name}{name prefixed to Ops created by this function.}
+
+\item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
+
+\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
+\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \code{p, q} are unnormalized measures.}
+
+\item{name}{name prefixed to Ops created by this function.}
+
+\item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
+
+\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
+\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \code{p, q} are unnormalized measures.}
+
+\item{name}{name prefixed to Ops created by this function.}
+
+\item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
+
+\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
+\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \code{p, q} are unnormalized measures.}
+
+\item{name}{name prefixed to Ops created by this function.}
+
+\item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
+
+\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
+\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \code{p, q} are unnormalized measures.}
+
+\item{name}{name prefixed to Ops created by this function.}
+
+\item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
+
+\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
+\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \code{p, q} are unnormalized measures.}
+
+\item{name}{name prefixed to Ops created by this function.}
+
 \item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
 
 \item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
@@ -17,8 +87,78 @@ when \code{p, q} are unnormalized measures.}
 }
 \description{
 A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+
+A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+
+A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+
+A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+
+A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+
+A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+
+A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+
+A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
 }
 \details{
+When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
+When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
+
+The KL is "forward" because in maximum likelihood we think of minimizing \code{q} as in \code{KL[p, q]}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+
+When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
+When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
+
+The KL is "forward" because in maximum likelihood we think of minimizing \code{q} as in \code{KL[p, q]}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+
+When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
+When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
+
+The KL is "forward" because in maximum likelihood we think of minimizing \code{q} as in \code{KL[p, q]}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+
+When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
+When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
+
+The KL is "forward" because in maximum likelihood we think of minimizing \code{q} as in \code{KL[p, q]}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+
+When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
+When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
+
+The KL is "forward" because in maximum likelihood we think of minimizing \code{q} as in \code{KL[p, q]}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+
+When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
+When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
+
+The KL is "forward" because in maximum likelihood we think of minimizing \code{q} as in \code{KL[p, q]}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+
+When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
+When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
+Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
+
+The KL is "forward" because in maximum likelihood we think of minimizing \code{q} as in \code{KL[p, q]}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+
 When \code{self_normalized = TRUE}, the KL-reverse Csiszar-function is \code{f(u) = u log(u) - (u - 1)}.
 When \code{self_normalized = FALSE} the \code{(u - 1)} term is omitted.
 Observe that as an f-Divergence, this Csiszar-function implies: \code{D_f[p, q] = KL[q, p]}
@@ -30,6 +170,49 @@ Warning: when self_normalized = True\code{this function makes non-log-space calc
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
   \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}}
+
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}}
+
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}}
+
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}}
+
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}}
+
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}}
+
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}}
+
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
   \code{\link{vi_kl_reverse}},
   \code{\link{vi_monte_carlo_variational_loss}}
 }

@@ -90,6 +90,7 @@ minimize any \href{https://en.wikipedia.org/wiki/F-divergence}{Csiszar f-diverge
 }
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_jensen_shannon}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
   \code{\link{vi_monte_carlo_variational_loss}}
 }
