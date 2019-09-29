@@ -381,6 +381,10 @@ vi_pearson <-
 #' Warning: this function makes non-log-space calculations and may
 #' therefore be numerically unstable for `|logu| >> 0`.
 #'
+#' @inheritParams vi_amari_alpha
+#' @return Squared-Hellinger_of_u: `float`-like `Tensor` of the Csiszar-function
+#' evaluated at `u = exp(logu)`.
+#'
 #' @family vi-functions
 #' @export
 vi_squared_hellinger <-
