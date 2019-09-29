@@ -32,6 +32,7 @@ Other vi-functions: \code{\link{vi_amari_alpha}},
   \code{\link{vi_jensen_shannon}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
   \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_squared_hellinger}}
+  \code{\link{vi_squared_hellinger}},
+  \code{\link{vi_triangular}}
 }
 \concept{vi-functions}
