@@ -19,7 +19,7 @@ when \code{p, q} are unnormalized measures.}
 }
 \value{
 t_power_of_u: \code{float}-like \code{Tensor} of the Csiszar-function
-evaluated at \code{u = exp(logu)}.#'
+evaluated at \code{u = exp(logu)}.
 }
 \description{
 A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.

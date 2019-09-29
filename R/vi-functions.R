@@ -440,7 +440,7 @@ vi_triangular <-
 #' @param t  `Tensor` of same `dtype` as `logu` and broadcastable shape.
 #' @inheritParams vi_amari_alpha
 #' @return t_power_of_u: `float`-like `Tensor` of the Csiszar-function
-#' evaluated at `u = exp(logu)`.#'
+#' evaluated at `u = exp(logu)`.
 #' @family vi-functions#'
 #' @export
 vi_t_power <-
@@ -452,32 +452,39 @@ vi_t_power <-
   }
 
 
-#' The forward Kullback-Leibler Csiszar-function in log-space.
+#' The log1p-abs Csiszar-function in log-space
 #'
 #' A Csiszar-function is a member of `F = { f:R_+ to R : f convex }`.
 #'
-#' When `self_normalized = TRUE`, the KL-reverse Csiszar-function is `f(u) = u log(u) - (u - 1)`.
-#' When `self_normalized = FALSE` the `(u - 1)` term is omitted.
-#' Observe that as an f-Divergence, this Csiszar-function implies: `D_f[p, q] = KL[q, p]`
+#' The Log1p-Abs Csiszar-function is:
 #'
-#' The KL is "forward" because in maximum likelihood we think of minimizing `q` as in `KL[p, q]`.
+#' ```
+#' f(u) = u**(sign(u-1)) - 1
+#' ```
 #'
-#' Warning: when self_normalized = True` this function makes non-log-space calculations and may
+#' This function is so-named because it was invented from the following recipe.
+#' Choose a convex function g such that g(0)=0 and solve for f:
+#'
+#' ```
+#' log(1 + f(u)) = g(log(u)).
+#' <=>
+#' f(u) = exp(g(log(u))) - 1
+#' ```
+#'
+#' That is, the graph is identically `g` when y-axis is `log1p`-domain and x-axis
+#' is `log`-domain.
+#'
+#' Warning: this function makes non-log-space calculations and may
 #' therefore be numerically unstable for `|logu| >> 0`.
 #'
-#' @param logu `float`-like `Tensor` representing `log(u)` from above.
-#' @param self_normalized `logical` indicating whether `f'(u=1)=0`. When
-#' `f'(u=1)=0` the implied Csiszar f-Divergence remains non-negative even
-#' when `p, q` are unnormalized measures.
-#' @param name name prefixed to Ops created by this function.
-#'
+#' @inheritParams vi_amari_alpha
+#' @return log1p_abs_of_u: `float`-like `Tensor` of the Csiszar-function
+#' evaluated at `u = exp(logu)`.
 #' @family vi-functions
-#'
 #' @export
-vi_kl_forward <-
+vi_log1p_abs <-
   function(logu,
-           self_normalized = FALSE,
            name = NULL) {
-    tfp$vi$kl_forward(logu, self_normalized, name)
+    tfp$vi$log1p_abs(logu, name)
   }
 

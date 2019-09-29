@@ -94,3 +94,10 @@ test_succeeds("vi_t_power works", {
                - (u^t - 1 - t * (u - 1)))
 })
 
+test_succeeds("vi_log1p_abs works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_log1p_abs(logu) %>% tensor_value(),
+               u^(sign(u - 1)) - 1)
+})
+
