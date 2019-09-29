@@ -2,19 +2,19 @@ context("vi-functions")
 
 source("utils.R")
 
-test_succeeds("amari_alpha works", {
+test_succeeds("vi_amari_alpha works", {
   u <- 2
   logu <- log(u)
   expect_equal(vi_amari_alpha(logu, self_normalized = TRUE) %>% tensor_value(),  u * logu - (u - 1))
 })
 
-test_succeeds("kl_reverse works", {
+test_succeeds("vi_kl_reverse works", {
   u <- 2
   logu <- log(u)
   expect_equal(vi_kl_reverse(logu, self_normalized = TRUE) %>% tensor_value(),  -logu + (u - 1))
 })
 
-test_succeeds("kl_forward works", {
+test_succeeds("vi_kl_forward works", {
   u <- 2
   logu <- log(u)
   expect_equal(vi_kl_forward(logu, self_normalized = TRUE) %>% tensor_value(),  u * log(u) - (u - 1))
@@ -50,10 +50,19 @@ test_succeeds("vi_jensen_shannon works", {
                tolerance = 1e-6)
 })
 
-test_succeeds("arithmetic_geometric works", {
+test_succeeds("vi_arithmetic_geometric works", {
   u <- 2
   logu <- log(u)
   expect_equal(vi_arithmetic_geometric(logu, self_normalized = TRUE) %>% tensor_value(),
                (1 + u) * log( (1 + u) / sqrt(u) ) - (1 + u)  * log(2),
                tolerance = 1e-6)
 })
+
+test_succeeds("vi_total_variation works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_total_variation(logu) %>% tensor_value(),
+               0.5 * abs(u - 1))
+})
+
+

@@ -2,7 +2,7 @@
 % Please edit documentation in R/vi-functions.R
 \name{vi_jensen_shannon}
 \alias{vi_jensen_shannon}
-\title{The Jensen-Shannon Csiszar-function in log-space.}
+\title{The Jensen-Shannon Csiszar-function in log-space}
 \usage{
 vi_jensen_shannon(logu, self_normalized = FALSE, name = NULL)
 }
@@ -47,8 +47,10 @@ Inf. Th., 37, 145-151, 1991.
 
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_arithmetic_geometric}},
   \code{\link{vi_fit_surrogate_posterior}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_monte_carlo_variational_loss}}
+  \code{\link{vi_monte_carlo_variational_loss}},
+  \code{\link{vi_total_variation}}
 }
 \concept{vi-functions}

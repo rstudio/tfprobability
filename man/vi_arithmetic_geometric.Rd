@@ -2,7 +2,7 @@
 % Please edit documentation in R/vi-functions.R
 \name{vi_arithmetic_geometric}
 \alias{vi_arithmetic_geometric}
-\title{The Arithmetic-Geometric Csiszar-function in log-space.}
+\title{The Arithmetic-Geometric Csiszar-function in log-space}
 \usage{
 vi_arithmetic_geometric(logu, self_normalized = FALSE, name = NULL)
 }
@@ -39,4 +39,12 @@ This Csiszar-function induces a symmetric f-Divergence, i.e.,
 
 Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
 }
-\concept{vi-functions#'}
+\seealso{
+Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
+  \code{\link{vi_monte_carlo_variational_loss}},
+  \code{\link{vi_total_variation}}
+}
+\concept{vi-functions}
