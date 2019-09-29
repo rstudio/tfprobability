@@ -256,7 +256,7 @@ vi_monte_carlo_variational_loss <-
 #' numerically unstable for `|logu| >> 0`.
 #'
 #' @param References:
-#' -Lin, J. "Divergence measures based on the Shannon entropy." IEEE Trans.
+#' - Lin, J. "Divergence measures based on the Shannon entropy." IEEE Trans.
 #' Inf. Th., 37, 145-151, 1991.
 #'
 #' @inheritParams vi_amari_alpha

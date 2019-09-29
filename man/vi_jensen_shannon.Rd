@@ -15,8 +15,10 @@ when \code{p, q} are unnormalized measures.}
 
 \item{name}{name prefixed to Ops created by this function.}
 
-\item{References:}{-Lin, J. "Divergence measures based on the Shannon entropy." IEEE Trans.
-Inf. Th., 37, 145-151, 1991.}
+\item{References:}{\itemize{
+\item Lin, J. "Divergence measures based on the Shannon entropy." IEEE Trans.
+Inf. Th., 37, 145-151, 1991.
+}}
 }
 \description{
 A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
