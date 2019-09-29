@@ -26,13 +26,7 @@ Warning: this function makes non-log-space calculations and may
 therefore be numerically unstable for \code{|logu| >> 0}.
 }
 \seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_pearson}},
-  \code{\link{vi_squared_hellinger}}
+Other vi-functions#': \code{\link{vi_t_power}},
+  \code{\link{vi_total_variation}}
 }
-\concept{vi-functions}
+\concept{vi-functions#'}

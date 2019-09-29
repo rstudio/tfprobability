@@ -417,33 +417,38 @@ vi_triangular <-
   }
 
 
-#' The forward Kullback-Leibler Csiszar-function in log-space.
+#' The T-Power Csiszar-function in log-space
 #'
 #' A Csiszar-function is a member of `F = { f:R_+ to R : f convex }`.
 #'
-#' When `self_normalized = TRUE`, the KL-reverse Csiszar-function is `f(u) = u log(u) - (u - 1)`.
-#' When `self_normalized = FALSE` the `(u - 1)` term is omitted.
-#' Observe that as an f-Divergence, this Csiszar-function implies: `D_f[p, q] = KL[q, p]`
+#' When `self_normalized = True` the T-Power Csiszar-function is:
 #'
-#' The KL is "forward" because in maximum likelihood we think of minimizing `q` as in `KL[p, q]`.
+#' ```
+#' f(u) = s [ u**t - 1 - t(u - 1) ]
+#' s = { -1   0 < t < 1
+#'     { +1   otherwise
+#' ```
+#'
+#' When `self_normalized = False` the `- t(u - 1)` term is omitted.
+#'
+#' This is similar to the `amari_alpha` Csiszar-function, with the associated
+#' divergence being the same up to factors depending only on `t`.
 #'
 #' Warning: when self_normalized = True` this function makes non-log-space calculations and may
 #' therefore be numerically unstable for `|logu| >> 0`.
 #'
-#' @param logu `float`-like `Tensor` representing `log(u)` from above.
-#' @param self_normalized `logical` indicating whether `f'(u=1)=0`. When
-#' `f'(u=1)=0` the implied Csiszar f-Divergence remains non-negative even
-#' when `p, q` are unnormalized measures.
-#' @param name name prefixed to Ops created by this function.
-#'
-#' @family vi-functions
-#'
+#' @param t  `Tensor` of same `dtype` as `logu` and broadcastable shape.
+#' @inheritParams vi_amari_alpha
+#' @return t_power_of_u: `float`-like `Tensor` of the Csiszar-function
+#' evaluated at `u = exp(logu)`.#'
+#' @family vi-functions#'
 #' @export
-vi_kl_forward <-
+vi_t_power <-
   function(logu,
+           t,
            self_normalized = FALSE,
            name = NULL) {
-    tfp$vi$kl_forward(logu, self_normalized, name)
+    tfp$vi$t_power(logu, t, self_normalized, name)
   }
 
 

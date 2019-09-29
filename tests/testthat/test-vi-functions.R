@@ -86,4 +86,11 @@ test_succeeds("vi_triangular works", {
                (u - 1)^2 / (1 + u))
 })
 
+test_succeeds("vi_t_power works", {
+  u <- 2
+  logu <- log(u)
+  t <- 0.5
+  expect_equal(vi_t_power(logu, t, self_normalized = TRUE) %>% tensor_value(),
+               - (u^t - 1 - t * (u - 1)))
+})
 

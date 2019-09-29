@@ -25,4 +25,8 @@ The Total-Variation Csiszar-function is:\preformatted{f(u) = 0.5 |u - 1|
 Warning: this function makes non-log-space calculations and may therefore be
 numerically unstable for \code{|logu| >> 0}.
 }
+\seealso{
+Other vi-functions#': \code{\link{vi_t_power}},
+  \code{\link{vi_triangular}}
+}
 \concept{vi-functions#'}
