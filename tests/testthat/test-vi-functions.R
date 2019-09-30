@@ -131,3 +131,12 @@ test_succeeds("vi_dual_csiszar_function works", {
                vi_kl_reverse(logu) %>% tensor_value())
 })
 
+test_succeeds("vi_symmetrized_function works", {
+  u <- 2
+  logu <- log(u)
+  other_csiszar_function <- function(logu)  2 * (exp(logu) * (logu - tf$nn$softplus(logu)))
+  expect_equal(vi_symmetrized_csiszar_function(logu, other_csiszar_function) %>% tensor_value(),
+               vi_jensen_shannon(logu) %>% tensor_value(),
+               tolerance = 1e-6)
+})
+

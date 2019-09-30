@@ -40,6 +40,7 @@ Other vi-functions: \code{\link{vi_amari_alpha}},
   \code{\link{vi_log1p_abs}},
   \code{\link{vi_modified_gan}},
   \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_pearson}}
+  \code{\link{vi_pearson}},
+  \code{\link{vi_symmetrized_csiszar_function}}
 }
 \concept{vi-functions}
