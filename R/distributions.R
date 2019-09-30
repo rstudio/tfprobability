@@ -36,8 +36,8 @@ tfd_normal <- function(loc,
                        allow_nan_stats = TRUE,
                        name = "Normal") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -129,8 +129,8 @@ tfd_bernoulli <- function(logits = NULL,
                           allow_nan_stats = TRUE,
                           name = "Bernoulli") {
   args <- list(
-    logits = logits,
-    probs = probs,
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     dtype = dtype,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
@@ -202,9 +202,9 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
                                          allow_nan_stats = TRUE,
                                          name = "MultivariateNormalDiag") {
   args <- list(
-    loc = loc,
-    scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
+    loc = as_tensor(loc),
+    scale_diag = as_tensor(scale_diag),
+    scale_identity_multiplier = as_tensor(scale_identity_multiplier),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -243,8 +243,8 @@ tfd_one_hot_categorical <- function(logits = NULL,
                                     allow_nan_stats = TRUE,
                                     name = "OneHotCategorical") {
   args <- list(
-    logits = logits,
-    probs = probs,
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     dtype = dtype,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
@@ -296,9 +296,9 @@ tfd_relaxed_one_hot_categorical <- function(temperature,
                                             allow_nan_stats = TRUE,
                                             name = "RelaxedOneHotCategorical") {
   args <- list(
-    temperature = temperature,
-    logits = logits,
-    probs = probs,
+    temperature = as_tensor(temperature),
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -357,9 +357,9 @@ tfd_relaxed_bernoulli <- function(temperature,
                                   allow_nan_stats = TRUE,
                                   name = "RelaxedBernoulli") {
   args <- list(
-    temperature = temperature,
-    logits = logits,
-    probs = probs,
+    temperature = as_tensor(temperature),
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -480,7 +480,7 @@ tfd_zipf <- function(power,
                      allow_nan_stats = FALSE,
                      name = "Zipf") {
   args <- list(
-    power = power,
+    power = as_tensor(power),
     dtype = dtype,
     interpolate_nondiscrete = interpolate_nondiscrete,
     sample_maximum_iterations = sample_maximum_iterations,
@@ -542,9 +542,9 @@ tfd_wishart <- function(df,
                         allow_nan_stats = TRUE,
                         name = "Wishart") {
   args <- list(
-    df = df,
-    scale = scale,
-    scale_tril = scale_tril,
+    df = as_tensor(df),
+    scale = as_tensor(scale),
+    scale_tril = as_tensor(scale_tril),
     input_output_cholesky = input_output_cholesky,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
@@ -595,8 +595,8 @@ tfd_von_mises_fisher <- function(mean_direction,
                                  allow_nan_stats = TRUE,
                                  name = "VonMisesFisher") {
   args <- list(
-    mean_direction = mean_direction,
-    concentration = concentration,
+    mean_direction = as_tensor(mean_direction),
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -653,8 +653,8 @@ tfd_von_mises <- function(loc,
                           allow_nan_stats = TRUE,
                           name = "VonMises") {
   args <- list(
-    loc = loc,
-    concentration = concentration,
+    loc = as_ternsor(loc),
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -757,11 +757,11 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
                                          allow_nan_stats = TRUE,
                                          name = "VectorSinhArcsinhDiag") {
   args <- list(
-    loc = loc,
-    scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
-    skewness = skewness,
-    tailweight = tailweight,
+    loc = as_tensor(loc),
+    scale_diag = as_tensor(scale_diag),
+    scale_identity_multiplier = as_tensor(scale_identity_multiplier),
+    skewness = as_tensor(skewness),
+    tailweight = as_tensor(tailweight),
     distribution = distribution,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
@@ -837,8 +837,8 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
                                                allow_nan_stats = TRUE,
                                                name = "VectorLaplaceLinearOperator") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -922,9 +922,9 @@ tfd_vector_laplace_diag <- function(loc = NULL,
                                     allow_nan_stats = TRUE,
                                     name = "VectorLaplaceDiag") {
   args <- list(
-    loc = loc,
-    scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
+    loc = as_tensor(loc),
+    scale_diag = as_tensor(scale_diag),
+    scale_identity_multiplier = as_tensor(scale_identity_multiplier),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1012,9 +1012,9 @@ tfd_vector_exponential_diag <- function(loc = NULL,
                                         allow_nan_stats = TRUE,
                                         name = "VectorExponentialDiag") {
   args <- list(
-    loc = loc,
-    scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
+    loc = as_tensor(loc),
+    scale_diag = as_tensor(scale_diag),
+    scale_identity_multiplier = as_tensor(scale_identity_multiplier),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1091,8 +1091,8 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
                                                    allow_nan_stats = TRUE,
                                                    name = "VectorExponentialLinearOperator") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1213,11 +1213,11 @@ tfd_vector_diffeomixture <- function(mix_loc,
                                      allow_nan_stats = TRUE,
                                      name = "VectorDiffeomixture") {
   args <- list(
-    mix_loc = mix_loc,
-    temperature = temperature,
+    mix_loc = as_tensor(mix_loc),
+    temperature = as_tensor(temperature),
     distribution = distribution,
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     quadrature_size = as.integer(quadrature_size),
     quadrature_fn = quadrature_fn,
     validate_args = validate_args,
@@ -1444,10 +1444,10 @@ tfd_variational_gaussian_process <- function(kernel,
                                              name = "VariationalGaussianProcess") {
   args <- list(
     kernel = kernel,
-    index_points = index_points,
-    inducing_index_points = inducing_index_points,
-    variational_inducing_observations_loc = variational_inducing_observations_loc,
-    variational_inducing_observations_scale = variational_inducing_observations_scale,
+    index_points = as_tensor(index_points),
+    inducing_index_points = as_tensor(inducing_index_points),
+    variational_inducing_observations_loc = as_tensor(variational_inducing_observations_loc),
+    variational_inducing_observations_scale = as_tensor(variational_inducing_observations_scale),
     mean_fn = mean_fn,
     observation_noise_variance = observation_noise_variance,
     predictive_noise_variance = predictive_noise_variance,
@@ -1493,8 +1493,8 @@ tfd_uniform <- function(low = 0,
                         allow_nan_stats = TRUE,
                         name = "Uniform") {
   args <- list(
-    low = low,
-    high = high,
+    low = as_tensor(low),
+    high = as_tensor(high),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1544,10 +1544,10 @@ tfd_truncated_normal <- function(loc,
                                  allow_nan_stats = TRUE,
                                  name = "TruncatedNormal") {
   args <- list(
-    loc = loc,
-    scale = scale,
-    low = low,
-    high = high,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
+    low = as_tensor(low),
+    high = as_tensor(high),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1578,9 +1578,9 @@ tfd_triangular <- function(low = 0,
                            allow_nan_stats = TRUE,
                            name = "Triangular") {
   args <- list(
-    low = low,
-    high = high,
-    peak = peak,
+    low = as_tensor(low),
+    high = as_tensor(high),
+    peak = as_tensor(peak),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1640,9 +1640,9 @@ tfd_student_t <- function(df,
                           allow_nan_stats = TRUE,
                           name = "StudentT") {
   args <- list(
-    df = df,
-    loc = loc,
-    scale = scale,
+    df = as_tensor(df),
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1747,11 +1747,11 @@ tfd_student_t_process <- function(df,
                                   allow_nan_stats = FALSE,
                                   name = "StudentTProcess") {
   args <- list(
-    df = df,
+    df = as_tensor(df),
     kernel = kernel,
-    index_points = index_points,
+    index_points = as_tensor(index_points),
     mean_fn = mean_fn,
-    jitter = jitter,
+    jitter = as_tensor(jitter),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -1842,8 +1842,8 @@ tfd_sinh_arcsinh <- function(loc,
                              allow_nan_stats = TRUE,
                              name = "SinhArcsinh") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     skewness = skewness,
     tailweight = tailweight,
     distribution = distribution,
@@ -1923,8 +1923,8 @@ tfd_quantized <- function(distribution,
                           name = "QuantizedDistribution") {
   args <- list(
     distribution = distribution,
-    low = low,
-    high = high,
+    low = as_tensor(low),
+    high = as_tensor(high),
     validate_args = validate_args,
     name = name
   )
@@ -1965,8 +1965,8 @@ tfd_poisson <- function(rate = NULL,
                         allow_nan_stats = TRUE,
                         name = "Poisson") {
   args <- list(
-    rate = rate,
-    log_rate = log_rate,
+    rate = as_tensor(rate),
+    log_rate = as_tensor(log_rate),
     interpolate_nondiscrete = interpolate_nondiscrete,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
@@ -2039,8 +2039,8 @@ tfd_poisson_log_normal_quadrature_compound <- function(loc,
                                                        allow_nan_stats = TRUE,
                                                        name = "PoissonLogNormalQuadratureCompound") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     quadrature_size = as.integer(quadrature_size),
     quadrature_fn = quadrature_fn,
     validate_args = validate_args,
@@ -2083,8 +2083,8 @@ tfd_pareto <- function(concentration,
                        allow_nan_stats = TRUE,
                        name = "Pareto") {
   args <- list(
-    concentration = concentration,
-    scale = scale,
+    concentration = as_tensor(concentration),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2141,9 +2141,9 @@ tfd_negative_binomial <- function(total_count,
                                   allow_nan_stats = TRUE,
                                   name = "NegativeBinomial") {
   args <- list(
-    total_count = total_count,
-    logits = logits,
-    probs = probs,
+    total_count = as_tensor(total_count),
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2209,8 +2209,8 @@ tfd_multivariate_normal_tri_l <- function(loc = NULL,
                                           allow_nan_stats = TRUE,
                                           name = "MultivariateNormalTriL") {
   args <- list(
-    loc = loc,
-    scale_tril = scale_tril,
+    loc = as_tensor(loc),
+    scale_tril = as_tensor(scale_tril),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2268,8 +2268,8 @@ tfd_multivariate_normal_linear_operator <- function(loc = NULL,
                                                     allow_nan_stats = TRUE,
                                                     name = "MultivariateNormalLinearOperator") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2333,8 +2333,8 @@ tfd_multivariate_normal_full_covariance <- function(loc = NULL,
                                                     allow_nan_stats = TRUE,
                                                     name = "MultivariateNormalFullCovariance") {
   args <- list(
-    loc = loc,
-    covariance_matrix = covariance_matrix,
+    loc = as_tensor(loc),
+    covariance_matrix = as_tensor(covariance_matrix),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2421,11 +2421,11 @@ tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
                                                        allow_nan_stats = TRUE,
                                                        name = "MultivariateNormalDiagPlusLowRank") {
   args <- list(
-    loc = loc,
-    scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
-    scale_perturb_factor = scale_perturb_factor,
-    scale_perturb_diag = scale_perturb_diag,
+    loc = as_tensor(loc),
+    scale_diag = as_tensor(scale_diag),
+    scale_identity_multiplier = as_tensor(scale_identity_multiplier),
+    scale_perturb_factor = as_tensor(scale_perturb_factor),
+    scale_perturb_diag = as_tensor(scale_perturb_diag),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2476,9 +2476,9 @@ tfd_multivariate_student_t_linear_operator <- function(df,
                                                        allow_nan_stats = TRUE,
                                                        name = "MultivariateStudentTLinearOperator") {
   args <- list(
-    df = df,
-    loc = loc,
-    scale = scale,
+    df = as_tensor(df),
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2549,9 +2549,9 @@ tfd_multinomial <- function(total_count,
                             allow_nan_stats = TRUE,
                             name = "Multinomial") {
   args <- list(
-    total_count = total_count,
-    logits = logits,
-    probs = probs,
+    total_count = as_tensor(total_count),
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2647,8 +2647,8 @@ tfd_categorical <- function(logits = NULL,
                             allow_nan_stats = TRUE,
                             name = "Categorical") {
   args <- list(
-    logits = logits,
-    probs = probs,
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     dtype = dtype,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
@@ -2735,8 +2735,8 @@ tfd_log_normal <- function(loc = NULL,
                            allow_nan_stats = TRUE,
                            name = "LogNormal") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2776,8 +2776,8 @@ tfd_logistic <- function(loc,
                          allow_nan_stats = TRUE,
                          name = "Logistic") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2823,7 +2823,7 @@ tfd_lkj <- function(dimension,
                     name = "LKJ") {
   args <- list(
     dimension = as.integer(dimension),
-    concentration = concentration,
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -2853,7 +2853,7 @@ tfd_cholesky_lkj <- function(dimension,
                              name = "CholeskyLKJ") {
   args <- list(
     dimension = as.integer(dimension),
-    concentration = concentration,
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3013,8 +3013,8 @@ tfd_laplace <- function(loc,
                         allow_nan_stats = TRUE,
                         name = "Laplace") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3057,8 +3057,8 @@ tfd_kumaraswamy <- function(concentration1 = 1,
                             allow_nan_stats = TRUE,
                             name = "Kumaraswamy") {
   args <- list(
-    concentration1 = concentration1,
-    concentration0 = concentration0,
+    concentration1 = as_tensor(concentration1),
+    concentration0 = as_tensor(concentration0),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3217,7 +3217,7 @@ tfd_exponential <- function(rate,
                             allow_nan_stats = TRUE,
                             name = "Exponential") {
   args <- list(
-    rate = rate,
+    rate = as_tensor(rate),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3282,8 +3282,8 @@ tfd_gamma <- function(concentration,
                       allow_nan_stats = TRUE,
                       name = "Gamma") {
   args <- list(
-    concentration = concentration,
-    rate = rate,
+    concentration = as_tensor(concentration),
+    rate = as_tensor(rate),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3339,8 +3339,8 @@ tfd_inverse_gaussian <- function(loc,
                                  allow_nan_stats = TRUE,
                                  name = "InverseGaussian") {
   args <- list(
-    loc = loc,
-    concentration = concentration,
+    loc = as_tensor(loc),
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3404,13 +3404,13 @@ tfd_inverse_gamma <- function(concentration,
                               allow_nan_stats = TRUE,
                               name = "InverseGamma") {
   args <- list(
-    concentration = concentration,
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
   )
-  if (tfp_version() <= "0.7") args$rate <- scale
-  if (tfp_version() > "0.7") args$scale <- scale
+  if (tfp_version() <= "0.7") args$rate <- as_tensor(scale)
+  if (tfp_version() > "0.7") args$scale <- as_tensor(scale)
   do.call(tfp$distributions$InverseGamma,
           args)
 }
@@ -3448,7 +3448,7 @@ tfd_horseshoe <- function(scale,
                           allow_nan_stats = TRUE,
                           name = "Horseshoe") {
   args <- list(
-    scale = scale,
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3553,7 +3553,7 @@ tfd_half_normal <- function(scale,
                             allow_nan_stats = TRUE,
                             name = "HalfNormal") {
   args <- list(
-    scale = scale,
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3592,8 +3592,8 @@ tfd_half_cauchy <- function(loc,
                             allow_nan_stats = TRUE,
                             name = "HalfCauchy") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3653,8 +3653,8 @@ tfd_beta <- function(concentration1 = NULL,
                      allow_nan_stats = TRUE,
                      name = "Beta") {
   args <- list(
-    concentration1 = concentration1,
-    concentration0 = concentration0,
+    concentration1 = as_tensor(concentration1),
+    concentration0 = as_tensor(concentration0),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3710,9 +3710,9 @@ tfd_binomial <- function(total_count,
                          allow_nan_stats = TRUE,
                          name = "Beta") {
   args <- list(
-    total_count = total_count,
-    logits = logits,
-    probs = probs,
+    total_count = as_tensor(total_count),
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3751,8 +3751,8 @@ tfd_cauchy <- function(loc,
                        allow_nan_stats = TRUE,
                        name = "Cauchy") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3816,9 +3816,9 @@ tfd_gamma_gamma <- function(concentration,
                             allow_nan_stats = TRUE,
                             name = "GammaGamma") {
   args <- list(
-    concentration = concentration,
-    mixing_concentration = mixing_concentration,
-    mixing_rate = mixing_rate,
+    concentration = as_tensor(concentration),
+    mixing_concentration = as_tensor(mixing_concentration),
+    mixing_rate = as_tensor(mixing_rate),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3859,7 +3859,7 @@ tfd_chi <- function(df,
                     allow_nan_stats = TRUE,
                     name = "Chi") {
   args <- list(
-    df = df,
+    df = as_tensor(df),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3900,7 +3900,7 @@ tfd_chi2 <- function(df,
                      allow_nan_stats = TRUE,
                      name = "Chi2") {
   args <- list(
-    df = df,
+    df = as_tensor(df),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3941,8 +3941,8 @@ tfd_gumbel <- function(loc,
                        allow_nan_stats = TRUE,
                        name = "Gumbel") {
   args <- list(
-    loc = loc,
-    scale = scale,
+    loc = as_tensor(loc),
+    scale = as_tensor(scale),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -3987,8 +3987,8 @@ tfd_geometric <- function(logits = NULL,
                           allow_nan_stats = TRUE,
                           name = "Geometric") {
   args <- list(
-    logits = logits,
-    probs = probs,
+    logits = as_tensor(logits),
+    probs = as_tensor(probs),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -4053,7 +4053,7 @@ tfd_dirichlet <- function(concentration,
                           allow_nan_stats = TRUE,
                           name = "Dirichlet") {
   args <- list(
-    concentration = concentration,
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -4134,8 +4134,8 @@ tfd_dirichlet_multinomial <- function(total_count,
                                       allow_nan_stats = TRUE,
                                       name = "DirichletMultinomial") {
   args <- list(
-    total_count = total_count,
-    concentration = concentration,
+    total_count = as_tensor(total_count),
+    concentration = as_tensor(concentration),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -4177,9 +4177,9 @@ tfd_deterministic <- function(loc,
                               allow_nan_stats = TRUE,
                               name = "Deterministic") {
   args <- list(
-    loc = loc,
-    atol = atol,
-    rtol = rtol,
+    loc = as_tensor(loc),
+    atol = as_tensor(atol),
+    rtol = as_tensor(rtol),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
@@ -4223,7 +4223,7 @@ tfd_empirical <- function(samples,
                           allow_nan_stats = TRUE,
                           name = "Empirical") {
   args <- list(
-    samples = samples,
+    samples = as_tensor(samples),
     event_ndims = as.integer(event_ndims),
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
@@ -4451,7 +4451,7 @@ tfd_gaussian_process <- function(kernel,
                                  name = "GaussianProcess") {
   args <- list(
     kernel = kernel,
-    index_points = index_points,
+    index_points = as_tensor(index_points),
     mean_fn = mean_fn,
     observation_noise_variance = observation_noise_variance,
     jitter = jitter,
