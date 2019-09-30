@@ -116,7 +116,8 @@ glm_fit_one_step.tensorflow.tensor <- function(x,
                              offset=NULL,
                              learning_rate=NULL,
                              fast_unsafe_numerics=TRUE,
-                             name=NULL) {
+                             name=NULL,
+                             ...) {
 
   if (is.character(model)) model <- family_from_string(model)
 

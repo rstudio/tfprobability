@@ -2,7 +2,7 @@
 % Please edit documentation in R/glm.R
 \name{glm_fit}
 \alias{glm_fit}
-\title{Runs multiple Fisher scoring steps.}
+\title{Runs multiple Fisher scoring steps}
 \usage{
 glm_fit(x, ...)
 }
@@ -13,7 +13,7 @@ features.}
 \item{...}{other arguments passed to specific methods.}
 }
 \description{
-Runs multiple Fisher scoring steps.
+Runs multiple Fisher scoring steps
 }
 \seealso{
 \code{\link[=glm_fit.tensorflow.tensor]{glm_fit.tensorflow.tensor()}}
