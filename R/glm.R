@@ -1,4 +1,4 @@
-#' Runs multiple Fisher scoring steps.
+#' Runs multiple Fisher scoring steps
 #'
 #' @param x float-like, matrix-shaped Tensor where each row represents a sample's
 #'  features.
@@ -103,6 +103,9 @@ glm_fit.tensorflow.tensor <- function(x,
   out
 }
 
+#' Runs one Fisher Scoring step
+#' @inheritParams glm_fit.tensorflow.tensor
+#' @export
 glm_fit_one_step.tensorflow.tensor <- function(x,
                              response,
                              model,
