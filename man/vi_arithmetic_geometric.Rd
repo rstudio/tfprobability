@@ -42,6 +42,7 @@ Warning: when self_normalized = True\code{this function makes non-log-space calc
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
   \code{\link{vi_chi_square}},
+  \code{\link{vi_dual_csiszar_function}},
   \code{\link{vi_fit_surrogate_posterior}},
   \code{\link{vi_jeffreys}},
   \code{\link{vi_jensen_shannon}},

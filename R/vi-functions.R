@@ -575,4 +575,41 @@ vi_modified_gan <-
     tfp$vi$modified_gan(logu, self_normalized, name)
   }
 
+#' Calculates the dual Csiszar-function in log-space
+#'
+#' A Csiszar-function is a member of `F = { f:R_+ to R : f convex }`.
+#'
+#' The Csiszar-dual is defined as:
+#' ```
+#' f^*(u) = u f(1 / u)
+#' ```
+#' where `f` is some other Csiszar-function.
+#' For example, the dual of `kl_reverse` is `kl_forward`, i.e.,
+#' ```
+#' f(u) = -log(u)
+#' f^*(u) = u f(1 / u) = -u log(1 / u) = u log(u)
+#' ```
+#' The dual of the dual is the original function:
+#' ```
+#' f^**(u) = {u f(1/u)}^*(u) = u (1/u) f(1/(1/u)) = f(u)
+#' ```
+#'
+#' Warning: this function makes non-log-space calculations and may therefore be
+#' numerically unstable for `|logu| >> 0`.
+#'
+#' @param csiszar_function function representing a Csiszar-function over log-domain.
+#'
+#' @inheritParams vi_amari_alpha
+#' @return dual_f_of_u `float`-like `Tensor` of the result of calculating the dual of
+#' `f` at `u = exp(logu)`.
+#'
+#' @family vi-functions
+#' @export
+vi_dual_csiszar_function <-
+  function(logu,
+           csiszar_function,
+           name = NULL) {
+    tfp$vi$dual_csiszar_function(logu, csiszar_function, name)
+  }
+
 

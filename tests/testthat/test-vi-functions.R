@@ -123,3 +123,11 @@ test_succeeds("vi_modified_gan works", {
                tolerance = 1e-6)
 })
 
+test_succeeds("vi_dual_csiszar_function works", {
+  u <- 2
+  logu <- log(u)
+  dual_csiszar_function <- vi_kl_forward
+  expect_equal(vi_dual_csiszar_function(logu, dual_csiszar_function) %>% tensor_value(),
+               vi_kl_reverse(logu) %>% tensor_value())
+})
+
