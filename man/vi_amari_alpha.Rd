@@ -23,7 +23,7 @@ A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
 \details{
 When \code{self_normalized = TRUE}, the Amari-alpha Csiszar-function is:\preformatted{f(u) = { -log(u) + (u - 1)},     alpha = 0
        { u log(u) - (u - 1)},    alpha = 1
-       { [(u^alpha - 1) - alpha (u - 1)] / (alpha (alpha - 1))},    otherwise
+       { ((u^alpha - 1) - alpha (u - 1) / (alpha (alpha - 1))},    otherwise
 }
 
 When \code{self_normalized = FALSE} the \code{(u - 1)} terms are omitted.
@@ -41,10 +41,13 @@ non-log-space calculations and may therefore be numerically unstable for
 
 \seealso{
 Other vi-functions: \code{\link{vi_arithmetic_geometric}},
+  \code{\link{vi_chi_square}},
   \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jeffreys}},
   \code{\link{vi_jensen_shannon}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
   \code{\link{vi_log1p_abs}},
+  \code{\link{vi_modified_gan}},
   \code{\link{vi_monte_carlo_variational_loss}},
   \code{\link{vi_pearson}},
   \code{\link{vi_squared_hellinger}}

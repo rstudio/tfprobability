@@ -28,10 +28,13 @@ numerically unstable for \code{|logu| >> 0}.
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
   \code{\link{vi_arithmetic_geometric}},
+  \code{\link{vi_chi_square}},
   \code{\link{vi_fit_surrogate_posterior}},
+  \code{\link{vi_jeffreys}},
   \code{\link{vi_jensen_shannon}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
   \code{\link{vi_log1p_abs}},
+  \code{\link{vi_modified_gan}},
   \code{\link{vi_monte_carlo_variational_loss}},
   \code{\link{vi_squared_hellinger}}
 }

@@ -24,6 +24,19 @@ evaluated at \code{u = exp(logu)}.
 \description{
 A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
 }
+\details{
+When \code{self_normalized = True} the T-Power Csiszar-function is:\preformatted{f(u) = s [ u**t - 1 - t(u - 1) ]
+s = { -1   0 < t < 1 }
+    { +1   otherwise }
+}
+
+When \code{self_normalized = False} the \code{- t(u - 1)} term is omitted.
+
+This is similar to the \code{amari_alpha} Csiszar-function, with the associated
+divergence being the same up to factors depending only on \code{t}.
+
+Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+}
 \seealso{
 Other vi-functions#': \code{\link{vi_total_variation}},
   \code{\link{vi_triangular}}

@@ -425,8 +425,8 @@ vi_triangular <-
 #'
 #' ```
 #' f(u) = s [ u**t - 1 - t(u - 1) ]
-#' s = { -1   0 < t < 1 }
-#'     { +1   otherwise }
+#' s = { -1   0 < t < 1
+#'     { +1   otherwise
 #' ```
 #'
 #' When `self_normalized = False` the `- t(u - 1)` term is omitted.

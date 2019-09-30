@@ -115,4 +115,11 @@ test_succeeds("vi_chi_square works", {
                u^2 - 1)
 })
 
+test_succeeds("vi_modified_gan works", {
+  u <- 2
+  logu <- log(u)
+  expect_equal(vi_modified_gan(logu, self_normalized = TRUE) %>% tensor_value(),
+               log(1 + u) - log(u) + 0.5 * (u - 1),
+               tolerance = 1e-6)
+})
 
