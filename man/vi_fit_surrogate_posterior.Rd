@@ -90,7 +90,18 @@ minimize any \href{https://en.wikipedia.org/wiki/F-divergence}{Csiszar f-diverge
 }
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_arithmetic_geometric}},
+  \code{\link{vi_chi_square}},
+  \code{\link{vi_csiszar_vimco}},
+  \code{\link{vi_dual_csiszar_function}},
+  \code{\link{vi_jeffreys}},
+  \code{\link{vi_jensen_shannon}},
   \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_monte_carlo_variational_loss}}
+  \code{\link{vi_log1p_abs}},
+  \code{\link{vi_modified_gan}},
+  \code{\link{vi_monte_carlo_variational_loss}},
+  \code{\link{vi_pearson}},
+  \code{\link{vi_squared_hellinger}},
+  \code{\link{vi_symmetrized_csiszar_function}}
 }
 \concept{vi-functions}

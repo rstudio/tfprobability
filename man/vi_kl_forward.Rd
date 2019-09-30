@@ -2,7 +2,7 @@
 % Please edit documentation in R/vi-functions.R
 \name{vi_kl_forward}
 \alias{vi_kl_forward}
-\title{The forward Kullback-Leibler Csiszar-function in log-space.}
+\title{The forward Kullback-Leibler Csiszar-function in log-space}
 \usage{
 vi_kl_forward(logu, self_normalized = FALSE, name = NULL)
 }
@@ -29,8 +29,18 @@ Warning: when self_normalized = True\code{this function makes non-log-space calc
 }
 \seealso{
 Other vi-functions: \code{\link{vi_amari_alpha}},
+  \code{\link{vi_arithmetic_geometric}},
+  \code{\link{vi_chi_square}},
+  \code{\link{vi_csiszar_vimco}},
+  \code{\link{vi_dual_csiszar_function}},
   \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_kl_reverse}},
-  \code{\link{vi_monte_carlo_variational_loss}}
+  \code{\link{vi_jeffreys}},
+  \code{\link{vi_jensen_shannon}},
+  \code{\link{vi_kl_reverse}}, \code{\link{vi_log1p_abs}},
+  \code{\link{vi_modified_gan}},
+  \code{\link{vi_monte_carlo_variational_loss}},
+  \code{\link{vi_pearson}},
+  \code{\link{vi_squared_hellinger}},
+  \code{\link{vi_symmetrized_csiszar_function}}
 }
 \concept{vi-functions}
