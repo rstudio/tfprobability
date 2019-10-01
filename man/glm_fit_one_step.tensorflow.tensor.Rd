@@ -53,3 +53,8 @@ value: TRUE (i.e., "fast but possibly diminished accuracy").}
 \description{
 Runs one Fisher Scoring step
 }
+\seealso{
+Other glm_fit: \code{\link{glm_families}},
+  \code{\link{glm_fit.tensorflow.tensor}}
+}
+\concept{glm_fit}

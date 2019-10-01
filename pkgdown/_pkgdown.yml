@@ -39,7 +39,6 @@ reference:
       - has_concept("sts-functions")
   - title: "Generalized Linear Models"
     contents:
-      - has_concept("glm")
-
+      - has_concept("glm_fit")
 
 

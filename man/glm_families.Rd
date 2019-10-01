@@ -22,3 +22,8 @@ A list of models that can be used as the \code{model} argument in \code{\link[=g
 \item \code{PoissonSoftplus}: \code{Poisson(rate=mean)} where \code{mean = softplus(matmul(X, weights))}.
 }
 }
+\seealso{
+Other glm_fit: \code{\link{glm_fit.tensorflow.tensor}},
+  \code{\link{glm_fit_one_step.tensorflow.tensor}}
+}
+\concept{glm_fit}

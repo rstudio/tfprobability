@@ -32,7 +32,7 @@ glm_fit_one_step.default <- function(x, ...) {
   glm_fit_one_step(tensorflow::tf$convert_to_tensor(x), ...)
 }
 
-#' Runs multiple Fisher scoring steps.
+#' Runs multiple Fisher scoring steps
 #'
 #' @inheritParams glm_fit
 #' @param response vector-shaped Tensor where each element represents a sample's
@@ -65,6 +65,8 @@ glm_fit_one_step.default <- function(x, ...) {
 #' @param maximum_iterations Optional maximum number of iterations of Fisher scoring to run;
 #'  "and-ed" with result of `convergence_criteria_fn`. Default value: `NULL` (i.e., infinity).
 #' @param name usesed as name prefix to ops created by this function. Default value: "fit".
+#'
+#' @family glm_fit
 #'
 #' @export
 glm_fit.tensorflow.tensor <- function(x,
@@ -105,6 +107,7 @@ glm_fit.tensorflow.tensor <- function(x,
 
 #' Runs one Fisher Scoring step
 #' @inheritParams glm_fit.tensorflow.tensor
+#' @family glm_fit
 #' @export
 glm_fit_one_step.tensorflow.tensor <- function(x,
                              response,
@@ -156,6 +159,7 @@ glm_fit_one_step.tensorflow.tensor <- function(x,
 #' * `Poisson`: `Poisson(rate=mean)` where `mean = exp(matmul(X, weights))`.
 #' * `PoissonSoftplus`: `Poisson(rate=mean)` where `mean = softplus(matmul(X, weights))`.
 #'
+#' @family glm_fit
 #' @name glm_families
 #' @rdname glm_families
 NULL
