@@ -62,7 +62,7 @@ distribution are reparameterized using the technique described in
 @section References:
 \itemize{
 \item \href{http://www.brucehardie.com/notes/025/gamma_gamma.pdf}{Peter S. Fader, Bruce G. S. Hardi. The Gamma-Gamma Model of Monetary Value. Technical Report, 2013.}
-\item \url{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. arXiv preprint arXiv:1805.08498, 2018} https://arxiv.org/abs/1805.08498)
+\item \href{https://arxiv.org/abs/1805.08498}{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. arXiv preprint arXiv:1805.08498, 2018}
 }
 }
 \seealso{

@@ -669,7 +669,7 @@ tfd_von_mises <- function(loc,
 #' a SinhArcsinh transformation (which has adjustable tailweight and skew),
 #' a rescaling, and a shift.
 #' The SinhArcsinh transformation of the Normal is described in great depth in
-#' [Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865).
+#' [Sinh-arcsinh distributions](https://oro.open.ac.uk/22510/).
 #' Here we use a slightly different parameterization, in terms of tailweight
 #' and skewness.  Additionally we allow for distributions other than Normal,
 #' and control over scale as well as a "shift" parameter loc.
@@ -1766,7 +1766,7 @@ tfd_student_t_process <- function(df,
 #' a `SinhArcsinh` transformation (which has adjustable tailweight and skew),
 #' a rescaling, and a shift.
 #' The `SinhArcsinh` transformation of the Normal is described in great depth in
-#' [Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865).
+#' [Sinh-arcsinh distributions](https://oro.open.ac.uk/22510/).
 #' Here we use a slightly different parameterization, in terms of `tailweight`
 #' and `skewness`.  Additionally we allow for distributions other than Normal,
 #' and control over `scale` as well as a "shift" parameter `loc`.
@@ -3799,7 +3799,7 @@ tfd_cauchy <- function(loc,
 #'
 #'  @section References:
 #'  - [Peter S. Fader, Bruce G. S. Hardi. The Gamma-Gamma Model of Monetary Value. _Technical Report_, 2013.](http://www.brucehardie.com/notes/025/gamma_gamma.pdf)
-#'  - [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. _arXiv preprint arXiv:1805.08498_, 2018]() https://arxiv.org/abs/1805.08498)
+#'  - [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. _arXiv preprint arXiv:1805.08498_, 2018](https://arxiv.org/abs/1805.08498)
 #' @param concentration Floating point tensor, the concentration params of the
 #' distribution(s). Must contain only positive values.
 #' @param mixing_concentration Floating point tensor, the concentration params of

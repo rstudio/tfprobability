@@ -1,15 +1,16 @@
 Package: tfprobability
-Title: R interface to TensorFlow Probability
+Title: R Interface to 'TensorFlow' Probability
 Version: 0.7.0.0
 Authors@R: c(
     person("Sigrid", "Keydana", email = "sigrid@rstudio.com", role = c("aut", "cre")),
+    person("Daniel", "Falbel", email = "daniel@rstudio.com", role = c("ctb")),
     person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com", role = c("ctb"),
            comment = c(ORCID = "0000-0001-7803-7901")),
     person(family = "RStudio", role = c("cph"))
     )
-Description: R interface to TensorFlow Probability (TFP), a Python library built on TensorFlow
-    that makes it easy to combine probabilistic models and deep learning on modern hardware (TPU, GPU).
-    TFP includes a wide selection of probability distributions and bijectors, probabilistic layers,
+Description: R interface to 'TensorFlow' Probability, a Python library built on 'TensorFlow'
+    that makes it easy to combine probabilistic models and deep learning on modern hardware ('TPU', 'GPU').
+    'TensorFlow' Probability includes a wide selection of probability distributions and bijectors, probabilistic layers,
     variational inference, Markov chain Monte Carlo, and optimizers such as Nelder-Mead, BFGS, and SGLD.
 License: Apache License (>= 2.0)
 Encoding: UTF-8
@@ -21,9 +22,6 @@ Imports:
     reticulate,
     keras,
     magrittr
-Remotes:
-    rstudio/reticulate,
-    rstudio/tensorflow
 Suggests: 
     testthat (>= 2.1.0),
     knitr

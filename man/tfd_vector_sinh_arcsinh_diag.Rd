@@ -58,7 +58,7 @@ This distribution models a random vector \code{Y = (Y1,...,Yk)}, making use of
 a SinhArcsinh transformation (which has adjustable tailweight and skew),
 a rescaling, and a shift.
 The SinhArcsinh transformation of the Normal is described in great depth in
-\href{https://www.jstor.org/stable/27798865}{Sinh-arcsinh distributions}.
+\href{https://oro.open.ac.uk/22510/}{Sinh-arcsinh distributions}.
 Here we use a slightly different parameterization, in terms of tailweight
 and skewness.  Additionally we allow for distributions other than Normal,
 and control over scale as well as a "shift" parameter loc.
