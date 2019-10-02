@@ -57,3 +57,5 @@ tensor_value <- function(tensor) {
     sess$run(tensor)
   }
 }
+
+as_tensor <- tfprobability:::as_tensor
