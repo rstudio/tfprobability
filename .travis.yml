@@ -41,7 +41,6 @@ before_script:
   - Rscript -e 'tfprobability::install_tfprobability(version = Sys.getenv("TFPROBABILITY_VERSION"), tensorflow = Sys.getenv("TENSORFLOW_VERSION"), extra_packages = "gast==0.2.2")'
   - Rscript -e 'tensorflow::tf_config()'
   - Rscript -e 'tfprobability::tfp_version()'
-  - Rscript -e 'library(tfprobability); testthat::test_dir("tests/testthat/", stop_on_failure = FALSE)'
 
 after_success:
   - Rscript -e 'covr::codecov()'
