@@ -3,6 +3,7 @@
 S3method(glm_fit,default)
 S3method(glm_fit,tensorflow.tensor)
 S3method(glm_fit_one_step,default)
+S3method(glm_fit_one_step,tensorflow.tensor)
 export("%>%")
 export(glm_fit)
 export(glm_fit_one_step)

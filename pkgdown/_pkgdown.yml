@@ -37,6 +37,8 @@ reference:
   - title: "Structural time series modeling functions"
     contents:
       - has_concept("sts-functions")
-
+  - title: "Generalized Linear Models"
+    contents:
+      - has_concept("glm_fit")
 
 
