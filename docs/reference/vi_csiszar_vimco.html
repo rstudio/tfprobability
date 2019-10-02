@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior • tfprobability</title>
+<title>Use VIMCO to lower the variance of the gradient of csiszar_function(Avg(logu)) — vi_csiszar_vimco • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,9 @@
 
 
 
-<meta property="og:title" content="Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior" />
-<meta property="og:description" content="The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable loc and scale, transformed using the
-parameter's bijector to the appropriate support space for that parameter." />
+<meta property="og:title" content="Use VIMCO to lower the variance of the gradient of csiszar_function(Avg(logu)) — vi_csiszar_vimco" />
+<meta property="og:description" content="This function generalizes VIMCO (Mnih and Rezende, 2016) to Csiszar
+f-Divergences." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,60 +119,85 @@ parameter's bijector to the appropriate support space for that parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a variational posterior that factors over model parameters.</h1>
+    <h1>Use VIMCO to lower the variance of the gradient of csiszar_function(Avg(logu))</h1>
     
-    <div class="hidden name"><code>sts_build_factored_surrogate_posterior.Rd</code></div>
+    <div class="hidden name"><code>vi_csiszar_vimco.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable <code>loc</code> and <code>scale</code>, transformed using the
-parameter's <code>bijector</code> to the appropriate support space for that parameter.</p>
+    <p>This function generalizes VIMCO (Mnih and Rezende, 2016) to Csiszar
+f-Divergences.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_surrogate_posterior</span>(<span class='no'>model</span>, <span class='kw'>batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+    <pre class="usage"><span class='fu'>vi_csiszar_vimco</span>(<span class='no'>f</span>, <span class='no'>p_log_prob</span>, <span class='no'>q</span>, <span class='no'>num_draws</span>, <span class='kw'>num_batch_draws</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.#'</p></td>
+      <th>f</th>
+      <td><p>function representing a Csiszar-function in log-space.</p></td>
     </tr>
     <tr>
-      <th>batch_shape</th>
-      <td><p>Batch shape (<code>list</code>, or <code>integer</code>) of initial
-states to optimize in parallel.
-Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>. (i.e., just run a single optimization).</p></td>
+      <th>p_log_prob</th>
+      <td><p>function representing the natural-log of the
+probability under distribution <code>p</code>. (In variational inference <code>p</code> is the
+joint distribution.)</p></td>
+    </tr>
+    <tr>
+      <th>q</th>
+      <td><p><code>tfd$Distribution</code>-like instance; must implement: <code><a href='https://rdrr.io/r/base/sample.html'>sample(n, seed)</a></code>, and
+<code>log_prob(x)</code>. (In variational inference <code>q</code> is the approximate posterior
+distribution.)</p></td>
+    </tr>
+    <tr>
+      <th>num_draws</th>
+      <td><p>Integer scalar number of draws used to approximate the
+f-Divergence expectation.</p></td>
+    </tr>
+    <tr>
+      <th>num_batch_draws</th>
+      <td><p>Integer scalar number of draws used to approximate the
+f-Divergence expectation.</p></td>
     </tr>
     <tr>
       <th>seed</th>
-      <td><p>integer to seed the random number generator.</p></td>
+      <td><p><code>integer</code> seed for <code>q$sample</code>.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string prefixed to ops created by this function.
-Default value: <code>NULL</code> (i.e., 'build_factored_surrogate_posterior').</p></td>
+      <td><p>String prefixed to Ops created by this function.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>variational_posterior <code>tfd_joint_distribution_named</code> defining a trainable
-surrogate posterior over model parameters. Samples from this
-distribution are named lists with  <code>character</code> parameter names as keys.</p>
+    <p>vimco The Csiszar f-Divergence generalized VIMCO objective</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+
+<ul>
+<li><p><a href='https://arxiv.org/abs/1602.06725'>Andriy Mnih and Danilo Rezende. Variational Inference for Monte Carlo objectives. In International Conference on Machine Learning, 2016.</a></p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
-  <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
-  <code><a href='sts_decompose_forecast_by_component.html'>sts_decompose_forecast_by_component</a></code>,
-  <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
-  <code><a href='sts_forecast.html'>sts_forecast</a></code>,
-  <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
-  <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
+    <div class='dont-index'><p>Other vi-functions: <code><a href='vi_amari_alpha.html'>vi_amari_alpha</a></code>,
+  <code><a href='vi_arithmetic_geometric.html'>vi_arithmetic_geometric</a></code>,
+  <code><a href='vi_chi_square.html'>vi_chi_square</a></code>,
+  <code><a href='vi_dual_csiszar_function.html'>vi_dual_csiszar_function</a></code>,
+  <code><a href='vi_fit_surrogate_posterior.html'>vi_fit_surrogate_posterior</a></code>,
+  <code><a href='vi_jeffreys.html'>vi_jeffreys</a></code>,
+  <code><a href='vi_jensen_shannon.html'>vi_jensen_shannon</a></code>,
+  <code><a href='vi_kl_forward.html'>vi_kl_forward</a></code>, <code><a href='vi_kl_reverse.html'>vi_kl_reverse</a></code>,
+  <code><a href='vi_log1p_abs.html'>vi_log1p_abs</a></code>,
+  <code><a href='vi_modified_gan.html'>vi_modified_gan</a></code>,
+  <code><a href='vi_monte_carlo_variational_loss.html'>vi_monte_carlo_variational_loss</a></code>,
+  <code><a href='vi_pearson.html'>vi_pearson</a></code>,
+  <code><a href='vi_squared_hellinger.html'>vi_squared_hellinger</a></code>,
+  <code><a href='vi_symmetrized_csiszar_function.html'>vi_symmetrized_csiszar_function</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -181,6 +205,7 @@ distribution are named lists with  <code>character</code> parameter names as key
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

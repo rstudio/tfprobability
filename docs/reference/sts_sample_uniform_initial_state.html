@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior • tfprobability</title>
+<title>Initialize from a uniform <code>[-2, 2]</code> distribution in unconstrained space. — sts_sample_uniform_initial_state • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior" />
-<meta property="og:description" content="The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable loc and scale, transformed using the
-parameter's bijector to the appropriate support space for that parameter." />
+<meta property="og:title" content="Initialize from a uniform <code>[-2, 2]</code> distribution in unconstrained space. — sts_sample_uniform_initial_state" />
+<meta property="og:description" content="Initialize from a uniform [-2, 2] distribution in unconstrained space." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,60 +118,59 @@ parameter's bijector to the appropriate support space for that parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a variational posterior that factors over model parameters.</h1>
+    <h1>Initialize from a uniform <code>[-2, 2]</code> distribution in unconstrained space.</h1>
     
-    <div class="hidden name"><code>sts_build_factored_surrogate_posterior.Rd</code></div>
+    <div class="hidden name"><code>sts_sample_uniform_initial_state.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable <code>loc</code> and <code>scale</code>, transformed using the
-parameter's <code>bijector</code> to the appropriate support space for that parameter.</p>
+    <p>Initialize from a uniform <code>[-2, 2]</code> distribution in unconstrained space.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_surrogate_posterior</span>(<span class='no'>model</span>, <span class='kw'>batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_sample_uniform_initial_state</span>(<span class='no'>parameter</span>, <span class='kw'>return_constrained</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>init_sample_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.#'</p></td>
+      <th>parameter</th>
+      <td><p><code>sts$Parameter</code> named tuple instance.</p></td>
     </tr>
     <tr>
-      <th>batch_shape</th>
-      <td><p>Batch shape (<code>list</code>, or <code>integer</code>) of initial
-states to optimize in parallel.
-Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>. (i.e., just run a single optimization).</p></td>
+      <th>return_constrained</th>
+      <td><p>if <code>TRUE</code>, re-applies the constraining bijector
+to return initializations in the original domain. Otherwise, returns
+initializations in the unconstrained space.
+Default value: <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>init_sample_shape</th>
+      <td><p><code>sample_shape</code> of the sampled initializations.
+Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>.</p></td>
     </tr>
     <tr>
       <th>seed</th>
       <td><p>integer to seed the random number generator.</p></td>
     </tr>
-    <tr>
-      <th>name</th>
-      <td><p>string prefixed to ops created by this function.
-Default value: <code>NULL</code> (i.e., 'build_factored_surrogate_posterior').</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>variational_posterior <code>tfd_joint_distribution_named</code> defining a trainable
-surrogate posterior over model parameters. Samples from this
-distribution are named lists with  <code>character</code> parameter names as keys.</p>
+    <p>uniform_initializer <code>Tensor</code> of shape
+<code>concat([init_sample_shape, parameter.prior.batch_shape, transformed_event_shape])</code>, where
+<code>transformed_event_shape</code> is <code>parameter.prior.event_shape</code>, if
+<code>return_constrained=TRUE</code>, and otherwise it is
+<code>parameter$bijector$inverse_event_shape(parameter$prior$event_shape)</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
+    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_surrogate_posterior.html'>sts_build_factored_surrogate_posterior</a></code>,
+  <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
   <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
   <code><a href='sts_decompose_forecast_by_component.html'>sts_decompose_forecast_by_component</a></code>,
   <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
   <code><a href='sts_forecast.html'>sts_forecast</a></code>,
-  <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
-  <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
+  <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

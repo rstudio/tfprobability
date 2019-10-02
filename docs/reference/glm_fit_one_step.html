@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior • tfprobability</title>
+<title>Runs one Fisher scoring step — glm_fit_one_step • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior" />
-<meta property="og:description" content="The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable loc and scale, transformed using the
-parameter's bijector to the appropriate support space for that parameter." />
+<meta property="og:title" content="Runs one Fisher scoring step — glm_fit_one_step" />
+<meta property="og:description" content="Runs one Fisher scoring step" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,67 +118,40 @@ parameter's bijector to the appropriate support space for that parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a variational posterior that factors over model parameters.</h1>
+    <h1>Runs one Fisher scoring step</h1>
     
-    <div class="hidden name"><code>sts_build_factored_surrogate_posterior.Rd</code></div>
+    <div class="hidden name"><code>glm_fit_one_step.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable <code>loc</code> and <code>scale</code>, transformed using the
-parameter's <code>bijector</code> to the appropriate support space for that parameter.</p>
+    <p>Runs one Fisher scoring step</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_surrogate_posterior</span>(<span class='no'>model</span>, <span class='kw'>batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>glm_fit_one_step</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.#'</p></td>
+      <th>x</th>
+      <td><p>float-like, matrix-shaped Tensor where each row represents a sample's
+features.</p></td>
     </tr>
     <tr>
-      <th>batch_shape</th>
-      <td><p>Batch shape (<code>list</code>, or <code>integer</code>) of initial
-states to optimize in parallel.
-Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>. (i.e., just run a single optimization).</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>integer to seed the random number generator.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>string prefixed to ops created by this function.
-Default value: <code>NULL</code> (i.e., 'build_factored_surrogate_posterior').</p></td>
+      <th>...</th>
+      <td><p>other arguments passed to specific methods.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>variational_posterior <code>tfd_joint_distribution_named</code> defining a trainable
-surrogate posterior over model parameters. Samples from this
-distribution are named lists with  <code>character</code> parameter names as keys.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
-  <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
-  <code><a href='sts_decompose_forecast_by_component.html'>sts_decompose_forecast_by_component</a></code>,
-  <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
-  <code><a href='sts_forecast.html'>sts_forecast</a></code>,
-  <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
-  <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
+    <div class='dont-index'><p><code><a href='glm_fit_one_step.tensorflow.tensor.html'>glm_fit_one_step.tensorflow.tensor()</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

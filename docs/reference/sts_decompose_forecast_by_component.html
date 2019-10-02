@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior • tfprobability</title>
+<title>Decompose a forecast distribution into contributions from each component. — sts_decompose_forecast_by_component • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior" />
-<meta property="og:description" content="The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable loc and scale, transformed using the
-parameter's bijector to the appropriate support space for that parameter." />
+<meta property="og:title" content="Decompose a forecast distribution into contributions from each component. — sts_decompose_forecast_by_component" />
+<meta property="og:description" content="Decompose a forecast distribution into contributions from each component." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,56 +118,53 @@ parameter's bijector to the appropriate support space for that parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a variational posterior that factors over model parameters.</h1>
+    <h1>Decompose a forecast distribution into contributions from each component.</h1>
     
-    <div class="hidden name"><code>sts_build_factored_surrogate_posterior.Rd</code></div>
+    <div class="hidden name"><code>sts_decompose_forecast_by_component.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable <code>loc</code> and <code>scale</code>, transformed using the
-parameter's <code>bijector</code> to the appropriate support space for that parameter.</p>
+    <p>Decompose a forecast distribution into contributions from each component.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_surrogate_posterior</span>(<span class='no'>model</span>, <span class='kw'>batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_decompose_forecast_by_component</span>(<span class='no'>model</span>, <span class='no'>forecast_dist</span>,
+  <span class='no'>parameter_samples</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.#'</p></td>
+      <td><p>An instance of <code>sts_sum</code> representing a structural time series model.</p></td>
     </tr>
     <tr>
-      <th>batch_shape</th>
-      <td><p>Batch shape (<code>list</code>, or <code>integer</code>) of initial
-states to optimize in parallel.
-Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>. (i.e., just run a single optimization).</p></td>
+      <th>forecast_dist</th>
+      <td><p>A <code>Distribution</code> instance returned by <code><a href='sts_forecast.html'>sts_forecast()</a></code>.
+(specifically, must be a <code>tfd.MixtureSameFamily</code> over a
+<code>tfd_linear_gaussian_state_space_model</code> parameterized by posterior samples).</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>integer to seed the random number generator.</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>string prefixed to ops created by this function.
-Default value: <code>NULL</code> (i.e., 'build_factored_surrogate_posterior').</p></td>
+      <th>parameter_samples</th>
+      <td><p><code>list</code> of <code>tensors</code> representing posterior samples
+of model parameters, with shapes
+<code>list(tf$concat(list(list(num_posterior_draws), param&lt;1&gt;$prior$batch_shape, param&lt;1&gt;$prior$event_shape), list(list(num_posterior_draws), param&lt;2&gt;$prior$batch_shape, param&lt;2&gt;$prior$event_shape), ... ) )</code>
+for all model parameters.
+This may optionally also be a named list mapping parameter names to <code>tensor</code> values.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>variational_posterior <code>tfd_joint_distribution_named</code> defining a trainable
-surrogate posterior over model parameters. Samples from this
-distribution are named lists with  <code>character</code> parameter names as keys.</p>
+    <p>component_dists A named list mapping
+component StructuralTimeSeries instances (elements of <code>model$components</code>)
+to <code>Distribution</code> instances representing the marginal forecast for each component.
+Each distribution has batch shape matching <code>forecast_dist</code> (specifically,
+the event shape is <code>[num_steps_forecast]</code>).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
+    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_surrogate_posterior.html'>sts_build_factored_surrogate_posterior</a></code>,
+  <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
   <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
-  <code><a href='sts_decompose_forecast_by_component.html'>sts_decompose_forecast_by_component</a></code>,
   <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
   <code><a href='sts_forecast.html'>sts_forecast</a></code>,
   <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,

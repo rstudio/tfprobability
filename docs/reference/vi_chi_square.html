@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior • tfprobability</title>
+<title>The chi-square Csiszar-function in log-space — vi_chi_square • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior" />
-<meta property="og:description" content="The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable loc and scale, transformed using the
-parameter's bijector to the appropriate support space for that parameter." />
+<meta property="og:title" content="The chi-square Csiszar-function in log-space — vi_chi_square" />
+<meta property="og:description" content="A Csiszar-function is a member of F = { f:R_+ to R : f convex }." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,60 +118,57 @@ parameter's bijector to the appropriate support space for that parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a variational posterior that factors over model parameters.</h1>
+    <h1>The chi-square Csiszar-function in log-space</h1>
     
-    <div class="hidden name"><code>sts_build_factored_surrogate_posterior.Rd</code></div>
+    <div class="hidden name"><code>vi_chi_square.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable <code>loc</code> and <code>scale</code>, transformed using the
-parameter's <code>bijector</code> to the appropriate support space for that parameter.</p>
+    <p>A Csiszar-function is a member of <code>F = { f:R_+ to R : f convex }</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_surrogate_posterior</span>(<span class='no'>model</span>, <span class='kw'>batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>vi_chi_square</span>(<span class='no'>logu</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.#'</p></td>
-    </tr>
-    <tr>
-      <th>batch_shape</th>
-      <td><p>Batch shape (<code>list</code>, or <code>integer</code>) of initial
-states to optimize in parallel.
-Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>. (i.e., just run a single optimization).</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>integer to seed the random number generator.</p></td>
+      <th>logu</th>
+      <td><p><code>float</code>-like <code>Tensor</code> representing <code><a href='https://rdrr.io/r/base/Log.html'>log(u)</a></code> from above.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string prefixed to ops created by this function.
-Default value: <code>NULL</code> (i.e., 'build_factored_surrogate_posterior').</p></td>
+      <td><p>name prefixed to Ops created by this function.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>variational_posterior <code>tfd_joint_distribution_named</code> defining a trainable
-surrogate posterior over model parameters. Samples from this
-distribution are named lists with  <code>character</code> parameter names as keys.</p>
+    <p>chi_square_of_u: <code>float</code>-like <code>Tensor</code> of the Csiszar-function
+evaluated at <code>u = exp(logu)</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The Chi-square Csiszar-function is:</p><pre>f(u) = u**2 - 1
+</pre>
+
+<p>Warning: this function makes non-log-space calculations and may
+therefore be numerically unstable for <code>|logu| &gt;&gt; 0</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
-  <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
-  <code><a href='sts_decompose_forecast_by_component.html'>sts_decompose_forecast_by_component</a></code>,
-  <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
-  <code><a href='sts_forecast.html'>sts_forecast</a></code>,
-  <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
-  <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
+    <div class='dont-index'><p>Other vi-functions: <code><a href='vi_amari_alpha.html'>vi_amari_alpha</a></code>,
+  <code><a href='vi_arithmetic_geometric.html'>vi_arithmetic_geometric</a></code>,
+  <code><a href='vi_csiszar_vimco.html'>vi_csiszar_vimco</a></code>,
+  <code><a href='vi_dual_csiszar_function.html'>vi_dual_csiszar_function</a></code>,
+  <code><a href='vi_fit_surrogate_posterior.html'>vi_fit_surrogate_posterior</a></code>,
+  <code><a href='vi_jeffreys.html'>vi_jeffreys</a></code>,
+  <code><a href='vi_jensen_shannon.html'>vi_jensen_shannon</a></code>,
+  <code><a href='vi_kl_forward.html'>vi_kl_forward</a></code>, <code><a href='vi_kl_reverse.html'>vi_kl_reverse</a></code>,
+  <code><a href='vi_log1p_abs.html'>vi_log1p_abs</a></code>,
+  <code><a href='vi_modified_gan.html'>vi_modified_gan</a></code>,
+  <code><a href='vi_monte_carlo_variational_loss.html'>vi_monte_carlo_variational_loss</a></code>,
+  <code><a href='vi_pearson.html'>vi_pearson</a></code>,
+  <code><a href='vi_squared_hellinger.html'>vi_squared_hellinger</a></code>,
+  <code><a href='vi_symmetrized_csiszar_function.html'>vi_symmetrized_csiszar_function</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -181,6 +176,7 @@ distribution are named lists with  <code>character</code> parameter names as key
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

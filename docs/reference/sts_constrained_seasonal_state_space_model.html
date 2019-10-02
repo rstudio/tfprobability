@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>State space model for a semi-local linear trend. — sts_semi_local_linear_trend_state_space_model • tfprobability</title>
+<title>Seasonal state space model with effects constrained to sum to zero. — sts_constrained_seasonal_state_space_model • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,15 +35,8 @@
 
 
 
-<meta property="og:title" content="State space model for a semi-local linear trend. — sts_semi_local_linear_trend_state_space_model" />
-<meta property="og:description" content="A state space model (SSM) posits a set of latent (unobserved) variables that
-evolve over time with dynamics specified by a probabilistic transition model
-p(z[t+1] | z[t]). At each timestep, we observe a value sampled from an
-observation model conditioned on the current state, p(x[t] | z[t]). The
-special case where both the transition and observation models are Gaussians
-with mean specified as a linear function of the inputs, is known as a linear
-Gaussian state space model and supports tractable exact probabilistic
-calculations; see tfd_linear_gaussian_state_space_model for details." />
+<meta property="og:title" content="Seasonal state space model with effects constrained to sum to zero. — sts_constrained_seasonal_state_space_model" />
+<meta property="og:description" content="Seasonal state space model with effects constrained to sum to zero." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,26 +118,19 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>State space model for a semi-local linear trend.</h1>
+    <h1>Seasonal state space model with effects constrained to sum to zero.</h1>
     
-    <div class="hidden name"><code>sts_semi_local_linear_trend_state_space_model.Rd</code></div>
+    <div class="hidden name"><code>sts_constrained_seasonal_state_space_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A state space model (SSM) posits a set of latent (unobserved) variables that
-evolve over time with dynamics specified by a probabilistic transition model
-<code>p(z[t+1] | z[t])</code>. At each timestep, we observe a value sampled from an
-observation model conditioned on the current state, <code>p(x[t] | z[t])</code>. The
-special case where both the transition and observation models are Gaussians
-with mean specified as a linear function of the inputs, is known as a linear
-Gaussian state space model and supports tractable exact probabilistic
-calculations; see <code>tfd_linear_gaussian_state_space_model</code> for details.</p>
+    <p>Seasonal state space model with effects constrained to sum to zero.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_semi_local_linear_trend_state_space_model</span>(<span class='no'>num_timesteps</span>, <span class='no'>level_scale</span>,
-  <span class='no'>slope_mean</span>, <span class='no'>slope_scale</span>, <span class='no'>autoregressive_coef</span>, <span class='no'>initial_state_prior</span>,
-  <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_constrained_seasonal_state_space_model</span>(<span class='no'>num_timesteps</span>, <span class='no'>num_seasons</span>,
+  <span class='no'>drift_scale</span>, <span class='no'>initial_state_prior</span>, <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>num_steps_per_season</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,40 +141,37 @@ calculations; see <code>tfd_linear_gaussian_state_space_model</code> for details
 with this distribution.</p></td>
     </tr>
     <tr>
-      <th>level_scale</th>
+      <th>num_seasons</th>
+      <td><p>Scalar <code>integer</code> number of seasons.</p></td>
+    </tr>
+    <tr>
+      <th>drift_scale</th>
       <td><p>Scalar (any additional dimensions are treated as batch
 dimensions) <code>float</code> <code>tensor</code> indicating the standard deviation of the
-level transitions.</p></td>
-    </tr>
-    <tr>
-      <th>slope_mean</th>
-      <td><p>Scalar (any additional dimensions are treated as batch
-dimensions) <code>float</code> <code>tensor</code> indicating the expected long-term mean of
-the latent slope.</p></td>
-    </tr>
-    <tr>
-      <th>slope_scale</th>
-      <td><p>Scalar (any additional dimensions are treated as batch
-dimensions) <code>float</code> <code>tensor</code> indicating the standard deviation of the
-slope transitions.</p></td>
-    </tr>
-    <tr>
-      <th>autoregressive_coef</th>
-      <td><p>Scalar (any additional dimensions are treated as
-batch dimensions) <code>float</code> <code>tensor</code> defining the AR1 process on the latent slope.</p></td>
+change in effect between consecutive occurrences of a given season.
+This is assumed to be the same for all seasons.</p></td>
     </tr>
     <tr>
       <th>initial_state_prior</th>
       <td><p>instance of <code>tfd_multivariate_normal</code>
-representing the prior distribution on latent states.  Must have
-event shape <code>[1]</code> (as <code>tfd_linear_gaussian_state_space_model</code> requires a
-rank-1 event shape).</p></td>
+representing the prior distribution on latent states; must
+have event shape <code>[num_seasons]</code>.</p></td>
     </tr>
     <tr>
       <th>observation_noise_scale</th>
       <td><p>Scalar (any additional dimensions are
 treated as batch dimensions) <code>float</code> <code>tensor</code> indicating the standard
 deviation of the observation noise.</p></td>
+    </tr>
+    <tr>
+      <th>num_steps_per_season</th>
+      <td><p><code>integer</code> number of steps in each
+season. This may be either a scalar (shape <code>[]</code>), in which case all
+seasons have the same length, or an array of shape <code>[num_seasons]</code>,
+in which seasons have different length, but remain constant around
+different cycles, or an array of shape <code>[num_cycles, num_seasons]</code>,
+in which num_steps_per_season for each season also varies in different
+cycle (e.g., a 4 years cycle with leap day). Default value: 1.</p></td>
     </tr>
     <tr>
       <th>initial_step</th>
@@ -210,50 +193,65 @@ undefined statistics will return NaN for this statistic. Default value: <code>TR
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string` prefixed to ops created by this class.
-Default value: "SemiLocalLinearTrendStateSpaceModel".</p></td>
+      <td><p>string prefixed to ops created by this class.
+Default value: "SeasonalStateSpaceModel".</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The semi-local linear trend model is a special case of a linear Gaussian
-SSM, in which the latent state posits a <code>level</code> and <code>slope</code>. The <code>level</code>
-evolves via a Gaussian random walk centered at the current <code>slope</code>, while
-the <code>slope</code> follows a first-order autoregressive (AR1) process with
-mean <code>slope_mean</code>:</p><pre>level[t] = level[t-1] + slope[t-1] + Normal(0, level_scale)
-slope[t] = (slope_mean + autoregressive_coef * (slope[t-1] - slope_mean) +
-           Normal(0., slope_scale))
-</pre>
-
-<p>The latent state is the two-dimensional tuple <code>[level, slope]</code>. The
-<code>level</code> is observed at each timestep.
-The parameters <code>level_scale</code>, <code>slope_mean</code>, <code>slope_scale</code>,
-<code>autoregressive_coef</code>, and <code>observation_noise_scale</code> are each (a batch of)
-scalars. The batch shape of this <code>Distribution</code> is the broadcast batch shape
-of these parameters and of the <code>initial_state_prior</code>.</p>
-<p>Mathematical Details</p>
-<p>The semi-local linear trend model implements a
-<code>tfp.distributions.LinearGaussianStateSpaceModel</code> with <code>latent_size = 2</code>
-and <code>observation_size = 1</code>, following the transition model:</p><pre>transition_matrix = [[1., 1.]
-                     [0., autoregressive_coef]]
-transition_noise ~ N(loc=slope_mean - autoregressive_coef * slope_mean,
-                     scale=diag([level_scale, slope_scale]))
-</pre>
-
-<p>which implements the evolution of <code>[level, slope]</code> described above, and
-the observation model:</p><pre>observation_matrix = [[1., 0.]]
-observation_noise ~ N(loc=0, scale=observation_noise_scale)
-</pre>
-
-<p>which picks out the first latent component, i.e., the <code>level</code>, as the
-observation at each timestep.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts: <code><a href='sts_additive_state_space_model.html'>sts_additive_state_space_model</a></code>,
+    <div class='dont-index'><p><code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model()</a></code>.</p>
+<p>Mathematical details</p>
+<p>The constrained model implements a reparameterization of the
+naive <code>SeasonalStateSpaceModel</code>. Instead of directly representing the
+seasonal effects in the latent space, the latent space of the constrained
+model represents the difference between each effect and the mean effect.
+The following discussion assumes familiarity with the mathematical details
+of <code>SeasonalStateSpaceModel</code>.</p>
+<p><em>Reparameterization and constraints</em>: let the seasonal effects at a given
+timestep be <code>E = [e_1, ..., e_N]</code>. The difference between each effect <code>e_i</code>
+and the mean effect is <code>z_i = e_i - sum_i(e_i)/N</code>. By itself, this
+transformation is not invertible because recovering the absolute effects
+requires that we know the mean as well. To fix this, we'll define
+<code>z_N = sum_i(e_i)/N</code> as the mean effect. It's easy to see that this is
+invertible: given the mean effect and the differences of the first <code>N - 1</code>
+effects from the mean, it's easy to solve for all <code>N</code> effects. Formally,
+we've defined the invertible linear reparameterization <code>Z = R E</code>, where</p><pre>R = [1 - 1/N, -1/N,    ..., -1/N
+     -1/N,    1 - 1/N, ..., -1/N,
+     ...
+     1/N,     1/N,     ...,  1/N]
+</pre>
+
+<p>represents the change of basis from 'effect coordinates' E to
+'residual coordinates' Z. The <code>Z</code>s form the latent space of the
+<code>ConstrainedSeasonalStateSpaceModel</code>.
+To constrain the mean effect <code>z_N</code> to zero, we fix the prior to zero,
+<code>p(z_N) ~ N(0., 0)</code>, and after the transition at each timestep we project
+<code>z_N</code> back to zero. Note that this projection is linear: to set the Nth
+dimension to zero, we simply multiply by the identity matrix with a missing
+element in the bottom right, i.e., <code>Z_constrained = P Z</code>,
+where <code>P = eye(N) - scatter((N-1, N-1), 1)</code>.</p>
+<p><em>Model</em>: concretely, suppose a naive seasonal effect model has initial state
+prior <code>N(m, S)</code>, transition matrix <code>F</code> and noise covariance
+<code>Q</code>, and observation matrix <code>H</code>. Then the corresponding constrained seasonal
+effect model has initial state prior <code>N(P R m, P R S R' P')</code>,
+transition matrix <code>P R F R^-1</code> and noise covariance <code>F R Q R' F'</code>, and
+observation matrix <code>H R^-1</code>, where the change-of-basis matrix <code>R</code> and
+constraint projection matrix <code>P</code> are as defined above. This follows
+directly from applying the reparameterization <code>Z = R E</code>, and then enforcing
+the zero-sum constraint on the prior and transition noise covariances.
+In practice, because the sum of effects <code>z_N</code> is constrained to be zero, it
+will never contribute a term to any linear operation on the latent space,
+so we can drop that dimension from the model entirely.
+<code>ConstrainedSeasonalStateSpaceModel</code> does this, so that it implements the
+<code>N - 1</code> dimension latent space <code>z_1, ..., z_[N-1]</code>.
+Note that since we constrained the mean effect to be zero, the latent
+<code>z_i</code>'s now recover their interpretation as the <em>actual</em> effects,
+<code>z_i = e_i</code> for <code>i = </code>1, ..., N - 1<code>, even though they were originally defined as residuals. The </code>N<code>th effect is represented only implicitly, as the nonzero mean of the first </code>N - 1<code>effects. Although the computational represention is not symmetric across all</code>N<code>effects, we derived the</code>ConstrainedSeasonalStateSpaceModel<code>by starting with a symmetric representation and imposing only a symmetric constraint (the zero-sum constraint), so the probability model remains symmetric over all</code>N`
+seasonal effects.</p>
+<p>Other sts: <code><a href='sts_additive_state_space_model.html'>sts_additive_state_space_model</a></code>,
   <code><a href='sts_autoregressive_state_space_model.html'>sts_autoregressive_state_space_model</a></code>,
   <code><a href='sts_autoregressive.html'>sts_autoregressive</a></code>,
-  <code><a href='sts_constrained_seasonal_state_space_model.html'>sts_constrained_seasonal_state_space_model</a></code>,
   <code><a href='sts_dynamic_linear_regression_state_space_model.html'>sts_dynamic_linear_regression_state_space_model</a></code>,
   <code><a href='sts_dynamic_linear_regression.html'>sts_dynamic_linear_regression</a></code>,
   <code><a href='sts_linear_regression.html'>sts_linear_regression</a></code>,
@@ -263,6 +261,7 @@ observation at each timestep.</p>
   <code><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></code>,
   <code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a></code>,
   <code><a href='sts_seasonal.html'>sts_seasonal</a></code>,
+  <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
   <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
   <code><a href='sts_sparse_linear_regression.html'>sts_sparse_linear_regression</a></code>,
   <code><a href='sts_sum.html'>sts_sum</a></code></p></div>
@@ -272,7 +271,6 @@ observation at each timestep.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

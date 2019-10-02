@@ -163,7 +163,7 @@ is determined by the <code>sequence_indices</code>. Default value: <code>NULL</c
       <td><p>(Optional) <code>Tensor</code> of dtype int32 and rank 1. The
 elements of the sequence to compute specified by their position in the
 sequence. The entries index into the Halton sequence starting with 0 and
-hence, must be whole numbers. For example, sequence_indices=0, 5, 6 will
+hence, must be whole numbers. For example, sequence_indices=<code>[0, 5, 6]</code> will
 produce the first, sixth and seventh elements of the sequence. If this
 parameter is None, then the <code>num_results</code> parameter must be specified
 which gives the number of desired samples starting from the first sample.
@@ -205,8 +205,8 @@ were specified.</p>
 <code>dim</code>. The <code>dim</code>-dimensional sequence takes values in the unit hypercube in
 <code>dim</code> dimensions. Currently, only dimensions up to 1000 are supported. The
 prime base for the k-th axes is the k-th prime starting from 2. For example,
-if <code>dim</code> = 3, then the bases will be 2, 3, 5 respectively and the first
-element of the non-randomized sequence will be: 0.5, 0.333, 0.2. For a more
+if <code>dim</code> = 3, then the bases will be <code>[2, 3, 5]</code> respectively and the first
+element of the non-randomized sequence will be: <code>[0.5, 0.333, 0.2]</code>. For a more
 complete description of the Halton sequences see
 <a href='https://en.wikipedia.org/wiki/Halton_sequence'>here</a>. For low discrepancy
 sequences and their applications see
@@ -222,6 +222,14 @@ The former is the number of samples to produce starting from the first
 element. If <code>sequence_indices</code> is given instead, the specified elements of
 the sequence are generated. For example, sequence_indices=tf$range(10) is
 equivalent to specifying n=10.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+
+<ul>
+<li><p><a href='https://arxiv.org/abs/1706.02808'>Art B. Owen. A randomized Halton algorithm in R. arXiv preprint arXiv:1706.02808, 2017.</a></p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other mcmc_functions: <code><a href='mcmc_effective_sample_size.html'>mcmc_effective_sample_size</a></code>,
@@ -236,6 +244,7 @@ equivalent to specifying n=10.</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

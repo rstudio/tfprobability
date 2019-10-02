@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Formal representation of a semi-local linear trend model. — sts_semi_local_linear_trend • tfprobability</title>
+<title>Formal representation of a sparse linear regression. — sts_sparse_linear_regression • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,9 @@
 
 
 
-<meta property="og:title" content="Formal representation of a semi-local linear trend model. — sts_semi_local_linear_trend" />
-<meta property="og:description" content="Like the sts_local_linear_trend model, a semi-local linear trend posits a
-latent level and slope, with the level component updated according to
-the current slope plus a random walk:" />
+<meta property="og:title" content="Formal representation of a sparse linear regression. — sts_sparse_linear_regression" />
+<meta property="og:description" content="This model defines a time series given by a sparse linear combination of
+covariate time series provided in a design matrix:" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,114 +119,119 @@ the current slope plus a random walk:" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Formal representation of a semi-local linear trend model.</h1>
+    <h1>Formal representation of a sparse linear regression.</h1>
     
-    <div class="hidden name"><code>sts_semi_local_linear_trend.Rd</code></div>
+    <div class="hidden name"><code>sts_sparse_linear_regression.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Like the <code>sts_local_linear_trend</code> model, a semi-local linear trend posits a
-latent <code>level</code> and <code>slope</code>, with the level component updated according to
-the current slope plus a random walk:</p>
+    <p>This model defines a time series given by a sparse linear combination of
+covariate time series provided in a design matrix:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_semi_local_linear_trend</span>(<span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>level_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>slope_mean_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>slope_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>autoregressive_coef_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial_level_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>initial_slope_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>constrain_ar_coef_stationary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>constrain_ar_coef_positive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_sparse_linear_regression</span>(<span class='no'>design_matrix</span>, <span class='kw'>weights_prior_scale</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>weights_batch_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>observed_time_series</th>
-      <td><p>optional <code>float</code> <code>tensor</code> of shape
-<code>batch_shape + [T, 1]</code> (omitting the trailing unit dimension is also
-supported when <code>T &gt; 1</code>), specifying an observed time series.
-Any priors not explicitly set will be given default values according to
-the scale of the observed time series (or batch of time series). May
-optionally be an instance of <code>sts_masked_time_series</code>, which includes
-a mask <code>tensor</code> to specify timesteps with missing observations.
-Default value: <code>NULL</code>.</p></td>
+      <th>design_matrix</th>
+      <td><p>float <code>tensor</code> of shape <code>tf$concat(list(batch_shape, list(num_timesteps, num_features)))</code>.
+This may also optionally be an instance of <code>tf$linalg$LinearOperator</code>.</p></td>
     </tr>
     <tr>
-      <th>level_scale_prior</th>
-      <td><p>optional <code>tfp$distribution</code> instance specifying a prior
-on the <code>level_scale</code> parameter. If <code>NULL</code>, a heuristic default prior is
-constructed based on the provided <code>observed_time_series</code>.
-Default value: <code>NULL</code>.</p></td>
+      <th>weights_prior_scale</th>
+      <td><p>float <code>Tensor</code> defining the scale of the Horseshoe
+prior on regression weights. Small values encourage the weights to be
+sparse. The shape must broadcast with <code>weights_batch_shape</code>.
+Default value: <code>0.1</code>.</p></td>
     </tr>
     <tr>
-      <th>slope_mean_prior</th>
-      <td><p>optional <code>tfd$Distribution</code> instance specifying a prior
-on the <code>slope_mean</code> parameter. If <code>NULL</code>, a heuristic default prior is
-constructed based on the provided <code>observed_time_series</code>. Default value: <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>slope_scale_prior</th>
-      <td><p>optional <code>tfd$Distribution</code> instance specifying a prior
-on the <code>slope_scale</code> parameter. If <code>NULL</code>, a heuristic default prior is
-constructed based on the provided <code>observed_time_series</code>. Default value: <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>autoregressive_coef_prior</th>
-      <td><p>optional <code>tfd$Distribution</code> instance specifying
-a prior on the <code>autoregressive_coef</code> parameter. If <code>NULL</code>, the default
-prior is a standard <code><a href='https://rdrr.io/r/stats/Normal.html'>Normal(0, 1)</a></code>. Note that the prior may be
-implicitly truncated by <code>constrain_ar_coef_stationary</code> and/or <code>constrain_ar_coef_positive</code>.
-Default value: <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>initial_level_prior</th>
-      <td><p>optional <code>tfp$distribution</code> instance specifying a
-prior on the initial level. If <code>NULL</code>, a heuristic default prior is
-constructed based on the provided <code>observed_time_series</code>.
-Default value: <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>initial_slope_prior</th>
-      <td><p>optional <code>tfd$Distribution</code> instance specifying a
-prior on the initial slope. If <code>NULL</code>, a heuristic default prior is
-constructed based on the provided <code>observed_time_series</code>. Default value: <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>constrain_ar_coef_stationary</th>
-      <td><p>if <code>TRUE</code>, perform inference using a
-parameterization that restricts <code>autoregressive_coef</code> to the interval
-<code>(-1, 1)</code>, or <code>(0, 1)</code> if <code>force_positive_ar_coef</code> is also <code>TRUE</code>,
-corresponding to stationary processes. This will implicitly truncate
-the support of <code>autoregressive_coef_prior</code>. Default value: <code>TRUE</code>.</p></td>
-    </tr>
-    <tr>
-      <th>constrain_ar_coef_positive</th>
-      <td><p>if <code>TRUE</code>, perform inference using a
-parameterization that restricts <code>autoregressive_coef</code> to be positive,
-or in <code>(0, 1)</code> if <code>constrain_ar_coef_stationary</code> is also <code>TRUE</code>. This
-will implicitly truncate the support of <code>autoregressive_coef_prior</code>.
-Default value: <code>FALSE</code>.</p></td>
+      <th>weights_batch_shape</th>
+      <td><p>if <code>NULL</code>, defaults to
+<code>design_matrix.batch_shape_tensor()</code>. Must broadcast with the batch
+shape of <code>design_matrix</code>. Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>the name of this model component. Default value: 'SemiLocalLinearTrend'.</p></td>
+      <td><p>the name of this model component. Default value: 'LinearRegression'.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<pre>level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
+<pre>observed_time_series &lt;- tf$matmul(design_matrix, weights)
 </pre>
 
-<p>The slope component in a <code>sts_semi_local_linear_trend</code> model evolves according to
-a first-order autoregressive (AR1) process with potentially nonzero mean:</p><pre>slope[t] = (slope_mean + autoregressive_coef * (slope[t-1] - slope_mean) + Normal(0., slope_scale))
+<p>This is identical to <code>sts_linear_regression</code>, except that
+<code>sts_sparse_linear_regression</code> uses a parameterization of a Horseshoe
+prior to encode the assumption that many of the <code>weights</code> are zero,
+i.e., many of the covariate time series are irrelevant. See the mathematical
+details section below for further discussion. The prior parameterization used
+by <code>sts_sparse_linear_regression</code> is more suitable for inference than that
+obtained by simply passing the equivalent <code>tfd_horseshoe</code> prior to
+<code>sts_linear_regression</code>; when sparsity is desired, <code>sts_sparse_linear_regression</code> will
+likely yield better results.</p>
+<p>This component does not itself include observation noise; it defines a
+deterministic distribution with mass at the point
+<code>tf$matmul(design_matrix, weights)</code>. In practice, it should be combined with
+observation noise from another component such as <code>sts_sum</code>.</p>
+<p>Mathematical Details</p>
+<p>The basic horseshoe prior Carvalho et al. (2009) is defined as a Cauchy-normal scale mixture:</p><pre>scales[i] ~ HalfCauchy(loc=0, scale=1)
+weights[i] ~ Normal(loc=0., scale=scales[i] * global_scale)`
 </pre>
 
-<p>Unlike the random walk used in <code>LocalLinearTrend</code>, a stationary
-AR1 process (coefficient in <code>(-1, 1)</code>) maintains bounded variance over time,
-so a <code>SemiLocalLinearTrend</code> model will often produce more reasonable
-uncertainties when forecasting over long timescales.</p>
+<p>The Cauchy scale parameters puts substantial mass near zero, encouraging
+weights to be sparse, but their heavy tails allow weights far from zero to be
+estimated without excessive shrinkage. The horseshoe can be thought of as a
+continuous relaxation of a traditional 'spike-and-slab' discrete sparsity
+prior, in which the latent Cauchy scale mixes between 'spike'
+(<code>scales[i] ~= 0</code>) and 'slab' (<code>scales[i] &gt;&gt; 0</code>) regimes.</p>
+<p>Following the recommendations in Piironen et al. (2017), <code>SparseLinearRegression</code> implements
+a horseshoe with the following adaptations:</p><ul>
+<li><p>The Cauchy prior on <code>scales[i]</code> is represented as an InverseGamma-Normal
+compound.</p></li>
+<li><p>The <code>global_scale</code> parameter is integrated out following a <code><a href='https://rdrr.io/r/stats/Cauchy.html'>Cauchy(0., scale=weights_prior_scale)</a></code> hyperprior, which is also represented as an
+InverseGamma-Normal compound.</p></li>
+<li><p>All compound distributions are implemented using a non-centered
+parameterization.
+The compound, non-centered representation defines the same marginal prior as
+the original horseshoe (up to integrating out the global scale),
+but allows samplers to mix more efficiently through the heavy tails; for
+variational inference, the compound representation implicity expands the
+representational power of the variational model.</p></li>
+</ul>
+
+<p>Note that we do not yet implement the regularized ('Finnish') horseshoe,
+proposed in Piironen et al. (2017) for models with weak likelihoods, because the likelihood
+in STS models is typically Gaussian, where it's not clear that additional
+regularization is appropriate. If you need this functionality, please
+email tfprobability@tensorflow.org.</p>
+<p>The full prior parameterization implemented in <code>SparseLinearRegression</code> is
+as follows:</p><pre>Sample global_scale from Cauchy(0, scale=weights_prior_scale).
+global_scale_variance ~ InverseGamma(alpha=0.5, beta=0.5)
+global_scale_noncentered ~ HalfNormal(loc=0, scale=1)
+global_scale = (global_scale_noncentered *
+sqrt(global_scale_variance) *
+weights_prior_scale)
+Sample local_scales from Cauchy(0, 1).
+local_scale_variances[i] ~ InverseGamma(alpha=0.5, beta=0.5)
+local_scales_noncentered[i] ~ HalfNormal(loc=0, scale=1)
+local_scales[i] = local_scales_noncentered[i] * sqrt(local_scale_variances[i])
+weights[i] ~ Normal(loc=0., scale=local_scales[i] * global_scale)
+</pre>
+
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    
+
+<ul>
+<li><p><a href='http://proceedings.mlr.press/v5/carvalho09a/carvalho09a.pdf'>Carvalho, C., Polson, N. and Scott, J. Handling Sparsity via the Horseshoe. AISTATS (2009).</a></p></li>
+<li><p><a href='https://arxiv.org/abs/1707.01694'>Juho Piironen, Aki Vehtari. Sparsity information and regularization in the horseshoe and other shrinkage priors (2017).</a></p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other sts: <code><a href='sts_additive_state_space_model.html'>sts_additive_state_space_model</a></code>,
@@ -244,7 +248,7 @@ uncertainties when forecasting over long timescales.</p>
   <code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a></code>,
   <code><a href='sts_seasonal.html'>sts_seasonal</a></code>,
   <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
-  <code><a href='sts_sparse_linear_regression.html'>sts_sparse_linear_regression</a></code>,
+  <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
   <code><a href='sts_sum.html'>sts_sum</a></code></p></div>
 
   </div>
@@ -253,6 +257,7 @@ uncertainties when forecasting over long timescales.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

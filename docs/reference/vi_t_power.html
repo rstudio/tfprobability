@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior • tfprobability</title>
+<title>The T-Power Csiszar-function in log-space — vi_t_power • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior" />
-<meta property="og:description" content="The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable loc and scale, transformed using the
-parameter's bijector to the appropriate support space for that parameter." />
+<meta property="og:title" content="The T-Power Csiszar-function in log-space — vi_t_power" />
+<meta property="og:description" content="A Csiszar-function is a member of F = { f:R_+ to R : f convex }." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,60 +118,59 @@ parameter's bijector to the appropriate support space for that parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a variational posterior that factors over model parameters.</h1>
+    <h1>The T-Power Csiszar-function in log-space</h1>
     
-    <div class="hidden name"><code>sts_build_factored_surrogate_posterior.Rd</code></div>
+    <div class="hidden name"><code>vi_t_power.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable <code>loc</code> and <code>scale</code>, transformed using the
-parameter's <code>bijector</code> to the appropriate support space for that parameter.</p>
+    <p>A Csiszar-function is a member of <code>F = { f:R_+ to R : f convex }</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_surrogate_posterior</span>(<span class='no'>model</span>, <span class='kw'>batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>vi_t_power</span>(<span class='no'>logu</span>, <span class='no'>t</span>, <span class='kw'>self_normalized</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.#'</p></td>
+      <th>logu</th>
+      <td><p><code>float</code>-like <code>Tensor</code> representing <code><a href='https://rdrr.io/r/base/Log.html'>log(u)</a></code> from above.</p></td>
     </tr>
     <tr>
-      <th>batch_shape</th>
-      <td><p>Batch shape (<code>list</code>, or <code>integer</code>) of initial
-states to optimize in parallel.
-Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>. (i.e., just run a single optimization).</p></td>
+      <th>t</th>
+      <td><p><code>Tensor</code> of same <code>dtype</code> as <code>logu</code> and broadcastable shape.</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>integer to seed the random number generator.</p></td>
+      <th>self_normalized</th>
+      <td><p><code>logical</code> indicating whether <code>f'(u=1)=0}. When
+\code{f'(u=1)=0</code> the implied Csiszar f-Divergence remains non-negative even
+when <code>p, q</code> are unnormalized measures.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string prefixed to ops created by this function.
-Default value: <code>NULL</code> (i.e., 'build_factored_surrogate_posterior').</p></td>
+      <td><p>name prefixed to Ops created by this function.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>variational_posterior <code>tfd_joint_distribution_named</code> defining a trainable
-surrogate posterior over model parameters. Samples from this
-distribution are named lists with  <code>character</code> parameter names as keys.</p>
+    <p>t_power_of_u: <code>float</code>-like <code>Tensor</code> of the Csiszar-function
+evaluated at <code>u = exp(logu)</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>When <code>self_normalized = True</code> the T-Power Csiszar-function is:</p><pre>f(u) = s [ u**t - 1 - t(u - 1) ]
+s = { -1   0 &lt; t &lt; 1 }
+    { +1   otherwise }
+</pre>
+
+<p>When <code>self_normalized = False</code> the <code>- t(u - 1)</code> term is omitted.</p>
+<p>This is similar to the <code>amari_alpha</code> Csiszar-function, with the associated
+divergence being the same up to factors depending only on <code>t</code>.</p>
+<p>Warning: when self_normalized = True<code>this function makes non-log-space calculations and may therefore be numerically unstable for</code>|logu| &gt;&gt; 0`.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
-  <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
-  <code><a href='sts_decompose_forecast_by_component.html'>sts_decompose_forecast_by_component</a></code>,
-  <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
-  <code><a href='sts_forecast.html'>sts_forecast</a></code>,
-  <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
-  <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
+    <div class='dont-index'><p>Other vi-functions#': <code><a href='vi_total_variation.html'>vi_total_variation</a></code>,
+  <code><a href='vi_triangular.html'>vi_triangular</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -181,6 +178,7 @@ distribution are named lists with  <code>character</code> parameter names as key
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior • tfprobability</title>
+<title>Runs one Fisher Scoring step — glm_fit_one_step.tensorflow.tensor • tfprobability</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,8 @@
 
 
 
-<meta property="og:title" content="Build a variational posterior that factors over model parameters. — sts_build_factored_surrogate_posterior" />
-<meta property="og:description" content="The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable loc and scale, transformed using the
-parameter's bijector to the appropriate support space for that parameter." />
+<meta property="og:title" content="Runs one Fisher Scoring step — glm_fit_one_step.tensorflow.tensor" />
+<meta property="og:description" content="Runs one Fisher Scoring step" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,67 +118,100 @@ parameter's bijector to the appropriate support space for that parameter." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a variational posterior that factors over model parameters.</h1>
+    <h1>Runs one Fisher Scoring step</h1>
     
-    <div class="hidden name"><code>sts_build_factored_surrogate_posterior.Rd</code></div>
+    <div class="hidden name"><code>glm_fit_one_step.tensorflow.tensor.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The surrogate posterior consists of independent Normal distributions for
-each parameter with trainable <code>loc</code> and <code>scale</code>, transformed using the
-parameter's <code>bijector</code> to the appropriate support space for that parameter.</p>
+    <p>Runs one Fisher Scoring step</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_build_factored_surrogate_posterior</span>(<span class='no'>model</span>, <span class='kw'>batch_shape</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for tensorflow.tensor</span>
+<span class='fu'><a href='glm_fit_one_step.html'>glm_fit_one_step</a></span>(<span class='no'>x</span>, <span class='no'>response</span>, <span class='no'>model</span>,
+  <span class='kw'>model_coefficients_start</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>predicted_linear_response_start</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>l2_regularizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dispersion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>learning_rate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fast_unsafe_numerics</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>x</th>
+      <td><p>float-like, matrix-shaped Tensor where each row represents a sample's
+features.</p></td>
+    </tr>
+    <tr>
+      <th>response</th>
+      <td><p>vector-shaped Tensor where each element represents a sample's
+observed response (to the corresponding row of features). Must have same <code>dtype</code>
+as <code>x</code>.</p></td>
+    </tr>
+    <tr>
       <th>model</th>
-      <td><p>An instance of <code>StructuralTimeSeries</code> representing a
-time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape <code>[b1, ..., bN]</code>.#'</p></td>
+      <td><p>a string naming the model (see <a href='glm_families.html'>glm_families</a>) or a <code>tfp$glm$ExponentialFamily-like</code>
+instance which implicitly characterizes a negative log-likelihood loss by specifying
+the distribuion's mean, gradient_mean, and variance.</p></td>
     </tr>
     <tr>
-      <th>batch_shape</th>
-      <td><p>Batch shape (<code>list</code>, or <code>integer</code>) of initial
-states to optimize in parallel.
-Default value: <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code>. (i.e., just run a single optimization).</p></td>
+      <th>model_coefficients_start</th>
+      <td><p>Optional (batch of) vector-shaped Tensor representing
+the initial model coefficients, one for each column in <code>x</code>. Must have same <code>dtype</code>
+as model_matrix. Default value: Zeros.</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>integer to seed the random number generator.</p></td>
+      <th>predicted_linear_response_start</th>
+      <td><p>Optional Tensor with shape, <code>dtype</code> matching
+<code>response</code>; represents offset shifted initial linear predictions based on
+<code>model_coefficients_start</code>. Default value: offset if model_coefficients is <code>NULL</code>,
+and <code>tf$linalg$matvec(x, model_coefficients_start) + offset</code> otherwise.</p></td>
+    </tr>
+    <tr>
+      <th>l2_regularizer</th>
+      <td><p>Optional scalar Tensor representing L2 regularization penalty.
+Default: <code>NULL</code> ie. no regularization.</p></td>
+    </tr>
+    <tr>
+      <th>dispersion</th>
+      <td><p>Optional (batch of) Tensor representing response dispersion.</p></td>
+    </tr>
+    <tr>
+      <th>offset</th>
+      <td><p>Optional Tensor representing constant shift applied to <code>predicted_linear_response</code>.</p></td>
+    </tr>
+    <tr>
+      <th>learning_rate</th>
+      <td><p>Optional (batch of) scalar Tensor used to dampen iterative progress.
+Typically only needed if optimization diverges, should be no larger than 1 and typically
+very close to 1. Default value: <code>NULL</code> (i.e., 1).</p></td>
+    </tr>
+    <tr>
+      <th>fast_unsafe_numerics</th>
+      <td><p>Optional Python bool indicating if faster, less numerically
+accurate methods can be employed for computing the weighted least-squares solution. Default
+value: TRUE (i.e., "fast but possibly diminished accuracy").</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>string prefixed to ops created by this function.
-Default value: <code>NULL</code> (i.e., 'build_factored_surrogate_posterior').</p></td>
+      <td><p>usesed as name prefix to ops created by this function. Default value: "fit".</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>other arguments passed to specific methods.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>variational_posterior <code>tfd_joint_distribution_named</code> defining a trainable
-surrogate posterior over model parameters. Samples from this
-distribution are named lists with  <code>character</code> parameter names as keys.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts-functions: <code><a href='sts_build_factored_variational_loss.html'>sts_build_factored_variational_loss</a></code>,
-  <code><a href='sts_decompose_by_component.html'>sts_decompose_by_component</a></code>,
-  <code><a href='sts_decompose_forecast_by_component.html'>sts_decompose_forecast_by_component</a></code>,
-  <code><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></code>,
-  <code><a href='sts_forecast.html'>sts_forecast</a></code>,
-  <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
-  <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
+    <div class='dont-index'><p>Other glm_fit: <code><a href='glm_families.html'>glm_families</a></code>,
+  <code><a href='glm_fit.tensorflow.tensor.html'>glm_fit.tensorflow.tensor</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
 
