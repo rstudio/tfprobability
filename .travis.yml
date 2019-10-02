@@ -38,7 +38,7 @@ before_script:
   - sudo apt-get install python3 python3-pip
   - pip3 install --upgrade --ignore-installed --user travis virtualenv
   - R CMD INSTALL .
-  - Rscript -e 'tfprobability::install_tfprobability(version = Sys.getenv("TFPROBABILITY_VERSION"), tensorflow = Sys.getenv("TENSORFLOW_VERSION"))'
+  - Rscript -e 'tfprobability::install_tfprobability(version = Sys.getenv("TFPROBABILITY_VERSION"), tensorflow = Sys.getenv("TENSORFLOW_VERSION"), extra_packages = "gast==0.2.2")'
   - Rscript -e 'tensorflow::tf_config()'
   - Rscript -e 'tfprobability::tfp_version()'
   - Rscript -e 'library(tfprobability); testthat::test_dir("tests/testthat/", stop_on_failure = TRUE)'
