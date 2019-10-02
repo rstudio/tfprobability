@@ -18,7 +18,7 @@ LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
 Imports:
-    tensorflow,
+    tensorflow (>= 2.0.0),
     reticulate,
     keras,
     magrittr
