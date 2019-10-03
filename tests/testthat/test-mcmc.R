@@ -37,7 +37,6 @@ test_succeeds("sampling from chain works", {
 })
 
 test_succeeds("HamiltonianMonteCarlo with SimpleStepSizeAdaptation works", {
-  skip_if_tfp_below("0.7")
 
   target_log_prob_fn <- tfd_normal(loc = 0, scale = 1)$log_prob
   num_burnin_steps <- 500
@@ -119,7 +118,6 @@ test_succeeds("RandomWalkMetropolis works", {
 })
 
 test_succeeds("Can write summaries from trace_fn", {
-  skip_if_tfp_below("0.7")
 
   d <- tfd_normal(0, 1)
   kernel <-

@@ -232,8 +232,6 @@ test_succeeds("VectorDiffeoMixture distribution works", {
 
 test_succeeds("VariationalGaussianProcess distribution works", {
 
-  skip_if_tfp_below("0.7")
-
   # Important:
   # This test only creates the distribution and does not train it.
   # Consider enhancing as per examples in
@@ -551,8 +549,6 @@ test_succeeds("Gamma distribution works", {
 
 test_succeeds("JointDistributionSequential distribution works", {
 
-  skip_if_tfp_below("0.7")
-
   d <- tfd_joint_distribution_sequential(
     list(
       # e
@@ -575,8 +571,6 @@ test_succeeds("JointDistributionSequential distribution works", {
 })
 
 test_succeeds("JointDistributionNamed distribution works", {
-
-  skip_if_tfp_below("0.7")
 
   d <- tfd_joint_distribution_named(
     list(
@@ -720,7 +714,6 @@ test_succeeds("Deterministic distribution works", {
 
 test_succeeds("Empirical distribution works", {
 
-  skip_if_tfp_below("0.7")
   d <- tfd_empirical(samples = c(0, 1, 1, 2))
   expect_equal(d %>% tfd_cdf(1) %>% tensor_value(), 0.75)
 })
@@ -786,7 +779,6 @@ test_succeeds("BatchReshape distribution works", {
 
 test_succeeds("Sample distribution works", {
 
-  skip_if_tfp_below("0.7")
   d <- tfd_sample_distribution(
     tfd_independent(tfd_normal(loc = tf$zeros(list(3, 2)), scale = 1),
                     reinterpreted_batch_ndims = 1),
@@ -800,8 +792,6 @@ test_succeeds("Sample distribution works", {
 
 test_succeeds("Blockwise distribution works", {
 
-  skip_if_tfp_below("0.7")
-
   d <- tfd_blockwise(
     list(
       tfd_multinomial(total_count = 5, probs = c(0.1, 0.2, 0.3)),
@@ -813,8 +803,6 @@ test_succeeds("Blockwise distribution works", {
 })
 
 test_succeeds("Vector Deterministic distribution works", {
-
-  skip_if_tfp_below("0.8")
 
   d <- tfd_vector_deterministic(
     loc = c(1,1,1)

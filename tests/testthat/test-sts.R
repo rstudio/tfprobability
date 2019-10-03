@@ -5,8 +5,6 @@ source("utils.R")
 
 test_succeeds("local level state space model works", {
 
-  skip_if_tfp_below("0.7")
-
   ll <- sts_local_level_state_space_model(
     num_timesteps = 50,
     level_scale = 0.5,
@@ -45,8 +43,6 @@ test_succeeds("local linear trend state space model works", {
 })
 
 test_succeeds("semi local linear trend state space model works", {
-
-  skip_if_tfp_below("0.7")
 
   sll <- sts_semi_local_linear_trend_state_space_model(
     num_timesteps = 50,
@@ -99,8 +95,6 @@ test_succeeds("sum works", {
 
 test_succeeds("additive state space model works", {
 
-  skip_if_tfp_below("0.7")
-
   local_ssm <- sts_local_linear_trend_state_space_model(
     num_timesteps = 30,
     level_scale = 0.5,
@@ -141,16 +135,12 @@ test_succeeds("sts_linear_regression works", {
 
 test_succeeds("sts_dynamic_linear_regression works", {
 
-  skip_if_tfp_below("0.7")
-
   model <- sts_dynamic_linear_regression(
     design_matrix = matrix(31 * 3, nrow = 31)
   )
 })
 
 test_succeeds("dynamic linear regression state space model works", {
-
-  skip_if_tfp_below("0.7")
 
   m <- matrix(777, nrow = 42, ncol = 2) %>% tf$cast(tf$float32)
 
@@ -169,8 +159,6 @@ test_succeeds("dynamic linear regression state space model works", {
 })
 
 test_succeeds("dynamic linear regression state space model works with batches of models", {
-
-  skip_if_tfp_below("0.7")
 
   m <- matrix(777, nrow = 42, ncol = 2) %>% tf$cast(tf$float32)
 
@@ -191,14 +179,10 @@ test_succeeds("dynamic linear regression state space model works with batches of
 
 test_succeeds("sts_autoregressive works", {
 
-  skip_if_tfp_below("0.7")
-
   model <- sts_autoregressive(order = 3)
 })
 
 test_succeeds("autoregressive state space model works", {
-
-  skip_if_tfp_below("0.7")
 
   model <- sts_autoregressive_state_space_model(
     num_timesteps = 50,
@@ -215,8 +199,6 @@ test_succeeds("autoregressive state space model works", {
 })
 
 test_succeeds("autoregressive state space model works with batches of models", {
-
-  skip_if_tfp_below("0.7")
 
   model <- sts_autoregressive_state_space_model(
     num_timesteps = 50,

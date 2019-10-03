@@ -79,7 +79,6 @@ test_succeeds("sts_fit_with_hmc works", {
 })
 
 test_succeeds("sts_one_step_predictive works", {
-  skip_if_tfp_below("0.7")
 
   observed_time_series <-
     rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
@@ -112,7 +111,6 @@ test_succeeds("sts_one_step_predictive works", {
 })
 
 test_succeeds("sts_forecast works", {
-  skip_if_tfp_below("0.7")
 
   observed_time_series <-
     rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) + rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7)
@@ -146,7 +144,6 @@ test_succeeds("sts_forecast works", {
 })
 
 test_succeeds("sts_decompose_by_component works", {
-  skip_if_tfp_below("0.7")
 
   observed_time_series <-
     array(rnorm(2 * 1 * 12), dim = c(2, 1, 12))
@@ -227,7 +224,6 @@ test_succeeds("sts_sample_uniform_initial_state works", {
 })
 
 test_succeeds("sts_decompose_forecast_by_component works", {
-  skip_if_tfp_below("0.7")
 
   observed_time_series <-
     array(rnorm(2 * 1 * 12), dim = c(2, 1, 12))

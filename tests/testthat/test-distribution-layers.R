@@ -186,7 +186,6 @@ test_succeeds("can use layer_independent_poisson in a keras model", {
 
 test_succeeds("can use layer_independent_logistic in a keras model", {
 
-  skip_if_tfp_below("0.7")
   library(keras)
 
   input_shape <- c(28, 28, 1)
@@ -208,7 +207,6 @@ test_succeeds("can use layer_independent_logistic in a keras model", {
 
 test_succeeds("can use layer_independent_normal in a keras model", {
 
-  skip_if_tfp_below("0.7")
   library(keras)
 
   input_shape <- c(28, 28, 1)
@@ -251,7 +249,6 @@ test_succeeds("can use layer_mixture_same_family in a keras model", {
 
 test_succeeds("can use layer_mixture_normal in a keras model", {
 
-  skip_if_tfp_below("0.7")
   library(keras)
 
   event_shape <- 1
@@ -270,7 +267,6 @@ test_succeeds("can use layer_mixture_normal in a keras model", {
 
 test_succeeds("can use layer_mixture_logistic in a keras model", {
 
-  skip_if_tfp_below("0.7")
   library(keras)
 
   event_shape <- 1

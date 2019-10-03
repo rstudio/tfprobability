@@ -5,8 +5,6 @@ source("utils.R")
 
 test_succeeds("use layer_autoregressive with 1d autoregressivity", {
 
-  skip_if_tfp_below("0.7")
-
   library(keras)
   n <- 2000
   x2 <- rnorm(n) %>% tf$cast(tf$float32) * 2
@@ -54,8 +52,6 @@ test_succeeds("use layer_autoregressive with 1d autoregressivity", {
 #                                         \_________/
 
 test_succeeds("use layer_autoregressive to model rank-3 tensors with full autoregressivity", {
-
-  skip_if_tfp_below("0.7")
 
   library(keras)
 
@@ -111,8 +107,6 @@ test_succeeds("use layer_autoregressive to model rank-3 tensors with full autore
   })
 
 test_succeeds("use layer_autoregressive to model rank-3 tensors without autoregressivity over channels", {
-
-  skip_if_tfp_below("0.7")
 
   library(keras)
 
@@ -218,8 +212,6 @@ test_succeeds("layer_autoregressive_transform works", {
 
 test_succeeds("layer_variable works", {
 
-  skip_if_tfp_below("0.7")
-
   library(keras)
 
   x = tf$ones(shape = c(3, 4))
@@ -243,8 +235,6 @@ test_succeeds("layer_variable works", {
 })
 
 test_succeeds("layer_dense_variational works", {
-
-  skip_if_tfp_below("0.7")
 
   library(keras)
 
