@@ -277,7 +277,7 @@ test_succeeds("Define a batch norm bijector", {
 })
 
 test_succeeds("Define a blockwise bijector", {
-  skip_if_tfp_below("0.7")
+
   b <-
     tfb_blockwise(list(tfb_exp(), tfb_sigmoid()), block_sizes = list(2, 1))
   x <- matrix(rep(23, 5 * 3), ncol = 3)
@@ -459,8 +459,6 @@ test_succeeds("Define a reshape bijector", {
 })
 
 test_succeeds("Define a correlation_cholesky bijector", {
-
-  skip_if_tfp_below("0.7")
 
   x <- c(2, 2, 1)
   b <- tfb_correlation_cholesky()

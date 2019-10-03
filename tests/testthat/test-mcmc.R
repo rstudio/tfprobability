@@ -14,18 +14,12 @@ test_succeeds("sampling from chain works", {
     num_leapfrog_steps = 2
   )
 
-  states_and_results <- kernel %>% mcmc_sample_chain(
+  states <- kernel %>% mcmc_sample_chain(
     num_results = 1000,
     num_burnin_steps = 500,
     current_state = rep(0, dims),
     trace_fn = NULL
   )
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   sample_mean <- tf$reduce_mean(states, axis = 0L)
   sample_stddev <-
@@ -37,7 +31,6 @@ test_succeeds("sampling from chain works", {
 })
 
 test_succeeds("HamiltonianMonteCarlo with SimpleStepSizeAdaptation works", {
-  skip_if_tfp_below("0.7")
 
   target_log_prob_fn <- tfd_normal(loc = 0, scale = 1)$log_prob
   num_burnin_steps <- 500
@@ -87,14 +80,8 @@ test_succeeds("MetropolisHastings works", {
     )
   )
 
-  states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
+  states <- kernel %>% mcmc_sample_chain(num_results = 100,
                                                      current_state = 1)
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   expect_equal(states$get_shape() %>% length(), 2)
 })
@@ -105,21 +92,14 @@ test_succeeds("RandomWalkMetropolis works", {
       - x - x ^ 2
   )
 
-  states_and_results <-
+  states <-
     kernel %>% mcmc_sample_chain(num_results = 100,
                                  current_state = 1)
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   expect_equal(states$get_shape() %>% length(), 2)
 })
 
 test_succeeds("Can write summaries from trace_fn", {
-  skip_if_tfp_below("0.7")
 
   d <- tfd_normal(0, 1)
   kernel <-
@@ -157,7 +137,7 @@ test_succeeds("Can write summaries from trace_fn", {
 test_succeeds("mcmc_effective_sample_size works", {
   target <- tfd_multivariate_normal_diag(scale_diag = c(1, 2))
 
-  states_and_results <- mcmc_hamiltonian_monte_carlo(
+  states <- mcmc_hamiltonian_monte_carlo(
     target_log_prob_fn = target$log_prob,
     step_size = 0.05,
     num_leapfrog_steps = 20
@@ -167,12 +147,6 @@ test_succeeds("mcmc_effective_sample_size works", {
       num_results = 100,
       current_state = c(0, 0)
     )
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   ess <- mcmc_effective_sample_size(states)
   variance <- tf$nn$moments(states, axes = 0L)[[2]]
@@ -185,7 +159,7 @@ test_succeeds("mcmc_potential_scale_reduction works", {
 
   initial_state <- target %>% tfd_sample(10) * 2
 
-  states_and_results <- mcmc_hamiltonian_monte_carlo(
+  states <- mcmc_hamiltonian_monte_carlo(
     target_log_prob_fn = target$log_prob,
     step_size = 0.05,
     num_leapfrog_steps = 20
@@ -195,12 +169,6 @@ test_succeeds("mcmc_potential_scale_reduction works", {
       num_results = 100,
       current_state = initial_state
     )
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   rhat <- mcmc_potential_scale_reduction(states)
   expect_equal(rhat$get_shape() %>% length(), 2)
@@ -227,17 +195,11 @@ test_succeeds("mcmc_potential_scale_reduction works", {
       )
     )
 
-  states_and_results <- realnvp_hmc %>% mcmc_sample_chain(
+  states <- realnvp_hmc %>% mcmc_sample_chain(
     num_results = 10,
     current_state = rep(0, dims),
     num_burnin_steps = 5
   )
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   expect_equal(states$get_shape() %>% length(), 2)
 
@@ -457,14 +419,8 @@ test_succeeds("MetropolisAdjustedLangevinAlgorithm works", {
       step_size = 0.75
       )
 
-  states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
+  states <- kernel %>% mcmc_sample_chain(num_results = 100,
                                                      current_state = c(1, 1))
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   expect_equal(states$get_shape() %>% length(), 2)
 })

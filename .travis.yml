@@ -21,8 +21,8 @@ matrix:
         - TFPROBABILITY_VERSION="0.7.0"
     - name: "tf-2"
       env:
-        - TENSORFLOW_VERSION="2.0.0rc0"
-        - TFPROBABILITY_VERSION="0.8.0rc0"
+        - TENSORFLOW_VERSION="2.0"
+        - TFPROBABILITY_VERSION="0.8"
     - name: "tf-nightly"
       env:
         - TENSORFLOW_VERSION="nightly"
