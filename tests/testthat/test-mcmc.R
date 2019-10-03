@@ -21,12 +21,6 @@ test_succeeds("sampling from chain works", {
     trace_fn = NULL
   )
 
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
-
   sample_mean <- tf$reduce_mean(states, axis = 0L)
   sample_stddev <-
     tf$sqrt(tf$reduce_mean(tf$math$squared_difference(states, sample_mean), axis = 0L))
@@ -89,12 +83,6 @@ test_succeeds("MetropolisHastings works", {
   states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
                                                      current_state = 1)
 
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
-
   expect_equal(states$get_shape() %>% length(), 2)
 })
 
@@ -107,12 +95,6 @@ test_succeeds("RandomWalkMetropolis works", {
   states_and_results <-
     kernel %>% mcmc_sample_chain(num_results = 100,
                                  current_state = 1)
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   expect_equal(states$get_shape() %>% length(), 2)
 })
@@ -166,12 +148,6 @@ test_succeeds("mcmc_effective_sample_size works", {
       current_state = c(0, 0)
     )
 
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
-
   ess <- mcmc_effective_sample_size(states)
   variance <- tf$nn$moments(states, axes = 0L)[[2]]
   standard_error <- tf$sqrt(variance / ess)
@@ -193,12 +169,6 @@ test_succeeds("mcmc_potential_scale_reduction works", {
       num_results = 100,
       current_state = initial_state
     )
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   rhat <- mcmc_potential_scale_reduction(states)
   expect_equal(rhat$get_shape() %>% length(), 2)
@@ -230,12 +200,6 @@ test_succeeds("mcmc_potential_scale_reduction works", {
     current_state = rep(0, dims),
     num_burnin_steps = 5
   )
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   expect_equal(states$get_shape() %>% length(), 2)
 
@@ -457,12 +421,6 @@ test_succeeds("MetropolisAdjustedLangevinAlgorithm works", {
 
   states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
                                                      current_state = c(1, 1))
-
-  if (tfp_version() < "0.7") {
-    states <- states_and_results[[1]]
-  } else {
-    states <- states_and_results
-  }
 
   expect_equal(states$get_shape() %>% length(), 2)
 })

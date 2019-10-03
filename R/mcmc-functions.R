@@ -65,31 +65,19 @@ mcmc_sample_chain <- function(kernel = NULL,
                               parallel_iterations = 10,
                               name = NULL) {
   # need to make sure we keep trace_fn here, even if NULL, so no do.call
-  if (tfp_version() >= "0.7") {
-    tfp$mcmc$sample_chain(
-      num_results = as.integer(num_results),
-      current_state = as_tensor(current_state),
-      previous_kernel_results = previous_kernel_results,
-      kernel = kernel,
-      num_burnin_steps = as.integer(num_burnin_steps),
-      num_steps_between_results = as.integer(num_steps_between_results),
-      return_final_kernel_results = return_final_kernel_results,
-      trace_fn = trace_fn,
-      parallel_iterations = as.integer(parallel_iterations),
-      name = name
-    )
-  } else {
-    tfp$mcmc$sample_chain(
-      num_results = as.integer(num_results),
-      current_state = tf$convert_to_tensor(current_state),
-      previous_kernel_results = previous_kernel_results,
-      kernel = kernel,
-      num_burnin_steps = as.integer(num_burnin_steps),
-      num_steps_between_results = as.integer(num_steps_between_results),
-      parallel_iterations = as.integer(parallel_iterations),
-      name = name
-    )
-  }
+
+  tfp$mcmc$sample_chain(
+    num_results = as.integer(num_results),
+    current_state = as_tensor(current_state),
+    previous_kernel_results = previous_kernel_results,
+    kernel = kernel,
+    num_burnin_steps = as.integer(num_burnin_steps),
+    num_steps_between_results = as.integer(num_steps_between_results),
+    return_final_kernel_results = return_final_kernel_results,
+    trace_fn = trace_fn,
+    parallel_iterations = as.integer(parallel_iterations),
+    name = name
+  )
 }
 
 #' Estimate a lower bound on effective sample size for each independent chain.

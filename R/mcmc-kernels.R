@@ -67,11 +67,9 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
     state_gradients_are_stopped = state_gradients_are_stopped,
     step_size_update_fn = step_size_update_fn,
     seed = seed,
+    store_parameters_in_results = store_parameters_in_results,
     name = name
   )
-
-  if (tfp_version() >= "0.7")
-    args$store_parameters_in_results <- store_parameters_in_results
 
   do.call(tfp$mcmc$HamiltonianMonteCarlo, args)
 }
@@ -100,11 +98,9 @@ mcmc_uncalibrated_hamiltonian_monte_carlo <-
       num_leapfrog_steps = as.integer(num_leapfrog_steps),
       state_gradients_are_stopped = state_gradients_are_stopped,
       seed = seed,
+      store_parameters_in_results = store_parameters_in_results,
       name = name
     )
-
-    if (tfp_version() >= "0.7")
-      args$store_parameters_in_results <- store_parameters_in_results
 
     do.call(tfp$mcmc$UncalibratedHamiltonianMonteCarlo, args)
   }
