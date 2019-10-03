@@ -14,7 +14,7 @@ test_succeeds("sampling from chain works", {
     num_leapfrog_steps = 2
   )
 
-  states_and_results <- kernel %>% mcmc_sample_chain(
+  states <- kernel %>% mcmc_sample_chain(
     num_results = 1000,
     num_burnin_steps = 500,
     current_state = rep(0, dims),
@@ -80,7 +80,7 @@ test_succeeds("MetropolisHastings works", {
     )
   )
 
-  states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
+  states <- kernel %>% mcmc_sample_chain(num_results = 100,
                                                      current_state = 1)
 
   expect_equal(states$get_shape() %>% length(), 2)
@@ -92,7 +92,7 @@ test_succeeds("RandomWalkMetropolis works", {
       - x - x ^ 2
   )
 
-  states_and_results <-
+  states <-
     kernel %>% mcmc_sample_chain(num_results = 100,
                                  current_state = 1)
 
@@ -137,7 +137,7 @@ test_succeeds("Can write summaries from trace_fn", {
 test_succeeds("mcmc_effective_sample_size works", {
   target <- tfd_multivariate_normal_diag(scale_diag = c(1, 2))
 
-  states_and_results <- mcmc_hamiltonian_monte_carlo(
+  states <- mcmc_hamiltonian_monte_carlo(
     target_log_prob_fn = target$log_prob,
     step_size = 0.05,
     num_leapfrog_steps = 20
@@ -159,7 +159,7 @@ test_succeeds("mcmc_potential_scale_reduction works", {
 
   initial_state <- target %>% tfd_sample(10) * 2
 
-  states_and_results <- mcmc_hamiltonian_monte_carlo(
+  states <- mcmc_hamiltonian_monte_carlo(
     target_log_prob_fn = target$log_prob,
     step_size = 0.05,
     num_leapfrog_steps = 20
@@ -195,7 +195,7 @@ test_succeeds("mcmc_potential_scale_reduction works", {
       )
     )
 
-  states_and_results <- realnvp_hmc %>% mcmc_sample_chain(
+  states <- realnvp_hmc %>% mcmc_sample_chain(
     num_results = 10,
     current_state = rep(0, dims),
     num_burnin_steps = 5
@@ -419,7 +419,7 @@ test_succeeds("MetropolisAdjustedLangevinAlgorithm works", {
       step_size = 0.75
       )
 
-  states_and_results <- kernel %>% mcmc_sample_chain(num_results = 100,
+  states <- kernel %>% mcmc_sample_chain(num_results = 100,
                                                      current_state = c(1, 1))
 
   expect_equal(states$get_shape() %>% length(), 2)
