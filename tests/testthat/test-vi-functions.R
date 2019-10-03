@@ -124,6 +124,8 @@ test_succeeds("vi_modified_gan works", {
 })
 
 test_succeeds("vi_dual_csiszar_function works", {
+
+  skip_if_tfp_below("0.8")
   u <- 2
   logu <- log(u)
   dual_csiszar_function <- vi_kl_forward
