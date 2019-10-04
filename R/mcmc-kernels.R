@@ -790,7 +790,7 @@ mcmc_replica_exchange_mc <- function(target_log_prob_fn,
 #'
 #' @section References:
 #' - [Radford M. Neal. Slice Sampling. The Annals of Statistics. 2003, Vol 31, No. 3 , 705-767.](https://projecteuclid.org/download/pdf_1/euclid.aos/1056562461)
-#' - [C.J.P. Belisle, H.E. Romeijn, R.L. Smith. Hit-and-run algorithms for generating multivariate distributions. Math. Oper. Res., 18(1993), 225-266.](https://www.jstor.org/stable/3690278?seq=1#page_scan_tab_contents)
+#' - C.J.P. Belisle, H.E. Romeijn, R.L. Smith. \cite{Hit-and-run algorithms for generating multivariate distributions. Math. Oper. Res., 18(1993), 225-266.}
 #'
 #' @inheritParams mcmc_hamiltonian_monte_carlo
 #' @family mcmc_kernels

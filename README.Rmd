@@ -9,7 +9,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  eval = FALSE
 )
 library(tfprobability)
 ```
@@ -30,30 +31,30 @@ Its building blocks include a vast range of distributions and invertible transfo
 
 ## Installation
 
+Install the released version of usethis from CRAN:
+
+```{r}
+install.packages("tfprobability")
+```
+
 To install `tfprobability` from github, do
 
 ```
 devtools::install_github("rstudio/tfprobability")
 ```
 
-TensorFlow Probability depends on TensorFlow, and in the same way, `tfprobability` depends on a working installation of the R packages `tensorflow` and `keras`. To get the most up-to-date versions of these packages, install them from github as well:
+Then, use the `install_tfprobability()` function to install TensorFlow and TensorFlow Probability python modules.
 
-```
-devtools::install_github("rstudio/tensorflow")
-devtools::install_github("rstudio/keras")
+```{r}
+library(tfprobability)
+install_tfprobability()
 ```
 
-As to the Python backend, if you do 
-
-```
-library(tensorflow)
-install_tensorflow()
-```
 
 you will automatically get the current stable version of TensorFlow Probability together with TensorFlow. Correspondingly, if you need nightly builds, 
 
 ```
-install_tensorflow(version = "nightly")
+install_tfprobability(version = "nightly")
 ```
 
 will get you the nightly build of TensorFlow as well as TensorFlow Probability.

@@ -1112,7 +1112,7 @@ tfb_scale_tri_l <- function(diag_bijector = NULL,
 #' transformation is a diffeomorphism of the real line `(-inf, inf)`.
 #' The inverse transform is `X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness )`.
 #' The SinhArcsinh transformation of the Normal is described in
-#' [Sinh-arcsinh distributions](https://www.jstor.org/stable/27798865)
+#' [Sinh-arcsinh distributions](https://oro.open.ac.uk/22510/)
 #'
 #' This Bijector allows a similar transformation of any distribution supported on `(-inf, inf)`.
 #'

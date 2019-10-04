@@ -2,3 +2,7 @@
 ^tfprobability\.Rproj$
 ^\.Rproj\.user$
 ^appveyor\.yml$
+^README\.Rmd$
+^\.travis\.yml$
+^docs/*$
+^pkgdown/*$

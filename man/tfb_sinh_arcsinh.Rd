@@ -22,7 +22,7 @@ For skewness in \code{(-inf, inf)} and tailweight in \code{(0, inf)}, this
 transformation is a diffeomorphism of the real line \code{(-inf, inf)}.
 The inverse transform is \code{X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness )}.
 The SinhArcsinh transformation of the Normal is described in
-\href{https://www.jstor.org/stable/27798865}{Sinh-arcsinh distributions}
+\href{https://oro.open.ac.uk/22510/}{Sinh-arcsinh distributions}
 }
 \details{
 This Bijector allows a similar transformation of any distribution supported on \code{(-inf, inf)}.Meaning of the parameters

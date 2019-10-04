@@ -41,7 +41,7 @@ This distribution models a random variable, making use of
 a \code{SinhArcsinh} transformation (which has adjustable tailweight and skew),
 a rescaling, and a shift.
 The \code{SinhArcsinh} transformation of the Normal is described in great depth in
-\href{https://www.jstor.org/stable/27798865}{Sinh-arcsinh distributions}.
+\href{https://oro.open.ac.uk/22510/}{Sinh-arcsinh distributions}.
 Here we use a slightly different parameterization, in terms of \code{tailweight}
 and \code{skewness}.  Additionally we allow for distributions other than Normal,
 and control over \code{scale} as well as a "shift" parameter \code{loc}.

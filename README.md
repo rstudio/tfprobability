@@ -8,6 +8,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![Build
 Status](https://travis-ci.org/rstudio/tfprobability.svg?branch=master)](https://travis-ci.org/rstudio/tfprobability)
 [![codecov](https://codecov.io/gh/rstudio/tfprobability/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/tfprobability)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/rstudio/tfprobability?branch=master&svg=true)](https://ci.appveyor.com/project/rstudio/tfprobability)
 <!-- badges: end -->
 
 # tfprobability: R interface to TensorFlow Probability
@@ -23,28 +25,29 @@ variational inference and Markov Chain Monte Carlo.
 
 ## Installation
 
+Install the released version of usethis from CRAN:
+
+``` r
+install.packages("tfprobability")
+```
+
 To install `tfprobability` from github, do
 
     devtools::install_github("rstudio/tfprobability")
 
-TensorFlow Probability depends on TensorFlow, and in the same way,
-`tfprobability` depends on a working installation of the R packages
-`tensorflow` and `keras`. To get the most up-to-date versions of these
-packages, install them from github as well:
+Then, use the `install_tfprobability()` function to install TensorFlow
+and TensorFlow Probability python modules.
 
-    devtools::install_github("rstudio/tensorflow")
-    devtools::install_github("rstudio/keras")
-
-As to the Python backend, if you do
-
-    library(tensorflow)
-    install_tensorflow()
+``` r
+library(tfprobability)
+install_tfprobability()
+```
 
 you will automatically get the current stable version of TensorFlow
 Probability together with TensorFlow. Correspondingly, if you need
 nightly builds,
 
-    install_tensorflow(version = "nightly")
+    install_tfprobability(version = "nightly")
 
 will get you the nightly build of TensorFlow as well as TensorFlow
 Probability.
@@ -85,13 +88,10 @@ d <- tfd_binomial(total_count = 7, probs = 0.3)
 
 # compute mean
 d %>% tfd_mean()
-#> tf.Tensor(2.1000001, shape=(), dtype=float32)
 # compute variance
 d %>% tfd_variance()
-#> tf.Tensor(1.47, shape=(), dtype=float32)
 # compute probability
 d %>% tfd_prob(2.3)
-#> tf.Tensor(0.30379143, shape=(), dtype=float32)
 ```
 
 #### Example: Hidden Markov Model
@@ -123,10 +123,8 @@ d <- tfd_hidden_markov_model(
 )
 # The expected temperatures for each day are given by:
 d %>% tfd_mean()  # shape [7], elements approach 9.0
-#> tf.Tensor([2.9999998 5.9999995 7.4999995 8.25      8.625001  8.812501  8.90625  ], shape=(7,), dtype=float32)
 # The log pdf of a week of temperature 0 is:
 d %>% tfd_log_prob(rep(0, 7)) 
-#> tf.Tensor(-20.120832, shape=(), dtype=float32)
 ```
 
 ### Bijectors
@@ -147,7 +145,6 @@ b <- tfb_affine_scalar(shift = 3.33, scale = 0.5)
 # apply the transformation
 x <- c(100, 1000, 10000)
 b %>% tfb_forward(x)
-#> tf.Tensor([  53.33  503.33 5003.33], shape=(3,), dtype=float32)
 ```
 
 #### Discrete cosine transform bijector
@@ -159,10 +156,6 @@ b <- tfb_discrete_cosine_transform()
 # run on sample data
 x <- matrix(runif(3))
 b %>% tfb_forward(x)
-#> tf.Tensor(
-#> [[0.8329914 ]
-#>  [0.35072786]
-#>  [0.06882364]], shape=(3, 1), dtype=float32)
 ```
 
 ### Keras layers
