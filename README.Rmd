@@ -31,7 +31,7 @@ Its building blocks include a vast range of distributions and invertible transfo
 
 ## Installation
 
-Install the released version of usethis from CRAN:
+Install the released version of `tfprobability` from CRAN:
 
 ```{r}
 install.packages("tfprobability")

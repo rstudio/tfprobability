@@ -25,7 +25,7 @@ variational inference and Markov Chain Monte Carlo.
 
 ## Installation
 
-Install the released version of usethis from CRAN:
+Install the released version of `tfprobability` from CRAN:
 
 ``` r
 install.packages("tfprobability")
