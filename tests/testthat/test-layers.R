@@ -289,222 +289,427 @@ test_succeeds("layer_dense_variational works", {
 })
 
 test_succeeds("layer_dense_reparameterization works", {
-
   library(keras)
 
-  x = tf$ones(shape = c(150,1))
+  x = tf$ones(shape = c(150, 1))
   y = tf$ones(150)
+
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
+
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
 
   model <- keras_model_sequential(list(
     layer_dense_reparameterization(
       units = 512,
-      activation = "relu"
+      activation = "relu",
+      kernel_divergence_fn = kl_div
     ),
-    layer_dense_reparameterization(
-      units = 1
-    )))
+    layer_dense_reparameterization(units = 1,
+                                   kernel_divergence_fn = kl_div)
+  ))
 
-  model %>% compile(optimizer = 'adam', loss = "mse")
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$keras$losses$mean_squared_error(y_true, y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(150,1))
+  expect_equal(yhat$get_shape()$as_list(), c(150, 1))
   expect_equal(length(model$losses), 2)
 })
 
 test_succeeds("layer_dense_flipout works", {
-
   library(keras)
 
-  x = tf$ones(shape = c(150,1))
+  x = tf$ones(shape = c(150, 1))
   y = tf$ones(150)
+
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
+
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
 
   model <- keras_model_sequential(list(
     layer_dense_flipout(
       units = 512,
-      activation = "relu"
+      activation = "relu",
+      kernel_divergence_fn = kl_div
     ),
-    layer_dense_flipout(
-      units = 1
-    )))
+    layer_dense_flipout(units = 1,
+                        kernel_divergence_fn = kl_div)
+  ))
 
-  model %>% compile(optimizer = 'adam', loss = "mse")
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$keras$losses$mean_squared_error(y_true, y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(150,1))
+  expect_equal(yhat$get_shape()$as_list(), c(150, 1))
   expect_equal(length(model$losses), 2)
 })
 
 
 test_succeeds("layer_dense_local_reparameterization works", {
-
   library(keras)
 
-  x = tf$ones(shape = c(150,1))
+  x = tf$ones(shape = c(150, 1))
   y = tf$ones(150)
 
-  model <- keras_model_sequential(list(
-    layer_dense_local_reparameterization(
-      units = 512,
-      activation = "relu"
-    ),
-    layer_dense_local_reparameterization(
-      units = 1
-    )))
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
 
-  model %>% compile(optimizer = 'adam', loss = "mse")
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
+
+  model <- keras_model_sequential(
+    list(
+      layer_dense_local_reparameterization(
+        units = 512,
+        activation = "relu",
+        kernel_divergence_fn = kl_div
+      ),
+      layer_dense_local_reparameterization(units = 1,
+                                           kernel_divergence_fn = kl_div)
+    )
+  )
+
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$keras$losses$mean_squared_error(y_true, y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(150,1))
+  expect_equal(yhat$get_shape()$as_list(), c(150, 1))
   expect_equal(length(model$losses), 2)
 })
 
 test_succeeds("layer_conv_1d_reparameterization works", {
-
   skip_if_tf_below("2.0")
 
   library(keras)
 
   x = tf$ones(shape = c(150, 1, 1))
-  y = tf$ones(150, 10)
+  y = tf$ones(shape = c(150, 10))
 
-  model <- keras_model_sequential(list(
-    layer_conv_1d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
-    layer_flatten(),
-    layer_dense_reparameterization(units = 10)
-  ))
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
 
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
+
+  model <- keras_model_sequential(
+    list(
+      layer_conv_1d_reparameterization(
+        filters = 64,
+        kernel_size = 5,
+        padding = "same",
+        activation = "relu",
+        kernel_divergence_fn = kl_div
+      ),
+      layer_flatten(),
+      layer_dense_reparameterization(units = 10, kernel_divergence_fn = kl_div)
+    )
+  )
+
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$nn$softmax_cross_entropy_with_logits(labels = y_true, logits = y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(150,10))
+  expect_equal(yhat$get_shape()$as_list(), c(150, 10))
   expect_equal(length(model$losses), 2)
 })
 
 test_succeeds("layer_conv_1d_flipout works", {
-
   skip_if_tf_below("2.0")
 
   library(keras)
 
   x = tf$ones(shape = c(150, 1, 1))
-  y = tf$ones(150, 10)
+  y = tf$ones(shape = c(150, 10))
+
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
+
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
 
   model <- keras_model_sequential(list(
-    layer_conv_1d_flipout(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
+    layer_conv_1d_flipout(
+      filters = 64,
+      kernel_size = 5,
+      padding = "same",
+      activation = "relu",
+      kernel_divergence_fn = kl_div
+    ),
     layer_flatten(),
-    layer_dense_flipout(units = 10)
+    layer_dense_flipout(units = 10, kernel_divergence_fn = kl_div)
   ))
 
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$nn$softmax_cross_entropy_with_logits(labels = y_true, logits = y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(150,10))
+  expect_equal(yhat$get_shape()$as_list(), c(150, 10))
   expect_equal(length(model$losses), 2)
 })
 
 
 test_succeeds("layer_conv_2d_reparameterization works", {
-
   skip_if_tf_below("2.0")
 
   library(keras)
 
   x = tf$ones(shape = c(7, 32, 32, 3))
-  y = tf$ones(7, 10)
+  y = tf$ones(shape = c(7, 10))
 
-  model <- keras_model_sequential(list(
-    layer_conv_2d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
-    layer_max_pooling_2d(),
-    layer_flatten(),
-    layer_dense_reparameterization(units = 10)
-  ))
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
 
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
+
+  model <- keras_model_sequential(
+    list(
+      layer_conv_2d_reparameterization(
+        filters = 64,
+        kernel_size = 5,
+        padding = "same",
+        activation = "relu",
+        kernel_divergence_fn = kl_div
+      ),
+      layer_max_pooling_2d(),
+      layer_flatten(),
+      layer_dense_reparameterization(units = 10, kernel_divergence_fn = kl_div)
+    )
+  )
+
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$nn$softmax_cross_entropy_with_logits(labels = y_true, logits = y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(yhat$get_shape()$as_list(), c(7, 10))
   expect_equal(length(model$losses), 2)
 })
 
 test_succeeds("layer_conv_2d_flipout works", {
-
   skip_if_tf_below("2.0")
 
   library(keras)
 
   x = tf$ones(shape = c(7, 32, 32, 3))
-  y = tf$ones(7, 10)
+  y = tf$ones(shape = c(7, 10))
 
-  model <- keras_model_sequential(list(
-    layer_conv_2d_flipout(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
-    layer_max_pooling_2d(),
-    layer_flatten(),
-    layer_dense_flipout(units = 10)
-  ))
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
 
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
+
+  model <- keras_model_sequential(
+    list(
+      layer_conv_2d_flipout(
+        filters = 64,
+        kernel_size = 5,
+        padding = "same",
+        activation = "relu",
+        kernel_divergence_fn = kl_div
+      ),
+      layer_max_pooling_2d(),
+      layer_flatten(),
+      layer_dense_flipout(units = 10, kernel_divergence_fn = kl_div)
+    )
+  )
+
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$nn$softmax_cross_entropy_with_logits(labels = y_true, logits = y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(yhat$get_shape()$as_list(), c(7, 10))
   expect_equal(length(model$losses), 2)
 })
 
 
 test_succeeds("layer_conv_3d_reparameterization works", {
-
   skip_if_tf_below("2.0")
 
   library(keras)
 
   x = tf$ones(shape = c(7, 16, 4, 4, 3))
-  y = tf$ones(7, 10)
+  y = tf$ones(shape = c(7, 10))
 
-  model <- keras_model_sequential(list(
-    layer_conv_3d_reparameterization(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
-    layer_max_pooling_3d(),
-    layer_flatten(),
-    layer_dense_reparameterization(units = 10)
-  ))
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
 
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
+
+  model <- keras_model_sequential(
+    list(
+      layer_conv_3d_reparameterization(
+        filters = 64,
+        kernel_size = 5,
+        padding = "same",
+        activation = "relu",
+        kernel_divergence_fn = kl_div
+      ),
+      layer_max_pooling_3d(),
+      layer_flatten(),
+      layer_dense_reparameterization(units = 10, kernel_divergence_fn = kl_div)
+    )
+  )
+
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$nn$softmax_cross_entropy_with_logits(labels = y_true, logits = y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(yhat$get_shape()$as_list(), c(7, 10))
   expect_equal(length(model$losses), 2)
 })
 
 test_succeeds("layer_conv_3d_flipout works", {
-
   skip_if_tf_below("2.0")
 
   library(keras)
 
   x = tf$ones(shape = c(7, 16, 4, 4, 3))
-  y = tf$ones(7, 10)
+  y = tf$ones(shape = c(7, 10))
 
-  model <- keras_model_sequential(list(
-    layer_conv_3d_flipout(filters = 64, kernel_size = 5, padding = "same", activation = "relu"),
-    layer_max_pooling_3d(),
-    layer_flatten(),
-    layer_dense_flipout(units = 10)
-  ))
+  n <- dim(y)[1] %>% tf$cast(tf$float32)
 
-  model %>% compile(optimizer = 'adam', loss = "categorical_crossentropy", experimental_run_tf_function = FALSE)
+  kl_div <- function(q, p, unused)
+    tfd_kl_divergence(q, p) / n
+
+  model <- keras_model_sequential(
+    list(
+      layer_conv_3d_flipout(
+        filters = 64,
+        kernel_size = 5,
+        padding = "same",
+        activation = "relu",
+        kernel_divergence_fn = kl_div
+      ),
+      layer_max_pooling_3d(),
+      layer_flatten(),
+      layer_dense_flipout(units = 10, kernel_divergence_fn = kl_div)
+    )
+  )
+
+  bayesian_loss <- function() {
+    function(y_true, y_pred) {
+      nll <-
+        tf$nn$softmax_cross_entropy_with_logits(labels = y_true, logits = y_pred)
+      kl <- tf$reduce_sum(model$losses)
+      nll + kl
+    }
+  }
+
+  model %>% compile(
+    optimizer = 'adam',
+    loss = bayesian_loss(),
+    experimental_run_tf_function = FALSE
+  )
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
-  expect_equal(yhat$get_shape()$as_list(), c(7,10))
+  expect_equal(yhat$get_shape()$as_list(), c(7, 10))
   expect_equal(length(model$losses), 2)
 })
-
 
 
 
