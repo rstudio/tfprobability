@@ -687,13 +687,11 @@ vi_symmetrized_csiszar_function <-
 #' Rather, it is characterized by:
 #' ```
 #' grad[vimco] - variance_reducing_term
+#' ```
 #' where,
-#' variance_reducing_term = Sum{ grad[log q(h[i] | x)] *
-#' (vimco - f(log Avg{h[j;i] : j=0,...,m-1}))
-#' : i=0, ..., m-1 }
-#' h[j;i] = { u[j]
-#' j!=i
-#' { GeometricAverage{ u[k] : k!=i}   j==i
+#' ```
+#' variance_reducing_term = Sum{ grad[log q(h[i] | x)] * (vimco - f(log Avg{h[j;i] : j=0,...,m-1})) #' : i=0, ..., m-1 }
+#' h[j;i] =  u[j]  for j!=i,  GeometricAverage{ u[k] : k!=i} for j==i
 #' ```
 #'
 #' (We omitted `stop_gradient` for brevity. See implementation for more details.)
