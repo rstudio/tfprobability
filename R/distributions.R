@@ -29,6 +29,7 @@
 #' @param name name prefixed to Ops created by this class.
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_normal <- function(loc,
                        scale,
@@ -88,6 +89,7 @@ tfd_normal <- function(loc,
 #' @param name The name for ops managed by the distribution.  Default value: Independent + distribution.name.
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_independent <- function(distribution,
                             reinterpreted_batch_ndims = NULL,
@@ -121,6 +123,7 @@ tfd_independent <- function(distribution,
 #' @param dtype The type of the event samples. Default: int32.
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_bernoulli <- function(logits = NULL,
                           probs = NULL,
@@ -194,6 +197,7 @@ tfd_bernoulli <- function(logits = NULL,
 #'  `k x k` identity matrices added to scale. When both scale_identity_multiplier and scale_diag
 #'   are NULL then scale is the Identity.
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_multivariate_normal_diag <- function(loc = NULL,
                                          scale_diag = NULL,
@@ -235,6 +239,7 @@ tfd_multivariate_normal_diag <- function(loc = NULL,
 #'   vector of probabilities for each class. Only one of logits or probs should be passed in.
 #' @param dtype The type of the event samples (default: int32).
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_one_hot_categorical <- function(logits = NULL,
                                     probs = NULL,
@@ -288,6 +293,7 @@ tfd_one_hot_categorical <- function(logits = NULL,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_relaxed_one_hot_categorical <- function(temperature,
                                             logits = NULL,
@@ -349,6 +355,7 @@ tfd_relaxed_one_hot_categorical <- function(temperature,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_relaxed_bernoulli <- function(temperature,
                                   logits = NULL,
@@ -415,6 +422,7 @@ tfd_relaxed_bernoulli <- function(temperature,
 #'  silently render incorrect outputs. Default value: FALSE.
 #' @param name The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_transformed_distribution <- function(distribution,
                                          bijector,
@@ -471,6 +479,7 @@ tfd_transformed_distribution <- function(distribution,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_zipf <- function(power,
                      dtype = tf$int32,
@@ -533,6 +542,7 @@ tfd_zipf <- function(power,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_wishart <- function(df,
                         scale = NULL,
@@ -588,6 +598,7 @@ tfd_wishart <- function(df,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_von_mises_fisher <- function(mean_direction,
                                  concentration,
@@ -646,6 +657,7 @@ tfd_von_mises_fisher <- function(mean_direction,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_von_mises <- function(loc,
                           concentration,
@@ -746,6 +758,7 @@ tfd_von_mises <- function(loc,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
                                          scale_diag = NULL,
@@ -830,6 +843,7 @@ tfd_vector_sinh_arcsinh_diag <- function(loc = NULL,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_vector_laplace_linear_operator <- function(loc = NULL,
                                                scale = NULL,
@@ -914,6 +928,7 @@ tfd_vector_laplace_linear_operator <- function(loc = NULL,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_vector_laplace_diag <- function(loc = NULL,
                                     scale_diag = NULL,
@@ -1004,6 +1019,7 @@ tfd_vector_laplace_diag <- function(loc = NULL,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_vector_exponential_diag <- function(loc = NULL,
                                         scale_diag = NULL,
@@ -1084,6 +1100,7 @@ tfd_vector_exponential_diag <- function(loc = NULL,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_vector_exponential_linear_operator <- function(loc = NULL,
                                                    scale = NULL,
@@ -1201,6 +1218,7 @@ tfd_vector_exponential_linear_operator <- function(loc = NULL,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_vector_diffeomixture <- function(mix_loc,
                                      temperature,
@@ -1429,6 +1447,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' matrix to ensure positive definiteness of the covariance matrix. Default value: `1e-6`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_variational_gaussian_process <- function(kernel,
                                              index_points,
@@ -1486,6 +1505,7 @@ tfd_variational_gaussian_process <- function(kernel,
 #' @inheritParams tfd_normal
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_uniform <- function(low = 0,
                         high = 1,
@@ -1535,6 +1555,7 @@ tfd_uniform <- function(low = 0,
 #' support. Must be such that `low < high`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_truncated_normal <- function(loc,
                                  scale,
@@ -1570,6 +1591,7 @@ tfd_truncated_normal <- function(loc,
 #'
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_triangular <- function(low = 0,
                            high = 1,
@@ -1632,6 +1654,7 @@ tfd_triangular <- function(low = 0,
 #' standard deviation than variance.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_student_t <- function(df,
                           loc,
@@ -1737,6 +1760,7 @@ tfd_student_t <- function(df,
 #' matrix to ensure positive definiteness of the covariance matrix. Default value: `1e-6`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_student_t_process <- function(df,
                                   kernel,
@@ -1832,6 +1856,7 @@ tfd_student_t_process <- function(df,
 #'  the gradient will be incorrect!
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_sinh_arcsinh <- function(loc,
                              scale,
@@ -1915,6 +1940,7 @@ tfd_sinh_arcsinh <- function(loc,
 #' `high` must be strictly greater than `low`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_quantized <- function(distribution,
                           low = NULL,
@@ -1957,6 +1983,7 @@ tfd_quantized <- function(distribution,
 #' a normalized probability log-density). Default value: `TRUE`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_poisson <- function(rate = NULL,
                         log_rate = NULL,
@@ -2030,6 +2057,7 @@ tfd_poisson <- function(rate = NULL,
 #' Default value: `quadrature_scheme_lognormal_quantiles`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_poisson_log_normal_quadrature_compound <- function(loc,
                                                        scale,
@@ -2076,6 +2104,7 @@ tfd_poisson_log_normal_quadrature_compound <- function(loc,
 #' Must contain only positive values. Default value: `1`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_pareto <- function(concentration,
                        scale = 1,
@@ -2133,6 +2162,7 @@ tfd_pareto <- function(concentration,
 #' `(0, 1)`. Only one of `logits` or `probs` should be specified.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_negative_binomial <- function(total_count,
                                   logits = NULL,
@@ -2202,6 +2232,7 @@ tfd_negative_binomial <- function(total_count,
 #' `b >= 0` and `k` is the event size.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_multivariate_normal_tri_l <- function(loc = NULL,
                                           scale_tril = NULL,
@@ -2261,6 +2292,7 @@ tfd_multivariate_normal_tri_l <- function(loc = NULL,
 #' `[B1, ..., Bb, k, k]`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_multivariate_normal_linear_operator <- function(loc = NULL,
                                                     scale = NULL,
@@ -2326,6 +2358,7 @@ tfd_multivariate_normal_linear_operator <- function(loc = NULL,
 #' `[B1, ..., Bb, k, k]` where `b >= 0` and `k` is the event size.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_multivariate_normal_full_covariance <- function(loc = NULL,
                                                     covariance_matrix = NULL,
@@ -2411,6 +2444,7 @@ tfd_multivariate_normal_full_covariance <- function(loc = NULL,
 #' `NULL`, an identity matrix is used inside the perturbation. Can only be
 #' specified if `scale_perturb_factor` is also specified.
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
                                                        scale_diag = NULL,
@@ -2468,6 +2502,7 @@ tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
 #' `[B1, ..., Bb, k, k]`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_multivariate_student_t_linear_operator <- function(df,
                                                        loc,
@@ -2541,6 +2576,7 @@ tfd_multivariate_student_t_linear_operator <- function(df,
 #' should sum to `1`. Only one of `logits` or `probs` should be passed in.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_multinomial <- function(total_count,
                             logits = NULL,
@@ -2580,6 +2616,7 @@ tfd_multinomial <- function(total_count,
 #' (Possibly useful when running on TPUs). Default value: `FALSE` (i.e., use dynamic indexing).
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_mixture <- function(cat,
                         components,
@@ -2639,6 +2676,7 @@ tfd_mixture <- function(cat,
 #' @param dtype The type of the event samples (default: int32).
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_categorical <- function(logits = NULL,
                             probs = NULL,
@@ -2695,6 +2733,7 @@ tfd_categorical <- function(logits = NULL,
 #'
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_mixture_same_family <- function(mixture_distribution,
                                     components_distribution,
@@ -2727,6 +2766,7 @@ tfd_mixture_same_family <- function(mixture_distribution,
 #' Normal distribution(s).
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_log_normal <- function(loc = NULL,
                            scale = NULL,
@@ -2768,6 +2808,7 @@ tfd_log_normal <- function(loc = NULL,
 #' contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_logistic <- function(loc,
                          scale ,
@@ -2788,7 +2829,7 @@ tfd_logistic <- function(loc,
 
 #' LKJ distribution on correlation matrices
 #'
-#' This is a one-parameter family of distributions on correlation matrices.  The
+#' This is a one-parameter  of distributions on correlation matrices.  The
 #' probability density is proportional to the determinant raised to the power of
 #' the parameter: `pdf(X; eta) = Z(eta) * det(X) ** (eta - 1)`, where `Z(eta)` is
 #' a normalization constant.  The uniform distribution on correlation matrices is
@@ -2813,6 +2854,7 @@ tfd_logistic <- function(loc,
 #' Default value: `FALSE` (i.e., input/output does not have Cholesky semantics).
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_lkj <- function(dimension,
                     concentration,
@@ -2844,6 +2886,7 @@ tfd_lkj <- function(dimension,
 #' parameter of the CholeskyLKJ distributions.
 #' @inheritParams tfd_lkj
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_cholesky_lkj <- function(dimension,
                              concentration,
@@ -2950,6 +2993,7 @@ tfd_cholesky_lkj <- function(dimension,
 #' timestep-specific transition and observation models.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_linear_gaussian_state_space_model <- function(num_timesteps,
                                                   transition_matrix,
@@ -3005,6 +3049,7 @@ tfd_linear_gaussian_state_space_model <- function(num_timesteps,
 #' the distribution.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_laplace <- function(loc,
                         scale ,
@@ -3049,6 +3094,7 @@ tfd_laplace <- function(loc,
 #' `concentration1`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_kumaraswamy <- function(concentration1 = 1,
                             concentration0 = 1,
@@ -3107,6 +3153,7 @@ tfd_kumaraswamy <- function(concentration1 = 1,
 #' new `tfp$distributions$Distribution` instance.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_joint_distribution_sequential <- function(model,
                                               validate_args = FALSE,
@@ -3161,6 +3208,7 @@ tfd_joint_distribution_sequential <- function(model,
 #' @param name The name for ops managed by the distribution. Default value: `"JointDistributionNamed"`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_joint_distribution_named <- function(model,
                                          validate_args = FALSE,
@@ -3210,6 +3258,7 @@ tfd_joint_distribution_named <- function(model,
 #' positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_exponential <- function(rate,
                             validate_args = FALSE,
@@ -3274,6 +3323,7 @@ tfd_exponential <- function(rate,
 #' distribution(s). Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_gamma <- function(concentration,
                       rate,
@@ -3331,6 +3381,7 @@ tfd_gamma <- function(concentration,
 #' @param concentration Floating-point `Tensor`, the concentration params. Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_inverse_gaussian <- function(loc,
                                  concentration,
@@ -3396,6 +3447,7 @@ tfd_inverse_gaussian <- function(loc,
 #' Must contain only positive values. This parameter was called `rate` before release 0.8.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_inverse_gamma <- function(concentration,
                               scale,
@@ -3441,6 +3493,7 @@ tfd_inverse_gamma <- function(concentration,
 #' @param scale Floating point tensor; the scales of the distribution(s). Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_horseshoe <- function(scale,
                           validate_args = FALSE,
@@ -3500,6 +3553,7 @@ tfd_horseshoe <- function(scale,
 #' @param num_steps The number of steps taken in Markov chain. An `integer`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_hidden_markov_model <- function(initial_distribution,
                                     transition_distribution,
@@ -3546,6 +3600,7 @@ tfd_hidden_markov_model <- function(initial_distribution,
 #' Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_half_normal <- function(scale,
                             validate_args = FALSE,
@@ -3584,6 +3639,7 @@ tfd_half_normal <- function(scale,
 #' Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_half_cauchy <- function(loc,
                             scale,
@@ -3645,6 +3701,7 @@ tfd_half_cauchy <- function(loc,
 #' number of failures; aka "beta". Otherwise has same semantics as `concentration1`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_beta <- function(concentration1 = NULL,
                      concentration0 = NULL,
@@ -3701,6 +3758,7 @@ tfd_beta <- function(concentration1 = NULL,
 #' of `logits` or `probs` should be passed in.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_binomial <- function(total_count,
                          logits = NULL,
@@ -3743,6 +3801,7 @@ tfd_binomial <- function(total_count,
 #' Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_cauchy <- function(loc,
                        scale,
@@ -3807,6 +3866,7 @@ tfd_cauchy <- function(loc,
 #' distribution(s). Must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_gamma_gamma <- function(concentration,
                             mixing_concentration,
@@ -3852,6 +3912,7 @@ tfd_gamma_gamma <- function(concentration,
 #'  `df` must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_chi <- function(df,
                     validate_args = FALSE,
@@ -3893,6 +3954,7 @@ tfd_chi <- function(df,
 #' distribution(s). `df` must contain only positive values.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_chi2 <- function(df,
                      validate_args = FALSE,
@@ -3979,6 +4041,7 @@ tfd_gumbel <- function(loc,
 #' or `probs` should be specified.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_geometric <- function(logits = NULL,
                           probs = NULL,
@@ -4046,6 +4109,7 @@ tfd_geometric <- function(logits = NULL,
 #' `batch_shape = [N1, N2, ..., Nm]` and `event_shape = [k]`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_dirichlet <- function(concentration,
                           validate_args = FALSE,
@@ -4126,6 +4190,7 @@ tfd_dirichlet <- function(concentration,
 #' multinomial distributions.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_dirichlet_multinomial <- function(total_count,
                                       concentration,
@@ -4168,6 +4233,7 @@ tfd_dirichlet_multinomial <- function(total_count,
 #' Default is `0`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_deterministic <- function(loc,
                               atol = NULL,
@@ -4215,6 +4281,7 @@ tfd_deterministic <- function(loc,
 #' distribution has vector-like samples.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_empirical <- function(samples,
                           event_ndims = 0,
@@ -4243,6 +4310,7 @@ tfd_empirical <- function(samples,
 #' `-1`, meaning the remainder of the batch size.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_batch_reshape <- function(distribution,
                               batch_shape,
@@ -4313,6 +4381,7 @@ tfd_batch_reshape <- function(distribution,
 #' e.g., `num_steps=2` implies `distribution_fn(distribution_fn(sample0)$sample(n))$sample()`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_autoregressive <- function(distribution_fn,
                                sample0 = NULL,
@@ -4439,6 +4508,7 @@ tfd_autoregressive <- function(distribution_fn,
 #' matrix to ensure positive definiteness of the covariance matrix. Default value: `1e-6`.
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_gaussian_process <- function(kernel,
                                  index_points,
@@ -4466,6 +4536,7 @@ tfd_gaussian_process <- function(kernel,
 #'
 #' @inheritParams tfd_gaussian_process
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #'
 #' @param observation_index_points Tensor representing finite collection, or batch
 #'  of collections, of points in the index set for which some data has been observed.
@@ -4542,6 +4613,7 @@ tfd_gaussian_process_regression_model <- function(kernel,
 #' Default value: `NULL` (i.e., `'Sample' + distribution$name`).
 #' @inheritParams tfd_normal
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_sample_distribution <- function(distribution,
                                     sample_shape = list(),

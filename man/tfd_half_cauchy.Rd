@@ -40,6 +40,8 @@ where \code{loc} is a scalar in \code{R} and \code{scale} is a positive scalar i
 The support of the distribution is given by the interval \code{[loc, infinity)}.
 }
 \seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+
 Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_batch_reshape}},
   \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
