@@ -16,3 +16,5 @@ This is a resubmission. In this version I have:
 * added single quotes to software names in the description
 * added examples how to use distributions
 * added examples how to use bijectors
+* added examples how to use the most important MCMC kernels
+

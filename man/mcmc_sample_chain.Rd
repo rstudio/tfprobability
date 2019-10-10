@@ -78,6 +78,30 @@ accordingly. See below for some examples of this feature.
 }
 }
 
+\examples{
+\donttest{
+  dims <- 10
+  true_stddev <- sqrt(seq(1, 3, length.out = dims))
+  likelihood <- tfd_multivariate_normal_diag(scale_diag = true_stddev)
+
+  kernel <- mcmc_hamiltonian_monte_carlo(
+    target_log_prob_fn = likelihood$log_prob,
+    step_size = 0.5,
+    num_leapfrog_steps = 2
+  )
+
+  states <- kernel \%>\% mcmc_sample_chain(
+    num_results = 1000,
+    num_burnin_steps = 500,
+    current_state = rep(0, dims),
+    trace_fn = NULL
+  )
+
+  sample_mean <- tf$reduce_mean(states, axis = 0L)
+  sample_stddev <- tf$sqrt(
+    tf$reduce_mean(tf$math$squared_difference(states, sample_mean), axis = 0L))
+}
+}
 \seealso{
 Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
   \code{\link{mcmc_potential_scale_reduction}},
