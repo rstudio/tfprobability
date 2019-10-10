@@ -90,6 +90,25 @@ which is thought to be in the desirable range for optimal mixing (Betancourt et 
 }
 }
 
+\examples{
+\donttest{
+observed_time_series <-
+  rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) +
+  rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7) \%>\%
+  tensorflow::tf$convert_to_tensor(dtype = tensorflow::tf$float64)
+day_of_week <- observed_time_series \%>\% sts_seasonal(num_seasons = 7)
+local_linear_trend <- observed_time_series \%>\% sts_local_linear_trend()
+model <- observed_time_series \%>\%
+  sts_sum(components = list(day_of_week, local_linear_trend))
+states_and_results <- observed_time_series \%>\%
+  sts_fit_with_hmc(
+    model,
+    num_results = 10,
+    num_warmup_steps = 5,
+    num_variational_steps = 15)
+}
+
+}
 \seealso{
 Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},
   \code{\link{sts_build_factored_variational_loss}},

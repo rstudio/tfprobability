@@ -50,6 +50,10 @@ value: TRUE (i.e., "fast but possibly diminished accuracy").}
 
 \item{...}{other arguments passed to specific methods.}
 }
+\value{
+A \code{glm_fit} object with parameter estimates, and
+number of required steps.
+}
 \description{
 Runs one Fisher Scoring step
 }

@@ -127,6 +127,8 @@ single distribution, all sampled in parallel.
 }
 
 \seealso{
+For an example how to use see \code{\link[=mcmc_no_u_turn_sampler]{mcmc_no_u_turn_sampler()}}.
+
 Other mcmc_kernels: \code{\link{mcmc_hamiltonian_monte_carlo}},
   \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
   \code{\link{mcmc_metropolis_hastings}},

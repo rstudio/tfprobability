@@ -20,6 +20,13 @@ a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type 
 Given random variable X, the survival function is defined:
 \code{tfd_survival_function(x) = P[X > x] = 1 - P[X <= x] = 1 - cdf(x)}.
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  x <- d \%>\% tfd_sample()
+  d \%>\% tfd_survival_function(x)
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}},

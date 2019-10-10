@@ -35,6 +35,32 @@ vimco The Csiszar f-Divergence generalized VIMCO objective
 This function generalizes VIMCO (Mnih and Rezende, 2016) to Csiszar
 f-Divergences.
 }
+\details{
+Note: if \code{q.reparameterization_type = tfd.FULLY_REPARAMETERIZED},
+consider using \code{monte_carlo_csiszar_f_divergence}.
+
+The VIMCO loss is:\preformatted{vimco = f(Avg{logu[i] : i=0,...,m-1})
+where,
+logu[i] = log( p(x, h[i]) / q(h[i] | x) )
+h[i] iid~ q(H | x)
+}
+
+Interestingly, the VIMCO gradient is not the naive gradient of \code{vimco}.
+Rather, it is characterized by:\preformatted{grad[vimco] - variance_reducing_term
+}
+
+where,\preformatted{variance_reducing_term = Sum{ grad[log q(h[i] | x)] * (vimco - f(log Avg{h[j;i] : j=0,...,m-1})) #' : i=0, ..., m-1 }
+h[j;i] =  u[j]  for j!=i,  GeometricAverage{ u[k] : k!=i} for j==i
+}
+
+(We omitted \code{stop_gradient} for brevity. See implementation for more details.)
+The \code{Avg{h[j;i] : j}} term is a kind of "swap-out average" where the \code{i}-th
+element has been replaced by the leave-\code{i}-out Geometric-average.
+
+This implementation prefers numerical precision over efficiency, i.e.,
+\code{O(num_draws * num_batch_draws * prod(batch_shape) * prod(event_shape))}.
+(The constant may be fairly large, perhaps around 12.)
+}
 \section{References}{
 
 \itemize{

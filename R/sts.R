@@ -27,6 +27,7 @@
 #' @param name the name of this model component. Default value: 'LocalLevel'.
 #'
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_local_level <- function(observed_time_series = NULL,
@@ -161,6 +162,7 @@ sts_local_level_state_space_model <- function(num_timesteps,
 #'
 #' @inheritParams sts_local_level
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_local_linear_trend <- function(observed_time_series = NULL,
@@ -305,6 +307,7 @@ sts_local_linear_trend_state_space_model <- function(num_timesteps,
 #'
 #' @inheritParams sts_local_linear_trend
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_semi_local_linear_trend <- function(observed_time_series = NULL,
@@ -396,7 +399,6 @@ sts_semi_local_linear_trend <- function(observed_time_series = NULL,
 #'
 #' @inheritParams sts_local_linear_trend_state_space_model
 #' @family sts
-#'
 #' @export
 sts_semi_local_linear_trend_state_space_model <-
   function(num_timesteps,
@@ -475,6 +477,7 @@ sts_semi_local_linear_trend_state_space_model <-
 #'
 #' @inheritParams sts_local_linear_trend
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_seasonal <- function(observed_time_series = NULL,
@@ -635,6 +638,7 @@ sts_seasonal_state_space_model <-
 #'
 #' @inheritParams sts_local_level
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_sum <- function(observed_time_series = NULL,
@@ -817,6 +821,7 @@ sts_additive_state_space_model <-
 #'
 #' @inheritParams sts_local_level
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_linear_regression <- function(design_matrix,
@@ -860,6 +865,7 @@ sts_linear_regression <- function(design_matrix,
 #' @inheritParams sts_local_level
 #' @inheritParams sts_linear_regression
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_dynamic_linear_regression <- function(observed_time_series = NULL,
@@ -1011,6 +1017,7 @@ sts_dynamic_linear_regression_state_space_model <-
 #' @inheritParams sts_local_level
 #' @inheritParams sts_linear_regression
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_autoregressive <- function(observed_time_series = NULL,
@@ -1231,6 +1238,7 @@ sts_autoregressive_state_space_model <-
 #'
 #' @inheritParams sts_linear_regression
 #' @family sts
+#' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
 #' @export
 sts_sparse_linear_regression <- function(design_matrix,

@@ -116,6 +116,39 @@ single distribution, all sampled in parallel.
 }
 }
 
+\examples{
+\donttest{
+  target_log_prob_fn <- tfd_normal(loc = 0, scale = 1)$log_prob
+  num_burnin_steps <- 500
+  num_results <- 500
+  num_chains <- 64L
+  step_size <- tf$fill(list(num_chains), 0.1)
+
+  kernel <- mcmc_hamiltonian_monte_carlo(
+    target_log_prob_fn = target_log_prob_fn,
+    num_leapfrog_steps = 2,
+    step_size = step_size
+  ) \%>\%
+    mcmc_simple_step_size_adaptation(num_adaptation_steps = round(num_burnin_steps * 0.8))
+
+  res <- kernel \%>\% mcmc_sample_chain(
+    num_results = num_results,
+    num_burnin_steps = num_burnin_steps,
+    current_state = rep(0, num_chains),
+    trace_fn = function(x, pkr) {
+      list (
+        pkr$inner_results$accepted_results$step_size,
+        pkr$inner_results$log_accept_ratio
+      )
+    }
+  )
+
+  samples <- res$all_states
+  step_size <- res$trace[[1]]
+  log_accept_ratio <- res$trace[[2]]
+}
+
+}
 \seealso{
 Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
   \code{\link{mcmc_hamiltonian_monte_carlo}},

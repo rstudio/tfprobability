@@ -19,6 +19,12 @@ Standard deviation is defined as, stddev = \code{E[(X - E[X])**2]**0.5}
 #' where X is the random variable associated with this distribution, E denotes expectation,
 and \code{Var$shape = batch_shape + event_shape}.
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  d \%>\% tfd_stddev()
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}},

@@ -12,6 +12,10 @@ features.}
 
 \item{...}{other arguments passed to specific methods.}
 }
+\value{
+A \code{glm_fit} object with parameter estimates, number of iterations,
+etc.
+}
 \description{
 Runs one Fisher scoring step
 }

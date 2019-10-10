@@ -36,7 +36,7 @@ one or more of the statistic's batch members are undefined.}
 \item{name}{name prefixed to Ops created by this class.}
 }
 \description{
-This is a one-parameter family of distributions on correlation matrices.  The
+This is a one-parameter  of distributions on correlation matrices.  The
 probability density is proportional to the determinant raised to the power of
 the parameter: \code{pdf(X; eta) = Z(eta) * det(X) ** (eta - 1)}, where \code{Z(eta)} is
 a normalization constant.  The uniform distribution on correlation matrices is
@@ -47,6 +47,8 @@ The distribution is named after Lewandowski, Kurowicka, and Joe, who gave a
 sampler for the distribution in Lewandowski, Kurowicka, Joe, 2009.
 }
 \seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+
 Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_batch_reshape}},
   \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},

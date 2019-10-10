@@ -44,6 +44,8 @@ Typical choices for \code{convert_to_tensor_fn} include:
 }
 }
 \seealso{
+For an example how to use in a Keras model, see \code{\link[=layer_independent_normal]{layer_independent_normal()}}.
+
 Other distribution_layers: \code{\link{layer_distribution_lambda}},
   \code{\link{layer_independent_bernoulli}},
   \code{\link{layer_independent_logistic}},

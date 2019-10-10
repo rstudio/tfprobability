@@ -16,6 +16,14 @@ tfb_inverse(bijector, y, name = "inverse")
 \description{
 Returns the inverse Bijector evaluation, i.e., \code{X = g^{-1}(Y)}.
 }
+\examples{
+\donttest{
+  b <- tfb_affine_scalar(shift = 1, scale = 2)
+  x <- 10
+  y <- b \%>\% tfb_forward(x)
+  b \%>\% tfb_inverse(y)
+}
+}
 \seealso{
 Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},
   \code{\link{tfb_forward}},

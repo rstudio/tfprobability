@@ -38,6 +38,8 @@ The latent state is \code{[level]}. We observe a noisy realization of the curren
 level: \code{f[t] = level[t] + Normal(0., observation_noise_scale)} at each timestep.
 }
 \seealso{
+For usage examples see \code{\link[=sts_fit_with_hmc]{sts_fit_with_hmc()}}, \code{\link[=sts_forecast]{sts_forecast()}}, \code{\link[=sts_decompose_by_component]{sts_decompose_by_component()}}.
+
 Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_autoregressive_state_space_model}},
   \code{\link{sts_autoregressive}},

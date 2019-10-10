@@ -36,7 +36,7 @@
 
 
 <meta property="og:title" content="LKJ distribution on correlation matrices — tfd_lkj" />
-<meta property="og:description" content="This is a one-parameter family of distributions on correlation matrices.  The
+<meta property="og:description" content="This is a one-parameter  of distributions on correlation matrices.  The
 probability density is proportional to the determinant raised to the power of
 the parameter: pdf(X; eta) = Z(eta) * det(X) ** (eta - 1), where Z(eta) is
 a normalization constant.  The uniform distribution on correlation matrices is
@@ -73,7 +73,7 @@ the special case eta = 1." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
       </span>
     </div>
 
@@ -108,7 +108,12 @@ the special case eta = 1." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rstudio/tfprobability">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -123,12 +128,12 @@ the special case eta = 1." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>LKJ distribution on correlation matrices</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/tfprobability/blob/master/R/distributions.R'><code>R/distributions.R</code></a></small>
     <div class="hidden name"><code>tfd_lkj.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This is a one-parameter family of distributions on correlation matrices.  The
+    <p>This is a one-parameter  of distributions on correlation matrices.  The
 probability density is proportional to the determinant raised to the power of
 the parameter: <code>pdf(X; eta) = Z(eta) * det(X) ** (eta - 1)</code>, where <code>Z(eta)</code> is
 a normalization constant.  The uniform distribution on correlation matrices is
@@ -188,7 +193,8 @@ one or more of the statistic's batch members are undefined.</p></td>
 sampler for the distribution in Lewandowski, Kurowicka, Joe, 2009.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other distributions: <code><a href='tfd_autoregressive.html'>tfd_autoregressive</a></code>,
+    <div class='dont-index'><p>For usage examples see e.g. <code><a href='tfd_sample.html'>tfd_sample()</a></code>, <code><a href='tfd_log_prob.html'>tfd_log_prob()</a></code>, <code><a href='tfd_mean.html'>tfd_mean()</a></code>.</p>
+<p>Other distributions: <code><a href='tfd_autoregressive.html'>tfd_autoregressive</a></code>,
   <code><a href='tfd_batch_reshape.html'>tfd_batch_reshape</a></code>,
   <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>, <code><a href='tfd_beta.html'>tfd_beta</a></code>,
   <code><a href='tfd_binomial.html'>tfd_binomial</a></code>,

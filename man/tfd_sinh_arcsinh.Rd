@@ -93,6 +93,8 @@ To see the argument regarding multiplying \code{scale} by \code{2 / F_0(2)},\pre
 }
 }
 \seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+
 Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_batch_reshape}},
   \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},

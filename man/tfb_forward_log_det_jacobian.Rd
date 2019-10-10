@@ -22,6 +22,13 @@ x$shape$ndims - event_ndims dimensions.}
 \description{
 Returns the result of the forward evaluation of the log determinant of the Jacobian
 }
+\examples{
+\donttest{
+  b <- tfb_affine_scalar(shift = 1, scale = 2)
+  x <- 10
+  b \%>\% tfb_forward_log_det_jacobian(x, event_ndims = 0)
+}
+}
 \seealso{
 Other bijector_methods: \code{\link{tfb_forward}},
   \code{\link{tfb_inverse_log_det_jacobian}},

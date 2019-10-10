@@ -23,6 +23,8 @@ shape \code{batch_shape + [n, n]}, where \code{n = (-1 + sqrt(1 + 8 * d))/2}.
 This follows by solving the quadratic equation \code{d = 1 + 2 + ... + n = n * (n + 1)/2}.
 }
 \seealso{
+For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.
+
 Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_affine_linear_operator}},
   \code{\link{tfb_affine_scalar}},

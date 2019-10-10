@@ -53,6 +53,29 @@
 #' (i.e., "mcmc_sample_chain").
 #'
 #' @family mcmc_functions
+#' @examples
+#' \donttest{
+#'   dims <- 10
+#'   true_stddev <- sqrt(seq(1, 3, length.out = dims))
+#'   likelihood <- tfd_multivariate_normal_diag(scale_diag = true_stddev)
+#'
+#'   kernel <- mcmc_hamiltonian_monte_carlo(
+#'     target_log_prob_fn = likelihood$log_prob,
+#'     step_size = 0.5,
+#'     num_leapfrog_steps = 2
+#'   )
+#'
+#'   states <- kernel %>% mcmc_sample_chain(
+#'     num_results = 1000,
+#'     num_burnin_steps = 500,
+#'     current_state = rep(0, dims),
+#'     trace_fn = NULL
+#'   )
+#'
+#'   sample_mean <- tf$reduce_mean(states, axis = 0L)
+#'   sample_stddev <- tf$sqrt(
+#'     tf$reduce_mean(tf$math$squared_difference(states, sample_mean), axis = 0L))
+#' }
 #' @export
 mcmc_sample_chain <- function(kernel = NULL,
                               num_results,
@@ -229,6 +252,8 @@ mcmc_potential_scale_reduction <- function(chains_states,
 #' advance the chain).
 #'
 #' @family mcmc_functions
+#' @seealso For an example how to use see [mcmc_sample_chain()].
+
 #' @export
 mcmc_sample_annealed_importance_chain <- function(num_steps,
                                                   proposal_log_prob_fn,
@@ -315,6 +340,7 @@ mcmc_sample_annealed_importance_chain <- function(num_steps,
 #' @section References:
 #' - [Art B. Owen. A randomized Halton algorithm in R. _arXiv preprint arXiv:1706.02808_, 2017.](https://arxiv.org/abs/1706.02808)
 #' @family mcmc_functions
+#' @seealso For an example how to use see [mcmc_sample_chain()].
 #' @export
 mcmc_sample_halton_sequence <- function(dim,
                                         num_results = NULL,

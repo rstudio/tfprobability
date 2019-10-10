@@ -25,6 +25,13 @@ Given random variable X, the survival function is defined:
 Typically, different numerical approximations can be used for the log survival function,
 which are more accurate than 1 - cdf(x) when x >> 1.
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  x <- d \%>\% tfd_sample()
+  d \%>\% tfd_log_survival_function(x)
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}},

@@ -64,6 +64,8 @@ while many AR processes (in particular, any first-order process with
 variance over time. This makes AR processes useful models of uncertainty.
 }
 \seealso{
+For usage examples see \code{\link[=sts_fit_with_hmc]{sts_fit_with_hmc()}}, \code{\link[=sts_forecast]{sts_forecast()}}, \code{\link[=sts_decompose_by_component]{sts_decompose_by_component()}}.
+
 Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_autoregressive_state_space_model}},
   \code{\link{sts_constrained_seasonal_state_space_model}},

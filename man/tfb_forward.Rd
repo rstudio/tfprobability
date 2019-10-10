@@ -16,6 +16,13 @@ tfb_forward(bijector, x, name = "forward")
 \description{
 Returns the forward Bijector evaluation, i.e., \code{X = g(Y)}.
 }
+\examples{
+\donttest{
+  b <- tfb_affine_scalar(shift = 1, scale = 2)
+  x <- 10
+  b \%>\% tfb_forward(x)
+}
+}
 \seealso{
 Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},
   \code{\link{tfb_inverse_log_det_jacobian}},

@@ -26,6 +26,23 @@ silently render incorrect outputs. Default value: FALSE.
 \description{
 An independent Normal Keras layer.
 }
+\examples{
+\donttest{
+library(keras)
+input_shape <- c(28, 28, 1)
+encoded_shape <- 2
+n <- 2
+model <- keras_model_sequential(
+  list(
+    layer_input(shape = input_shape),
+    layer_flatten(),
+    layer_dense(units = n),
+    layer_dense(units = params_size_independent_normal(encoded_shape)),
+    layer_independent_normal(event_shape = encoded_shape)
+    )
+  )
+}
+}
 \seealso{
 Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
   \code{\link{layer_distribution_lambda}},

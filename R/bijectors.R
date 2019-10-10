@@ -3,6 +3,7 @@
 #' @param validate_args Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 #'  FALSE, and the inputs are invalid, correct behavior is not guaranteed.
 #' @param name name prefixed to Ops created by this class.
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @family bijectors
 #' @export
 tfb_identity <- function(validate_args = FALSE,
@@ -18,6 +19,7 @@ tfb_identity <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #'
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_sigmoid <- function(validate_args = FALSE,
                         name = "sigmoid") {
@@ -32,6 +34,7 @@ tfb_sigmoid <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #'
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_exp <- function(validate_args = FALSE,
                     name = "exp") {
@@ -54,6 +57,7 @@ tfb_exp <- function(validate_args = FALSE,
 #'  This is done for efficiency.  If `validate_args == TRUE`, `y < 0` will raise an exception.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_absolute_value <- function(validate_args = FALSE,
                                name = "absolute_value") {
@@ -101,6 +105,7 @@ tfb_absolute_value <- function(validate_args = FALSE,
 #' @param dtype `tf$DType` to prefer when converting args to Tensors. Else, we fall back to a
 #'  common dtype inferred from the args, finally falling back to float32.
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_affine <- function(shift = NULL,
                        scale_identity_multiplier = NULL,
@@ -139,6 +144,7 @@ tfb_affine <- function(shift = NULL,
 #' Default value: FALSE.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_affine_linear_operator <- function(shift = NULL,
                                        scale = NULL,
@@ -167,6 +173,7 @@ tfb_affine_linear_operator <- function(shift = NULL,
 #' @param scale Floating-point Tensor. If this is set to NULL, no scale is applied.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 
 tfb_affine_scalar <- function(shift = NULL,
@@ -219,6 +226,7 @@ tfb_affine_scalar <- function(shift = NULL,
 #' @param training If TRUE, updates running-average statistics during call to inverse().
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_batch_normalization <- function(batchnorm_layer = NULL,
                                     training = TRUE,
@@ -249,6 +257,7 @@ tfb_batch_normalization <- function(batchnorm_layer = NULL,
 #' @param name String, name given to ops managed by this object. Default:
 #' E.g., `tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of_exp_and_softplus'`.
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_blockwise <- function(bijectors,
                           block_sizes = NULL,
@@ -272,6 +281,7 @@ tfb_blockwise <- function(bijectors,
 #' @param name String, name given to ops managed by this object. Default:
 #' E.g., `tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"`.
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_chain <- function(bijectors = NULL,
                       validate_args = FALSE,
@@ -307,6 +317,7 @@ tfb_chain <- function(bijectors = NULL,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_cholesky_outer_product <- function(validate_args = FALSE,
                                        name = "cholesky_outer_product") {
@@ -325,6 +336,7 @@ tfb_cholesky_outer_product <- function(validate_args = FALSE,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
                                          name = "cholesky_to_inv_cholesky") {
@@ -351,6 +363,7 @@ tfb_cholesky_to_inv_cholesky <- function(validate_args = FALSE,
 #' @param dct_type integer, the DCT type performed by the forward transformation.
 #' Currently, only 2 and 3 are supported.
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_discrete_cosine_transform <-
   function(validate_args = FALSE,
@@ -375,6 +388,7 @@ tfb_discrete_cosine_transform <-
 #' @inheritParams tfb_identity
 #'
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_expm1 <- function(validate_args = FALSE,
                       name = "expm1") {
@@ -397,6 +411,7 @@ tfb_expm1 <- function(validate_args = FALSE,
 #' @inheritParams tfb_identity
 #'
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_fill_triangular <- function(upper = FALSE,
                                 validate_args = FALSE,
@@ -424,6 +439,7 @@ tfb_fill_triangular <- function(upper = FALSE,
 #' @inheritParams tfb_identity
 #'
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_gumbel <- function(loc = 0,
                        scale = 1,
@@ -454,6 +470,7 @@ tfb_gumbel <- function(loc = 0,
 #' @param inverse_min_event_ndims Integer indicating the minimal dimensionality this bijector acts on.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_inline <- function(forward_fn = NULL,
                        inverse_fn = NULL,
@@ -501,6 +518,7 @@ tfb_inline <- function(forward_fn = NULL,
 #' @inheritParams tfb_identity
 #'
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_invert <- function(bijector,
                        validate_args = FALSE,
@@ -527,6 +545,7 @@ tfb_invert <- function(bijector,
 #' @inheritParams tfb_identity
 #'
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_kumaraswamy <- function(concentration1 = NULL,
                             concentration0 = NULL,
@@ -642,6 +661,7 @@ tfb_kumaraswamy <- function(concentration1 = NULL,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_masked_autoregressive_flow <-
   function(shift_and_log_scale_fn,
@@ -703,6 +723,7 @@ tfb_masked_autoregressive_flow <-
 #' @param name A name for ops managed by this function. Default: "tfb_masked_autoregressive_default_template".
 #' @param ... `tf$layers$dense` arguments
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_masked_autoregressive_default_template <- function(hidden_layers,
                                                    shift_only = FALSE,
@@ -744,6 +765,7 @@ tfb_masked_autoregressive_default_template <- function(hidden_layers,
 #' @param name string used to describe ops managed by this function.
 #' @param ... `tf$layers$dense` arguments
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_masked_dense <- function(inputs,
                          units,
@@ -786,6 +808,7 @@ tfb_masked_dense <- function(inputs,
 #' @param name A name for ops managed by this function. Default: "tfb_real_nvp_default_template".
 #' @param ... tf$layers$dense arguments
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_real_nvp_default_template <- function(hidden_layers,
                                       shift_only = FALSE,
@@ -867,6 +890,7 @@ tfb_real_nvp_default_template <- function(hidden_layers,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_real_nvp <-
   function(num_masked,
@@ -895,6 +919,7 @@ tfb_real_nvp <-
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_matrix_inverse_tri_l <- function(validate_args = FALSE,
                                      name = "matrix_inverse_tril") {
@@ -920,6 +945,7 @@ tfb_matrix_inverse_tri_l <- function(validate_args = FALSE,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_matvec_lu <- function(lower_upper,
                           permutation,
@@ -946,6 +972,7 @@ tfb_matvec_lu <- function(lower_upper,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_normal_cdf <- function(validate_args = FALSE,
                            name = "normal") {
@@ -969,6 +996,7 @@ tfb_normal_cdf <- function(validate_args = FALSE,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_ordered <- function(validate_args = FALSE,
                         name = "ordered") {
@@ -989,6 +1017,7 @@ tfb_ordered <- function(validate_args = FALSE,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_permute <- function(permutation,
                         axis = -1L,
@@ -1015,6 +1044,7 @@ tfb_permute <- function(permutation,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_power_transform <- function(power,
                                 validate_args = FALSE,
@@ -1031,6 +1061,7 @@ tfb_power_transform <- function(power,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_reciprocal <- function(validate_args = FALSE,
                            name = "reciprocal") {
@@ -1061,6 +1092,7 @@ tfb_reciprocal <- function(validate_args = FALSE,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_reshape <- function(event_shape_out,
                         event_shape_in = c(-1),
@@ -1092,6 +1124,7 @@ tfb_reshape <- function(event_shape_out,
 #' Default value: 1e-5.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_tri_l <- function(diag_bijector = NULL,
                             diag_shift = 1e-5,
@@ -1132,6 +1165,7 @@ tfb_scale_tri_l <- function(diag_bijector = NULL,
 #' @param tailweight  Tailweight parameter.  Positive Tensor of same dtype as skewness and broadcastable shape.  Default is 1 of type float32.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_sinh_arcsinh <- function(skewness = NULL,
                              tailweight = NULL,
@@ -1159,6 +1193,7 @@ tfb_sinh_arcsinh <- function(skewness = NULL,
 #' makes the (forward) image non-open and the theorem does not directly apply.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_softmax_centered <- function(validate_args = FALSE,
                                  name = "softmax_centered") {
@@ -1199,6 +1234,7 @@ tfb_softmax_centered <- function(validate_args = FALSE,
 #' would otherwise be a kink at the origin.  Default is 1.0.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_softplus <- function(hinge_softness = NULL,
                          validate_args = FALSE,
@@ -1217,6 +1253,7 @@ tfb_softplus <- function(hinge_softness = NULL,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_softsign <- function(validate_args = FALSE,
                          name = "softsign") {
@@ -1230,6 +1267,7 @@ tfb_softsign <- function(validate_args = FALSE,
 #' g is a bijection between the non-negative real numbers (R_+) and the non-negative real numbers.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_square <- function(validate_args = FALSE,
                        name = "square") {
@@ -1252,6 +1290,7 @@ tfb_square <- function(validate_args = FALSE,
 #' However, using the Tanh bijector directly is slightly faster and more numerically stable.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_tanh <- function(validate_args = FALSE,
                      name = "tanh") {
@@ -1265,6 +1304,7 @@ tfb_tanh <- function(validate_args = FALSE,
 #' @param diag_bijector Bijector instance used to transform the diagonal.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_transform_diagonal <- function(diag_bijector,
                                    validate_args = FALSE,
@@ -1301,6 +1341,7 @@ tfb_transform_diagonal <- function(diag_bijector,
 #' specified. Default value: `tf$size(perm)`.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_transpose <- function(perm = NULL,
                           rightmost_transposed_ndims = NULL,
@@ -1333,6 +1374,7 @@ tfb_transpose <- function(perm = NULL,
 #' This is k in `Y = g(X) = 1 - exp((-x / l) ** k)`.
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_weibull <- function(scale = 1,
                         concentration = 1,
@@ -1390,6 +1432,7 @@ tfb_weibull <- function(scale = 1,
 #'
 #' @inheritParams tfb_identity
 #' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_correlation_cholesky <- function(validate_args = FALSE,
                                      name = "correlation_cholesky") {

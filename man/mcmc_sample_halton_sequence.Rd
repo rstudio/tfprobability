@@ -88,6 +88,8 @@ equivalent to specifying n=10.
 }
 
 \seealso{
+For an example how to use see \code{\link[=mcmc_sample_chain]{mcmc_sample_chain()}}.
+
 Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
   \code{\link{mcmc_potential_scale_reduction}},
   \code{\link{mcmc_sample_annealed_importance_chain}},

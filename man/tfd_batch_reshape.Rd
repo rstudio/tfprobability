@@ -29,6 +29,8 @@ one or more of the statistic's batch members are undefined.}
 This "meta-distribution" reshapes the batch dimensions of another distribution.
 }
 \seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+
 Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
   \code{\link{tfd_binomial}},

@@ -108,6 +108,23 @@ sts_build_factored_variational_loss <-
 #'
 #' @inheritParams sts_build_factored_variational_loss
 #' @family sts-functions
+#' @examples
+#' \donttest{
+#' observed_time_series <-
+#'   rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) +
+#'   rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7) %>%
+#'   tensorflow::tf$convert_to_tensor(dtype = tensorflow::tf$float64)
+#' day_of_week <- observed_time_series %>% sts_seasonal(num_seasons = 7)
+#' local_linear_trend <- observed_time_series %>% sts_local_linear_trend()
+#' model <- observed_time_series %>%
+#'   sts_sum(components = list(day_of_week, local_linear_trend))
+#' states_and_results <- observed_time_series %>%
+#'   sts_fit_with_hmc(
+#'     model,
+#'     num_results = 10,
+#'     num_warmup_steps = 5,
+#'     num_variational_steps = 15)
+#' }
 #'
 #' @export
 
@@ -194,6 +211,29 @@ sts_one_step_predictive <- function(observed_time_series,
 #' `num_posterior_draws` mixture components.
 #'
 #' @family sts-functions
+#' @examples
+#' \donttest{
+#' observed_time_series <-
+#'   rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) +
+#'   rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7) %>%
+#'   tensorflow::tf$convert_to_tensor(dtype = tensorflow::tf$float64)
+#' day_of_week <- observed_time_series %>% sts_seasonal(num_seasons = 7)
+#' local_linear_trend <- observed_time_series %>% sts_local_linear_trend()
+#' model <- observed_time_series %>%
+#'   sts_sum(components = list(day_of_week, local_linear_trend))
+#' states_and_results <- observed_time_series %>%
+#'   sts_fit_with_hmc(
+#'     model,
+#'     num_results = 10,
+#'     num_warmup_steps = 5,
+#'     num_variational_steps = 15)
+#' samples <- states_and_results[[1]]
+#' preds <- observed_time_series %>%
+#'   sts_forecast(model,
+#'                parameter_samples = samples,
+#'                num_steps_forecast = 50)
+#' predictions <- preds %>% tfd_sample(10)
+#' }
 #'
 #' @export
 sts_forecast <- function(observed_time_series,
@@ -229,7 +269,25 @@ sts_forecast <- function(observed_time_series,
 #' event shape of `list(num_timesteps)`.
 #'
 #' @family sts-functions
+#' @examples
+#' \donttest{
+#' observed_time_series <- array(rnorm(2 * 1 * 12), dim = c(2, 1, 12))
+#' day_of_week <- observed_time_series %>% sts_seasonal(num_seasons = 7, name = "seasonal")
+#' local_linear_trend <- observed_time_series %>% sts_local_linear_trend(name = "local_linear")
+#' model <- observed_time_series %>%
+#'   sts_sum(components = list(day_of_week, local_linear_trend))
+#' states_and_results <- observed_time_series %>%
+#'   sts_fit_with_hmc(
+#'     model,
+#'     num_results = 10,
+#'     num_warmup_steps = 5,
+#'     num_variational_steps = 15
+#'     )
+#' samples <- states_and_results[[1]]
 #'
+#' component_dists <- observed_time_series %>%
+#'  sts_decompose_by_component(model = model, parameter_samples = samples)
+#' }
 #' @export
 sts_decompose_by_component <- function(observed_time_series,
                                        model,

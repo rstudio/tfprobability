@@ -29,6 +29,8 @@ a Keras layer that wraps a MultivariateNormalTriL distribution
 A d-variate Multivariate Normal TriL Keras layer from \code{d+d*(d+1)/ 2} params
 }
 \seealso{
+For an example how to use in a Keras model, see \code{\link[=layer_independent_normal]{layer_independent_normal()}}.
+
 Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
   \code{\link{layer_distribution_lambda}},
   \code{\link{layer_independent_bernoulli}},

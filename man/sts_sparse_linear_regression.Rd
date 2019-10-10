@@ -103,6 +103,8 @@ weights[i] ~ Normal(loc=0., scale=local_scales[i] * global_scale)
 }
 
 \seealso{
+For usage examples see \code{\link[=sts_fit_with_hmc]{sts_fit_with_hmc()}}, \code{\link[=sts_forecast]{sts_forecast()}}, \code{\link[=sts_decompose_by_component]{sts_decompose_by_component()}}.
+
 Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_autoregressive_state_space_model}},
   \code{\link{sts_autoregressive}},

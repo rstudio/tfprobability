@@ -20,6 +20,12 @@ a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type 
 Given random variable X and p in \code{[0, 1]}, the quantile is:
 \code{tfd_quantile(p) := x} such that \code{P[X <= x] == p}
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  d \%>\% tfd_quantile(0.5)
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}},

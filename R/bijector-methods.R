@@ -4,6 +4,12 @@
 #' @param x Tensor. The input to the "forward" evaluation.
 #' @param name name of the operation
 #' @family bijector_methods
+#' @examples
+#' \donttest{
+#'   b <- tfb_affine_scalar(shift = 1, scale = 2)
+#'   x <- 10
+#'   b %>% tfb_forward(x)
+#' }
 #' @export
 tfb_forward <-
   function(bijector, x, name ="forward") {
@@ -16,6 +22,13 @@ tfb_forward <-
 #' @param y Tensor. The input to the "inverse" evaluation.
 #' @param name name of the operation
 #' @family bijector_methods
+#' @examples
+#' \donttest{
+#'   b <- tfb_affine_scalar(shift = 1, scale = 2)
+#'   x <- 10
+#'   y <- b %>% tfb_forward(x)
+#'   b %>% tfb_inverse(y)
+#' }
 #' @export
 tfb_inverse <-
   function(bijector, y, name="inverse") {
@@ -32,6 +45,12 @@ tfb_inverse <-
 #'   x$shape$ndims - event_ndims dimensions.
 #' @param name name of the operation
 #' @family bijector_methods
+#' @examples
+#' \donttest{
+#'   b <- tfb_affine_scalar(shift = 1, scale = 2)
+#'   x <- 10
+#'   b %>% tfb_forward_log_det_jacobian(x, event_ndims = 0)
+#' }
 #' @export
 tfb_forward_log_det_jacobian <-
   function(bijector, x, event_ndims, name="forward_log_det_jacobian") {
@@ -48,6 +67,13 @@ tfb_forward_log_det_jacobian <-
 #'   x$shape$ndims - event_ndims dimensions.
 #' @param name name of the operation
 #' @family bijector_methods
+#' @examples
+#' \donttest{
+#'   b <- tfb_affine_scalar(shift = 1, scale = 2)
+#'   x <- 10
+#'   y <- b %>% tfb_forward(x)
+#'   b %>% tfb_inverse_log_det_jacobian(y, event_ndims = 0)
+#' }
 #' @export
 tfb_inverse_log_det_jacobian <-
   function(bijector, y, event_ndims, name="inverse_log_det_jacobian") {
