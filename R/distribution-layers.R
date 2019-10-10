@@ -10,6 +10,7 @@
 #'
 #' @return a Keras layer that wraps a MultivariateNormalTriL distribution
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_multivariate_normal_tri_l <- function(object,
                                             event_size,
@@ -45,6 +46,7 @@ layer_multivariate_normal_tri_l <- function(object,
 #'
 #' @return a Keras layer that wraps a Bernoulli distribution
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #'
 #' @export
 layer_independent_bernoulli <- function(object,
@@ -77,6 +79,7 @@ layer_independent_bernoulli <- function(object,
 #'  tf$Tensor-like object. Default value: `tfd$distributions$Distribution$sample`.
 #' @param ... Additional arguments passed to `args` of `keras::create_layer`.
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_distribution_lambda <- function(object,
                                       make_distribution_fn,
@@ -117,6 +120,7 @@ layer_distribution_lambda <- function(object,
 
 #' @return a Keras layer that adds a KL divergence penalty to the model loss
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_kl_divergence_add_loss <- function(object,
                                          distribution_b,
@@ -151,6 +155,7 @@ layer_kl_divergence_add_loss <- function(object,
 #' @inheritParams layer_kl_divergence_add_loss
 #'
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_kl_divergence_regularizer <- function(object,
                                             distribution_b,
@@ -190,6 +195,7 @@ layer_kl_divergence_regularizer <- function(object,
 #' @inheritParams layer_distribution_lambda
 #' @inheritParams layer_multivariate_normal_tri_l
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_one_hot_categorical <- function(object,
                                       event_size,
@@ -229,6 +235,7 @@ layer_one_hot_categorical <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_one_hot_categorical
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_categorical_mixture_of_one_hot_categorical <- function(object,
                                                              event_size,
@@ -258,6 +265,7 @@ layer_categorical_mixture_of_one_hot_categorical <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_independent_poisson <- function(object,
                                       event_shape,
@@ -281,6 +289,7 @@ layer_independent_poisson <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_independent_logistic <- function(object,
                                        event_shape,
@@ -305,6 +314,22 @@ layer_independent_logistic <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
 #' @family distribution_layers
+#' @examples
+#' \donttest{
+#' library(keras)
+#' input_shape <- c(28, 28, 1)
+#' encoded_shape <- 2
+#' n <- 2
+#' model <- keras_model_sequential(
+#'   list(
+#'     layer_input(shape = input_shape),
+#'     layer_flatten(),
+#'     layer_dense(units = n),
+#'     layer_dense(units = params_size_independent_normal(encoded_shape)),
+#'     layer_independent_normal(event_shape = encoded_shape)
+#'     )
+#'   )
+#' }
 #' @export
 layer_independent_normal <- function(object,
                                      event_shape,
@@ -334,6 +359,7 @@ layer_independent_normal <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_mixture_same_family <- function(object,
                                      num_components,
@@ -362,6 +388,7 @@ layer_mixture_same_family <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_mixture_normal <- function(object,
                                  num_components,
@@ -387,6 +414,7 @@ layer_mixture_normal <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_mixture_normal
 #' @family distribution_layers
+#' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
 layer_mixture_logistic <- function(object,
                                    num_components,

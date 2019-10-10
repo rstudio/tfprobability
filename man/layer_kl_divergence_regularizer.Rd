@@ -38,6 +38,8 @@ distribution's concretization (i.e., \code{tf$convert_to_tensor(distribution)}) 
 sample. To override this behavior, set test_points_fn.
 }
 \seealso{
+For an example how to use in a Keras model, see \code{\link[=layer_independent_normal]{layer_independent_normal()}}.
+
 Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
   \code{\link{layer_distribution_lambda}},
   \code{\link{layer_independent_bernoulli}},
