@@ -17,4 +17,5 @@ This is a resubmission. In this version I have:
 * added examples how to use distributions
 * added examples how to use bijectors
 * added examples how to use the most important MCMC kernels
+* added examples how to use essential state space modeling functionality
 

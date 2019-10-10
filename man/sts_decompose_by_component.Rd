@@ -42,6 +42,26 @@ model component.
 observation model, to generate the time series modeled by that component.
 }
 }
+\examples{
+\donttest{
+observed_time_series <- array(rnorm(2 * 1 * 12), dim = c(2, 1, 12))
+day_of_week <- observed_time_series \%>\% sts_seasonal(num_seasons = 7, name = "seasonal")
+local_linear_trend <- observed_time_series \%>\% sts_local_linear_trend(name = "local_linear")
+model <- observed_time_series \%>\%
+  sts_sum(components = list(day_of_week, local_linear_trend))
+states_and_results <- observed_time_series \%>\%
+  sts_fit_with_hmc(
+    model,
+    num_results = 10,
+    num_warmup_steps = 5,
+    num_variational_steps = 15
+    )
+samples <- states_and_results[[1]]
+
+component_dists <- observed_time_series \%>\%
+ sts_decompose_by_component(model = model, parameter_samples = samples)
+}
+}
 \seealso{
 Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},
   \code{\link{sts_build_factored_variational_loss}},
