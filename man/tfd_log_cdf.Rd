@@ -22,6 +22,13 @@ Given random variable X, the cumulative distribution function cdf is:
 Often, a numerical approximation can be used for \code{tfd_log_cdf(x)} that yields
 a more accurate answer than simply taking the logarithm of the cdf when x << -1.
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  x <- d \%>\% tfd_sample()
+  d \%>\% tfd_log_cdf(x)
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}},

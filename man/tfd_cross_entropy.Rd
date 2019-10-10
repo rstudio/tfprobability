@@ -23,6 +23,13 @@ p(x) dr(x) and q(x) dr(x), (Shannon) cross entropy is defined as:
 \code{H[P, Q] = E_p[-log q(X)] = -int_F p(x) log q(x) dr(x)}
 where F denotes the support of the random variable \code{X ~ P}.
 }
+\examples{
+\donttest{
+  d1 <- tfd_normal(loc = 1, scale = 1)
+  d2 <- tfd_normal(loc = 2, scale = 1)
+  d1 \%>\% tfd_cross_entropy(d2)
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}}, \code{\link{tfd_entropy}},

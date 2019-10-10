@@ -17,6 +17,12 @@ a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type 
 \description{
 Mean.
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  d \%>\% tfd_mean()
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}},

@@ -23,6 +23,13 @@ Cumulative distribution function.
 Given random variable X, the cumulative distribution function cdf is:
 \code{cdf(x) := P[X <= x]}
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  x <- d \%>\% tfd_sample()
+  d \%>\% tfd_cdf(x)
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_covariance}},
   \code{\link{tfd_cross_entropy}},

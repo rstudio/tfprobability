@@ -22,6 +22,12 @@ a Tensor with prepended dimensions sample_shape.
 \description{
 Note that a call to \code{tfd_sample()} without arguments will generate a single sample.
 }
+\examples{
+\donttest{
+  d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+  d \%>\% tfd_sample()
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_covariance}},

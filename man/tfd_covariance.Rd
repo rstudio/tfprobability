@@ -29,6 +29,24 @@ where Cov is a (batch of) k x k matrices, 0 <= (i, j) < k = reduce_prod(event_sh
 and Vec is some function mapping indices of this distribution's event dimensions to indices of a
 length-k vector.
 }
+\examples{
+\donttest{
+d <- tfd_vector_diffeomixture(
+ mix_loc = list(c(0, 1)),
+ temperature = list(1),
+ distribution = tfd_normal(loc = 0, scale = 1),
+ loc = list(NULL, rep(2, 5)),
+ scale = list(
+  tf$linalg$LinearOperatorScaledIdentity(
+      num_rows = 5L,
+      multiplier = 1.1,
+      is_positive_definite = TRUE),
+  tf$linalg$LinearOperatorDiag(
+      diag = seq(2.5, 3.5,  length.out = 5),
+      is_positive_definite = TRUE)))
+  d \%>\% tfd_covariance()
+}
+}
 \seealso{
 Other distribution_methods: \code{\link{tfd_cdf}},
   \code{\link{tfd_cross_entropy}},
