@@ -28,6 +28,8 @@ The default setup is somewhat opinionated, using a Softplus transformation follo
 small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.
 }
 \seealso{
+For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.
+
 Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_affine_linear_operator}},
   \code{\link{tfb_affine_scalar}},

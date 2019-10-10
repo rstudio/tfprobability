@@ -54,6 +54,8 @@ If NULL of \code{scale_identity_multiplier}, \code{scale_diag}, or \code{scale_t
 \code{scale += Expand(arg)}, i.e., \code{scale_diag != NULL} means \code{scale += tf$diag(scale_diag)}.
 }
 \seealso{
+For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.
+
 Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_affine_linear_operator}},
   \code{\link{tfb_affine_scalar}},

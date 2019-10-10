@@ -35,6 +35,8 @@ event_shape_in (\code{event_ndims_in = length(event_shape_in))}.
 }
 }
 \seealso{
+For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.
+
 Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_affine_linear_operator}},
   \code{\link{tfb_affine_scalar}},

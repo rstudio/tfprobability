@@ -27,6 +27,8 @@ If \code{X} is a scalar then the forward transformation is: \code{scale * X + sh
 where \code{*} denotes broadcasted elementwise product.
 }
 \seealso{
+For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.
+
 Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_affine_scalar}},
   \code{\link{tfb_affine}},
