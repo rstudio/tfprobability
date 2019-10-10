@@ -2,15 +2,12 @@
 
 * local install: Fedora 30, R 3.6.1
 * Ubuntu 16.04 (on travis-ci), R 3.6.2
+* win-builder (R-devel)
 
 
 ## R CMD check results
 
-There were no ERRORs or WARNINGs. 
-
-There was 1 NOTE:
-   Non-standard file/directory found at top level:
-    ‘cran_comments.md’
+There were no ERRORs, WARNING or NOTEs.
 
 
 ## Resubmission
