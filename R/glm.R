@@ -6,6 +6,9 @@
 #'
 #' @seealso [glm_fit.tensorflow.tensor()]
 #'
+#' @return A `glm_fit` object with parameter estimates, number of iterations,
+#'  etc.
+#'
 #' @export
 glm_fit <- function(x, ...) {
   UseMethod("glm_fit")
@@ -15,6 +18,10 @@ glm_fit <- function(x, ...) {
 #'
 #' @inheritParams glm_fit
 #' @seealso [glm_fit_one_step.tensorflow.tensor()]
+#'
+#' @return A `glm_fit` object with parameter estimates, number of iterations,
+#'  etc.
+#'
 #' @export
 glm_fit_one_step <- function(x, ...) {
   UseMethod("glm_fit_one_step")
@@ -68,6 +75,9 @@ glm_fit_one_step.default <- function(x, ...) {
 #'
 #' @family glm_fit
 #'
+#' @return A `glm_fit` object with parameter estimates, and
+#'  number of required steps.
+#'
 #' @export
 glm_fit.tensorflow.tensor <- function(x,
                                       response,
@@ -108,6 +118,10 @@ glm_fit.tensorflow.tensor <- function(x,
 #' Runs one Fisher Scoring step
 #' @inheritParams glm_fit.tensorflow.tensor
 #' @family glm_fit
+#'
+#' @return A `glm_fit` object with parameter estimates, and
+#'  number of required steps.
+#'
 #' @export
 glm_fit_one_step.tensorflow.tensor <- function(x,
                              response,
