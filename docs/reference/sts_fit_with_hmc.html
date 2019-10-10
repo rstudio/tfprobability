@@ -74,7 +74,7 @@ expensive than variational inference and relatively sensitive to tuning." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
       </span>
     </div>
 
@@ -109,7 +109,12 @@ expensive than variational inference and relatively sensitive to tuning." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rstudio/tfprobability">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -124,7 +129,7 @@ expensive than variational inference and relatively sensitive to tuning." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Draw posterior samples using Hamiltonian Monte Carlo (HMC)</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/tfprobability/blob/master/R/sts-functions.R'><code>R/sts-functions.R</code></a></small>
     <div class="hidden name"><code>sts_fit_with_hmc.Rd</code></div>
     </div>
 
@@ -256,6 +261,23 @@ which is thought to be in the desirable range for optimal mixing (Betancourt et 
   <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
   <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>observed_time_series</span> <span class='kw'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3.5</span>, <span class='fl'>4.1</span>, <span class='fl'>4.5</span>, <span class='fl'>3.9</span>, <span class='fl'>2.4</span>, <span class='fl'>2.1</span>, <span class='fl'>1.2</span>), <span class='fl'>5</span>) +
+  <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.1</span>, <span class='fl'>1.5</span>, <span class='fl'>2.4</span>, <span class='fl'>3.1</span>, <span class='fl'>4.0</span>), <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='fu'>convert_to_tensor</span>(<span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='no'>float64</span>)
+<span class='no'>day_of_week</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span>(<span class='kw'>num_seasons</span> <span class='kw'>=</span> <span class='fl'>7</span>)
+<span class='no'>local_linear_trend</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span>()
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span>(<span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>day_of_week</span>, <span class='no'>local_linear_trend</span>))
+<span class='no'>states_and_results</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>sts_fit_with_hmc</span>(
+    <span class='no'>model</span>,
+    <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+    <span class='kw'>num_warmup_steps</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+    <span class='kw'>num_variational_steps</span> <span class='kw'>=</span> <span class='fl'>15</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -264,6 +286,7 @@ which is thought to be in the desirable range for optimal mixing (Betancourt et 
       <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

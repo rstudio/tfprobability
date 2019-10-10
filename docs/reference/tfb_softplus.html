@@ -73,7 +73,7 @@ softplus(x) approx x, for large x, so it does not overflow as easily as the Exp 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
       </span>
     </div>
 
@@ -108,7 +108,12 @@ softplus(x) approx x, for large x, so it does not overflow as easily as the Exp 
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rstudio/tfprobability">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -123,7 +128,7 @@ softplus(x) approx x, for large x, so it does not overflow as easily as the Exp 
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Computes <code>Y = g(X) = Log[1 + exp(X)]</code></h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/tfprobability/blob/master/R/bijectors.R'><code>R/bijectors.R</code></a></small>
     <div class="hidden name"><code>tfb_softplus.Rd</code></div>
     </div>
 
@@ -185,7 +190,8 @@ Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other bijectors: <code><a href='tfb_absolute_value.html'>tfb_absolute_value</a></code>,
+    <div class='dont-index'><p>For usage examples see <code><a href='tfb_forward.html'>tfb_forward()</a></code>, <code><a href='tfb_inverse.html'>tfb_inverse()</a></code>, <code><a href='tfb_inverse_log_det_jacobian.html'>tfb_inverse_log_det_jacobian()</a></code>.</p>
+<p>Other bijectors: <code><a href='tfb_absolute_value.html'>tfb_absolute_value</a></code>,
   <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a></code>,
   <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a></code>,
   <code><a href='tfb_affine.html'>tfb_affine</a></code>,

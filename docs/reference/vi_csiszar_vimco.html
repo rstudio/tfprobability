@@ -70,7 +70,7 @@ f-Divergences." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
       </span>
     </div>
 
@@ -105,7 +105,12 @@ f-Divergences." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rstudio/tfprobability">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -120,7 +125,7 @@ f-Divergences." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Use VIMCO to lower the variance of the gradient of csiszar_function(Avg(logu))</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/tfprobability/blob/master/R/vi-functions.R'><code>R/vi-functions.R</code></a></small>
     <div class="hidden name"><code>vi_csiszar_vimco.Rd</code></div>
     </div>
 
@@ -174,6 +179,30 @@ f-Divergence expectation.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>vimco The Csiszar f-Divergence generalized VIMCO objective</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note: if <code>q.reparameterization_type = tfd.FULLY_REPARAMETERIZED</code>,
+consider using <code>monte_carlo_csiszar_f_divergence</code>.</p>
+<p>The VIMCO loss is:</p><pre>vimco = f(Avg{logu[i] : i=0,...,m-1})
+where,
+logu[i] = log( p(x, h[i]) / q(h[i] | x) )
+h[i] iid~ q(H | x)
+</pre>
+
+<p>Interestingly, the VIMCO gradient is not the naive gradient of <code>vimco</code>.
+Rather, it is characterized by:</p><pre>grad[vimco] - variance_reducing_term
+</pre>
+
+<p>where,</p><pre>variance_reducing_term = Sum{ grad[log q(h[i] | x)] * (vimco - f(log Avg{h[j;i] : j=0,...,m-1})) #' : i=0, ..., m-1 }
+h[j;i] =  u[j]  for j!=i,  GeometricAverage{ u[k] : k!=i} for j==i
+</pre>
+
+<p>(We omitted <code>stop_gradient</code> for brevity. See implementation for more details.)
+The <code>Avg{h[j;i] : j}</code> term is a kind of "swap-out average" where the <code>i</code>-th
+element has been replaced by the leave-<code>i</code>-out Geometric-average.</p>
+<p>This implementation prefers numerical precision over efficiency, i.e.,
+<code>O(num_draws * num_batch_draws * prod(batch_shape) * prod(event_shape))</code>.
+(The constant may be fairly large, perhaps around 12.)</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     
@@ -205,6 +234,7 @@ f-Divergence expectation.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>

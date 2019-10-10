@@ -78,7 +78,7 @@ observation model, to generate the time series modeled by that component.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
       </span>
     </div>
 
@@ -113,7 +113,12 @@ observation model, to generate the time series modeled by that component.
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rstudio/tfprobability">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -128,7 +133,7 @@ observation model, to generate the time series modeled by that component.
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Decompose an observed time series into contributions from each component.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/tfprobability/blob/master/R/sts-functions.R'><code>R/sts-functions.R</code></a></small>
     <div class="hidden name"><code>sts_decompose_by_component.Rd</code></div>
     </div>
 
@@ -191,6 +196,25 @@ event shape of <code><a href='https://rdrr.io/r/base/list.html'>list(num_timeste
   <code><a href='sts_one_step_predictive.html'>sts_one_step_predictive</a></code>,
   <code><a href='sts_sample_uniform_initial_state.html'>sts_sample_uniform_initial_state</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>observed_time_series</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>2</span> * <span class='fl'>1</span> * <span class='fl'>12</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>12</span>))
+<span class='no'>day_of_week</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span>(<span class='kw'>num_seasons</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"seasonal"</span>)
+<span class='no'>local_linear_trend</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"local_linear"</span>)
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span>(<span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>day_of_week</span>, <span class='no'>local_linear_trend</span>))
+<span class='no'>states_and_results</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></span>(
+    <span class='no'>model</span>,
+    <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+    <span class='kw'>num_warmup_steps</span> <span class='kw'>=</span> <span class='fl'>5</span>,
+    <span class='kw'>num_variational_steps</span> <span class='kw'>=</span> <span class='fl'>15</span>
+    )
+<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='no'>states_and_results</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+
+<span class='no'>component_dists</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
+ <span class='fu'>sts_decompose_by_component</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model</span>, <span class='kw'>parameter_samples</span> <span class='kw'>=</span> <span class='no'>samples</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -198,6 +222,7 @@ event shape of <code><a href='https://rdrr.io/r/base/list.html'>list(num_timeste
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

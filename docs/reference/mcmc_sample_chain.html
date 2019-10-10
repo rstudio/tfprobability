@@ -71,7 +71,7 @@ instance (kernel)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
       </span>
     </div>
 
@@ -106,7 +106,12 @@ instance (kernel)." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/rstudio/tfprobability">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -121,7 +126,7 @@ instance (kernel)." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Implements Markov chain Monte Carlo via repeated <code>TransitionKernel</code> steps.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/rstudio/tfprobability/blob/master/R/mcmc-functions.R'><code>R/mcmc-functions.R</code></a></small>
     <div class="hidden name"><code>mcmc_sample_chain.Rd</code></div>
     </div>
 
@@ -230,6 +235,29 @@ accordingly. See below for some examples of this feature.</p>
   <code><a href='mcmc_sample_annealed_importance_chain.html'>mcmc_sample_annealed_importance_chain</a></code>,
   <code><a href='mcmc_sample_halton_sequence.html'>mcmc_sample_halton_sequence</a></code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+  <span class='no'>dims</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
+  <span class='no'>true_stddev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='no'>dims</span>))
+  <span class='no'>likelihood</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></span>(<span class='kw'>scale_diag</span> <span class='kw'>=</span> <span class='no'>true_stddev</span>)
+
+  <span class='no'>kernel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></span>(
+    <span class='kw'>target_log_prob_fn</span> <span class='kw'>=</span> <span class='no'>likelihood</span>$<span class='no'>log_prob</span>,
+    <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+    <span class='kw'>num_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>2</span>
+  )
+
+  <span class='no'>states</span> <span class='kw'>&lt;-</span> <span class='no'>kernel</span> <span class='kw'>%&gt;%</span> <span class='fu'>mcmc_sample_chain</span>(
+    <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+    <span class='kw'>num_burnin_steps</span> <span class='kw'>=</span> <span class='fl'>500</span>,
+    <span class='kw'>current_state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='no'>dims</span>),
+    <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  )
+
+  <span class='no'>sample_mean</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>states</span>, <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>)
+  <span class='no'>sample_stddev</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(
+    <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>tf</span>$<span class='no'>math</span>$<span class='fu'>squared_difference</span>(<span class='no'>states</span>, <span class='no'>sample_mean</span>), <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>))
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -238,6 +266,7 @@ accordingly. See below for some examples of this feature.</p>
       <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
