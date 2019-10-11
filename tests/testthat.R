@@ -1,4 +1,6 @@
 library(testthat)
 library(tfprobability)
 
-test_check("tfprobability")
+if (identical(Sys.getenv("NOT_CRAN"), "true")) {
+  test_check("tfprobability")
+}
