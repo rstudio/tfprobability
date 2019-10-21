@@ -76,6 +76,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 Posterior predictive distribution in a conjugate GP regression model.
 }

@@ -27,6 +27,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 Gamma-Gamma is a \href{https://en.wikipedia.org/wiki/Compound_probability_distribution}{compound distribution}
 defined over positive real numbers using parameters \code{concentration},

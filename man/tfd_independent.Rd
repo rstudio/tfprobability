@@ -21,6 +21,9 @@ silently render incorrect outputs. Default value: FALSE.}
 
 \item{name}{The name for ops managed by the distribution.  Default value: Independent + distribution.name.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution is useful for regarding a collection of independent,
 non-identical distributions as a single random variable. For example, the

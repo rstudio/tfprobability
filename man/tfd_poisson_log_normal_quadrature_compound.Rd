@@ -35,6 +35,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The \code{PoissonLogNormalQuadratureCompound} is an approximation to a
 Poisson-LogNormal \href{https://en.wikipedia.org/wiki/Compound_probability_distribution}{compound distribution}, i.e.,\preformatted{p(k|loc, scale) = int_{R_+} dl LogNormal(l | loc, scale) Poisson(k | l)

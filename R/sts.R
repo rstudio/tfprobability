@@ -26,6 +26,8 @@
 #' Default value: `NULL`.
 #' @param name the name of this model component. Default value: 'LocalLevel'.
 #'
+#' @return an instance of `StructuralTimeSeries`.
+#'
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
@@ -106,6 +108,8 @@ sts_local_level <- function(observed_time_series = NULL,
 #' @param name string name prefixed to ops created by this class.
 #' Default value: "LocalLevelStateSpaceModel".
 #'
+#' @return an instance of `LinearGaussianStateSpaceModel`.
+#'
 #' @family sts
 #'
 #' @export
@@ -160,7 +164,7 @@ sts_local_level_state_space_model <- function(num_timesteps,
 #' constructed based on the provided `observed_time_series`. Default value: `NULL`.
 #' @param name the name of this model component. Default value: 'LocalLinearTrend'.
 #'
-#' @inheritParams sts_local_level
+#' @inherit sts_local_level return params
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
@@ -236,7 +240,7 @@ sts_local_linear_trend <- function(observed_time_series = NULL,
 #' @param name string prefixed to ops created by this class.
 #' Default value: "LocalLinearTrendStateSpaceModel".
 #'
-#' @inheritParams sts_local_level_state_space_model
+#' @inherit sts_local_level_state_space_model return params
 #' @family sts
 #'
 #' @export
@@ -305,7 +309,7 @@ sts_local_linear_trend_state_space_model <- function(num_timesteps,
 #' Default value: `FALSE`.
 #' @param name the name of this model component. Default value: 'SemiLocalLinearTrend'.
 #'
-#' @inheritParams sts_local_linear_trend
+#' @inherit sts_local_linear_trend return params
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
@@ -397,7 +401,7 @@ sts_semi_local_linear_trend <- function(observed_time_series = NULL,
 #' @param name string` prefixed to ops created by this class.
 #' Default value: "SemiLocalLinearTrendStateSpaceModel".
 #'
-#' @inheritParams sts_local_linear_trend_state_space_model
+#' @inherit sts_local_linear_trend_state_space_model return params
 #' @family sts
 #' @export
 sts_semi_local_linear_trend_state_space_model <-
@@ -475,7 +479,7 @@ sts_semi_local_linear_trend_state_space_model <-
 #' examine the latent space of the underlying state space model. Default value: `TRUE`.
 #' @param name the name of this model component. Default value: 'Seasonal'.
 #'
-#' @inheritParams sts_local_linear_trend
+#' @inherit sts_local_linear_trend return params
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
@@ -575,7 +579,7 @@ sts_seasonal <- function(observed_time_series = NULL,
 #' @param name string prefixed to ops created by this class.
 #' Default value: "SeasonalStateSpaceModel".
 #'
-#' @inheritParams sts_local_linear_trend_state_space_model
+#' @inherit sts_local_linear_trend_state_space_model return params
 #' @family sts
 #'
 #' @export
@@ -636,7 +640,7 @@ sts_seasonal_state_space_model <-
 #' @param name string name of this model component; used as `name_scope`
 #' for ops created by this class. Default value: 'Sum'.
 #'
-#' @inheritParams sts_local_level
+#' @inherit sts_local_level return params
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
@@ -759,7 +763,7 @@ sts_sum <- function(observed_time_series = NULL,
 #' `observation_noise_scale = sqrt(sum([ssm.observation_noise_scale**2 for ssm in component_ssms]))`.
 #' @param name string prefixed to ops created by this class.
 #' Default value: "AdditiveStateSpaceModel".
-#' @inheritParams sts_local_linear_trend_state_space_model
+#' @inherit sts_local_linear_trend_state_space_model return params
 #' @family sts
 #'
 #' @export
@@ -819,7 +823,7 @@ sts_additive_state_space_model <-
 #' Default value: `NULL`.
 #' @param name the name of this model component. Default value: 'LinearRegression'.
 #'
-#' @inheritParams sts_local_level
+#' @inherit sts_local_level return params
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
@@ -862,7 +866,7 @@ sts_linear_regression <- function(design_matrix,
 #' Normal(0, 10) prior is used. Default value: `NULL`.
 #' @param name the name of this component. Default value: 'DynamicLinearRegression'.
 #'
-#' @inheritParams sts_local_level
+#' @inherit sts_local_level return params
 #' @inheritParams sts_linear_regression
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
@@ -944,7 +948,7 @@ sts_dynamic_linear_regression <- function(observed_time_series = NULL,
 #' Default value: `0`.
 #' @param name name prefixed to ops created by this class. Default value: 'DynamicLinearRegressionStateSpaceModel'.
 #'
-#' @inheritParams sts_local_linear_trend_state_space_model
+#' @inherit sts_local_linear_trend_state_space_model return params
 #' @family sts
 #'
 #' @export
@@ -1014,7 +1018,7 @@ sts_dynamic_linear_regression_state_space_model <-
 #' Default value: `NULL`.
 #' @param name the name of this model component. Default value: 'Autoregressive'.
 #'
-#' @inheritParams sts_local_level
+#' @inherit sts_local_level return params
 #' @inheritParams sts_linear_regression
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
@@ -1121,7 +1125,7 @@ sts_autoregressive <- function(observed_time_series = NULL,
 #' timestep. Default value: 0.
 #' @param name name prefixed to ops created by this class. Default value: "AutoregressiveStateSpaceModel".
 #'
-#' @inheritParams sts_local_linear_trend_state_space_model
+#' @inherit sts_local_linear_trend_state_space_model return params
 #' @family sts
 #'
 #' @export
@@ -1236,7 +1240,7 @@ sts_autoregressive_state_space_model <-
 #' - [Carvalho, C., Polson, N. and Scott, J. Handling Sparsity via the Horseshoe. AISTATS (2009).](http://proceedings.mlr.press/v5/carvalho09a/carvalho09a.pdf)
 #' - [Juho Piironen, Aki Vehtari. Sparsity information and regularization in the horseshoe and other shrinkage priors (2017).](https://arxiv.org/abs/1707.01694)
 #'
-#' @inheritParams sts_linear_regression
+#' @inherit sts_linear_regression return params
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'
@@ -1320,7 +1324,7 @@ sts_sparse_linear_regression <- function(design_matrix,
 #' constraint), so the probability model remains symmetric over all `N`
 #' seasonal effects.
 #'
-#' @inheritParams sts_seasonal_state_space_model
+#' @inherit sts_seasonal_state_space_model return params
 #' @family sts
 #'
 #' @export

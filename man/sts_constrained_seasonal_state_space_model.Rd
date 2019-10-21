@@ -51,6 +51,9 @@ undefined statistics will return NaN for this statistic. Default value: \code{TR
 \item{name}{string prefixed to ops created by this class.
 Default value: "SeasonalStateSpaceModel".}
 }
+\value{
+an instance of \code{LinearGaussianStateSpaceModel}.
+}
 \description{
 Seasonal state space model with effects constrained to sum to zero.
 }

@@ -51,6 +51,9 @@ examine the latent space of the underlying state space model. Default value: \co
 
 \item{name}{the name of this model component. Default value: 'Seasonal'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 A seasonal effect model posits a fixed set of recurring, discrete 'seasons',
 each of which is active for a fixed number of timesteps and, while active,

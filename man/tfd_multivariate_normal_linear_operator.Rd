@@ -26,6 +26,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The Multivariate Normal distribution is defined over \code{R^k`` and parameterized by a (batch of) length-k loc vector (aka "mu") and a (batch of) }k x k\code{scale matrix;}covariance = scale @ scale.T\code{where}@` denotes
 matrix-multiplication.

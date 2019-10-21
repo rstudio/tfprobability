@@ -47,6 +47,9 @@ Default value: \code{NULL}.}
 
 \item{name}{the name of this model component. Default value: 'Autoregressive'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 An autoregressive (AR) model posits a latent \code{level} whose value at each step
 is a noisy linear combination of previous steps:\preformatted{level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))

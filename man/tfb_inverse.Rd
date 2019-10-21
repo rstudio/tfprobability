@@ -13,6 +13,9 @@ tfb_inverse(bijector, y, name = "inverse")
 
 \item{name}{name of the operation}
 }
+\value{
+a tensor
+}
 \description{
 Returns the inverse Bijector evaluation, i.e., \code{X = g^{-1}(Y)}.
 }

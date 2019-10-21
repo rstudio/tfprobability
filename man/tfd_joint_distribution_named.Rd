@@ -16,6 +16,9 @@ silently render incorrect outputs. Default value: FALSE.}
 
 \item{name}{The name for ops managed by the distribution. Default value: \code{"JointDistributionNamed"}.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution enables both sampling and joint probability computation from
 a single model specification.

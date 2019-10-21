@@ -37,6 +37,9 @@ invalid, correct behavior is not guaranteed. Default value: \code{FALSE}.}
 
 \item{name}{name prefixed to ops created by this class. Default value: "AutoregressiveStateSpaceModel".}
 }
+\value{
+an instance of \code{LinearGaussianStateSpaceModel}.
+}
 \description{
 A state space model (SSM) posits a set of latent (unobserved) variables that
 evolve over time with dynamics specified by a probabilistic transition model

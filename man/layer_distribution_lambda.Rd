@@ -17,6 +17,9 @@ tf$Tensor-like object. Default value: \code{tfd$distributions$Distribution$sampl
 
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
+\value{
+a Keras layer
+}
 \description{
 Keras layer enabling plumbing TFP distributions through Keras models
 }

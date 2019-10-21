@@ -19,6 +19,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 Applies Batch Normalization (Ioffe and Szegedy, 2015) to samples from a
 data distribution. This can be used to stabilize training of normalizing

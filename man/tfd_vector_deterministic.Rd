@@ -28,6 +28,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The VectorDeterministic distribution is parameterized by a batch point loc in R^k.
 The distribution is supported at this point only, and corresponds to a random

@@ -39,6 +39,9 @@ constructed based on the provided \code{observed_time_series}. Default value: \c
 
 \item{name}{the name of this model component. Default value: 'LocalLinearTrend'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 The local linear trend model posits a \code{level} and \code{slope}, each
 evolving via a Gaussian random walk:\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)

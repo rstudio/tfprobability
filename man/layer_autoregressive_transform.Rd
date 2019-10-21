@@ -13,6 +13,9 @@ layer_autoregressive_transform(object, made, ...)
 
 \item{...}{Additional parameters passed to Keras Layer.}
 }
+\value{
+a Keras layer
+}
 \description{
 Following \href{https://arxiv.org/abs/1705.07057}{Papamakarios et al. (2017)}, given
 an autoregressive model \eqn{p(x)} with conditional distributions in the location-scale

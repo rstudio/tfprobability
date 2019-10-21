@@ -12,6 +12,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 Both the domain and the codomain of the mapping is \code{[-inf, inf]}, however,
 the input of the forward mapping must be strictly increasing.

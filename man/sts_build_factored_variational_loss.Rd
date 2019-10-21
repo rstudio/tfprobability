@@ -27,6 +27,25 @@ states to optimize in parallel. Default value: \code{list()}. (i.e., just run a 
 \item{name}{name prefixed to ops created by this function. Default value: \code{NULL}
 (i.e., 'build_factored_variational_loss').}
 }
+\value{
+list of:
+\itemize{
+\item variational_loss: \code{float} \code{Tensor} of shape
+\code{tf$concat([init_batch_shape, model$batch_shape])}, encoding a stochastic
+estimate of an upper bound on the negative model evidence \code{-log p(y)}.
+Minimizing this loss performs variational inference; the gap between the
+variational bound and the true (generally unknown) model evidence
+corresponds to the divergence \code{KL[q||p]} between the approximate and true
+posterior.
+\item variational_distributions: a named list giving
+the approximate posterior for each model parameter. The keys are
+\code{character} parameter names in order, corresponding to
+\code{[param.name for param in model.parameters]}. The values are
+\code{tfd$Distribution} instances with batch shape
+\code{tf$concat([init_batch_shape, model$batch_shape])}; these will typically be
+of the form \code{tfd$TransformedDistribution(tfd.Normal(...), bijector=param.bijector)}.
+}
+}
 \description{
 Variational inference searches for the distribution within some family of
 approximate posteriors that minimizes a divergence between the approximate

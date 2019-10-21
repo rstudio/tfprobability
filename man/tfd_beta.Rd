@@ -25,6 +25,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The Beta distribution is defined over the \code{(0, 1)} interval using parameters
 \code{concentration1} (aka "alpha") and \code{concentration0} (aka "beta").

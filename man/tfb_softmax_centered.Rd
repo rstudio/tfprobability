@@ -12,6 +12,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 To implement \href{https://en.wikipedia.org/wiki/Softmax_function}{softmax} as a
 bijection, the forward transformation appends a value to the input and the

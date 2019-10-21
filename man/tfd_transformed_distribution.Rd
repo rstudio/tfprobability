@@ -24,6 +24,9 @@ silently render incorrect outputs. Default value: FALSE.}
 
 \item{name}{The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.}
 }
+\value{
+a distribution instance.
+}
 \description{
 A TransformedDistribution models \code{p(y)} given a base distribution \code{p(x)},
 and a deterministic, invertible, differentiable transform,\code{Y = g(X)}. The

@@ -18,7 +18,7 @@
 #' For example, when `params` is 2, the output of the layer can parameterize
 #' the location and log-scale of an autoregressive Gaussian distribution.
 #'
-#' @inheritParams keras::layer_dense
+#' @inherit layer_autoregressive_transform return params
 #'
 #' @param params integer specifying the number of parameters to output per input.
 #' @param event_shape `list`-like of positive integers (or a single int),
@@ -107,6 +107,7 @@ layer_autoregressive <- function(object,
 #'
 #'
 #' @inheritParams keras::layer_dense
+#' @return a Keras layer
 #' @param made A `Made` layer, which must output two parameters for each input.
 #' @param ... Additional parameters passed to Keras Layer.
 #'
@@ -145,6 +146,7 @@ layer_autoregressive_transform <- function(object, made, ...) {
 #'    Y ~ Likelihood(M)
 #'    ```
 #'
+#' @inherit layer_autoregressive_transform return params
 #' @inheritParams keras::layer_dense
 #'
 #' @param make_posterior_fn function taking `tf$size(kernel)`,
@@ -199,7 +201,7 @@ layer_dense_variational <- function(object,
 #'  `layer_dense()` when the `kernel` is forced to be the zero matrix
 #'  (`tf$zeros`).
 #'
-#' @inheritParams keras::layer_dense
+#' @inherit layer_autoregressive_transform return params
 #'
 #' @param shape integer or integer vector specifying the shape of the output of this layer.
 #' @param dtype TensorFlow `dtype` of the variable created by this layer.
@@ -271,6 +273,7 @@ layer_variable <- function(object,
 #' @section References:
 #' - [Diederik Kingma and Max Welling. Auto-Encoding Variational Bayes. In _International Conference on Learning Representations_, 2014.](https://arxiv.org/abs/1312.6114)
 #'
+#' @inherit layer_autoregressive_transform return params
 #' @inheritParams keras::layer_dense
 #'
 #' @param units integer dimensionality of the output space
@@ -371,7 +374,8 @@ layer_dense_reparameterization <- function(object,
 #' @section References:
 #' - [Yeming Wen, Paul Vicol, Jimmy Ba, Dustin Tran, and Roger Grosse. Flipout: Efficient Pseudo-Independent Weight Perturbations on Mini-Batches. In _International Conference on Learning Representations_, 2018.](https://arxiv.org/abs/1803.04386)
 #'
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_dense
 #' @param seed scalar `integer` which initializes the random number generator.
 #' Default value: `NULL` (i.e., use global seed).
 #'
@@ -457,7 +461,8 @@ layer_dense_flipout <- function(object,
 #' - [Diederik Kingma, Tim Salimans, and Max Welling. Variational Dropout and the Local Reparameterization Trick. In _Neural Information Processing Systems_, 2015.](https://arxiv.org/abs/1506.02557)
 #' - [Dmitry Molchanov, Arsenii Ashukha, Dmitry Vetrov. Variational Dropout Sparsifies Deep Neural Networks. In _International Conference on Machine Learning_, 2017.](https://arxiv.org/abs/1701.05369)
 #'
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_dense
 #' @family layers
 #' @export
 layer_dense_local_reparameterization <- function(object,
@@ -554,7 +559,8 @@ layer_dense_local_reparameterization <- function(object,
 #' the dilation rate to use for dilated convolution.
 #' Currently, specifying any `dilation_rate` value != 1 is
 #' incompatible with specifying any `strides` value != 1.
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_conv_1d
 #'
 #' @family layers
 #' @export
@@ -664,7 +670,8 @@ layer_conv_1d_reparameterization <- function(object,
 #' the dilation rate to use for dilated convolution.
 #' Currently, specifying any `dilation_rate` value != 1 is
 #' incompatible with specifying any `strides` value != 1.
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_conv_1d
 #'
 #' @family layers
 #' @export
@@ -772,7 +779,8 @@ layer_conv_1d_flipout <- function(object,
 #' the dilation rate to use for dilated convolution.
 #' Currently, specifying any `dilation_rate` value != 1 is
 #' incompatible with specifying any `strides` value != 1.
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_conv_2d
 #'
 #' @family layers
 #' @export
@@ -882,7 +890,8 @@ layer_conv_2d_reparameterization <- function(object,
 #' the dilation rate to use for dilated convolution.
 #' Currently, specifying any `dilation_rate` value != 1 is
 #' incompatible with specifying any `strides` value != 1.
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_conv_2d
 #'
 #' @family layers
 #' @export
@@ -990,7 +999,8 @@ layer_conv_2d_flipout <- function(object,
 #' the dilation rate to use for dilated convolution.
 #' Currently, specifying any `dilation_rate` value != 1 is
 #' incompatible with specifying any `strides` value != 1.
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_conv_3d
 #'
 #' @family layers
 #' @export
@@ -1100,7 +1110,8 @@ layer_conv_3d_reparameterization <- function(object,
 #' the dilation rate to use for dilated convolution.
 #' Currently, specifying any `dilation_rate` value != 1 is
 #' incompatible with specifying any `strides` value != 1.
-#' @inheritParams layer_dense_reparameterization
+#' @inherit layer_dense_reparameterization return params
+#' @inheritParams keras::layer_conv_3d
 #'
 #' @family layers
 #' @export

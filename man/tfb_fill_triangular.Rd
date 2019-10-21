@@ -16,6 +16,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 Triangular matrix elements are filled in a clockwise spiral.
 Given input with shape \code{batch_shape + [d]}, produces output with

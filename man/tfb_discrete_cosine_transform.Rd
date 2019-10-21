@@ -16,6 +16,9 @@ Currently, only 2 and 3 are supported.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 The \href{https://en.wikipedia.org/wiki/Discrete_cosine_transform}{discrete cosine transform}
 efficiently applies a unitary DCT operator. This can be useful for mixing and decorrelating across

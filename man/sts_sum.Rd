@@ -35,6 +35,9 @@ default prior is constructed based on the provided
 \item{name}{string name of this model component; used as \code{name_scope}
 for ops created by this class. Default value: 'Sum'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 This class enables compositional specification of a structural time series
 model from basic components. Given a list of component models, it represents

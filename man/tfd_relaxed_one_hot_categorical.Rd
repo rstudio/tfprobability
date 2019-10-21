@@ -30,6 +30,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The RelaxedOneHotCategorical is a distribution over random probability
 vectors, vectors of positive real values that sum to one, which continuously

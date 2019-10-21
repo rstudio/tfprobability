@@ -29,6 +29,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The categorical distribution is parameterized by the log-probabilities of a set of classes.
 The difference between OneHotCategorical and Categorical distributions is that OneHotCategorical

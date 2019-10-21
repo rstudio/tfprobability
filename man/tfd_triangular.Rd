@@ -27,6 +27,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The parameters \code{low}, \code{high} and \code{peak} must be shaped in a way that supports
 broadcasting (e.g., \code{high - low} is a valid operation).

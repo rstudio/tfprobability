@@ -42,6 +42,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The \code{MixtureSameFamily} distribution implements a (batch of) mixture
 distribution where all components are from different parameterizations of the

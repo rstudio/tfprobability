@@ -24,6 +24,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The Dirichlet distribution is defined over the
 \href{https://en.wikipedia.org/wiki/Simplex}{(k-1)-simplex} using a positive,

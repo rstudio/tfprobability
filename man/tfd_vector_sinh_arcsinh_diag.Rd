@@ -53,6 +53,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution models a random vector \code{Y = (Y1,...,Yk)}, making use of
 a SinhArcsinh transformation (which has adjustable tailweight and skew),

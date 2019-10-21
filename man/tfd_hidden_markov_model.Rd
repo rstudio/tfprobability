@@ -36,6 +36,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The \code{HiddenMarkovModel} distribution implements a (batch of) hidden
 Markov models where the initial states, transition probabilities

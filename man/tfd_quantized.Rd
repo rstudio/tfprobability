@@ -26,6 +26,9 @@ silently render incorrect outputs. Default value: FALSE.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 Definition in Terms of Sampling
 }

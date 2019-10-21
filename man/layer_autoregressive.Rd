@@ -46,6 +46,9 @@ performance. When \code{FALSE} invalid inputs may silently render incorrect outp
 
 \item{...}{Additional keyword arguments passed to the \code{keras::layer_dense} constructed by this layer.}
 }
+\value{
+a Keras layer
+}
 \description{
 \code{layer_autoregressive} takes as input a Tensor of shape \code{[..., event_size]}
 and returns a Tensor of shape \code{[..., event_size, params]}.

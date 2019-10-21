@@ -34,6 +34,9 @@ should have a bias term.  See \code{keras::layer_dense}.  Default: \code{TRUE}.}
 
 \item{...}{Additional keyword arguments passed to the \code{keras::layer_dense} constructed by this layer.}
 }
+\value{
+a Keras layer
+}
 \description{
 This layer uses variational inference to fit a "surrogate" posterior to the
 distribution over both the \code{kernel} matrix and the \code{bias} terms which are

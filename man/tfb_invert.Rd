@@ -14,6 +14,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 Creates a Bijector which swaps the meaning of inverse and forward.
 Note: An inverted bijector's inverse_log_det_jacobian is often more

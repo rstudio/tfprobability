@@ -44,6 +44,21 @@ must be a positive integer. See \code{tf$while_loop} for more details.}
 \item{name}{string prefixed to Ops created by this function. Default value: \code{NULL},
 (i.e., "mcmc_sample_chain").}
 }
+\value{
+list of:
+\itemize{
+\item checkpointable_states_and_trace: if \code{return_final_kernel_results} is
+\code{TRUE}. The return value is an instance of \code{CheckpointableStatesAndTrace}.
+\item all_states: if \code{return_final_kernel_results} is \code{FALSE} and \code{trace_fn} is
+\code{NULL}. The return value is a \code{Tensor} or Python list of \code{Tensor}s
+representing the state(s) of the Markov chain(s) at each result step. Has
+same shape as input \code{current_state} but with a prepended
+\code{num_results}-size dimension.
+\item states_and_trace: if \code{return_final_kernel_results} is \code{FALSE} and
+\code{trace_fn} is not \code{NULL}. The return value is an instance of
+\code{StatesAndTrace}.
+}
+}
 \description{
 This function samples from an Markov chain at \code{current_state} and whose
 stationary distribution is governed by the supplied \code{TransitionKernel}

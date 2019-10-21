@@ -13,6 +13,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 L must be nonsingular; equivalently, all diagonal entries of L must be nonzero.
 The input must have rank >= 2.  The input is treated as a batch of matrices

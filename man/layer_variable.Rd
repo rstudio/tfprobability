@@ -24,6 +24,9 @@ layer_variable(object, shape, dtype = NULL, activation = NULL,
 
 \item{...}{Additional keyword arguments passed to the \code{keras::layer_dense} constructed by this layer.}
 }
+\value{
+a Keras layer
+}
 \description{
 Simply returns a (trainable) variable, regardless of input.
 This layer implements the mathematical function \code{f(x) = c} where \code{c} is a

@@ -32,6 +32,9 @@ Default value: NULL (i.e., do not weight each batch member).}
 
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
+\value{
+a Keras layer
+}
 \description{
 When using Monte Carlo approximation (e.g., \code{use_exact = FALSE}), it is presumed that the input
 distribution's concretization (i.e., \code{tf$convert_to_tensor(distribution)}) corresponds to a random

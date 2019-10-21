@@ -23,6 +23,9 @@ Default value: \code{NULL}.}
 
 \item{name}{the name of this model component. Default value: 'LinearRegression'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 This model defines a time series given by a linear combination of
 covariate time series provided in a design matrix:\preformatted{observed_time_series <- tf$matmul(design_matrix, weights)

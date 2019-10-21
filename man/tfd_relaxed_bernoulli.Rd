@@ -29,6 +29,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The RelaxedBernoulli is a distribution over the unit interval (0,1), which continuously approximates a Bernoulli.
 The degree of approximation is controlled by a temperature: as the temperature goes to 0 the RelaxedBernoulli

@@ -11,6 +11,9 @@ params_size_mixture_normal(num_components, event_shape)
 
 \item{event_shape}{Number of parameters needed to create a single component distribution.}
 }
+\value{
+a scalar
+}
 \description{
 number of \code{params} needed to create a MixtureNormal distribution
 }

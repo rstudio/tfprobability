@@ -21,6 +21,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
 tfb_transform_diagonal, and provided mostly as a convenience.

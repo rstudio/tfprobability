@@ -30,6 +30,9 @@ silently render incorrect outputs. Default value: FALSE.}
 
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
+\value{
+a Keras layer
+}
 \description{
 \code{k} (i.e., \code{num_components}) represents the number of component
 \code{OneHotCategorical} distributions and \code{d} (i.e., \code{event_size}) represents the

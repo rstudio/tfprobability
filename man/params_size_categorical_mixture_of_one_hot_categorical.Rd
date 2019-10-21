@@ -12,6 +12,9 @@ params_size_categorical_mixture_of_one_hot_categorical(event_size,
 
 \item{num_components}{number of components in the mixture}
 }
+\value{
+a scalar
+}
 \description{
 number of \code{params} needed to create a CategoricalMixtureOfOneHotCategorical distribution
 }

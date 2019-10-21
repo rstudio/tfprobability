@@ -28,6 +28,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 Real NVP models a normalizing flow on a D-dimensional distribution via a
 single D-d-dimensional conditional distribution (Dinh et al., 2017):

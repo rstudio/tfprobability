@@ -20,6 +20,9 @@ bijectors. If left as NULL, a vector of 1's is used.}
 \item{name}{String, name given to ops managed by this object. Default:
 E.g., \code{tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of_exp_and_softplus'}.}
 }
+\value{
+a bijector instance.
+}
 \description{
 More specifically, given \code{[F_0, F_1, ... F_n]} which are scalar or vector
 bijectors this bijector creates a transformation which operates on the vector

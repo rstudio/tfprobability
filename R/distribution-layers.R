@@ -8,7 +8,7 @@
 #'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 #'  silently render incorrect outputs. Default value: FALSE.
 #'
-#' @return a Keras layer that wraps a MultivariateNormalTriL distribution
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -44,7 +44,7 @@ layer_multivariate_normal_tri_l <- function(object,
 #'  silently render incorrect outputs. Default value: FALSE.
 #'  @param ... Additional arguments passed to `args` of `keras::create_layer`.
 #'
-#' @return a Keras layer that wraps a Bernoulli distribution
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #'
@@ -78,6 +78,7 @@ layer_independent_bernoulli <- function(object,
 #' @param convert_to_tensor_fn A callable that takes a tfd$Distribution instance and returns a
 #'  tf$Tensor-like object. Default value: `tfd$distributions$Distribution$sample`.
 #' @param ... Additional arguments passed to `args` of `keras::create_layer`.
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -118,7 +119,7 @@ layer_distribution_lambda <- function(object,
 #' Default value: NULL (i.e., do not weight each batch member).
 #' @param ... Additional arguments passed to `args` of `keras::create_layer`.
 
-#' @return a Keras layer that adds a KL divergence penalty to the model loss
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -153,6 +154,7 @@ layer_kl_divergence_add_loss <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_kl_divergence_add_loss
+#' @return a Keras layer
 #'
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
@@ -194,6 +196,7 @@ layer_kl_divergence_regularizer <- function(object,
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_distribution_lambda
 #' @inheritParams layer_multivariate_normal_tri_l
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -234,6 +237,7 @@ layer_one_hot_categorical <- function(object,
 #' efficient to use the `OneHotCategorical` layer.)
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_one_hot_categorical
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -264,6 +268,7 @@ layer_categorical_mixture_of_one_hot_categorical <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -288,6 +293,7 @@ layer_independent_poisson <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -313,6 +319,7 @@ layer_independent_logistic <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
+#' @return a Keras layer
 #' @family distribution_layers
 #' @examples
 #' \donttest{
@@ -358,6 +365,7 @@ layer_independent_normal <- function(object,
 #' e.g., a TFP distribution layer.
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -387,6 +395,7 @@ layer_mixture_same_family <- function(object,
 #' draw from this distribution.
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_independent_bernoulli
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -413,6 +422,7 @@ layer_mixture_normal <- function(object,
 #'
 #' @inheritParams keras::layer_dense
 #' @inheritParams layer_mixture_normal
+#' @return a Keras layer
 #' @family distribution_layers
 #' @seealso For an example how to use in a Keras model, see [layer_independent_normal()].
 #' @export
@@ -448,6 +458,7 @@ layer_mixture_logistic <- function(object,
 #' output.
 #'
 #' @inheritParams keras::layer_dense
+#' @return a Keras layer
 #'
 #' @param num_inducing_points number of inducing points in the Variational Gaussian
 #'  Process distribution.

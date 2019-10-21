@@ -35,6 +35,9 @@ silently render incorrect outputs. Default value: FALSE.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The Zipf distribution is parameterized by a power parameter.
 }

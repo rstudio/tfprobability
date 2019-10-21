@@ -58,6 +58,9 @@ Default value: \code{NULL} (i.e., use global seed).}
 
 \item{...}{Additional keyword arguments passed to the \code{keras::layer_dense} constructed by this layer.}
 }
+\value{
+a Keras layer
+}
 \description{
 This layer implements the Bayesian variational inference analogue to
 a dense layer by assuming the \code{kernel} and/or the \code{bias} are drawn

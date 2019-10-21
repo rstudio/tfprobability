@@ -18,6 +18,9 @@ silently render incorrect outputs. Default value: FALSE.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution enables both sampling and joint probability computation from
 a single model specification.
