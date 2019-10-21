@@ -28,6 +28,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The Bernoulli distribution with \code{probs} parameter, i.e., the probability of a
 \code{1} outcome (vs a \code{0} outcome).

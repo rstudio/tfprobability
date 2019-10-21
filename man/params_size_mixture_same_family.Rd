@@ -11,6 +11,9 @@ params_size_mixture_same_family(num_components, component_params_size)
 
 \item{component_params_size}{Number of parameters needed to create a single component distribution.}
 }
+\value{
+a scalar
+}
 \description{
 number of \code{params} needed to create a MixtureSameFamily distribution
 }

@@ -75,6 +75,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution implements the variational Gaussian process (VGP), as
 described in Titsias (2009) and Hensman (2013). The VGP is an

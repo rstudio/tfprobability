@@ -42,6 +42,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 \item{dtype}{\code{tf$DType} to prefer when converting args to Tensors. Else, we fall back to a
 common dtype inferred from the args, finally falling back to float32.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This Bijector is initialized with shift Tensor and scale arguments,
 giving the forward operation: \code{Y = g(X) = scale @ X + shift}

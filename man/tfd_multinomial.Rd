@@ -36,6 +36,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This Multinomial distribution is parameterized by \code{probs}, a (batch of)
 length-\code{K} \code{prob} (probability) vectors (\code{K > 1}) such that

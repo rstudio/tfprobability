@@ -61,6 +61,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 A vector diffeomixture (VDM) is a distribution parameterized by a convex
 combination of \code{K} component \code{loc} vectors, \code{loc[k], k = 0,...,K-1}, and \code{K}

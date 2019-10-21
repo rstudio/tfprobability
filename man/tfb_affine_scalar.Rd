@@ -17,6 +17,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This Bijector is initialized with shift Tensor and scale arguments, giving the forward operation:
 \code{Y = g(X) = scale * X + shift}

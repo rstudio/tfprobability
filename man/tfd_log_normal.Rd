@@ -24,6 +24,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The LogNormal distribution models positive-valued random variables
 whose logarithm is normally distributed with mean \code{loc} and

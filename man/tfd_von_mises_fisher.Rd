@@ -31,6 +31,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The von Mises-Fisher distribution is a directional distribution over vectors
 on the unit hypersphere \code{S^{n-1}} embedded in n dimensions \code{(R^n)}.

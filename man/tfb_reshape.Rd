@@ -20,6 +20,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 The semantics generally follow that of \code{tf$reshape()}, with a few differences:
 \itemize{

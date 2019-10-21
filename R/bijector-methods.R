@@ -3,6 +3,7 @@
 #' @param bijector The bijector to apply
 #' @param x Tensor. The input to the "forward" evaluation.
 #' @param name name of the operation
+#' @return a tensor
 #' @family bijector_methods
 #' @examples
 #' \donttest{
@@ -21,6 +22,7 @@ tfb_forward <-
 #' @param bijector  The bijector to apply
 #' @param y Tensor. The input to the "inverse" evaluation.
 #' @param name name of the operation
+#' @return a tensor
 #' @family bijector_methods
 #' @examples
 #' \donttest{
@@ -44,6 +46,7 @@ tfb_inverse <-
 #'  dimensions to produce a scalar Jacobian determinant for each event, i.e. it has shape
 #'   x$shape$ndims - event_ndims dimensions.
 #' @param name name of the operation
+#' @return a tensor
 #' @family bijector_methods
 #' @examples
 #' \donttest{
@@ -66,6 +69,7 @@ tfb_forward_log_det_jacobian <-
 #'  dimensions to produce a scalar Jacobian determinant for each event, i.e. it has shape
 #'   x$shape$ndims - event_ndims dimensions.
 #' @param name name of the operation
+#' @return a tensor
 #' @family bijector_methods
 #' @examples
 #' \donttest{

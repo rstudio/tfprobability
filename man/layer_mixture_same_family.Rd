@@ -29,6 +29,9 @@ silently render incorrect outputs. Default value: FALSE.
 
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
+\value{
+a Keras layer
+}
 \description{
 A mixture (same-family) Keras layer.
 }

@@ -17,6 +17,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This bijector is identical to the "Convolution1x1" used in Glow (Kingma and Dhariwal, 2018).
 }

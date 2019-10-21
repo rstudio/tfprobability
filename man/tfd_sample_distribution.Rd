@@ -21,6 +21,9 @@ silently render incorrect outputs. Default value: FALSE.}
 \item{name}{The name for ops managed by the distribution.
 Default value: \code{NULL} (i.e., \code{'Sample' + distribution$name}).}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution is useful for reducing over a collection of independent,
 identical draws. It is otherwise identical to the input distribution.

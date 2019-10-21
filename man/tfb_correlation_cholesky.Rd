@@ -13,6 +13,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This bijector is a mapping between \code{R^{n}} and the \code{n}-dimensional manifold of
 Cholesky-space correlation matrices embedded in \code{R^{m^2}}, where \code{n} is the

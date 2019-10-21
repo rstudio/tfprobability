@@ -15,6 +15,9 @@ bijector equivalent to the Identity bijector.}
 \item{name}{String, name given to ops managed by this object. Default:
 E.g., \code{tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"}.}
 }
+\value{
+a bijector instance.
+}
 \description{
 Bijector which applies a sequence of bijectors
 }

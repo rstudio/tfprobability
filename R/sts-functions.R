@@ -38,6 +38,22 @@
 #' @param name name prefixed to ops created by this function. Default value: `NULL`
 #' (i.e., 'build_factored_variational_loss').
 #'
+#' @return list of:
+#' - variational_loss: `float` `Tensor` of shape
+#' `tf$concat([init_batch_shape, model$batch_shape])`, encoding a stochastic
+#' estimate of an upper bound on the negative model evidence `-log p(y)`.
+#' Minimizing this loss performs variational inference; the gap between the
+#' variational bound and the true (generally unknown) model evidence
+#' corresponds to the divergence `KL[q||p]` between the approximate and true
+#' posterior.
+#' - variational_distributions: a named list giving
+#' the approximate posterior for each model parameter. The keys are
+#'  `character` parameter names in order, corresponding to
+#' `[param.name for param in model.parameters]`. The values are
+#' `tfd$Distribution` instances with batch shape
+#' `tf$concat([init_batch_shape, model$batch_shape])`; these will typically be
+#' of the form `tfd$TransformedDistribution(tfd.Normal(...), bijector=param.bijector)`.
+#'
 #' @section References:
 #'  - [Alp Kucukelbir, Dustin Tran, Rajesh Ranganath, Andrew Gelman, and David M. Blei. Automatic Differentiation Variational Inference. In _Journal of Machine Learning Research_, 2017.](https://arxiv.org/abs/1603.00788)
 #'
@@ -105,6 +121,13 @@ sts_build_factored_variational_loss <-
 #' the optimization, but at higher cost per step in time and memory.
 #' Default value: `1`.
 #' @param name name prefixed to ops created by this function. Default value: `NULL` (i.e., 'fit_with_hmc').
+#' @return list of:
+#' - samples: `list` of `Tensors` representing posterior samples of model
+#' parameters, with shapes `[concat([[num_results], chain_batch_shape,
+#' param.prior.batch_shape, param.prior.event_shape]) for param in
+#' model.parameters]`.
+#' - kernel_results: A (possibly nested) `list` of `Tensor`s representing
+#' internal calculations made within the HMC sampler.
 #'
 #' @inheritParams sts_build_factored_variational_loss
 #' @family sts-functions

@@ -35,6 +35,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This is a one-parameter  of distributions on correlation matrices.  The
 probability density is proportional to the determinant raised to the power of

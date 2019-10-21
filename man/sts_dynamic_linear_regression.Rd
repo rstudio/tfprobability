@@ -32,6 +32,9 @@ Normal(0, 10) prior is used. Default value: \code{NULL}.}
 
 \item{name}{the name of this component. Default value: 'DynamicLinearRegression'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 The dynamic linear regression model is a special case of a linear Gaussian SSM
 and a generalization of typical (static) linear regression. The model

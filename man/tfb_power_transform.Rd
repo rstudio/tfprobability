@@ -16,6 +16,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 The \href{https://en.wikipedia.org/wiki/Power_transform}{power transform} maps
 inputs from \code{[0, inf]} to \code{[-1/c, inf]}; this is equivalent to the inverse of this bijector.

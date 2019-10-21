@@ -22,6 +22,11 @@ holding independent chain results to be tested for convergence.}
 
 \item{name}{name to prepend to created tf.  Default: \code{potential_scale_reduction}.}
 }
+\value{
+\code{Tensor} or \code{list} of \code{Tensor}s representing the R-hat statistic for
+the state(s).  Same \code{dtype} as \code{state}, and shape equal to
+\code{state$shape[1 + independent_chain_ndims:]}.
+}
 \description{
 Given \code{N > 1} states from each of \code{C > 1} independent chains, the potential
 scale reduction factor, commonly referred to as R-hat, measures convergence of

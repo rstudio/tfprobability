@@ -12,6 +12,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This bijector maps inputs from \code{[-inf, inf]} to \code{[0, 1]}. The inverse of the
 bijector applied to a uniform random variable \code{X ~ U(0, 1)} gives back a

@@ -40,6 +40,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution is defined by a scalar number of degrees of freedom df and
 an instance of LinearOperator, which provides matrix-free access to a

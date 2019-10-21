@@ -32,6 +32,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 The affine autoregressive flow (Papamakarios et al., 2016) provides a
 relatively simple framework for user-specified (deep) architectures to learn a

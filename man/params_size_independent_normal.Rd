@@ -9,6 +9,9 @@ params_size_independent_normal(event_size)
 \arguments{
 \item{event_size}{event size of this distribution}
 }
+\value{
+a scalar
+}
 \description{
 number of \code{params} needed to create an IndependentNormal distribution
 }

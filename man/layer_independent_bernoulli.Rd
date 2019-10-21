@@ -27,7 +27,7 @@ silently render incorrect outputs. Default value: FALSE.
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
 \value{
-a Keras layer that wraps a Bernoulli distribution
+a Keras layer
 }
 \description{
 An Independent-Bernoulli Keras layer from prod(event_shape) params

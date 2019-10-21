@@ -34,6 +34,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 This distribution is parameterized by \code{probs}, a (batch of) probabilities for
 drawing a \code{1} and \code{total_count}, the number of trials per draw from the

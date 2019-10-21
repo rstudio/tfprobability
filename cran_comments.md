@@ -42,3 +42,9 @@ This is a resubmission. In this version I have:
   5.78    1.68  302.47
 ```
 
+## Resubmission 3
+
+This is a resubmission. In this version I have:
+
+* documented return values of distribution constructors, distribution methods, distribution-related utility functions, bijector constructors, bijector methods, Keras layers, mcmc sampling methods, structural time series models
+

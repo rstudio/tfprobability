@@ -19,6 +19,9 @@ x$shape$ndims - event_ndims dimensions.}
 
 \item{name}{name of the operation}
 }
+\value{
+a tensor
+}
 \description{
 Returns the result of the inverse evaluation of the log determinant of the Jacobian
 }

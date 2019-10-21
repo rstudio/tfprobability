@@ -33,6 +33,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The Categorical distribution is parameterized by either probabilities or
 log-probabilities of a set of \code{K} classes. It is defined over the integers

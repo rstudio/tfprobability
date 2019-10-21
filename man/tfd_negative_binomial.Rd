@@ -40,6 +40,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The NegativeBinomial distribution is related to the experiment of performing
 Bernoulli trials in sequence. Given a Bernoulli trial with probability \code{p} of

@@ -12,6 +12,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 g is a bijection between the non-negative real numbers (R_+) and the non-negative real numbers.
 }

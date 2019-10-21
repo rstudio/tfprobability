@@ -29,6 +29,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The truncated normal is a normal distribution bounded between \code{low}
 and \code{high} (the pdf is 0 outside these bounds and renormalized).

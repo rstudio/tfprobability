@@ -65,6 +65,15 @@ Default value: \code{1}.}
 
 \item{name}{name prefixed to ops created by this function. Default value: \code{NULL} (i.e., 'fit_with_hmc').}
 }
+\value{
+list of:
+\itemize{
+\item samples: \code{list} of \code{Tensors} representing posterior samples of model
+parameters, with shapes \code{[concat([[num_results], chain_batch_shape, param.prior.batch_shape, param.prior.event_shape]) for param in model.parameters]}.
+\item kernel_results: A (possibly nested) \code{list} of \code{Tensor}s representing
+internal calculations made within the HMC sampler.
+}
+}
 \description{
 Markov chain Monte Carlo (MCMC) methods are considered the gold standard of
 Bayesian inference; under suitable conditions and in the limit of infinitely

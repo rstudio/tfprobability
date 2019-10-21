@@ -24,6 +24,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The \code{InverseGamma} distribution is defined over positive real numbers using
 parameters \code{concentration} (aka "alpha") and \code{scale} (aka "beta").

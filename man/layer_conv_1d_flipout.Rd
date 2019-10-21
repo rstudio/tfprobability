@@ -78,6 +78,9 @@ distributions are \code{tfd$Distribution}-like instances and the sample is a \co
 
 \item{...}{Additional keyword arguments passed to the \code{keras::layer_dense} constructed by this layer.}
 }
+\value{
+a Keras layer
+}
 \description{
 This layer creates a convolution kernel that is convolved
 (actually cross-correlated) with the layer input to produce a tensor of

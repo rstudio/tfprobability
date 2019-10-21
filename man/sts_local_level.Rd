@@ -29,6 +29,9 @@ Default value: \code{NULL}.}
 
 \item{name}{the name of this model component. Default value: 'LocalLevel'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 The local level model posits a \code{level} evolving via a Gaussian random walk:\preformatted{level[t] = level[t-1] + Normal(0., level_scale)
 }

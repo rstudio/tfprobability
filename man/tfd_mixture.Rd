@@ -30,6 +30,9 @@ at the expense of sampling all underlying distributions in the mixture.
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The \code{Mixture} object implements batched mixture distributions.
 The mixture model is defined by a \code{Categorical} distribution (the mixture)

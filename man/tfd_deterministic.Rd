@@ -30,6 +30,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The scalar \code{Deterministic} distribution is parameterized by a (batch) point
 \code{loc} on the real line.  The distribution is supported at this point only,

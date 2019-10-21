@@ -23,7 +23,7 @@ silently render incorrect outputs. Default value: FALSE.}
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
 \value{
-a Keras layer that wraps a MultivariateNormalTriL distribution
+a Keras layer
 }
 \description{
 A d-variate Multivariate Normal TriL Keras layer from \code{d+d*(d+1)/ 2} params

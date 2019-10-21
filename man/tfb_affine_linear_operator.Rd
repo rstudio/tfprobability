@@ -21,6 +21,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 \code{shift} is a numeric Tensor and scale is a LinearOperator.
 If \code{X} is a scalar then the forward transformation is: \code{scale * X + shift}

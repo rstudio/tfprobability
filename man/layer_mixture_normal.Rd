@@ -26,6 +26,9 @@ silently render incorrect outputs. Default value: FALSE.
 
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
+\value{
+a Keras layer
+}
 \description{
 A mixture distribution Keras layer, with independent normal components.
 }

@@ -45,6 +45,9 @@ undefined statistics will return NaN for this statistic. Default value: \code{TR
 \item{name}{string prefixed to ops created by this class.
 Default value: "LocalLinearTrendStateSpaceModel".}
 }
+\value{
+an instance of \code{LinearGaussianStateSpaceModel}.
+}
 \description{
 A state space model (SSM) posits a set of latent (unobserved) variables that
 evolve over time with dynamics specified by a probabilistic transition model

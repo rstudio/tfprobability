@@ -36,6 +36,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The vector laplace distribution is defined over \code{R^k}, and parameterized by
 a (batch of) length-k loc vector (the means) and a (batch of) k x k

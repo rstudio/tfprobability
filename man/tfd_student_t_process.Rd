@@ -43,6 +43,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 A Student's T process (TP) is an indexed collection of random variables, any
 finite collection of which are jointly Multivariate Student's T. While this

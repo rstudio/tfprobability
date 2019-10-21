@@ -55,6 +55,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The state space model, sometimes called a Kalman filter, posits a
 latent state vector \code{z_t} of dimension \code{latent_size} that evolves

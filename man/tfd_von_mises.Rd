@@ -25,6 +25,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The von Mises distribution is a univariate directional distribution.
 Similarly to Normal distribution, it is a maximum entropy distribution.

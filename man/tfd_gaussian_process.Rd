@@ -48,6 +48,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 A Gaussian process (GP) is an indexed collection of random variables, any
 finite collection of which are jointly Gaussian. While this definition applies

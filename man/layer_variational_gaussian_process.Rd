@@ -47,6 +47,9 @@ numerical stability.}
 \item{name}{name to give to this layer and the scope of ops and variables it
 contains.}
 }
+\value{
+a Keras layer
+}
 \description{
 Create a Variational Gaussian Process distribution whose \code{index_points} are
 the inputs to the layer. Parameterized by number of inducing points and a

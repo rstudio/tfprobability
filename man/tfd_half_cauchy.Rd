@@ -23,6 +23,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The half-Cauchy distribution is parameterized by a \code{loc} and a
 \code{scale} parameter. It represents the right half of the two symmetric halves in

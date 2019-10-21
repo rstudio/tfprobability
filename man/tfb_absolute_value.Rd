@@ -12,6 +12,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This non-injective bijector allows for transformations of scalar distributions
 with the absolute value function, which maps \code{(-inf, inf)} to \code{[0, inf)}.

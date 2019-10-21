@@ -17,6 +17,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 For skewness in \code{(-inf, inf)} and tailweight in \code{(0, inf)}, this
 transformation is a diffeomorphism of the real line \code{(-inf, inf)}.

@@ -12,6 +12,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 \code{Y = tanh(X)}, therefore Y in \code{(-1, 1)}.
 }

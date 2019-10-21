@@ -30,6 +30,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The Geometric distribution is parameterized by p, the probability of a
 positive event. It represents the probability that in k + 1 Bernoulli trials,

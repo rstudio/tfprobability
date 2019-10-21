@@ -12,6 +12,9 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a bijector instance.
+}
 \description{
 This Bijector is no different from \code{tfb_chain(list(tfb_affine_scalar(shift=-1), tfb_exp()))}.
 However, this makes use of the more numerically stable routines

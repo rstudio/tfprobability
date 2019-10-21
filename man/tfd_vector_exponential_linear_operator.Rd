@@ -24,6 +24,9 @@ one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
+\value{
+a distribution instance.
+}
 \description{
 The vector exponential distribution is defined over a subset of \code{R^k}, and
 parameterized by a (batch of) length-\code{k} \code{loc} vector and a (batch of) \code{k x k}

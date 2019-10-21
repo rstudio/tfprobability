@@ -23,6 +23,9 @@ silently render incorrect outputs. Default value: FALSE.
 
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
+\value{
+a Keras layer
+}
 \description{
 An independent Logistic Keras layer.
 }

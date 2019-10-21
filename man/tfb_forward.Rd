@@ -13,6 +13,9 @@ tfb_forward(bijector, x, name = "forward")
 
 \item{name}{name of the operation}
 }
+\value{
+a tensor
+}
 \description{
 Returns the forward Bijector evaluation, i.e., \code{X = g(Y)}.
 }

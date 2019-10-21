@@ -33,7 +33,7 @@ Default value: NULL (i.e., do not weight each batch member).}
 \item{...}{Additional arguments passed to \code{args} of \code{keras::create_layer}.}
 }
 \value{
-a Keras layer that adds a KL divergence penalty to the model loss
+a Keras layer
 }
 \description{
 Pass-through layer that adds a KL divergence penalty to the model loss

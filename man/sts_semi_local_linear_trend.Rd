@@ -63,6 +63,9 @@ Default value: \code{FALSE}.}
 
 \item{name}{the name of this model component. Default value: 'SemiLocalLinearTrend'.}
 }
+\value{
+an instance of \code{StructuralTimeSeries}.
+}
 \description{
 Like the \code{sts_local_linear_trend} model, a semi-local linear trend posits a
 latent \code{level} and \code{slope}, with the level component updated according to
