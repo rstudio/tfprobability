@@ -3,6 +3,9 @@
 \name{glm_families}
 \alias{glm_families}
 \title{GLM families}
+\value{
+list of models that can be used as the \code{model} argument in \code{\link[=glm_fit]{glm_fit()}}
+}
 \description{
 A list of models that can be used as the \code{model} argument in \code{\link[=glm_fit]{glm_fit()}}:
 }

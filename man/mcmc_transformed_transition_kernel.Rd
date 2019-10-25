@@ -15,6 +15,9 @@ mcmc_transformed_transition_kernel(inner_kernel, bijector, name = NULL)
 \item{name}{string prefixed to Ops created by this function.
 Default value: \code{NULL} (i.e., "transformed_kernel").}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 The transformed transition kernel enables fitting
 a bijector which serves to decorrelate the Markov chain Monte Carlo (MCMC)

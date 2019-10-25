@@ -38,6 +38,9 @@ trajectory length implied by max_tree_depth. Defaults to 1.}
 \item{name}{name prefixed to Ops created by this function.
 Default value: \code{NULL} (i.e., 'nuts_kernel').}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 The No U-Turn Sampler (NUTS) is an adaptive variant of the Hamiltonian Monte
 Carlo (HMC) method for MCMC.  NUTS adapts the distance traveled in response to

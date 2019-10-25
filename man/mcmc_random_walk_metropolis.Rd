@@ -23,6 +23,9 @@ Default value: \code{NULL} which is mapped to \code{tfp$mcmc$random_walk_normal_
 \item{name}{String name prefixed to Ops created by this function.
 Default value: \code{NULL} (i.e., 'rwm_kernel').}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 Random Walk Metropolis is a gradient-free Markov chain Monte Carlo
 (MCMC) algorithm. The algorithm involves a proposal generating step

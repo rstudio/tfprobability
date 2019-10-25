@@ -20,6 +20,13 @@ computed (i.e. NICE bijector). Default: FALSE.}
 
 \item{...}{tf$layers$dense arguments}
 }
+\value{
+list of:
+\itemize{
+\item shift: \code{Float}-like \code{Tensor} of shift terms
+\item log_scale: \code{Float}-like \code{Tensor} of log(scale) terms
+}
+}
 \description{
 This will be wrapped in a make_template to ensure the variables are only
 created once. It takes the d-dimensional input \code{x[0:d]} and returns the \code{D-d}

@@ -32,6 +32,9 @@ Keras and TensorFlow.}
 
 \item{...}{Other arguments passed to \code{\link[tensorflow:install_tensorflow]{tensorflow::install_tensorflow()}}.}
 }
+\value{
+invisible
+}
 \description{
 Installs TensorFlow Probability
 }

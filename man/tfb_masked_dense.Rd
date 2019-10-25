@@ -26,6 +26,9 @@ If NULL (default), weights are initialized using the \code{tf$glorot_random_init
 
 \item{...}{\code{tf$layers$dense} arguments}
 }
+\value{
+tensor
+}
 \description{
 Analogous to \code{tf$layers$dense}.
 }

@@ -185,6 +185,25 @@ states to optimize in parallel. Default value: <code><a href='https://rdrr.io/r/
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>list of:</p><ul>
+<li><p>variational_loss: <code>float</code> <code>Tensor</code> of shape
+<code>tf$concat([init_batch_shape, model$batch_shape])</code>, encoding a stochastic
+estimate of an upper bound on the negative model evidence <code>-log p(y)</code>.
+Minimizing this loss performs variational inference; the gap between the
+variational bound and the true (generally unknown) model evidence
+corresponds to the divergence <code>KL[q||p]</code> between the approximate and true
+posterior.</p></li>
+<li><p>variational_distributions: a named list giving
+the approximate posterior for each model parameter. The keys are
+<code>character</code> parameter names in order, corresponding to
+<code>[param.name for param in model.parameters]</code>. The values are
+<code>tfd$Distribution</code> instances with batch shape
+<code>tf$concat([init_batch_shape, model$batch_shape])</code>; these will typically be
+of the form <code>tfd$TransformedDistribution(tfd.Normal(...), bijector=param.bijector)</code>.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This method constructs a loss function for variational inference using the
@@ -220,6 +239,7 @@ uncertainty when the true posterior contains multiple modes
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>

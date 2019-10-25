@@ -153,6 +153,10 @@ when <code>p, q</code> are unnormalized measures.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>kl_reverse_of_u <code>float</code>-like <code>Tensor</code> of the Csiszar-function evaluated at
+<code>u = exp(logu)</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>When <code>self_normalized = TRUE</code>, the KL-reverse Csiszar-function is <code>f(u) = -log(u) + (u - 1)</code>.
@@ -182,6 +186,7 @@ Observe that as an f-Divergence, this Csiszar-function implies: <code>D_f[p, q] 
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>

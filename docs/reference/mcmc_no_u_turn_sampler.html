@@ -198,6 +198,9 @@ Default value: <code>NULL</code> (i.e., 'nuts_kernel').</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a Monte Carlo sampling kernel</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>one_step</code> function can update multiple chains in parallel. It assumes
@@ -306,13 +309,33 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
    }
 
    <span class='no'>run_chain</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tensorflow/man/tf_function.html'>tf_function</a></span>(<span class='no'>run_chain</span>)
-   <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()
-<span class='co'># }</span></div></pre>
+   <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: Evaluation error: AttributeError: module 'tensorflow_probability.python.mcmc' has no attribute 'NoUTurnSampler'.</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 414, in __call__</span>
+#&gt; <span class='error'>    self._initialize(args, kwds, add_initializers_to=initializer_map)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 357, in _initialize</span>
+#&gt; <span class='error'>    *args, **kwds))</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 1349, in _get_concrete_function_internal_garbage_collected</span>
+#&gt; <span class='error'>    graph_function, _, _ = self._maybe_define_function(args, kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 1652, in _maybe_define_function</span>
+#&gt; <span class='error'>    graph_function = self._create_graph_function(args, kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 1545, in _create_graph_function</span>
+#&gt; <span class='error'>    capture_by_value=self._capture_by_value),</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/framework/func_graph.py", line 715, in func_graph_from_py_func</span>
+#&gt; <span class='error'>    func_outputs = python_func(*func_args, **func_kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 307, in wrapped_fn</span>
+#&gt; <span class='error'>    return weak_wrapped_fn().__wrapped__(*args, **kwds)</span>
+#&gt; <span class='error'>  File "&lt;string&gt;", line 4, in fn</span>
+#&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
+#&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>

@@ -51,6 +51,9 @@ outputs.}
 
 \item{name}{string prefixed to Ops created by this class. Default: "simple_step_size_adaptation".}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 The simple policy multiplicatively increases or decreases the \code{step_size} of
 the inner kernel based on the value of \code{log_accept_prob}. It is based on

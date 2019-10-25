@@ -194,12 +194,7 @@ length-k vector.</p>
   <span class='no'>tf</span>$<span class='no'>linalg</span>$<span class='fu'>LinearOperatorDiag</span>(
       <span class='kw'>diag</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>2.5</span>, <span class='fl'>3.5</span>,  <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>5</span>),
       <span class='kw'>is_positive_definite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))
-  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_covariance</span>()</div><div class='output co'>#&gt; tf.Tensor(
-#&gt; [[[2.7386208  0.02668448 0.02668448 0.02668448 0.02668448]
-#&gt;   [0.02668448 3.2255344  0.02668448 0.02668448 0.02668448]
-#&gt;   [0.02668448 0.02668448 3.7526267  0.02668448 0.02668448]
-#&gt;   [0.02668448 0.02668448 0.02668448 4.3198967  0.02668448]
-#&gt;   [0.02668448 0.02668448 0.02668448 0.02668448 4.927347  ]]], shape=(1, 5, 5), dtype=float32)</div><div class='input'># }
+  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_covariance</span>()</div><div class='output co'>#&gt; Tensor("VectorDiffeomixture/covariance/add_21:0", shape=(1, 5, 5), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

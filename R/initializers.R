@@ -9,6 +9,8 @@
 #' @param validate_args bool indicating we should do (possibly expensive) graph-time
 #'  assertions, if necessary.
 #'
+#'  @return Initializer which concats other intializers
+#'
 #' @export
 initializer_blockwise <- function(initializers, sizes, validate_args = FALSE) {
   tfp$layers$BlockwiseInitializer(

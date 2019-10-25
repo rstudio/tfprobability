@@ -173,6 +173,8 @@ glm_fit_one_step.tensorflow.tensor <- function(x,
 #' * `Poisson`: `Poisson(rate=mean)` where `mean = exp(matmul(X, weights))`.
 #' * `PoissonSoftplus`: `Poisson(rate=mean)` where `mean = softplus(matmul(X, weights))`.
 #'
+#' @return list of models that can be used as the `model` argument in [glm_fit()]
+#'
 #' @family glm_fit
 #' @name glm_families
 #' @rdname glm_families

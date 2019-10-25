@@ -6,6 +6,9 @@
 \usage{
 tfp_version()
 }
+\value{
+the Python TFP version
+}
 \description{
 TensorFlow Probability Version
 }

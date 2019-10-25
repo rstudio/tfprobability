@@ -28,6 +28,13 @@ computed. Default: FALSE.}
 
 \item{...}{\code{tf$layers$dense} arguments}
 }
+\value{
+list of:
+\itemize{
+\item shift: \code{Float}-like \code{Tensor} of shift terms
+\item log_scale: \code{Float}-like \code{Tensor} of log(scale) terms
+}
+}
 \description{
 This will be wrapped in a make_template to ensure the variables are only
 created once. It takes the input and returns the loc ("mu" in

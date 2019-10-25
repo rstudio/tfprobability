@@ -60,6 +60,9 @@ outputs.}
 \item{name}{name prefixed to Ops created by this function.
 Default value: \code{NULL} (i.e., 'dual_averaging_step_size_adaptation').}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 The dual averaging policy uses a noisy step size for exploration, while
 averaging over tuning steps to provide a smoothed estimate of an optimal
