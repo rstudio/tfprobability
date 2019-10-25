@@ -47,6 +47,9 @@ which must be set to \code{NULL}.}
 \item{name}{string prefixed to Ops created by this function.
 Default value: \code{NULL} (i.e., 'hmc_kernel').}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 Hamiltonian Monte Carlo (HMC) is a Markov chain Monte Carlo (MCMC) algorithm
 that takes a series of gradient-informed steps to produce a Metropolis

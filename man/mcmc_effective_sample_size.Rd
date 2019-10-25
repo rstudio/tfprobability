@@ -23,6 +23,10 @@ to this length.  Setting to \code{NULL} means we do not filter based on number o
 
 \item{name}{name to prepend to created ops.}
 }
+\value{
+\code{Tensor} or list of \code{Tensor} objects.  The effective sample size of
+each component of \code{states}.  Shape will be \code{states$shape[1:]}.
+}
 \description{
 Roughly speaking, "effective sample size" (ESS) is the size of an iid sample
 with the same variance as \code{state}.

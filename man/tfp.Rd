@@ -8,6 +8,9 @@
 \usage{
 tfp
 }
+\value{
+Module(tensorflow_probability)
+}
 \description{
 Handle to the \code{tensorflow_probability} module
 }

@@ -182,7 +182,7 @@ Given random variable X, the cumulative distribution function cdf is:
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
   <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>))
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>()
-  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_cdf</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; tf.Tensor([0.8003981  0.97435844], shape=(2,), dtype=float32)</div><div class='input'># }
+  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_cdf</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; Tensor("Normal_4/cdf/ndtr/mul_1:0", shape=(2,), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -23,6 +23,9 @@
 #' when `p, q` are unnormalized measures.
 #' @param name name prefixed to Ops created by this function.
 #'
+#' @return  amari_alpha_of_u `float`-like `Tensor` of the Csiszar-function evaluated
+#' at `u = exp(logu)`.
+#'
 #' @section References:
 #'  - A. Cichocki and S. Amari. "Families of Alpha-Beta-and GammaDivergences: Flexible and Robust Measures of Similarities." Entropy, vol. 12, no. 6, pp. 1532-1568, 2010.
 #'
@@ -57,6 +60,9 @@ vi_amari_alpha <-
 #' when `p, q` are unnormalized measures.
 #' @param name name prefixed to Ops created by this function.
 #'
+#' @return  kl_reverse_of_u `float`-like `Tensor` of the Csiszar-function evaluated at
+#' `u = exp(logu)`.
+#'
 #' @family vi-functions
 #'
 #' @export
@@ -86,6 +92,9 @@ vi_kl_reverse <-
 #' `f'(u=1)=0` the implied Csiszar f-Divergence remains non-negative even
 #' when `p, q` are unnormalized measures.
 #' @param name name prefixed to Ops created by this function.
+#'
+#' @return kl_forward_of_u: `float`-like `Tensor` of the Csiszar-function evaluated at
+#' `u = exp(logu)`.
 #'
 #' @family vi-functions
 #'

@@ -41,6 +41,9 @@ which must be set to \code{NULL}.}
 \item{name}{string prefixed to Ops created by this function.
 Default value: \code{NULL} (i.e., 'hmc_kernel').}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 Warning: this kernel will not result in a chain which converges to the
 \code{target_log_prob}. To get a convergent MCMC, use \code{mcmc_hamiltonian_monte_carlo(...)}

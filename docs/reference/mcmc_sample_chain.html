@@ -200,6 +200,21 @@ must be a positive integer. See <code>tf$while_loop</code> for more details.</p>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>list of:</p><ul>
+<li><p>checkpointable_states_and_trace: if <code>return_final_kernel_results</code> is
+<code>TRUE</code>. The return value is an instance of <code>CheckpointableStatesAndTrace</code>.</p></li>
+<li><p>all_states: if <code>return_final_kernel_results</code> is <code>FALSE</code> and <code>trace_fn</code> is
+<code>NULL</code>. The return value is a <code>Tensor</code> or Python list of <code>Tensor</code>s
+representing the state(s) of the Markov chain(s) at each result step. Has
+same shape as input <code>current_state</code> but with a prepended
+<code>num_results</code>-size dimension.</p></li>
+<li><p>states_and_trace: if <code>return_final_kernel_results</code> is <code>FALSE</code> and
+<code>trace_fn</code> is not <code>NULL</code>. The return value is an instance of
+<code>StatesAndTrace</code>.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function can sample from multiple chains, in parallel. (Whether or not
@@ -263,6 +278,7 @@ accordingly. See below for some examples of this feature.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>

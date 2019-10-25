@@ -14,7 +14,9 @@ or \code{\link[=initializer_constant]{initializer_constant()}}.}
 with each initializer in \code{initializers}.}
 
 \item{validate_args}{bool indicating we should do (possibly expensive) graph-time
-assertions, if necessary.}
+assertions, if necessary.
+
+@return Initializer which concats other intializers}
 }
 \description{
 Initializer which concats other intializers

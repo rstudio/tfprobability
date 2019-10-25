@@ -8,6 +8,15 @@
 \alias{tf_config}
 \alias{\%>\%}
 \title{Objects exported from other packages}
+\value{
+a alias for tensorflow::tf
+
+a alias for tensorflow::shape
+
+a alias for tensorflow::tf_config
+
+a alias for magrittr::\code{\%>\%}
+}
 \keyword{internal}
 \description{
 These objects are imported from other packages. Follow the links

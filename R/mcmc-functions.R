@@ -139,6 +139,9 @@ mcmc_sample_chain <- function(kernel = NULL,
 #' to this length.  Setting to `NULL` means we do not filter based on number of lags.
 #' @param name name to prepend to created ops.
 #'
+#' @return `Tensor` or list of `Tensor` objects.  The effective sample size of
+#' each component of `states`.  Shape will be `states$shape[1:]`.
+#'
 #' @family mcmc_functions
 #' @export
 mcmc_effective_sample_size <- function(states,

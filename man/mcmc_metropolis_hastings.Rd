@@ -14,6 +14,9 @@ mcmc_metropolis_hastings(inner_kernel, seed = NULL, name = NULL)
 
 \item{name}{string prefixed to Ops created by this function. Default value: \code{NULL} (i.e., "mh_kernel").}
 }
+\value{
+a Monte Carlo sampling kernel
+}
 \description{
 The Metropolis-Hastings algorithm is a Markov chain Monte Carlo (MCMC) technique which uses a proposal distribution
 to eventually sample from a target distribution.

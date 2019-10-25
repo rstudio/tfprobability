@@ -725,6 +725,11 @@ tfb_masked_autoregressive_flow <-
 #' @param log_scale_clip_gradient logical indicating that the gradient of tf$clip_by_value should be preserved. Default: FALSE.
 #' @param name A name for ops managed by this function. Default: "tfb_masked_autoregressive_default_template".
 #' @param ... `tf$layers$dense` arguments
+#'
+#' @return list of:
+#' - shift: `Float`-like `Tensor` of shift terms
+#' - log_scale: `Float`-like `Tensor` of log(scale) terms
+#'
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
@@ -767,6 +772,9 @@ tfb_masked_autoregressive_default_template <- function(hidden_layers,
 #' @param reuse logical scalar representing whether to reuse the weights of a previous layer by the same name.
 #' @param name string used to describe ops managed by this function.
 #' @param ... `tf$layers$dense` arguments
+#'
+#' @return tensor
+#'
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
@@ -810,6 +818,9 @@ tfb_masked_dense <- function(inputs,
 #' @param activation Activation function (callable). Explicitly setting to NULL implies a linear activation.
 #' @param name A name for ops managed by this function. Default: "tfb_real_nvp_default_template".
 #' @param ... tf$layers$dense arguments
+#'
+#' @inherit tfb_masked_autoregressive_default_template return
+#'
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export

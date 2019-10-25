@@ -4,6 +4,7 @@
 #' Handle to the `tensorflow_probability` module
 #'
 #' @export
+#' @return Module(tensorflow_probability)
 tfp <- NULL
 
 .onLoad <- function(libname, pkgname) {
@@ -31,6 +32,8 @@ tfp <- NULL
 }
 
 #' TensorFlow Probability Version
+#'
+#' @return the Python TFP version
 #'
 #' @export
 tfp_version <- function() {

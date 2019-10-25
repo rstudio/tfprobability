@@ -50,6 +50,8 @@
 #' @param name string prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., 'hmc_kernel').
 #'
+#' @return a Monte Carlo sampling kernel
+#'
 #' @family mcmc_kernels
 #' @export
 mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
@@ -81,7 +83,7 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
 #' or `mcmc_metropolis_hastings(mcmc_uncalibrated_hamiltonian_monte_carlo(...))`.
 #' For more details on `UncalibratedHamiltonianMonteCarlo`, see `HamiltonianMonteCarlo`.
 #'
-#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #' @family mcmc_kernels
 #' @export
 mcmc_uncalibrated_hamiltonian_monte_carlo <-
@@ -197,6 +199,8 @@ mcmc_uncalibrated_hamiltonian_monte_carlo <-
 #' outputs.
 #' @param name string prefixed to Ops created by this class. Default: "simple_step_size_adaptation".
 #'
+#' @inherit mcmc_hamiltonian_monte_carlo return params
+#'
 #' @family mcmc_kernels
 #' @examples
 #' \donttest{
@@ -308,7 +312,7 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
 #' `kernel_results` and which contains a `target_log_prob` member and optionally a `log_acceptance_correction` member.
 #' @param name string prefixed to Ops created by this function. Default value: `NULL` (i.e., "mh_kernel").
 #'
-#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #' @family mcmc_kernels
 #' @export
 mcmc_metropolis_hastings <- function(inner_kernel,
@@ -352,7 +356,7 @@ mcmc_metropolis_hastings <- function(inner_kernel,
 #' @param name String name prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., 'rwm_kernel').
 #'
-#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #' @family mcmc_kernels
 #' @export
 mcmc_random_walk_metropolis <- function(target_log_prob_fn,
@@ -397,6 +401,8 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
 #' `inner_kernel` state space to the state expected by `inner_kernel$target_log_prob_fn`.
 #' @param  name string prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., "transformed_kernel").
+#'
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #'
 #' @family mcmc_kernels
 #' @export
@@ -509,7 +515,8 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
 #' @param name name prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., 'dual_averaging_step_size_adaptation').
 #'
-#' @inheritParams mcmc_simple_step_size_adaptation
+#' @inherit mcmc_hamiltonian_monte_carlo return params
+#'
 #' @family mcmc_kernels
 #' @seealso For an example how to use see [mcmc_no_u_turn_sampler()].
 #' @export
@@ -601,6 +608,8 @@ mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
 #' @param seed integer to seed the random number generator.
 #' @param name name prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., 'nuts_kernel').
+#'
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #'
 #' @family mcmc_kernels
 #' @examples
@@ -728,7 +737,7 @@ mcmc_no_u_turn_sampler <- function(target_log_prob_fn,
 #' `kernel_results` (`collections$namedtuple` of internal calculations used to
 #' 'advance the chain).
 #'
-#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #' @family mcmc_kernels
 #' @export
 mcmc_uncalibrated_langevin <- function(target_log_prob_fn,
@@ -836,7 +845,7 @@ mcmc_metropolis_adjusted_langevin_algorithm <-
 #' `kernel_results` (`collections$namedtuple` of internal calculations used to
 #' 'advance the chain).
 #'
-#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #' @family mcmc_kernels
 #' @export
 mcmc_replica_exchange_mc <- function(target_log_prob_fn,
@@ -901,7 +910,7 @@ mcmc_replica_exchange_mc <- function(target_log_prob_fn,
 #' - [Radford M. Neal. Slice Sampling. The Annals of Statistics. 2003, Vol 31, No. 3 , 705-767.](https://projecteuclid.org/download/pdf_1/euclid.aos/1056562461)
 #' - C.J.P. Belisle, H.E. Romeijn, R.L. Smith. \cite{Hit-and-run algorithms for generating multivariate distributions. Math. Oper. Res., 18(1993), 225-266.}
 #'
-#' @inheritParams mcmc_hamiltonian_monte_carlo
+#' @inherit mcmc_hamiltonian_monte_carlo return params
 #' @family mcmc_kernels
 #' @export
 mcmc_slice_sampler <- function(target_log_prob_fn,
@@ -926,7 +935,7 @@ mcmc_slice_sampler <- function(target_log_prob_fn,
 #' `mcmc_random_walk_metropolis(...)` or
 #' `mcmc_metropolis_hastings(mcmc_uncalibrated_random_walk(...))`.
 #'
-#' @inheritParams mcmc_random_walk_metropolis
+#' @inherit mcmc_random_walk_metropolis return params
 #' @family mcmc_kernels
 #' @export
 mcmc_uncalibrated_random_walk <- function(target_log_prob_fn,

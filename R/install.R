@@ -2,6 +2,7 @@
 #'
 #'
 #' @inheritParams keras::install_keras
+#' @return invisible
 #' @export
 install_tfprobability <- function (method = c("auto", "virtualenv", "conda"),
                                    conda = "auto",
