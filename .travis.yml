@@ -15,11 +15,11 @@ cache:
 
 matrix:
   include:
-    - name: "tf-stable"
+    - name: "tf-1.15"
       env:
-        - TENSORFLOW_VERSION="1.14.0"
-        - TFPROBABILITY_VERSION="0.7.0"
-    - name: "tf-2"
+        - TENSORFLOW_VERSION="1.15.0"
+        - TFPROBABILITY_VERSION="0.8"
+    - name: "tf-2.0"
       env:
         - TENSORFLOW_VERSION="2.0"
         - TFPROBABILITY_VERSION="0.8"
