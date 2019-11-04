@@ -35,6 +35,10 @@ matrix:
       env:
         - TENSORFLOW_VERSION="nightly"
         - TFPROBABILITY_VERSION="nightly"
+    - name: "tf-1.15"
+      env:
+        - TENSORFLOW_VERSION="1.15.0"
+        - TFPROBABILITY_VERSION="0.8"
 
 before_script:
   - sudo apt-get update
