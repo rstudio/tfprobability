@@ -30,7 +30,7 @@ environment:
 build_script:
   - travis-tool.sh install_deps
   - R CMD INSTALL .
-  - R -e "tfprobability::install_tfprobability(version = Sys.getenv('TFP_VERSION'), tensorflow = Sys.getenv('TF_VERSION'))"
+  - R -e "tfprobability::install_tfprobability(version = Sys.getenv('TFP_VERSION'), tensorflow = Sys.getenv('TF_VERSION'), method = 'conda')"
 
 test_script:
   - travis-tool.sh run_tests
