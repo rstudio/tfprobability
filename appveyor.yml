@@ -17,10 +17,10 @@ environment:
   NOT_CRAN: true
   USE_RTOOLS: true
   matrix:
-    - TF_VERSION: 1.14.0
-      TFP_VERSION: 0.7.0
-    - TF_VERSION: 2.0.0rc0
-      TFP_VERSION: 0.8.0rc0
+    - TF_VERSION: 1.15.0
+      TFP_VERSION: 0.8
+    - TF_VERSION: 2.0
+      TFP_VERSION: 0.8
     - TF_VERSION: nightly
       TFP_VERSION: nightly
 
