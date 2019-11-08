@@ -28,12 +28,12 @@ matrix:
         - TFPROBABILITY_VERSION="0.8"
     - name: "tf-nightly"
       env:
-        - TENSORFLOW_VERSION="nightly-cpu"
+        - TENSORFLOW_VERSION="tf-nightly-cpu"
         - TFPROBABILITY_VERSION="nightly"
   allow_failures:
     - name: "tf-nightly"
       env:
-        - TENSORFLOW_VERSION="nightly-cpu"
+        - TENSORFLOW_VERSION="tf-nightly-cpu"
         - TFPROBABILITY_VERSION="nightly"
     - name: "tf-1.15"
       env:
