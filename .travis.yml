@@ -10,6 +10,7 @@ r_packages:
 
 r_github_packages:
     - rstudio/keras
+    - rstudio/tensorflow
 
 cache:
   packages: true
@@ -20,7 +21,7 @@ matrix:
   include:
     - name: "tf-1.15"
       env:
-        - TENSORFLOW_VERSION="1.15.0"
+        - TENSORFLOW_VERSION="1.15-cpu"
         - TFPROBABILITY_VERSION="0.8"
     - name: "tf-2.0"
       env:
@@ -28,16 +29,16 @@ matrix:
         - TFPROBABILITY_VERSION="0.8"
     - name: "tf-nightly"
       env:
-        - TENSORFLOW_VERSION="nightly"
+        - TENSORFLOW_VERSION="nightly-cpu"
         - TFPROBABILITY_VERSION="nightly"
   allow_failures:
     - name: "tf-nightly"
       env:
-        - TENSORFLOW_VERSION="nightly"
+        - TENSORFLOW_VERSION="nightly-cpu"
         - TFPROBABILITY_VERSION="nightly"
     - name: "tf-1.15"
       env:
-        - TENSORFLOW_VERSION="1.15.0"
+        - TENSORFLOW_VERSION="1.15-cpu"
         - TFPROBABILITY_VERSION="0.8"
 
 before_script:
