@@ -18,6 +18,11 @@ location-scale distribution, so doubling the \code{scale} doubles a sample
 and halves the density. Strictly positive floating point \code{Tensor}. Must
 broadcast with \code{loc}, \code{concentration}.}
 
+\item{concentration}{The shape parameter of the distribution. The larger the
+magnitude, the more the distribution concentrates near \code{loc} (for
+\code{concentration >= 0}) or near \code{loc - (scale/concentration)} (for
+\code{concentration < 0}). Floating point \code{Tensor}.}
+
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 silently render incorrect outputs. Default value: FALSE.}
@@ -27,11 +32,6 @@ use the value NaN to indicate the result is undefined. When FALSE, an exception 
 one or more of the statistic's batch members are undefined.}
 
 \item{name}{name prefixed to Ops created by this class.}
-
-\item{concentration:}{The shape parameter of the distribution. The larger the
-magnitude, the more the distribution concentrates near \code{loc} (for
-\code{concentration >= 0}) or near \code{loc - (scale/concentration)} (for
-\code{concentration < 0}). Floating point \code{Tensor}.}
 }
 \value{
 a distribution instance.

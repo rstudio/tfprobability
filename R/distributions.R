@@ -4911,7 +4911,7 @@ tfd_finite_discrete <- function(outcomes,
 #' location-scale distribution, so doubling the `scale` doubles a sample
 #' and halves the density. Strictly positive floating point `Tensor`. Must
 #' broadcast with `loc`, `concentration`.
-#' @param concentration: The shape parameter of the distribution. The larger the
+#' @param concentration The shape parameter of the distribution. The larger the
 #' magnitude, the more the distribution concentrates near `loc` (for
 #' `concentration >= 0`) or near `loc - (scale/concentration)` (for
 #' `concentration < 0`). Floating point `Tensor`.
