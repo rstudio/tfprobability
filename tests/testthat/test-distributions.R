@@ -836,3 +836,27 @@ test_succeeds("Exponential Relaxed One Hot Categorical distribution works", {
   expect_equal(tfd_sample(d)$get_shape()$as_list(), 3)
 })
 
+test_succeeds("Doublesided Maxwell works", {
+
+  skip_if_tfp_below("0.9")
+
+  d <- tfd_doublesided_maxwell(
+    loc = 0,
+    scale = c(0.5, 1, 2)
+  )
+
+  expect_equal(tfd_sample(d)$get_shape()$as_list(), 3)
+})
+
+test_succeeds("Finite discrete works", {
+
+  skip_if_tfp_below("0.9")
+
+  d <- tfd_finite_discrete(
+    c(1, 2, 3),
+    probs = c(0.5, 0.2, 0.3)
+  )
+
+  expect_equal(d %>% tfd_prob(2) %>% tensor_value(), 0.2)
+})
+
