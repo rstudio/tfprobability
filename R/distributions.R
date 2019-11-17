@@ -4847,3 +4847,87 @@ tfd_finite_discrete <- function(outcomes,
   )
 }
 
+#' The Generalized Pareto distribution.
+#'
+#' The Generalized Pareto distributions are a family of continuous distributions
+#' on the reals. Special cases include `Exponential` (when `loc = 0`,
+#' `concentration = 0`), `Pareto` (when `concentration > 0`,
+#' `loc = scale / concentration`), and `Uniform` (when `concentration = -1`).
+#'
+#' This distribution is often used to model the tails of other distributions.
+#' As a member of the location-scale family,
+#' `X ~ GeneralizedPareto(loc=loc, scale=scale, concentration=conc)` maps to
+#' `Y ~ GeneralizedPareto(loc=0, scale=1, concentration=conc)` via
+#' `Y = (X - loc) / scale`.
+#'
+#' For positive concentrations, the distribution is equivalent to a hierarchical
+#' Exponential-Gamma model with `X|rate ~ Exponential(rate)` and
+#' `rate ~ Gamma(concentration=1 / concentration, scale=scale / concentration)`.
+#' In the following, `samps1` and `samps2` are identically distributed:
+#'
+#' ```
+#' genp <- tfd_generalized_pareto(loc = 0, scale = scale, concentration = conc)
+#' samps1 <- genp %>% tfd_sample(1000)
+#' jd <- tfd_joint_distribution_named(
+#'   list(
+#'     rate =  tfd_gamma(1 / genp$concentration, genp$scale / genp$concentration),
+#'     x = function(rate) tfd_exponential(rate)))
+#' samps2 <- jd %>% tfd_sample(1000) %>% .$x
+#' ```
+#'
+#' The support of the distribution is always lower bounded by `loc`. When
+#' `concentration < 0`, the support is also upper bounded by
+#' `loc + scale / abs(concentration)`.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; mu, sigma, shp, x > mu) =   (1 + shp * (x - mu) / sigma)**(-1 / shp - 1) / sigma
+#' ```
+#'
+#' where:
+#'  * `concentration = shp`, any real value,
+#'  * `scale = sigma`, `sigma > 0`,
+#'  * `loc = mu`.
+#'
+#'  The cumulative density function (cdf) is,
+#'
+#'  ```
+#'  cdf(x; mu, sigma, shp, x > mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
+#'  ```
+#'
+#' Distribution parameters are automatically broadcast in all functions; see
+#' examples for details.
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#'
+#' @inherit tfd_normal return params
+#' @param loc The location / shift of the distribution. GeneralizedPareto is a
+#' location-scale distribution. This parameter lower bounds the
+#' distribution's support. Must broadcast with `scale`, `concentration`.
+#' Floating point `Tensor`.
+#' @param scale The scale of the distribution. GeneralizedPareto is a
+#' location-scale distribution, so doubling the `scale` doubles a sample
+#' and halves the density. Strictly positive floating point `Tensor`. Must
+#' broadcast with `loc`, `concentration`.
+#' @param concentration: The shape parameter of the distribution. The larger the
+#' magnitude, the more the distribution concentrates near `loc` (for
+#' `concentration >= 0`) or near `loc - (scale/concentration)` (for
+#' `concentration < 0`). Floating point `Tensor`.
+#' @export
+tfd_generalized_pareto <- function(loc,
+                                   scale,
+                                   concentration,
+                                   validate_args = FALSE,
+                                   allow_nan_stats = TRUE,
+                                   name = NULL) {
+  tfp$distributions$GeneralizedPareto(
+    loc = loc,
+    scale = scale,
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}

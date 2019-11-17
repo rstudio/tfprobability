@@ -860,3 +860,22 @@ test_succeeds("Finite discrete works", {
   expect_equal(d %>% tfd_prob(2) %>% tensor_value(), 0.2)
 })
 
+test_succeeds("Generalized Pareto discrete works", {
+
+  skip_if_tfp_below("0.9")
+
+  scale <- 2
+  conc <- 0.5
+  genp <- tfd_generalized_pareto(loc = 0, scale = scale, concentration = conc)
+  mean1 <- genp %>% tfd_sample(1000) %>% tf$reduce_mean()
+
+  jd <- tfd_joint_distribution_named(
+     list(
+       rate =  tfd_gamma(1 / genp$concentration, genp$scale / genp$concentration),
+       x = function(rate) tfd_exponential(rate)))
+
+  mean2 <- jd %>% tfd_sample(1000) %>% .$x %>% tf$reduce_mean()
+
+  expect_equal(mean1 %>% tensor_value(), mean2 %>% tensor_value(), tolerance = 1)
+})
+
