@@ -4979,3 +4979,57 @@ tfd_log_normal <- function(loc,
   )
 }
 
+#' Modified PERT distribution for modeling expert predictions.
+#'
+#' The PERT distribution is a loc-scale family of Beta distributions
+#' fit onto a real interval between `low` and `high` values set by the user,
+#' along with a `peak` to indicate the expert's most frequent prediction,
+#' and `temperature` to control how sharp the peak is.
+#'
+#' The distribution is similar to a [Triangular distribution](https://en.wikipedia.org/wiki/Triangular_distribution)
+#' (i.e. `tfd.Triangular`) but with a smooth peak.
+#'
+#' Mathematical Details
+#'
+#' In terms of a Beta distribution, PERT can be expressed as
+#' ```
+#' PERT ~ loc + scale * Beta(concentration1, concentration0)
+#' ```
+#' where
+#' ```
+#' loc = low
+#' scale = high - low
+#' concentration1 = 1 + temperature * (peak - low)/(high - low)
+#' concentration0 = 1 + temperature * (high - peak)/(high - low)
+#' temperature > 0
+#' ```
+#'
+#' The support is `[low, high]`.  The `peak` must fit in that interval:
+#' `low < peak < high`.  The `temperature` is a positive parameter that
+#' controls the shape of the distribution. Higher values yield a sharper peak.
+#' The standard PERT distribution is obtained when `temperature = 4`.
+#'
+#' @param low lower bound
+#' @param peak most frequent value
+#' @param high upper bound
+#' @param temperature controls the shape of the distribution
+#' @inherit tfd_normal return params
+#' @export
+tfd_pert <- function(low,
+                     peak,
+                     high,
+                     temperature = 4,
+                     validate_args = FALSE,
+                     allow_nan_stats = FALSE,
+                     name = "Pert") {
+  tfp$distributions$PERT(
+    low = low,
+    peak = peak,
+    high = high,
+    temperature = temperature,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}
+

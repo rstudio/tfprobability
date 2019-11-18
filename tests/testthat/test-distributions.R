@@ -913,3 +913,17 @@ test_succeeds("Log-normal works", {
   expect_equal(sample_mean_t %>% tensor_value(), sample_mean_d %>% tensor_value(), tolerance = 0.1)
 })
 
+test_succeeds("Pert works", {
+
+  skip_if_tfp_below("0.9")
+
+  d1 <- tfd_pert(1, 7, 11, 4)
+  d2 <- tfd_pert(1, 7, 11, 20)
+
+  p1 <- d1 %>% tfd_prob(7)
+  p2 <- d2 %>% tfd_prob(7)
+
+  expect_lt(p1 %>% tensor_value(), p2 %>% tensor_value())
+})
+
+
