@@ -4956,3 +4956,26 @@ tfd_logit_normal <- function(loc,
   )
 }
 
+#' The LogNormal distribution
+#'
+#' The LogNormal distribution models positive-valued random variables
+#' whose logarithm is normally distributed with mean `loc` and
+#' standard deviation `scale`. It is constructed as the exponential
+#' transformation of a Normal distribution.
+
+#' @inherit tfd_normal return params
+#' @export
+tfd_log_normal <- function(loc,
+                           scale,
+                           validate_args = FALSE,
+                           allow_nan_stats = TRUE,
+                           name = "LogNormal") {
+  tfp$distributions$LogNormal(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}
+

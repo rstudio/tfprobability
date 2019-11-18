@@ -895,3 +895,21 @@ test_succeeds("Logit-normal works", {
 
   expect_equal(sample_mean_t %>% tensor_value(), sample_mean_d %>% tensor_value(), tolerance = 0.1)
 })
+
+test_succeeds("Log-normal works", {
+
+  skip_if_tfp_below("0.9")
+
+  t <- tfd_transformed_distribution(
+    tfd_normal(0, 1),
+    tfb_exp()
+  )
+
+  sample_mean_t <- t %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  d <- tfd_log_normal(0, 1)
+  sample_mean_d <- d %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  expect_equal(sample_mean_t %>% tensor_value(), sample_mean_d %>% tensor_value(), tolerance = 0.1)
+})
+
