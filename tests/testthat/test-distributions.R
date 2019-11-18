@@ -879,3 +879,19 @@ test_succeeds("Generalized Pareto discrete works", {
   expect_equal(mean1 %>% tensor_value(), mean2 %>% tensor_value(), tolerance = 1)
 })
 
+test_succeeds("Logit-normal works", {
+
+  skip_if_tfp_below("0.9")
+
+  t <- tfd_transformed_distribution(
+    tfd_normal(0, 1),
+    tfb_sigmoid()
+  )
+
+  sample_mean_t <- t %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  d <- tfd_logit_normal(0, 1)
+  sample_mean_d <- d %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  expect_equal(sample_mean_t %>% tensor_value(), sample_mean_d %>% tensor_value(), tolerance = 0.1)
+})

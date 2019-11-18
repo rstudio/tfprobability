@@ -4931,3 +4931,28 @@ tfd_generalized_pareto <- function(loc,
     name = name
   )
 }
+
+#' The Logit-Normal distribution
+#'
+#' The Logit-Normal distribution models positive-valued random variables whose
+#' logit (i.e., sigmoid_inverse, i.e., `log(p) - log1p(-p)`) is normally
+#' distributed with mean `loc` and standard deviation `scale`. It is
+#' constructed as the sigmoid transformation, (i.e., `1 / (1 + exp(-x))`) of a
+#' Normal distribution.
+#'
+#' @inherit tfd_normal return params
+#' @export
+tfd_logit_normal <- function(loc,
+                             scale,
+                             validate_args = FALSE,
+                             allow_nan_stats = TRUE,
+                             name = "LogitNormal") {
+  tfp$distributions$LogitNormal(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}
+
