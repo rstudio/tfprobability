@@ -4,7 +4,10 @@
 \alias{tfd_log_normal}
 \title{Log-normal distribution}
 \usage{
-tfd_log_normal(loc = NULL, scale = NULL, validate_args = FALSE,
+tfd_log_normal(loc, scale, validate_args = FALSE,
+  allow_nan_stats = TRUE, name = "LogNormal")
+
+tfd_log_normal(loc, scale, validate_args = FALSE,
   allow_nan_stats = TRUE, name = "LogNormal")
 }
 \arguments{
@@ -28,6 +31,11 @@ one or more of the statistic's batch members are undefined.}
 a distribution instance.
 }
 \description{
+The LogNormal distribution models positive-valued random variables
+whose logarithm is normally distributed with mean \code{loc} and
+standard deviation \code{scale}. It is constructed as the exponential
+transformation of a Normal distribution.
+
 The LogNormal distribution models positive-valued random variables
 whose logarithm is normally distributed with mean \code{loc} and
 standard deviation \code{scale}. It is constructed as the exponential

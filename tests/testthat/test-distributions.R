@@ -836,3 +836,94 @@ test_succeeds("Exponential Relaxed One Hot Categorical distribution works", {
   expect_equal(tfd_sample(d)$get_shape()$as_list(), 3)
 })
 
+test_succeeds("Doublesided Maxwell works", {
+
+  skip_if_tfp_below("0.9")
+
+  d <- tfd_doublesided_maxwell(
+    loc = 0,
+    scale = c(0.5, 1, 2)
+  )
+
+  expect_equal(tfd_sample(d)$get_shape()$as_list(), 3)
+})
+
+test_succeeds("Finite discrete works", {
+
+  skip_if_tfp_below("0.9")
+
+  d <- tfd_finite_discrete(
+    c(1, 2, 3),
+    probs = c(0.5, 0.2, 0.3)
+  )
+
+  expect_equal(d %>% tfd_prob(2) %>% tensor_value(), 0.2)
+})
+
+test_succeeds("Generalized Pareto discrete works", {
+
+  skip_if_tfp_below("0.9")
+
+  scale <- 2
+  conc <- 0.5
+  genp <- tfd_generalized_pareto(loc = 0, scale = scale, concentration = conc)
+  mean1 <- genp %>% tfd_sample(1000) %>% tf$reduce_mean()
+
+  jd <- tfd_joint_distribution_named(
+     list(
+       rate =  tfd_gamma(1 / genp$concentration, genp$scale / genp$concentration),
+       x = function(rate) tfd_exponential(rate)))
+
+  mean2 <- jd %>% tfd_sample(1000) %>% .$x %>% tf$reduce_mean()
+
+  expect_equal(mean1 %>% tensor_value(), mean2 %>% tensor_value(), tolerance = 1)
+})
+
+test_succeeds("Logit-normal works", {
+
+  skip_if_tfp_below("0.9")
+
+  t <- tfd_transformed_distribution(
+    tfd_normal(0, 1),
+    tfb_sigmoid()
+  )
+
+  sample_mean_t <- t %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  d <- tfd_logit_normal(0, 1)
+  sample_mean_d <- d %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  expect_equal(sample_mean_t %>% tensor_value(), sample_mean_d %>% tensor_value(), tolerance = 0.1)
+})
+
+test_succeeds("Log-normal works", {
+
+  skip_if_tfp_below("0.9")
+
+  t <- tfd_transformed_distribution(
+    tfd_normal(0, 1),
+    tfb_exp()
+  )
+
+  sample_mean_t <- t %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  d <- tfd_log_normal(0, 1)
+  sample_mean_d <- d %>% tfd_sample(10000) %>% tf$reduce_mean()
+
+  expect_equal(sample_mean_t %>% tensor_value(), sample_mean_d %>% tensor_value(), tolerance = 0.1)
+})
+
+test_succeeds("Pert works", {
+
+  skip_if_tfp_below("0.9")
+
+  d1 <- tfd_pert(1, 7, 11, 4)
+  d2 <- tfd_pert(1, 7, 11, 20)
+
+  p1 <- d1 %>% tfd_prob(7)
+  p2 <- d2 %>% tfd_prob(7)
+
+  expect_lt(p1 %>% tensor_value(), p2 %>% tensor_value())
+})
+
+
