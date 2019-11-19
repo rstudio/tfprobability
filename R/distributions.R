@@ -5033,3 +5033,78 @@ tfd_pert <- function(low,
   )
 }
 
+#' Plackett-Luce distribution over permutations.
+#'
+#' The Plackett-Luce distribution is defined over permutations of
+#' fixed length. It is parameterized by a positive score vector of same length.
+#' This class provides methods to create indexed batches of PlackettLuce
+#' distributions. If the provided `scores` is rank 2 or higher, for
+#' every fixed set of leading dimensions, the last dimension represents one
+#' single PlackettLuce distribution. When calling distribution
+#' functions (e.g. `dist.log_prob(x)`), `scores` and `x` are broadcast to the
+#' same shape (if possible). In all cases, the last dimension of `scores, x`
+#' represents single PlackettLuce distributions.
+#'
+#' Mathematical Details
+#'
+#' The Plackett-Luce is a distribution over permutation vectors `p` of length `k`
+#' where the permutation `p` is an arbitrary ordering of `k` indices
+#' `{0, 1, ..., k-1}`.
+#'
+#' The probability mass function (pmf) is,
+#' ```
+#' pmf(p; s) = prod_i s_{p_i} / (Z - Z_i)
+#' Z = sum_{j=0}^{k-1} s_j
+#' Z_i = sum_{j=0}^{i-1} s_{p_j} for i>0 and 0 for i=0
+#' ```
+#'
+#' where `scores = s = [s_0, ..., s_{k-1}]`, `s_i >= 0`.
+#'
+#' Samples from Plackett-Luce distribution are generated sequentially as follows.
+#'
+#' ```
+#' Initialize normalization `N_0 = Z`
+#' For `i` in `{0, 1, ..., k-1}`
+#'   1. Sample i-th element of permutation
+#'      `p_i ~ Categorical(probs=[s_0/N_i, ..., s_{k-1}/N_i])`
+#'   2. Update normalization
+#'      `N_{i+1} = N_i-s_{p_i}`
+#'   3. Mask out sampled index for subsequent rounds
+#'      `s_{p_i} = 0`
+#' Return p
+#' ```
+#'
+#' Alternately, an equivalent way to sample from this distribution is to sort
+#' Gumbel perturbed log-scores (Aditya et al. 2019)
+#'
+#' ```
+#' p = argsort(log s + g) ~ PlackettLuce(s)
+#' g = [g_0, ..., g_{k-1}], g_i~ Gumbel(0, 1)
+#' ```
+#'
+#' @section References:
+#' -  Aditya Grover, Eric Wang, Aaron Zweig, Stefano Ermon. Stochastic Optimization of Sorting Networks via Continuous Relaxations. ICLR 2019.
+#'
+#' @param scores An N-D `Tensor`, `N >= 1`, representing the scores of a set of
+#' elements to be permuted. The first `N - 1` dimensions index into a
+#' batch of independent distributions and the last dimension represents a
+#' vector of scores for the elements.
+#' @param dtype The type of the event samples (default: int32).
+#' @inherit tfd_normal return params
+#' @export
+tfd_plackett_luce <- function(scores,
+                              dtype = tf$int32,
+                              validate_args = FALSE,
+                              allow_nan_stats = FALSE,
+                              name = "PlackettLuce") {
+  tfp$distributions$PlackettLuce(
+    scores = scores,
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+}
+
+
+

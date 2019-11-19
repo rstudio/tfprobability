@@ -926,4 +926,15 @@ test_succeeds("Pert works", {
   expect_lt(p1 %>% tensor_value(), p2 %>% tensor_value())
 })
 
+test_succeeds("PlackettLuce works", {
+
+  skip_if_tfp_below("0.9")
+
+  scores <- c(0.1, 2, 5)
+  d <-  tfd_plackett_luce(scores)
+
+  permutations <- list(list(2, 1, 0), list(1, 0, 2))
+
+  expect_equal(d %>% tfd_prob(permutations) %>% tensor_value() %>% length(), 2)
+})
 
