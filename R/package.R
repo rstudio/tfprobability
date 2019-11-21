@@ -18,7 +18,7 @@ tfp <- NULL
     on_load = function() {
       if (!grepl("tensorflow", keras::backend()))
         stop("TensorFlow Probability has to be used with the TensorFlow Keras backend.")
-      if (!grepl("tensorflow.python.keras", keras::implementation()))
+      if (!grepl("tensorflow_core", keras::implementation()))
         stop("TensorFlow Probability has to be used with the TensorFlow Keras implementation.")
     }
     ,
