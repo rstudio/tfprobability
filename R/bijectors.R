@@ -1484,3 +1484,17 @@ tfb_iterated_sigmoid_centered <- function(validate_args = FALSE,
   )
 }
 
+#' Compute `Y = g(X; shift) = X + shift`.
+#'
+#' where `shift` is a numeric `Tensor`.
+#' @inherit tfb_identity return params
+#' @param shift floating-point tensor
+#' @export
+tfb_shift <- function(shift,
+                      validate_args = FALSE,
+                      name = 'shift') {
+  tfp$bijectors$Shift(shift = shift,
+                      validate_args = validate_args,
+                      name = name)
+}
+

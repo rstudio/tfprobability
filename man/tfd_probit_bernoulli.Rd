@@ -10,7 +10,7 @@ tfd_probit_bernoulli(probits = NULL, probs = NULL, dtype = tf$int32,
 }
 \arguments{
 \item{probits}{An N-D \code{Tensor} representing the probit-odds of a \code{1} event. Each
-entry in the \code{Tensor} parametrizes an independent ProbitBernoulli
+entry in the \code{Tensor} parameterizes an independent ProbitBernoulli
 distribution where the probability of an event is normal_cdf(probits).
 Only one of \code{probits} or \code{probs} should be passed in.}
 

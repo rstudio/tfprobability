@@ -494,3 +494,9 @@ test_succeeds("Define a iterated_sigmoid_centered bijector", {
   expect_equivalent(rev_x %>% tensor_value(), x, tol = 1e-6)
 })
 
+test_succeeds("Define a shift bijector", {
+  b <- tfb_shift(0.77)
+  x <- 0
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(), 0.77, tolerance = 1e-7)
+})
