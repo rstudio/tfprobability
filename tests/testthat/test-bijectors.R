@@ -495,6 +495,9 @@ test_succeeds("Define a iterated_sigmoid_centered bijector", {
 })
 
 test_succeeds("Define a shift bijector", {
+
+  skip_if_tfp_below("0.8")
+
   b <- tfb_shift(0.77)
   x <- 0
   y <- b %>% tfb_forward(x)
