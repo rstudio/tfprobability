@@ -938,3 +938,14 @@ test_succeeds("PlackettLuce works", {
   expect_equal(d %>% tfd_prob(permutations) %>% tensor_value() %>% length(), 2)
 })
 
+test_succeeds("ProbitBernoulli works", {
+
+  skip_if_tfp_below("0.9")
+
+  probits <- c(1, 0)
+  d <-  tfd_probit_bernoulli(probits = probits)
+
+  samples <- d %>% tfd_sample(10)
+  expect_equal(samples$get_shape() %>% length(), 2)
+})
+

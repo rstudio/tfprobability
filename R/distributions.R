@@ -5106,5 +5106,49 @@ tfd_plackett_luce <- function(scores,
   )
 }
 
+#' ProbitBernoulli distribution.
+#'
+#' The ProbitBernoulli distribution with `probs` parameter, i.e., the probability
+#' of a `1` outcome (vs a `0` outcome). Unlike a regular Bernoulli distribution,
+#' which uses the logistic (aka 'sigmoid') function to go from the un-constrained
+#' parameters to probabilities, this distribution uses the CDF of the
+#' [standard normal distribution](https://en.wikipedia.org/wiki/Normal_distribution):
+#' ```
+#' p(x=1; probits) = 0.5 * (1 + erf(probits / sqrt(2)))
+#' p(x=0; probits) = 1 - p(x=1; probits)
+#' ```
+#' Where `erf` is the [error function](https://en.wikipedia.org/wiki/Error_function).
+#' A typical application of this distribution is in
+#' [probit  regression](https://en.wikipedia.org/wiki/Probit_model).
+#' @inherit tfd_normal return params
+#'
+#' @param probits An N-D `Tensor` representing the probit-odds of a `1` event. Each
+#' entry in the `Tensor` parameterizes an independent ProbitBernoulli
+#' distribution where the probability of an event is normal_cdf(probits).
+#' Only one of `probits` or `probs` should be passed in.
+#' @param probs An N-D `Tensor` representing the probability of a `1`
+#' event. Each entry in the `Tensor` parameterizes an independent
+#' ProbitBernoulli distribution. Only one of `probits` or `probs` should be
+#' passed in.
+#' @param dtype The type of the event samples. Default: `int32`.
+#'
+#' @family distributions
+#' @export
+tfd_probit_bernoulli <- function(probits = NULL,
+                                 probs = NULL,
+                                 dtype = tf$int32,
+                                 validate_args = FALSE,
+                                 allow_nan_stats = TRUE,
+                                 name = "ProbitBernoulli") {
+  args <- list(
+    probits = probits,
+    probs = probs,
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
 
+  do.call(tfp$distributions$ProbitBernoulli, args)
+}
 
