@@ -1514,7 +1514,7 @@ tfb_shift <- function(shift,
 #' the dimension to which the corresponding `paddings` element is applied. By
 #' default `axis` is `NULL` which means it is logically equivalent to
 #' `range(start=-len(paddings), limit=0)`, i.e., the rightmost dimensions.
-
+#'
 #' @inherit tfb_identity return params
 #' @param paddings A vector-shaped `Tensor` of `integer` pairs representing the number
 #' of elements to pad on the left and right, respectively.
@@ -1542,3 +1542,36 @@ tfb_pad <- function(paddings = list(c(0, 1)),
     name = name
   )
 }
+
+#' Compute `Y = g(X; scale) = scale @ X`
+#'
+#' In TF parlance, the `scale` term is logically equivalent to:
+#' ```
+#' scale = tf$diag(scale_diag)
+#' ```
+#' The `scale` term is applied without materializing a full dense matrix.
+#'
+#' @inherit tfb_identity return params
+#' @param scale_diag Floating-point `Tensor` representing the diagonal matrix.
+#' `scale_diag` has shape `[N1, N2, ...  k]`, which represents a k x k
+#' diagonal matrix.
+#' @param adjoint `logical` indicating whether to use the `scale` matrix as
+#' specified or its adjoint. Default value: `FALSE`.
+#' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
+#' fall back to a common dtype inferred from the args, finally falling back
+#' to `float32`.
+#' @export
+tfb_scale_matvec_diag <- function(scale_diag,
+                                  adjoint = FALSE,
+                                  validate_args = FALSE,
+                                  name = 'scale_matvec_diag',
+                                  dtype = NULL) {
+  tfp$bijectors$ScaleMatvecDiag(
+    scale_diag = scale_diag,
+    adjoint = adjoint,
+    validate_args = validate_args,
+    name = name,
+    dtype = dtype
+  )
+}
+

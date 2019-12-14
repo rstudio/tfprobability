@@ -522,4 +522,16 @@ test_succeeds("Define a pad bijector", {
 
 })
 
+test_succeeds("Define a scale_matvec_diag bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  scale_diag <- c(2, 20)
+  b <- tfb_scale_matvec_diag(scale_diag)
+  x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y, tf$matmul(x, tf$linalg$diag(scale_diag)))
+
+})
+
 
