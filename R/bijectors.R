@@ -1575,3 +1575,25 @@ tfb_scale_matvec_diag <- function(scale_diag,
   )
 }
 
+#' Compute `Y = g(X; scale) = scale @ X`.
+#'
+#' `scale` is a `LinearOperator`.
+#' If `X` is a scalar then the forward transformation is: `scale * X`
+#' where `*` denotes broadcasted elementwise product.
+#' @inherit tfb_identity return params
+#' @param scale  Subclass of `LinearOperator`. Represents the (batch, non-singular)
+#' linear transformation by which the `Bijector` transforms inputs.
+#' @param adjoint `logical` indicating whether to use the `scale` matrix as
+#' specified or its adjoint. Default value: `FALSE`.
+#' @export
+tfb_scale_matvec_linear_operator <- function(scale,
+                                             adjoint = FALSE,
+                                             validate_args = FALSE,
+                                             name = 'scale_matvec_linear_operator') {
+  tfp$bijectors$ScaleMatvecLinearOperator(
+    scale = scale,
+    adjoint = adjoint,
+    validate_args = validate_args,
+    name = name
+  )
+}
