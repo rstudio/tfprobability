@@ -5152,3 +5152,4 @@ tfd_probit_bernoulli <- function(probits = NULL,
   do.call(tfp$distributions$ProbitBernoulli, args)
 }
 
+## https://github.com/tensorflow/probability/blob/master/tensorflow_probability/python/distributions/pixel_cnn.py

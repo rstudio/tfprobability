@@ -503,3 +503,23 @@ test_succeeds("Define a shift bijector", {
   y <- b %>% tfb_forward(x)
   expect_equal(y %>% tensor_value(), 0.77, tolerance = 1e-7)
 })
+
+test_succeeds("Define a pad bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_pad()
+  y <- b %>% tfb_forward(c(1, 2))
+  expect_equal(y$shape$as_list(), c(3))
+  y <- b %>% tfb_forward(list(c(1, 2), c(3, 4)))
+  expect_equal(y$shape$as_list(), c(2, 3))
+
+  b <- tfb_pad(axis = -2)
+  y <- b %>% tfb_forward(list(list(1, 2)))
+  expect_equal(y$shape$as_list(), c(2, 2))
+  x <- b %>% tfb_inverse(list(list(1, 2), list(3, 4)))
+  expect_equal(x$shape$as_list(), c(1, 2))
+
+})
+
+

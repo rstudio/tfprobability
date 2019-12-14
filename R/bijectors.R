@@ -1498,3 +1498,47 @@ tfb_shift <- function(shift,
                       name = name)
 }
 
+#' Pads a value to the `event_shape` of a `Tensor`.
+#'
+#' The semantics of `bijector_pad` generally follow that of `tf$pad()`
+#' except that `bijector_pad`'s `paddings` argument applies to the rightmost
+#' dimensions. Additionally, the new argument `axis` enables overriding the
+#' dimensions to which `paddings` is applied. Like `paddings`, the `axis`
+#' argument is also relative to the rightmost dimension and must therefore be
+#' negative.
+#' The argument `paddings` is a vector of `integer` pairs each representing the
+#' number of left and/or right `constant_values` to pad to the corresponding
+#' righmost dimensions. That is, unless `axis` is specified`, specifiying `k`
+#' different `paddings` means the rightmost `k` dimensions will be "grown" by the
+#' sum of the respective `paddings` row. When `axis` is specified, it indicates
+#' the dimension to which the corresponding `paddings` element is applied. By
+#' default `axis` is `NULL` which means it is logically equivalent to
+#' `range(start=-len(paddings), limit=0)`, i.e., the rightmost dimensions.
+
+#' @inherit tfb_identity return params
+#' @param paddings A vector-shaped `Tensor` of `integer` pairs representing the number
+#' of elements to pad on the left and right, respectively.
+#' Default value: `list(reticulate::tuple(0L, 1L))`.
+#' @param mode One of `'CONSTANT'`, `'REFLECT'`, or `'SYMMETRIC'`
+#' (case-insensitive). For more details, see `tf$pad`.
+#' @param constant_values In "CONSTANT" mode, the scalar pad value to use. Must be
+#' same type as `tensor`. For more details, see `tf$pad`.
+#' @param axis The dimensions for which `paddings` are applied. Must be 1:1 with
+#' `paddings` or `NULL`.
+#' Default value: `NULL` (i.e., `tf$range(start = -length(paddings), limit = 0)`).
+#' @export
+tfb_pad <- function(paddings = list(c(0, 1)),
+                    mode = 'CONSTANT',
+                    constant_values = 0,
+                    axis = NULL,
+                    validate_args = FALSE,
+                    name = NULL) {
+  tfp$bijectors$Pad(
+    paddings = as_integer_list(paddings),
+    mode = mode,
+    constant_values = constant_values,
+    axis = as_nullable_integer(axis),
+    validate_args = validate_args,
+    name = name
+  )
+}
