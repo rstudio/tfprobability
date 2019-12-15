@@ -555,4 +555,60 @@ test_succeeds("Define a scale_matvec_linear_operator bijector", {
 
 })
 
+test_succeeds("Define a scale_matvec_linear_operator bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  trainable_lu_factorization <- function(event_size,
+                                         batch_shape = list(),
+                                         seed = NULL,
+                                         dtype = tf$float32,
+                                         name = "scale_matvec_lu_test") {
+    with(tf$name_scope(name), {
+      event_size <- tf$convert_to_tensor(event_size,
+                                         dtype_hint = tf$int32,
+                                         name = 'event_size')
+      batch_shape <- tf$convert_to_tensor(batch_shape,
+                                          dtype_hint = event_size$dtype,
+                                          name = 'batch_shape')
+      random_matrix <- tf$random$uniform(
+        shape = tf$concat(list(
+          batch_shape, list(event_size, event_size)
+        ), axis = 0L),
+        dtype = dtype,
+        seed = seed
+      )
+      random_orthonormal <-
+        tf$linalg$qr(random_matrix)[0] # qr returns tuple of tensors
+      lu <- tf$linalg$lu(random_orthonormal)
+      lower_upper <- lu[0]
+      permutation <- lu[1]
+      lower_upper <- tf$Variable(
+        initial_value = lower_upper,
+        trainable = TRUE,
+        name = 'lower_upper'
+      )
+      # Initialize a non-trainable variable for the permutation indices so
+      # that its value isn't re-sampled from run-to-run.
+      permutation <- tf$Variable(
+        initial_value = permutation,
+        trainable = FALSE,
+        name = 'permutation')
+    })
+    list(lower_upper, permutation)
+  }
+
+  channels <- 3L
+  fact <- trainable_lu_factorization(channels)
+  conv1x1 <- tfb_scale_matvec_lu(fact[[1]],
+                           fact[[2]],
+                           validate_args = TRUE)
+  x <- tf$random$uniform(shape = list(2L, 28L, 28L, channels))
+  y <- conv1x1$forward(x)
+  y_inv = conv1x1$inverse(y)
+  expect_equal(x %>% tensor_value(), y_inv %>% tensor_value(), tol = 1e-6)
+
+})
+
+
 

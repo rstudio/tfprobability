@@ -1597,3 +1597,26 @@ tfb_scale_matvec_linear_operator <- function(scale,
     name = name
   )
 }
+
+#' Matrix-vector multiply using LU decomposition.
+#'
+#' This bijector is identical to the "Convolution1x1" used in Glow (Kingma and Dhariwal, 2018).
+#'
+#' @section References:
+#' - [Diederik P. Kingma, Prafulla Dhariwal. Glow: Generative Flow with Invertible 1x1 Convolutions. _arXiv preprint arXiv:1807.03039_, 2018.](https://arxiv.org/abs/1807.03039)
+#'
+#' @inherit tfb_identity return params
+#' @param  lower_upper The LU factorization as returned by `tf$linalg$lu`.
+#' @param permutation The LU factorization permutation as returned by `tf$linalg$lu`.
+#' @export
+tfb_scale_matvec_lu <- function(lower_upper,
+                                permutation,
+                                validate_args = FALSE,
+                                name = NULL) {
+  tfp$bijectors$ScaleMatvecLU(
+    lower_upper = lower_upper,
+    permutation = permutation,
+    validate_args = validate_args,
+    name = name
+  )
+}
