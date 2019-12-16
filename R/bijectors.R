@@ -1620,3 +1620,40 @@ tfb_scale_matvec_lu <- function(lower_upper,
     name = name
   )
 }
+
+#' Compute `Y = g(X; scale) = scale @ X`.
+#'
+#' The `scale` term is presumed lower-triangular and non-singular (ie, no zeros
+#' on the diagonal), which permits efficient determinant calculation (linear in
+#' matrix dimension, instead of cubic).
+#'
+#' @inherit tfb_identity return params
+#' @param scale_tril Floating-point `Tensor` representing the lower triangular
+#' matrix. `scale_tril` has shape `[N1, N2, ...  k, k]`, which represents a
+#' k x k lower triangular matrix.
+#' When `NULL` no `scale_tril` term is added to `scale`.
+#' The upper triangular elements above the diagonal are ignored.
+#' @param adjoint `logical` indicating whether to use the `scale` matrix as
+#' specified or its adjoint. Note that lower-triangularity is taken into
+#' account first: the region above the diagonal of `scale_tril` is treated
+#' as zero (irrespective of the `adjoint` setting). A lower-triangular
+#' input with `adjoint=TRUE` will behave like an upper triangular
+#' transform. Default value: `FALSE`.
+#' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
+#' fall back to a common dtype inferred from the args, finally falling back
+#' to float32.
+#' @export
+tfb_scale_matvec_tri_l <- function(scale_tril,
+                                   adjoint = FALSE,
+                                   validate_args = FALSE,
+                                   name = 'scale_matvec_tril',
+                                   dtype = NULL) {
+  tfp$bijectors$ScaleMatvecTriL(
+    scale_tril = scale_tril,
+    adjoint = adjoint,
+    validate_args = validate_args,
+    name = name,
+    dtype = dtype
+  )
+}
+

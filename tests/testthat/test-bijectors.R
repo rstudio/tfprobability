@@ -530,7 +530,8 @@ test_succeeds("Define a scale_matvec_diag bijector", {
   b <- tfb_scale_matvec_diag(scale_diag)
   x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
   y <- b %>% tfb_forward(x)
-  expect_equal(y, tf$matmul(x, tf$linalg$diag(scale_diag)))
+  expect_equal(y %>% tensor_value(),
+               tf$matmul(x, tf$linalg$diag(scale_diag)) %>% tensor_value())
 
 })
 
@@ -543,7 +544,9 @@ test_succeeds("Define a scale_matvec_linear_operator bijector", {
   scale <- tf$linalg$LinearOperatorDiag(diag)
   b <- tfb_scale_matvec_linear_operator(scale)
   y <- b %>% tfb_forward(x)
-  expect_equal(y, tf$matmul(tf$linalg$diag(diag), as.matrix(x) %>% tf$cast(tf$float32)))
+  expect_equal(y %>% tensor_value() %>% as.matrix(),
+               tf$matmul(scale, as.matrix(x) %>% tf$cast(tf$float32)) %>%
+                 tensor_value())
 
   tril <- list(c(1, 0, 0),
                c(2, 1, 0),
@@ -551,11 +554,12 @@ test_succeeds("Define a scale_matvec_linear_operator bijector", {
   scale <- tf$linalg$LinearOperatorLowerTriangular(tril)
   b <- tfb_scale_matvec_linear_operator(scale)
   y <- b %>% tfb_forward(x)
-  expect_equal(y, tf$matmul(scale, as.matrix(x) %>% tf$cast(tf$float32)))
-
+  expect_equal(y %>% tensor_value() %>% as.matrix(),
+               tf$matmul(scale, as.matrix(x) %>% tf$cast(tf$float32)) %>%
+                 tensor_value())
 })
 
-test_succeeds("Define a scale_matvec_linear_operator bijector", {
+test_succeeds("Define a scale_matvec_lu bijector", {
 
   skip_if_tfp_below("0.9")
 
@@ -610,5 +614,17 @@ test_succeeds("Define a scale_matvec_linear_operator bijector", {
 
 })
 
+test_succeeds("Define a scale_matvec_tri_l bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  scale <- matrix(c(2, 0, 2, 2), ncol = 2, byrow = TRUE)  %>% tf$cast(tf$float32)
+  b <- tfb_scale_matvec_tri_l(scale)
+  x <- c(1, 2)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value() %>% as.matrix(),
+               tf$matmul(scale, as.matrix(x)%>% tf$cast(tf$float32)) %>% tensor_value())
+
+})
 
 
