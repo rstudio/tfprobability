@@ -1484,3 +1484,176 @@ tfb_iterated_sigmoid_centered <- function(validate_args = FALSE,
   )
 }
 
+#' Compute `Y = g(X; shift) = X + shift`.
+#'
+#' where `shift` is a numeric `Tensor`.
+#' @inherit tfb_identity return params
+#' @param shift floating-point tensor
+#' @export
+tfb_shift <- function(shift,
+                      validate_args = FALSE,
+                      name = 'shift') {
+  tfp$bijectors$Shift(shift = shift,
+                      validate_args = validate_args,
+                      name = name)
+}
+
+#' Pads a value to the `event_shape` of a `Tensor`.
+#'
+#' The semantics of `bijector_pad` generally follow that of `tf$pad()`
+#' except that `bijector_pad`'s `paddings` argument applies to the rightmost
+#' dimensions. Additionally, the new argument `axis` enables overriding the
+#' dimensions to which `paddings` is applied. Like `paddings`, the `axis`
+#' argument is also relative to the rightmost dimension and must therefore be
+#' negative.
+#' The argument `paddings` is a vector of `integer` pairs each representing the
+#' number of left and/or right `constant_values` to pad to the corresponding
+#' righmost dimensions. That is, unless `axis` is specified`, specifiying `k`
+#' different `paddings` means the rightmost `k` dimensions will be "grown" by the
+#' sum of the respective `paddings` row. When `axis` is specified, it indicates
+#' the dimension to which the corresponding `paddings` element is applied. By
+#' default `axis` is `NULL` which means it is logically equivalent to
+#' `range(start=-len(paddings), limit=0)`, i.e., the rightmost dimensions.
+#'
+#' @inherit tfb_identity return params
+#' @param paddings A vector-shaped `Tensor` of `integer` pairs representing the number
+#' of elements to pad on the left and right, respectively.
+#' Default value: `list(reticulate::tuple(0L, 1L))`.
+#' @param mode One of `'CONSTANT'`, `'REFLECT'`, or `'SYMMETRIC'`
+#' (case-insensitive). For more details, see `tf$pad`.
+#' @param constant_values In "CONSTANT" mode, the scalar pad value to use. Must be
+#' same type as `tensor`. For more details, see `tf$pad`.
+#' @param axis The dimensions for which `paddings` are applied. Must be 1:1 with
+#' `paddings` or `NULL`.
+#' Default value: `NULL` (i.e., `tf$range(start = -length(paddings), limit = 0)`).
+#' @export
+tfb_pad <- function(paddings = list(c(0, 1)),
+                    mode = 'CONSTANT',
+                    constant_values = 0,
+                    axis = NULL,
+                    validate_args = FALSE,
+                    name = NULL) {
+  tfp$bijectors$Pad(
+    paddings = as_integer_list(paddings),
+    mode = mode,
+    constant_values = constant_values,
+    axis = as_nullable_integer(axis),
+    validate_args = validate_args,
+    name = name
+  )
+}
+
+#' Compute `Y = g(X; scale) = scale @ X`
+#'
+#' In TF parlance, the `scale` term is logically equivalent to:
+#' ```
+#' scale = tf$diag(scale_diag)
+#' ```
+#' The `scale` term is applied without materializing a full dense matrix.
+#'
+#' @inherit tfb_identity return params
+#' @param scale_diag Floating-point `Tensor` representing the diagonal matrix.
+#' `scale_diag` has shape `[N1, N2, ...  k]`, which represents a k x k
+#' diagonal matrix.
+#' @param adjoint `logical` indicating whether to use the `scale` matrix as
+#' specified or its adjoint. Default value: `FALSE`.
+#' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
+#' fall back to a common dtype inferred from the args, finally falling back
+#' to `float32`.
+#' @export
+tfb_scale_matvec_diag <- function(scale_diag,
+                                  adjoint = FALSE,
+                                  validate_args = FALSE,
+                                  name = 'scale_matvec_diag',
+                                  dtype = NULL) {
+  tfp$bijectors$ScaleMatvecDiag(
+    scale_diag = scale_diag,
+    adjoint = adjoint,
+    validate_args = validate_args,
+    name = name,
+    dtype = dtype
+  )
+}
+
+#' Compute `Y = g(X; scale) = scale @ X`.
+#'
+#' `scale` is a `LinearOperator`.
+#' If `X` is a scalar then the forward transformation is: `scale * X`
+#' where `*` denotes broadcasted elementwise product.
+#' @inherit tfb_identity return params
+#' @param scale  Subclass of `LinearOperator`. Represents the (batch, non-singular)
+#' linear transformation by which the `Bijector` transforms inputs.
+#' @param adjoint `logical` indicating whether to use the `scale` matrix as
+#' specified or its adjoint. Default value: `FALSE`.
+#' @export
+tfb_scale_matvec_linear_operator <- function(scale,
+                                             adjoint = FALSE,
+                                             validate_args = FALSE,
+                                             name = 'scale_matvec_linear_operator') {
+  tfp$bijectors$ScaleMatvecLinearOperator(
+    scale = scale,
+    adjoint = adjoint,
+    validate_args = validate_args,
+    name = name
+  )
+}
+
+#' Matrix-vector multiply using LU decomposition.
+#'
+#' This bijector is identical to the "Convolution1x1" used in Glow (Kingma and Dhariwal, 2018).
+#'
+#' @section References:
+#' - [Diederik P. Kingma, Prafulla Dhariwal. Glow: Generative Flow with Invertible 1x1 Convolutions. _arXiv preprint arXiv:1807.03039_, 2018.](https://arxiv.org/abs/1807.03039)
+#'
+#' @inherit tfb_identity return params
+#' @param  lower_upper The LU factorization as returned by `tf$linalg$lu`.
+#' @param permutation The LU factorization permutation as returned by `tf$linalg$lu`.
+#' @export
+tfb_scale_matvec_lu <- function(lower_upper,
+                                permutation,
+                                validate_args = FALSE,
+                                name = NULL) {
+  tfp$bijectors$ScaleMatvecLU(
+    lower_upper = lower_upper,
+    permutation = permutation,
+    validate_args = validate_args,
+    name = name
+  )
+}
+
+#' Compute `Y = g(X; scale) = scale @ X`.
+#'
+#' The `scale` term is presumed lower-triangular and non-singular (ie, no zeros
+#' on the diagonal), which permits efficient determinant calculation (linear in
+#' matrix dimension, instead of cubic).
+#'
+#' @inherit tfb_identity return params
+#' @param scale_tril Floating-point `Tensor` representing the lower triangular
+#' matrix. `scale_tril` has shape `[N1, N2, ...  k, k]`, which represents a
+#' k x k lower triangular matrix.
+#' When `NULL` no `scale_tril` term is added to `scale`.
+#' The upper triangular elements above the diagonal are ignored.
+#' @param adjoint `logical` indicating whether to use the `scale` matrix as
+#' specified or its adjoint. Note that lower-triangularity is taken into
+#' account first: the region above the diagonal of `scale_tril` is treated
+#' as zero (irrespective of the `adjoint` setting). A lower-triangular
+#' input with `adjoint=TRUE` will behave like an upper triangular
+#' transform. Default value: `FALSE`.
+#' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
+#' fall back to a common dtype inferred from the args, finally falling back
+#' to float32.
+#' @export
+tfb_scale_matvec_tri_l <- function(scale_tril,
+                                   adjoint = FALSE,
+                                   validate_args = FALSE,
+                                   name = 'scale_matvec_tril',
+                                   dtype = NULL) {
+  tfp$bijectors$ScaleMatvecTriL(
+    scale_tril = scale_tril,
+    adjoint = adjoint,
+    validate_args = validate_args,
+    name = name,
+    dtype = dtype
+  )
+}
+

@@ -494,3 +494,137 @@ test_succeeds("Define a iterated_sigmoid_centered bijector", {
   expect_equivalent(rev_x %>% tensor_value(), x, tol = 1e-6)
 })
 
+test_succeeds("Define a shift bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_shift(0.77)
+  x <- 0
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(), 0.77, tolerance = 1e-7)
+})
+
+test_succeeds("Define a pad bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_pad()
+  y <- b %>% tfb_forward(c(1, 2))
+  expect_equal(y$shape$as_list(), c(3))
+  y <- b %>% tfb_forward(list(c(1, 2), c(3, 4)))
+  expect_equal(y$shape$as_list(), c(2, 3))
+
+  b <- tfb_pad(axis = -2)
+  y <- b %>% tfb_forward(list(list(1, 2)))
+  expect_equal(y$shape$as_list(), c(2, 2))
+  x <- b %>% tfb_inverse(list(list(1, 2), list(3, 4)))
+  expect_equal(x$shape$as_list(), c(1, 2))
+
+})
+
+test_succeeds("Define a scale_matvec_diag bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  scale_diag <- c(2, 20)
+  b <- tfb_scale_matvec_diag(scale_diag)
+  x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(),
+               tf$matmul(x, tf$linalg$diag(scale_diag)) %>% tensor_value())
+
+})
+
+test_succeeds("Define a scale_matvec_linear_operator bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  x <- c(1, 2, 3)
+  diag <- c(1, 2, 3)
+  scale <- tf$linalg$LinearOperatorDiag(diag)
+  b <- tfb_scale_matvec_linear_operator(scale)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value() %>% as.matrix(),
+               tf$matmul(scale, as.matrix(x) %>% tf$cast(tf$float32)) %>%
+                 tensor_value())
+
+  tril <- list(c(1, 0, 0),
+               c(2, 1, 0),
+               c(3, 2, 1))
+  scale <- tf$linalg$LinearOperatorLowerTriangular(tril)
+  b <- tfb_scale_matvec_linear_operator(scale)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value() %>% as.matrix(),
+               tf$matmul(scale, as.matrix(x) %>% tf$cast(tf$float32)) %>%
+                 tensor_value())
+})
+
+test_succeeds("Define a scale_matvec_lu bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  trainable_lu_factorization <- function(event_size,
+                                         batch_shape = list(),
+                                         seed = NULL,
+                                         dtype = tf$float32,
+                                         name = "scale_matvec_lu_test") {
+    with(tf$name_scope(name), {
+      event_size <- tf$convert_to_tensor(event_size,
+                                         dtype_hint = tf$int32,
+                                         name = 'event_size')
+      batch_shape <- tf$convert_to_tensor(batch_shape,
+                                          dtype_hint = event_size$dtype,
+                                          name = 'batch_shape')
+      random_matrix <- tf$random$uniform(
+        shape = tf$concat(list(
+          batch_shape, list(event_size, event_size)
+        ), axis = 0L),
+        dtype = dtype,
+        seed = seed
+      )
+      random_orthonormal <-
+        tf$linalg$qr(random_matrix)[0] # qr returns tuple of tensors
+      lu <- tf$linalg$lu(random_orthonormal)
+      lower_upper <- lu[0]
+      permutation <- lu[1]
+      lower_upper <- tf$Variable(
+        initial_value = lower_upper,
+        trainable = TRUE,
+        name = 'lower_upper'
+      )
+      # Initialize a non-trainable variable for the permutation indices so
+      # that its value isn't re-sampled from run-to-run.
+      permutation <- tf$Variable(
+        initial_value = permutation,
+        trainable = FALSE,
+        name = 'permutation')
+    })
+    list(lower_upper, permutation)
+  }
+
+  channels <- 3L
+  fact <- trainable_lu_factorization(channels)
+  conv1x1 <- tfb_scale_matvec_lu(fact[[1]],
+                           fact[[2]],
+                           validate_args = TRUE)
+  x <- tf$random$uniform(shape = list(2L, 28L, 28L, channels))
+  y <- conv1x1$forward(x)
+  y_inv = conv1x1$inverse(y)
+  expect_equal(x %>% tensor_value(), y_inv %>% tensor_value(), tol = 1e-6)
+
+})
+
+test_succeeds("Define a scale_matvec_tri_l bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  scale <- matrix(c(2, 0, 2, 2), ncol = 2, byrow = TRUE)  %>% tf$cast(tf$float32)
+  b <- tfb_scale_matvec_tri_l(scale)
+  x <- c(1, 2)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value() %>% as.matrix(),
+               tf$matmul(scale, as.matrix(x)%>% tf$cast(tf$float32)) %>% tensor_value())
+
+})
+
+
