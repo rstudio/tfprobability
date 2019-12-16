@@ -13,6 +13,11 @@
   
 - new bijectors
   - tfb_shift
+  - tfb_pad
+  - tfb_scale_matvec_diag
+  - tfb_scale_matvec_tri_l
+  - tfb_scale_matvec_linear_operator
+  - tfb_scale_matvec__diag_lu
 
 
 ## 0.8.0.0 (Initial release, CRAN)
