@@ -1657,3 +1657,73 @@ tfb_scale_matvec_tri_l <- function(scale_tril,
   )
 }
 
+#' A piecewise rational quadratic spline, as developed in Conor et al.(2019).
+#'
+#' This transformation represents a monotonically increasing piecewise rational
+#' quadratic function. Outside of the bounds of `knot_x`/`knot_y`, the transform
+#' behaves as an identity function.
+#'
+#' Typically this bijector will be used as part of a chain, with splines for
+#' trailing `x` dimensions conditioned on some of the earlier `x` dimensions, and
+#' with the inverse then solved first for unconditioned dimensions, then using
+#' conditioning derived from those inverses, and so forth.
+#'
+#' For each argument, the innermost axis indexes bins/knots and batch axes
+#' index axes of `x`/`y` spaces. A `RationalQuadraticSpline` with a separate
+#' transform for each of three dimensions might have `bin_widths` shaped
+#' `[3, 32]`. To use the same spline for each of `x`'s three dimensions we may
+#' broadcast against `x` and use a `bin_widths` parameter shaped `[32]`.
+#'
+#' Parameters will be broadcast against each other and against the input
+#' `x`/`y`s, so if we want fixed slopes, we can use kwarg `knot_slopes=1`.
+#' A typical recipe for acquiring compatible bin widths and heights would be:
+#'
+#' ```
+#' nbins <- unconstrained_vector$shape[-1]
+#' range_min <- 1
+#' range_max <- 1
+#' min_bin_size = 1e-2
+#' scale <- range_max - range_min - nbins * min_bin_size
+#' bin_widths = tf$math$softmax(unconstrained_vector) * scale + min_bin_size
+#' ```
+#'
+#' @section References:
+#' - [Conor Durkan, Artur Bekasov, Iain Murray, George Papamakarios. Neural Spline Flows. _arXiv preprint arXiv:1906.04032_, 2019.](https://arxiv.org/abs/1906.04032)
+#' @inherit tfb_identity return params
+#' @param bin_widths The widths of the spans between subsequent knot `x` positions,
+#' a floating point `Tensor`. Must be positive, and at least 1-D. Innermost
+#' axis must sum to the same value as `bin_heights`. The knot `x` positions
+#' will be a first at `range_min`, followed by knots at `range_min +
+#' cumsum(bin_widths, axis=-1)`.
+#' @param bin_heights The heights of the spans between subsequent knot `y`
+#' positions, a floating point `Tensor`. Must be positive, and at least
+#' 1-D. Innermost axis must sum to the same value as `bin_widths`. The knot
+#' `y` positions will be a first at `range_min`, followed by knots at
+#' `range_min + cumsum(bin_heights, axis=-1)`.
+#' @param knot_slopes The slope of the spline at each knot, a floating point
+#' `Tensor`. Must be positive. `1`s are implicitly padded for the first and
+#' last implicit knots corresponding to `range_min` and `range_min +
+#' sum(bin_widths, axis=-1)`. Innermost axis size should be 1 less than
+#' that of `bin_widths`/`bin_heights`, or 1 for broadcasting.
+#' @param range_min The `x`/`y` position of the first knot, which has implicit
+#' slope `1`. `range_max` is implicit, and can be computed as `range_min +
+#'  sum(bin_widths, axis=-1)`. Scalar floating point `Tensor`.
+#' @export
+tfb_rational_quadratic_spline <- function(bin_widths,
+                                          bin_heights,
+                                          knot_slopes,
+                                          range_min = -1,
+                                          validate_args = FALSE,
+                                          name = NULL) {
+  tfp$bijectors$RationalQuadraticSpline(
+    bin_widths = bin_widths,
+    bin_heights = bin_heights,
+    knot_slopes = knot_slopes,
+    range_min = range_min,
+    validate_args = validate_args,
+    name = name
+  )
+}
+
+
+
