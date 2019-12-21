@@ -627,4 +627,11 @@ test_succeeds("Define a scale_matvec_tri_l bijector", {
 
 })
 
+test_succeeds("Define a GumbelCDF bijector", {
+  b <- tfb_gumbel_cdf()
+  x <- runif(6)
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
+               tf$exp(-tf$exp(-x)) %>% tensor_value())
+})
+
 

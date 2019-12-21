@@ -1458,6 +1458,8 @@ tfb_correlation_cholesky <- function(validate_args = FALSE,
 #' Computes the cumulative sum of a tensor along a specified axis.
 #'
 #' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @param axis `int` indicating the axis along which to compute the cumulative sum.
 #'  Note that positive (and zero) values are not supported
 #'
@@ -1475,6 +1477,8 @@ tfb_cumsum <- function(axis = -1,
 #' Bijector which applies a Stick Breaking procedure.
 #'
 #' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_iterated_sigmoid_centered <- function(validate_args = FALSE,
                                           name = 'iterated_sigmoid') {
@@ -1488,7 +1492,9 @@ tfb_iterated_sigmoid_centered <- function(validate_args = FALSE,
 #'
 #' where `shift` is a numeric `Tensor`.
 #' @inherit tfb_identity return params
+#' @family bijectors
 #' @param shift floating-point tensor
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_shift <- function(shift,
                       validate_args = FALSE,
@@ -1526,6 +1532,8 @@ tfb_shift <- function(shift,
 #' @param axis The dimensions for which `paddings` are applied. Must be 1:1 with
 #' `paddings` or `NULL`.
 #' Default value: `NULL` (i.e., `tf$range(start = -length(paddings), limit = 0)`).
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_pad <- function(paddings = list(c(0, 1)),
                     mode = 'CONSTANT',
@@ -1560,6 +1568,8 @@ tfb_pad <- function(paddings = list(c(0, 1)),
 #' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
 #' fall back to a common dtype inferred from the args, finally falling back
 #' to `float32`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_diag <- function(scale_diag,
                                   adjoint = FALSE,
@@ -1585,6 +1595,8 @@ tfb_scale_matvec_diag <- function(scale_diag,
 #' linear transformation by which the `Bijector` transforms inputs.
 #' @param adjoint `logical` indicating whether to use the `scale` matrix as
 #' specified or its adjoint. Default value: `FALSE`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_linear_operator <- function(scale,
                                              adjoint = FALSE,
@@ -1608,6 +1620,8 @@ tfb_scale_matvec_linear_operator <- function(scale,
 #' @inherit tfb_identity return params
 #' @param  lower_upper The LU factorization as returned by `tf$linalg$lu`.
 #' @param permutation The LU factorization permutation as returned by `tf$linalg$lu`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_lu <- function(lower_upper,
                                 permutation,
@@ -1642,6 +1656,8 @@ tfb_scale_matvec_lu <- function(lower_upper,
 #' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
 #' fall back to a common dtype inferred from the args, finally falling back
 #' to float32.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_tri_l <- function(scale_tril,
                                    adjoint = FALSE,
@@ -1708,6 +1724,8 @@ tfb_scale_matvec_tri_l <- function(scale_tril,
 #' @param range_min The `x`/`y` position of the first knot, which has implicit
 #' slope `1`. `range_max` is implicit, and can be computed as `range_min +
 #'  sum(bin_widths, axis=-1)`. Scalar floating point `Tensor`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_rational_quadratic_spline <- function(bin_widths,
                                           bin_heights,
@@ -1725,5 +1743,37 @@ tfb_rational_quadratic_spline <- function(bin_widths,
   )
 }
 
+#' Compute `Y = g(X) = exp(-exp(-(X - loc) / scale))`, the Gumbel CDF.
+#'
+#' This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution):
+#'
+#' ```
+#' Y ~ GumbelCDF(loc, scale)
+#' pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale
+#' ```
+#' @param loc Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `scale`.
+#' This is `loc` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' @param scale Positive Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `loc`.
+#' This is `scale` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_gumbel_cdf <- function(loc = 0,
+                           scale = 1,
+                           validate_args = FALSE,
+                           name = "gumbel_cdf") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    name = name
+  )
 
+  do.call(tfp$bijectors$GumbelCDF, args)
+}
 

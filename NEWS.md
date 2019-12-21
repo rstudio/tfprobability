@@ -18,6 +18,8 @@
   - tfb_scale_matvec_tri_l
   - tfb_scale_matvec_linear_operator
   - tfb_scale_matvec__diag_lu
+  - tfb_rational_quadratic_spline
+  - tfb_gumbel_cdf
 
 
 ## 0.8.0.0 (Initial release, CRAN)
