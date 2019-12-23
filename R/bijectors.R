@@ -1846,3 +1846,24 @@ tfb_kumaraswamy_cdf <- function(concentration1 = 1,
   do.call(tfp$bijectors$KumaraswamyCDF, args)
 }
 
+#' Compute `Y = g(X; scale) = scale * X`.
+#'
+#' Examples:
+#' ```
+#' Y <- 2 * X
+#' b <- tfb_scale(scale = 2)
+#' ```
+#'
+#' @inherit tfb_identity return params
+#' @param scale Floating-point `Tensor`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_scale <- function(scale,
+                      validate_args = FALSE,
+                      name = 'scale') {
+  tfp$bijectors$Scale(scale = scale,
+                      validate_args = validate_args,
+                      name = name)
+}
+

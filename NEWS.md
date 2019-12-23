@@ -14,6 +14,7 @@
 - new bijectors
   - tfb_shift
   - tfb_pad
+  - tfb_scale
   - tfb_scale_matvec_diag
   - tfb_scale_matvec_tri_l
   - tfb_scale_matvec_linear_operator

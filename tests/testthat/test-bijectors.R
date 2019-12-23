@@ -656,3 +656,17 @@ test_succeeds("Define a kumaraswamyCDF bijector", {
   x <- runif(1)
   expect_lt(b %>% tfb_forward(x) %>% tensor_value(), 1)
 })
+
+test_succeeds("Define a scale bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  scale <- 1.5
+  b <- tfb_scale(scale)
+  x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(),
+               matrix(1:4, ncol = 2) * scale)
+
+})
+
