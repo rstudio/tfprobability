@@ -627,4 +627,81 @@ test_succeeds("Define a scale_matvec_tri_l bijector", {
 
 })
 
+test_succeeds("Define a GumbelCDF bijector", {
 
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_gumbel_cdf()
+  x <- runif(6)
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
+               tf$exp(-tf$exp(-x)) %>% tensor_value())
+})
+
+test_succeeds("Define a weibullCDF bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_weibull_cdf(1.5, 2)
+  x <- c(0, 0.1, 0.2)
+  expect_equivalent(b %>% tfb_forward(x) %>% tensor_value(),
+                    -tf$math$expm1(-((x / 1.5) ** 2)) %>% tensor_value())
+})
+
+
+test_succeeds("Define a kumaraswamyCDF bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_kumaraswamy_cdf(concentration1 = 2, concentration0 = 0.3)
+  x <- runif(1)
+  expect_lt(b %>% tfb_forward(x) %>% tensor_value(), 1)
+})
+
+test_succeeds("Define a scale bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  scale <- 1.5
+  b <- tfb_scale(scale)
+  x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(),
+               matrix(1:4, ncol = 2) * scale)
+
+})
+
+test_succeeds("Define a fill_scale_tri_l bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_fill_scale_tri_l(tfb_exp(), NULL)
+  x <- c(0, 0, 0)
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(), diag(2))
+  y <- matrix(c(1, 0, .5, 2), byrow = TRUE, ncol = 2)
+  expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), c(log(2), .5, log(1)), tol = 1e-6)
+})
+
+test_succeeds("Define an FFJORD bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  # state_time_derivative_fn: `Callable(time, state)` -> state_time_derivative
+  move_ode_fn <- function(t, z) tf$ones_like(z)
+  trace_augmentation_fn <- tfp$bijectors$ffjord$trace_jacobian_exact
+
+  b <- tfb_ffjord(state_time_derivative_fn = move_ode_fn,
+                        trace_augmentation_fn = trace_augmentation_fn)
+
+  x <- matrix(rep(0, 10), ncol = 5)
+  y <- matrix(rep(1, 10), ncol = 5)
+  expected_log_det_jacobian <- array(c(0, 0), dim = 2)
+
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(), y, tol = 1e-6)
+  expect_equal(b %>% tfb_inverse(y) %>% tensor_value(), x, tol = 1e-6)
+  expect_equal(
+    b %>% tfb_inverse_log_det_jacobian(y, event_ndims = 1) %>% tensor_value(),
+    expected_log_det_jacobian,
+    tol = 1e-6
+  )
+
+})

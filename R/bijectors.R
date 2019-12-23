@@ -1053,7 +1053,7 @@ tfb_permute <- function(permutation,
 #' inputs from `[0, inf]` to `[-1/c, inf]`; this is equivalent to the inverse of this bijector.
 #' This bijector is equivalent to the Exp bijector when c=0.
 #'
-#' @param power Python float scalar indicating the transform power, i.e.,
+#' @param power float scalar indicating the transform power, i.e.,
 #' `Y = g(X) = (1 + X * c)**(1 / c)` where c is the power.
 #'
 #' @inherit tfb_identity return params
@@ -1458,6 +1458,8 @@ tfb_correlation_cholesky <- function(validate_args = FALSE,
 #' Computes the cumulative sum of a tensor along a specified axis.
 #'
 #' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @param axis `int` indicating the axis along which to compute the cumulative sum.
 #'  Note that positive (and zero) values are not supported
 #'
@@ -1475,6 +1477,8 @@ tfb_cumsum <- function(axis = -1,
 #' Bijector which applies a Stick Breaking procedure.
 #'
 #' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_iterated_sigmoid_centered <- function(validate_args = FALSE,
                                           name = 'iterated_sigmoid') {
@@ -1488,7 +1492,9 @@ tfb_iterated_sigmoid_centered <- function(validate_args = FALSE,
 #'
 #' where `shift` is a numeric `Tensor`.
 #' @inherit tfb_identity return params
+#' @family bijectors
 #' @param shift floating-point tensor
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_shift <- function(shift,
                       validate_args = FALSE,
@@ -1526,6 +1532,8 @@ tfb_shift <- function(shift,
 #' @param axis The dimensions for which `paddings` are applied. Must be 1:1 with
 #' `paddings` or `NULL`.
 #' Default value: `NULL` (i.e., `tf$range(start = -length(paddings), limit = 0)`).
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_pad <- function(paddings = list(c(0, 1)),
                     mode = 'CONSTANT',
@@ -1560,6 +1568,8 @@ tfb_pad <- function(paddings = list(c(0, 1)),
 #' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
 #' fall back to a common dtype inferred from the args, finally falling back
 #' to `float32`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_diag <- function(scale_diag,
                                   adjoint = FALSE,
@@ -1585,6 +1595,8 @@ tfb_scale_matvec_diag <- function(scale_diag,
 #' linear transformation by which the `Bijector` transforms inputs.
 #' @param adjoint `logical` indicating whether to use the `scale` matrix as
 #' specified or its adjoint. Default value: `FALSE`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_linear_operator <- function(scale,
                                              adjoint = FALSE,
@@ -1608,6 +1620,8 @@ tfb_scale_matvec_linear_operator <- function(scale,
 #' @inherit tfb_identity return params
 #' @param  lower_upper The LU factorization as returned by `tf$linalg$lu`.
 #' @param permutation The LU factorization permutation as returned by `tf$linalg$lu`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_lu <- function(lower_upper,
                                 permutation,
@@ -1642,6 +1656,8 @@ tfb_scale_matvec_lu <- function(lower_upper,
 #' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
 #' fall back to a common dtype inferred from the args, finally falling back
 #' to float32.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_scale_matvec_tri_l <- function(scale_tril,
                                    adjoint = FALSE,
@@ -1657,3 +1673,361 @@ tfb_scale_matvec_tri_l <- function(scale_tril,
   )
 }
 
+#' A piecewise rational quadratic spline, as developed in Conor et al.(2019).
+#'
+#' This transformation represents a monotonically increasing piecewise rational
+#' quadratic function. Outside of the bounds of `knot_x`/`knot_y`, the transform
+#' behaves as an identity function.
+#'
+#' Typically this bijector will be used as part of a chain, with splines for
+#' trailing `x` dimensions conditioned on some of the earlier `x` dimensions, and
+#' with the inverse then solved first for unconditioned dimensions, then using
+#' conditioning derived from those inverses, and so forth.
+#'
+#' For each argument, the innermost axis indexes bins/knots and batch axes
+#' index axes of `x`/`y` spaces. A `RationalQuadraticSpline` with a separate
+#' transform for each of three dimensions might have `bin_widths` shaped
+#' `[3, 32]`. To use the same spline for each of `x`'s three dimensions we may
+#' broadcast against `x` and use a `bin_widths` parameter shaped `[32]`.
+#'
+#' Parameters will be broadcast against each other and against the input
+#' `x`/`y`s, so if we want fixed slopes, we can use kwarg `knot_slopes=1`.
+#' A typical recipe for acquiring compatible bin widths and heights would be:
+#'
+#' ```
+#' nbins <- unconstrained_vector$shape[-1]
+#' range_min <- 1
+#' range_max <- 1
+#' min_bin_size = 1e-2
+#' scale <- range_max - range_min - nbins * min_bin_size
+#' bin_widths = tf$math$softmax(unconstrained_vector) * scale + min_bin_size
+#' ```
+#'
+#' @section References:
+#' - [Conor Durkan, Artur Bekasov, Iain Murray, George Papamakarios. Neural Spline Flows. _arXiv preprint arXiv:1906.04032_, 2019.](https://arxiv.org/abs/1906.04032)
+#' @inherit tfb_identity return params
+#' @param bin_widths The widths of the spans between subsequent knot `x` positions,
+#' a floating point `Tensor`. Must be positive, and at least 1-D. Innermost
+#' axis must sum to the same value as `bin_heights`. The knot `x` positions
+#' will be a first at `range_min`, followed by knots at `range_min +
+#' cumsum(bin_widths, axis=-1)`.
+#' @param bin_heights The heights of the spans between subsequent knot `y`
+#' positions, a floating point `Tensor`. Must be positive, and at least
+#' 1-D. Innermost axis must sum to the same value as `bin_widths`. The knot
+#' `y` positions will be a first at `range_min`, followed by knots at
+#' `range_min + cumsum(bin_heights, axis=-1)`.
+#' @param knot_slopes The slope of the spline at each knot, a floating point
+#' `Tensor`. Must be positive. `1`s are implicitly padded for the first and
+#' last implicit knots corresponding to `range_min` and `range_min +
+#' sum(bin_widths, axis=-1)`. Innermost axis size should be 1 less than
+#' that of `bin_widths`/`bin_heights`, or 1 for broadcasting.
+#' @param range_min The `x`/`y` position of the first knot, which has implicit
+#' slope `1`. `range_max` is implicit, and can be computed as `range_min +
+#'  sum(bin_widths, axis=-1)`. Scalar floating point `Tensor`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_rational_quadratic_spline <- function(bin_widths,
+                                          bin_heights,
+                                          knot_slopes,
+                                          range_min = -1,
+                                          validate_args = FALSE,
+                                          name = NULL) {
+  tfp$bijectors$RationalQuadraticSpline(
+    bin_widths = bin_widths,
+    bin_heights = bin_heights,
+    knot_slopes = knot_slopes,
+    range_min = range_min,
+    validate_args = validate_args,
+    name = name
+  )
+}
+
+#' Compute `Y = g(X) = exp(-exp(-(X - loc) / scale))`, the Gumbel CDF.
+#'
+#' This bijector maps inputs from `[-inf, inf]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the [Gumbel distribution](https://en.wikipedia.org/wiki/Gumbel_distribution):
+#'
+#' ```
+#' Y ~ GumbelCDF(loc, scale)
+#' pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale
+#' ```
+#' @param loc Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `scale`.
+#' This is `loc` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' @param scale Positive Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `loc`.
+#' This is `scale` in `Y = g(X) = exp(-exp(-(X - loc) / scale))`.
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_gumbel_cdf <- function(loc = 0,
+                           scale = 1,
+                           validate_args = FALSE,
+                           name = "gumbel_cdf") {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$GumbelCDF, args)
+}
+
+#' Compute `Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0`.
+#'
+#' This bijector maps inputs from `[0, inf]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the
+#' [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):
+#' ```
+#' Y ~ Weibull(scale, concentration)
+#' pdf(y; scale, concentration, y >= 0) =
+#'   (concentration / scale) * (y / scale)**(concentration - 1) *
+#'     exp(-(y / scale)**concentration)
+#' ```
+#'
+#' Likwewise, the forward of this bijector is the Weibull distribution CDF.
+#'
+#' @param scale Positive Float-type `Tensor` that is the same dtype and is
+#' broadcastable with `concentration`.
+#' This is `l` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
+#' @param concentration Positive Float-type `Tensor` that is the same dtype and is
+#' broadcastable with `scale`.
+#' This is `k` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_weibull_cdf <- function(scale = 1,
+                            concentration = 1,
+                            validate_args = FALSE,
+                            name = "weibull_cdf") {
+  args <- list(
+    scale = scale,
+    concentration = concentration,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$WeibullCDF, args)
+}
+
+#' Computes`Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)`, with X in `[0, 1]`
+#'
+#' This bijector maps inputs from `[0, 1]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
+#' random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
+#' `Y ~ Kumaraswamy(a, b)`
+#' `pdf(y; a, b, 0 <= y <= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)`
+#'
+#' @param concentration1 float scalar indicating the transform power, i.e.,
+#' `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where a is concentration1.`
+#' @param concentration0 float scalar indicating the transform power,
+#' i.e., `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where b is concentration0.
+#' @inherit tfb_identity return params
+#'
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_kumaraswamy_cdf <- function(concentration1 = 1,
+                                concentration0 = 1,
+                                validate_args = FALSE,
+                                name = "kumaraswamy_cdf") {
+  args <- list(
+    concentration1 = concentration1,
+    concentration0 = concentration0,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$KumaraswamyCDF, args)
+}
+
+#' Compute `Y = g(X; scale) = scale * X`.
+#'
+#' Examples:
+#' ```
+#' Y <- 2 * X
+#' b <- tfb_scale(scale = 2)
+#' ```
+#'
+#' @inherit tfb_identity return params
+#' @param scale Floating-point `Tensor`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_scale <- function(scale,
+                      validate_args = FALSE,
+                      name = 'scale') {
+  tfp$bijectors$Scale(scale = scale,
+                      validate_args = validate_args,
+                      name = name)
+}
+
+#' Transforms unconstrained vectors to TriL matrices with positive diagonal
+#'
+#' This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
+#' tfb_transform_diagonal, and provided mostly as a convenience.
+#' The default setup is somewhat opinionated, using a Softplus transformation followed by a
+#'  small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.
+#'
+#' @param diag_bijector Bijector instance, used to transform the output diagonal to be positive.
+#' Default value: NULL (i.e., `tfb_softplus()`).
+#' @param diag_shift Float value broadcastable and added to all diagonal entries after applying the
+#' diag_bijector. Setting a positive value forces the output diagonal entries to be positive, but
+#' prevents inverting the transformation for matrices with diagonal entries less than this value.
+#' Default value: 1e-5.
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_fill_scale_tri_l <- function(diag_bijector = NULL,
+                                 diag_shift = 1e-5,
+                                 validate_args = FALSE,
+                                 name = "fill_scale_tril") {
+  args <- list(
+    diag_bijector = diag_bijector,
+    diag_shift = diag_shift,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$FillScaleTriL, args)
+}
+
+#' Implements a continuous normalizing flow X->Y defined via an ODE.
+#'
+#' This bijector implements a continuous dynamics transformation
+#' parameterized by a differential equation, where initial and terminal
+#' conditions correspond to domain (X) and image (Y) i.e.
+#'
+#' ```
+#' d/dt[state(t)] = state_time_derivative_fn(t, state(t))
+#' state(initial_time) = X
+#' state(final_time) = Y
+#' ```
+#'
+#' For this transformation the value of `log_det_jacobian` follows another
+#' differential equation, reducing it to computation of the trace of the jacobian
+#' along the trajectory
+#'
+#' ```
+#' state_time_derivative = state_time_derivative_fn(t, state(t))
+#' d/dt[log_det_jac(t)] = Tr(jacobian(state_time_derivative, state(t)))
+#' ```
+#'
+#' FFJORD constructor takes two functions `ode_solve_fn` and
+#' `trace_augmentation_fn` arguments that customize integration of the
+#' differential equation and trace estimation.
+#'
+#' Differential equation integration is performed by a call to `ode_solve_fn`.
+#'
+#' Custom `ode_solve_fn` must accept the following arguments:
+#' * ode_fn(time, state): Differential equation to be solved.
+#' * initial_time: Scalar float or floating Tensor representing the initial time.
+#' * initial_state: Floating Tensor representing the initial state.
+#' * solution_times: 1D floating Tensor of solution times.
+#'
+#' And return a Tensor of shape `[solution_times$shape, initial_state$shape]`
+#' representing state values evaluated at `solution_times`. In addition
+#' `ode_solve_fn` must support nested structures. For more details see the
+#' interface of `tfp$math$ode$Solver$solve()`.
+#'
+#' Trace estimation is computed simultaneously with `state_time_derivative`
+#' using `augmented_state_time_derivative_fn` that is generated by
+#' `trace_augmentation_fn`. `trace_augmentation_fn` takes
+#' `state_time_derivative_fn`, `state.shape` and `state.dtype` arguments and
+#' returns a `augmented_state_time_derivative_fn` callable that computes both
+#' `state_time_derivative` and unreduced `trace_estimation`.
+#'
+#' Custom `ode_solve_fn` and `trace_augmentation_fn` examples:
+#'
+#' ```
+#' # custom_solver_fn: `function(f, t_initial, t_solutions, y_initial, ...)`
+#' # ... : Additional arguments to pass to custom_solver_fn.
+#' ode_solve_fn <- function(ode_fn, initial_time, initial_state, solution_times) {
+#'   custom_solver_fn(ode_fn, initial_time, solution_times, initial_state, ...)
+#' }
+#' ffjord <- tfb_ffjord(state_time_derivative_fn, ode_solve_fn = ode_solve_fn)
+#' ```
+#'
+#' ```
+#' # state_time_derivative_fn: `function(time, state)`
+#' # trace_jac_fn: `function(time, state)` unreduced jacobian trace function
+#' trace_augmentation_fn <- function(ode_fn, state_shape, state_dtype) {
+#'   augmented_ode_fn <- function(time, state) {
+#'     list(ode_fn(time, state), trace_jac_fn(time, state))
+#'   }
+#' augmented_ode_fn
+#' }
+#' ffjord <- tfb_ffjord(state_time_derivative_fn, trace_augmentation_fn = trace_augmentation_fn)
+#' ```
+#'
+#' For more details on FFJORD and continous normalizing flows see Chen et al. (2018), Grathwol et al. (2018).
+#' @section References:
+#'   -  Chen, T. Q., Rubanova, Y., Bettencourt, J., & Duvenaud, D. K. (2018). Neural ordinary differential equations. In Advances in neural information processing systems (pp. 6571-6583)
+#'   -  [Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., & Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.](http://arxiv.org.abs/1810.01367)
+#'
+#' @param state_time_derivative_fn  `function` taking arguments `time`
+#' (a scalar representing time) and `state` (a Tensor representing the
+#' state at given `time`) returning the time derivative of the `state` at
+#' given `time`.
+#' @param ode_solve_fn `function` taking arguments `ode_fn` (same as
+#' `state_time_derivative_fn` above), `initial_time` (a scalar representing
+#' the initial time of integration), `initial_state` (a Tensor of floating
+#' dtype represents the initial state) and `solution_times` (1D Tensor of
+#' floating dtype representing time at which to obtain the solution)
+#' returning a Tensor of shape `[time_axis, initial_state$shape]`. Will take
+#' `[final_time]` as the `solution_times` argument and
+#' `state_time_derivative_fn` as `ode_fn` argument.
+#' If `NULL` a DormandPrince solver from `tfp$math$ode` is used.
+#' Default value: NULL
+#' @param trace_augmentation_fn `function` taking arguments `ode_fn` (
+#' `function` same as `state_time_derivative_fn` above),
+#' `state_shape` (TensorShape of a the state), `dtype` (same as dtype of
+#' the state) and returning a `function` taking arguments `time`
+#' (a scalar representing the time at which the function is evaluted),
+#' `state` (a Tensor representing the state at given `time`) that computes
+#' a tuple (`ode_fn(time, state)`, `jacobian_trace_estimation`).
+#' `jacobian_trace_estimation` should represent trace of the jacobian of
+#' `ode_fn` with respect to `state`. `state_time_derivative_fn` will be
+#' passed as `ode_fn` argument.
+#' Default value: tfp$bijectors$ffjord$trace_jacobian_hutchinson
+#' @param initial_time Scalar float representing time to which the `x` value of the
+#' bijector corresponds to. Passed as `initial_time` to `ode_solve_fn`.
+#' For default solver can be `float` or floating scalar `Tensor`.
+#' Default value: 0.
+#' @param final_time Scalar float representing time to which the `y` value of the
+#' bijector corresponds to. Passed as `solution_times` to `ode_solve_fn`.
+#' For default solver can be `float` or floating scalar `Tensor`.
+#' Default value: 1.
+#' @param dtype `tf$DType` to prefer when converting args to `Tensor`s. Else, we
+#' fall back to a common dtype inferred from the args, finally falling
+#' back to float32.
+#'
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_ffjord <- function(state_time_derivative_fn,
+                       ode_solve_fn = NULL,
+                       trace_augmentation_fn = tfp$bijectors$ffjord$trace_jacobian_hutchinson,
+                       initial_time = 0,
+                       final_time = 1,
+                       validate_args = FALSE,
+                       dtype = tf$float32,
+                       name = 'ffjord') {
+  args <- list(
+    state_time_derivative_fn = state_time_derivative_fn,
+    ode_solve_fn = ode_solve_fn,
+    trace_augmentation_fn = trace_augmentation_fn,
+    initial_time = initial_time,
+    final_time = final_time,
+    validate_args = validate_args,
+    dtype = dtype,
+    name = name
+  )
+  do.call(tfp$bijectors$FFJORD, args)
+}
