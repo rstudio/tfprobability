@@ -15,7 +15,7 @@ test_succeeds("can use layer_multivariate_normal_tri_l in a keras model", {
   eps <-
     tfd_normal(loc = 0, scale = scale_noise) %>% tfd_sample(c(n, 2L))
   y = tf$matmul(x, scale_tril) + eps
-  d <- if (tf$executing_eagerly()) y$shape[-1] else y$shape[-1]$value
+  d <- if (tf$executing_eagerly()) y$shape[[2]] else y$shape[[2]]$value
 
   model <- keras_model_sequential() %>%
     layer_dense(units = params_size_multivariate_normal_tri_l(d)) %>%
