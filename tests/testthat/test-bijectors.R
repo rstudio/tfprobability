@@ -628,10 +628,23 @@ test_succeeds("Define a scale_matvec_tri_l bijector", {
 })
 
 test_succeeds("Define a GumbelCDF bijector", {
+
+  skip_if_tfp_below("0.9")
+
   b <- tfb_gumbel_cdf()
   x <- runif(6)
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
                tf$exp(-tf$exp(-x)) %>% tensor_value())
+})
+
+test_succeeds("Define a weibull bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_weibull_cdf(1.5, 2)
+  x <- c(0, 0.1, 0.2)
+  expect_equivalent(b %>% tfb_forward(x) %>% tensor_value(),
+                    -tf$math$expm1(-((x / 1.5) ** 2)) %>% tensor_value())
 })
 
 

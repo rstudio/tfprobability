@@ -65,6 +65,7 @@ Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_softplus}}, \code{\link{tfb_softsign}},
   \code{\link{tfb_square}}, \code{\link{tfb_tanh}},
   \code{\link{tfb_transform_diagonal}},
-  \code{\link{tfb_transpose}}, \code{\link{tfb_weibull}}
+  \code{\link{tfb_transpose}},
+  \code{\link{tfb_weibull_cdf}}, \code{\link{tfb_weibull}}
 }
 \concept{bijectors}

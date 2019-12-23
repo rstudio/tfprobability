@@ -1777,3 +1777,40 @@ tfb_gumbel_cdf <- function(loc = 0,
   do.call(tfp$bijectors$GumbelCDF, args)
 }
 
+#' Compute `Y = g(X) = 1 - exp((-X / scale) ** concentration), X >= 0`.
+#'
+#' This bijector maps inputs from `[0, inf]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the
+#' [Weibull distribution](https://en.wikipedia.org/wiki/Weibull_distribution):
+#' ```
+#' Y ~ Weibull(scale, concentration)
+#' pdf(y; scale, concentration, y >= 0) =
+#'   (concentration / scale) * (y / scale)**(concentration - 1) *
+#'     exp(-(y / scale)**concentration)
+#' ```
+#'
+#' Likwewise, the forward of this bijector is the Weibull distribution CDF.
+#'
+#' @param scale Positive Float-type `Tensor` that is the same dtype and is
+#' broadcastable with `concentration`.
+#' This is `l` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
+#' @param concentration Positive Float-type `Tensor` that is the same dtype and is
+#' broadcastable with `scale`.
+#' This is `k` in `Y = g(X) = 1 - exp((-x / l) ** k)`.
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_weibull_cdf <- function(scale = 1,
+                            concentration = 1,
+                            validate_args = FALSE,
+                            name = "weibull_cdf") {
+  args <- list(
+    scale = scale,
+    concentration = concentration,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$WeibullCDF, args)
+}

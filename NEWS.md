@@ -20,6 +20,7 @@
   - tfb_scale_matvec__diag_lu
   - tfb_rational_quadratic_spline
   - tfb_gumbel_cdf
+  - tfb_weibull_cdf
 
 
 ## 0.8.0.0 (Initial release, CRAN)
