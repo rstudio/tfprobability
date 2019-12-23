@@ -21,6 +21,7 @@
   - tfb_rational_quadratic_spline
   - tfb_gumbel_cdf
   - tfb_weibull_cdf
+  - tfb_kumaraswamy_cdf
 
 
 ## 0.8.0.0 (Initial release, CRAN)

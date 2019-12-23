@@ -1814,3 +1814,35 @@ tfb_weibull_cdf <- function(scale = 1,
   )
   do.call(tfp$bijectors$WeibullCDF, args)
 }
+
+#' Computes`Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)`, with X in `[0, 1]`
+#'
+#' This bijector maps inputs from `[0, 1]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable X ~ U(0, 1) gives back a
+#' random variable with the [Kumaraswamy distribution](https://en.wikipedia.org/wiki/Kumaraswamy_distribution):
+#' `Y ~ Kumaraswamy(a, b)`
+#' `pdf(y; a, b, 0 <= y <= 1) = a * b * y ** (a - 1) * (1 - y**a) ** (b - 1)`
+#'
+#' @param concentration1 float scalar indicating the transform power, i.e.,
+#' `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a) where a is concentration1.`
+#' @param concentration0 float scalar indicating the transform power,
+#' i.e., `Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)` where b is concentration0.
+#' @inherit tfb_identity return params
+#'
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_kumaraswamy_cdf <- function(concentration1 = 1,
+                                concentration0 = 1,
+                                validate_args = FALSE,
+                                name = "kumaraswamy_cdf") {
+  args <- list(
+    concentration1 = concentration1,
+    concentration0 = concentration0,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$bijectors$KumaraswamyCDF, args)
+}
+

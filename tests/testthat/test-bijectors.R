@@ -637,7 +637,7 @@ test_succeeds("Define a GumbelCDF bijector", {
                tf$exp(-tf$exp(-x)) %>% tensor_value())
 })
 
-test_succeeds("Define a weibull bijector", {
+test_succeeds("Define a weibullCDF bijector", {
 
   skip_if_tfp_below("0.9")
 
@@ -648,3 +648,11 @@ test_succeeds("Define a weibull bijector", {
 })
 
 
+test_succeeds("Define a kumaraswamyCDF bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_kumaraswamy_cdf(concentration1 = 2, concentration0 = 0.3)
+  x <- runif(1)
+  expect_lt(b %>% tfb_forward(x) %>% tensor_value(), 1)
+})
