@@ -681,3 +681,44 @@ test_succeeds("Define a fill_scale_tri_l bijector", {
   expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), c(log(2), .5, log(1)), tol = 1e-6)
 })
 
+test_succeeds("Define an FFJORD bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  # state_time_derivative_fn: `Callable(time, state)` -> state_time_derivative
+  move_ode_fn <- function(t, z) tf$ones_like(z)
+  trace_augmentation_fn <- tfp$bijectors$ffjord$trace_jacobian_exact
+
+  b <- tfb_ffjord(state_time_derivative_fn = move_ode_fn,
+                        trace_augmentation_fn = trace_augmentation_fn)
+
+  x <- matrix(rep(0, 10), ncol = 5)
+  y <- matrix(rep(1, 10), ncol = 5)
+  expected_log_det_jacobian <- array(c(0, 0), dim = 2)
+
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(), y, tol = 1e-6)
+  expect_equal(b %>% tfb_inverse(y) %>% tensor_value(), x, tol = 1e-6)
+  expect_equal(
+    b %>% tfb_inverse_log_det_jacobian(y, event_ndims = 1) %>% tensor_value(),
+    expected_log_det_jacobian,
+    tol = 1e-6
+  )
+
+})
+
+
+
+
+
+
+self.assertStartsWith(bijector.name, 'ffjord')
+self.assertAllClose(y, self.evaluate(bijector.forward(x)))
+self.assertAllClose(x, self.evaluate(bijector.inverse(y)))
+self.assertAllClose(
+  expected_log_det_jacobian,
+  self.evaluate(bijector.inverse_log_det_jacobian(y, event_ndims=1))
+)
+self.assertAllClose(
+  expected_log_det_jacobian,
+  self.evaluate(bijector.forward_log_det_jacobian(x, event_ndims=1))
+)

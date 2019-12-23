@@ -24,6 +24,7 @@
   - tfb_weibull_cdf
   - tfb_kumaraswamy_cdf
   - tfb_fill_scale_triangular
+  - tfb_ffjord
 
 
 ## 0.8.0.0 (Initial release, CRAN)

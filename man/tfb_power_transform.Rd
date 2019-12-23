@@ -8,7 +8,7 @@ tfb_power_transform(power, validate_args = FALSE,
   name = "power_transform")
 }
 \arguments{
-\item{power}{Python float scalar indicating the transform power, i.e.,
+\item{power}{float scalar indicating the transform power, i.e.,
 \code{Y = g(X) = (1 + X * c)**(1 / c)} where c is the power.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
@@ -39,6 +39,7 @@ Other bijectors: \code{\link{tfb_absolute_value}},
   \code{\link{tfb_cumsum}},
   \code{\link{tfb_discrete_cosine_transform}},
   \code{\link{tfb_expm1}}, \code{\link{tfb_exp}},
+  \code{\link{tfb_ffjord}},
   \code{\link{tfb_fill_scale_tri_l}},
   \code{\link{tfb_fill_triangular}},
   \code{\link{tfb_gumbel_cdf}}, \code{\link{tfb_gumbel}},
