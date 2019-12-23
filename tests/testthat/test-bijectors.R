@@ -705,20 +705,3 @@ test_succeeds("Define an FFJORD bijector", {
   )
 
 })
-
-
-
-
-
-
-self.assertStartsWith(bijector.name, 'ffjord')
-self.assertAllClose(y, self.evaluate(bijector.forward(x)))
-self.assertAllClose(x, self.evaluate(bijector.inverse(y)))
-self.assertAllClose(
-  expected_log_det_jacobian,
-  self.evaluate(bijector.inverse_log_det_jacobian(y, event_ndims=1))
-)
-self.assertAllClose(
-  expected_log_det_jacobian,
-  self.evaluate(bijector.forward_log_det_jacobian(x, event_ndims=1))
-)
