@@ -1867,3 +1867,33 @@ tfb_scale <- function(scale,
                       name = name)
 }
 
+#' Transforms unconstrained vectors to TriL matrices with positive diagonal
+#'
+#' This is implemented as a simple tfb_chain of tfb_fill_triangular followed by
+#' tfb_transform_diagonal, and provided mostly as a convenience.
+#' The default setup is somewhat opinionated, using a Softplus transformation followed by a
+#'  small shift (1e-5) which attempts to avoid numerical issues from zeros on the diagonal.
+#'
+#' @param diag_bijector Bijector instance, used to transform the output diagonal to be positive.
+#' Default value: NULL (i.e., `tfb_softplus()`).
+#' @param diag_shift Float value broadcastable and added to all diagonal entries after applying the
+#' diag_bijector. Setting a positive value forces the output diagonal entries to be positive, but
+#' prevents inverting the transformation for matrices with diagonal entries less than this value.
+#' Default value: 1e-5.
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_fill_scale_tri_l <- function(diag_bijector = NULL,
+                                 diag_shift = 1e-5,
+                                 validate_args = FALSE,
+                                 name = "fill_scale_tril") {
+  args <- list(
+    diag_bijector = diag_bijector,
+    diag_shift = diag_shift,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$FillScaleTriL, args)
+}
+

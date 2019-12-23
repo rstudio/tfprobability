@@ -670,3 +670,14 @@ test_succeeds("Define a scale bijector", {
 
 })
 
+test_succeeds("Define a fill_scale_tri_l bijector", {
+
+  skip_if_tfp_below("0.9")
+
+  b <- tfb_fill_scale_tri_l(tfb_exp(), NULL)
+  x <- c(0, 0, 0)
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(), diag(2))
+  y <- matrix(c(1, 0, .5, 2), byrow = TRUE, ncol = 2)
+  expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), c(log(2), .5, log(1)), tol = 1e-6)
+})
+
