@@ -630,6 +630,7 @@ test_succeeds("Track JointDistributionSequential broadcasting/reshaping changes"
 
 test_succeeds("JointDistributionNamed distribution works", {
 
+  skip_if_tfp_below("0.9")
   d <- tfd_joint_distribution_named(
     list(
       e = tfd_independent(tfd_exponential(rate = c(100, 120)), 1),
