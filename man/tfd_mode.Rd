@@ -9,7 +9,7 @@ tfd_mode(distribution, name = "mode")
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{name}{String prepended to names of ops created by this function.}
+\item{name}{name to give to the op.}
 }
 \value{
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.

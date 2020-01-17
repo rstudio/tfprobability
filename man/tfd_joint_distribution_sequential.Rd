@@ -56,6 +56,8 @@ Denote the \code{i}-th \code{callable}s non-default arguments as \code{args[i]}.
 previous distributions, specifically those at indexes:
 \code{range(i - 1, i - 1 - num_args[i], -1)}.
 }
+
+\strong{Name resolution}: \code{The names of }JointDistributionSequential\code{components are defined by explicit}name\code{ arguments passed to distributions (}tfd.Normal(0., 1., name='x')\code{) and/or by the argument names in distribution-making functions (}lambda x: tfd.Normal(x., 1.)\code{). Both approaches may be used in the same distribution, as long as they are consistent; referring to a single component by multiple names will raise a }ValueError`. Unnamed components will be assigned a dummy name.
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
@@ -121,7 +123,9 @@ Other distributions: \code{\link{tfd_autoregressive}},
   \code{\link{tfd_vector_laplace_linear_operator}},
   \code{\link{tfd_vector_sinh_arcsinh_diag}},
   \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}}, \code{\link{tfd_wishart}},
-  \code{\link{tfd_zipf}}
+  \code{\link{tfd_von_mises}},
+  \code{\link{tfd_wishart_linear_operator}},
+  \code{\link{tfd_wishart_tri_l}},
+  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
 }
 \concept{distributions}

@@ -84,3 +84,6 @@ Distribution parameters are automatically broadcast in all functions; see
 examples for details.
 Samples of this distribution are reparameterized (pathwise differentiable).
 }
+\seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+}

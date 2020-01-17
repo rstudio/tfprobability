@@ -9,7 +9,7 @@ tfd_covariance(distribution, name = "covariance")
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{name}{String prepended to names of ops created by this function.}
+\item{name}{name to give to the op.}
 }
 \value{
 Floating-point Tensor with shape \code{[B1, ..., Bn, k, k]} where the first n dimensions

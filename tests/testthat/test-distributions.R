@@ -1008,3 +1008,12 @@ test_succeeds("ProbitBernoulli works", {
   expect_equal(samples$get_shape() %>% length(), 2)
 })
 
+test_succeeds("WishartTriL distribution works", {
+
+  skip_if_tfp_below("0.9")
+  s <- matrix(c(1, 2, 2, 5), ncol = 2, byrow = TRUE)
+  df <- 4
+  d <- tfd_wishart_tri_l(df = df, scale_tril = tf$linalg$cholesky(s))
+  expect_equal(tfd_mean(d) %>% tensor_value(), df * s)
+})
+

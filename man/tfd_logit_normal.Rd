@@ -33,3 +33,6 @@ distributed with mean \code{loc} and standard deviation \code{scale}. It is
 constructed as the sigmoid transformation, (i.e., \code{1 / (1 + exp(-x))}) of a
 Normal distribution.
 }
+\seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+}

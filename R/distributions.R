@@ -4653,7 +4653,7 @@ tfd_sample_distribution <- function(distribution,
 #' @param dtype_override samples of distributions will be cast to this dtype. If
 #'  unspecified, all distributions must have the same dtype. Default value:
 #'  `NULL` (i.e., do not cast).
-#'
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_blockwise <- function(distributions,
                           dtype_override=NULL,
@@ -4686,7 +4686,7 @@ tfd_blockwise <- function(distributions,
 #'  The absolute tolerance for comparing closeness to loc. Default is 0.
 #' @param rtol Non-negative Tensor of same dtype as loc and broadcastable shape.
 #'  The relative tolerance for comparing closeness to loc. Default is 0.
-#'
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_vector_deterministic <- function(loc,
                                      atol = NULL,
@@ -4720,7 +4720,7 @@ tfd_vector_deterministic <- function(loc,
 #'  batch of independent distributions and the last dimension represents a vector
 #'  of probabilities for each class. Only one of logits or probs should be passed
 #'  in.
-#'
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_exp_relaxed_one_hot_categorical <- function(temperature,
                                                 logits = NULL,
@@ -4785,6 +4785,7 @@ tfd_exp_relaxed_one_hot_categorical <- function(temperature,
 #' @param scale Floating point tensor; the scales of the distribution.
 #' Must contain only positive values.
 #' @param name string prefixed to Ops created by this class. Default value: 'doublesided_maxwell'.
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_doublesided_maxwell <- function(loc,
                                     scale,
@@ -4835,6 +4836,7 @@ tfd_doublesided_maxwell <- function(loc,
 #' floating number comparison. Only effective when `outcomes` is a floating
 #' `Tensor`. Default is `10 * eps`.
 #' @param name string prefixed to Ops created by this class.
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_finite_discrete <- function(outcomes,
                                 logits = NULL,
@@ -4924,6 +4926,7 @@ tfd_finite_discrete <- function(outcomes,
 #' magnitude, the more the distribution concentrates near `loc` (for
 #' `concentration >= 0`) or near `loc - (scale/concentration)` (for
 #' `concentration < 0`). Floating point `Tensor`.
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_generalized_pareto <- function(loc,
                                    scale,
@@ -4950,6 +4953,7 @@ tfd_generalized_pareto <- function(loc,
 #' Normal distribution.
 #'
 #' @inherit tfd_normal return params
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_logit_normal <- function(loc,
                              scale,
@@ -4971,7 +4975,7 @@ tfd_logit_normal <- function(loc,
 #' whose logarithm is normally distributed with mean `loc` and
 #' standard deviation `scale`. It is constructed as the exponential
 #' transformation of a Normal distribution.
-
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @inherit tfd_normal return params
 #' @export
 tfd_log_normal <- function(loc,
@@ -5023,6 +5027,7 @@ tfd_log_normal <- function(loc,
 #' @param high upper bound
 #' @param temperature controls the shape of the distribution
 #' @inherit tfd_normal return params
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_pert <- function(low,
                      peak,
@@ -5100,6 +5105,7 @@ tfd_pert <- function(low,
 #' vector of scores for the elements.
 #' @param dtype The type of the event samples (default: int32).
 #' @inherit tfd_normal return params
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_plackett_luce <- function(scores,
                               dtype = tf$int32,
@@ -5142,6 +5148,7 @@ tfd_plackett_luce <- function(scores,
 #' @param dtype The type of the event samples. Default: `int32`.
 #'
 #' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
 tfd_probit_bernoulli <- function(probits = NULL,
                                  probs = NULL,
@@ -5161,4 +5168,116 @@ tfd_probit_bernoulli <- function(probits = NULL,
   do.call(tfp$distributions$ProbitBernoulli, args)
 }
 
-## https://github.com/tensorflow/probability/blob/master/tensorflow_probability/python/distributions/pixel_cnn.py
+#' The matrix Wishart distribution on positive definite matrices
+#'
+#' This distribution is defined by a scalar number of degrees of freedom df and
+#' an instance of LinearOperator, which provides matrix-free access to a
+#' symmetric positive definite operator, which defines the scale matrix.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
+#' Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
+#' ```
+#' where:
+#' * `df >= k` denotes the degrees of freedom,
+#' * `scale` is a symmetric, positive definite, `k x k` matrix,
+#' * `Z` is the normalizing constant, and,
+#' * `Gamma_k` is the [multivariate Gamma function](
+#'  https://en.wikipedia.org/wiki/Multivariate_gamma_function).
+#'
+#' @param df float or double tensor, the degrees of freedom of the
+#' distribution(s). df must be greater than or equal to k.
+#' @param scale `float` or `double` instance of `LinearOperator`.
+#' @param input_output_cholesky Logical. If TRUE, functions whose input or
+#' output have the semantics of samples assume inputs are in Cholesky form
+#' and return outputs in Cholesky form. In particular, if this flag is
+#' TRUE, input to log_prob is presumed of Cholesky form and output from
+#' sample, mean, and mode are of Cholesky form.  Setting this
+#' argument to TRUE is purely a computational optimization and does not
+#' change the underlying distribution; for instance, mean returns the
+#' Cholesky of the mean, not the mean of Cholesky factors. The variance
+#' and stddev methods are unaffected by this flag.
+#' Default value: FALSE (i.e., input/output does not have Cholesky semantics).
+#'
+#' @inherit tfd_normal return params
+#'
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_wishart_linear_operator <- function(df,
+                                        scale,
+                                        input_output_cholesky = FALSE,
+                                        validate_args = FALSE,
+                                        allow_nan_stats = TRUE,
+                                        name = "WishartLinearOperator") {
+  args <- list(
+    df = df,
+    scale = scale,
+    input_output_cholesky = input_output_cholesky,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$WishartLinearOperator, args)
+}
+
+#' The matrix Wishart distribution parameterized with Cholesky factors.
+#'
+#' This distribution is defined by a scalar degrees of freedom `df` and a scale
+#' matrix, expressed as a lower triangular Cholesky factor.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
+#' Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
+#' ```
+#' where:
+#' * `df >= k` denotes the degrees of freedom,
+#' * `scale` is a symmetric, positive definite, `k x k` matrix,
+#' * `Z` is the normalizing constant, and,
+#' * `Gamma_k` is the [multivariate Gamma function](
+#'  https://en.wikipedia.org/wiki/Multivariate_gamma_function).
+#'
+#' @param df float or double tensor, the degrees of freedom of the
+#' distribution(s). df must be greater than or equal to k.
+#' @param scale_tril `float` or `double` `Tensor`. The Cholesky factorization
+#' of the symmetric positive definite scale matrix of the distribution.
+#' @param input_output_cholesky Logical. If TRUE, functions whose input or
+#' output have the semantics of samples assume inputs are in Cholesky form
+#' and return outputs in Cholesky form. In particular, if this flag is
+#' TRUE, input to log_prob is presumed of Cholesky form and output from
+#' sample, mean, and mode are of Cholesky form.  Setting this
+#' argument to TRUE is purely a computational optimization and does not
+#' change the underlying distribution; for instance, mean returns the
+#' Cholesky of the mean, not the mean of Cholesky factors. The variance
+#' and stddev methods are unaffected by this flag.
+#' Default value: FALSE (i.e., input/output does not have Cholesky semantics).
+#'
+#' @inherit tfd_normal return params
+#'
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_wishart_tri_l <- function(df,
+                              scale_tril,
+                              input_output_cholesky = FALSE,
+                              validate_args = FALSE,
+                              allow_nan_stats = TRUE,
+                              name = "WishartTriL") {
+  args <- list(
+    df = df,
+    scale_tril = scale_tril,
+    input_output_cholesky = input_output_cholesky,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$WishartTriL, args)
+}

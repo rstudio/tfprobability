@@ -10,6 +10,8 @@
   - logit_normal
   - log_normal
   - pert
+  - tfd_wishart_linear_operator
+  - tfd_wishart_tri_l
   
 - new bijectors
   - tfb_shift

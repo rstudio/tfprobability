@@ -67,3 +67,6 @@ sqrt(X^2 + Y^2 + Z^2) are samples from the one-sided Maxwell
 }
 }
 
+\seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+}

@@ -60,3 +60,6 @@ The probability mass function (pmf) is,
 
 \code{pmf(x; pi, qi) = prod_j pi_j**[x == qi_j]}
 }
+\seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+}

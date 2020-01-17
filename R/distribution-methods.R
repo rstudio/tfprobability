@@ -27,7 +27,7 @@ tfd_sample <- function(distribution,
 #'
 #' @param distribution The distribution being used.
 #' @param value float or double Tensor.
-#' @param name String prepended to names of ops created by this function.
+#' @param ... Additional parameters passed to Python.
 #'
 #' @return a Tensor of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
 #' @examples
@@ -38,16 +38,16 @@ tfd_sample <- function(distribution,
 #' }
 #' @family distribution_methods
 #' @export
-tfd_log_prob <- function(distribution, value, name = "log_prob") {
-  distribution$log_prob(value, name)
-}
 tfd_log_prob <- function(distribution, value, ...) {
   distribution$log_prob(value, ...)
 }
 
 #' Probability density/mass function.
 #'
-#' @inherit tfd_log_prob return params
+#' @param distribution The distribution being used.
+#' @param value float or double Tensor.
+#' @param name name to give to the op.
+#' @inherit tfd_log_prob return
 #' @family distribution_methods
 #' @examples
 #' \donttest{
@@ -67,7 +67,7 @@ tfd_prob <- function(distribution, value, name = "prob") {
 #' Often, a numerical approximation can be used for `tfd_log_cdf(x)` that yields
 #' a more accurate answer than simply taking the logarithm of the cdf when x << -1.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
 #' \donttest{
@@ -84,7 +84,7 @@ tfd_log_cdf <- function(distribution, value, name = "log_cdf") {
 #' Given random variable X, the cumulative distribution function cdf is:
 #' `cdf(x) := P[X <= x]`
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
 #' \donttest{
@@ -105,7 +105,7 @@ tfd_cdf <- function(distribution, value, name = "cdf") {
 #' Typically, different numerical approximations can be used for the log survival function,
 #'  which are more accurate than 1 - cdf(x) when x >> 1.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @examples
 #' \donttest{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
@@ -123,7 +123,7 @@ tfd_log_survival_function <- function(distribution, value, name = "log_survival_
 #' Given random variable X, the survival function is defined:
 #' `tfd_survival_function(x) = P[X > x] = 1 - P[X <= x] = 1 - cdf(x)`.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
 #' \donttest{
@@ -138,7 +138,7 @@ tfd_survival_function <- function(distribution, value, name = "survival_function
 
 #' Shannon entropy in nats.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
 #' \donttest{
@@ -152,7 +152,7 @@ tfd_entropy <- function(distribution, name = "entropy") {
 
 #' Mean.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
 #' \donttest{
@@ -169,7 +169,7 @@ tfd_mean <- function(distribution, name = "mean") {
 #' Given random variable X and p in `[0, 1]`, the quantile is:
 #' `tfd_quantile(p) := x` such that `P[X <= x] == p`
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @examples
 #' \donttest{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
@@ -188,7 +188,7 @@ tfd_quantile <- function(distribution, value, name = "quantile") {
 #' and `Var$shape = batch_shape + event_shape`.
 #'
 #' @param name String prepended to names of ops created by this function.
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @return a Tensor of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
 #' @examples
 #' \donttest{
@@ -207,7 +207,7 @@ tfd_variance <- function(distribution, name = "variance") {
 #' #' where X is the random variable associated with this distribution, E denotes expectation,
 #' and `Var$shape = batch_shape + event_shape`.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
 #' \donttest{
@@ -233,7 +233,7 @@ tfd_stddev <- function(distribution, name = "stddev") {
 #' and Vec is some function mapping indices of this distribution's event dimensions to indices of a
 #' length-k vector.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #'
 #' @return Floating-point Tensor with shape `[B1, ..., Bn, k, k]` where the first n dimensions
 #' are batch coordinates and `k = reduce_prod(self.event_shape)`.
@@ -262,7 +262,7 @@ tfd_covariance <- function(distribution, name = "covariance") {
 
 #' Mode.
 #'
-#' @inherit tfd_log_prob return params
+#' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
 #' \donttest{

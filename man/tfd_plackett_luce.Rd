@@ -76,3 +76,6 @@ g = [g_0, ..., g_{k-1}], g_i~ Gumbel(0, 1)
 }
 }
 
+\seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+}
