@@ -41,6 +41,9 @@ tfd_sample <- function(distribution,
 tfd_log_prob <- function(distribution, value, name = "log_prob") {
   distribution$log_prob(value, name)
 }
+tfd_log_prob <- function(distribution, value, ...) {
+  distribution$log_prob(value, ...)
+}
 
 #' Probability density/mass function.
 #'

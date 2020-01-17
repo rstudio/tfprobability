@@ -253,22 +253,39 @@ mcmc_simple_step_size_adaptation <- function(inner_kernel,
     name = name
   )
 
+  default_hmc_like_step_size_setter_fn <-
+    if (tfp_version() < "0.9")
+      tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_setter_fn`
+  else
+    tfp$mcmc$simple_step_size_adaptation$hmc_like_step_size_setter_fn
+  default_hmc_like_step_size_getter_fn <-
+    if (tfp_version() < "0.9")
+      tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_getter_fn`
+  else
+    tfp$mcmc$simple_step_size_adaptation$hmc_like_step_size_getter_fn
+  default_hmc_like_log_accept_prob_getter_fn <-
+    if (tfp_version() < "0.9")
+      tfp$mcmc$simple_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`
+  else
+    tfp$mcmc$simple_step_size_adaptation$hmc_like_log_accept_prob_getter_fn
+
+
   # see https://github.com/r-lib/pkgdown/issues/330
   args$step_size_setter_fn <-
     if (!is.null(step_size_setter_fn))
       step_size_setter_fn
   else
-    tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_setter_fn`
+    default_hmc_like_step_size_setter_fn
   args$step_size_getter_fn <-
     if (!is.null(step_size_getter_fn))
       step_size_getter_fn
   else
-    tfp$mcmc$simple_step_size_adaptation$`_hmc_like_step_size_getter_fn`
+    default_hmc_like_step_size_getter_fn
   args$log_accept_prob_getter_fn <-
     if (!is.null(log_accept_prob_getter_fn))
       log_accept_prob_getter_fn
   else
-    tfp$mcmc$simple_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`
+    default_hmc_like_log_accept_prob_getter_fn
 
   do.call(tfp$mcmc$SimpleStepSizeAdaptation, args)
 }
@@ -542,22 +559,39 @@ mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
     name = name
   )
 
+  default_hmc_like_step_size_setter_fn <-
+    if (tfp_version() < "0.9")
+      tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_step_size_setter_fn`
+  else
+    tfp$mcmc$dual_averaging_step_size_adaptation$hmc_like_step_size_setter_fn
+  default_hmc_like_step_size_getter_fn <-
+    if (tfp_version() < "0.9")
+      tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_step_size_getter_fn`
+  else
+    tfp$mcmc$dual_averaging_step_size_adaptation$hmc_like_step_size_getter_fn
+  default_hmc_like_log_accept_prob_getter_fn <-
+    if (tfp_version() < "0.9")
+      tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`
+  else
+    tfp$mcmc$dual_averaging_step_size_adaptation$hmc_like_log_accept_prob_getter_fn
+
+
   # see https://github.com/r-lib/pkgdown/issues/330
   args$step_size_setter_fn <-
     if (!is.null(step_size_setter_fn))
       step_size_setter_fn
   else
-    tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_step_size_setter_fn`
+    default_hmc_like_step_size_setter_fn
   args$step_size_getter_fn <-
     if (!is.null(step_size_getter_fn))
       step_size_getter_fn
   else
-    tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_step_size_getter_fn`
+    default_hmc_like_step_size_getter_fn
   args$log_accept_prob_getter_fn <-
     if (!is.null(log_accept_prob_getter_fn))
       log_accept_prob_getter_fn
   else
-    tfp$mcmc$dual_averaging_step_size_adaptation$`_hmc_like_log_accept_prob_getter_fn`
+    default_hmc_like_log_accept_prob_getter_fn
 
   do.call(tfp$mcmc$DualAveragingStepSizeAdaptation, args)
 }
@@ -851,14 +885,14 @@ mcmc_metropolis_adjusted_langevin_algorithm <-
 mcmc_replica_exchange_mc <- function(target_log_prob_fn,
                                      inverse_temperatures,
                                      make_kernel_fn,
-                                     exchange_proposed_fn = tfp$mcmc$replica_exchange_mc$default_exchange_proposed_fn(1),
+                                     swap_proposal_fn = tfp$mcmc$replica_exchange_mc$default_swap_proposal_fn(1),
                                      seed = NULL,
                                      name = NULL) {
   args <- list(
     target_log_prob_fn = target_log_prob_fn,
     inverse_temperatures = inverse_temperatures,
     make_kernel_fn = make_kernel_fn,
-    exchange_proposed_fn = exchange_proposed_fn,
+    swap_proposal_fn = swap_proposal_fn,
     seed = seed,
     name = name
   )

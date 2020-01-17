@@ -121,6 +121,7 @@ test_succeeds("Zipf distribution works", {
 
 test_succeeds("Wishart distribution works", {
 
+ skip_if_tfp_above("0.8")
  s <- matrix(c(1, 2, 2, 5), ncol = 2, byrow = TRUE)
  df <- 4
  d <- tfd_wishart(df = df, scale_tril = tf$linalg$cholesky(s))
@@ -159,12 +160,10 @@ test_succeeds("VectorSinhArcsinhDiag distribution works", {
   norm = tfd_multivariate_normal_diag(
     loc = loc,
     scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
     validate_args = TRUE)
   vsad = tfd_vector_sinh_arcsinh_diag(
     loc = loc,
     scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
     validate_args = TRUE)
 
   x <- matrix(rnorm(5 * n), ncol = n)
@@ -242,8 +241,8 @@ test_succeeds("VariationalGaussianProcess distribution works", {
   amplitude <- tf$nn$softplus(tf$Variable(-1, name = 'amplitude'))
   length_scale <-
     1e-5 + tf$nn$softplus(tf$Variable(-3, name = 'length_scale'))
-  kernel = tfp$positive_semidefinite_kernels$ExponentiatedQuadratic(amplitude = amplitude,
-                                                                    length_scale = length_scale)
+  kernel = (get_psd_kernels())$ExponentiatedQuadratic(amplitude = amplitude,
+                                                      length_scale = length_scale)
   observation_noise_variance <- tf$nn$softplus(tf$Variable(0, name = 'observation_noise_variance'))
   # Create trainable inducing point locations and variational parameters.
   num_inducing_points <- 20L
@@ -307,7 +306,7 @@ test_succeeds("Student T process works", {
 
   num_points <- 100
   index_points <- seq(-1., 1., length.out = num_points) %>% matrix(nrow = num_points)
-  kernel <- tfp$positive_semidefinite_kernels$ExponentiatedQuadratic()
+  kernel <- (get_psd_kernels())$ExponentiatedQuadratic()
   d <- tfd_student_t_process(df = 3, kernel = kernel, index_points = index_points)
   noisy_samples <- d %>% tfd_sample(10)
   expect_equal(noisy_samples$get_shape()$as_list(), c(10, 100))
@@ -549,29 +548,89 @@ test_succeeds("Gamma distribution works", {
 
 test_succeeds("JointDistributionSequential distribution works", {
 
+  skip_if_tfp_below("0.9")
+
   d <- tfd_joint_distribution_sequential(
     list(
       # e
-      tfd_independent(tfd_exponential(rate = c(100, 120)), 1),
+      tfd_independent(tfd_exponential(rate = c(100, 120)), 1, name = "e"),
       # g
-      function(e) tfd_gamma(concentration = e[1], rate = e[2]),
+      function(e) tfd_gamma(concentration = e[1], rate = e[2], name = "g"),
       # n
-      tfd_normal(loc = 0, scale = 2),
+      tfd_normal(loc = 0, scale = 2, name = "n1"),
       # m
-      function(n, g) tfd_normal(loc = n, scale = g),
+      function(n1, g) tfd_normal(loc = n1, scale = g, name = "n2"),
       # x
-      function(m) tfd_sample_distribution(tfd_bernoulli(logits = m), 12)
+      function(n2) tfd_sample_distribution(tfd_bernoulli(logits = n2), 12, name = "s")
     ))
 
   x <- d %>% tfd_sample()
   expect_equal(length(x), 5)
   expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
-  expect_equal(d$`_resolve_graph`() %>% length(), 5)
+  expect_equal(d$resolve_graph() %>% length(), 5)
 
+})
+
+test_succeeds("Track JointDistributionSequential broadcasting/reshaping changes", {
+
+  df <- cbind(iris[1:100, 1:4], as.integer(iris[1:100, 5]) - 1)
+
+  model <- tfd_joint_distribution_sequential(
+    list(# b1
+      tfd_normal(loc = 0, scale = 0.5),
+      # b2
+      tfd_normal(loc = 0, scale = 0.5),
+      # b3
+      tfd_normal(loc = 0, scale = 0.5),
+      # b4
+      tfd_normal(loc = 0, scale = 0.5),
+      function(b4, b3, b2, b1)
+        tfd_independent(
+          tfd_binomial(
+            total_count = 1,
+            logits =
+              tf$expand_dims(b1, axis = -1L) * df$Sepal.Length +
+              tf$expand_dims(b2, axis = -1L) * df$Sepal.Width +
+              tf$expand_dims(b3, axis = -1L) * df$Petal.Length +
+              tf$expand_dims(b4, axis = -1L) * df$Petal.Width
+          ),
+          reinterpreted_batch_ndims = 1
+        )
+    )
+  )
+
+  # this SHOULD work as well but does not
+  # model <- tfd_joint_distribution_sequential(
+  #   list(# b1
+  #     tfd_normal(loc = 0, scale = 0.5),
+  #     # b2
+  #     tfd_normal(loc = 0, scale = 0.5),
+  #     # b3
+  #     tfd_normal(loc = 0, scale = 0.5),
+  #     # b4
+  #     tfd_normal(loc = 0, scale = 0.5),
+  #     function(b4, b3, b2, b1)
+  #       tfd_independent(
+  #         tfd_binomial(
+  #           total_count = 1,
+  #           logits =
+  #             b1[reticulate::py_ellipsis(), tf$newaxis] * df$Sepal.Length +
+  #             b2[reticulate::py_ellipsis(), tf$newaxis] * df$Sepal.Width +
+  #             b3[reticulate::py_ellipsis(), tf$newaxis] * df$Petal.Length +
+  #             b4[reticulate::py_ellipsis(), tf$newaxis] * df$Petal.Width
+  #         ),
+  #         reinterpreted_batch_ndims = 1
+  #       )
+  #   )
+  # )
+
+  samples <- model %>% tfd_sample(3)
+  model %>% tfd_log_prob(samples)
 })
 
 test_succeeds("JointDistributionNamed distribution works", {
 
+  skip_if_tfp_below("0.9")
   d <- tfd_joint_distribution_named(
     list(
       e = tfd_independent(tfd_exponential(rate = c(100, 120)), 1),
@@ -584,7 +643,7 @@ test_succeeds("JointDistributionNamed distribution works", {
   x <- d %>% tfd_sample()
   expect_equal(length(x), 5)
   expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
-  expect_equal(d$`_resolve_graph`() %>% length(), 5)
+  expect_equal(d$resolve_graph() %>% length(), 5)
 
 })
 
@@ -755,7 +814,7 @@ test_succeeds("Autoregressive distribution works", {
     fn
   }
 
-  batch_and_event_shape <- c(3, 2, 4)
+  batch_and_event_shape <- c(3L, 2L, 4L)
   sample0 <- tf$zeros(batch_and_event_shape, dtype = tf$int32)
   ar <- tfd_autoregressive(normal_fn(batch_and_event_shape[3]), sample0)
   x <- ar %>% tfd_sample(c(6, 5))
@@ -767,7 +826,7 @@ test_succeeds("Autoregressive distribution works", {
 test_succeeds("BatchReshape distribution works", {
 
   num_points <- 100
-  kernel <- tfp$positive_semidefinite_kernels$ExponentiatedQuadratic()
+  kernel <- (get_psd_kernels())$ExponentiatedQuadratic()
   index_points <-
     matrix(seq(-1, 1, length.out = num_points), nrow = num_points) %>%
     tf$cast(tf$float32)
@@ -780,7 +839,7 @@ test_succeeds("BatchReshape distribution works", {
 test_succeeds("Sample distribution works", {
 
   d <- tfd_sample_distribution(
-    tfd_independent(tfd_normal(loc = tf$zeros(list(3, 2)), scale = 1),
+    tfd_independent(tfd_normal(loc = tf$zeros(list(3L, 2L)), scale = 1),
                     reinterpreted_batch_ndims = 1),
     sample_shape = list(5, 4))
 
@@ -816,7 +875,7 @@ test_succeeds("Gaussian Process Regression Model works", {
   skip_if_tfp_below("0.8")
 
   d <- tfd_gaussian_process_regression_model(
-    kernel = tfp$positive_semidefinite_kernels$MaternFiveHalves(),
+    kernel = (get_psd_kernels())$MaternFiveHalves(),
     index_points = matrix(seq(-1, 1, length.out = 100), ncol = 1),
     observation_index_points = matrix(runif(50), ncol = 1),
     observations = rnorm(50),

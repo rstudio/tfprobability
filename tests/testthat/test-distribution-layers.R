@@ -315,7 +315,7 @@ test_succeeds("layer_variational_gaussian_process works", {
       kernel = bt$property(
        reticulate::py_func(
           function(self)
-            tfp$positive_semidefinite_kernels$ExponentiatedQuadratic(amplitude = tf$nn$softplus(self$`_amplitude`))
+            (get_psd_kernels())$ExponentiatedQuadratic(amplitude = tf$nn$softplus(self$`_amplitude`))
         )
       )
     )

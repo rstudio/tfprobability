@@ -10,7 +10,7 @@ test_succeeds("initializer_blockwise works", {
   )
 
   layer <- keras::layer_dense(units = 5, input_shape = 1, kernel_initializer = init)
-  layer$build(input_shape = 1)
+  layer$build(input_shape = 1L)
 
   expect_equivalent(as.numeric(keras::get_weights(layer)[[1]]), 1:5)
 })

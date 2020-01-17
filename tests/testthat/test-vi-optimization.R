@@ -3,7 +3,7 @@ context("vi-optimization")
 source("utils.R")
 
 test_succeeds("vi_fit_surrogate_posterior works", {
-  skip_if_tfp_below("0.8")
+  skip_if_tfp_below("0.9")
 
   if (!tf$compat$v1$resource_variables_enabled()) tf$compat$v1$enable_resource_variables()
 
@@ -31,9 +31,11 @@ test_succeeds("vi_fit_surrogate_posterior works", {
   # using either `DeferredTensor` or by the callable mechanisms available in
   # joint distribution classes.
   q_z <- tfd_normal(
-    loc = tf$Variable(0., name = 'q_z_loc'),
-    scale = tfp$util$DeferredTensor(tf$nn$softplus,
-                                    tf$Variable(0., name = 'q_z_scale')),
+    loc = tf$Variable(0, name = 'q_z_loc'),
+    scale = tfp$util$TransformedVariable(
+      initial_value = 1,
+      bijector = tfp$bijectors$Softplus(),
+      name = 'q_z_scale'),
     name = 'q_z'
   )
 
@@ -64,8 +66,10 @@ test_succeeds("vi_fit_surrogate_posterior works", {
 
   q_z2 <- tfd_normal(
     loc = tf$Variable(0., name = 'q_z2_loc'),
-    scale = tfp$util$DeferredTensor(tf$nn$softplus,
-                                    tf$Variable(0., name = 'q_z2_scale')),
+    scale = tfp$util$TransformedVariable(
+      initial_value = 1,
+      bijector = tfp$bijectors$Softplus(),
+      name = 'q_z2_scale'),
     name = 'q_z2'
   )
 

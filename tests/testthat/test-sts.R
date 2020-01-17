@@ -20,7 +20,7 @@ test_succeeds("local level state space model works", {
   ll <- sts_local_level_state_space_model(
     num_timesteps = 50,
     level_scale = rep(1, 10),
-    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = tf$ones(list(10, 10, 1))))
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = tf$ones(list(10L, 10L, 1L))))
 
   y <- ll %>% tfd_sample(5)
   expect_equal(y$get_shape()$as_list(), c(5, 10, 10,50, 1))

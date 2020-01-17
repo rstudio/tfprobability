@@ -162,7 +162,8 @@ test_succeeds("Define a sinh_arcsinh bijector", {
   b <- tfb_sinh_arcsinh()
   x <- c(0, 1, 2)
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
-               tfb_identity() %>% tfb_forward(x) %>% tensor_value())
+               tfb_identity() %>% tfb_forward(x) %>% tensor_value(),
+               tol = 1e-6)
 })
 
 test_succeeds("Define a softmax_centered bijector", {
@@ -371,6 +372,7 @@ test_succeeds("Define an invert bijector", {
 })
 
 test_succeeds("Define a kumaraswamy bijector", {
+  skip_if_tfp_above("0.8")
   b <- tfb_kumaraswamy(concentration1 = 2, concentration0 = 0.3)
   x <- runif(1)
   expect_lt(b %>% tfb_forward(x) %>% tensor_value(), 1)
