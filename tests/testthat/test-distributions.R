@@ -548,6 +548,8 @@ test_succeeds("Gamma distribution works", {
 
 test_succeeds("JointDistributionSequential distribution works", {
 
+  skip_if_tfp_below("0.9")
+
   d <- tfd_joint_distribution_sequential(
     list(
       # e
@@ -571,9 +573,7 @@ test_succeeds("JointDistributionSequential distribution works", {
 
 test_succeeds("Track JointDistributionSequential broadcasting/reshaping changes", {
 
-  df <- iris %>%
-    dplyr::filter(Species != "setosa") %>%
-    dplyr::mutate(Species = as.integer(Species) - 2)
+  df <- cbind(iris[1:100, 1:4], as.integer(iris[1:100, 5]) - 1)
 
   model <- tfd_joint_distribution_sequential(
     list(# b1
@@ -626,8 +626,6 @@ test_succeeds("Track JointDistributionSequential broadcasting/reshaping changes"
 
   samples <- model %>% tfd_sample(3)
   model %>% tfd_log_prob(samples)
-
-
 })
 
 test_succeeds("JointDistributionNamed distribution works", {
@@ -644,7 +642,7 @@ test_succeeds("JointDistributionNamed distribution works", {
   x <- d %>% tfd_sample()
   expect_equal(length(x), 5)
   expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
-  expect_equal(d$`_resolve_graph`() %>% length(), 5)
+  expect_equal(d$resolve_graph() %>% length(), 5)
 
 })
 

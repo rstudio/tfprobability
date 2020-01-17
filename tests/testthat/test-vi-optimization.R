@@ -3,7 +3,7 @@ context("vi-optimization")
 source("utils.R")
 
 test_succeeds("vi_fit_surrogate_posterior works", {
-  skip_if_tfp_below("0.8")
+  skip_if_tfp_below("0.9")
 
   if (!tf$compat$v1$resource_variables_enabled()) tf$compat$v1$enable_resource_variables()
 

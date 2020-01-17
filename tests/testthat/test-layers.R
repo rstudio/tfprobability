@@ -31,7 +31,7 @@ test_succeeds("use layer_autoregressive with 1d autoregressivity", {
             steps_per_epoch = 1,
             verbose = 0)
 
-  expect_equal((distribution %>% tfd_sample())$get_shape()$as_list(), 1)
+  expect_equal((distribution %>% tfd_sample())$get_shape()$as_list(), 2)
   expect_equal((distribution %>% tfd_log_prob(matrix(rep(1, 3*2), ncol = 2)))$get_shape()$as_list(), c(3))
 })
 
