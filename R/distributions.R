@@ -3153,6 +3153,15 @@ tfd_kumaraswamy <- function(concentration1 = 1,
 #' `len(args[i]) < i - 1`, the `callable` only depends on a subset of the
 #' previous distributions, specifically those at indexes:
 #' `range(i - 1, i - 1 - num_args[i], -1)`.
+#'
+#' **Name resolution**: `The names of `JointDistributionSequential` components
+#' are defined by explicit `name` arguments passed to distributions
+#' (`tfd.Normal(0., 1., name='x')`) and/or by the argument names in
+#' distribution-making functions (`lambda x: tfd.Normal(x., 1.)`). Both
+#' approaches may be used in the same distribution, as long as they are
+#' consistent; referring to a single component by multiple names will raise a
+#' `ValueError`. Unnamed components will be assigned a dummy name.
+#'
 #' @param  model  list of either `tfp$distributions$Distribution` instances and/or
 #' functions which take the `k` previous distributions and returns a
 #' new `tfp$distributions$Distribution` instance.
@@ -3163,11 +3172,11 @@ tfd_kumaraswamy <- function(concentration1 = 1,
 tfd_joint_distribution_sequential <- function(model,
                                               validate_args = FALSE,
                                               name = NULL) {
+
   model <- Map(
     function(d) if (is.function(d)) reticulate::py_func(d) else d,
     model
   )
-
   args <- list(
     model = model,
     validate_args = validate_args,
@@ -4627,7 +4636,7 @@ tfd_sample_distribution <- function(distribution,
                                     name = NULL) {
   args <- list(
     distribution = distribution,
-    sample_shape = sample_shape,
+    sample_shape = normalize_shape(sample_shape),
     validate_args = validate_args,
     name = name
   )

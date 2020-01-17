@@ -198,7 +198,7 @@ test_succeeds("sts_build_factored_surrogate_posterior works", {
     target_log_prob_fn = model$joint_log_prob(observed_time_series),
     surrogate_posterior = surrogate_posterior,
     optimizer = optimizer,
-    num_steps = 200
+    num_steps = 20
   )
 
   if (tf$executing_eagerly()) {

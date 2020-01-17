@@ -31,7 +31,7 @@ test_succeeds("use layer_autoregressive with 1d autoregressivity", {
             steps_per_epoch = 1,
             verbose = 0)
 
-  expect_equal((distribution %>% tfd_sample(c(3, 1)))$get_shape()$as_list(), c(3, 1, 2))
+  expect_equal((distribution %>% tfd_sample())$get_shape()$as_list(), 1)
   expect_equal((distribution %>% tfd_log_prob(matrix(rep(1, 3*2), ncol = 2)))$get_shape()$as_list(), c(3))
 })
 
@@ -204,7 +204,7 @@ test_succeeds("layer_autoregressive_transform works", {
       x = matrix(rep(0.0, n)),
       y = cbind(x1, x2),
       batch_size = 25,
-      epochs = 10
+      epochs = 1
     )
 
 })
@@ -214,8 +214,8 @@ test_succeeds("layer_variable works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(3, 4))
-  y = tf$ones(3)
+  x = tf$ones(shape = c(3L, 4L))
+  y = tf$ones(3L)
 
   trainable_normal <- keras_model_sequential(list(
     layer_variable(shape = 2),
@@ -238,8 +238,8 @@ test_succeeds("layer_dense_variational works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(150,1))
-  y = tf$ones(150)
+  x = tf$ones(shape = c(150L,1L))
+  y = tf$ones(150L)
 
   posterior_mean_field <- function(kernel_size, bias_size = 0, dtype = NULL) {
     n <- kernel_size + bias_size
@@ -291,8 +291,8 @@ test_succeeds("layer_dense_variational works", {
 test_succeeds("layer_dense_reparameterization works", {
   library(keras)
 
-  x = tf$ones(shape = c(150, 1))
-  y = tf$ones(150)
+  x = tf$ones(shape = c(150L, 1L))
+  y = tf$ones(150L)
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -334,8 +334,8 @@ test_succeeds("layer_dense_reparameterization works", {
 test_succeeds("layer_dense_flipout works", {
   library(keras)
 
-  x = tf$ones(shape = c(150, 1))
-  y = tf$ones(150)
+  x = tf$ones(shape = c(150L, 1L))
+  y = tf$ones(150L)
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -377,8 +377,8 @@ test_succeeds("layer_dense_flipout works", {
 test_succeeds("layer_dense_local_reparameterization works", {
   library(keras)
 
-  x = tf$ones(shape = c(150, 1))
-  y = tf$ones(150)
+  x = tf$ones(shape = c(150L, 1L))
+  y = tf$ones(150L)
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -423,8 +423,8 @@ test_succeeds("layer_conv_1d_reparameterization works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(150, 1, 1))
-  y = tf$ones(shape = c(150, 10))
+  x = tf$ones(shape = c(150L, 1L, 1L))
+  y = tf$ones(shape = c(150L, 10L))
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -472,8 +472,8 @@ test_succeeds("layer_conv_1d_flipout works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(150, 1, 1))
-  y = tf$ones(shape = c(150, 10))
+  x = tf$ones(shape = c(150L, 1L, 1L))
+  y = tf$ones(shape = c(150L, 10L))
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -519,8 +519,8 @@ test_succeeds("layer_conv_2d_reparameterization works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(7, 32, 32, 3))
-  y = tf$ones(shape = c(7, 10))
+  x = tf$ones(shape = c(7L, 32L, 32L, 3L))
+  y = tf$ones(shape = c(7L, 10L))
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -568,8 +568,8 @@ test_succeeds("layer_conv_2d_flipout works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(7, 32, 32, 3))
-  y = tf$ones(shape = c(7, 10))
+  x = tf$ones(shape = c(7L, 32L, 32L, 3L))
+  y = tf$ones(shape = c(7L, 10L))
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -618,8 +618,8 @@ test_succeeds("layer_conv_3d_reparameterization works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(7, 16, 4, 4, 3))
-  y = tf$ones(shape = c(7, 10))
+  x = tf$ones(shape = c(7L, 16L, 4L, 4L, 3L))
+  y = tf$ones(shape = c(7L, 10L))
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
@@ -667,8 +667,8 @@ test_succeeds("layer_conv_3d_flipout works", {
 
   library(keras)
 
-  x = tf$ones(shape = c(7, 16, 4, 4, 3))
-  y = tf$ones(shape = c(7, 10))
+  x = tf$ones(shape = c(7L, 16L, 4L, 4L, 3L))
+  y = tf$ones(shape = c(7L, 10L))
 
   n <- dim(y)[1] %>% tf$cast(tf$float32)
 
