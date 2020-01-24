@@ -5281,3 +5281,103 @@ tfd_wishart_tri_l <- function(df,
 
   do.call(tfp$distributions$WishartTriL, args)
 }
+
+#' The Pixel CNN++ distribution
+#'
+#' Pixel CNN++ (Salimans et al., 2017) models a distribution over image
+#' data, parameterized by a neural network. It builds on Pixel CNN and
+#' Conditional Pixel CNN, as originally proposed by
+#' (van den Oord et al., 2016).
+#' The model expresses the joint distribution over pixels as
+#' the product of conditional distributions:
+#' `p(x|h) = prod{ p(x[i] | x[0:i], h) : i=0, ..., d }`, in which
+#' `p(x[i] | x[0:i], h) : i=0, ..., d` is the
+#' probability of the `i`-th pixel conditional on the pixels that preceded it in
+#' raster order (color channels in RGB order, then left to right, then top to
+#' bottom). `h` is optional additional data on which to condition the image
+#' distribution, such as class labels or VAE embeddings. The Pixel CNN++
+#' network enforces the dependency structure among pixels by applying a mask to
+#' the kernels of the convolutional layers that ensures that the values for each
+#' pixel depend only on other pixels up and to the left.
+#' Pixel values are modeled with a mixture of quantized logistic distributions,
+#' which can take on a set of distinct integer values (e.g. between 0 and 255
+#' for an 8-bit image).
+#' Color intensity `v` of each pixel is modeled as:
+#' `v ~ sum{q[i] * quantized_logistic(loc[i], scale[i]) : i = 0, ..., k }`,
+#' in which `k` is the number of mixture components and the `q[i]` are the
+#' Categorical probabilities over the components.
+#'
+#' @section References:
+#' - [Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications. In _International Conference on Learning Representations_, 2017.](https://pdfs.semanticscholar.org/9e90/6792f67cbdda7b7777b69284a81044857656.pdf)
+#' - [Aaron van den Oord, Nal Kalchbrenner, Oriol Vinyals, Lasse Espeholt, Alex Graves, and Koray Kavukcuoglu. Conditional Image Generation with PixelCNN Decoders. In _Neural Information Processing Systems_, 2016.](https://arxiv.org/abs/1606.05328)
+#' - [Aaron van den Oord, Nal Kalchbrenner, and Koray Kavukcuoglu. Pixel Recurrent Neural Networks. In _International Conference on Machine Learning_, 2016.](https://arxiv.org/pdf/1601.06759.pdf)
+#'
+#' @param image_shape 3D `TensorShape` or tuple for the `[height, width, channels]`
+#' dimensions of the image.
+#' @param conditional_shape `TensorShape` or tuple for the shape of the
+#' conditional input, or `NULL` if there is no conditional input.
+#' @param num_resnet `integer`, the number of layers (shown in Figure 2 of https://arxiv.org/abs/1606.05328)
+#' within each highest-level block of Figure 2 of https://pdfs.semanticscholar.org/9e90/6792f67cbdda7b7777b69284a81044857656.pdf.
+#' @param num_hierarchies `integer`, the number of hightest-level blocks (separated by
+#' expansions/contractions of dimensions in Figure 2 of https://pdfs.semanticscholar.org/9e90/6792f67cbdda7b7777b69284a81044857656.pdf.)
+#' @param num_filters `integer`, the number of convolutional filters.
+#' @param num_logistic_mix `integer`, number of components in the logistic mixture
+#' distribution.
+#' @param receptive_field_dims `tuple`, height and width in pixels of the receptive
+#' field of the convolutional layers above and to the left of a given
+#' pixel. The width (second element of the tuple) should be odd. Figure 1
+#' (middle) of https://arxiv.org/abs/1606.05328 shows a receptive field of (3, 5)
+#' (the row containing the current pixel is included in the height).
+#' The default of (3, 3) was used to produce the results in https://pdfs.semanticscholar.org/9e90/6792f67cbdda7b7777b69284a81044857656.pdf.
+#' @param dropout_p `float`, the dropout probability. Should be between 0 and 1.
+#' @param resnet_activation `string`, the type of activation to use in the resnet blocks.
+#' May be 'concat_elu', 'elu', or 'relu'.
+#' @param use_weight_norm `logical`, if `TRUE` then use weight normalization (works
+#' only in Eager mode).
+#' @param use_data_init `logical`, if `TRUE` then use data-dependent initialization
+#' (has no effect if `use_weight_norm` is `FALSE`).
+#' @param high `integer`, the maximum value of the input data (255 for an 8-bit image).
+#' @param low `integer`, the minimum value of the input data.
+#' @param dtype Data type of the `Distribution`.
+#' @param name `string`, the name of the `Distribution`.
+#' @inherit tfd_normal return params
+#'
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_pixel_cnn <- function(image_shape,
+                          conditional_shape = NULL,
+                          num_resnet = 5,
+                          num_hierarchies = 3,
+                          num_filters = 160,
+                          num_logistic_mix = 10,
+                          receptive_field_dims = c(3, 3),
+                          dropout_p = 0.5,
+                          resnet_activation = 'concat_elu',
+                          use_weight_norm = TRUE,
+                          use_data_init = TRUE,
+                          high = 255,
+                          low = 0,
+                          dtype = tf$float32,
+                          name = 'PixelCNN') {
+  args <- list(
+    image_shape = normalize_shape(image_shape),
+    conditional_shape = normalize_shape(conditional_shape),
+    num_resnet = as.integer(num_resnet),
+    num_hierarchies = as.integer(num_hierarchies),
+    num_filters = as.integer(num_filters),
+    num_logistic_mix = as.integer(num_logistic_mix),
+    receptive_field_dims = normalize_shape(receptive_field_dims),
+    dropout_p = dropout_p,
+    resnet_activation = resnet_activation,
+    use_weight_norm = use_weight_norm,
+    use_data_init = use_data_init,
+    high = as.integer(high),
+    low = as.integer(low),
+    dtype = dtype,
+    name = name
+  )
+
+  do.call(tfp$distributions$PixelCNN, args)
+}
+

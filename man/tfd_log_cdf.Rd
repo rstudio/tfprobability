@@ -4,14 +4,14 @@
 \alias{tfd_log_cdf}
 \title{Log cumulative distribution function.}
 \usage{
-tfd_log_cdf(distribution, value, name = "log_cdf")
+tfd_log_cdf(distribution, value, ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
 \item{value}{float or double Tensor.}
 
-\item{name}{name to give to the op.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.

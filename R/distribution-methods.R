@@ -4,7 +4,6 @@
 #'
 #' @param distribution The distribution being used.
 #' @param sample_shape 0D or 1D int32 Tensor. Shape of the generated samples.
-#' @param seed integer seed for RNG
 #' @param ... Additional parameters passed to Python.
 #'
 #' @return a Tensor with prepended dimensions sample_shape.
@@ -17,10 +16,9 @@
 #' @export
 tfd_sample <- function(distribution,
                        sample_shape = list(),
-                       seed = NULL,
                        ...) {
 
-  distribution$sample(normalize_shape(sample_shape), seed, ...)
+  distribution$sample(normalize_shape(sample_shape), ...)
 }
 
 #' Log probability density/mass function.

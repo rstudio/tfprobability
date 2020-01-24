@@ -12,6 +12,7 @@
   - pert
   - tfd_wishart_linear_operator
   - tfd_wishart_tri_l
+  - tfd_pixel_cnn
   
 - new bijectors
   - tfb_shift

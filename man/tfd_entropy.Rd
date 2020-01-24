@@ -4,12 +4,12 @@
 \alias{tfd_entropy}
 \title{Shannon entropy in nats.}
 \usage{
-tfd_entropy(distribution, name = "entropy")
+tfd_entropy(distribution, ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{name}{name to give to the op.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.
