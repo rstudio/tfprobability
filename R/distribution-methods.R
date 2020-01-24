@@ -5,7 +5,6 @@
 #' @param distribution The distribution being used.
 #' @param sample_shape 0D or 1D int32 Tensor. Shape of the generated samples.
 #' @param seed integer seed for RNG
-#' @param name name to give to the op.
 #' @param ... Additional parameters passed to Python.
 #'
 #' @return a Tensor with prepended dimensions sample_shape.
@@ -19,17 +18,15 @@
 tfd_sample <- function(distribution,
                        sample_shape = list(),
                        seed = NULL,
-                       name = "sample",
                        ...) {
 
-  distribution$sample(normalize_shape(sample_shape), seed, name, ...)
+  distribution$sample(normalize_shape(sample_shape), seed, ...)
 }
 
 #' Log probability density/mass function.
 #'
 #' @param distribution The distribution being used.
 #' @param value float or double Tensor.
-#' @param name name to give to the op.
 #' @param ... Additional parameters passed to Python.
 #'
 #' @return a Tensor of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
@@ -41,15 +38,14 @@ tfd_sample <- function(distribution,
 #' }
 #' @family distribution_methods
 #' @export
-tfd_log_prob <- function(distribution, value, name='log_prob', ...) {
-  distribution$log_prob(value, name, ...)
+tfd_log_prob <- function(distribution, value, ...) {
+  distribution$log_prob(value, ...)
 }
 
 #' Probability density/mass function.
 #'
 #' @param distribution The distribution being used.
 #' @param value float or double Tensor.
-#' @param name name to give to the op.
 #' @inherit tfd_log_prob return params
 #' @family distribution_methods
 #' @examples
@@ -59,8 +55,8 @@ tfd_log_prob <- function(distribution, value, name='log_prob', ...) {
 #'   d %>% tfd_prob(x)
 #' }
 #' @export
-tfd_prob <- function(distribution, value, name = "prob", ...) {
-  distribution$prob(value, name, ...)
+tfd_prob <- function(distribution, value, ...) {
+  distribution$prob(value, ...)
 }
 
 #' Log cumulative distribution function.
@@ -79,8 +75,8 @@ tfd_prob <- function(distribution, value, name = "prob", ...) {
 #'   d %>% tfd_log_cdf(x)
 #' }
 #' @export
-tfd_log_cdf <- function(distribution, value, name = "log_cdf", ...) {
-  distribution$log_cdf(value, name, ...)
+tfd_log_cdf <- function(distribution, value, ...) {
+  distribution$log_cdf(value, ...)
 }
 
 #' Cumulative distribution function.
@@ -96,8 +92,8 @@ tfd_log_cdf <- function(distribution, value, name = "log_cdf", ...) {
 #'   d %>% tfd_cdf(x)
 #' }
 #' @export
-tfd_cdf <- function(distribution, value, name = "cdf", ...) {
-  distribution$cdf(value, name, ...)
+tfd_cdf <- function(distribution, value, ...) {
+  distribution$cdf(value, ...)
 }
 
 #' Log survival function.
@@ -117,8 +113,8 @@ tfd_cdf <- function(distribution, value, name = "cdf", ...) {
 #' }
 #' @family distribution_methods
 #' @export
-tfd_log_survival_function <- function(distribution, value, name = "log_survival_function", ...) {
-  distribution$log_survival_function(value, name, ...)
+tfd_log_survival_function <- function(distribution, value, ...) {
+  distribution$log_survival_function(value, ...)
 }
 
 #' Survival function.
@@ -135,8 +131,8 @@ tfd_log_survival_function <- function(distribution, value, name = "log_survival_
 #'   d %>% tfd_survival_function(x)
 #' }
 #' @export
-tfd_survival_function <- function(distribution, value, name = "survival_function", ...) {
-  distribution$survival_function(value, name, ...)
+tfd_survival_function <- function(distribution, value, ...) {
+  distribution$survival_function(value, ...)
 }
 
 #' Shannon entropy in nats.
@@ -149,8 +145,8 @@ tfd_survival_function <- function(distribution, value, name = "survival_function
 #'   d %>% tfd_entropy()
 #' }
 #' @export
-tfd_entropy <- function(distribution, name = "entropy", ...) {
-  distribution$entropy(name, ...)
+tfd_entropy <- function(distribution, ...) {
+  distribution$entropy(...)
 }
 
 #' Mean.
@@ -163,8 +159,8 @@ tfd_entropy <- function(distribution, name = "entropy", ...) {
 #'   d %>% tfd_mean()
 #' }
 #' @export
-tfd_mean <- function(distribution, name = "mean", ...) {
-  distribution$mean(name, ...)
+tfd_mean <- function(distribution, ...) {
+  distribution$mean(...)
 }
 
 #' Quantile function. Aka "inverse cdf" or "percent point function".
@@ -180,8 +176,8 @@ tfd_mean <- function(distribution, name = "mean", ...) {
 #' }
 #' @family distribution_methods
 #' @export
-tfd_quantile <- function(distribution, value, name = "quantile", ...) {
-  distribution$quantile(value, name, ...)
+tfd_quantile <- function(distribution, value, ...) {
+  distribution$quantile(value, ...)
 }
 
 #' Variance.
@@ -190,7 +186,6 @@ tfd_quantile <- function(distribution, value, name = "quantile", ...) {
 #' where X is the random variable associated with this distribution, E denotes expectation,
 #' and `Var$shape = batch_shape + event_shape`.
 #'
-#' @param name String prepended to names of ops created by this function.
 #' @inherit tfd_prob return params
 #' @return a Tensor of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
 #' @examples
@@ -200,8 +195,8 @@ tfd_quantile <- function(distribution, value, name = "quantile", ...) {
 #' }
 #' @family distribution_methods
 #' @export
-tfd_variance <- function(distribution, name = "variance", ...) {
-  distribution$variance(name, ...)
+tfd_variance <- function(distribution, ...) {
+  distribution$variance(...)
 }
 
 #' Standard deviation.
@@ -218,8 +213,8 @@ tfd_variance <- function(distribution, name = "variance", ...) {
 #'   d %>% tfd_stddev()
 #' }
 #' @export
-tfd_stddev <- function(distribution, name = "stddev") {
-  distribution$stddev(name)
+tfd_stddev <- function(distribution, ...) {
+  distribution$stddev(...)
 }
 
 #' Covariance.
@@ -259,8 +254,8 @@ tfd_stddev <- function(distribution, name = "stddev") {
 #' }
 #' @family distribution_methods
 #' @export
-tfd_covariance <- function(distribution, name = "covariance", ...) {
-  distribution$covariance(name, ...)
+tfd_covariance <- function(distribution, ...) {
+  distribution$covariance(...)
 }
 
 #' Mode.
@@ -273,8 +268,8 @@ tfd_covariance <- function(distribution, name = "covariance", ...) {
 #'   d %>% tfd_mode()
 #' }
 #' @export
-tfd_mode <- function(distribution, name = "mode", ...) {
-  distribution$mode(name, ...)
+tfd_mode <- function(distribution, ...) {
+  distribution$mode(...)
 }
 
 #' Computes the (Shannon) cross entropy.
