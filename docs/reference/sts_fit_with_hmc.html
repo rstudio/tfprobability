@@ -107,6 +107,9 @@ expensive than variational inference and relatively sensitive to tuning." />
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -275,21 +278,18 @@ which is thought to be in the desirable range for optimal mixing (Betancourt et 
 <span class='no'>observed_time_series</span> <span class='kw'>&lt;-</span>
   <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3.5</span>, <span class='fl'>4.1</span>, <span class='fl'>4.5</span>, <span class='fl'>3.9</span>, <span class='fl'>2.4</span>, <span class='fl'>2.1</span>, <span class='fl'>1.2</span>), <span class='fl'>5</span>) +
   <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.1</span>, <span class='fl'>1.5</span>, <span class='fl'>2.4</span>, <span class='fl'>3.1</span>, <span class='fl'>4.0</span>), <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='fu'>convert_to_tensor</span>(<span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='no'>float64</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): TypeError: Input 'y' of 'Add' Op has type float64 that does not match type float32 of argument 'x'.</span>
-#&gt; <span class='error'></span>
-#&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/ops/gen_math_ops.py", line 387, in add</span>
-#&gt; <span class='error'>    "Add", x=x, y=y, name=name)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/framework/op_def_library.py", line 563, in _apply_op_helper</span>
-#&gt; <span class='error'>    inferred_from[input_arg.type_attr]))</span></div><div class='input'><span class='no'>day_of_week</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span>(<span class='kw'>num_seasons</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'observed_time_series' not found</span></div><div class='input'><span class='no'>local_linear_trend</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'observed_time_series' not found</span></div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span>(<span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>day_of_week</span>, <span class='no'>local_linear_trend</span>))</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'observed_time_series' not found</span></div><div class='input'><span class='no'>states_and_results</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='fu'>convert_to_tensor</span>(<span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='no'>float64</span>)
+<span class='no'>day_of_week</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span>(<span class='kw'>num_seasons</span> <span class='kw'>=</span> <span class='fl'>7</span>)
+<span class='no'>local_linear_trend</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span>()
+<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span>(<span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>day_of_week</span>, <span class='no'>local_linear_trend</span>))
+<span class='no'>states_and_results</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>sts_fit_with_hmc</span>(
     <span class='no'>model</span>,
     <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>10</span>,
     <span class='kw'>num_warmup_steps</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-    <span class='kw'>num_variational_steps</span> <span class='kw'>=</span> <span class='fl'>15</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'observed_time_series' not found</span></div><div class='input'># }
-
-</div></pre>
+    <span class='kw'>num_variational_steps</span> <span class='kw'>=</span> <span class='fl'>15</span>)
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

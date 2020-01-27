@@ -102,6 +102,9 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -172,7 +175,7 @@ x$shape$ndims - event_ndims dimensions.</p></td>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
   <span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a></span>(<span class='kw'>shift</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>2</span>)
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
-  <span class='no'>b</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfb_forward_log_det_jacobian</span>(<span class='no'>x</span>, <span class='kw'>event_ndims</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; Tensor("affine_scalar_3/forward_log_det_jacobian/Neg_1:0", shape=(), dtype=float32)</div><div class='input'># }
+  <span class='no'>b</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfb_forward_log_det_jacobian</span>(<span class='no'>x</span>, <span class='kw'>event_ndims</span> <span class='kw'>=</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt; tf.Tensor(0.6931472, shape=(), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

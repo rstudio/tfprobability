@@ -109,6 +109,9 @@ Hoffman &amp;amp; Gelman (2011)." />
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -309,22 +312,61 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
    }
 
    <span class='no'>run_chain</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tensorflow/man/tf_function.html'>tf_function</a></span>(<span class='no'>run_chain</span>)
-   <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: Evaluation error: AttributeError: module 'tensorflow_probability.python.mcmc' has no attribute 'NoUTurnSampler'.</span>
+   <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: Evaluation error: RuntimeError: Evaluation error: RuntimeError: Evaluation error: Incorrect number of dimensions supplied. 0 required, but received 1.</span>
 #&gt; <span class='error'></span>
 #&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 414, in __call__</span>
-#&gt; <span class='error'>    self._initialize(args, kwds, add_initializers_to=initializer_map)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 357, in _initialize</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 439, in log_prob</span>
+#&gt; <span class='error'>    dtype=self.dtype,</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 201, in dtype</span>
+#&gt; <span class='error'>    d.dtype for d in self._get_single_sample_distributions()])</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 170, in _get_single_sample_distributions</span>
+#&gt; <span class='error'>    self._flat_sample_distributions(seed=42)[0])  # Seed for CSE.</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 250, in _flat_sample_distributions</span>
+#&gt; <span class='error'>    ds.append(dist_fn(*xs[:i]))  # Chain rule of probability.</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 489, in dist_fn_wrapped</span>
+#&gt; <span class='error'>    return dist_fn(*reversed(xs[-len(args):]))</span>
+#&gt; <span class='error'>  File "&lt;string&gt;", line 4, in fn</span>
+#&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
+#&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span>
+#&gt; <span class='error'>.</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/sample.py", line 324, in sample_chain</span>
+#&gt; <span class='error'>    previous_kernel_results = kernel.bootstrap_results(current_state)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/dual_averaging_step_size_adaptation.py", line 485, in bootstrap_results</span>
+#&gt; <span class='error'>    inner_results = self.inner_kernel.bootstrap_results(init_state)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 408, in bootstrap_results</span>
+#&gt; <span class='error'>    transformed_init_state))</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/nuts.py", line 437, in bootstrap_results</span>
+#&gt; <span class='error'>    init_state)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/leapfrog_integrator.py", line 368, in process_args</span>
+#&gt; <span class='error'>    target_fn, state_parts)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 265, in maybe_call_fn_and_grads</span>
+#&gt; <span class='error'>    result, grads = _value_and_gradients(fn, fn_arg_list, result, grads)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 225, in _value_and_gradients</span>
+#&gt; <span class='error'>    result = fn(*fn_arg_list)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 102, in transformed_log_prob_fn</span>
+#&gt; <span class='error'>    tlp = log_prob_fn(*fn(state_parts))</span>
+#&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
+#&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span>
+#&gt; <span class='error'>.</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 568, in __call__</span>
+#&gt; <span class='error'>    result = self._call(*args, **kwds)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 615, in _call</span>
+#&gt; <span class='error'>    self._initialize(args, kwds, add_initializers_to=initializers)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 497, in _initialize</span>
 #&gt; <span class='error'>    *args, **kwds))</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 1349, in _get_concrete_function_internal_garbage_collected</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 2389, in _get_concrete_function_internal_garbage_collected</span>
 #&gt; <span class='error'>    graph_function, _, _ = self._maybe_define_function(args, kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 1652, in _maybe_define_function</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 2703, in _maybe_define_function</span>
 #&gt; <span class='error'>    graph_function = self._create_graph_function(args, kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 1545, in _create_graph_function</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 2593, in _create_graph_function</span>
 #&gt; <span class='error'>    capture_by_value=self._capture_by_value),</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/framework/func_graph.py", line 715, in func_graph_from_py_func</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/framework/func_graph.py", line 978, in func_graph_from_py_func</span>
 #&gt; <span class='error'>    func_outputs = python_func(*func_args, **func_kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/1.14/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 307, in wrapped_fn</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 439, in wrapped_fn</span>
 #&gt; <span class='error'>    return weak_wrapped_fn().__wrapped__(*args, **kwds)</span>
 #&gt; <span class='error'>  File "&lt;string&gt;", line 4, in fn</span>
 #&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
