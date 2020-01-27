@@ -4,17 +4,14 @@
 \alias{tfd_sample}
 \title{Generate samples of the specified shape.}
 \usage{
-tfd_sample(distribution, sample_shape = list(), seed = NULL,
-  name = "sample")
+tfd_sample(distribution, sample_shape = list(), ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
 \item{sample_shape}{0D or 1D int32 Tensor. Shape of the generated samples.}
 
-\item{seed}{integer seed for RNG}
-
-\item{name}{name to give to the op.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 a Tensor with prepended dimensions sample_shape.

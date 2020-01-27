@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@
       <a href="../articles/layer_dense_variational.html">Uncertainty estimates with layer_dense_variational</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -346,7 +349,7 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="tfd_log_normal.html">tfd_log_normal()</a></code> </p>
+          <p><code><a href="tfd_log_normal.html">tfd_log_normal()</a></code> <code><a href="tfd_log_normal.html">tfd_log_normal()</a></code> </p>
         </td>
         <td><p>Log-normal distribution</p></td>
       </tr><tr>
@@ -436,6 +439,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="tfd_pixel_cnn.html">tfd_pixel_cnn()</a></code> </p>
+        </td>
+        <td><p>The Pixel CNN++ distribution</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tfd_poisson.html">tfd_poisson()</a></code> </p>
         </td>
         <td><p>Poisson distribution</p></td>
@@ -445,6 +454,12 @@
           <p><code><a href="tfd_poisson_log_normal_quadrature_compound.html">tfd_poisson_log_normal_quadrature_compound()</a></code> </p>
         </td>
         <td><p><code>PoissonLogNormalQuadratureCompound</code> distribution</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfd_probit_bernoulli.html">tfd_probit_bernoulli()</a></code> </p>
+        </td>
+        <td><p>ProbitBernoulli distribution.</p></td>
       </tr><tr>
         
         <td>
@@ -571,6 +586,18 @@
           <p><code><a href="tfd_wishart.html">tfd_wishart()</a></code> </p>
         </td>
         <td><p>The matrix Wishart distribution on positive definite matrices</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfd_wishart_linear_operator.html">tfd_wishart_linear_operator()</a></code> </p>
+        </td>
+        <td><p>The matrix Wishart distribution on positive definite matrices</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfd_wishart_tri_l.html">tfd_wishart_tri_l()</a></code> </p>
+        </td>
+        <td><p>The matrix Wishart distribution parameterized with Cholesky factors.</p></td>
       </tr><tr>
         
         <td>
@@ -920,6 +947,12 @@ Given random variable X, the cumulative distribution function cdf is:
       </tr><tr>
         
         <td>
+          <p><code><a href="tfb_cumsum.html">tfb_cumsum()</a></code> </p>
+        </td>
+        <td><p>Computes the cumulative sum of a tensor along a specified axis.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform()</a></code> </p>
         </td>
         <td><p>Computes<code>Y = g(X) = DCT(X)</code>, where DCT type is indicated by the type arg</p></td>
@@ -938,6 +971,18 @@ Given random variable X, the cumulative distribution function cdf is:
       </tr><tr>
         
         <td>
+          <p><code><a href="tfb_ffjord.html">tfb_ffjord()</a></code> </p>
+        </td>
+        <td><p>Implements a continuous normalizing flow X-&gt;Y defined via an ODE.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_fill_scale_tri_l.html">tfb_fill_scale_tri_l()</a></code> </p>
+        </td>
+        <td><p>Transforms unconstrained vectors to TriL matrices with positive diagonal</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tfb_fill_triangular.html">tfb_fill_triangular()</a></code> </p>
         </td>
         <td><p>Transforms vectors to triangular</p></td>
@@ -947,6 +992,12 @@ Given random variable X, the cumulative distribution function cdf is:
           <p><code><a href="tfb_gumbel.html">tfb_gumbel()</a></code> </p>
         </td>
         <td><p>Computes<code>Y = g(X) = exp(-exp(-(X - loc) / scale))</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_gumbel_cdf.html">tfb_gumbel_cdf()</a></code> </p>
+        </td>
+        <td><p>Compute <code>Y = g(X) = exp(-exp(-(X - loc) / scale))</code>, the Gumbel CDF.</p></td>
       </tr><tr>
         
         <td>
@@ -968,7 +1019,19 @@ Given random variable X, the cumulative distribution function cdf is:
       </tr><tr>
         
         <td>
+          <p><code><a href="tfb_iterated_sigmoid_centered.html">tfb_iterated_sigmoid_centered()</a></code> </p>
+        </td>
+        <td><p>Bijector which applies a Stick Breaking procedure.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tfb_kumaraswamy.html">tfb_kumaraswamy()</a></code> </p>
+        </td>
+        <td><p>Computes<code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code>, with X in <code>[0, 1]</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_kumaraswamy_cdf.html">tfb_kumaraswamy_cdf()</a></code> </p>
         </td>
         <td><p>Computes<code>Y = g(X) = (1 - (1 - X)**(1 / b))**(1 / a)</code>, with X in <code>[0, 1]</code></p></td>
       </tr><tr>
@@ -1016,6 +1079,12 @@ Given random variable X, the cumulative distribution function cdf is:
       </tr><tr>
         
         <td>
+          <p><code><a href="tfb_pad.html">tfb_pad()</a></code> </p>
+        </td>
+        <td><p>Pads a value to the <code>event_shape</code> of a <code>Tensor</code>.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tfb_permute.html">tfb_permute()</a></code> </p>
         </td>
         <td><p>Permutes the rightmost dimension of a Tensor</p></td>
@@ -1025,6 +1094,12 @@ Given random variable X, the cumulative distribution function cdf is:
           <p><code><a href="tfb_power_transform.html">tfb_power_transform()</a></code> </p>
         </td>
         <td><p>Computes<code>Y = g(X) = (1 + X * c)**(1 / c)</code>, where <code>X &gt;= -1 / c</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_rational_quadratic_spline.html">tfb_rational_quadratic_spline()</a></code> </p>
+        </td>
+        <td><p>A piecewise rational quadratic spline, as developed in Conor et al.(2019).</p></td>
       </tr><tr>
         
         <td>
@@ -1052,9 +1127,45 @@ Given random variable X, the cumulative distribution function cdf is:
       </tr><tr>
         
         <td>
+          <p><code><a href="tfb_scale.html">tfb_scale()</a></code> </p>
+        </td>
+        <td><p>Compute <code>Y = g(X; scale) = scale * X</code>.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_scale_matvec_diag.html">tfb_scale_matvec_diag()</a></code> </p>
+        </td>
+        <td><p>Compute <code>Y = g(X; scale) = scale @ X</code></p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_scale_matvec_linear_operator.html">tfb_scale_matvec_linear_operator()</a></code> </p>
+        </td>
+        <td><p>Compute <code>Y = g(X; scale) = scale @ X</code>.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_scale_matvec_lu.html">tfb_scale_matvec_lu()</a></code> </p>
+        </td>
+        <td><p>Matrix-vector multiply using LU decomposition.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_scale_matvec_tri_l.html">tfb_scale_matvec_tri_l()</a></code> </p>
+        </td>
+        <td><p>Compute <code>Y = g(X; scale) = scale @ X</code>.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="tfb_scale_tri_l.html">tfb_scale_tri_l()</a></code> </p>
         </td>
         <td><p>Transforms unconstrained vectors to TriL matrices with positive diagonal</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_shift.html">tfb_shift()</a></code> </p>
+        </td>
+        <td><p>Compute <code>Y = g(X; shift) = X + shift</code>.</p></td>
       </tr><tr>
         
         <td>
@@ -1115,6 +1226,12 @@ Given random variable X, the cumulative distribution function cdf is:
           <p><code><a href="tfb_weibull.html">tfb_weibull()</a></code> </p>
         </td>
         <td><p>Computes<code>Y = g(X) = 1 - exp((-X / scale) ** concentration)</code> where X &gt;= 0</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="tfb_weibull_cdf.html">tfb_weibull_cdf()</a></code> </p>
+        </td>
+        <td><p>Compute <code>Y = g(X) = 1 - exp((-X / scale) ** concentration), X &gt;= 0</code>.</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -1473,6 +1590,18 @@ Given random variable X, the cumulative distribution function cdf is:
           <p><code><a href="sts_semi_local_linear_trend_state_space_model.html">sts_semi_local_linear_trend_state_space_model()</a></code> </p>
         </td>
         <td><p>State space model for a semi-local linear trend.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sts_smooth_seasonal.html">sts_smooth_seasonal()</a></code> </p>
+        </td>
+        <td><p>Formal representation of a smooth seasonal effect model</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sts_smooth_seasonal_state_space_model.html">sts_smooth_seasonal_state_space_model()</a></code> </p>
+        </td>
+        <td><p>State space model for a smooth seasonal effect</p></td>
       </tr><tr>
         
         <td>

@@ -56,3 +56,6 @@ The support is \code{[low, high]}.  The \code{peak} must fit in that interval:
 controls the shape of the distribution. Higher values yield a sharper peak.
 The standard PERT distribution is obtained when \code{temperature = 4}.
 }
+\seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+}

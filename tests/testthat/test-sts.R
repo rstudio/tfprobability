@@ -235,3 +235,32 @@ test_succeeds("constrained seasonal state space model works", {
   expect_equal(lp$get_shape()$as_list() %>% length(), 0)
 })
 
+test_succeeds("smooth seasonal works", {
+
+  skip_if_tfp_below("0.9")
+
+  component <- sts_smooth_seasonal(
+    period = 7,
+    frequency_multipliers = list(1, 2, 3),
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = tf$ones(list(6L)))
+  )
+
+})
+
+test_succeeds("seasonal state space model works", {
+
+  skip_if_tfp_below("0.9")
+
+  ssm = sts_smooth_seasonal_state_space_model(
+    num_timesteps = 100,
+    period = 24,
+    frequency_multipliers = list(1, 4),
+    drift_scale = 0.1,
+    initial_state_prior = tfd_multivariate_normal_diag(scale_diag = tf$fill(list(4L), 2.0))
+  )
+
+  y <- ssm %>% tfd_sample()
+  expect_equal(y$get_shape()$as_list(), c(100, 1))
+  lp <- ssm %>% tfd_log_prob(y)
+  expect_equal(lp$get_shape()$as_list() %>% length(), 0)
+})

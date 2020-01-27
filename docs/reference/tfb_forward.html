@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@
       <a href="../articles/layer_dense_variational.html">Uncertainty estimates with layer_dense_variational</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -164,7 +167,7 @@
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
   <span class='no'>b</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a></span>(<span class='kw'>shift</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>2</span>)
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
-  <span class='no'>b</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfb_forward</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; Tensor("affine_scalar_1/forward/add:0", shape=(), dtype=float32)</div><div class='input'># }
+  <span class='no'>b</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfb_forward</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; tf.Tensor(21.0, shape=(), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

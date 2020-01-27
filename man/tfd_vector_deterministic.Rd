@@ -39,3 +39,6 @@ variable that is constant, equal to loc.
 \details{
 See \href{https://en.wikipedia.org/wiki/Degenerate_distribution}{Degenerate rv}.
 }
+\seealso{
+For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
+}

@@ -4,15 +4,14 @@
 \alias{tfd_log_survival_function}
 \title{Log survival function.}
 \usage{
-tfd_log_survival_function(distribution, value,
-  name = "log_survival_function")
+tfd_log_survival_function(distribution, value, ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
 \item{value}{float or double Tensor.}
 
-\item{name}{String prepended to names of ops created by this function.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.

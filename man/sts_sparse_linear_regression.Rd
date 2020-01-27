@@ -123,6 +123,7 @@ Other sts: \code{\link{sts_additive_state_space_model}},
   \code{\link{sts_seasonal}},
   \code{\link{sts_semi_local_linear_trend_state_space_model}},
   \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_sum}}
+  \code{\link{sts_smooth_seasonal_state_space_model}},
+  \code{\link{sts_smooth_seasonal}}, \code{\link{sts_sum}}
 }
 \concept{sts}

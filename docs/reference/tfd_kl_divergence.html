@@ -74,7 +74,7 @@ denotes (Shannon) cross entropy, and H[.] denotes (Shannon) entropy." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -106,6 +106,9 @@ denotes (Shannon) cross entropy, and H[.] denotes (Shannon) entropy." />
       <a href="../articles/layer_dense_variational.html">Uncertainty estimates with layer_dense_variational</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -183,7 +186,7 @@ of the Kullback-Leibler divergence.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
   <span class='no'>d1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>))
   <span class='no'>d2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.5</span>, <span class='fl'>2</span>), <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>))
-  <span class='no'>d1</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_kl_divergence</span>(<span class='no'>d2</span>)</div><div class='output co'>#&gt; Tensor("Normal_9/kl_divergence/KullbackLeibler/kl_normal_normal/add:0", shape=(2,), dtype=float32)</div><div class='input'># }
+  <span class='no'>d1</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_kl_divergence</span>(<span class='no'>d2</span>)</div><div class='output co'>#&gt; tf.Tensor([0.125 0.   ], shape=(2,), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

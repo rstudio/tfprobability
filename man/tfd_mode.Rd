@@ -4,12 +4,12 @@
 \alias{tfd_mode}
 \title{Mode.}
 \usage{
-tfd_mode(distribution, name = "mode")
+tfd_mode(distribution, ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{name}{String prepended to names of ops created by this function.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.

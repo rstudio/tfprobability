@@ -72,7 +72,7 @@ where Cov is a (batch of) k x k matrix, 0 &amp;lt;= (i, j) &amp;lt; k, and E den
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -104,6 +104,9 @@ where Cov is a (batch of) k x k matrix, 0 &amp;lt;= (i, j) &amp;lt; k, and E den
       <a href="../articles/layer_dense_variational.html">Uncertainty estimates with layer_dense_variational</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -138,7 +141,7 @@ For example, for a length-k, vector-valued distribution, it is calculated as,
 where Cov is a (batch of) k x k matrix, 0 &lt;= (i, j) &lt; k, and E denotes expectation.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_covariance</span>(<span class='no'>distribution</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"covariance"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_covariance</span>(<span class='no'>distribution</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,8 +151,8 @@ where Cov is a (batch of) k x k matrix, 0 &lt;= (i, j) &lt; k, and E denotes exp
       <td><p>The distribution being used.</p></td>
     </tr>
     <tr>
-      <th>name</th>
-      <td><p>String prepended to names of ops created by this function.</p></td>
+      <th>...</th>
+      <td><p>Additional parameters passed to Python.</p></td>
     </tr>
     </table>
 
@@ -194,7 +197,12 @@ length-k vector.</p>
   <span class='no'>tf</span>$<span class='no'>linalg</span>$<span class='fu'>LinearOperatorDiag</span>(
       <span class='kw'>diag</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>2.5</span>, <span class='fl'>3.5</span>,  <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>5</span>),
       <span class='kw'>is_positive_definite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)))
-  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_covariance</span>()</div><div class='output co'>#&gt; Tensor("VectorDiffeomixture/covariance/add_21:0", shape=(1, 5, 5), dtype=float32)</div><div class='input'># }
+  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_covariance</span>()</div><div class='output co'>#&gt; tf.Tensor(
+#&gt; [[[2.7386208  0.02668449 0.02668449 0.02668449 0.02668449]
+#&gt;   [0.02668449 3.2255342  0.02668449 0.02668449 0.02668449]
+#&gt;   [0.02668449 0.02668449 3.7526267  0.02668449 0.02668449]
+#&gt;   [0.02668449 0.02668449 0.02668449 4.3198967  0.02668449]
+#&gt;   [0.02668449 0.02668449 0.02668449 0.02668449 4.927347  ]]], shape=(1, 5, 5), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

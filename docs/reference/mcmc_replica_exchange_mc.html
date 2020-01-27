@@ -75,7 +75,7 @@ probability density p(x), the kth replica has density p(x)**beta_k." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -107,6 +107,9 @@ probability density p(x), the kth replica has density p(x)**beta_k." />
       <a href="../articles/layer_dense_variational.html">Uncertainty estimates with layer_dense_variational</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -146,7 +149,7 @@ probability density <code>p(x)</code>, the <code>kth</code> replica has density 
 
     <pre class="usage"><span class='fu'>mcmc_replica_exchange_mc</span>(<span class='no'>target_log_prob_fn</span>, <span class='no'>inverse_temperatures</span>,
   <span class='no'>make_kernel_fn</span>,
-  <span class='kw'>exchange_proposed_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>mcmc</span>$<span class='no'>replica_exchange_mc</span>$<span class='fu'>default_exchange_proposed_fn</span>(<span class='fl'>1</span>),
+  <span class='kw'>swap_proposal_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>mcmc</span>$<span class='no'>replica_exchange_mc</span>$<span class='fu'>default_swap_proposal_fn</span>(<span class='fl'>1</span>),
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -171,7 +174,7 @@ and is typically == 1.</p></td>
 args and returns a TransitionKernel instance.</p></td>
     </tr>
     <tr>
-      <th>exchange_proposed_fn</th>
+      <th>swap_proposal_fn</th>
       <td><p>function which take a number of replicas, and
 return combinations of replicas for exchange.</p></td>
     </tr>

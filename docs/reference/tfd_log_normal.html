@@ -39,6 +39,10 @@
 <meta property="og:description" content="The LogNormal distribution models positive-valued random variables
 whose logarithm is normally distributed with mean loc and
 standard deviation scale. It is constructed as the exponential
+transformation of a Normal distribution.
+The LogNormal distribution models positive-valued random variables
+whose logarithm is normally distributed with mean loc and
+standard deviation scale. It is constructed as the exponential
 transformation of a Normal distribution." />
 <meta name="twitter:card" content="summary" />
 
@@ -72,7 +76,7 @@ transformation of a Normal distribution." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -105,6 +109,9 @@ transformation of a Normal distribution." />
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -136,9 +143,16 @@ transformation of a Normal distribution." />
 whose logarithm is normally distributed with mean <code>loc</code> and
 standard deviation <code>scale</code>. It is constructed as the exponential
 transformation of a Normal distribution.</p>
+<p>The LogNormal distribution models positive-valued random variables
+whose logarithm is normally distributed with mean <code>loc</code> and
+standard deviation <code>scale</code>. It is constructed as the exponential
+transformation of a Normal distribution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_log_normal</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <pre class="usage"><span class='fu'>tfd_log_normal</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"LogNormal"</span>)
+
+<span class='fu'>tfd_log_normal</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"LogNormal"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -178,6 +192,7 @@ one or more of the statistic's batch members are undefined.</p></td>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>For usage examples see e.g. <code><a href='tfd_sample.html'>tfd_sample()</a></code>, <code><a href='tfd_log_prob.html'>tfd_log_prob()</a></code>, <code><a href='tfd_mean.html'>tfd_mean()</a></code>.</p>
+<p>For usage examples see e.g. <code><a href='tfd_sample.html'>tfd_sample()</a></code>, <code><a href='tfd_log_prob.html'>tfd_log_prob()</a></code>, <code><a href='tfd_mean.html'>tfd_mean()</a></code>.</p>
 <p>Other distributions: <code><a href='tfd_autoregressive.html'>tfd_autoregressive</a></code>,
   <code><a href='tfd_batch_reshape.html'>tfd_batch_reshape</a></code>,
   <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a></code>, <code><a href='tfd_beta.html'>tfd_beta</a></code>,
@@ -216,9 +231,11 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_negative_binomial.html'>tfd_negative_binomial</a></code>,
   <code><a href='tfd_normal.html'>tfd_normal</a></code>,
   <code><a href='tfd_one_hot_categorical.html'>tfd_one_hot_categorical</a></code>,
-  <code><a href='tfd_pareto.html'>tfd_pareto</a></code>,
+  <code><a href='tfd_pareto.html'>tfd_pareto</a></code>, <code><a href='tfd_pixel_cnn.html'>tfd_pixel_cnn</a></code>,
   <code><a href='tfd_poisson_log_normal_quadrature_compound.html'>tfd_poisson_log_normal_quadrature_compound</a></code>,
-  <code><a href='tfd_poisson.html'>tfd_poisson</a></code>, <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
+  <code><a href='tfd_poisson.html'>tfd_poisson</a></code>,
+  <code><a href='tfd_probit_bernoulli.html'>tfd_probit_bernoulli</a></code>,
+  <code><a href='tfd_quantized.html'>tfd_quantized</a></code>,
   <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a></code>,
   <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a></code>,
   <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a></code>,
@@ -237,8 +254,10 @@ one or more of the statistic's batch members are undefined.</p></td>
   <code><a href='tfd_vector_laplace_linear_operator.html'>tfd_vector_laplace_linear_operator</a></code>,
   <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a></code>,
   <code><a href='tfd_von_mises_fisher.html'>tfd_von_mises_fisher</a></code>,
-  <code><a href='tfd_von_mises.html'>tfd_von_mises</a></code>, <code><a href='tfd_wishart.html'>tfd_wishart</a></code>,
-  <code><a href='tfd_zipf.html'>tfd_zipf</a></code></p></div>
+  <code><a href='tfd_von_mises.html'>tfd_von_mises</a></code>,
+  <code><a href='tfd_wishart_linear_operator.html'>tfd_wishart_linear_operator</a></code>,
+  <code><a href='tfd_wishart_tri_l.html'>tfd_wishart_tri_l</a></code>,
+  <code><a href='tfd_wishart.html'>tfd_wishart</a></code>, <code><a href='tfd_zipf.html'>tfd_zipf</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

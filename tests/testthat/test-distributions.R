@@ -1008,3 +1008,63 @@ test_succeeds("ProbitBernoulli works", {
   expect_equal(samples$get_shape() %>% length(), 2)
 })
 
+test_succeeds("WishartTriL distribution works", {
+
+  skip_if_tfp_below("0.9")
+  s <- matrix(c(1, 2, 2, 5), ncol = 2, byrow = TRUE)
+  df <- 4
+  d <- tfd_wishart_tri_l(df = df, scale_tril = tf$linalg$cholesky(s))
+  expect_equal(tfd_mean(d) %>% tensor_value(), df * s)
+})
+
+test_succeeds("PixelCNN distribution works", {
+
+  skip_if_tfp_below("0.9")
+
+  # library(tfds)
+  # library(tfdatasets)
+  library(keras)
+
+  # data <- tfds_load('mnist')
+  # train_data <- data$train
+  # test_data <- data$test
+  #
+  # image_preprocess <- function(x) {
+  #   x$image <- tf$cast(x$image, tf$float32)
+  #   list(tuple(x$image, x$label))
+  # }
+  #
+  # batch_size <- 16
+  # train_it <- train_data %>% dataset_map(image_preprocess) %>%
+  #   dataset_batch(batch_size) %>%
+  #   dataset_shuffle(1000)
+
+  dist <- tfd_pixel_cnn(
+    image_shape = c(28, 28, 1),
+    conditional_shape = list(),
+    num_resnet = 1,
+    num_hierarchies = 2,
+    num_filters = 32,
+    num_logistic_mix = 5,
+    dropout_p = .3
+  )
+
+  image_input <- layer_input(shape = c(28, 28, 1))
+  label_input <- layer_input(shape = list())
+  log_prob <- dist %>% tfd_log_prob(image_input, conditional_input = label_input)
+
+  model <- keras_model(inputs = list(image_input, label_input), outputs = log_prob)
+  model$add_loss(-tf$reduce_mean(log_prob))
+  model$compile(
+    optimizer=optimizer_adam(lr = .001),
+    metrics=list())
+
+  # model %>% fit(train_it, epochs = 1)
+  # samples <- dist %>% tfd_sample(1, conditional_input = 1)
+  #
+  # img <- samples[1, , , 1]
+  # img <- t(apply(img, 2, rev))
+  # image(1:28, 1:28, img, col = gray((0:255)/255), xaxt = 'n', yaxt = 'n')
+
+})
+

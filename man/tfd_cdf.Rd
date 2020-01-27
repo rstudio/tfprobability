@@ -6,14 +6,14 @@
 Given random variable X, the cumulative distribution function cdf is:
 \code{cdf(x) := P[X <= x]}}
 \usage{
-tfd_cdf(distribution, value, name = "cdf")
+tfd_cdf(distribution, value, ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
 \item{value}{float or double Tensor.}
 
-\item{name}{String prepended to names of ops created by this function.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.

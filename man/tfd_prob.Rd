@@ -4,14 +4,14 @@
 \alias{tfd_prob}
 \title{Probability density/mass function.}
 \usage{
-tfd_prob(distribution, value, name = "prob")
+tfd_prob(distribution, value, ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
 \item{value}{float or double Tensor.}
 
-\item{name}{String prepended to names of ops created by this function.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type \code{self$dtype}.

@@ -4,12 +4,12 @@
 \alias{tfd_covariance}
 \title{Covariance.}
 \usage{
-tfd_covariance(distribution, name = "covariance")
+tfd_covariance(distribution, ...)
 }
 \arguments{
 \item{distribution}{The distribution being used.}
 
-\item{name}{String prepended to names of ops created by this function.}
+\item{...}{Additional parameters passed to Python.}
 }
 \value{
 Floating-point Tensor with shape \code{[B1, ..., Bn, k, k]} where the first n dimensions

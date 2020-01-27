@@ -867,7 +867,7 @@ mcmc_metropolis_adjusted_langevin_algorithm <-
 #' and is typically == 1.
 #' @param make_kernel_fn Function which takes target_log_prob_fn and seed
 #' args and returns a TransitionKernel instance.
-#' @param exchange_proposed_fn function which take a number of replicas, and
+#' @param swap_proposal_fn function which take a number of replicas, and
 #' return combinations of replicas for exchange.
 #' @param name string prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., "remc_kernel").

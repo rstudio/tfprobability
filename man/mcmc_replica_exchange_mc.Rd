@@ -6,7 +6,7 @@
 \usage{
 mcmc_replica_exchange_mc(target_log_prob_fn, inverse_temperatures,
   make_kernel_fn,
-  exchange_proposed_fn = tfp$mcmc$replica_exchange_mc$default_exchange_proposed_fn(1),
+  swap_proposal_fn = tfp$mcmc$replica_exchange_mc$default_swap_proposal_fn(1),
   seed = NULL, name = NULL)
 }
 \arguments{
@@ -22,7 +22,7 @@ and is typically == 1.}
 \item{make_kernel_fn}{Function which takes target_log_prob_fn and seed
 args and returns a TransitionKernel instance.}
 
-\item{exchange_proposed_fn}{function which take a number of replicas, and
+\item{swap_proposal_fn}{function which take a number of replicas, and
 return combinations of replicas for exchange.}
 
 \item{seed}{integer to seed the random number generator.}
