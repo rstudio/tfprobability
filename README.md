@@ -8,7 +8,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![Build
 Status](https://travis-ci.org/rstudio/tfprobability.svg?branch=master)](https://travis-ci.org/rstudio/tfprobability)
 [![Actions
-Status](https://github.com/rstudio/tfhub/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/tfhub/)
+Status](https://github.com/rstudio/tfprobability/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/tfprobability/)
 [![codecov](https://codecov.io/gh/rstudio/tfprobability/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/tfprobability)
 <!-- badges: end -->
 

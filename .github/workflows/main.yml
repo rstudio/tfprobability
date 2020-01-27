@@ -50,7 +50,7 @@ jobs:
       - name: Install TensorFlow
         run: |
           Rscript -e "remotes::install_local()"
-          Rscript -e "tfprobability::install_tfprobability(version = Sys.getenv('TFP_VERSION'), tensorflow = Sys.getenv("TF_VERSION"))"
+          Rscript -e "tfprobability::install_tfprobability(version = Sys.getenv('TFP_VERSION'), tensorflow = Sys.getenv('TF_VERSION'))"
           Rscript -e "reticulate::py_install(c('h5py', 'pyyaml', 'requests', 'Pillow', 'scipy'), pip = TRUE)"
       - name: Check
         continue-on-error: ${{ matrix.config.allow_failure }}
