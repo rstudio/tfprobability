@@ -41,7 +41,8 @@ jobs:
           sudo -s eval "$sysreqs"
       - name: Install dependencies
         run: Rscript -e "install.packages('remotes')" -e "remotes::install_deps(dependencies = TRUE)" -e "remotes::install_cran('rcmdcheck')"
-
+             Rscript -e "remotes::install_github('rstudio/tensorflow')"
+             Rscript -e "remotes::install_github('rstudio/keras')"
       - name: Install Python
         run: |
           Rscript -e "remotes::install_github('rstudio/reticulate')"
