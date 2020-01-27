@@ -126,7 +126,7 @@ For more details on FFJORD and continous normalizing flows see Chen et al. (2018
 
 \itemize{
 \item Chen, T. Q., Rubanova, Y., Bettencourt, J., & Duvenaud, D. K. (2018). Neural ordinary differential equations. In Advances in neural information processing systems (pp. 6571-6583)
-\item \href{http://arxiv.org.abs/1810.01367}{Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., & Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.}
+\item \href{http://arxiv.org/abs/1810.01367}{Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., & Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.}
 }
 }
 
