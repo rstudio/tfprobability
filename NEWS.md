@@ -28,6 +28,10 @@
   - tfb_kumaraswamy_cdf
   - tfb_fill_scale_triangular
   - tfb_ffjord
+  
+- new state space models
+  - sts_smooth_seasonal
+  - sts_smooth_seasonal_state_space_model
 
 
 ## 0.8.0.0 (Initial release, CRAN)
