@@ -1968,7 +1968,7 @@ tfb_fill_scale_tri_l <- function(diag_bijector = NULL,
 #' For more details on FFJORD and continous normalizing flows see Chen et al. (2018), Grathwol et al. (2018).
 #' @section References:
 #'   -  Chen, T. Q., Rubanova, Y., Bettencourt, J., & Duvenaud, D. K. (2018). Neural ordinary differential equations. In Advances in neural information processing systems (pp. 6571-6583)
-#'   -  [Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., & Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.](http://arxiv.org.abs/1810.01367)
+#'   -  [Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., & Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.](http://arxiv.org/abs/1810.01367)
 #'
 #' @param state_time_derivative_fn  `function` taking arguments `time`
 #' (a scalar representing time) and `state` (a Tensor representing the
