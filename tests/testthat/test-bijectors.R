@@ -375,7 +375,7 @@ test_succeeds("Define a kumaraswamy bijector", {
   skip_if_tfp_above("0.8")
   b <- tfb_kumaraswamy(concentration1 = 2, concentration0 = 0.3)
   x <- runif(1)
-  expect_lt(b %>% tfb_forward(x) %>% tensor_value(), 1)
+  expect_lte(b %>% tfb_forward(x) %>% tensor_value(), 1)
 })
 
 
