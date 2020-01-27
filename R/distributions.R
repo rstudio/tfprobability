@@ -3242,69 +3242,6 @@ tfd_joint_distribution_named <- function(model,
           args)
 }
 
-#' Joint distribution parameterized by a distribution-making generator.
-#'
-#' This distribution enables both sampling and joint probability computation from
-#' a single model specification.
-#' A joint distribution is a collection of possibly interdependent distributions.
-#'
-#' The `JointDistributionCoroutine` is specified by a generator that
-#' generates the elements of this collection.
-#'
-#' Mathematical Details
-#'
-#' The `JointDistributionCoroutine` implements the chain rule of probability.
-#' That is, the probability function of a length-`d` vector `x` is,
-#' ```
-#' p(x) = prod{ p(x[i] | x[:i]) : i = 0, ..., (d - 1) }
-#' ```
-#'
-#' The `JointDistributionCoroutine` is parameterized by a generator
-#' that yields `tfp$distributions$Distribution`-like instances.
-#'
-#' Each element yielded implements the `i`-th *full conditional distribution*,
-#' `p(x[i] | x[:i])`. Within the generator, the return value from the yield
-#' is a sample from the distribution that may be used to construct subsequent
-#' yielded `Distribution`-like instances. This allows later instances
-#' to be conditional on earlier ones.
-#' When the `sample` method for a `JointDistributionCoroutine` is called with
-#' a `sample_shape`, the `sample` method for each of the yielded
-#' distributions is called.
-#' The distributions that have been wrapped in the
-#' `JointDistributionCoroutine$Root` class will be called with `sample_shape` as
-#' the `sample_shape` argument, and the unwrapped distributions
-#' will be called with `()` as the `sample_shape` argument.
-#' It is the user's responsibility to ensure that
-#' each of the distributions generates samples with the specified sample
-#' size.
-#'
-#' **Name resolution**: The names of `JointDistributionCoroutine` components
-#' may be specified by passing `name` arguments to distribution constructors (
-#' `tfd.Normal(0., 1., name='x')). Components without an explicit name will be
-#' assigned a dummy name.
-
-#' @inherit tfd_normal return params
-#' @family distributions
-#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
-#' @export
-tfd_joint_distribution_sequential <- function(model,
-                                              validate_args = FALSE,
-                                              name = NULL) {
-
-  model <- Map(
-    function(d) if (is.function(d)) reticulate::py_func(d) else d,
-    model
-  )
-  args <- list(
-    model = model,
-    validate_args = validate_args,
-    name = name
-  )
-
-  do.call(tfp$distributions$JointDistributionSequential,
-          args)
-}
-
 #' Exponential distribution
 #'
 #' The Exponential distribution is parameterized by an event `rate` parameter.

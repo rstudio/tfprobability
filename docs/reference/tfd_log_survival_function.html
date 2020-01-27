@@ -70,7 +70,7 @@ tfd_log_survival_function(x) = Log[ P[X &amp;gt; x] ] = Log[ 1 - P[X &amp;lt;= x
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -181,7 +181,7 @@ which are more accurate than 1 - cdf(x) when x &gt;&gt; 1.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
   <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>))
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>()
-  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_log_survival_function</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; tf.Tensor([-0.06970857 -0.5292621 ], shape=(2,), dtype=float32)</div><div class='input'># }
+  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_log_survival_function</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; tf.Tensor([-0.40759084 -3.2206514 ], shape=(2,), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

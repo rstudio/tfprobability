@@ -75,7 +75,7 @@ cdf(x) := P[X &amp;lt;= x]" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
       </span>
     </div>
 
@@ -185,7 +185,7 @@ Given random variable X, the cumulative distribution function cdf is:
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
   <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>))
   <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>()
-  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_cdf</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; tf.Tensor([0.89172465 0.60325825], shape=(2,), dtype=float32)</div><div class='input'># }
+  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_cdf</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; tf.Tensor([0.5910705  0.75416315], shape=(2,), dtype=float32)</div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
