@@ -30,4 +30,5 @@ Suggests:
     knitr
 VignetteBuilder: knitr
 Remotes:
-    rstudio/keras
+    rstudio/keras,
+    rstudio/tensorflow
