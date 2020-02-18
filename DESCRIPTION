@@ -29,3 +29,5 @@ Suggests:
     testthat (>= 2.1.0),
     knitr
 VignetteBuilder: knitr
+Remotes:
+    rstudio/keras
