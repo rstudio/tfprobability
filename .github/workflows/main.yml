@@ -1,36 +1,42 @@
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 1 * * *'
 
 name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    runs-on: ${{ matrix.config.os }}
-
-    name: ${{ matrix.config.os }} (TF ${{ matrix.config.tf }}) (TFP ${{ matrix.config.tfp }})
-
     strategy:
       fail-fast: false
       matrix:
-        config:
-        - { os: windows-latest, tf: '2.1.0', tfp: '0.9.0'}
-        - { os: macOS-latest, tf: '2.1.0', tfp: '0.9.0'}
-        - { os: ubuntu-16.04,  cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", tf: '2.1.0', tfp: '0.9.0'}
-        - { os: ubuntu-16.04,  cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", tf: 'nightly', tfp: 'nightly', allow_failure: true}
+        os: ['windows-latest', 'macOS-latest', 'ubuntu-16.04']
+        tfp: ['0.8', '0.9', 'nightly']
+        include:
+          - os: ubuntu-16.04
+            cran: https://demo.rstudiopm.com/all/__linux__/xenial/latest
+          - tf: nightly
+            tfp: nightly
+            allow_failure: true
+          - tfp: '0.8'
+            tf: '2.0.1'
+          - tfp: '0.9'
+            tf: '2.1.0'
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.os }} (TFP ${{ matrix.tfp }}, TF ${{matrix.tf}})
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      TF_VERSION: ${{ matrix.config.tf }}
-      TFP_VERSION: ${{ matrix.config.tfp }}
+      TF_VERSION: ${{ matrix.tf }}
+      TFP_VERSION: ${{ matrix.tfp }}
       PIP_NO_WARN_SCRIPT_LOCATION: false
       RETICULATE_AUTOCONFIGURE: 'FALSE'
-      CRAN: ${{ matrix.config.cran }}
+      CRAN: ${{ matrix.cran }}
 
     steps:
       - uses: actions/checkout@v1
-
       - uses: r-lib/actions/setup-r@master
-
       - uses: r-lib/actions/setup-pandoc@master
-
       - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
@@ -41,18 +47,15 @@ jobs:
           sudo -s eval "$sysreqs"
       - name: Install dependencies
         run: Rscript -e "install.packages('remotes')" -e "remotes::install_deps(dependencies = TRUE)" -e "remotes::install_cran('rcmdcheck')"
-             Rscript -e "remotes::install_github('rstudio/tensorflow')"
-             Rscript -e "remotes::install_github('rstudio/keras')"
       - name: Install Python
         run: |
           Rscript -e "remotes::install_github('rstudio/reticulate')"
-          Rscript -e "try(reticulate::install_miniconda())"
-          Rscript -e "reticulate::conda_create('r-reticulate', packages = 'python==3.6.9')"
+          Rscript -e "reticulate::install_miniconda()"
+          Rscript -e "reticulate::conda_create('r-reticulate', packages = c('python==3.6.9'))"
       - name: Install TensorFlow
         run: |
           Rscript -e "remotes::install_local()"
-          Rscript -e "tfprobability::install_tfprobability(version = Sys.getenv('TFP_VERSION'), tensorflow = Sys.getenv('TF_VERSION'))"
-          Rscript -e "reticulate::py_install(c('h5py', 'pyyaml', 'requests', 'Pillow', 'scipy'), pip = TRUE)"
+          Rscript -e "tfprobability::install_tfprobability(version=Sys.getenv('TFP_VERSION'), tensorflow=Sys.getenv('TF_VERSION'), extra_packages = c('IPython'))"
       - name: Check
-        continue-on-error: ${{ matrix.config.allow_failure }}
+        continue-on-error: ${{ contains(matrix.allow_failure, 'true') }}
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'warning', check_dir = 'check')"
