@@ -76,7 +76,7 @@ test_succeeds("vi_squared_hellinger works", {
   u <- 2
   logu <- log(u)
   expect_equal(vi_squared_hellinger(logu) %>% tensor_value(),
-               (sqrt(u) - 1)^2)
+               (sqrt(u) - 1)^2, tolerance = 1e-6)
 })
 
 test_succeeds("vi_triangular works", {
@@ -91,7 +91,7 @@ test_succeeds("vi_t_power works", {
   logu <- log(u)
   t <- 0.5
   expect_equal(vi_t_power(logu, t, self_normalized = TRUE) %>% tensor_value(),
-               - (u^t - 1 - t * (u - 1)))
+               - (u^t - 1 - t * (u - 1)), tolerance = 1e-6)
 })
 
 test_succeeds("vi_log1p_abs works", {
