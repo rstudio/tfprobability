@@ -1,6 +1,6 @@
 
 
-## 0.9.0.0 (under development)
+## 0.9.0.0 (CRAN)
 
 - new distributions:
   - tfd_generalized_pareto

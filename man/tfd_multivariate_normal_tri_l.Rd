@@ -62,10 +62,6 @@ The MultivariateNormal distribution is a member of the
 constructed as,\preformatted{X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
 Y = scale @ X + loc
 }
-
-Trainable (batch) lower-triangular matrices can be created with
-\code{tfd_matrix_diag_transform()} and/or
-\code{tfd_fill_triangular()}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

@@ -2224,9 +2224,6 @@ tfd_negative_binomial <- function(total_count,
 #' Y = scale @ X + loc
 #' ```
 #'
-#' Trainable (batch) lower-triangular matrices can be created with
-#' `tfd_matrix_diag_transform()` and/or
-#' `tfd_fill_triangular()`
 #' @param loc Floating-point `Tensor`. If this is set to `NULL`, `loc` is
 #' implicitly `0`. When specified, may have shape `[B1, ..., Bb, k]` where
 #' `b >= 0` and `k` is the event size.
