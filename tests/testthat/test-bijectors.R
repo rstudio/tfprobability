@@ -342,6 +342,7 @@ test_succeeds("Define a fill_triangular bijector", {
 })
 
 test_succeeds("Define a Gumbel bijector", {
+  skip_if_tfp_above("0.9")
   b <- tfb_gumbel()
   x <- runif(6)
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
@@ -439,6 +440,7 @@ test_succeeds("Define a transpose bijector", {
 })
 
 test_succeeds("Define a weibull bijector", {
+  skip_if_tfp_above("0.9")
   b <- tfb_weibull(1.5, 2)
   x <- c(0, 0.1, 0.2)
   expect_equivalent(b %>% tfb_forward(x) %>% tensor_value(),
