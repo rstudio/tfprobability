@@ -1024,23 +1024,25 @@ test_succeeds("PixelCNN distribution works", {
 
   skip_if_tfp_below("0.10")
 
-  library(tfds)
   library(tfdatasets)
   library(keras)
 
-  data <- tfds_load('mnist')
-  train_data <- data$train
+  mnist <- dataset_mnist()
+  train_data <- mnist$train
 
-  image_preprocess <- function(x) {
-    x$image <- tf$cast(x$image, tf$float32)
-    x$label <- tf$cast(x$label, tf$float32)
-    list(tuple(x$image, x$label))
+  preprocess <- function(record) {
+    record$x <- tf$cast(record$x, tf$float32) %>%
+      tf$expand_dims(axis = -1L)
+    record$y <- tf$cast(record$y, tf$float32)
+    list(tuple(record$x, record$y))
   }
 
   batch_size <- 32
-  train_it <- train_data %>%
+
+  train_ds <- tensor_slices_dataset(train_data)
+  train_ds <- train_ds %>%
     dataset_take(32) %>%
-    dataset_map(image_preprocess) %>%
+    dataset_map(preprocess) %>%
     dataset_batch(batch_size)
 
   dist <- tfd_pixel_cnn(
@@ -1061,7 +1063,7 @@ test_succeeds("PixelCNN distribution works", {
   model$add_loss(-tf$reduce_mean(log_prob))
   model$compile(optimizer=optimizer_adam(lr = .001))
 
-  model %>% fit(train_it, epochs = 1)
+  model %>% fit(train_ds, epochs = 1)
 
   samples <- dist %>% tfd_sample(1, conditional_input = 1)
   expect_equal(dim(samples), c(1, 28, 28, 1))
@@ -1073,6 +1075,8 @@ test_succeeds("PixelCNN distribution works", {
 })
 
 test_succeeds("BetaBinomial distribution works", {
+
+  skip_if_tfp_below("0.10")
 
   d <- tfd_beta_binomial(
     total_count = c(5, 10, 20),

@@ -9,7 +9,10 @@ tfd_transformed_distribution(
   bijector,
   batch_shape = NULL,
   event_shape = NULL,
+ 
+    kwargs_split_fn = tfp$distributions$transformed_distribution$`_default_kwargs_split_fn`,
   validate_args = FALSE,
+  parameters = NULL,
   name = NULL
 )
 }
@@ -24,9 +27,17 @@ valid only if distribution.is_scalar_batch().}
 \item{event_shape}{integer vector Tensor which overrides distribution event_shape;
 valid only if distribution.is_scalar_event().}
 
+\item{kwargs_split_fn}{Python \code{callable} which takes a kwargs \code{dict} and returns
+a tuple of kwargs \code{dict}s for each of the \code{distribution} and \code{bijector}
+parameters respectively. Default value: \verb{_default_kwargs_split_fn} (i.e.,
+\verb{lambda kwargs: (kwargs.get('distribution_kwargs', \{\}), kwargs.get('bijector_kwargs', \{\}))})}
+
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 silently render incorrect outputs. Default value: FALSE.}
+
+\item{parameters}{Locals dict captured by subclass constructor, to be used for
+copy/slice re-instantiation operations.}
 
 \item{name}{The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.}
 }

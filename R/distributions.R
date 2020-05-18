@@ -419,27 +419,37 @@ tfd_relaxed_bernoulli <- function(temperature,
 #' valid only if distribution.is_scalar_batch().
 #' @param event_shape integer vector Tensor which overrides distribution event_shape;
 #' valid only if distribution.is_scalar_event().
+#' @param kwargs_split_fn Python `callable` which takes a kwargs `dict` and returns
+#' a tuple of kwargs `dict`s for each of the `distribution` and `bijector`
+#' parameters respectively. Default value: `_default_kwargs_split_fn` (i.e.,
+#' `lambda kwargs: (kwargs.get('distribution_kwargs', {}), kwargs.get('bijector_kwargs', {}))`)
 #' @param validate_args Logical, default FALSE. When TRUE distribution parameters are checked
 #'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 #'  silently render incorrect outputs. Default value: FALSE.
+#' @param parameters Locals dict captured by subclass constructor, to be used for
+#' copy/slice re-instantiation operations.
 #' @param name The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.
 #' @family distributions
 #' @inherit tfd_normal return
 #' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
-tfd_transformed_distribution <- function(distribution,
-                                         bijector,
-                                         batch_shape = NULL,
-                                         event_shape = NULL,
-                                         validate_args = FALSE,
-                                         name = NULL) {
+tfd_transformed_distribution <- function(
+  distribution,
+  bijector,
+  batch_shape = NULL,
+  event_shape = NULL,
+  kwargs_split_fn = tfp$distributions$transformed_distribution$`_default_kwargs_split_fn`,
+  validate_args = FALSE,
+  parameters = NULL,
+  name = NULL) {
   args <- list(
     distribution = distribution,
     bijector = bijector,
     batch_shape = normalize_shape(batch_shape),
     event_shape = normalize_shape(event_shape),
-    # wrap in tf$TensorShape?
+    kwargs_split_fn = kwargs_split_fn,
     validate_args = validate_args,
+    parameters = parameters,
     name = name
   )
 

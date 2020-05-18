@@ -21,11 +21,12 @@ LazyData: true
 RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 Imports:
-    tensorflow (>= 2.0.0),
+    tensorflow (>= 2.1.0),
     reticulate,
     keras,
     magrittr
 Suggests: 
+    tfdatasets,
     testthat (>= 2.1.0),
     knitr
 VignetteBuilder: knitr

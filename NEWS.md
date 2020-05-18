@@ -1,7 +1,9 @@
 ## 0.10.0.0 (master)
 
-- new distributions:
-   - tfd_beta_binomial
+- changes in distributions:
+   - added: tfd_beta_binomial
+   - changes to parameter list: tfd_transformed_distribution
+   
 
 ## 0.9.0.0 (CRAN)
 
