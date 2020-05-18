@@ -1033,13 +1033,15 @@ test_succeeds("PixelCNN distribution works", {
 
   image_preprocess <- function(x) {
     x$image <- tf$cast(x$image, tf$float32)
+    x$label <- tf$cast(x$label, tf$float32)
     list(tuple(x$image, x$label))
   }
 
-  batch_size <- 16
-  train_it <- train_data %>% dataset_map(image_preprocess) %>%
-    dataset_batch(batch_size) %>%
-    dataset_shuffle(1000)
+  batch_size <- 100
+  train_it <- train_data %>%
+    dataset_take(100) %>%
+    dataset_map(image_preprocess) %>%
+    dataset_batch(batch_size)
 
   dist <- tfd_pixel_cnn(
     image_shape = c(28, 28, 1),
@@ -1060,13 +1062,12 @@ test_succeeds("PixelCNN distribution works", {
   model$compile(optimizer=optimizer_adam(lr = .001))
 
   model %>% fit(train_it, epochs = 1)
-  model$fit(train_it, epochs = 1L)
 
   samples <- dist %>% tfd_sample(1, conditional_input = 1)
 
-  img <- samples[1, , , 1]
-  img <- t(apply(img, 2, rev))
-  image(1:28, 1:28, img, col = gray((0:255)/255), xaxt = 'n', yaxt = 'n')
+  #img <- samples[1, , , 1]
+  #img <- t(apply(img, 2, rev))
+  #image(1:28, 1:28, img, col = gray((0:255)/255), xaxt = 'n', yaxt = 'n')
 
 })
 
