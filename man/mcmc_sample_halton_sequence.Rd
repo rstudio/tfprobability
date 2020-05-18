@@ -4,9 +4,15 @@
 \alias{mcmc_sample_halton_sequence}
 \title{Returns a sample from the \code{dim} dimensional Halton sequence.}
 \usage{
-mcmc_sample_halton_sequence(dim, num_results = NULL,
-  sequence_indices = NULL, dtype = tf$float32, randomized = TRUE,
-  seed = NULL, name = NULL)
+mcmc_sample_halton_sequence(
+  dim,
+  num_results = NULL,
+  sequence_indices = NULL,
+  dtype = tf$float32,
+  randomized = TRUE,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{dim}{Positive \code{integer} representing each sample's \code{event_size.} Must
@@ -20,7 +26,7 @@ is determined by the \code{sequence_indices}. Default value: \code{NULL}.}
 \item{sequence_indices}{(Optional) \code{Tensor} of dtype int32 and rank 1. The
 elements of the sequence to compute specified by their position in the
 sequence. The entries index into the Halton sequence starting with 0 and
-hence, must be whole numbers. For example, sequence_indices=\code{[0, 5, 6]} will
+hence, must be whole numbers. For example, sequence_indices=\verb{[0, 5, 6]} will
 produce the first, sixth and seventh elements of the sequence. If this
 parameter is None, then the \code{num_results} parameter must be specified
 which gives the number of desired samples starting from the first sample.
@@ -42,8 +48,8 @@ not supplied the name of this function is used. Default value: "sample_halton_se
 }
 \value{
 halton_elements Elements of the Halton sequence. \code{Tensor} of supplied dtype
-and \code{shape} \code{[num_results, dim]} if \code{num_results} was specified or shape
-\code{[s, dim]} where s is the size of \code{sequence_indices} if \code{sequence_indices}
+and \code{shape} \verb{[num_results, dim]} if \code{num_results} was specified or shape
+\verb{[s, dim]} where s is the size of \code{sequence_indices} if \code{sequence_indices}
 were specified.
 }
 \description{
@@ -60,8 +66,8 @@ Computes the members of the low discrepancy Halton sequence in dimension
 \code{dim}. The \code{dim}-dimensional sequence takes values in the unit hypercube in
 \code{dim} dimensions. Currently, only dimensions up to 1000 are supported. The
 prime base for the k-th axes is the k-th prime starting from 2. For example,
-if \code{dim} = 3, then the bases will be \code{[2, 3, 5]} respectively and the first
-element of the non-randomized sequence will be: \code{[0.5, 0.333, 0.2]}. For a more
+if \code{dim} = 3, then the bases will be \verb{[2, 3, 5]} respectively and the first
+element of the non-randomized sequence will be: \verb{[0.5, 0.333, 0.2]}. For a more
 complete description of the Halton sequences see
 \href{https://en.wikipedia.org/wiki/Halton_sequence}{here}. For low discrepancy
 sequences and their applications see
@@ -83,16 +89,17 @@ equivalent to specifying n=10.
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1706.02808}{Art B. Owen. A randomized Halton algorithm in R. arXiv preprint arXiv:1706.02808, 2017.}
+\item \href{https://arxiv.org/abs/1706.02808}{Art B. Owen. A randomized Halton algorithm in R. \emph{arXiv preprint arXiv:1706.02808}, 2017.}
 }
 }
 
 \seealso{
 For an example how to use see \code{\link[=mcmc_sample_chain]{mcmc_sample_chain()}}.
 
-Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
-  \code{\link{mcmc_potential_scale_reduction}},
-  \code{\link{mcmc_sample_annealed_importance_chain}},
-  \code{\link{mcmc_sample_chain}}
+Other mcmc_functions: 
+\code{\link{mcmc_effective_sample_size}()},
+\code{\link{mcmc_potential_scale_reduction}()},
+\code{\link{mcmc_sample_annealed_importance_chain}()},
+\code{\link{mcmc_sample_chain}()}
 }
 \concept{mcmc_functions}

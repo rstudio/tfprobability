@@ -40,23 +40,24 @@ with transition kernels \code{mcmc_hamiltonian_monte_carlo}, \code{mcmc_random_w
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1412.5492}{Matthew Parno and Youssef Marzouk. Transport map accelerated Markov chain Monte Carlo. arXiv preprint arXiv:1412.5492, 2014.}
-\item \href{https://doi.org/10.1111/j.1467-9868.2010.00765.x}{Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In Journal of the Royal Statistical Society, 2011.}
+\item \href{https://arxiv.org/abs/1412.5492}{Matthew Parno and Youssef Marzouk. Transport map accelerated Markov chain Monte Carlo. \emph{arXiv preprint arXiv:1412.5492}, 2014.}
+\item \href{https://doi.org/10.1111/j.1467-9868.2010.00765.x}{Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In \emph{Journal of the Royal Statistical Society}, 2011.}
 }
 }
 
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
-  \code{\link{mcmc_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_no_u_turn_sampler}},
-  \code{\link{mcmc_random_walk_metropolis}},
-  \code{\link{mcmc_replica_exchange_mc}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_langevin}},
-  \code{\link{mcmc_uncalibrated_random_walk}}
+Other mcmc_kernels: 
+\code{\link{mcmc_dual_averaging_step_size_adaptation}()},
+\code{\link{mcmc_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_no_u_turn_sampler}()},
+\code{\link{mcmc_random_walk_metropolis}()},
+\code{\link{mcmc_replica_exchange_mc}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_langevin}()},
+\code{\link{mcmc_uncalibrated_random_walk}()}
 }
 \concept{mcmc_kernels}

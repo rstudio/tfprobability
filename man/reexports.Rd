@@ -15,7 +15,7 @@ a alias for tensorflow::shape
 
 a alias for tensorflow::tf_config
 
-a alias for magrittr::\code{\%>\%}
+a alias for magrittr::\verb{\%>\%}
 }
 \keyword{internal}
 \description{
@@ -25,6 +25,6 @@ below to see their documentation.
 \describe{
   \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
 
-  \item{tensorflow}{\code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{shape}}, \code{\link[tensorflow]{tf_config}}}
+  \item{tensorflow}{\code{\link[tensorflow]{shape}}, \code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{tf_config}}}
 }}
 

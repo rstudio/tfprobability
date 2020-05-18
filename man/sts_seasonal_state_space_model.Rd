@@ -4,10 +4,18 @@
 \alias{sts_seasonal_state_space_model}
 \title{State space model for a seasonal effect.}
 \usage{
-sts_seasonal_state_space_model(num_timesteps, num_seasons, drift_scale,
-  initial_state_prior, observation_noise_scale = 0,
-  num_steps_per_season = 1, initial_step = 0, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = NULL)
+sts_seasonal_state_space_model(
+  num_timesteps,
+  num_seasons,
+  drift_scale,
+  initial_state_prior,
+  observation_noise_scale = 0,
+  num_steps_per_season = 1,
+  initial_step = 0,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = NULL
+)
 }
 \arguments{
 \item{num_timesteps}{Scalar \code{integer} \code{tensor} number of timesteps to model
@@ -22,17 +30,17 @@ This is assumed to be the same for all seasons.}
 
 \item{initial_state_prior}{instance of \code{tfd_multivariate_normal}
 representing the prior distribution on latent states; must
-have event shape \code{[num_seasons]}.}
+have event shape \verb{[num_seasons]}.}
 
 \item{observation_noise_scale}{Scalar (any additional dimensions are
 treated as batch dimensions) \code{float} \code{tensor} indicating the standard
 deviation of the observation noise.}
 
 \item{num_steps_per_season}{\code{integer} number of steps in each
-season. This may be either a scalar (shape \code{[]}), in which case all
-seasons have the same length, or an array of shape \code{[num_seasons]},
+season. This may be either a scalar (shape \verb{[]}), in which case all
+seasons have the same length, or an array of shape \verb{[num_seasons]},
 in which seasons have different length, but remain constant around
-different cycles, or an array of shape \code{[num_cycles, num_seasons]},
+different cycles, or an array of shape \verb{[num_cycles, num_seasons]},
 in which num_steps_per_season for each season also varies in different
 cycle (e.g., a 4 years cycle with leap day). Default value: 1.}
 
@@ -95,7 +103,7 @@ transition_noise[t] ~ Normal(loc=0., scale_diag=(
                       else [0, 0, ..., 0]))
 }
 
-where \code{season_is_changing(t)} is \code{True} if \code{t `mod` sum(num_steps_per_season)} is in
+where \code{season_is_changing(t)} is \code{True} if \verb{t `mod` sum(num_steps_per_season)} is in
 the set of final days for each season, given by \code{cumsum(num_steps_per_season) - 1}.
 The observation model always picks out the effect for the current season, i.e.,
 the first element of the latent state:\preformatted{observation_matrix = [[1., 0., ..., 0.]]
@@ -103,23 +111,24 @@ observation_noise ~ Normal(loc=0, scale=observation_noise_scale)
 }
 }
 \seealso{
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_smooth_seasonal}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

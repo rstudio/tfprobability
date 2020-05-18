@@ -4,19 +4,25 @@
 \alias{vi_monte_carlo_variational_loss}
 \title{Monte-Carlo approximation of an f-Divergence variational loss}
 \usage{
-vi_monte_carlo_variational_loss(target_log_prob_fn, surrogate_posterior,
-  sample_size = 1, discrepancy_fn = vi_kl_reverse,
-  use_reparametrization = NULL, seed = NULL, name = NULL)
+vi_monte_carlo_variational_loss(
+  target_log_prob_fn,
+  surrogate_posterior,
+  sample_size = 1,
+  discrepancy_fn = vi_kl_reverse,
+  use_reparametrization = NULL,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{target_log_prob_fn}{function that takes a set of \code{Tensor} arguments
 and returns a \code{Tensor} log-density. Given
 \code{q_sample <- surrogate_posterior$sample(sample_size)}, this
 will be (in Python) called as \code{target_log_prob_fn(q_sample)} if \code{q_sample} is a list
-or a tuple, \code{target_log_prob_fn(**q_sample)} if \code{q_sample} is a
+or a tuple, \verb{target_log_prob_fn(**q_sample)} if \code{q_sample} is a
 dictionary, or \code{target_log_prob_fn(q_sample)} if \code{q_sample} is a \code{Tensor}.
 It should support batched evaluation, i.e., should return a result of
-shape \code{[sample_size]}.}
+shape \verb{[sample_size]}.}
 
 \item{surrogate_posterior}{A \code{tfp$distributions$Distribution}
 instance defining a variational posterior (could be a
@@ -59,7 +65,7 @@ data, minimizing the loss with respect to the parameters of
 }
 \details{
 This function defines divergences of the form
-\code{E_q[discrepancy_fn(log p(z) - log q(z))]}, sometimes known as
+\verb{E_q[discrepancy_fn(log p(z) - log q(z))]}, sometimes known as
 \href{https://en.wikipedia.org/wiki/F-divergence}{f-divergences}.
 
 In the special case \code{discrepancy_fn(logu) == -logu} (the default
@@ -71,22 +77,22 @@ total variation distance, Amari alpha-divergences, and more.
 
 Csiszar f-divergences
 
-A Csiszar function \code{f} is a convex function from \code{R^+} (the positive reals)
-to \code{R}. The Csiszar f-Divergence is given by:\preformatted{D_f[p(X), q(X)] := E_{q(X)}[ f( p(X) / q(X) ) ]
+A Csiszar function \code{f} is a convex function from \verb{R^+} (the positive reals)
+to \code{R}. The Csiszar f-Divergence is given by:\preformatted{D_f[p(X), q(X)] := E_\{q(X)\}[ f( p(X) / q(X) ) ]
 ~= m**-1 sum_j^m f( p(x_j) / q(x_j) ),
 where x_j ~iid q(X)
 }
 
-For example, \code{f = lambda u: -log(u)} recovers \code{KL[q||p]}, while \code{f = lambda u: u * log(u)}
+For example, \verb{f = lambda u: -log(u)} recovers \code{KL[q||p]}, while \verb{f = lambda u: u * log(u)}
 recovers the forward \code{KL[p||q]}. These and other functions are available in \code{tfp$vi}.
 
 Tricks: Reparameterization and Score-Gradient
 
 When q is "reparameterized", i.e., a diffeomorphic transformation of a
-parameterless distribution (e.g., \code{Normal(Y; m, s) <=> Y = sX + m, X ~ Normal(0,1)}),
+parameterless distribution (e.g., \verb{Normal(Y; m, s) <=> Y = sX + m, X ~ Normal(0,1)}),
 we can swap gradient and expectation, i.e.,
-\code{grad[Avg{ s_i : i=1...n }] = Avg{ grad[s_i] : i=1...n }} where \code{S_n=Avg{s_i}}
-and \code{s_i = f(x_i), x_i ~iid q(X)}.
+\verb{grad[Avg\{ s_i : i=1...n \}] = Avg\{ grad[s_i] : i=1...n \}} where \verb{S_n=Avg\{s_i\}}
+and \verb{s_i = f(x_i), x_i ~iid q(X)}.
 
 However, if q is not reparameterized, TensorFlow's gradient will be incorrect
 since the chain-rule stops at samples of unreparameterized distributions. In
@@ -105,13 +111,13 @@ usually preferable to set \code{use_reparametrization = True}.
 
 Example Application:
 The Csiszar f-Divergence is a useful framework for variational inference.
-I.e., observe that,\preformatted{f(p(x)) =  f( E_{q(Z | x)}[ p(x, Z) / q(Z | x) ] )
-        <= E_{q(Z | x)}[ f( p(x, Z) / q(Z | x) ) ]
+I.e., observe that,\preformatted{f(p(x)) =  f( E_\{q(Z | x)\}[ p(x, Z) / q(Z | x) ] )
+        <= E_\{q(Z | x)\}[ f( p(x, Z) / q(Z | x) ) ]
         := D_f[p(x, Z), q(Z | x)]
 }
 
 The inequality follows from the fact that the "perspective" of \code{f}, i.e.,
-\code{(s, t) |-> t f(s / t))}, is convex in \code{(s, t)} when \code{s/t in domain(f)} and
+\verb{(s, t) |-> t f(s / t))}, is convex in \verb{(s, t)} when \verb{s/t in domain(f)} and
 \code{t} is a real. Since the above framework includes the popular Evidence Lower
 BOund (ELBO) as a special case, i.e., \code{f(u) = -log(u)}, we call this framework
 "Evidence Divergence Bound Optimization" (EDBO).
@@ -125,18 +131,21 @@ Journal of the Royal Statistical Society: Series B (Methodological) 28.1 (1966):
 }
 
 \seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_chi_square}},
-  \code{\link{vi_csiszar_vimco}},
-  \code{\link{vi_dual_csiszar_function}},
-  \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_jeffreys}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_log1p_abs}},
-  \code{\link{vi_modified_gan}}, \code{\link{vi_pearson}},
-  \code{\link{vi_squared_hellinger}},
-  \code{\link{vi_symmetrized_csiszar_function}}
+Other vi-functions: 
+\code{\link{vi_amari_alpha}()},
+\code{\link{vi_arithmetic_geometric}()},
+\code{\link{vi_chi_square}()},
+\code{\link{vi_csiszar_vimco}()},
+\code{\link{vi_dual_csiszar_function}()},
+\code{\link{vi_fit_surrogate_posterior}()},
+\code{\link{vi_jeffreys}()},
+\code{\link{vi_jensen_shannon}()},
+\code{\link{vi_kl_forward}()},
+\code{\link{vi_kl_reverse}()},
+\code{\link{vi_log1p_abs}()},
+\code{\link{vi_modified_gan}()},
+\code{\link{vi_pearson}()},
+\code{\link{vi_squared_hellinger}()},
+\code{\link{vi_symmetrized_csiszar_function}()}
 }
 \concept{vi-functions}

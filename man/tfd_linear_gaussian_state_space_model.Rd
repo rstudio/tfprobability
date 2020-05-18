@@ -4,41 +4,49 @@
 \alias{tfd_linear_gaussian_state_space_model}
 \title{Observation distribution from a linear Gaussian state space model}
 \usage{
-tfd_linear_gaussian_state_space_model(num_timesteps, transition_matrix,
-  transition_noise, observation_matrix, observation_noise,
-  initial_state_prior, initial_step = 0L, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = "LinearGaussianStateSpaceModel")
+tfd_linear_gaussian_state_space_model(
+  num_timesteps,
+  transition_matrix,
+  transition_noise,
+  observation_matrix,
+  observation_noise,
+  initial_state_prior,
+  initial_step = 0L,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "LinearGaussianStateSpaceModel"
+)
 }
 \arguments{
 \item{num_timesteps}{Integer \code{Tensor} total number of timesteps.}
 
 \item{transition_matrix}{A transition operator, represented by a Tensor or
-LinearOperator of shape \code{[latent_size, latent_size]}, or by a
+LinearOperator of shape \verb{[latent_size, latent_size]}, or by a
 callable taking as argument a scalar integer Tensor \code{t} and
 returning a Tensor or LinearOperator representing the transition
 operator from latent state at time \code{t} to time \code{t + 1}.}
 
 \item{transition_noise}{An instance of
 \code{tfd$MultivariateNormalLinearOperator} with event shape
-\code{[latent_size]}, representing the mean and covariance of the
+\verb{[latent_size]}, representing the mean and covariance of the
 transition noise model, or a callable taking as argument a
 scalar integer Tensor \code{t} and returning such a distribution
 representing the noise in the transition from time \code{t} to time \code{t + 1}.}
 
 \item{observation_matrix}{An observation operator, represented by a Tensor
-or LinearOperator of shape \code{[observation_size, latent_size]},
+or LinearOperator of shape \verb{[observation_size, latent_size]},
 or by a callable taking as argument a scalar integer Tensor
 \code{t} and returning a timestep-specific Tensor or LinearOperator.}
 
 \item{observation_noise}{An instance of \code{tfd.MultivariateNormalLinearOperator}
-with event shape \code{[observation_size]}, representing the mean and covariance of
+with event shape \verb{[observation_size]}, representing the mean and covariance of
 the observation noise model, or a callable taking as argument
 a scalar integer Tensor \code{t} and returning a timestep-specific
 noise model.}
 
 \item{initial_state_prior}{An instance of \code{MultivariateNormalLinearOperator}
 representing the prior distribution on latent states; must
-have event shape \code{[latent_size]}.}
+have event shape \verb{[latent_size]}.}
 
 \item{initial_step}{optional \code{integer} specifying the time of the first
 modeled timestep.  This is added as an offset when passing
@@ -62,10 +70,10 @@ a distribution instance.
 The state space model, sometimes called a Kalman filter, posits a
 latent state vector \code{z_t} of dimension \code{latent_size} that evolves
 over time following linear Gaussian transitions,
-\code{z_{t+1} = F * z_t + N(b; Q)}
+\verb{z_\{t+1\} = F * z_t + N(b; Q)}
 for transition matrix \code{F}, bias \code{b} and covariance matrix
 \code{Q}. At each timestep, we observe a noisy projection of the
-latent state \code{x_t = H * z_t + N(c; R)}. The transition and
+latent state \verb{x_t = H * z_t + N(c; R)}. The transition and
 observation models may be fixed or may vary between timesteps.
 }
 \details{
@@ -77,7 +85,7 @@ number of timesteps.
 
 Shapes
 
-The event shape is \code{[num_timesteps, observation_size]}, where
+The event shape is \verb{[num_timesteps, observation_size]}, where
 \code{observation_size} is the dimension of each observation \code{x_t}.
 The observation and transition models must return consistent
 shapes.
@@ -98,15 +106,15 @@ Importantly, the timestep is passed as a \code{Tensor}, not a Python
 integer, so any conditional behavior must occur \emph{inside} the
 TensorFlow graph. For example, suppose we want to use a different
 transition model on even days than odd days. It does \emph{not} work to
-write\preformatted{transition_matrix <- function(t) {
+write\preformatted{transition_matrix <- function(t) \{
 if(t \%\% 2 == 0) even_day_matrix else odd_day_matrix
-}
+\}
 }
 
 since the value of \code{t} is not fixed at graph-construction
-time. Instead we need to write\preformatted{transition_matrix <- function(t) {
+time. Instead we need to write\preformatted{transition_matrix <- function(t) \{
 tf$cond(tf$equal(tf$mod(t, 2), 0), function() even_day_matrix, function() odd_day_matrix)
-}
+\}
 }
 
 so that TensorFlow can switch between operators appropriately at runtime.
@@ -114,70 +122,83 @@ so that TensorFlow can switch between operators appropriately at runtime.
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

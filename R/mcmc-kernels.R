@@ -199,7 +199,7 @@ mcmc_uncalibrated_hamiltonian_monte_carlo <-
 #' outputs.
 #' @param name string prefixed to Ops created by this class. Default: "simple_step_size_adaptation".
 #'
-#' @inherit mcmc_hamiltonian_monte_carlo return params
+#' @inherit mcmc_hamiltonian_monte_carlo return
 #'
 #' @family mcmc_kernels
 #' @examples
@@ -419,7 +419,7 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
 #' @param  name string prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., "transformed_kernel").
 #'
-#' @inherit mcmc_hamiltonian_monte_carlo return params
+#' @inherit mcmc_hamiltonian_monte_carlo return
 #'
 #' @family mcmc_kernels
 #' @export
@@ -532,7 +532,7 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
 #' @param name name prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., 'dual_averaging_step_size_adaptation').
 #'
-#' @inherit mcmc_hamiltonian_monte_carlo return params
+#' @inherit mcmc_hamiltonian_monte_carlo return
 #'
 #' @family mcmc_kernels
 #' @seealso For an example how to use see [mcmc_no_u_turn_sampler()].
@@ -643,7 +643,7 @@ mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
 #' @param name name prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., 'nuts_kernel').
 #'
-#' @inherit mcmc_hamiltonian_monte_carlo return params
+#' @inherit mcmc_hamiltonian_monte_carlo return
 #'
 #' @family mcmc_kernels
 #' @examples

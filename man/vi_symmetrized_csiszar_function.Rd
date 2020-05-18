@@ -18,22 +18,22 @@ symmetrized_g_of_u: \code{float}-like \code{Tensor} of the result of applying th
 symmetrization of \code{g} evaluated at \code{u = exp(logu)}.
 }
 \description{
-A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
 The symmetrized Csiszar-function is defined as:\preformatted{f_g(u) = 0.5 g(u) + 0.5 u g (1 / u)
 }
 
 where \code{g} is some other Csiszar-function.
-We say the function is "symmetrized" because:\preformatted{D_{f_g}[p, q] = D_{f_g}[q, p]
+We say the function is "symmetrized" because:\preformatted{D_\{f_g\}[p, q] = D_\{f_g\}[q, p]
 }
 
-for all \code{p << >> q} (i.e., \code{support(p) = support(q)}).
+for all \verb{p << >> q} (i.e., \code{support(p) = support(q)}).
 
 There exists alternatives for symmetrizing a Csiszar-function. For example,\preformatted{f_g(u) = max(f(u), f^*(u)),
 }
 
-where \code{f^*} is the dual Csiszar-function, also implies a symmetric
+where \verb{f^*} is the dual Csiszar-function, also implies a symmetric
 f-Divergence.
 
 Example:
@@ -47,22 +47,24 @@ implies,\preformatted{f_g(u) = f_h(u) = u log(u) - (1 + u) log((1 + u) / 2)
 }
 
 Warning: this function makes non-log-space calculations and may therefore be
-numerically unstable for \code{|logu| >> 0}.
+numerically unstable for \verb{|logu| >> 0}.
 }
 \seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_chi_square}},
-  \code{\link{vi_csiszar_vimco}},
-  \code{\link{vi_dual_csiszar_function}},
-  \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_jeffreys}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_log1p_abs}},
-  \code{\link{vi_modified_gan}},
-  \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_pearson}},
-  \code{\link{vi_squared_hellinger}}
+Other vi-functions: 
+\code{\link{vi_amari_alpha}()},
+\code{\link{vi_arithmetic_geometric}()},
+\code{\link{vi_chi_square}()},
+\code{\link{vi_csiszar_vimco}()},
+\code{\link{vi_dual_csiszar_function}()},
+\code{\link{vi_fit_surrogate_posterior}()},
+\code{\link{vi_jeffreys}()},
+\code{\link{vi_jensen_shannon}()},
+\code{\link{vi_kl_forward}()},
+\code{\link{vi_kl_reverse}()},
+\code{\link{vi_log1p_abs}()},
+\code{\link{vi_modified_gan}()},
+\code{\link{vi_monte_carlo_variational_loss}()},
+\code{\link{vi_pearson}()},
+\code{\link{vi_squared_hellinger}()}
 }
 \concept{vi-functions}

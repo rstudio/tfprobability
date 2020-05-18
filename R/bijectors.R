@@ -257,7 +257,7 @@ tfb_batch_normalization <- function(batchnorm_layer = NULL,
 #' @param validate_args Logical indicating whether arguments should be checked for correctness.
 #' @param name String, name given to ops managed by this object. Default:
 #' E.g., `tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of_exp_and_softplus'`.
-#' @inherit tfb_identity return params
+#' @inherit tfb_identity return
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
@@ -282,7 +282,7 @@ tfb_blockwise <- function(bijectors,
 #' @param validate_args Logical indicating whether arguments should be checked for correctness.
 #' @param name String, name given to ops managed by this object. Default:
 #' E.g., `tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"`.
-#' @inherit tfb_identity return params
+#' @inherit tfb_identity return
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export

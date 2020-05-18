@@ -4,8 +4,12 @@
 \alias{layer_distribution_lambda}
 \title{Keras layer enabling plumbing TFP distributions through Keras models}
 \usage{
-layer_distribution_lambda(object, make_distribution_fn,
-  convert_to_tensor_fn = tfp$distributions$Distribution$sample, ...)
+layer_distribution_lambda(
+  object,
+  make_distribution_fn,
+  convert_to_tensor_fn = tfp$distributions$Distribution$sample,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -26,17 +30,18 @@ Keras layer enabling plumbing TFP distributions through Keras models
 \seealso{
 For an example how to use in a Keras model, see \code{\link[=layer_independent_normal]{layer_independent_normal()}}.
 
-Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
-  \code{\link{layer_independent_bernoulli}},
-  \code{\link{layer_independent_logistic}},
-  \code{\link{layer_independent_normal}},
-  \code{\link{layer_independent_poisson}},
-  \code{\link{layer_kl_divergence_add_loss}},
-  \code{\link{layer_kl_divergence_regularizer}},
-  \code{\link{layer_mixture_logistic}},
-  \code{\link{layer_mixture_normal}},
-  \code{\link{layer_mixture_same_family}},
-  \code{\link{layer_multivariate_normal_tri_l}},
-  \code{\link{layer_one_hot_categorical}}
+Other distribution_layers: 
+\code{\link{layer_categorical_mixture_of_one_hot_categorical}()},
+\code{\link{layer_independent_bernoulli}()},
+\code{\link{layer_independent_logistic}()},
+\code{\link{layer_independent_normal}()},
+\code{\link{layer_independent_poisson}()},
+\code{\link{layer_kl_divergence_add_loss}()},
+\code{\link{layer_kl_divergence_regularizer}()},
+\code{\link{layer_mixture_logistic}()},
+\code{\link{layer_mixture_normal}()},
+\code{\link{layer_mixture_same_family}()},
+\code{\link{layer_multivariate_normal_tri_l}()},
+\code{\link{layer_one_hot_categorical}()}
 }
 \concept{distribution_layers}

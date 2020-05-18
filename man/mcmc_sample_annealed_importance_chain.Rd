@@ -4,9 +4,15 @@
 \alias{mcmc_sample_annealed_importance_chain}
 \title{Runs annealed importance sampling (AIS) to estimate normalizing constants.}
 \usage{
-mcmc_sample_annealed_importance_chain(num_steps, proposal_log_prob_fn,
-  target_log_prob_fn, current_state, make_kernel_fn,
-  parallel_iterations = 10, name = NULL)
+mcmc_sample_annealed_importance_chain(
+  num_steps,
+  proposal_log_prob_fn,
+  target_log_prob_fn,
+  current_state,
+  make_kernel_fn,
+  parallel_iterations = 10,
+  name = NULL
+)
 }
 \arguments{
 \item{num_steps}{Integer number of Markov chain updates to run. More
@@ -23,7 +29,7 @@ initial distribution.}
 
 \item{current_state}{\code{Tensor} or \code{list} of \code{Tensor}s representing the
 current state(s) of the Markov chain(s). The first \code{r} dimensions index
-independent chains, \code{r = tf$rank(target_log_prob_fn(current_state))}.}
+independent chains, \code{r} = \code{tf$rank(target_log_prob_fn(current_state))}.}
 
 \item{make_kernel_fn}{function which returns a \code{TransitionKernel}-like
 object. Must take one argument representing the \code{TransitionKernel}'s
@@ -71,9 +77,10 @@ reduced to two times in the future).
 \seealso{
 For an example how to use see \code{\link[=mcmc_sample_chain]{mcmc_sample_chain()}}.
 
-Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
-  \code{\link{mcmc_potential_scale_reduction}},
-  \code{\link{mcmc_sample_chain}},
-  \code{\link{mcmc_sample_halton_sequence}}
+Other mcmc_functions: 
+\code{\link{mcmc_effective_sample_size}()},
+\code{\link{mcmc_potential_scale_reduction}()},
+\code{\link{mcmc_sample_chain}()},
+\code{\link{mcmc_sample_halton_sequence}()}
 }
 \concept{mcmc_functions}

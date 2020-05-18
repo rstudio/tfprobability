@@ -2,10 +2,14 @@
 % Please edit documentation in R/sts-functions.R
 \name{sts_sample_uniform_initial_state}
 \alias{sts_sample_uniform_initial_state}
-\title{Initialize from a uniform \code{[-2, 2]} distribution in unconstrained space.}
+\title{Initialize from a uniform \verb{[-2, 2]} distribution in unconstrained space.}
 \usage{
-sts_sample_uniform_initial_state(parameter, return_constrained = TRUE,
-  init_sample_shape = list(), seed = NULL)
+sts_sample_uniform_initial_state(
+  parameter,
+  return_constrained = TRUE,
+  init_sample_shape = list(),
+  seed = NULL
+)
 }
 \arguments{
 \item{parameter}{\code{sts$Parameter} named tuple instance.}
@@ -22,21 +26,22 @@ Default value: \code{list()}.}
 }
 \value{
 uniform_initializer \code{Tensor} of shape
-\code{concat([init_sample_shape, parameter.prior.batch_shape, transformed_event_shape])}, where
+\verb{concat([init_sample_shape, parameter.prior.batch_shape, transformed_event_shape])}, where
 \code{transformed_event_shape} is \code{parameter.prior.event_shape}, if
 \code{return_constrained=TRUE}, and otherwise it is
 \code{parameter$bijector$inverse_event_shape(parameter$prior$event_shape)}.
 }
 \description{
-Initialize from a uniform \code{[-2, 2]} distribution in unconstrained space.
+Initialize from a uniform \verb{[-2, 2]} distribution in unconstrained space.
 }
 \seealso{
-Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},
-  \code{\link{sts_build_factored_variational_loss}},
-  \code{\link{sts_decompose_by_component}},
-  \code{\link{sts_decompose_forecast_by_component}},
-  \code{\link{sts_fit_with_hmc}},
-  \code{\link{sts_forecast}},
-  \code{\link{sts_one_step_predictive}}
+Other sts-functions: 
+\code{\link{sts_build_factored_surrogate_posterior}()},
+\code{\link{sts_build_factored_variational_loss}()},
+\code{\link{sts_decompose_by_component}()},
+\code{\link{sts_decompose_forecast_by_component}()},
+\code{\link{sts_fit_with_hmc}()},
+\code{\link{sts_forecast}()},
+\code{\link{sts_one_step_predictive}()}
 }
 \concept{sts-functions}

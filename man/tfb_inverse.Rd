@@ -28,8 +28,9 @@ Returns the inverse Bijector evaluation, i.e., \code{X = g^{-1}(Y)}.
 }
 }
 \seealso{
-Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},
-  \code{\link{tfb_forward}},
-  \code{\link{tfb_inverse_log_det_jacobian}}
+Other bijector_methods: 
+\code{\link{tfb_forward_log_det_jacobian}()},
+\code{\link{tfb_forward}()},
+\code{\link{tfb_inverse_log_det_jacobian}()}
 }
 \concept{bijector_methods}

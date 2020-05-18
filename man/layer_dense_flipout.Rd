@@ -4,16 +4,23 @@
 \alias{layer_dense_flipout}
 \title{Densely-connected layer class with Flipout estimator.}
 \usage{
-layer_dense_flipout(object, units, activation = NULL,
-  activity_regularizer = NULL, trainable = TRUE,
+layer_dense_flipout(
+  object,
+  units,
+  activation = NULL,
+  activity_regularizer = NULL,
+  trainable = TRUE,
   kernel_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(),
   kernel_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
   kernel_prior_fn = tfp$layers$util$default_multivariate_normal_fn,
   kernel_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
-  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular
-  = TRUE), bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
-  bias_prior_fn = NULL, bias_divergence_fn = function(q, p, ignore)
-  tfd_kl_divergence(q, p), seed = NULL, ...)
+  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular = TRUE),
+  bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
+  bias_prior_fn = NULL,
+  bias_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
+  seed = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -92,21 +99,22 @@ you should pass \code{kl / num_examples_per_epoch} to your optimizer).
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1803.04386}{Yeming Wen, Paul Vicol, Jimmy Ba, Dustin Tran, and Roger Grosse. Flipout: Efficient Pseudo-Independent Weight Perturbations on Mini-Batches. In International Conference on Learning Representations, 2018.}
+\item \href{https://arxiv.org/abs/1803.04386}{Yeming Wen, Paul Vicol, Jimmy Ba, Dustin Tran, and Roger Grosse. Flipout: Efficient Pseudo-Independent Weight Perturbations on Mini-Batches. In \emph{International Conference on Learning Representations}, 2018.}
 }
 }
 
 \seealso{
-Other layers: \code{\link{layer_autoregressive}},
-  \code{\link{layer_conv_1d_flipout}},
-  \code{\link{layer_conv_1d_reparameterization}},
-  \code{\link{layer_conv_2d_flipout}},
-  \code{\link{layer_conv_2d_reparameterization}},
-  \code{\link{layer_conv_3d_flipout}},
-  \code{\link{layer_conv_3d_reparameterization}},
-  \code{\link{layer_dense_local_reparameterization}},
-  \code{\link{layer_dense_reparameterization}},
-  \code{\link{layer_dense_variational}},
-  \code{\link{layer_variable}}
+Other layers: 
+\code{\link{layer_autoregressive}()},
+\code{\link{layer_conv_1d_flipout}()},
+\code{\link{layer_conv_1d_reparameterization}()},
+\code{\link{layer_conv_2d_flipout}()},
+\code{\link{layer_conv_2d_reparameterization}()},
+\code{\link{layer_conv_3d_flipout}()},
+\code{\link{layer_conv_3d_reparameterization}()},
+\code{\link{layer_dense_local_reparameterization}()},
+\code{\link{layer_dense_reparameterization}()},
+\code{\link{layer_dense_variational}()},
+\code{\link{layer_variable}()}
 }
 \concept{layers}

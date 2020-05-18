@@ -14,14 +14,14 @@ tfd_kl_divergence(distribution, other, name = "kl_divergence")
 \item{name}{String prepended to names of ops created by this function.}
 }
 \value{
-self$dtype Tensor with shape \code{[B1, ..., Bn]} representing n different calculations
+self$dtype Tensor with shape \verb{[B1, ..., Bn]} representing n different calculations
 of the Kullback-Leibler divergence.
 }
 \description{
 Denote this distribution by p and the other distribution by q.
 Assuming p, q are absolutely continuous with respect to reference measure r,
 the KL divergence is defined as:
-\code{KL[p, q] = E_p[log(p(X)/q(X))] = -int_F p(x) log q(x) dr(x) + int_F p(x) log p(x) dr(x) = H[p, q] - H[p]}
+\verb{KL[p, q] = E_p[log(p(X)/q(X))] = -int_F p(x) log q(x) dr(x) + int_F p(x) log p(x) dr(x) = H[p, q] - H[p]}
 where F denotes the support of the random variable \code{X ~ p}, \code{H[., .]}
 denotes (Shannon) cross entropy, and \code{H[.]} denotes (Shannon) entropy.
 }
@@ -33,16 +33,21 @@ denotes (Shannon) cross entropy, and \code{H[.]} denotes (Shannon) entropy.
 }
 }
 \seealso{
-Other distribution_methods: \code{\link{tfd_cdf}},
-  \code{\link{tfd_covariance}},
-  \code{\link{tfd_cross_entropy}},
-  \code{\link{tfd_entropy}}, \code{\link{tfd_log_cdf}},
-  \code{\link{tfd_log_prob}},
-  \code{\link{tfd_log_survival_function}},
-  \code{\link{tfd_mean}}, \code{\link{tfd_mode}},
-  \code{\link{tfd_prob}}, \code{\link{tfd_quantile}},
-  \code{\link{tfd_sample}}, \code{\link{tfd_stddev}},
-  \code{\link{tfd_survival_function}},
-  \code{\link{tfd_variance}}
+Other distribution_methods: 
+\code{\link{tfd_cdf}()},
+\code{\link{tfd_covariance}()},
+\code{\link{tfd_cross_entropy}()},
+\code{\link{tfd_entropy}()},
+\code{\link{tfd_log_cdf}()},
+\code{\link{tfd_log_prob}()},
+\code{\link{tfd_log_survival_function}()},
+\code{\link{tfd_mean}()},
+\code{\link{tfd_mode}()},
+\code{\link{tfd_prob}()},
+\code{\link{tfd_quantile}()},
+\code{\link{tfd_sample}()},
+\code{\link{tfd_stddev}()},
+\code{\link{tfd_survival_function}()},
+\code{\link{tfd_variance}()}
 }
 \concept{distribution_methods}

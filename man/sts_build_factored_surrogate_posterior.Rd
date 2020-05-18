@@ -4,13 +4,17 @@
 \alias{sts_build_factored_surrogate_posterior}
 \title{Build a variational posterior that factors over model parameters.}
 \usage{
-sts_build_factored_surrogate_posterior(model, batch_shape = list(),
-  seed = NULL, name = NULL)
+sts_build_factored_surrogate_posterior(
+  model,
+  batch_shape = list(),
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{model}{An instance of \code{StructuralTimeSeries} representing a
 time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape \code{[b1, ..., bN]}.#'}
+time-series and their parameters with batch shape \verb{[b1, ..., bN]}.#'}
 
 \item{batch_shape}{Batch shape (\code{list}, or \code{integer}) of initial
 states to optimize in parallel.
@@ -32,12 +36,13 @@ each parameter with trainable \code{loc} and \code{scale}, transformed using the
 parameter's \code{bijector} to the appropriate support space for that parameter.
 }
 \seealso{
-Other sts-functions: \code{\link{sts_build_factored_variational_loss}},
-  \code{\link{sts_decompose_by_component}},
-  \code{\link{sts_decompose_forecast_by_component}},
-  \code{\link{sts_fit_with_hmc}},
-  \code{\link{sts_forecast}},
-  \code{\link{sts_one_step_predictive}},
-  \code{\link{sts_sample_uniform_initial_state}}
+Other sts-functions: 
+\code{\link{sts_build_factored_variational_loss}()},
+\code{\link{sts_decompose_by_component}()},
+\code{\link{sts_decompose_forecast_by_component}()},
+\code{\link{sts_fit_with_hmc}()},
+\code{\link{sts_forecast}()},
+\code{\link{sts_one_step_predictive}()},
+\code{\link{sts_sample_uniform_initial_state}()}
 }
 \concept{sts-functions}

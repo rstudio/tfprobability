@@ -4,9 +4,16 @@
 \alias{tfd_finite_discrete}
 \title{The finite discrete distribution.}
 \usage{
-tfd_finite_discrete(outcomes, logits = NULL, probs = NULL,
-  rtol = NULL, atol = NULL, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = "FiniteDiscrete")
+tfd_finite_discrete(
+  outcomes,
+  logits = NULL,
+  probs = NULL,
+  rtol = NULL,
+  atol = NULL,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "FiniteDiscrete"
+)
 }
 \arguments{
 \item{outcomes}{A 1-D floating or integer \code{Tensor}, representing a list of
@@ -58,7 +65,7 @@ Mathematical Details
 
 The probability mass function (pmf) is,
 
-\code{pmf(x; pi, qi) = prod_j pi_j**[x == qi_j]}
+\verb{pmf(x; pi, qi) = prod_j pi_j**[x == qi_j]}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

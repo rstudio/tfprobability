@@ -4,10 +4,18 @@
 \alias{sts_smooth_seasonal_state_space_model}
 \title{State space model for a smooth seasonal effect}
 \usage{
-sts_smooth_seasonal_state_space_model(num_timesteps, period,
-  frequency_multipliers, drift_scale, initial_state_prior,
-  observation_noise_scale = 0, initial_step = 0,
-  validate_args = FALSE, allow_nan_stats = TRUE, name = NULL)
+sts_smooth_seasonal_state_space_model(
+  num_timesteps,
+  period,
+  frequency_multipliers,
+  drift_scale,
+  initial_state_prior,
+  observation_noise_scale = 0,
+  initial_step = 0,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = NULL
+)
 }
 \arguments{
 \item{num_timesteps}{Scalar \code{integer} \code{Tensor} number of timesteps to model
@@ -22,7 +30,7 @@ the base/fundamental frequency \code{2. * pi / period}. Each component is
 specified by the number of times it repeats per period, and adds two
 latent dimensions to the model. A smooth seasonal model that can
 represent any periodic function is given by
-\code{frequency_multipliers = [1,2, ..., floor(period / 2)]}.
+\verb{frequency_multipliers = [1,2, ..., floor(period / 2)]}.
 However, it is often desirable to enforce a
 smoothness assumption (and reduce the computational burden) by dropping
 some of the higher frequencies.}
@@ -33,7 +41,7 @@ latent state transitions.}
 
 \item{initial_state_prior}{instance of \code{tfd$MultivariateNormal}
 representing the prior distribution on latent states.  Must have
-event shape \code{[num_features]}.}
+event shape \verb{[num_features]}.}
 
 \item{observation_noise_scale}{Scalar (any additional dimensions are
 treated as batch dimensions) \code{float} \code{Tensor} indicating the standard
@@ -114,23 +122,24 @@ For further mathematical details please see Harvey (1990).
 }
 
 \seealso{
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

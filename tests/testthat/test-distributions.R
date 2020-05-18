@@ -1072,3 +1072,12 @@ test_succeeds("PixelCNN distribution works", {
 
 })
 
+test_succeeds("BetaBinomial distribution works", {
+
+  d <- tfd_beta_binomial(
+    total_count = c(5, 10, 20),
+    concentration1 = c(.5, 2, 3),
+    concentration0 = c(4, 3, 2))
+  expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 3)
+})
+

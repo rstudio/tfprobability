@@ -4,21 +4,28 @@
 \alias{vi_fit_surrogate_posterior}
 \title{Fit a surrogate posterior to a target (unnormalized) log density}
 \usage{
-vi_fit_surrogate_posterior(target_log_prob_fn, surrogate_posterior,
-  optimizer, num_steps, trace_fn = function(loss, grads, variables) loss,
-  variational_loss_fn = NULL, sample_size = 1,
-  trainable_variables = NULL, seed = NULL,
-  name = "fit_surrogate_posterior")
+vi_fit_surrogate_posterior(
+  target_log_prob_fn,
+  surrogate_posterior,
+  optimizer,
+  num_steps,
+  trace_fn = function(loss, grads, variables) loss,
+  variational_loss_fn = NULL,
+  sample_size = 1,
+  trainable_variables = NULL,
+  seed = NULL,
+  name = "fit_surrogate_posterior"
+)
 }
 \arguments{
 \item{target_log_prob_fn}{function that takes a set of \code{Tensor} arguments
 and returns a \code{Tensor} log-density. Given
 \code{q_sample <- surrogate_posterior$sample(sample_size)}, this
 will be (in Python) called as \code{target_log_prob_fn(q_sample)} if \code{q_sample} is a list
-or a tuple, \code{target_log_prob_fn(**q_sample)} if \code{q_sample} is a
+or a tuple, \verb{target_log_prob_fn(**q_sample)} if \code{q_sample} is a
 dictionary, or \code{target_log_prob_fn(q_sample)} if \code{q_sample} is a \code{Tensor}.
 It should support batched evaluation, i.e., should return a result of
-shape \code{[sample_size]}.}
+shape \verb{[sample_size]}.}
 
 \item{surrogate_posterior}{A \code{tfp$distributions$Distribution}
 instance defining a variational posterior (could be a
@@ -83,25 +90,27 @@ elbo_loss <- -tf$reduce_mean(target_log_prob_fn(q_samples) - surrogate_posterior
 This corresponds to minimizing the 'reverse' Kullback-Liebler divergence
 (\code{KL[q||p]}) between the variational distribution and the unnormalized
 \code{target_log_prob_fn}, and  defines a lower bound on the marginal log
-likelihood, \code{log p(x) >= -elbo_loss}.
+likelihood, \verb{log p(x) >= -elbo_loss}.
 
 More generally, this function supports fitting variational distributions that
 minimize any \href{https://en.wikipedia.org/wiki/F-divergence}{Csiszar f-divergence}.
 }
 \seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_chi_square}},
-  \code{\link{vi_csiszar_vimco}},
-  \code{\link{vi_dual_csiszar_function}},
-  \code{\link{vi_jeffreys}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_log1p_abs}},
-  \code{\link{vi_modified_gan}},
-  \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_pearson}},
-  \code{\link{vi_squared_hellinger}},
-  \code{\link{vi_symmetrized_csiszar_function}}
+Other vi-functions: 
+\code{\link{vi_amari_alpha}()},
+\code{\link{vi_arithmetic_geometric}()},
+\code{\link{vi_chi_square}()},
+\code{\link{vi_csiszar_vimco}()},
+\code{\link{vi_dual_csiszar_function}()},
+\code{\link{vi_jeffreys}()},
+\code{\link{vi_jensen_shannon}()},
+\code{\link{vi_kl_forward}()},
+\code{\link{vi_kl_reverse}()},
+\code{\link{vi_log1p_abs}()},
+\code{\link{vi_modified_gan}()},
+\code{\link{vi_monte_carlo_variational_loss}()},
+\code{\link{vi_pearson}()},
+\code{\link{vi_squared_hellinger}()},
+\code{\link{vi_symmetrized_csiszar_function}()}
 }
 \concept{vi-functions}

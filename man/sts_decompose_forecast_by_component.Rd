@@ -4,8 +4,7 @@
 \alias{sts_decompose_forecast_by_component}
 \title{Decompose a forecast distribution into contributions from each component.}
 \usage{
-sts_decompose_forecast_by_component(model, forecast_dist,
-  parameter_samples)
+sts_decompose_forecast_by_component(model, forecast_dist, parameter_samples)
 }
 \arguments{
 \item{model}{An instance of \code{sts_sum} representing a structural time series model.}
@@ -16,7 +15,7 @@ sts_decompose_forecast_by_component(model, forecast_dist,
 
 \item{parameter_samples}{\code{list} of \code{tensors} representing posterior samples
 of model parameters, with shapes
-\code{list(tf$concat(list(list(num_posterior_draws), param<1>$prior$batch_shape, param<1>$prior$event_shape), list(list(num_posterior_draws), param<2>$prior$batch_shape, param<2>$prior$event_shape), ... ) )}
+\verb{list(tf$concat(list(list(num_posterior_draws), param<1>$prior$batch_shape, param<1>$prior$event_shape), list(list(num_posterior_draws), param<2>$prior$batch_shape, param<2>$prior$event_shape), ... ) )}
 for all model parameters.
 This may optionally also be a named list mapping parameter names to \code{tensor} values.}
 }
@@ -25,18 +24,19 @@ component_dists A named list mapping
 component StructuralTimeSeries instances (elements of \code{model$components})
 to \code{Distribution} instances representing the marginal forecast for each component.
 Each distribution has batch shape matching \code{forecast_dist} (specifically,
-the event shape is \code{[num_steps_forecast]}).
+the event shape is \verb{[num_steps_forecast]}).
 }
 \description{
 Decompose a forecast distribution into contributions from each component.
 }
 \seealso{
-Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},
-  \code{\link{sts_build_factored_variational_loss}},
-  \code{\link{sts_decompose_by_component}},
-  \code{\link{sts_fit_with_hmc}},
-  \code{\link{sts_forecast}},
-  \code{\link{sts_one_step_predictive}},
-  \code{\link{sts_sample_uniform_initial_state}}
+Other sts-functions: 
+\code{\link{sts_build_factored_surrogate_posterior}()},
+\code{\link{sts_build_factored_variational_loss}()},
+\code{\link{sts_decompose_by_component}()},
+\code{\link{sts_fit_with_hmc}()},
+\code{\link{sts_forecast}()},
+\code{\link{sts_one_step_predictive}()},
+\code{\link{sts_sample_uniform_initial_state}()}
 }
 \concept{sts-functions}

@@ -4,8 +4,12 @@
 \alias{sts_sparse_linear_regression}
 \title{Formal representation of a sparse linear regression.}
 \usage{
-sts_sparse_linear_regression(design_matrix, weights_prior_scale = 0.1,
-  weights_batch_shape = NULL, name = NULL)
+sts_sparse_linear_regression(
+  design_matrix,
+  weights_prior_scale = 0.1,
+  weights_batch_shape = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{design_matrix}{float \code{tensor} of shape \code{tf$concat(list(batch_shape, list(num_timesteps, num_features)))}.
@@ -59,7 +63,7 @@ weights to be sparse, but their heavy tails allow weights far from zero to be
 estimated without excessive shrinkage. The horseshoe can be thought of as a
 continuous relaxation of a traditional 'spike-and-slab' discrete sparsity
 prior, in which the latent Cauchy scale mixes between 'spike'
-(\code{scales[i] ~= 0}) and 'slab' (\code{scales[i] >> 0}) regimes.
+(\verb{scales[i] ~= 0}) and 'slab' (\verb{scales[i] >> 0}) regimes.
 
 Following the recommendations in Piironen et al. (2017), \code{SparseLinearRegression} implements
 a horseshoe with the following adaptations:
@@ -108,22 +112,24 @@ weights[i] ~ Normal(loc=0., scale=local_scales[i] * global_scale)
 \seealso{
 For usage examples see \code{\link[=sts_fit_with_hmc]{sts_fit_with_hmc()}}, \code{\link[=sts_forecast]{sts_forecast()}}, \code{\link[=sts_decompose_by_component]{sts_decompose_by_component()}}.
 
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_smooth_seasonal}}, \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

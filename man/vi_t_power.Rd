@@ -11,9 +11,9 @@ vi_t_power(logu, t, self_normalized = FALSE, name = NULL)
 
 \item{t}{\code{Tensor} of same \code{dtype} as \code{logu} and broadcastable shape.}
 
-\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
-\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
-when \code{p, q} are unnormalized measures.}
+\item{self_normalized}{\code{logical} indicating whether \verb{f'(u=1)=0}. When
+\verb{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \verb{p, q} are unnormalized measures.}
 
 \item{name}{name prefixed to Ops created by this function.}
 }
@@ -22,12 +22,12 @@ t_power_of_u: \code{float}-like \code{Tensor} of the Csiszar-function
 evaluated at \code{u = exp(logu)}.
 }
 \description{
-A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
 When \code{self_normalized = True} the T-Power Csiszar-function is:\preformatted{f(u) = s [ u**t - 1 - t(u - 1) ]
-s = { -1   0 < t < 1 }
-    { +1   otherwise }
+s = \{ -1   0 < t < 1 \}
+    \{ +1   otherwise \}
 }
 
 When \code{self_normalized = False} the \code{- t(u - 1)} term is omitted.
@@ -35,10 +35,11 @@ When \code{self_normalized = False} the \code{- t(u - 1)} term is omitted.
 This is similar to the \code{amari_alpha} Csiszar-function, with the associated
 divergence being the same up to factors depending only on \code{t}.
 
-Warning: when self_normalized = True\code{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
+Warning: when self_normalized = True\verb{this function makes non-log-space calculations and may therefore be numerically unstable for}|logu| >> 0`.
 }
 \seealso{
-Other vi-functions#': \code{\link{vi_total_variation}},
-  \code{\link{vi_triangular}}
+Other vi-functions#': 
+\code{\link{vi_total_variation}()},
+\code{\link{vi_triangular}()}
 }
 \concept{vi-functions#'}

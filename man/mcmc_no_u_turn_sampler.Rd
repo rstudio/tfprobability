@@ -4,9 +4,15 @@
 \alias{mcmc_no_u_turn_sampler}
 \title{Runs one step of the No U-Turn Sampler}
 \usage{
-mcmc_no_u_turn_sampler(target_log_prob_fn, step_size,
-  max_tree_depth = 10, max_energy_diff = 1000,
-  unrolled_leapfrog_steps = 1, seed = NULL, name = NULL)
+mcmc_no_u_turn_sampler(
+  target_log_prob_fn,
+  step_size,
+  max_tree_depth = 10,
+  max_energy_diff = 1000,
+  unrolled_leapfrog_steps = 1,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{target_log_prob_fn}{function which takes an argument like
@@ -59,7 +65,7 @@ chain states (and are therefore updated independently).  The output of
 event dimensions.  Slices along the rightmost dimensions may have different
 target distributions; for example, \code{current_state[0][0, ...]} could have a
 different target distribution from \code{current_state[0][1, ...]}.  These
-semantics are governed by \code{target_log_prob_fn(*current_state)}.
+semantics are governed by \verb{target_log_prob_fn(*current_state)}.
 (The number of independent chains is \code{tf$size(target_log_prob_fn(current_state))}.)
 }
 \section{References}{
@@ -147,17 +153,18 @@ robust_lm <- tfd_joint_distribution_sequential(list(
 }
 }
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
-  \code{\link{mcmc_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_random_walk_metropolis}},
-  \code{\link{mcmc_replica_exchange_mc}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_langevin}},
-  \code{\link{mcmc_uncalibrated_random_walk}}
+Other mcmc_kernels: 
+\code{\link{mcmc_dual_averaging_step_size_adaptation}()},
+\code{\link{mcmc_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_random_walk_metropolis}()},
+\code{\link{mcmc_replica_exchange_mc}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_transformed_transition_kernel}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_langevin}()},
+\code{\link{mcmc_uncalibrated_random_walk}()}
 }
 \concept{mcmc_kernels}

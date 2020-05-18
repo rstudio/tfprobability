@@ -823,7 +823,7 @@ sts_additive_state_space_model <-
 #' Default value: `NULL`.
 #' @param name the name of this model component. Default value: 'LinearRegression'.
 #'
-#' @inherit sts_local_level return params
+#' @inherit sts_local_level return
 #' @family sts
 #' @seealso For usage examples see [sts_fit_with_hmc()], [sts_forecast()], [sts_decompose_by_component()].
 #'

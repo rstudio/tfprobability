@@ -4,8 +4,12 @@
 \alias{tfb_inverse_log_det_jacobian}
 \title{Returns the result of the inverse evaluation of the log determinant of the Jacobian}
 \usage{
-tfb_inverse_log_det_jacobian(bijector, y, event_ndims,
-  name = "inverse_log_det_jacobian")
+tfb_inverse_log_det_jacobian(
+  bijector,
+  y,
+  event_ndims,
+  name = "inverse_log_det_jacobian"
+)
 }
 \arguments{
 \item{bijector}{The bijector to apply}
@@ -34,7 +38,9 @@ Returns the result of the inverse evaluation of the log determinant of the Jacob
 }
 }
 \seealso{
-Other bijector_methods: \code{\link{tfb_forward_log_det_jacobian}},
-  \code{\link{tfb_forward}}, \code{\link{tfb_inverse}}
+Other bijector_methods: 
+\code{\link{tfb_forward_log_det_jacobian}()},
+\code{\link{tfb_forward}()},
+\code{\link{tfb_inverse}()}
 }
 \concept{bijector_methods}

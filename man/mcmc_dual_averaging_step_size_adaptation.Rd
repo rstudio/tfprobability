@@ -4,12 +4,19 @@
 \alias{mcmc_dual_averaging_step_size_adaptation}
 \title{Adapts the inner kernel's \code{step_size} based on \code{log_accept_prob}.}
 \usage{
-mcmc_dual_averaging_step_size_adaptation(inner_kernel,
-  num_adaptation_steps, target_accept_prob = 0.75,
-  exploration_shrinkage = 0.05, step_count_smoothing = 10,
-  decay_rate = 0.75, step_size_setter_fn = NULL,
-  step_size_getter_fn = NULL, log_accept_prob_getter_fn = NULL,
-  validate_args = FALSE, name = NULL)
+mcmc_dual_averaging_step_size_adaptation(
+  inner_kernel,
+  num_adaptation_steps,
+  target_accept_prob = 0.75,
+  exploration_shrinkage = 0.05,
+  step_count_smoothing = 10,
+  decay_rate = 0.75,
+  step_size_setter_fn = NULL,
+  step_size_getter_fn = NULL,
+  log_accept_prob_getter_fn = NULL,
+  validate_args = FALSE,
+  name = NULL
+)
 }
 \arguments{
 \item{inner_kernel}{\code{TransitionKernel}-like object.}
@@ -20,7 +27,7 @@ equal to the number of burnin steps.}
 
 \item{target_accept_prob}{A floating point \code{Tensor} representing desired
 acceptance probability. Must be a positive number less than 1. This can
-either be a scalar, or have shape \code{[num_chains]}. Default value: \code{0.75}
+either be a scalar, or have shape \verb{[num_chains]}. Default value: \code{0.75}
 (the center of asymptotically optimal rate for HMC).}
 
 \item{exploration_shrinkage}{Floating point scalar \code{Tensor}. How strongly the
@@ -35,7 +42,7 @@ iterations over earlier ones. A value of 1 gives equal weight to all
 history.}
 
 \item{step_size_setter_fn}{A function with the signature
-\code{(kernel_results, new_step_size) -> new_kernel_results} where \code{kernel_results} are the
+\verb{(kernel_results, new_step_size) -> new_kernel_results} where \code{kernel_results} are the
 results of the \code{inner_kernel}, \code{new_step_size} is a \code{Tensor} or a nested
 collection of \code{Tensor}s with the same structure as returned by the
 \code{step_size_getter_fn}, and \code{new_kernel_results} are a copy of
@@ -49,7 +56,7 @@ such \code{Tensor}s.}
 \item{log_accept_prob_getter_fn}{A callable with the signature
 \code{(kernel_results) -> log_accept_prob} where \code{kernel_results} are the results of the
 \code{inner_kernel}, and \code{log_accept_prob} is a floating point \code{Tensor}.
-\code{log_accept_prob} can either be a scalar, or have shape \code{[num_chains]}. If
+\code{log_accept_prob} can either be a scalar, or have shape \verb{[num_chains]}. If
 it's the latter, \code{step_size} should also have the same leading
 dimension.}
 
@@ -91,28 +98,28 @@ dimensions in the \code{log_accept_prob} are averaged (in the direct space, rath
 than the log space) before being used to adjust the step size. This means that
 this kernel can do both cross-chain adaptation, or per-chain step size
 adaptation, depending on the shape of the step size.
-For example, if your problem has a state with shape \code{[S]}, your chain state
-has shape \code{[C0, C1, S]} (meaning that there are \code{C0 * C1} total chains) and
-\code{log_accept_prob} has shape \code{[C0, C1]} (one acceptance probability per chain),
+For example, if your problem has a state with shape \verb{[S]}, your chain state
+has shape \verb{[C0, C1, S]} (meaning that there are \code{C0 * C1} total chains) and
+\code{log_accept_prob} has shape \verb{[C0, C1]} (one acceptance probability per chain),
 then depending on the shape of the step size, the following will happen:
 \itemize{
-\item Step size has shape \code{[]}, \code{[S]} or \code{[1]}, the \code{log_accept_prob} will be averaged
+\item Step size has shape \verb{[]}, \verb{[S]} or \verb{[1]}, the \code{log_accept_prob} will be averaged
 across its \code{C0} and \code{C1} dimensions. This means that you will learn a shared
 step size based on the mean acceptance probability across all chains. This
 can be useful if you don't have a lot of steps to adapt and want to average
 away the noise.
-\item Step size has shape \code{[C1, 1]} or \code{[C1, S]}, the \code{log_accept_prob} will be
+\item Step size has shape \verb{[C1, 1]} or \verb{[C1, S]}, the \code{log_accept_prob} will be
 averaged across its \code{C0} dimension. This means that you will learn a shared
 step size based on the mean acceptance probability across chains that share
 the coordinate across the \code{C1} dimension. This can be useful when the \code{C1}
 dimension indexes different distributions, while \code{C0} indexes replicas of a
 single distribution, all sampled in parallel.
-\item Step size has shape \code{[C0, C1, 1]} or \code{[C0, C1, S]}, then no averaging will
+\item Step size has shape \verb{[C0, C1, 1]} or \verb{[C0, C1, S]}, then no averaging will
 happen. This means that each chain will learn its own step size. This can be
 useful when all chains are sampling from different distributions. Even when
 all chains are for the same distribution, this can help during the initial
 warmup period.
-\item Step size has shape \code{[C0, 1, 1]} or \code{[C0, 1, S]}, the \code{log_accept_prob} will be
+\item Step size has shape \verb{[C0, 1, 1]} or \verb{[C0, 1, S]}, the \code{log_accept_prob} will be
 averaged across its \code{C1} dimension. This means that you will learn a shared
 step size based on the mean acceptance probability across chains that share
 the coordinate across the \code{C0} dimension. This can be useful when the \code{C0}
@@ -123,7 +130,7 @@ single distribution, all sampled in parallel.
 \section{References}{
 
 \itemize{
-\item \href{http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf}{Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In Journal of Machine Learning Research, 15(1):1593-1623, 2014.}
+\item \href{http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf}{Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In \emph{Journal of Machine Learning Research}, 15(1):1593-1623, 2014.}
 \item \href{https://link.springer.com/article/10.1007/s10107-007-0149-x}{Yurii Nesterov. Primal-dual subgradient methods for convex problems. Mathematical programming 120.1 (2009): 221-259}
 \item \url{http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745}
 }
@@ -132,17 +139,18 @@ single distribution, all sampled in parallel.
 \seealso{
 For an example how to use see \code{\link[=mcmc_no_u_turn_sampler]{mcmc_no_u_turn_sampler()}}.
 
-Other mcmc_kernels: \code{\link{mcmc_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_no_u_turn_sampler}},
-  \code{\link{mcmc_random_walk_metropolis}},
-  \code{\link{mcmc_replica_exchange_mc}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_langevin}},
-  \code{\link{mcmc_uncalibrated_random_walk}}
+Other mcmc_kernels: 
+\code{\link{mcmc_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_no_u_turn_sampler}()},
+\code{\link{mcmc_random_walk_metropolis}()},
+\code{\link{mcmc_replica_exchange_mc}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_transformed_transition_kernel}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_langevin}()},
+\code{\link{mcmc_uncalibrated_random_walk}()}
 }
 \concept{mcmc_kernels}

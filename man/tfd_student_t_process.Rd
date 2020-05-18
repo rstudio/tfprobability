@@ -4,9 +4,16 @@
 \alias{tfd_student_t_process}
 \title{Marginal distribution of a Student's T process at finitely many points}
 \usage{
-tfd_student_t_process(df, kernel, index_points, mean_fn = NULL,
-  jitter = 1e-06, validate_args = FALSE, allow_nan_stats = FALSE,
-  name = "StudentTProcess")
+tfd_student_t_process(
+  df,
+  kernel,
+  index_points,
+  mean_fn = NULL,
+  jitter = 1e-06,
+  validate_args = FALSE,
+  allow_nan_stats = FALSE,
+  name = "StudentTProcess"
+)
 }
 \arguments{
 \item{df}{Positive Floating-point \code{Tensor} representing the degrees of freedom.
@@ -17,7 +24,7 @@ TP's covariance function.}
 
 \item{index_points}{\code{float} \code{Tensor} representing finite (batch of) vector(s) of
 points in the index set over which the TP is defined. Shape has the form
-\code{[b1, ..., bB, e, f1, ..., fF]} where \code{F} is the number of feature
+\verb{[b1, ..., bB, e, f1, ..., fF]} where \code{F} is the number of feature
 dimensions and must equal \code{kernel.feature_ndims} and \code{e} is the number
 (size) of index points in each batch. Ultimately this distribution
 corresponds to a \code{e}-dimensional multivariate Student's T. The batch
@@ -26,8 +33,8 @@ yielded by \code{mean_fn}.}
 
 \item{mean_fn}{Function that acts on \code{index_points} to produce a (batch
 of) vector(s) of mean values at \code{index_points}. Takes a \code{Tensor} of
-shape \code{[b1, ..., bB, f1, ..., fF]} and returns a \code{Tensor} whose shape is
-broadcastable with \code{[b1, ..., bB]}. Default value: \code{NULL} implies
+shape \verb{[b1, ..., bB, f1, ..., fF]} and returns a \code{Tensor} whose shape is
+broadcastable with \verb{[b1, ..., bB]}. Default value: \code{NULL} implies
 constant zero function.}
 
 \item{jitter}{\code{float} scalar \code{Tensor} added to the diagonal of the covariance
@@ -62,15 +69,15 @@ by a degrees of freedom parameter, mean function and covariance function.
 Let \code{S} denote the index set and \code{K} the space in which each indexed random variable
 takes its values (again, often R or C).
 The mean function is then a map \code{m: S -> K}, and the covariance function,
-or kernel, is a positive-definite function \code{k: (S x S) -> K}. The properties
+or kernel, is a positive-definite function \verb{k: (S x S) -> K}. The properties
 of functions drawn from a TP are entirely dictated (up to translation) by
 the form of the kernel function.
 
 This \code{Distribution} represents the marginal joint distribution over function
-values at a given finite collection of points \code{[x[1], ..., x[N]]} from the
+values at a given finite collection of points \verb{[x[1], ..., x[N]]} from the
 index set \code{S}. By definition, this marginal distribution is just a
 multivariate Student's T distribution, whose mean is given by the vector
-\code{[ m(x[1]), ..., m(x[N]) ]} and whose covariance matrix is constructed from
+\verb{[ m(x[1]), ..., m(x[N]) ]} and whose covariance matrix is constructed from
 pairwise applications of the kernel function to the given inputs:\preformatted{| k(x[1], x[1])    k(x[1], x[2])  ...  k(x[1], x[N]) |
 | k(x[2], x[1])    k(x[2], x[2])  ...  k(x[2], x[N]) |
 |      ...              ...                 ...      |
@@ -109,77 +116,90 @@ machine precision (otherwise Cholesky-decomposition is prone to failure),
 \section{References}{
 
 \itemize{
-\item \href{https://www.cs.cmu.edu/~andrewgw/tprocess.pdf}{Amar Shah, Andrew Gordon Wilson, and Zoubin Ghahramani. Student-t Processes as Alternatives to Gaussian Processes. In Artificial Intelligence and Statistics, 2014.}
+\item \href{https://www.cs.cmu.edu/~andrewgw/tprocess.pdf}{Amar Shah, Andrew Gordon Wilson, and Zoubin Ghahramani. Student-t Processes as Alternatives to Gaussian Processes. In \emph{Artificial Intelligence and Statistics}, 2014.}
 }
 }
 
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

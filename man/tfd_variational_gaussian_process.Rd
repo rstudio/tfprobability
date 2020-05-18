@@ -4,12 +4,20 @@
 \alias{tfd_variational_gaussian_process}
 \title{Posterior predictive of a variational Gaussian process}
 \usage{
-tfd_variational_gaussian_process(kernel, index_points,
-  inducing_index_points, variational_inducing_observations_loc,
-  variational_inducing_observations_scale, mean_fn = NULL,
-  observation_noise_variance = 0, predictive_noise_variance = 0,
-  jitter = 1e-06, validate_args = FALSE, allow_nan_stats = FALSE,
-  name = "VariationalGaussianProcess")
+tfd_variational_gaussian_process(
+  kernel,
+  index_points,
+  inducing_index_points,
+  variational_inducing_observations_loc,
+  variational_inducing_observations_scale,
+  mean_fn = NULL,
+  observation_noise_variance = 0,
+  predictive_noise_variance = 0,
+  jitter = 1e-06,
+  validate_args = FALSE,
+  allow_nan_stats = FALSE,
+  name = "VariationalGaussianProcess"
+)
 }
 \arguments{
 \item{kernel}{\code{PositiveSemidefiniteKernel}-like instance representing the
@@ -17,7 +25,7 @@ GP's covariance function.}
 
 \item{index_points}{\code{float} \code{Tensor} representing finite (batch of) vector(s) of
 points in the index set over which the VGP is defined. Shape has the
-form \code{[b1, ..., bB, e1, f1, ..., fF]} where \code{F} is the number of feature
+form \verb{[b1, ..., bB, e1, f1, ..., fF]} where \code{F} is the number of feature
 dimensions and must equal \code{kernel$feature_ndims} and \code{e1} is the number
 (size) of index points in each batch (we denote it \code{e1} to distinguish
 it from the numer of inducing index points, denoted \code{e2} below).
@@ -27,26 +35,26 @@ broadcastable with \code{kernel$batch_shape}, the batch shape of
 \code{inducing_index_points}, and any batch dims yielded by \code{mean_fn}.}
 
 \item{inducing_index_points}{\code{float} \code{Tensor} of locations of inducing points in
-the index set. Shape has the form \code{[b1, ..., bB, e2, f1, ..., fF]}, just
+the index set. Shape has the form \verb{[b1, ..., bB, e2, f1, ..., fF]}, just
 like \code{index_points}. The batch shape components needn't be identical to
 those of \code{index_points}, but must be broadcast compatible with them.}
 
 \item{variational_inducing_observations_loc}{\code{float} \code{Tensor}; the mean of the
 (full-rank Gaussian) variational posterior over function values at the
-inducing points, conditional on observed data. Shape has the form \code{[b1, ..., bB, e2]},
-where \code{b1, ..., bB} is broadcast compatible with other
+inducing points, conditional on observed data. Shape has the form \verb{[b1, ..., bB, e2]},
+where \verb{b1, ..., bB} is broadcast compatible with other
 parameters' batch shapes, and \code{e2} is the number of inducing points.}
 
 \item{variational_inducing_observations_scale}{\code{float} \code{Tensor}; the scale
 matrix of the (full-rank Gaussian) variational posterior over function
 values at the inducing points, conditional on observed data. Shape has
-the form \code{[b1, ..., bB, e2, e2]}, where \code{b1, ..., bB} is broadcast
+the form \verb{[b1, ..., bB, e2, e2]}, where \verb{b1, ..., bB} is broadcast
 compatible with other parameters and \code{e2} is the number of inducing points.}
 
 \item{mean_fn}{function that acts on index points to produce a (batch
 of) vector(s) of mean values at those index points. Takes a \code{Tensor} of
-shape \code{[b1, ..., bB, f1, ..., fF]} and returns a \code{Tensor} whose shape is
-(broadcastable with) \code{[b1, ..., bB]}. Default value: \code{NULL} implies constant zero function.}
+shape \verb{[b1, ..., bB, f1, ..., fF]} and returns a \code{Tensor} whose shape is
+(broadcastable with) \verb{[b1, ..., bB]}. Default value: \code{NULL} implies constant zero function.}
 
 \item{observation_noise_variance}{\code{float} \code{Tensor} representing the variance
 of the noise in the Normal likelihood distribution of the model. May be
@@ -117,23 +125,23 @@ Notation
 We will in general be concerned about three collections of index points, and
 it'll be good to give them names:
 \itemize{
-\item \code{x[1], ..., x[N]}: observation index points -- locations of our observed data.
-\item \code{z[1], ..., z[M]}: inducing index points  -- locations of the
+\item \verb{x[1], ..., x[N]}: observation index points -- locations of our observed data.
+\item \verb{z[1], ..., z[M]}: inducing index points  -- locations of the
 "summarizing" inducing points
-\item \code{t[1], ..., t[P]}: predictive index points -- locations where we are
+\item \verb{t[1], ..., t[P]}: predictive index points -- locations where we are
 making posterior predictions based on observations and the variational
 parameters.
 }
 
-To lighten notation, we'll use \code{X, Z, T} to denote the above collections.
+To lighten notation, we'll use \verb{X, Z, T} to denote the above collections.
 Similarly, we'll denote by \code{f(X)} the collection of function values at each of
 the \code{x[i]}, and by \code{Y}, the collection of (noisy) observed data at each \code{x[i]}.
 We'll denote kernel matrices generated from pairs of index points as \code{K_tt},
-\code{K_xt}, \code{K_tz}, etc, e.g.,\preformatted{ K_tz =
- | k(t[1], z[1])    k(t[1], z[2])  ...  k(t[1], z[M]) |
- | k(t[2], z[1])    k(t[2], z[2])  ...  k(t[2], z[M]) |
- |      ...              ...                 ...      |
- | k(t[P], z[1])    k(t[P], z[2])  ...  k(t[P], z[M]) |
+\code{K_xt}, \code{K_tz}, etc, e.g.,\preformatted{K_tz =
+| k(t[1], z[1])    k(t[1], z[2])  ...  k(t[1], z[M]) |
+| k(t[2], z[1])    k(t[2], z[2])  ...  k(t[2], z[M]) |
+|      ...              ...                 ...      |
+| k(t[P], z[1])    k(t[P], z[2])  ...  k(t[P], z[M]) |
 
 }
 
@@ -147,8 +155,8 @@ these can't be represented in finite compute memory, so one typically works
 with the marginals at a finite collection of index points. The properties of
 the GP are entirely determined by its mean function \code{m} and covariance
 function \code{k}. The generative process, assuming a mean-zero normal likelihood
-with stddev \code{sigma}, is\preformatted{ f ~ GP(m, k)
- Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
+with stddev \code{sigma}, is\preformatted{f ~ GP(m, k)
+Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
 }
 
 In finite terms (ie, marginalizing out all but a finite number of f(X), sigma),
@@ -169,7 +177,7 @@ conditioned on function values at the inducing points,
 \item the (expensive) posterior over function values at inducing points
 conditional on obseravtions is replaced with an arbitrary (learnable)
 full-rank Gaussian distribution,
-}\preformatted{ q(f(Z)) = MVN(loc=m, scale=S),
+}\preformatted{q(f(Z)) = MVN(loc=m, scale=S),
 }
 
 where \code{m} and \code{S} are parameters to be chosen by optimizing an evidence
@@ -197,7 +205,7 @@ KL(q(f(Z)) || p(f(Z))))
 
 where in the final KL term, \code{p(f(Z))} is the GP prior on inducing point
 function values. This variational lower bound can be computed on minibatches
-of the full data set \code{(X, Y)}. A method to compute the \emph{negative} variational
+of the full data set \verb{(X, Y)}. A method to compute the \emph{negative} variational
 lower bound is implemented as \code{VariationalGaussianProcess$variational_loss}.
 
 Optimal variational parameters
@@ -210,9 +218,9 @@ posterior distribution over inducing point function values in terms of the GP
 parameters (mean and kernel functions), inducing point locations, observation
 index points, and observations. Note that the inducing index point locations
 must still be optimized even when these parameters are known functions of the
-inducing index points. The optimal parameters are computed as follows:\preformatted{ C = sigma^-2 (K_zz + K_zx @ K_xz)^-1
- optimal Gaussian covariance: K_zz @ C @ K_zz
- optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
+inducing index points. The optimal parameters are computed as follows:\preformatted{C = sigma^-2 (K_zz + K_zx @ K_xz)^-1
+optimal Gaussian covariance: K_zz @ C @ K_zz
+optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
 }
 }
 \section{References}{
@@ -227,70 +235,83 @@ inducing index points. The optimal parameters are computed as follows:\preformat
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

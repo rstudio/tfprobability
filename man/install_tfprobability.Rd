@@ -4,9 +4,14 @@
 \alias{install_tfprobability}
 \title{Installs TensorFlow Probability}
 \usage{
-install_tfprobability(method = c("auto", "virtualenv", "conda"),
-  conda = "auto", version = "default", tensorflow = "default",
-  extra_packages = NULL, ...)
+install_tfprobability(
+  method = c("auto", "virtualenv", "conda"),
+  conda = "auto",
+  version = "default",
+  tensorflow = "default",
+  extra_packages = NULL,
+  ...
+)
 }
 \arguments{
 \item{method}{Installation method ("virtualenv" or "conda")}

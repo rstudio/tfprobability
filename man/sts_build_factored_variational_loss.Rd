@@ -4,20 +4,25 @@
 \alias{sts_build_factored_variational_loss}
 \title{Build a loss function for variational inference in STS models.}
 \usage{
-sts_build_factored_variational_loss(observed_time_series, model,
-  init_batch_shape = list(), seed = NULL, name = NULL)
+sts_build_factored_variational_loss(
+  observed_time_series,
+  model,
+  init_batch_shape = list(),
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{observed_time_series}{\code{float} \code{tensor} of shape
-\code{concat([sample_shape, model.batch_shape, [num_timesteps, 1]])} where
-\code{sample_shape} corresponds to i.i.d. observations, and the trailing \code{[1]}
+\verb{concat([sample_shape, model.batch_shape, [num_timesteps, 1]])} where
+\code{sample_shape} corresponds to i.i.d. observations, and the trailing \verb{[1]}
 dimension may (optionally) be omitted if \code{num_timesteps > 1}. May
 optionally be an instance of \code{sts_masked_time_series}, which includes
 a mask \code{tensor} to specify timesteps with missing observations.}
 
 \item{model}{An instance of \code{StructuralTimeSeries} representing a
 time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape \code{[b1, ..., bN]}.}
+time-series and their parameters with batch shape \verb{[b1, ..., bN]}.}
 
 \item{init_batch_shape}{Batch shape (\code{list}) of initial
 states to optimize in parallel. Default value: \code{list()}. (i.e., just run a single optimization).}
@@ -31,8 +36,8 @@ states to optimize in parallel. Default value: \code{list()}. (i.e., just run a 
 list of:
 \itemize{
 \item variational_loss: \code{float} \code{Tensor} of shape
-\code{tf$concat([init_batch_shape, model$batch_shape])}, encoding a stochastic
-estimate of an upper bound on the negative model evidence \code{-log p(y)}.
+\verb{tf$concat([init_batch_shape, model$batch_shape])}, encoding a stochastic
+estimate of an upper bound on the negative model evidence \verb{-log p(y)}.
 Minimizing this loss performs variational inference; the gap between the
 variational bound and the true (generally unknown) model evidence
 corresponds to the divergence \code{KL[q||p]} between the approximate and true
@@ -40,9 +45,9 @@ posterior.
 \item variational_distributions: a named list giving
 the approximate posterior for each model parameter. The keys are
 \code{character} parameter names in order, corresponding to
-\code{[param.name for param in model.parameters]}. The values are
+\verb{[param.name for param in model.parameters]}. The values are
 \code{tfd$Distribution} instances with batch shape
-\code{tf$concat([init_batch_shape, model$batch_shape])}; these will typically be
+\verb{tf$concat([init_batch_shape, model$batch_shape])}; these will typically be
 of the form \code{tfd$TransformedDistribution(tfd.Normal(...), bijector=param.bijector)}.
 }
 }
@@ -63,7 +68,7 @@ Kullback-Liebler divergence \code{KL[q(z) || p(z|observed_time_series)]}, with a
 approximating family given by independent Normal distributions transformed to
 the appropriate parameter space for each parameter. Minimizing this loss (the
 negative ELBO) maximizes a lower bound on the log model evidence
-\code{-log p(observed_time_series)}. This is equivalent to the 'mean-field' method
+\verb{-log p(observed_time_series)}. This is equivalent to the 'mean-field' method
 implemented in Kucukelbir et al. (2017) and is a standard approach.
 The resulting posterior approximations are unimodal; they will tend to underestimate posterior
 uncertainty when the true posterior contains multiple modes
@@ -72,17 +77,18 @@ uncertainty when the true posterior contains multiple modes
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1603.00788}{Alp Kucukelbir, Dustin Tran, Rajesh Ranganath, Andrew Gelman, and David M. Blei. Automatic Differentiation Variational Inference. In Journal of Machine Learning Research, 2017.}
+\item \href{https://arxiv.org/abs/1603.00788}{Alp Kucukelbir, Dustin Tran, Rajesh Ranganath, Andrew Gelman, and David M. Blei. Automatic Differentiation Variational Inference. In \emph{Journal of Machine Learning Research}, 2017.}
 }
 }
 
 \seealso{
-Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},
-  \code{\link{sts_decompose_by_component}},
-  \code{\link{sts_decompose_forecast_by_component}},
-  \code{\link{sts_fit_with_hmc}},
-  \code{\link{sts_forecast}},
-  \code{\link{sts_one_step_predictive}},
-  \code{\link{sts_sample_uniform_initial_state}}
+Other sts-functions: 
+\code{\link{sts_build_factored_surrogate_posterior}()},
+\code{\link{sts_decompose_by_component}()},
+\code{\link{sts_decompose_forecast_by_component}()},
+\code{\link{sts_fit_with_hmc}()},
+\code{\link{sts_forecast}()},
+\code{\link{sts_one_step_predictive}()},
+\code{\link{sts_sample_uniform_initial_state}()}
 }
 \concept{sts-functions}

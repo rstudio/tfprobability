@@ -4,8 +4,15 @@
 \alias{tfd_pert}
 \title{Modified PERT distribution for modeling expert predictions.}
 \usage{
-tfd_pert(low, peak, high, temperature = 4, validate_args = FALSE,
-  allow_nan_stats = FALSE, name = "Pert")
+tfd_pert(
+  low,
+  peak,
+  high,
+  temperature = 4,
+  validate_args = FALSE,
+  allow_nan_stats = FALSE,
+  name = "Pert"
+)
 }
 \arguments{
 \item{low}{lower bound}
@@ -51,8 +58,8 @@ concentration0 = 1 + temperature * (high - peak)/(high - low)
 temperature > 0
 }
 
-The support is \code{[low, high]}.  The \code{peak} must fit in that interval:
-\code{low < peak < high}.  The \code{temperature} is a positive parameter that
+The support is \verb{[low, high]}.  The \code{peak} must fit in that interval:
+\verb{low < peak < high}.  The \code{temperature} is a positive parameter that
 controls the shape of the distribution. Higher values yield a sharper peak.
 The standard PERT distribution is obtained when \code{temperature = 4}.
 }

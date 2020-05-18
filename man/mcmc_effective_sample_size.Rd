@@ -4,8 +4,12 @@
 \alias{mcmc_effective_sample_size}
 \title{Estimate a lower bound on effective sample size for each independent chain.}
 \usage{
-mcmc_effective_sample_size(states, filter_threshold = 0,
-  filter_beyond_lag = NULL, name = NULL)
+mcmc_effective_sample_size(
+  states,
+  filter_threshold = 0,
+  filter_beyond_lag = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{states}{\code{Tensor} or list of \code{Tensor} objects.  Dimension zero should index
@@ -14,7 +18,7 @@ identically distributed states.}
 \item{filter_threshold}{\code{Tensor} or list of \code{Tensor} objects.
 Must broadcast with \code{state}.  The auto-correlation sequence is truncated
 after the first appearance of a term less than \code{filter_threshold}.
-Setting to \code{NULL} means we use no threshold filter.  Since \code{|R_k| <= 1},
+Setting to \code{NULL} means we use no threshold filter.  Since \verb{|R_k| <= 1},
 setting to any number less than \code{-1} has the same effect.}
 
 \item{filter_beyond_lag}{\code{Tensor} or list of \code{Tensor} objects.  Must be
@@ -25,7 +29,7 @@ to this length.  Setting to \code{NULL} means we do not filter based on number o
 }
 \value{
 \code{Tensor} or list of \code{Tensor} objects.  The effective sample size of
-each component of \code{states}.  Shape will be \code{states$shape[1:]}.
+each component of \code{states}.  Shape will be \verb{states$shape[1:]}.
 }
 \description{
 Roughly speaking, "effective sample size" (ESS) is the size of an iid sample
@@ -33,17 +37,18 @@ with the same variance as \code{state}.
 }
 \details{
 More precisely, given a stationary sequence of possibly correlated random
-variables \code{X_1, X_2,...,X_N}, each identically distributed ESS is the number
+variables \verb{X_1, X_2,...,X_N}, each identically distributed ESS is the number
 such that
-\code{Variance{ N**-1 * Sum{X_i} } = ESS**-1 * Variance{ X_1 }.}
+\verb{Variance\{ N**-1 * Sum\{X_i\} \} = ESS**-1 * Variance\{ X_1 \}.}
 
 If the sequence is uncorrelated, \code{ESS = N}.  In general, one should expect
 \code{ESS <= N}, with more highly correlated sequences having smaller \code{ESS}.
 }
 \seealso{
-Other mcmc_functions: \code{\link{mcmc_potential_scale_reduction}},
-  \code{\link{mcmc_sample_annealed_importance_chain}},
-  \code{\link{mcmc_sample_chain}},
-  \code{\link{mcmc_sample_halton_sequence}}
+Other mcmc_functions: 
+\code{\link{mcmc_potential_scale_reduction}()},
+\code{\link{mcmc_sample_annealed_importance_chain}()},
+\code{\link{mcmc_sample_chain}()},
+\code{\link{mcmc_sample_halton_sequence}()}
 }
 \concept{mcmc_functions}

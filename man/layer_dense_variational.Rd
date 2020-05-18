@@ -4,9 +4,17 @@
 \alias{layer_dense_variational}
 \title{Dense Variational Layer}
 \usage{
-layer_dense_variational(object, units, make_posterior_fn, make_prior_fn,
-  kl_weight = NULL, kl_use_exact = FALSE, activation = NULL,
-  use_bias = TRUE, ...)
+layer_dense_variational(
+  object,
+  units,
+  make_posterior_fn,
+  make_prior_fn,
+  kl_weight = NULL,
+  kl_use_exact = FALSE,
+  activation = NULL,
+  use_bias = TRUE,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -42,22 +50,23 @@ This layer uses variational inference to fit a "surrogate" posterior to the
 distribution over both the \code{kernel} matrix and the \code{bias} terms which are
 otherwise used in a manner similar to \code{layer_dense()}.
 This layer fits the "weights posterior" according to the following generative
-process:\preformatted{[K, b] ~ Prior()
+process:\if{html}{\out{<div class="none">}}\preformatted{[K, b] ~ Prior()
 M = matmul(X, K) + b
 Y ~ Likelihood(M)
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
-Other layers: \code{\link{layer_autoregressive}},
-  \code{\link{layer_conv_1d_flipout}},
-  \code{\link{layer_conv_1d_reparameterization}},
-  \code{\link{layer_conv_2d_flipout}},
-  \code{\link{layer_conv_2d_reparameterization}},
-  \code{\link{layer_conv_3d_flipout}},
-  \code{\link{layer_conv_3d_reparameterization}},
-  \code{\link{layer_dense_flipout}},
-  \code{\link{layer_dense_local_reparameterization}},
-  \code{\link{layer_dense_reparameterization}},
-  \code{\link{layer_variable}}
+Other layers: 
+\code{\link{layer_autoregressive}()},
+\code{\link{layer_conv_1d_flipout}()},
+\code{\link{layer_conv_1d_reparameterization}()},
+\code{\link{layer_conv_2d_flipout}()},
+\code{\link{layer_conv_2d_reparameterization}()},
+\code{\link{layer_conv_3d_flipout}()},
+\code{\link{layer_conv_3d_reparameterization}()},
+\code{\link{layer_dense_flipout}()},
+\code{\link{layer_dense_local_reparameterization}()},
+\code{\link{layer_dense_reparameterization}()},
+\code{\link{layer_variable}()}
 }
 \concept{layers}

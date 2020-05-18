@@ -22,21 +22,21 @@ an autoregressive model \eqn{p(x)} with conditional distributions in the locatio
 family, we can construct a normalizing flow for \eqn{p(x)}.
 }
 \details{
-Specifically, suppose made is a \code{[layer_autoregressive()]} -- a layer implementing
+Specifically, suppose made is a \verb{[layer_autoregressive()]} -- a layer implementing
 a Masked Autoencoder for Distribution Estimation (MADE) -- that computes location
 and log-scale parameters \eqn{made(x)[i]} for each input \eqn{x[i]}. Then we can represent
 the autoregressive model \eqn{p(x)} as \eqn{x = f(u)} where \eqn{u} is drawn
 from from some base distribution and where \eqn{f} is an invertible and
 differentiable function (i.e., a Bijector) and \eqn{f^{-1}(x)} is defined by:\preformatted{library(tensorflow)
 library(zeallot)
-f_inverse <- function(x) {
+f_inverse <- function(x) \{
   c(shift, log_scale) \%<-\% tf$unstack(made(x), 2, axis = -1L)
   (x - shift) * tf$math$exp(-log_scale)
-}
+\}
 }
 
 Given a \code{\link[=layer_autoregressive]{layer_autoregressive()}} made, a \code{\link[=layer_autoregressive_transform]{layer_autoregressive_transform()}}
-transforms an input \code{tfd_*} \eqn{p(u)} to an output \code{tfd_*} \eqn{p(x)} where
+transforms an input \verb{tfd_*} \eqn{p(u)} to an output \verb{tfd_*} \eqn{p(x)} where
 \eqn{x = f(u)}.
 }
 \references{

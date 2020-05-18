@@ -16,17 +16,18 @@ total_variation_of_u: \code{float}-like \code{Tensor} of the Csiszar-function
 evaluated at \code{u = exp(logu)}.
 }
 \description{
-A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
 The Total-Variation Csiszar-function is:\preformatted{f(u) = 0.5 |u - 1|
 }
 
 Warning: this function makes non-log-space calculations and may therefore be
-numerically unstable for \code{|logu| >> 0}.
+numerically unstable for \verb{|logu| >> 0}.
 }
 \seealso{
-Other vi-functions#': \code{\link{vi_t_power}},
-  \code{\link{vi_triangular}}
+Other vi-functions#': 
+\code{\link{vi_t_power}()},
+\code{\link{vi_triangular}()}
 }
 \concept{vi-functions#'}

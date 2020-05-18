@@ -4,11 +4,18 @@
 \alias{mcmc_sample_chain}
 \title{Implements Markov chain Monte Carlo via repeated \code{TransitionKernel} steps.}
 \usage{
-mcmc_sample_chain(kernel = NULL, num_results, current_state,
-  previous_kernel_results = NULL, num_burnin_steps = 0,
-  num_steps_between_results = 0, trace_fn = NULL,
-  return_final_kernel_results = FALSE, parallel_iterations = 10,
-  name = NULL)
+mcmc_sample_chain(
+  kernel = NULL,
+  num_results,
+  current_state,
+  previous_kernel_results = NULL,
+  num_burnin_steps = 0,
+  num_steps_between_results = 0,
+  trace_fn = NULL,
+  return_final_kernel_results = FALSE,
+  parallel_iterations = 10,
+  name = NULL
+)
 }
 \arguments{
 \item{kernel}{An instance of \code{tfp$mcmc$TransitionKernel} which implements one step
@@ -89,7 +96,7 @@ accordingly. See below for some examples of this feature.
 \section{References}{
 
 \itemize{
-\item \href{http://statweb.stanford.edu/~owen/reports/bestthinning.pdf}{Art B. Owen. Statistically efficient thinning of a Markov chain sampler. Technical Report, 2017.}
+\item \href{http://statweb.stanford.edu/~owen/reports/bestthinning.pdf}{Art B. Owen. Statistically efficient thinning of a Markov chain sampler. \emph{Technical Report}, 2017.}
 }
 }
 
@@ -118,9 +125,10 @@ accordingly. See below for some examples of this feature.
 }
 }
 \seealso{
-Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
-  \code{\link{mcmc_potential_scale_reduction}},
-  \code{\link{mcmc_sample_annealed_importance_chain}},
-  \code{\link{mcmc_sample_halton_sequence}}
+Other mcmc_functions: 
+\code{\link{mcmc_effective_sample_size}()},
+\code{\link{mcmc_potential_scale_reduction}()},
+\code{\link{mcmc_sample_annealed_importance_chain}()},
+\code{\link{mcmc_sample_halton_sequence}()}
 }
 \concept{mcmc_functions}
