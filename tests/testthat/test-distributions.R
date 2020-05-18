@@ -1022,7 +1022,7 @@ test_succeeds("WishartTriL distribution works", {
 
 test_succeeds("PixelCNN distribution works", {
 
-  skip_if_tfp_below("0.9")
+  skip_if_tfp_below("0.10")
 
   library(tfds)
   library(tfdatasets)
