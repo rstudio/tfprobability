@@ -104,6 +104,7 @@ Other bijectors:
 \code{\link{tfb_iterated_sigmoid_centered}()},
 \code{\link{tfb_kumaraswamy_cdf}()},
 \code{\link{tfb_kumaraswamy}()},
+\code{\link{tfb_lambert_w_tail}()},
 \code{\link{tfb_masked_autoregressive_flow}()},
 \code{\link{tfb_masked_dense}()},
 \code{\link{tfb_matrix_inverse_tri_l}()},

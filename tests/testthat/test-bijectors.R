@@ -709,3 +709,19 @@ test_succeeds("Define an FFJORD bijector", {
   )
 
 })
+
+test_succeeds("Define a LambertWTail bijector", {
+
+  skip_if_tfp_below("0.10")
+
+  scale <- 1
+  shift <- 0
+  tailweight <- 0
+  b <- tfb_lambert_w_tail(shift, scale, tailweight)
+  x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(), x %>% tensor_value())
+
+})
+
+

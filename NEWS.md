@@ -2,7 +2,10 @@
 
 - changes in distributions:
    - added: tfd_beta_binomial
-   - changes to parameter list: tfd_transformed_distribution
+   - parameter list changed: tfd_transformed_distribution
+   
+- changes in bijectors: 
+   - added: tfb_lambert_w_tail
    
 
 ## 0.9.0.0 (CRAN)
