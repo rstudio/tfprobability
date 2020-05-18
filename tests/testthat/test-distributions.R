@@ -1037,9 +1037,9 @@ test_succeeds("PixelCNN distribution works", {
     list(tuple(x$image, x$label))
   }
 
-  batch_size <- 100
+  batch_size <- 32
   train_it <- train_data %>%
-    dataset_take(100) %>%
+    dataset_take(32) %>%
     dataset_map(image_preprocess) %>%
     dataset_batch(batch_size)
 
@@ -1047,9 +1047,9 @@ test_succeeds("PixelCNN distribution works", {
     image_shape = c(28, 28, 1),
     conditional_shape = list(),
     num_resnet = 1,
-    num_hierarchies = 2,
-    num_filters = 32,
-    num_logistic_mix = 5,
+    num_hierarchies = 1,
+    num_filters = 2,
+    num_logistic_mix = 1,
     dropout_p = .3
   )
 
@@ -1064,6 +1064,7 @@ test_succeeds("PixelCNN distribution works", {
   model %>% fit(train_it, epochs = 1)
 
   samples <- dist %>% tfd_sample(1, conditional_input = 1)
+  expect_equal(dim(samples), c(1, 28, 28, 1))
 
   #img <- samples[1, , , 1]
   #img <- t(apply(img, 2, rev))
