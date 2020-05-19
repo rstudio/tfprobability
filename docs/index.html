@@ -6,22 +6,22 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interface to TensorFlow Probability • tfprobability</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Interface to TensorFlow Probability">
 <meta property="og:description" content="Interface to TensorFlow Probability, a Python library built on TensorFlow
     that makes it easy to combine probabilistic models and deep learning on modern hardware (TPU, GPU).
     TensorFlow Probability includes a wide selection of probability distributions and bijectors, probabilistic layers,
     variational inference, Markov chain Monte Carlo, and optimizers such as Nelder-Mead, BFGS, and SGLD.">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/rstudio/tfprobability">
+  <a href="https://github.com/rstudio/tfprobability/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -101,14 +101,14 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the released version of <code>tfprobability</code> from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tfprobability"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tfprobability"</span>)</pre></div>
 <p>To install <code>tfprobability</code> from github, do</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"rstudio/tfprobability"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"rstudio/tfprobability"</span>)</span></code></pre></div>
 <p>Then, use the <code><a href="reference/install_tfprobability.html">install_tfprobability()</a></code> function to install TensorFlow and TensorFlow Probability python modules.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tfprobability)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/install_tfprobability.html">install_tfprobability</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tfprobability</span>)
+<span class="fu"><a href="reference/install_tfprobability.html">install_tfprobability</a></span>()</pre></div>
 <p>you will automatically get the current stable version of TensorFlow Probability together with TensorFlow. Correspondingly, if you need nightly builds,</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/install_tfprobability.html">install_tfprobability</a></span>(<span class="dt">version =</span> <span class="st">"nightly"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">install_tfprobability</span>(<span class="dt">version =</span> <span class="st">"nightly"</span>)</span></code></pre></div>
 <p>will get you the nightly build of TensorFlow as well as TensorFlow Probability.</p>
 </div>
 <div id="usage" class="section level2">
@@ -123,9 +123,9 @@
 </ul>
 <p>are described in the vignettes/articles and/or featured on the <a href="https://blogs.rstudio.com/tensorflow/">TensorFlow for R blog</a>.</p>
 <p>This introductory text illustrates the lower-level building blocks: distributions, bijectors, and probabilistic <code>keras</code> layers.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tfprobability)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tensorflow)</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">tf<span class="op">$</span>compat<span class="op">$</span>v2<span class="op">$</span><span class="kw">enable_v2_behavior</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tfprobability</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tensorflow</span>)
+<span class="no">tf</span>$<span class="no">compat</span>$<span class="no">v2</span>$<span class="fu">enable_v2_behavior</span>()</pre></div>
 <div id="distributions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distributions" class="anchor"></a>Distributions</h3>
@@ -133,47 +133,47 @@
 <div id="example-binomial-distribution" class="section level4">
 <h4 class="hasAnchor">
 <a href="#example-binomial-distribution" class="anchor"></a>Example: Binomial distribution</h4>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># create a binomial distribution with n = 7 and p = 0.3</span></a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">d &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_binomial.html">tfd_binomial</a></span>(<span class="dt">total_count =</span> <span class="dv">7</span>, <span class="dt">probs =</span> <span class="fl">0.3</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co"># compute mean</span></a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_mean.html">tfd_mean</a></span>()</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co"># compute variance</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_variance.html">tfd_variance</a></span>()</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co"># compute probability</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_prob.html">tfd_prob</a></span>(<span class="fl">2.3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># create a binomial distribution with n = 7 and p = 0.3</span>
+<span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_binomial.html">tfd_binomial</a></span>(<span class="kw">total_count</span> <span class="kw">=</span> <span class="fl">7</span>, <span class="kw">probs</span> <span class="kw">=</span> <span class="fl">0.3</span>)
+
+<span class="co"># compute mean</span>
+<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_mean.html">tfd_mean</a></span>()
+<span class="co"># compute variance</span>
+<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_variance.html">tfd_variance</a></span>()
+<span class="co"># compute probability</span>
+<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_prob.html">tfd_prob</a></span>(<span class="fl">2.3</span>)</pre></div>
 </div>
 <div id="example-hidden-markov-model" class="section level4">
 <h4 class="hasAnchor">
 <a href="#example-hidden-markov-model" class="anchor"></a>Example: Hidden Markov Model</h4>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Represent a cold day with 0 and a hot day with 1.</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># Suppose the first day of a sequence has a 0.8 chance of being cold.</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co"># We can model this using the categorical distribution:</span></a>
-<a class="sourceLine" id="cb7-4" data-line-number="4">initial_distribution &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(<span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>))</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co"># Suppose a cold day has a 30% chance of being followed by a hot day</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co"># and a hot day has a 20% chance of being followed by a cold day.</span></a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co"># We can model this as:</span></a>
-<a class="sourceLine" id="cb7-8" data-line-number="8">transition_distribution &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="dt">probs =</span> <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.8</span>), <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="st">    </span>tf<span class="op">$</span><span class="kw">cast</span>(tf<span class="op">$</span>float32)</a>
-<a class="sourceLine" id="cb7-11" data-line-number="11">)</a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co"># Suppose additionally that on each day the temperature is</span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co"># normally distributed with mean and standard deviation 0 and 5 on</span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co"># a cold day and mean and standard deviation 15 and 10 on a hot day.</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co"># We can model this with:</span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16">observation_distribution &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="dt">loc =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">15</span>), <span class="dt">scale =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">5</span>, <span class="dv">10</span>))</a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co"># We can combine these distributions into a single week long</span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co"># hidden Markov model with:</span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19">d &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfd_hidden_markov_model.html">tfd_hidden_markov_model</a></span>(</a>
-<a class="sourceLine" id="cb7-20" data-line-number="20">  <span class="dt">initial_distribution =</span> initial_distribution,</a>
-<a class="sourceLine" id="cb7-21" data-line-number="21">  <span class="dt">transition_distribution =</span> transition_distribution,</a>
-<a class="sourceLine" id="cb7-22" data-line-number="22">  <span class="dt">observation_distribution =</span> observation_distribution,</a>
-<a class="sourceLine" id="cb7-23" data-line-number="23">  <span class="dt">num_steps =</span> <span class="dv">7</span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24">)</a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co"># The expected temperatures for each day are given by:</span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_mean.html">tfd_mean</a></span>()  <span class="co"># shape [7], elements approach 9.0</span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co"># The log pdf of a week of temperature 0 is:</span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28">d <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">0</span>, <span class="dv">7</span>)) </a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="co"># Represent a cold day with 0 and a hot day with 1.</span>
+<span class="co"># Suppose the first day of a sequence has a 0.8 chance of being cold.</span>
+<span class="co"># We can model this using the categorical distribution:</span>
+<span class="no">initial_distribution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(<span class="kw">probs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>))
+<span class="co"># Suppose a cold day has a 30% chance of being followed by a hot day</span>
+<span class="co"># and a hot day has a 20% chance of being followed by a cold day.</span>
+<span class="co"># We can model this as:</span>
+<span class="no">transition_distribution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(
+  <span class="kw">probs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.8</span>), <span class="kw">nrow</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">byrow</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
+    <span class="no">tf</span>$<span class="fu">cast</span>(<span class="no">tf</span>$<span class="no">float32</span>)
+)
+<span class="co"># Suppose additionally that on each day the temperature is</span>
+<span class="co"># normally distributed with mean and standard deviation 0 and 5 on</span>
+<span class="co"># a cold day and mean and standard deviation 15 and 10 on a hot day.</span>
+<span class="co"># We can model this with:</span>
+<span class="no">observation_distribution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">15</span>), <span class="kw">scale</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">10</span>))
+<span class="co"># We can combine these distributions into a single week long</span>
+<span class="co"># hidden Markov model with:</span>
+<span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_hidden_markov_model.html">tfd_hidden_markov_model</a></span>(
+  <span class="kw">initial_distribution</span> <span class="kw">=</span> <span class="no">initial_distribution</span>,
+  <span class="kw">transition_distribution</span> <span class="kw">=</span> <span class="no">transition_distribution</span>,
+  <span class="kw">observation_distribution</span> <span class="kw">=</span> <span class="no">observation_distribution</span>,
+  <span class="kw">num_steps</span> <span class="kw">=</span> <span class="fl">7</span>
+)
+<span class="co"># The expected temperatures for each day are given by:</span>
+<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_mean.html">tfd_mean</a></span>()  <span class="co"># shape [7], elements approach 9.0</span>
+<span class="co"># The log pdf of a week of temperature 0 is:</span>
+<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fl">7</span>))</pre></div>
 </div>
 </div>
 <div id="bijectors" class="section level3">
@@ -183,85 +183,85 @@
 <div id="affine-bijector" class="section level4">
 <h4 class="hasAnchor">
 <a href="#affine-bijector" class="anchor"></a>Affine bijector</h4>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># create an affine transformation that shifts by 3.33 and scales by 0.5</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_affine_scalar.html">tfb_affine_scalar</a></span>(<span class="dt">shift =</span> <span class="fl">3.33</span>, <span class="dt">scale =</span> <span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co"># apply the transformation</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="co"># create an affine transformation that shifts by 3.33 and scales by 0.5</span>
+<span class="no">b</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfb_affine_scalar.html">tfb_affine_scalar</a></span>(<span class="kw">shift</span> <span class="kw">=</span> <span class="fl">3.33</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0.5</span>)
+
+<span class="co"># apply the transformation</span>
+<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">10000</span>)
+<span class="no">b</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfb_forward.html">tfb_forward</a></span>(<span class="no">x</span>)</pre></div>
 </div>
 <div id="discrete-cosine-transform-bijector" class="section level4">
 <h4 class="hasAnchor">
 <a href="#discrete-cosine-transform-bijector" class="anchor"></a>Discrete cosine transform bijector</h4>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># create a bijector to that performs the discrete cosine transform (DCT)</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">b &lt;-<span class="st"> </span><span class="kw"><a href="reference/tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform</a></span>()</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co"># run on sample data</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">x &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">b <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfb_forward.html">tfb_forward</a></span>(x)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="r"><span class="co"># create a bijector to that performs the discrete cosine transform (DCT)</span>
+<span class="no">b</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform</a></span>()
+
+<span class="co"># run on sample data</span>
+<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="fl">3</span>))
+<span class="no">b</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfb_forward.html">tfb_forward</a></span>(<span class="no">x</span>)</pre></div>
 </div>
 </div>
 <div id="keras-layers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#keras-layers" class="anchor"></a>Keras layers</h3>
 <p><code>tfprobality</code> wraps distributions in Keras layers so we can use them seemlessly in a neural network, and work with tensors as targets as usual. For example, we can use <code>layer_kl_divergence_add_loss</code> to have the network take care of the KL loss automatically, and train a variational autoencoder with just negative log likelihood only, like this:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(keras)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">encoded_size &lt;-<span class="st"> </span><span class="dv">2</span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">input_shape &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(2L, 2L, 1L)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">train_size &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">x_train &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/array.html">array</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(train_size <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/funprog.html">Reduce</a></span>(<span class="st">`</span><span class="dt">*</span><span class="st">`</span>, input_shape)), <span class="dt">dim =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(train_size, input_shape))</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co"># encoder is a keras sequential model</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">encoder_model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_flatten.html">layer_flatten</a></span>(<span class="dt">input_shape =</span> input_shape) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">"relu"</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="dt">units =</span> <span class="kw"><a href="reference/params_size_multivariate_normal_tri_l.html">params_size_multivariate_normal_tri_l</a></span>(encoded_size)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="st">  </span><span class="kw"><a href="reference/layer_multivariate_normal_tri_l.html">layer_multivariate_normal_tri_l</a></span>(<span class="dt">event_size =</span> encoded_size) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="st">  </span><span class="co"># last layer adds KL divergence loss</span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="st">  </span><span class="kw"><a href="reference/layer_kl_divergence_add_loss.html">layer_kl_divergence_add_loss</a></span>(</a>
-<a class="sourceLine" id="cb10-16" data-line-number="16">      <span class="dt">distribution =</span> <span class="kw"><a href="reference/tfd_independent.html">tfd_independent</a></span>(</a>
-<a class="sourceLine" id="cb10-17" data-line-number="17">        <span class="kw"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="dt">loc =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dt">scale =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb10-18" data-line-number="18">        <span class="dt">reinterpreted_batch_ndims =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19">      ),</a>
-<a class="sourceLine" id="cb10-20" data-line-number="20">      <span class="dt">weight =</span> train_size)</a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co"># decoder is a keras sequential model</span></a>
-<a class="sourceLine" id="cb10-23" data-line-number="23">decoder_model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="dt">units =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb10-25" data-line-number="25">              <span class="dt">activation =</span> <span class="st">'relu'</span>,</a>
-<a class="sourceLine" id="cb10-26" data-line-number="26">              <span class="dt">input_shape =</span> encoded_size) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-27" data-line-number="27"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw"><a href="reference/params_size_independent_bernoulli.html">params_size_independent_bernoulli</a></span>(input_shape)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="st">  </span><span class="kw"><a href="reference/layer_independent_bernoulli.html">layer_independent_bernoulli</a></span>(<span class="dt">event_shape =</span> input_shape,</a>
-<a class="sourceLine" id="cb10-29" data-line-number="29">                              <span class="dt">convert_to_tensor_fn =</span> tfp<span class="op">$</span>distributions<span class="op">$</span>Bernoulli<span class="op">$</span>logits)</a>
-<a class="sourceLine" id="cb10-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co"># keras functional model uniting them both</span></a>
-<a class="sourceLine" id="cb10-32" data-line-number="32">vae_model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/keras_model.html">keras_model</a></span>(<span class="dt">inputs =</span> encoder_model<span class="op">$</span>inputs,</a>
-<a class="sourceLine" id="cb10-33" data-line-number="33">                         <span class="dt">outputs =</span> <span class="kw">decoder_model</span>(encoder_model<span class="op">$</span>outputs[<span class="dv">1</span>]))</a>
-<a class="sourceLine" id="cb10-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb10-35" data-line-number="35"><span class="co"># VAE loss now is just log probability of the data</span></a>
-<a class="sourceLine" id="cb10-36" data-line-number="36">vae_loss &lt;-<span class="st"> </span><span class="cf">function</span> (x, rv_x)</a>
-<a class="sourceLine" id="cb10-37" data-line-number="37">    <span class="op">-</span><span class="st"> </span>(rv_x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(x))</a>
-<a class="sourceLine" id="cb10-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb10-39" data-line-number="39">vae_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/reexports.html">compile</a></span>(</a>
-<a class="sourceLine" id="cb10-40" data-line-number="40">  <span class="dt">optimizer =</span> <span class="st">"adam"</span>,</a>
-<a class="sourceLine" id="cb10-41" data-line-number="41">  <span class="dt">loss =</span> vae_loss</a>
-<a class="sourceLine" id="cb10-42" data-line-number="42">)</a>
-<a class="sourceLine" id="cb10-43" data-line-number="43"></a>
-<a class="sourceLine" id="cb10-44" data-line-number="44">vae_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/pkg/keras/man/reexports.html">fit</a></span>(x_train, x_train, <span class="dt">batch_size =</span> <span class="dv">25</span>, <span class="dt">epochs =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">keras</span>)
+
+<span class="no">encoded_size</span> <span class="kw">&lt;-</span> <span class="fl">2</span>
+<span class="no">input_shape</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2L</span>, <span class="fl">2L</span>, <span class="fl">1L</span>)
+<span class="no">train_size</span> <span class="kw">&lt;-</span> <span class="fl">100</span>
+<span class="no">x_train</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">train_size</span> * <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Reduce</a></span>(<span class="no">`*`</span>, <span class="no">input_shape</span>)), <span class="kw">dim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">train_size</span>, <span class="no">input_shape</span>))
+
+<span class="co"># encoder is a keras sequential model</span>
+<span class="no">encoder_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_flatten.html">layer_flatten</a></span>(<span class="kw">input_shape</span> <span class="kw">=</span> <span class="no">input_shape</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw">units</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">activation</span> <span class="kw">=</span> <span class="st">"relu"</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw">units</span> <span class="kw">=</span> <span class="fu"><a href="reference/params_size_multivariate_normal_tri_l.html">params_size_multivariate_normal_tri_l</a></span>(<span class="no">encoded_size</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/layer_multivariate_normal_tri_l.html">layer_multivariate_normal_tri_l</a></span>(<span class="kw">event_size</span> <span class="kw">=</span> <span class="no">encoded_size</span>) <span class="kw">%&gt;%</span>
+  <span class="co"># last layer adds KL divergence loss</span>
+  <span class="fu"><a href="reference/layer_kl_divergence_add_loss.html">layer_kl_divergence_add_loss</a></span>(
+      <span class="kw">distribution</span> <span class="kw">=</span> <span class="fu"><a href="reference/tfd_independent.html">tfd_independent</a></span>(
+        <span class="fu"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">0</span>), <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">1</span>),
+        <span class="kw">reinterpreted_batch_ndims</span> <span class="kw">=</span> <span class="fl">1</span>
+      ),
+      <span class="kw">weight</span> <span class="kw">=</span> <span class="no">train_size</span>)
+
+<span class="co"># decoder is a keras sequential model</span>
+<span class="no">decoder_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw">units</span> <span class="kw">=</span> <span class="fl">10</span>,
+              <span class="kw">activation</span> <span class="kw">=</span> <span class="st">'relu'</span>,
+              <span class="kw">input_shape</span> <span class="kw">=</span> <span class="no">encoded_size</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="fu"><a href="reference/params_size_independent_bernoulli.html">params_size_independent_bernoulli</a></span>(<span class="no">input_shape</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="reference/layer_independent_bernoulli.html">layer_independent_bernoulli</a></span>(<span class="kw">event_shape</span> <span class="kw">=</span> <span class="no">input_shape</span>,
+                              <span class="kw">convert_to_tensor_fn</span> <span class="kw">=</span> <span class="no">tfp</span>$<span class="no">distributions</span>$<span class="no">Bernoulli</span>$<span class="no">logits</span>)
+
+<span class="co"># keras functional model uniting them both</span>
+<span class="no">vae_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model.html">keras_model</a></span>(<span class="kw">inputs</span> <span class="kw">=</span> <span class="no">encoder_model</span>$<span class="no">inputs</span>,
+                         <span class="kw">outputs</span> <span class="kw">=</span> <span class="fu">decoder_model</span>(<span class="no">encoder_model</span>$<span class="no">outputs</span>[<span class="fl">1</span>]))
+
+<span class="co"># VAE loss now is just log probability of the data</span>
+<span class="no">vae_loss</span> <span class="kw">&lt;-</span> <span class="kw">function</span> (<span class="no">x</span>, <span class="no">rv_x</span>)
+    - (<span class="no">rv_x</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="no">x</span>))
+
+<span class="no">vae_model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">compile</a></span>(
+  <span class="kw">optimizer</span> <span class="kw">=</span> <span class="st">"adam"</span>,
+  <span class="kw">loss</span> <span class="kw">=</span> <span class="no">vae_loss</span>
+)
+
+<span class="no">vae_model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">fit</a></span>(<span class="no">x_train</span>, <span class="no">x_train</span>, <span class="kw">batch_size</span> <span class="kw">=</span> <span class="fl">25</span>, <span class="kw">epochs</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
 </div>
 </div>
 </div>
 
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=tfprobability">https://​cloud.r-project.org/​package=tfprobability</a>
 </li>
-<li>Browse source code at <br><a href="https://github.com/rstudio/tfprobability">https://​github.com/​rstudio/​tfprobability</a>
+<li>Browse source code at <br><a href="https://github.com/rstudio/tfprobability/">https://​github.com/​rstudio/​tfprobability/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/rstudio/tfprobability/issues">https://​github.com/​rstudio/​tfprobability/​issues</a>
 </li>
@@ -287,8 +287,8 @@
 <ul class="list-unstyled">
 <li><a href="https://www.tidyverse.org/lifecycle/#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" alt="Lifecycle: experimental"></a></li>
 <li><a href="https://travis-ci.org/rstudio/tfprobability"><img src="https://travis-ci.org/rstudio/tfprobability.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://github.com/rstudio/tfprobability/"><img src="https://github.com/rstudio/tfprobability/workflows/R-CMD-check/badge.svg" alt="Actions Status"></a></li>
 <li><a href="https://codecov.io/gh/rstudio/tfprobability"><img src="https://codecov.io/gh/rstudio/tfprobability/branch/master/graph/badge.svg" alt="codecov"></a></li>
-<li><a href="https://ci.appveyor.com/project/rstudio/tfprobability"><img src="https://ci.appveyor.com/api/projects/status/github/rstudio/tfprobability?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 </ul>
 </div>
 </div>
@@ -300,7 +300,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

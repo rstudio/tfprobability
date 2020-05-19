@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -40,7 +44,6 @@
 on the reals. Special cases include Exponential (when loc = 0,
 concentration = 0), Pareto (when concentration &amp;gt; 0,
 loc = scale / concentration), and Uniform (when concentration = -1)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -58,7 +61,7 @@ loc = scale / concentration), and Uniform (when concentration = -1)." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -72,7 +75,7 @@ loc = scale / concentration), and Uniform (when concentration = -1)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
       </span>
     </div>
 
@@ -111,7 +114,7 @@ loc = scale / concentration), and Uniform (when concentration = -1)." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/tfprobability">
+  <a href="https://github.com/rstudio/tfprobability/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -141,8 +144,14 @@ on the reals. Special cases include <code>Exponential</code> (when <code>loc = 0
 <code>loc = scale / concentration</code>), and <code>Uniform</code> (when <code>concentration = -1</code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_generalized_pareto</span>(<span class='no'>loc</span>, <span class='no'>scale</span>, <span class='no'>concentration</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_generalized_pareto</span>(
+  <span class='no'>loc</span>,
+  <span class='no'>scale</span>,
+  <span class='no'>concentration</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,20 +208,19 @@ As a member of the location-scale family,
 <p>For positive concentrations, the distribution is equivalent to a hierarchical
 Exponential-Gamma model with <code>X|rate ~ Exponential(rate)</code> and
 <code>rate ~ Gamma(concentration=1 / concentration, scale=scale / concentration)</code>.
-In the following, <code>samps1</code> and <code>samps2</code> are identically distributed:</p><pre>genp &lt;- tfd_generalized_pareto(loc = 0, scale = scale, concentration = conc)
-samps1 &lt;- genp %&gt;% tfd_sample(1000)
-jd &lt;- tfd_joint_distribution_named(
-  list(
-    rate =  tfd_gamma(1 / genp$concentration, genp$scale / genp$concentration),
-    x = function(rate) tfd_exponential(rate)))
-samps2 &lt;- jd %&gt;% tfd_sample(1000) %&gt;% .$x
-</pre>
+In the following, <code>samps1</code> and <code>samps2</code> are identically distributed:</p><pre><span class='no'>genp</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'>tfd_generalized_pareto</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale</span>, <span class='kw'>concentration</span> <span class='kw'>=</span> <span class='no'>conc</span>)
+<span class='no'>samps1</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>genp</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(<span class='fl'>1000</span>)
+<span class='no'>jd</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='tfd_joint_distribution_named.html'>tfd_joint_distribution_named</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    <span class='kw'>rate</span> <span class='kw'>=</span>  <span class='fu'><a href='tfd_gamma.html'>tfd_gamma</a></span>(<span class='fl'>1</span> / <span class='no'>genp</span>$<span class='no'>concentration</span>, <span class='no'>genp</span>$<span class='no'>scale</span> / <span class='no'>genp</span>$<span class='no'>concentration</span>),
+    <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>rate</span>) <span class='fu'><a href='tfd_exponential.html'>tfd_exponential</a></span>(<span class='no'>rate</span>)))
+<span class='no'>samps2</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>jd</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(<span class='fl'>1000</span>) <span class='kw'>%&amp;gt;%</span> <span class='no'>.</span>$<span class='no'>x</span></pre>
 
 <p>The support of the distribution is always lower bounded by <code>loc</code>. When
 <code>concentration &lt; 0</code>, the support is also upper bounded by
 <code>loc + scale / abs(concentration)</code>.</p>
 <p>Mathematical Details</p>
-<p>The probability density function (pdf) is,</p><pre>pdf(x; mu, sigma, shp, x &gt; mu) =   (1 + shp * (x - mu) / sigma)**(-1 / shp - 1) / sigma
+<p>The probability density function (pdf) is,</p><pre>pdf(x; mu, sigma, shp, x &amp;gt; mu) =   (1 + shp * (x - mu) / sigma)**(-1 / shp - 1) / sigma
 </pre>
 
 <p>where:</p><ul>
@@ -221,7 +229,7 @@ samps2 &lt;- jd %&gt;% tfd_sample(1000) %&gt;% .$x
 <li><p><code>loc = mu</code>.</p></li>
 </ul>
 
-<p>The cumulative density function (cdf) is,</p><pre> cdf(x; mu, sigma, shp, x &gt; mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
+<p>The cumulative density function (cdf) is,</p><pre>cdf(x; mu, sigma, shp, x &amp;gt; mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
 </pre>
 
 <p>Distribution parameters are automatically broadcast in all functions; see
@@ -232,15 +240,10 @@ Samples of this distribution are reparameterized (pathwise differentiable).</p>
     <div class='dont-index'><p>For usage examples see e.g. <code><a href='tfd_sample.html'>tfd_sample()</a></code>, <code><a href='tfd_log_prob.html'>tfd_log_prob()</a></code>, <code><a href='tfd_mean.html'>tfd_mean()</a></code>.</p></div>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -251,7 +254,7 @@ Samples of this distribution are reparameterized (pathwise differentiable).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

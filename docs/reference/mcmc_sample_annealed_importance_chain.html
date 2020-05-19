@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -47,7 +51,6 @@ importance weights gives an unbiased estimate of the ratio of the
 normalizing constants of the initial distribution and the target
 distribution:
 E[exp(ais_weights)] = exp(target_log_normalizer - proposal_log_normalizer)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -65,7 +68,7 @@ E[exp(ais_weights)] = exp(target_log_normalizer - proposal_log_normalizer)." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +82,7 @@ E[exp(ais_weights)] = exp(target_log_normalizer - proposal_log_normalizer)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
       </span>
     </div>
 
@@ -118,7 +121,7 @@ E[exp(ais_weights)] = exp(target_log_normalizer - proposal_log_normalizer)." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/tfprobability">
+  <a href="https://github.com/rstudio/tfprobability/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -155,9 +158,15 @@ distribution:
 <code>E[exp(ais_weights)] = exp(target_log_normalizer - proposal_log_normalizer)</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_sample_annealed_importance_chain</span>(<span class='no'>num_steps</span>, <span class='no'>proposal_log_prob_fn</span>,
-  <span class='no'>target_log_prob_fn</span>, <span class='no'>current_state</span>, <span class='no'>make_kernel_fn</span>,
-  <span class='kw'>parallel_iterations</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mcmc_sample_annealed_importance_chain</span>(
+  <span class='no'>num_steps</span>,
+  <span class='no'>proposal_log_prob_fn</span>,
+  <span class='no'>target_log_prob_fn</span>,
+  <span class='no'>current_state</span>,
+  <span class='no'>make_kernel_fn</span>,
+  <span class='kw'>parallel_iterations</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,7 +193,7 @@ initial distribution.</p></td>
       <th>current_state</th>
       <td><p><code>Tensor</code> or <code>list</code> of <code>Tensor</code>s representing the
 current state(s) of the Markov chain(s). The first <code>r</code> dimensions index
-independent chains, <code>r = tf$rank(target_log_prob_fn(current_state))</code>.</p></td>
+independent chains, <code>r</code> = <code>tf$rank(target_log_prob_fn(current_state))</code>.</p></td>
     </tr>
     <tr>
       <th>make_kernel_fn</th>
@@ -227,21 +236,17 @@ reduced to two times in the future).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>For an example how to use see <code><a href='mcmc_sample_chain.html'>mcmc_sample_chain()</a></code>.</p>
-<p>Other mcmc_functions: <code><a href='mcmc_effective_sample_size.html'>mcmc_effective_sample_size</a></code>,
-  <code><a href='mcmc_potential_scale_reduction.html'>mcmc_potential_scale_reduction</a></code>,
-  <code><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a></code>,
-  <code><a href='mcmc_sample_halton_sequence.html'>mcmc_sample_halton_sequence</a></code></p></div>
+<p>Other mcmc_functions: 
+<code><a href='mcmc_effective_sample_size.html'>mcmc_effective_sample_size</a>()</code>,
+<code><a href='mcmc_potential_scale_reduction.html'>mcmc_potential_scale_reduction</a>()</code>,
+<code><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a>()</code>,
+<code><a href='mcmc_sample_halton_sequence.html'>mcmc_sample_halton_sequence</a>()</code></p></div>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -252,7 +257,7 @@ reduced to two times in the future).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
