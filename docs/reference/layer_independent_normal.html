@@ -208,8 +208,26 @@ silently render incorrect outputs. Default value: FALSE.
     <span class='fu'><a href='https://rdrr.io/pkg/keras/man/layer_dense.html'>layer_dense</a></span>(<span class='kw'>units</span> <span class='kw'>=</span> <span class='fu'><a href='params_size_independent_normal.html'>params_size_independent_normal</a></span>(<span class='no'>encoded_shape</span>)),
     <span class='fu'>layer_independent_normal</span>(<span class='kw'>event_shape</span> <span class='kw'>=</span> <span class='no'>encoded_shape</span>)
     )
-  )
-<span class='co'># }</span></div></pre>
+  )</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/layers/distribution_layer.py", line 1012, in params_size</span>
+#&gt; <span class='error'>    event_shape, name='event_shape', dtype_hint=tf.int32)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1283, in convert_to_tensor_v2</span>
+#&gt; <span class='error'>    as_ref=False)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1329, in convert_to_tensor</span>
+#&gt; <span class='error'>    value, dtype=preferred_dtype, name=name, as_ref=as_ref)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/tensor_conversion_registry.py", line 52, in _default_conversion_function</span>
+#&gt; <span class='error'>    return constant_op.constant(value, dtype, name=name)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
+#&gt; <span class='error'>    allow_broadcast=True)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>    ctx.ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -251,12 +251,63 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>( <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>201</span>,<span class='fl'>244</span>, <span class='fl'>47</span>,<span class='fl'>287</span>,<span class='fl'>203</span>,<span class='fl'>58</span>,<span class='fl'>210</span>,<span class='fl'>202</span>,<span class='fl'>198</span>,<span class='fl'>158</span>,<span class='fl'>165</span>,<span class='fl'>201</span>,<span class='fl'>157</span>,
-  <span class='fl'>131</span>,<span class='fl'>166</span>,<span class='fl'>160</span>,<span class='fl'>186</span>,<span class='fl'>125</span>,<span class='fl'>218</span>,<span class='fl'>146</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)
-<span class='no'>obs</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>592</span>,<span class='fl'>401</span>,<span class='fl'>583</span>,<span class='fl'>402</span>,<span class='fl'>495</span>,<span class='fl'>173</span>,<span class='fl'>479</span>,<span class='fl'>504</span>,<span class='fl'>510</span>,<span class='fl'>416</span>,<span class='fl'>393</span>,<span class='fl'>442</span>,<span class='fl'>317</span>,<span class='fl'>311</span>,<span class='fl'>400</span>,
-  <span class='fl'>337</span>,<span class='fl'>423</span>,<span class='fl'>334</span>,<span class='fl'>533</span>,<span class='fl'>344</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)
-<span class='no'>y_sigma</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>61</span>,<span class='fl'>25</span>,<span class='fl'>38</span>,<span class='fl'>15</span>,<span class='fl'>21</span>,<span class='fl'>15</span>,<span class='fl'>27</span>,<span class='fl'>14</span>,<span class='fl'>30</span>,<span class='fl'>16</span>,<span class='fl'>14</span>,<span class='fl'>25</span>,<span class='fl'>52</span>,<span class='fl'>16</span>,<span class='fl'>34</span>,<span class='fl'>31</span>,<span class='fl'>42</span>,<span class='fl'>26</span>,
-  <span class='fl'>16</span>,<span class='fl'>22</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)
-
+  <span class='fl'>131</span>,<span class='fl'>166</span>,<span class='fl'>160</span>,<span class='fl'>186</span>,<span class='fl'>125</span>,<span class='fl'>218</span>,<span class='fl'>146</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/util/dispatch.py", line 180, in wrapper</span>
+#&gt; <span class='error'>    return target(*args, **kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/ops/math_ops.py", line 787, in cast</span>
+#&gt; <span class='error'>    x = ops.convert_to_tensor(x, name="x")</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor</span>
+#&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 321, in _constant_tensor_conversion_function</span>
+#&gt; <span class='error'>    return constant(v, dtype=dtype, name=name)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
+#&gt; <span class='error'>    allow_broadcast=True)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>    ctx.ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'><span class='no'>obs</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>592</span>,<span class='fl'>401</span>,<span class='fl'>583</span>,<span class='fl'>402</span>,<span class='fl'>495</span>,<span class='fl'>173</span>,<span class='fl'>479</span>,<span class='fl'>504</span>,<span class='fl'>510</span>,<span class='fl'>416</span>,<span class='fl'>393</span>,<span class='fl'>442</span>,<span class='fl'>317</span>,<span class='fl'>311</span>,<span class='fl'>400</span>,
+  <span class='fl'>337</span>,<span class='fl'>423</span>,<span class='fl'>334</span>,<span class='fl'>533</span>,<span class='fl'>344</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/util/dispatch.py", line 180, in wrapper</span>
+#&gt; <span class='error'>    return target(*args, **kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/ops/math_ops.py", line 787, in cast</span>
+#&gt; <span class='error'>    x = ops.convert_to_tensor(x, name="x")</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor</span>
+#&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 321, in _constant_tensor_conversion_function</span>
+#&gt; <span class='error'>    return constant(v, dtype=dtype, name=name)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
+#&gt; <span class='error'>    allow_broadcast=True)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>    ctx.ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'><span class='no'>y_sigma</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>61</span>,<span class='fl'>25</span>,<span class='fl'>38</span>,<span class='fl'>15</span>,<span class='fl'>21</span>,<span class='fl'>15</span>,<span class='fl'>27</span>,<span class='fl'>14</span>,<span class='fl'>30</span>,<span class='fl'>16</span>,<span class='fl'>14</span>,<span class='fl'>25</span>,<span class='fl'>52</span>,<span class='fl'>16</span>,<span class='fl'>34</span>,<span class='fl'>31</span>,<span class='fl'>42</span>,<span class='fl'>26</span>,
+  <span class='fl'>16</span>,<span class='fl'>22</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/util/dispatch.py", line 180, in wrapper</span>
+#&gt; <span class='error'>    return target(*args, **kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/ops/math_ops.py", line 787, in cast</span>
+#&gt; <span class='error'>    x = ops.convert_to_tensor(x, name="x")</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor</span>
+#&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 321, in _constant_tensor_conversion_function</span>
+#&gt; <span class='error'>    return constant(v, dtype=dtype, name=name)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
+#&gt; <span class='error'>    allow_broadcast=True)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>    ctx.ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'>
 <span class='co'># Robust linear regression model</span>
 <span class='no'>robust_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_joint_distribution_sequential.html'>tfd_joint_distribution_sequential</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
   <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>),
@@ -274,12 +325,51 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
         <span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>y_sigma</span>[<span class='kw'>NULL</span>,]
       )
    )
- ),  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
+ ),  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "&lt;decorator-gen-120&gt;", line 2, in __init__</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/distribution.py", line 332, in wrapped_init</span>
+#&gt; <span class='error'>    default_init(self_, *args, **kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/normal.py", line 138, in __init__</span>
+#&gt; <span class='error'>    loc, dtype=dtype, name='loc')</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/internal/tensor_util.py", line 115, in convert_nonref_to_tensor</span>
+#&gt; <span class='error'>    value, dtype=dtype, dtype_hint=dtype_hint, name=name)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1283, in convert_to_tensor_v2</span>
+#&gt; <span class='error'>    as_ref=False)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor</span>
+#&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/tensor_conversion_registry.py", line 52, in _default_conversion_function</span>
+#&gt; <span class='error'>    return constant_op.constant(value, dtype, name=name)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
+#&gt; <span class='error'>    allow_broadcast=True)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>    ctx.ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'>
  <span class='no'>log_prob</span> <span class='kw'>&lt;-</span><span class='kw'>function</span>(<span class='no'>b0</span>, <span class='no'>b1</span>, <span class='no'>df</span>) {<span class='no'>robust_lm</span> <span class='kw'>%&gt;%</span>
    <span class='fu'><a href='tfd_log_prob.html'>tfd_log_prob</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>b0</span>, <span class='no'>b1</span>, <span class='no'>df</span>, <span class='no'>obs</span>))}
- <span class='no'>step_size0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span>(<span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='no'>x</span>, <span class='no'>tf</span>$<span class='no'>float32</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>.2</span>, <span class='fl'>.5</span>))
-
+ <span class='no'>step_size0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span>(<span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='no'>x</span>, <span class='no'>tf</span>$<span class='no'>float32</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>.2</span>, <span class='fl'>.5</span>))</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
+#&gt; <span class='error'></span>
+#&gt; <span class='error'>Detailed traceback: </span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/util/dispatch.py", line 180, in wrapper</span>
+#&gt; <span class='error'>    return target(*args, **kwargs)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/ops/math_ops.py", line 787, in cast</span>
+#&gt; <span class='error'>    x = ops.convert_to_tensor(x, name="x")</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor</span>
+#&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/tensor_conversion_registry.py", line 52, in _default_conversion_function</span>
+#&gt; <span class='error'>    return constant_op.constant(value, dtype, name=name)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
+#&gt; <span class='error'>    allow_broadcast=True)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>    ctx.ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'>
  <span class='no'>number_of_steps</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
  <span class='no'>burnin</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
  <span class='no'>nchain</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
@@ -322,65 +412,15 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
    }
 
    <span class='no'>run_chain</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tensorflow/man/tf_function.html'>tf_function</a></span>(<span class='no'>run_chain</span>)
-   <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: Evaluation error: RuntimeError: Evaluation error: RuntimeError: Evaluation error: Incorrect number of dimensions supplied. 0 required, but received 1.</span>
+   <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
 #&gt; <span class='error'></span>
 #&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 441, in log_prob</span>
-#&gt; <span class='error'>    dtype=self.dtype,</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 200, in dtype</span>
-#&gt; <span class='error'>    d.dtype for d in self._get_single_sample_distributions()])</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 173, in _get_single_sample_distributions</span>
-#&gt; <span class='error'>    self._flat_sample_distributions(seed=42)[0])  # Seed for CSE.</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 259, in _flat_sample_distributions</span>
-#&gt; <span class='error'>    ds.append(dist_fn(*xs[:i]))  # Chain rule of probability.</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 489, in dist_fn_wrapped</span>
-#&gt; <span class='error'>    return dist_fn(*reversed(xs[-len(args):]))</span>
-#&gt; <span class='error'>  File "&lt;string&gt;", line 4, in fn</span>
-#&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
-#&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span>
-#&gt; <span class='error'>.</span>
-#&gt; <span class='error'></span>
-#&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/sample.py", line 324, in sample_chain</span>
-#&gt; <span class='error'>    previous_kernel_results = kernel.bootstrap_results(current_state)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/dual_averaging_step_size_adaptation.py", line 486, in bootstrap_results</span>
-#&gt; <span class='error'>    inner_results = self.inner_kernel.bootstrap_results(init_state)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 408, in bootstrap_results</span>
-#&gt; <span class='error'>    transformed_init_state))</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/nuts.py", line 439, in bootstrap_results</span>
-#&gt; <span class='error'>    init_state)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/leapfrog_integrator.py", line 368, in process_args</span>
-#&gt; <span class='error'>    target_fn, state_parts)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 264, in maybe_call_fn_and_grads</span>
-#&gt; <span class='error'>    result, grads = _value_and_gradients(fn, fn_arg_list, result, grads)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 224, in _value_and_gradients</span>
-#&gt; <span class='error'>    result = fn(*fn_arg_list)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 102, in transformed_log_prob_fn</span>
-#&gt; <span class='error'>    tlp = log_prob_fn(*fn(state_parts))</span>
-#&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
-#&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span>
-#&gt; <span class='error'>.</span>
-#&gt; <span class='error'></span>
-#&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 580, in __call__</span>
-#&gt; <span class='error'>    result = self._call(*args, **kwds)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 627, in _call</span>
-#&gt; <span class='error'>    self._initialize(args, kwds, add_initializers_to=initializers)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 506, in _initialize</span>
-#&gt; <span class='error'>    *args, **kwds))</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 2446, in _get_concrete_function_internal_garbage_collected</span>
-#&gt; <span class='error'>    graph_function, _, _ = self._maybe_define_function(args, kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 2777, in _maybe_define_function</span>
-#&gt; <span class='error'>    graph_function = self._create_graph_function(args, kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 2667, in _create_graph_function</span>
-#&gt; <span class='error'>    capture_by_value=self._capture_by_value),</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/func_graph.py", line 981, in func_graph_from_py_func</span>
-#&gt; <span class='error'>    func_outputs = python_func(*func_args, **func_kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 441, in wrapped_fn</span>
-#&gt; <span class='error'>    return weak_wrapped_fn().__wrapped__(*args, **kwds)</span>
-#&gt; <span class='error'>  File "&lt;string&gt;", line 4, in fn</span>
-#&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
-#&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span></div><div class='input'># }
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 562, in __call__</span>
+#&gt; <span class='error'>    context.ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 1716, in ensure_initialized</span>
+#&gt; <span class='error'>    context().ensure_initialized()</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'># }
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

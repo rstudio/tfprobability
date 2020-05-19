@@ -9,8 +9,7 @@ tfd_transformed_distribution(
   bijector,
   batch_shape = NULL,
   event_shape = NULL,
- 
-    kwargs_split_fn = tfp$distributions$transformed_distribution$`_default_kwargs_split_fn`,
+  kwargs_split_fn = NULL,
   validate_args = FALSE,
   parameters = NULL,
   name = NULL

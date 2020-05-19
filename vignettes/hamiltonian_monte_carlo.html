@@ -1,45 +1,59 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Sigrid Keydana" />
 
-<meta name="date" content="2019-07-20" />
+<meta name="date" content="2020-05-19" />
 
 <title>Multi-level modeling with Hamiltonian Monte Carlo</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +62,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -96,7 +110,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -117,9 +131,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -288,7 +299,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -303,26 +315,26 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Multi-level modeling with Hamiltonian Monte Carlo</h1>
 <h4 class="author">Sigrid Keydana</h4>
-<h4 class="date">2019-07-20</h4>
+<h4 class="date">2020-05-19</h4>
 
 
 
 <p>Hierarchical models of any complexity may be specified using <code>tfd_joint_distribution_sequential()</code>. As hinted at by that function’s name, it builds a representation of a joint distribution where every component may optionally depend on components declared before it.</p>
 <p>The model is then fitted to data using some form of Monte Carlo algorithm – Hamiltonian Monte Carlo (HMC), in most cases. Supplementing Monte Carlo methods is an implementation of Variational Inference (VI), but we don’t cover VI in this document.</p>
 <p>We illustrate the process by example, using the <em>reedfrogs</em> dataset from Richard McElreath’s <code>rethinking</code> package. Each row in the dataset describes one tadpole tank, with its initial count of inhabitants (<code>density</code>) and number of survivors (<code>surv</code>).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># assume it's version 1.14, with eager not yet being the default</span></a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(tensorflow)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">tf<span class="op">$</span><span class="kw">enable_v2_behavior</span>()</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(tfprobability)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(rethinking)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">library</span>(zeallot)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="kw">library</span>(purrr)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw">data</span>(<span class="st">&quot;reedfrogs&quot;</span>)</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">d &lt;-<span class="st"> </span>reedfrogs</a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">str</span>(d)</a></code></pre></div>
-<pre><code>'data.frame':   48 obs. of  5 variables:
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># assume it&#39;s version 1.14, with eager not yet being the default</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(tensorflow)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>tf<span class="op">$</span><span class="kw">enable_v2_behavior</span>()</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(tfprobability)</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="kw">library</span>(rethinking)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">library</span>(zeallot)</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="kw">library</span>(purrr)</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="kw">data</span>(<span class="st">&quot;reedfrogs&quot;</span>)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>d &lt;-<span class="st"> </span>reedfrogs</span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">str</span>(d)</span></code></pre></div>
+<pre><code>&#39;data.frame&#39;:   48 obs. of  5 variables:
  $ density : int  10 10 10 10 10 10 10 10 10 10 ...
  $ pred    : Factor w/ 2 levels &quot;no&quot;,&quot;pred&quot;: 1 1 1 1 1 1 1 1 2 2 ...
  $ size    : Factor w/ 2 levels &quot;big&quot;,&quot;small&quot;: 1 1 1 1 2 2 2 2 1 1 ...
@@ -330,35 +342,35 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
  $ propsurv: num  0.9 1 0.7 1 0.9 0.9 1 0.9 0.4 0.9 ...</code></pre>
 <p>We port to <code>tfprobability</code> the partially-pooled model presented in McElreath’s book. With partial pooling, each tank gets its own probability of survival.</p>
 <p>In the model specification, we list the global priors first; then comes the intermediate layer yielding the per-tank priors; finally we have the likelihood which in this case is a binomial:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">n_tadpole_tanks &lt;-<span class="st"> </span><span class="kw">nrow</span>(d)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">n_surviving &lt;-<span class="st"> </span>d<span class="op">$</span>surv</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">n_start &lt;-<span class="st"> </span>d<span class="op">$</span>density</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">model &lt;-<span class="st"> </span><span class="kw">tfd_joint_distribution_sequential</span>(</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">  <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="co"># a_bar, the prior for the mean of the normal distribution of per-tank logits</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">    <span class="kw">tfd_normal</span>(<span class="dt">loc =</span> <span class="dv">0</span>, <span class="dt">scale =</span> <span class="fl">1.5</span>),</a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">    <span class="co"># sigma, the prior for the variance of the normal distribution of per-tank logits</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">    <span class="kw">tfd_exponential</span>(<span class="dt">rate =</span> <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">    <span class="co"># normal distribution of per-tank logits</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">    <span class="co"># parameters sigma and a_bar refer to the outputs of the above two distributions</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">    <span class="cf">function</span>(sigma, a_bar) </a>
-<a class="sourceLine" id="cb3-14" data-line-number="14">      <span class="kw">tfd_sample_distribution</span>(</a>
-<a class="sourceLine" id="cb3-15" data-line-number="15">        <span class="kw">tfd_normal</span>(<span class="dt">loc =</span> a_bar, <span class="dt">scale =</span> sigma),</a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">        <span class="dt">sample_shape =</span> <span class="kw">list</span>(n_tadpole_tanks)</a>
-<a class="sourceLine" id="cb3-17" data-line-number="17">      ), </a>
-<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="co"># binomial distribution of survival counts</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19">    <span class="co"># parameter l refers to the output of the normal distribution immediately above</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20">    <span class="cf">function</span>(l)</a>
-<a class="sourceLine" id="cb3-21" data-line-number="21">      <span class="kw">tfd_independent</span>(</a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">        <span class="kw">tfd_binomial</span>(<span class="dt">total_count =</span> n_start, <span class="dt">logits =</span> l),</a>
-<a class="sourceLine" id="cb3-23" data-line-number="23">        <span class="dt">reinterpreted_batch_ndims =</span> <span class="dv">1</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24">      )</a>
-<a class="sourceLine" id="cb3-25" data-line-number="25">  )</a>
-<a class="sourceLine" id="cb3-26" data-line-number="26">)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>n_tadpole_tanks &lt;-<span class="st"> </span><span class="kw">nrow</span>(d)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>n_surviving &lt;-<span class="st"> </span>d<span class="op">$</span>surv</span>
+<span id="cb3-3"><a href="#cb3-3"></a>n_start &lt;-<span class="st"> </span>d<span class="op">$</span>density</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>model &lt;-<span class="st"> </span><span class="kw">tfd_joint_distribution_sequential</span>(</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="kw">list</span>(</span>
+<span id="cb3-7"><a href="#cb3-7"></a>    <span class="co"># a_bar, the prior for the mean of the normal distribution of per-tank logits</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>    <span class="kw">tfd_normal</span>(<span class="dt">loc =</span> <span class="dv">0</span>, <span class="dt">scale =</span> <span class="fl">1.5</span>),</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    <span class="co"># sigma, the prior for the variance of the normal distribution of per-tank logits</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>    <span class="kw">tfd_exponential</span>(<span class="dt">rate =</span> <span class="dv">1</span>),</span>
+<span id="cb3-11"><a href="#cb3-11"></a>    <span class="co"># normal distribution of per-tank logits</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="co"># parameters sigma and a_bar refer to the outputs of the above two distributions</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>    <span class="cf">function</span>(sigma, a_bar) </span>
+<span id="cb3-14"><a href="#cb3-14"></a>      <span class="kw">tfd_sample_distribution</span>(</span>
+<span id="cb3-15"><a href="#cb3-15"></a>        <span class="kw">tfd_normal</span>(<span class="dt">loc =</span> a_bar, <span class="dt">scale =</span> sigma),</span>
+<span id="cb3-16"><a href="#cb3-16"></a>        <span class="dt">sample_shape =</span> <span class="kw">list</span>(n_tadpole_tanks)</span>
+<span id="cb3-17"><a href="#cb3-17"></a>      ), </span>
+<span id="cb3-18"><a href="#cb3-18"></a>    <span class="co"># binomial distribution of survival counts</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a>    <span class="co"># parameter l refers to the output of the normal distribution immediately above</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a>    <span class="cf">function</span>(l)</span>
+<span id="cb3-21"><a href="#cb3-21"></a>      <span class="kw">tfd_independent</span>(</span>
+<span id="cb3-22"><a href="#cb3-22"></a>        <span class="kw">tfd_binomial</span>(<span class="dt">total_count =</span> n_start, <span class="dt">logits =</span> l),</span>
+<span id="cb3-23"><a href="#cb3-23"></a>        <span class="dt">reinterpreted_batch_ndims =</span> <span class="dv">1</span></span>
+<span id="cb3-24"><a href="#cb3-24"></a>      )</span>
+<span id="cb3-25"><a href="#cb3-25"></a>  )</span>
+<span id="cb3-26"><a href="#cb3-26"></a>)</span></code></pre></div>
 <p>Our model technically being a <em>distribution</em>, we can verify it conforms to our expectations by <em>sampling</em> from it:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">s &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_sample</span>(<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">s </a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>s &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_sample</span>(<span class="dv">2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>s </span></code></pre></div>
 <pre><code>[[1]]
 tf.Tensor([2.1276963  0.26374984], shape=(2,), dtype=float32)
 
@@ -383,53 +395,53 @@ tf.Tensor(
    1. 14.  4. 14.  9.  6. 12.  0. 20. 19.  1. 15. 15.  7. 30.  7. 12.  4.
   23.  3. 16. 34. 35.  5. 14. 10. 20. 32. 19. 24.]], shape=(2, 48), dtype=float32)</code></pre>
 <p>Another useful correctness check is that it yields a scalar log likelihood:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_log_prob</span>(s)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_log_prob</span>(s)</span></code></pre></div>
 <pre><code>tf.Tensor([-149.4476  -193.44107], shape=(2,), dtype=float32)</code></pre>
 <p>`</p>
 <p>Besides the model, we need to specify the loss, which here is just the joint log likelihood of the parameters and the target variable:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">logprob &lt;-<span class="st"> </span><span class="cf">function</span>(a, s, l)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_log_prob</span>(<span class="kw">list</span>(a, s, l, n_surviving))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>logprob &lt;-<span class="st"> </span><span class="cf">function</span>(a, s, l)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_log_prob</span>(<span class="kw">list</span>(a, s, l, n_surviving))</span></code></pre></div>
 <p>Now we can set up HMC sampling, making use of <code>mcmc_simple_step_size_adaptation</code> for dynamic step size evolution based on a desired acceptance probability.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># number of steps after burnin</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">n_steps &lt;-<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="co"># number of chains</span></a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">n_chain &lt;-<span class="st"> </span><span class="dv">4</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co"># number of burnin steps</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">n_burnin &lt;-<span class="st"> </span><span class="dv">500</span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8">hmc &lt;-<span class="st"> </span><span class="kw">mcmc_hamiltonian_monte_carlo</span>(</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">  <span class="dt">target_log_prob_fn =</span> logprob,</a>
-<a class="sourceLine" id="cb9-10" data-line-number="10">  <span class="dt">num_leapfrog_steps =</span> <span class="dv">3</span>,</a>
-<a class="sourceLine" id="cb9-11" data-line-number="11">  <span class="co"># one step size for each parameter</span></a>
-<a class="sourceLine" id="cb9-12" data-line-number="12">  <span class="dt">step_size =</span> <span class="kw">list</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),</a>
-<a class="sourceLine" id="cb9-13" data-line-number="13">) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb9-14" data-line-number="14"><span class="st">  </span><span class="kw">mcmc_simple_step_size_adaptation</span>(<span class="dt">target_accept_prob =</span> <span class="fl">0.8</span>,</a>
-<a class="sourceLine" id="cb9-15" data-line-number="15">                                   <span class="dt">num_adaptation_steps =</span> n_burnin)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># number of steps after burnin</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>n_steps &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="co"># number of chains</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>n_chain &lt;-<span class="st"> </span><span class="dv">4</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co"># number of burnin steps</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>n_burnin &lt;-<span class="st"> </span><span class="dv">500</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a></span>
+<span id="cb9-8"><a href="#cb9-8"></a>hmc &lt;-<span class="st"> </span><span class="kw">mcmc_hamiltonian_monte_carlo</span>(</span>
+<span id="cb9-9"><a href="#cb9-9"></a>  <span class="dt">target_log_prob_fn =</span> logprob,</span>
+<span id="cb9-10"><a href="#cb9-10"></a>  <span class="dt">num_leapfrog_steps =</span> <span class="dv">3</span>,</span>
+<span id="cb9-11"><a href="#cb9-11"></a>  <span class="co"># one step size for each parameter</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>  <span class="dt">step_size =</span> <span class="kw">list</span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),</span>
+<span id="cb9-13"><a href="#cb9-13"></a>) <span class="op">%&gt;%</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a><span class="st">  </span><span class="kw">mcmc_simple_step_size_adaptation</span>(<span class="dt">target_accept_prob =</span> <span class="fl">0.8</span>,</span>
+<span id="cb9-15"><a href="#cb9-15"></a>                                   <span class="dt">num_adaptation_steps =</span> n_burnin)</span></code></pre></div>
 <p>The actual sampling should run on the TensorFlow graph for performance. So if we’re executing in eager mode, we wrap the call in <code>tf_function</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># initial values to start the sampler</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">c</span>(initial_a, initial_s, initial_logits, .) <span class="op">%&lt;-%</span><span class="st"> </span>(model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_sample</span>(n_chain))</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co"># optionally retrieve metadata such as acceptance ratio and step size</span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">trace_fn &lt;-<span class="st"> </span><span class="cf">function</span>(state, pkr) {</a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">  <span class="kw">list</span>(pkr<span class="op">$</span>inner_results<span class="op">$</span>is_accepted,</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">       pkr<span class="op">$</span>inner_results<span class="op">$</span>accepted_results<span class="op">$</span>step_size)</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">}</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10">run_mcmc &lt;-<span class="st"> </span><span class="cf">function</span>(kernel) {</a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">  kernel <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mcmc_sample_chain</span>(</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">    <span class="dt">num_results =</span> n_steps,</a>
-<a class="sourceLine" id="cb10-13" data-line-number="13">    <span class="dt">num_burnin_steps =</span> n_burnin,</a>
-<a class="sourceLine" id="cb10-14" data-line-number="14">    <span class="dt">current_state =</span> <span class="kw">list</span>(initial_a, tf<span class="op">$</span><span class="kw">ones_like</span>(initial_s), initial_logits),</a>
-<a class="sourceLine" id="cb10-15" data-line-number="15">    <span class="dt">trace_fn =</span> trace_fn</a>
-<a class="sourceLine" id="cb10-16" data-line-number="16">  )</a>
-<a class="sourceLine" id="cb10-17" data-line-number="17">}</a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19">run_mcmc &lt;-<span class="st"> </span><span class="kw">tf_function</span>(run_mcmc)</a>
-<a class="sourceLine" id="cb10-20" data-line-number="20">res &lt;-<span class="st"> </span><span class="kw">run_mcmc</span>(hmc)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># initial values to start the sampler</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="kw">c</span>(initial_a, initial_s, initial_logits, .) <span class="op">%&lt;-%</span><span class="st"> </span>(model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tfd_sample</span>(n_chain))</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co"># optionally retrieve metadata such as acceptance ratio and step size</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>trace_fn &lt;-<span class="st"> </span><span class="cf">function</span>(state, pkr) {</span>
+<span id="cb10-6"><a href="#cb10-6"></a>  <span class="kw">list</span>(pkr<span class="op">$</span>inner_results<span class="op">$</span>is_accepted,</span>
+<span id="cb10-7"><a href="#cb10-7"></a>       pkr<span class="op">$</span>inner_results<span class="op">$</span>accepted_results<span class="op">$</span>step_size)</span>
+<span id="cb10-8"><a href="#cb10-8"></a>}</span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a>run_mcmc &lt;-<span class="st"> </span><span class="cf">function</span>(kernel) {</span>
+<span id="cb10-11"><a href="#cb10-11"></a>  kernel <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mcmc_sample_chain</span>(</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="dt">num_results =</span> n_steps,</span>
+<span id="cb10-13"><a href="#cb10-13"></a>    <span class="dt">num_burnin_steps =</span> n_burnin,</span>
+<span id="cb10-14"><a href="#cb10-14"></a>    <span class="dt">current_state =</span> <span class="kw">list</span>(initial_a, tf<span class="op">$</span><span class="kw">ones_like</span>(initial_s), initial_logits),</span>
+<span id="cb10-15"><a href="#cb10-15"></a>    <span class="dt">trace_fn =</span> trace_fn</span>
+<span id="cb10-16"><a href="#cb10-16"></a>  )</span>
+<span id="cb10-17"><a href="#cb10-17"></a>}</span>
+<span id="cb10-18"><a href="#cb10-18"></a></span>
+<span id="cb10-19"><a href="#cb10-19"></a>run_mcmc &lt;-<span class="st"> </span><span class="kw">tf_function</span>(run_mcmc)</span>
+<span id="cb10-20"><a href="#cb10-20"></a>res &lt;-<span class="st"> </span><span class="kw">run_mcmc</span>(hmc)</span></code></pre></div>
 <p>Now <code>res$all_states</code> contains the samples from the four chains, while <code>res$trace</code> has the diagnostic output.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">mcmc_trace &lt;-<span class="st"> </span>res<span class="op">$</span>all_states</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>mcmc_trace &lt;-<span class="st"> </span>res<span class="op">$</span>all_states</span></code></pre></div>
 <p>In our example, we have three levels of learned parameters (the two “hyperpriors” and the per-tank prior), so the samples come as a list of three. For each distribution, the first dimension reflects the number of samples per chain, the second, the number of chains and the third, the number of parameters in the chain.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">map</span>(mcmc_trace, <span class="op">~</span><span class="st"> </span><span class="kw">compose</span>(dim, as.array)(.x))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">map</span>(mcmc_trace, <span class="op">~</span><span class="st"> </span><span class="kw">compose</span>(dim, as.array)(.x))</span></code></pre></div>
 <pre><code>[[1]]
 [1] 500   4
 
@@ -439,12 +451,15 @@ tf.Tensor(
 [[3]]
 [1] 500   4  48</code></pre>
 <p>We can obtain the <em>rhat</em> value, as well as the effective sample size, using <code>mcmc_potential_scale_reduction</code> and <code>mcmc_effective_sample_size</code>, respectively:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">mcmc_potential_scale_reduction</span>(mcmc_trace)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">mcmc_effective_sample_size</span>(mcmc_trace)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">mcmc_potential_scale_reduction</span>(mcmc_trace)</span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">mcmc_effective_sample_size</span>(mcmc_trace)</span></code></pre></div>
 <p>These again are returned as lists of three.</p>
 <p>Rounding up on diagnostic output, we may inspect individual acceptance in <code>res$trace[[1]]</code> and step sizes in <code>res$trace[[2]]</code>.</p>
-<p>For ways to plot the samples and create summary output, as well as some background narrative, see <a href="https://blogs.rstudio.com/tensorflow/posts/2019-05-06-tadpoles-on-tensorflow/">Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability</a> and its follow-up, <a href="https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/">Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability</a> on the TensorFlow for R blog.</p>
+<p>For ways to plot the samples and create summary output, as well as some background narrative, see <a href="https://blogs.rstudio.com/ai/posts/2019-05-06-tadpoles-on-tensorflow/">Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability</a> and its follow-up, <a href="https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/">Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability</a> on the TensorFlow for R blog.</p>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

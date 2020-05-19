@@ -433,15 +433,20 @@ tfd_relaxed_bernoulli <- function(temperature,
 #' @inherit tfd_normal return
 #' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
-tfd_transformed_distribution <- function(
-  distribution,
-  bijector,
-  batch_shape = NULL,
-  event_shape = NULL,
-  kwargs_split_fn = tfp$distributions$transformed_distribution$`_default_kwargs_split_fn`,
-  validate_args = FALSE,
-  parameters = NULL,
-  name = NULL) {
+tfd_transformed_distribution <- function(distribution,
+                                         bijector,
+                                         batch_shape = NULL,
+                                         event_shape = NULL,
+                                         kwargs_split_fn = NULL,
+                                         validate_args = FALSE,
+                                         parameters = NULL,
+                                         name = NULL) {
+  kwargs_split_fn <-
+    if (is.null(kwargs_split_fn))
+      tfp$distributions$transformed_distribution$`_default_kwargs_split_fn`
+  else
+    kwargs_split_fn
+
   args <- list(
     distribution = distribution,
     bijector = bijector,

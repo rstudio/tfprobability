@@ -488,27 +488,31 @@ layer_mixture_logistic <- function(object,
 #'  contains.
 #'
 #' @export
-layer_variational_gaussian_process <- function(
-  object,
-  num_inducing_points,
-  kernel_provider,
-  event_shape = 1,
-  inducing_index_points_initializer = NULL,
-  unconstrained_observation_noise_variance_initializer = keras::initializer_constant(-10),
-  mean_fn = NULL,
-  jitter = 1e-06,
-  name = NULL) {
+layer_variational_gaussian_process <- function(object,
+                                               num_inducing_points,
+                                               kernel_provider,
+                                               event_shape = 1,
+                                               inducing_index_points_initializer = NULL,
+                                               unconstrained_observation_noise_variance_initializer = NULL,
+                                               mean_fn = NULL,
+                                               jitter = 1e-06,
+                                               name = NULL) {
+  unconstrained_observation_noise_variance_initializer <-
+    if (is.null(unconstrained_observation_noise_variance_initializer))
+      keras::initializer_constant(-10)
+  else
+    unconstrained_observation_noise_variance_initializer
 
-    args <- list(
-      num_inducing_points = as.integer(num_inducing_points),
-      kernel_provider = kernel_provider,
-      event_shape = normalize_shape(event_shape),
-      inducing_index_points_initializer = inducing_index_points_initializer,
-      unconstrained_observation_noise_variance_initializer = unconstrained_observation_noise_variance_initializer,
-      mean_fn = mean_fn,
-      jitter = jitter,
-      name = name
-    )
+  args <- list(
+    num_inducing_points = as.integer(num_inducing_points),
+    kernel_provider = kernel_provider,
+    event_shape = normalize_shape(event_shape),
+    inducing_index_points_initializer = inducing_index_points_initializer,
+    unconstrained_observation_noise_variance_initializer = unconstrained_observation_noise_variance_initializer,
+    mean_fn = mean_fn,
+    jitter = jitter,
+    name = name
+  )
 
   create_layer(tfp$layers$VariationalGaussianProcess, object, args)
 }

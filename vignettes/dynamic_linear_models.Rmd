@@ -341,5 +341,5 @@ ggplot(forecast_df, aes(x = month, y = filtered_means_intercept)) +
 knitr::include_graphics("images/capm_filtered.png")
 ```
 
-For an example illustrating the additivity feature of DLMs -- that allows us to _decompose_ a time series into its constituents --, as well as for more narrative on the above example, see [Dynamic linear models with tfprobability](https://blogs.rstudio.com/tensorflow/posts/2019-06-25-dynamic_linear_models_tfprobability/) on the TensorFlow for R blog.
+For an example illustrating the additivity feature of DLMs -- that allows us to _decompose_ a time series into its constituents --, as well as for more narrative on the above example, see [Dynamic linear models with tfprobability](https://blogs.rstudio.com/ai/posts/2019-06-25-dynamic_linear_models_tfprobability/) on the TensorFlow for R blog.
 

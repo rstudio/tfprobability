@@ -217,4 +217,4 @@ These again are returned as lists of three.
 Rounding up on diagnostic output, we may inspect individual acceptance in `res$trace[[1]]` and step sizes in `res$trace[[2]]`.
 
 
-For ways to plot the samples and create summary output, as well as some background narrative, see [Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability](https://blogs.rstudio.com/tensorflow/posts/2019-05-06-tadpoles-on-tensorflow/) and its follow-up, [Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability](https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/) on the TensorFlow for R blog. 
+For ways to plot the samples and create summary output, as well as some background narrative, see [Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability](https://blogs.rstudio.com/ai/posts/2019-05-06-tadpoles-on-tensorflow/) and its follow-up, [Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability](https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/) on the TensorFlow for R blog. 

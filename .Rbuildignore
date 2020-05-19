@@ -8,3 +8,4 @@
 ^pkgdown/*$
 ^CRAN-RELEASE$
 ^cran_comments.md$
+^\.github/
