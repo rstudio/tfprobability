@@ -4,14 +4,21 @@
 \alias{tfd_vector_diffeomixture}
 \title{VectorDiffeomixture distribution}
 \usage{
-tfd_vector_diffeomixture(mix_loc, temperature, distribution, loc = NULL,
-  scale = NULL, quadrature_size = 8,
+tfd_vector_diffeomixture(
+  mix_loc,
+  temperature,
+  distribution,
+  loc = NULL,
+  scale = NULL,
+  quadrature_size = 8,
   quadrature_fn = tfp$distributions$quadrature_scheme_softmaxnormal_quantiles,
-  validate_args = FALSE, allow_nan_stats = TRUE,
-  name = "VectorDiffeomixture")
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "VectorDiffeomixture"
+)
 }
 \arguments{
-\item{mix_loc}{\code{float}-like \code{Tensor} with shape \code{[b1, ..., bB, K-1]}.
+\item{mix_loc}{\code{float}-like \code{Tensor} with shape \verb{[b1, ..., bB, K-1]}.
 In terms of samples, larger \code{mix_loc[..., k]} ==>
 \code{Z} is more likely to put more weight on its \code{kth} component.}
 
@@ -32,14 +39,14 @@ then the gradient will be incorrect!}
 \item{loc}{Length-\code{K} list of \code{float}-type \code{Tensor}s. The \code{k}-th element
 represents the \code{shift} used for the \code{k}-th affine transformation.  If
 the \code{k}-th item is \code{NULL}, \code{loc} is implicitly \code{0}.  When specified,
-must have shape \code{[B1, ..., Bb, d]} where \code{b >= 0} and \code{d} is the event
+must have shape \verb{[B1, ..., Bb, d]} where \code{b >= 0} and \code{d} is the event
 size.}
 
 \item{scale}{Length-\code{K} list of \code{LinearOperator}s. Each should be
 positive-definite and operate on a \code{d}-dimensional vector space. The
 \code{k}-th element represents the \code{scale} used for the \code{k}-th affine
-transformation. \code{LinearOperator}s must have shape \code{[B1, ..., Bb, d, d]},
-\code{b >= 0}, i.e., characterizes \code{b}-batches of \code{d x d} matrices}
+transformation. \code{LinearOperator}s must have shape \verb{[B1, ..., Bb, d, d]},
+\code{b >= 0}, i.e., characterizes \code{b}-batches of \verb{d x d} matrices}
 
 \item{quadrature_size}{\code{integer} scalar representing number of
 quadrature points.  Larger \code{quadrature_size} means \code{q_N(x)} better
@@ -66,17 +73,17 @@ a distribution instance.
 }
 \description{
 A vector diffeomixture (VDM) is a distribution parameterized by a convex
-combination of \code{K} component \code{loc} vectors, \code{loc[k], k = 0,...,K-1}, and \code{K}
-\code{scale} matrices \code{scale[k], k = 0,..., K-1}.  It approximates the following
+combination of \code{K} component \code{loc} vectors, \verb{loc[k], k = 0,...,K-1}, and \code{K}
+\code{scale} matrices \verb{scale[k], k = 0,..., K-1}.  It approximates the following
 \href{https://en.wikipedia.org/wiki/Compound_probability_distribution}{compound distribution}
-\code{p(x) = int p(x | z) p(z) dz}, where z is in the K-simplex, and
-\code{p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])}
+\verb{p(x) = int p(x | z) p(z) dz}, where z is in the K-simplex, and
+\verb{p(x | z) := p(x | loc=sum_k z[k] loc[k], scale=sum_k z[k] scale[k])}
 }
 \details{
-The integral \code{int p(x | z) p(z) dz} is approximated with a quadrature scheme
-adapted to the mixture density \code{p(z)}.  The \code{N} quadrature points \code{z_{N, n}}
-and weights \code{w_{N, n}} (which are non-negative and sum to 1) are chosen such that
-\code{q_N(x) := sum_{n=1}^N w_{n, N} p(x | z_{N, n}) --> p(x)} as \code{N --> infinity}.
+The integral \verb{int p(x | z) p(z) dz} is approximated with a quadrature scheme
+adapted to the mixture density \code{p(z)}.  The \code{N} quadrature points \verb{z_\{N, n\}}
+and weights \verb{w_\{N, n\}} (which are non-negative and sum to 1) are chosen such that
+\verb{q_N(x) := sum_\{n=1\}^N w_\{n, N\} p(x | z_\{N, n\}) --> p(x)} as \verb{N --> infinity}.
 
 Since \code{q_N(x)} is in fact a mixture (of \code{N} points), we may sample from
 \code{q_N} exactly.  It is important to note that the VDM is \emph{defined} as \code{q_N}
@@ -89,7 +96,7 @@ The implemented marginal \code{p(z)} is the \code{SoftmaxNormal}, which is a
 it a density on the \code{K}-simplex.  That is,
 \code{Z = SoftmaxCentered(X)}, \code{X = Normal(mix_loc / temperature, 1 / temperature)}
 
-The default quadrature scheme chooses \code{z_{N, n}} as \code{N} midpoints of
+The default quadrature scheme chooses \verb{z_\{N, n\}} as \code{N} midpoints of
 the quantiles of \code{p(z)} (generalized quantiles if \code{K > 2}).
 See Dillon and Langmore (2018) for more details.
 
@@ -101,7 +108,7 @@ Conditioned on a draw from the SoftmaxNormal, \code{X|z} is a vector whose
 components are linear combinations of affine transformations, thus is itself
 an affine transformation.
 
-Note: The marginals \code{X_1|v, ..., X_d|v} are \emph{not} generally identical to some
+Note: The marginals \verb{X_1|v, ..., X_d|v} are \emph{not} generally identical to some
 parameterization of \code{distribution}.  This is due to the fact that the sum of
 draws from \code{distribution} are not generally itself the same \code{distribution}.
 
@@ -123,77 +130,90 @@ variables, then the gradient is not guaranteed correct!
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1801.03080}{Joshua Dillon and Ian Langmore. Quadrature Compound: An approximating family of distributions. arXiv preprint arXiv:1801.03080, 2018.}
+\item \href{https://arxiv.org/abs/1801.03080}{Joshua Dillon and Ian Langmore. Quadrature Compound: An approximating family of distributions. \emph{arXiv preprint arXiv:1801.03080}, 2018.}
 }
 }
 
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

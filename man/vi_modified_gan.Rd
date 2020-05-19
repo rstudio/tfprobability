@@ -9,9 +9,9 @@ vi_modified_gan(logu, self_normalized = FALSE, name = NULL)
 \arguments{
 \item{logu}{\code{float}-like \code{Tensor} representing \code{log(u)} from above.}
 
-\item{self_normalized}{\code{logical} indicating whether \code{f'(u=1)=0}. When
-\code{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
-when \code{p, q} are unnormalized measures.}
+\item{self_normalized}{\code{logical} indicating whether \verb{f'(u=1)=0}. When
+\verb{f'(u=1)=0} the implied Csiszar f-Divergence remains non-negative even
+when \verb{p, q} are unnormalized measures.}
 
 \item{name}{name prefixed to Ops created by this function.}
 }
@@ -20,7 +20,7 @@ jensen_shannon_of_u, \code{float}-like \code{Tensor} of the Csiszar-function
 evaluated at \code{u = exp(logu)}.
 }
 \description{
-A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
 When \code{self_normalized = True} the modified-GAN (Generative/Adversarial
@@ -33,22 +33,24 @@ The unmodified GAN Csiszar-function is identical to Jensen-Shannon (with
 \code{self_normalized = False}).
 
 Warning: this function makes non-log-space calculations and may therefore be
-numerically unstable for \code{|logu| >> 0}.
+numerically unstable for \verb{|logu| >> 0}.
 }
 \seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_chi_square}},
-  \code{\link{vi_csiszar_vimco}},
-  \code{\link{vi_dual_csiszar_function}},
-  \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_jeffreys}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_log1p_abs}},
-  \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_pearson}},
-  \code{\link{vi_squared_hellinger}},
-  \code{\link{vi_symmetrized_csiszar_function}}
+Other vi-functions: 
+\code{\link{vi_amari_alpha}()},
+\code{\link{vi_arithmetic_geometric}()},
+\code{\link{vi_chi_square}()},
+\code{\link{vi_csiszar_vimco}()},
+\code{\link{vi_dual_csiszar_function}()},
+\code{\link{vi_fit_surrogate_posterior}()},
+\code{\link{vi_jeffreys}()},
+\code{\link{vi_jensen_shannon}()},
+\code{\link{vi_kl_forward}()},
+\code{\link{vi_kl_reverse}()},
+\code{\link{vi_log1p_abs}()},
+\code{\link{vi_monte_carlo_variational_loss}()},
+\code{\link{vi_pearson}()},
+\code{\link{vi_squared_hellinger}()},
+\code{\link{vi_symmetrized_csiszar_function}()}
 }
 \concept{vi-functions}

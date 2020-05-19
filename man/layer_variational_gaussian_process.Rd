@@ -4,11 +4,18 @@
 \alias{layer_variational_gaussian_process}
 \title{A Variational Gaussian Process Layer.}
 \usage{
-layer_variational_gaussian_process(object, num_inducing_points,
-  kernel_provider, event_shape = 1,
+layer_variational_gaussian_process(
+  object,
+  num_inducing_points,
+  kernel_provider,
+  event_shape = 1,
   inducing_index_points_initializer = NULL,
-  unconstrained_observation_noise_variance_initializer = keras::initializer_constant(-10),
-  mean_fn = NULL, jitter = 1e-06, name = NULL)
+ 
+    unconstrained_observation_noise_variance_initializer = keras::initializer_constant(-10),
+  mean_fn = NULL,
+  jitter = 1e-06,
+  name = NULL
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -16,7 +23,7 @@ layer_variational_gaussian_process(object, num_inducing_points,
 \item{num_inducing_points}{number of inducing points in the Variational Gaussian
 Process distribution.}
 
-\item{kernel_provider}{a \code{Layer} instance equipped with an \code{@property}, which
+\item{kernel_provider}{a \code{Layer} instance equipped with an \verb{@property}, which
 yields a \code{PositiveSemidefiniteKernel} instance. The latter is used to parametrize
 the constructed Variational Gaussian Process distribution returned by calling
 the layer.}
@@ -28,7 +35,7 @@ We can think oof this as a distribution over 3-dimensional veector-valued
 functions.}
 
 \item{inducing_index_points_initializer}{a \code{tf.keras.initializer.Initializer}
-used to initialize the trainable \code{inducing_index_points variables}. Training
+used to initialize the trainable \verb{inducing_index_points variables}. Training
 VGP's is pretty sensitive to choice of initial inducing index point locations.
 A reasonable heuristic is to scatter them near the data, not too close to each
 other.}

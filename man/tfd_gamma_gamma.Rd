@@ -4,8 +4,14 @@
 \alias{tfd_gamma_gamma}
 \title{Gamma-Gamma distribution}
 \usage{
-tfd_gamma_gamma(concentration, mixing_concentration, mixing_rate,
-  validate_args = FALSE, allow_nan_stats = TRUE, name = "GammaGamma")
+tfd_gamma_gamma(
+  concentration,
+  mixing_concentration,
+  mixing_rate,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "GammaGamma"
+)
 }
 \arguments{
 \item{concentration}{Floating point tensor, the concentration params of the
@@ -42,8 +48,8 @@ can be useful for transaction value modeling, as in Fader and Hardi, 2013.
 Mathematical Details
 
 It is derived from the following Gamma-Gamma hierarchical model by integrating
-out the random variable \code{beta}.\preformatted{ beta ~ Gamma(alpha0, beta0)
- X | beta ~ Gamma(alpha, beta)
+out the random variable \code{beta}.\preformatted{beta ~ Gamma(alpha0, beta0)
+X | beta ~ Gamma(alpha, beta)
 }
 
 where
@@ -64,77 +70,90 @@ distribution are reparameterized using the technique described in
 
 @section References:
 \itemize{
-\item \href{http://www.brucehardie.com/notes/025/gamma_gamma.pdf}{Peter S. Fader, Bruce G. S. Hardi. The Gamma-Gamma Model of Monetary Value. Technical Report, 2013.}
-\item \href{https://arxiv.org/abs/1805.08498}{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. arXiv preprint arXiv:1805.08498, 2018}
+\item \href{http://www.brucehardie.com/notes/025/gamma_gamma.pdf}{Peter S. Fader, Bruce G. S. Hardi. The Gamma-Gamma Model of Monetary Value. \emph{Technical Report}, 2013.}
+\item \href{https://arxiv.org/abs/1805.08498}{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. \emph{arXiv preprint arXiv:1805.08498}, 2018}
 }
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

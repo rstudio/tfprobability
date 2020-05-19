@@ -4,11 +4,20 @@
 \alias{glm_fit_one_step.tensorflow.tensor}
 \title{Runs one Fisher Scoring step}
 \usage{
-\method{glm_fit_one_step}{tensorflow.tensor}(x, response, model,
+\method{glm_fit_one_step}{tensorflow.tensor}(
+  x,
+  response,
+  model,
   model_coefficients_start = NULL,
-  predicted_linear_response_start = NULL, l2_regularizer = NULL,
-  dispersion = NULL, offset = NULL, learning_rate = NULL,
-  fast_unsafe_numerics = TRUE, name = NULL, ...)
+  predicted_linear_response_start = NULL,
+  l2_regularizer = NULL,
+  dispersion = NULL,
+  offset = NULL,
+  learning_rate = NULL,
+  fast_unsafe_numerics = TRUE,
+  name = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{float-like, matrix-shaped Tensor where each row represents a sample's
@@ -58,7 +67,8 @@ number of required steps.
 Runs one Fisher Scoring step
 }
 \seealso{
-Other glm_fit: \code{\link{glm_families}},
-  \code{\link{glm_fit.tensorflow.tensor}}
+Other glm_fit: 
+\code{\link{glm_families}},
+\code{\link{glm_fit.tensorflow.tensor}()}
 }
 \concept{glm_fit}

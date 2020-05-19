@@ -257,7 +257,7 @@ tfb_batch_normalization <- function(batchnorm_layer = NULL,
 #' @param validate_args Logical indicating whether arguments should be checked for correctness.
 #' @param name String, name given to ops managed by this object. Default:
 #' E.g., `tfb_blockwise(list(tfb_exp(), tfb_softplus()))$name == 'blockwise_of_exp_and_softplus'`.
-#' @inherit tfb_identity return params
+#' @inherit tfb_identity return
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
@@ -282,7 +282,7 @@ tfb_blockwise <- function(bijectors,
 #' @param validate_args Logical indicating whether arguments should be checked for correctness.
 #' @param name String, name given to ops managed by this object. Default:
 #' E.g., `tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"`.
-#' @inherit tfb_identity return params
+#' @inherit tfb_identity return
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
@@ -2031,3 +2031,48 @@ tfb_ffjord <- function(state_time_derivative_fn,
   )
   do.call(tfp$bijectors$FFJORD, args)
 }
+
+#' LambertWTail transformation for heavy-tail Lambert W x F random variables.
+#'
+#' A random variable Y has a Lambert W x F distribution if W_tau(Y) = X has
+#' distribution F, where tau = (shift, scale, tail) parameterizes the inverse
+#' transformation.
+#'
+#' This bijector defines the transformation underlying Lambert W x F
+#' distributions that transform an input random variable to an output
+#' random variable with heavier tails. It is defined as
+#' Y = (U * exp(0.5 * tail * U^2)) * scale + shift,  tail >= 0
+#' where U = (X - shift) / scale is a shifted/scaled input random variable, and
+#' tail >= 0 is the tail parameter.
+#'
+#' Attributes:
+#' shift: shift to center (uncenter) the input data.
+#' scale: scale to normalize (de-normalize) the input data.
+#' tailweight: Tail parameter `delta` of heavy-tail transformation; must be >= 0.
+#'
+#' @param shift Floating point tensor; the shift for centering (uncentering) the
+#' input (output) random variable(s).
+#' @param scale Floating point tensor; the scaling (unscaling) of the input
+#' (output) random variable(s). Must contain only positive values.
+#' @param tailweight Floating point tensor; the tail behaviors of the output random
+#' variable(s).  Must contain only non-negative values.
+
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_lambert_w_tail <- function(shift = NULL,
+                               scale = NULL,
+                               tailweight = NULL,
+                               validate_args = FALSE,
+                               name = "lambertw_tail") {
+  args <- list(
+    shift = shift,
+    scale = scale,
+    tailweight = tailweight,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$LambertWTail, args)
+}
+

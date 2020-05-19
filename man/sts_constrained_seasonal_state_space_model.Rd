@@ -4,10 +4,18 @@
 \alias{sts_constrained_seasonal_state_space_model}
 \title{Seasonal state space model with effects constrained to sum to zero.}
 \usage{
-sts_constrained_seasonal_state_space_model(num_timesteps, num_seasons,
-  drift_scale, initial_state_prior, observation_noise_scale = 1e-04,
-  num_steps_per_season = 1, initial_step = 0, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = NULL)
+sts_constrained_seasonal_state_space_model(
+  num_timesteps,
+  num_seasons,
+  drift_scale,
+  initial_state_prior,
+  observation_noise_scale = 1e-04,
+  num_steps_per_season = 1,
+  initial_step = 0,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = NULL
+)
 }
 \arguments{
 \item{num_timesteps}{Scalar \code{integer} \code{tensor} number of timesteps to model
@@ -22,17 +30,17 @@ This is assumed to be the same for all seasons.}
 
 \item{initial_state_prior}{instance of \code{tfd_multivariate_normal}
 representing the prior distribution on latent states; must
-have event shape \code{[num_seasons]}.}
+have event shape \verb{[num_seasons]}.}
 
 \item{observation_noise_scale}{Scalar (any additional dimensions are
 treated as batch dimensions) \code{float} \code{tensor} indicating the standard
 deviation of the observation noise.}
 
 \item{num_steps_per_season}{\code{integer} number of steps in each
-season. This may be either a scalar (shape \code{[]}), in which case all
-seasons have the same length, or an array of shape \code{[num_seasons]},
+season. This may be either a scalar (shape \verb{[]}), in which case all
+seasons have the same length, or an array of shape \verb{[num_seasons]},
 in which seasons have different length, but remain constant around
-different cycles, or an array of shape \code{[num_cycles, num_seasons]},
+different cycles, or an array of shape \verb{[num_cycles, num_seasons]},
 in which num_steps_per_season for each season also varies in different
 cycle (e.g., a 4 years cycle with leap day). Default value: 1.}
 
@@ -70,14 +78,14 @@ The following discussion assumes familiarity with the mathematical details
 of \code{SeasonalStateSpaceModel}.
 
 \emph{Reparameterization and constraints}: let the seasonal effects at a given
-timestep be \code{E = [e_1, ..., e_N]}. The difference between each effect \code{e_i}
+timestep be \verb{E = [e_1, ..., e_N]}. The difference between each effect \code{e_i}
 and the mean effect is \code{z_i = e_i - sum_i(e_i)/N}. By itself, this
 transformation is not invertible because recovering the absolute effects
 requires that we know the mean as well. To fix this, we'll define
 \code{z_N = sum_i(e_i)/N} as the mean effect. It's easy to see that this is
 invertible: given the mean effect and the differences of the first \code{N - 1}
 effects from the mean, it's easy to solve for all \code{N} effects. Formally,
-we've defined the invertible linear reparameterization \code{Z = R E}, where\preformatted{R = [1 - 1/N, -1/N,    ..., -1/N
+we've defined the invertible linear reparameterization \verb{Z = R E}, where\preformatted{R = [1 - 1/N, -1/N,    ..., -1/N
      -1/N,    1 - 1/N, ..., -1/N,
      ...
      1/N,     1/N,     ...,  1/N]
@@ -90,45 +98,46 @@ To constrain the mean effect \code{z_N} to zero, we fix the prior to zero,
 \code{p(z_N) ~ N(0., 0)}, and after the transition at each timestep we project
 \code{z_N} back to zero. Note that this projection is linear: to set the Nth
 dimension to zero, we simply multiply by the identity matrix with a missing
-element in the bottom right, i.e., \code{Z_constrained = P Z},
-where \code{P = eye(N) - scatter((N-1, N-1), 1)}.
+element in the bottom right, i.e., \verb{Z_constrained = P Z},
+where \verb{P = eye(N) - scatter((N-1, N-1), 1)}.
 
 \emph{Model}: concretely, suppose a naive seasonal effect model has initial state
 prior \code{N(m, S)}, transition matrix \code{F} and noise covariance
 \code{Q}, and observation matrix \code{H}. Then the corresponding constrained seasonal
-effect model has initial state prior \code{N(P R m, P R S R' P')},
-transition matrix \code{P R F R^-1} and noise covariance \code{F R Q R' F'}, and
-observation matrix \code{H R^-1}, where the change-of-basis matrix \code{R} and
+effect model has initial state prior \verb{N(P R m, P R S R' P')},
+transition matrix \verb{P R F R^-1} and noise covariance \verb{F R Q R' F'}, and
+observation matrix \verb{H R^-1}, where the change-of-basis matrix \code{R} and
 constraint projection matrix \code{P} are as defined above. This follows
-directly from applying the reparameterization \code{Z = R E}, and then enforcing
+directly from applying the reparameterization \verb{Z = R E}, and then enforcing
 the zero-sum constraint on the prior and transition noise covariances.
 In practice, because the sum of effects \code{z_N} is constrained to be zero, it
 will never contribute a term to any linear operation on the latent space,
 so we can drop that dimension from the model entirely.
 \code{ConstrainedSeasonalStateSpaceModel} does this, so that it implements the
-\code{N - 1} dimension latent space \code{z_1, ..., z_[N-1]}.
+\code{N - 1} dimension latent space \verb{z_1, ..., z_[N-1]}.
 Note that since we constrained the mean effect to be zero, the latent
 \code{z_i}'s now recover their interpretation as the \emph{actual} effects,
-\code{z_i = e_i} for \code{i = }1, ..., N - 1\code{, even though they were originally defined as residuals. The }N\code{th effect is represented only implicitly, as the nonzero mean of the first }N - 1\code{effects. Although the computational represention is not symmetric across all}N\code{effects, we derived the}ConstrainedSeasonalStateSpaceModel\code{by starting with a symmetric representation and imposing only a symmetric constraint (the zero-sum constraint), so the probability model remains symmetric over all}N`
+\code{z_i = e_i} for \verb{i = }1, ..., N - 1\verb{, even though they were originally defined as residuals. The }N\verb{th effect is represented only implicitly, as the nonzero mean of the first }N - 1\verb{effects. Although the computational represention is not symmetric across all}N\verb{effects, we derived the}ConstrainedSeasonalStateSpaceModel\verb{by starting with a symmetric representation and imposing only a symmetric constraint (the zero-sum constraint), so the probability model remains symmetric over all}N`
 seasonal effects.
 
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_smooth_seasonal}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

@@ -4,8 +4,16 @@
 \alias{layer_variable}
 \title{Variable Layer}
 \usage{
-layer_variable(object, shape, dtype = NULL, activation = NULL,
-  initializer = "zeros", regularizer = NULL, constraint = NULL, ...)
+layer_variable(
+  object,
+  shape,
+  dtype = NULL,
+  activation = NULL,
+  initializer = "zeros",
+  regularizer = NULL,
+  constraint = NULL,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -36,16 +44,17 @@ is \code{trainable}.  This layer can also be interpretted as the special case of
 (\code{tf$zeros}).
 }
 \seealso{
-Other layers: \code{\link{layer_autoregressive}},
-  \code{\link{layer_conv_1d_flipout}},
-  \code{\link{layer_conv_1d_reparameterization}},
-  \code{\link{layer_conv_2d_flipout}},
-  \code{\link{layer_conv_2d_reparameterization}},
-  \code{\link{layer_conv_3d_flipout}},
-  \code{\link{layer_conv_3d_reparameterization}},
-  \code{\link{layer_dense_flipout}},
-  \code{\link{layer_dense_local_reparameterization}},
-  \code{\link{layer_dense_reparameterization}},
-  \code{\link{layer_dense_variational}}
+Other layers: 
+\code{\link{layer_autoregressive}()},
+\code{\link{layer_conv_1d_flipout}()},
+\code{\link{layer_conv_1d_reparameterization}()},
+\code{\link{layer_conv_2d_flipout}()},
+\code{\link{layer_conv_2d_reparameterization}()},
+\code{\link{layer_conv_3d_flipout}()},
+\code{\link{layer_conv_3d_reparameterization}()},
+\code{\link{layer_dense_flipout}()},
+\code{\link{layer_dense_local_reparameterization}()},
+\code{\link{layer_dense_reparameterization}()},
+\code{\link{layer_dense_variational}()}
 }
 \concept{layers}

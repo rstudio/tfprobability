@@ -4,8 +4,12 @@
 \alias{mcmc_uncalibrated_random_walk}
 \title{Generate proposal for the Random Walk Metropolis algorithm.}
 \usage{
-mcmc_uncalibrated_random_walk(target_log_prob_fn, new_state_fn = NULL,
-  seed = NULL, name = NULL)
+mcmc_uncalibrated_random_walk(
+  target_log_prob_fn,
+  new_state_fn = NULL,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{target_log_prob_fn}{Function which takes an argument like
@@ -33,17 +37,18 @@ Warning: this kernel will not result in a chain which converges to the
 \code{mcmc_metropolis_hastings(mcmc_uncalibrated_random_walk(...))}.
 }
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
-  \code{\link{mcmc_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_no_u_turn_sampler}},
-  \code{\link{mcmc_random_walk_metropolis}},
-  \code{\link{mcmc_replica_exchange_mc}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_langevin}}
+Other mcmc_kernels: 
+\code{\link{mcmc_dual_averaging_step_size_adaptation}()},
+\code{\link{mcmc_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_no_u_turn_sampler}()},
+\code{\link{mcmc_random_walk_metropolis}()},
+\code{\link{mcmc_replica_exchange_mc}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_transformed_transition_kernel}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_langevin}()}
 }
 \concept{mcmc_kernels}

@@ -4,8 +4,14 @@
 \alias{tfd_generalized_pareto}
 \title{The Generalized Pareto distribution.}
 \usage{
-tfd_generalized_pareto(loc, scale, concentration, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = NULL)
+tfd_generalized_pareto(
+  loc,
+  scale,
+  concentration,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = NULL
+)
 }
 \arguments{
 \item{loc}{The location / shift of the distribution. GeneralizedPareto is a
@@ -77,7 +83,7 @@ where:
 \item \code{loc = mu}.
 }
 
-The cumulative density function (cdf) is,\preformatted{ cdf(x; mu, sigma, shp, x > mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
+The cumulative density function (cdf) is,\preformatted{cdf(x; mu, sigma, shp, x > mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
 }
 
 Distribution parameters are automatically broadcast in all functions; see

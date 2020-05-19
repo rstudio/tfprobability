@@ -4,9 +4,14 @@
 \alias{tfd_exp_relaxed_one_hot_categorical}
 \title{ExpRelaxedOneHotCategorical distribution with temperature and logits.}
 \usage{
-tfd_exp_relaxed_one_hot_categorical(temperature, logits = NULL,
-  probs = NULL, validate_args = FALSE, allow_nan_stats = TRUE,
-  name = "ExpRelaxedOneHotCategorical")
+tfd_exp_relaxed_one_hot_categorical(
+  temperature,
+  logits = NULL,
+  probs = NULL,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "ExpRelaxedOneHotCategorical"
+)
 }
 \arguments{
 \item{temperature}{An 0-D Tensor, representing the temperature of a set of

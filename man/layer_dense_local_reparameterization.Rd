@@ -4,16 +4,22 @@
 \alias{layer_dense_local_reparameterization}
 \title{Densely-connected layer class with local reparameterization estimator.}
 \usage{
-layer_dense_local_reparameterization(object, units, activation = NULL,
-  activity_regularizer = NULL, trainable = TRUE,
+layer_dense_local_reparameterization(
+  object,
+  units,
+  activation = NULL,
+  activity_regularizer = NULL,
+  trainable = TRUE,
   kernel_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(),
   kernel_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
   kernel_prior_fn = tfp$layers$util$default_multivariate_normal_fn,
   kernel_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
-  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular
-  = TRUE), bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
-  bias_prior_fn = NULL, bias_divergence_fn = function(q, p, ignore)
-  tfd_kl_divergence(q, p), ...)
+  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular = TRUE),
+  bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
+  bias_prior_fn = NULL,
+  bias_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -94,22 +100,23 @@ after the layer is built via the \code{kernel_posterior}, \code{kernel_prior},
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1506.02557}{Diederik Kingma, Tim Salimans, and Max Welling. Variational Dropout and the Local Reparameterization Trick. In Neural Information Processing Systems, 2015.}
-\item \href{https://arxiv.org/abs/1701.05369}{Dmitry Molchanov, Arsenii Ashukha, Dmitry Vetrov. Variational Dropout Sparsifies Deep Neural Networks. In International Conference on Machine Learning, 2017.}
+\item \href{https://arxiv.org/abs/1506.02557}{Diederik Kingma, Tim Salimans, and Max Welling. Variational Dropout and the Local Reparameterization Trick. In \emph{Neural Information Processing Systems}, 2015.}
+\item \href{https://arxiv.org/abs/1701.05369}{Dmitry Molchanov, Arsenii Ashukha, Dmitry Vetrov. Variational Dropout Sparsifies Deep Neural Networks. In \emph{International Conference on Machine Learning}, 2017.}
 }
 }
 
 \seealso{
-Other layers: \code{\link{layer_autoregressive}},
-  \code{\link{layer_conv_1d_flipout}},
-  \code{\link{layer_conv_1d_reparameterization}},
-  \code{\link{layer_conv_2d_flipout}},
-  \code{\link{layer_conv_2d_reparameterization}},
-  \code{\link{layer_conv_3d_flipout}},
-  \code{\link{layer_conv_3d_reparameterization}},
-  \code{\link{layer_dense_flipout}},
-  \code{\link{layer_dense_reparameterization}},
-  \code{\link{layer_dense_variational}},
-  \code{\link{layer_variable}}
+Other layers: 
+\code{\link{layer_autoregressive}()},
+\code{\link{layer_conv_1d_flipout}()},
+\code{\link{layer_conv_1d_reparameterization}()},
+\code{\link{layer_conv_2d_flipout}()},
+\code{\link{layer_conv_2d_reparameterization}()},
+\code{\link{layer_conv_3d_flipout}()},
+\code{\link{layer_conv_3d_reparameterization}()},
+\code{\link{layer_dense_flipout}()},
+\code{\link{layer_dense_reparameterization}()},
+\code{\link{layer_dense_variational}()},
+\code{\link{layer_variable}()}
 }
 \concept{layers}

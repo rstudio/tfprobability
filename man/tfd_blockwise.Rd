@@ -4,8 +4,13 @@
 \alias{tfd_blockwise}
 \title{Blockwise distribution}
 \usage{
-tfd_blockwise(distributions, dtype_override = NULL,
-  validate_args = FALSE, allow_nan_stats = FALSE, name = "Blockwise")
+tfd_blockwise(
+  distributions,
+  dtype_override = NULL,
+  validate_args = FALSE,
+  allow_nan_stats = FALSE,
+  name = "Blockwise"
+)
 }
 \arguments{
 \item{distributions}{list of Distribution instances. All distribution instances

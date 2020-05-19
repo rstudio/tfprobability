@@ -9,6 +9,7 @@ r_packages:
 r_github_packages:
     - rstudio/keras
     - rstudio/tensorflow
+    - rstudio/tfds
 
 cache:
   packages: true
@@ -17,6 +18,10 @@ cache:
 
 matrix:
   include:
+  - name: "tf-2.2"
+      env:
+        - TENSORFLOW_VERSION="2.2"
+        - TFPROBABILITY_VERSION="0.10"
     - name: "tf-2.1"
       env:
         - TENSORFLOW_VERSION="2.1"
@@ -47,7 +52,7 @@ addons:
 before_script:
   - python3 -m pip install --upgrade --ignore-installed --user travis virtualenv
   - R CMD INSTALL .
-  - Rscript -e 'Sys.setenv(PIP_QUIET=1); tfprobability::install_tfprobability(version = Sys.getenv("TFPROBABILITY_VERSION"), tensorflow = Sys.getenv("TENSORFLOW_VERSION"), extra_packages = "gast==0.2.2")'
+  - Rscript -e 'Sys.setenv(PIP_QUIET=1); tfprobability::install_tfprobability(version = Sys.getenv("TFPROBABILITY_VERSION"), tensorflow = Sys.getenv("TENSORFLOW_VERSION"), extra_packages = "tensorflow_datasets")'
   - Rscript -e 'tensorflow::tf_config()'
   - Rscript -e 'tfprobability::tfp_version()'
 

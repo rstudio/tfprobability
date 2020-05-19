@@ -4,9 +4,15 @@
 \alias{mcmc_uncalibrated_langevin}
 \title{Runs one step of Uncalibrated Langevin discretized diffusion.}
 \usage{
-mcmc_uncalibrated_langevin(target_log_prob_fn, step_size,
-  volatility_fn = NULL, parallel_iterations = 10,
-  compute_acceptance = TRUE, seed = NULL, name = NULL)
+mcmc_uncalibrated_langevin(
+  target_log_prob_fn,
+  step_size,
+  volatility_fn = NULL,
+  parallel_iterations = 10,
+  compute_acceptance = TRUE,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{target_log_prob_fn}{Function which takes an argument like
@@ -21,7 +27,7 @@ possible, it's often helpful to match per-variable step sizes to the
 standard deviations of the target distribution in each variable.}
 
 \item{volatility_fn}{function which takes an argument like
-\code{current_state} (or \code{*current_state} if it's a list) and returns
+\code{current_state} (or \verb{*current_state} if it's a list) and returns
 volatility value at \code{current_state}. Should return a \code{Tensor} or
 \code{list} of \code{Tensor}s that must broadcast with the shape of
 \code{current_state}. Defaults to the identity function.}
@@ -46,7 +52,7 @@ and \code{current_state}.) and
 'advance the chain).
 }
 \description{
-The class generates a Langevin proposal using \code{_euler_method} function and
+The class generates a Langevin proposal using \verb{_euler_method} function and
 also computes helper \code{UncalibratedLangevinKernelResults} for the next
 iteration.
 Warning: this kernel will not result in a chain which converges to the
@@ -54,17 +60,18 @@ Warning: this kernel will not result in a chain which converges to the
 \code{MetropolisAdjustedLangevinAlgorithm(...)} or \code{MetropolisHastings(UncalibratedLangevin(...))}.
 }
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
-  \code{\link{mcmc_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_no_u_turn_sampler}},
-  \code{\link{mcmc_random_walk_metropolis}},
-  \code{\link{mcmc_replica_exchange_mc}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_random_walk}}
+Other mcmc_kernels: 
+\code{\link{mcmc_dual_averaging_step_size_adaptation}()},
+\code{\link{mcmc_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_no_u_turn_sampler}()},
+\code{\link{mcmc_random_walk_metropolis}()},
+\code{\link{mcmc_replica_exchange_mc}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_transformed_transition_kernel}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_random_walk}()}
 }
 \concept{mcmc_kernels}

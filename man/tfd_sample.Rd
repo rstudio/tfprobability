@@ -26,17 +26,21 @@ Note that a call to \code{tfd_sample()} without arguments will generate a single
 }
 }
 \seealso{
-Other distribution_methods: \code{\link{tfd_cdf}},
-  \code{\link{tfd_covariance}},
-  \code{\link{tfd_cross_entropy}},
-  \code{\link{tfd_entropy}},
-  \code{\link{tfd_kl_divergence}},
-  \code{\link{tfd_log_cdf}}, \code{\link{tfd_log_prob}},
-  \code{\link{tfd_log_survival_function}},
-  \code{\link{tfd_mean}}, \code{\link{tfd_mode}},
-  \code{\link{tfd_prob}}, \code{\link{tfd_quantile}},
-  \code{\link{tfd_stddev}},
-  \code{\link{tfd_survival_function}},
-  \code{\link{tfd_variance}}
+Other distribution_methods: 
+\code{\link{tfd_cdf}()},
+\code{\link{tfd_covariance}()},
+\code{\link{tfd_cross_entropy}()},
+\code{\link{tfd_entropy}()},
+\code{\link{tfd_kl_divergence}()},
+\code{\link{tfd_log_cdf}()},
+\code{\link{tfd_log_prob}()},
+\code{\link{tfd_log_survival_function}()},
+\code{\link{tfd_mean}()},
+\code{\link{tfd_mode}()},
+\code{\link{tfd_prob}()},
+\code{\link{tfd_quantile}()},
+\code{\link{tfd_stddev}()},
+\code{\link{tfd_survival_function}()},
+\code{\link{tfd_variance}()}
 }
 \concept{distribution_methods}

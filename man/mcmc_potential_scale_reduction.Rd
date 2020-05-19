@@ -4,19 +4,22 @@
 \alias{mcmc_potential_scale_reduction}
 \title{Gelman and Rubin (1992)'s potential scale reduction for chain convergence.}
 \usage{
-mcmc_potential_scale_reduction(chains_states,
-  independent_chain_ndims = 1, name = NULL)
+mcmc_potential_scale_reduction(
+  chains_states,
+  independent_chain_ndims = 1,
+  name = NULL
+)
 }
 \arguments{
 \item{chains_states}{\code{Tensor} or \code{list} of \code{Tensor}s representing the
 state(s) of a Markov Chain at each result step.  The \code{ith} state is
-assumed to have shape \code{[Ni, Ci1, Ci2,...,CiD] + A}.
+assumed to have shape \verb{[Ni, Ci1, Ci2,...,CiD] + A}.
 Dimension \code{0} indexes the \code{Ni > 1} result steps of the Markov Chain.
-Dimensions \code{1} through \code{D} index the \code{Ci1 x ... x CiD} independent
+Dimensions \code{1} through \code{D} index the \verb{Ci1 x ... x CiD} independent
 chains to be tested for convergence to the same target.
 The remaining dimensions, \code{A}, can have any shape (even empty).}
 
-\item{independent_chain_ndims}{Integer type \code{Tensor} with value \code{>= 1} giving the
+\item{independent_chain_ndims}{Integer type \code{Tensor} with value \verb{>= 1} giving the
 number of giving the number of dimensions, from \code{dim = 1} to \code{dim = D},
 holding independent chain results to be tested for convergence.}
 
@@ -25,7 +28,7 @@ holding independent chain results to be tested for convergence.}
 \value{
 \code{Tensor} or \code{list} of \code{Tensor}s representing the R-hat statistic for
 the state(s).  Same \code{dtype} as \code{state}, and shape equal to
-\code{state$shape[1 + independent_chain_ndims:]}.
+\verb{state$shape[1 + independent_chain_ndims:]}.
 }
 \description{
 Given \code{N > 1} states from each of \code{C > 1} independent chains, the potential
@@ -40,7 +43,7 @@ distributed. See Gelman and Rubin (1992), Brooks and Gelman (1998)].
 Some guidelines:
 \itemize{
 \item The initial state of the chains should be drawn from a distribution overdispersed with respect to the target.
-\item If all chains converge to the target, then as \code{N --> infinity}, R-hat --> 1.
+\item If all chains converge to the target, then as \verb{N --> infinity}, R-hat --> 1.
 Before that, R-hat > 1 (except in pathological cases, e.g. if the chain paths were identical).
 \item The above holds for any number of chains \code{C > 1}.  Increasing \code{C} improves effectiveness of the diagnostic.
 \item Sometimes, R-hat < 1.2 is used to indicate approximate convergence, but of
@@ -51,8 +54,8 @@ other statistics are desired, a different diagnostic should be used. See Brooks 
 
 To see why R-hat is reasonable, let \code{X} be a random variable drawn uniformly
 from the combined states (combined over all chains).  Then, in the limit
-\code{N, C --> infinity}, with \code{E}, \code{Var} denoting expectation and variance,
-\code{R-hat = ( E[Var[X | chain]] + Var[E[X | chain]] ) / E[Var[X | chain]].}
+\verb{N, C --> infinity}, with \code{E}, \code{Var} denoting expectation and variance,
+\verb{R-hat = ( E[Var[X | chain]] + Var[E[X | chain]] ) / E[Var[X | chain]].}
 Using the law of total variance, the numerator is the variance of the combined
 states, and the denominator is the total variance minus the variance of the
 the individual chain means.  If the chains are all drawing from the same
@@ -69,9 +72,10 @@ distribution, they will have the same mean, and thus the ratio should be one.
 }
 
 \seealso{
-Other mcmc_functions: \code{\link{mcmc_effective_sample_size}},
-  \code{\link{mcmc_sample_annealed_importance_chain}},
-  \code{\link{mcmc_sample_chain}},
-  \code{\link{mcmc_sample_halton_sequence}}
+Other mcmc_functions: 
+\code{\link{mcmc_effective_sample_size}()},
+\code{\link{mcmc_sample_annealed_importance_chain}()},
+\code{\link{mcmc_sample_chain}()},
+\code{\link{mcmc_sample_halton_sequence}()}
 }
 \concept{mcmc_functions}

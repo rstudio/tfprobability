@@ -23,10 +23,11 @@ The Triangular Csiszar-function is:
 }
 
 Warning: this function makes non-log-space calculations and may
-therefore be numerically unstable for \code{|logu| >> 0}.
+therefore be numerically unstable for \verb{|logu| >> 0}.
 }
 \seealso{
-Other vi-functions#': \code{\link{vi_t_power}},
-  \code{\link{vi_total_variation}}
+Other vi-functions#': 
+\code{\link{vi_t_power}()},
+\code{\link{vi_total_variation}()}
 }
 \concept{vi-functions#'}

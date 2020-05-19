@@ -4,9 +4,14 @@
 \alias{layer_mixture_same_family}
 \title{A mixture (same-family) Keras layer.}
 \usage{
-layer_mixture_same_family(object, num_components, component_layer,
+layer_mixture_same_family(
+  object,
+  num_components,
+  component_layer,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
-  validate_args = FALSE, ...)
+  validate_args = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -14,9 +19,9 @@ layer_mixture_same_family(object, num_components, component_layer,
 \item{num_components}{Number of component distributions in the mixture distribution.}
 
 \item{component_layer}{Function that, given a tensor of shape
-\code{batch_shape + [num_components, component_params_size]}, returns a
+\verb{batch_shape + [num_components, component_params_size]}, returns a
 \code{tfd.Distribution}-like instance that implements the component
-distribution (with batch shape \code{batch_shape + [num_components]}) --
+distribution (with batch shape \verb{batch_shape + [num_components]}) --
 e.g., a TFP distribution layer.}
 
 \item{convert_to_tensor_fn}{A callable that takes a tfd$Distribution instance and returns a
@@ -38,17 +43,18 @@ A mixture (same-family) Keras layer.
 \seealso{
 For an example how to use in a Keras model, see \code{\link[=layer_independent_normal]{layer_independent_normal()}}.
 
-Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
-  \code{\link{layer_distribution_lambda}},
-  \code{\link{layer_independent_bernoulli}},
-  \code{\link{layer_independent_logistic}},
-  \code{\link{layer_independent_normal}},
-  \code{\link{layer_independent_poisson}},
-  \code{\link{layer_kl_divergence_add_loss}},
-  \code{\link{layer_kl_divergence_regularizer}},
-  \code{\link{layer_mixture_logistic}},
-  \code{\link{layer_mixture_normal}},
-  \code{\link{layer_multivariate_normal_tri_l}},
-  \code{\link{layer_one_hot_categorical}}
+Other distribution_layers: 
+\code{\link{layer_categorical_mixture_of_one_hot_categorical}()},
+\code{\link{layer_distribution_lambda}()},
+\code{\link{layer_independent_bernoulli}()},
+\code{\link{layer_independent_logistic}()},
+\code{\link{layer_independent_normal}()},
+\code{\link{layer_independent_poisson}()},
+\code{\link{layer_kl_divergence_add_loss}()},
+\code{\link{layer_kl_divergence_regularizer}()},
+\code{\link{layer_mixture_logistic}()},
+\code{\link{layer_mixture_normal}()},
+\code{\link{layer_multivariate_normal_tri_l}()},
+\code{\link{layer_one_hot_categorical}()}
 }
 \concept{distribution_layers}

@@ -4,9 +4,13 @@
 \alias{layer_independent_normal}
 \title{An independent Normal Keras layer.}
 \usage{
-layer_independent_normal(object, event_shape,
+layer_independent_normal(
+  object,
+  event_shape,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
-  validate_args = FALSE, ...)
+  validate_args = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -47,17 +51,18 @@ model <- keras_model_sequential(
 }
 }
 \seealso{
-Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
-  \code{\link{layer_distribution_lambda}},
-  \code{\link{layer_independent_bernoulli}},
-  \code{\link{layer_independent_logistic}},
-  \code{\link{layer_independent_poisson}},
-  \code{\link{layer_kl_divergence_add_loss}},
-  \code{\link{layer_kl_divergence_regularizer}},
-  \code{\link{layer_mixture_logistic}},
-  \code{\link{layer_mixture_normal}},
-  \code{\link{layer_mixture_same_family}},
-  \code{\link{layer_multivariate_normal_tri_l}},
-  \code{\link{layer_one_hot_categorical}}
+Other distribution_layers: 
+\code{\link{layer_categorical_mixture_of_one_hot_categorical}()},
+\code{\link{layer_distribution_lambda}()},
+\code{\link{layer_independent_bernoulli}()},
+\code{\link{layer_independent_logistic}()},
+\code{\link{layer_independent_poisson}()},
+\code{\link{layer_kl_divergence_add_loss}()},
+\code{\link{layer_kl_divergence_regularizer}()},
+\code{\link{layer_mixture_logistic}()},
+\code{\link{layer_mixture_normal}()},
+\code{\link{layer_mixture_same_family}()},
+\code{\link{layer_multivariate_normal_tri_l}()},
+\code{\link{layer_one_hot_categorical}()}
 }
 \concept{distribution_layers}

@@ -4,10 +4,16 @@
 \alias{tfb_ffjord}
 \title{Implements a continuous normalizing flow X->Y defined via an ODE.}
 \usage{
-tfb_ffjord(state_time_derivative_fn, ode_solve_fn = NULL,
+tfb_ffjord(
+  state_time_derivative_fn,
+  ode_solve_fn = NULL,
   trace_augmentation_fn = tfp$bijectors$ffjord$trace_jacobian_hutchinson,
-  initial_time = 0, final_time = 1, validate_args = FALSE,
-  dtype = tf$float32, name = "ffjord")
+  initial_time = 0,
+  final_time = 1,
+  validate_args = FALSE,
+  dtype = tf$float32,
+  name = "ffjord"
+)
 }
 \arguments{
 \item{state_time_derivative_fn}{\code{function} taking arguments \code{time}
@@ -20,8 +26,8 @@ given \code{time}.}
 the initial time of integration), \code{initial_state} (a Tensor of floating
 dtype represents the initial state) and \code{solution_times} (1D Tensor of
 floating dtype representing time at which to obtain the solution)
-returning a Tensor of shape \code{[time_axis, initial_state$shape]}. Will take
-\code{[final_time]} as the \code{solution_times} argument and
+returning a Tensor of shape \verb{[time_axis, initial_state$shape]}. Will take
+\verb{[final_time]} as the \code{solution_times} argument and
 \code{state_time_derivative_fn} as \code{ode_fn} argument.
 If \code{NULL} a DormandPrince solver from \code{tfp$math$ode} is used.
 Default value: NULL}
@@ -91,7 +97,7 @@ Custom \code{ode_solve_fn} must accept the following arguments:
 \item solution_times: 1D floating Tensor of solution times.
 }
 
-And return a Tensor of shape \code{[solution_times$shape, initial_state$shape]}
+And return a Tensor of shape \verb{[solution_times$shape, initial_state$shape]}
 representing state values evaluated at \code{solution_times}. In addition
 \code{ode_solve_fn} must support nested structures. For more details see the
 interface of \code{tfp$math$ode$Solver$solve()}.
@@ -105,18 +111,18 @@ returns a \code{augmented_state_time_derivative_fn} callable that computes both
 
 Custom \code{ode_solve_fn} and \code{trace_augmentation_fn} examples:\preformatted{# custom_solver_fn: `function(f, t_initial, t_solutions, y_initial, ...)`
 # ... : Additional arguments to pass to custom_solver_fn.
-ode_solve_fn <- function(ode_fn, initial_time, initial_state, solution_times) {
+ode_solve_fn <- function(ode_fn, initial_time, initial_state, solution_times) \{
   custom_solver_fn(ode_fn, initial_time, solution_times, initial_state, ...)
-}
+\}
 ffjord <- tfb_ffjord(state_time_derivative_fn, ode_solve_fn = ode_solve_fn)
 }\preformatted{# state_time_derivative_fn: `function(time, state)`
 # trace_jac_fn: `function(time, state)` unreduced jacobian trace function
-trace_augmentation_fn <- function(ode_fn, state_shape, state_dtype) {
-  augmented_ode_fn <- function(time, state) {
+trace_augmentation_fn <- function(ode_fn, state_shape, state_dtype) \{
+  augmented_ode_fn <- function(time, state) \{
     list(ode_fn(time, state), trace_jac_fn(time, state))
-  }
+  \}
 augmented_ode_fn
-}
+\}
 ffjord <- tfb_ffjord(state_time_derivative_fn, trace_augmentation_fn = trace_augmentation_fn)
 }
 
@@ -133,50 +139,64 @@ For more details on FFJORD and continous normalizing flows see Chen et al. (2018
 \seealso{
 For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.
 
-Other bijectors: \code{\link{tfb_absolute_value}},
-  \code{\link{tfb_affine_linear_operator}},
-  \code{\link{tfb_affine_scalar}},
-  \code{\link{tfb_affine}},
-  \code{\link{tfb_batch_normalization}},
-  \code{\link{tfb_blockwise}}, \code{\link{tfb_chain}},
-  \code{\link{tfb_cholesky_outer_product}},
-  \code{\link{tfb_cholesky_to_inv_cholesky}},
-  \code{\link{tfb_correlation_cholesky}},
-  \code{\link{tfb_cumsum}},
-  \code{\link{tfb_discrete_cosine_transform}},
-  \code{\link{tfb_expm1}}, \code{\link{tfb_exp}},
-  \code{\link{tfb_fill_scale_tri_l}},
-  \code{\link{tfb_fill_triangular}},
-  \code{\link{tfb_gumbel_cdf}}, \code{\link{tfb_gumbel}},
-  \code{\link{tfb_identity}}, \code{\link{tfb_inline}},
-  \code{\link{tfb_invert}},
-  \code{\link{tfb_iterated_sigmoid_centered}},
-  \code{\link{tfb_kumaraswamy_cdf}},
-  \code{\link{tfb_kumaraswamy}},
-  \code{\link{tfb_masked_autoregressive_default_template}},
-  \code{\link{tfb_masked_autoregressive_flow}},
-  \code{\link{tfb_masked_dense}},
-  \code{\link{tfb_matrix_inverse_tri_l}},
-  \code{\link{tfb_matvec_lu}},
-  \code{\link{tfb_normal_cdf}}, \code{\link{tfb_ordered}},
-  \code{\link{tfb_pad}}, \code{\link{tfb_permute}},
-  \code{\link{tfb_power_transform}},
-  \code{\link{tfb_rational_quadratic_spline}},
-  \code{\link{tfb_real_nvp_default_template}},
-  \code{\link{tfb_real_nvp}}, \code{\link{tfb_reciprocal}},
-  \code{\link{tfb_reshape}},
-  \code{\link{tfb_scale_matvec_diag}},
-  \code{\link{tfb_scale_matvec_linear_operator}},
-  \code{\link{tfb_scale_matvec_lu}},
-  \code{\link{tfb_scale_matvec_tri_l}},
-  \code{\link{tfb_scale_tri_l}}, \code{\link{tfb_scale}},
-  \code{\link{tfb_shift}}, \code{\link{tfb_sigmoid}},
-  \code{\link{tfb_sinh_arcsinh}},
-  \code{\link{tfb_softmax_centered}},
-  \code{\link{tfb_softplus}}, \code{\link{tfb_softsign}},
-  \code{\link{tfb_square}}, \code{\link{tfb_tanh}},
-  \code{\link{tfb_transform_diagonal}},
-  \code{\link{tfb_transpose}},
-  \code{\link{tfb_weibull_cdf}}, \code{\link{tfb_weibull}}
+Other bijectors: 
+\code{\link{tfb_absolute_value}()},
+\code{\link{tfb_affine_linear_operator}()},
+\code{\link{tfb_affine_scalar}()},
+\code{\link{tfb_affine}()},
+\code{\link{tfb_batch_normalization}()},
+\code{\link{tfb_blockwise}()},
+\code{\link{tfb_chain}()},
+\code{\link{tfb_cholesky_outer_product}()},
+\code{\link{tfb_cholesky_to_inv_cholesky}()},
+\code{\link{tfb_correlation_cholesky}()},
+\code{\link{tfb_cumsum}()},
+\code{\link{tfb_discrete_cosine_transform}()},
+\code{\link{tfb_expm1}()},
+\code{\link{tfb_exp}()},
+\code{\link{tfb_fill_scale_tri_l}()},
+\code{\link{tfb_fill_triangular}()},
+\code{\link{tfb_gumbel_cdf}()},
+\code{\link{tfb_gumbel}()},
+\code{\link{tfb_identity}()},
+\code{\link{tfb_inline}()},
+\code{\link{tfb_invert}()},
+\code{\link{tfb_iterated_sigmoid_centered}()},
+\code{\link{tfb_kumaraswamy_cdf}()},
+\code{\link{tfb_kumaraswamy}()},
+\code{\link{tfb_lambert_w_tail}()},
+\code{\link{tfb_masked_autoregressive_default_template}()},
+\code{\link{tfb_masked_autoregressive_flow}()},
+\code{\link{tfb_masked_dense}()},
+\code{\link{tfb_matrix_inverse_tri_l}()},
+\code{\link{tfb_matvec_lu}()},
+\code{\link{tfb_normal_cdf}()},
+\code{\link{tfb_ordered}()},
+\code{\link{tfb_pad}()},
+\code{\link{tfb_permute}()},
+\code{\link{tfb_power_transform}()},
+\code{\link{tfb_rational_quadratic_spline}()},
+\code{\link{tfb_real_nvp_default_template}()},
+\code{\link{tfb_real_nvp}()},
+\code{\link{tfb_reciprocal}()},
+\code{\link{tfb_reshape}()},
+\code{\link{tfb_scale_matvec_diag}()},
+\code{\link{tfb_scale_matvec_linear_operator}()},
+\code{\link{tfb_scale_matvec_lu}()},
+\code{\link{tfb_scale_matvec_tri_l}()},
+\code{\link{tfb_scale_tri_l}()},
+\code{\link{tfb_scale}()},
+\code{\link{tfb_shift}()},
+\code{\link{tfb_sigmoid}()},
+\code{\link{tfb_sinh_arcsinh}()},
+\code{\link{tfb_softmax_centered}()},
+\code{\link{tfb_softplus}()},
+\code{\link{tfb_softsign}()},
+\code{\link{tfb_square}()},
+\code{\link{tfb_tanh}()},
+\code{\link{tfb_transform_diagonal}()},
+\code{\link{tfb_transpose}()},
+\code{\link{tfb_weibull_cdf}()},
+\code{\link{tfb_weibull}()}
 }
 \concept{bijectors}

@@ -4,16 +4,22 @@
 \alias{layer_dense_reparameterization}
 \title{Densely-connected layer class with reparameterization estimator.}
 \usage{
-layer_dense_reparameterization(object, units, activation = NULL,
-  activity_regularizer = NULL, trainable = TRUE,
+layer_dense_reparameterization(
+  object,
+  units,
+  activation = NULL,
+  activity_regularizer = NULL,
+  trainable = TRUE,
   kernel_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(),
   kernel_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
   kernel_prior_fn = tfp$layers$util$default_multivariate_normal_fn,
   kernel_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
-  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular
-  = TRUE), bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
-  bias_prior_fn = NULL, bias_divergence_fn = function(q, p, ignore)
-  tfd_kl_divergence(q, p), ...)
+  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular = TRUE),
+  bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
+  bias_prior_fn = NULL,
+  bias_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -90,21 +96,22 @@ after the layer is built via the \code{kernel_posterior}, \code{kernel_prior},
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1312.6114}{Diederik Kingma and Max Welling. Auto-Encoding Variational Bayes. In International Conference on Learning Representations, 2014.}
+\item \href{https://arxiv.org/abs/1312.6114}{Diederik Kingma and Max Welling. Auto-Encoding Variational Bayes. In \emph{International Conference on Learning Representations}, 2014.}
 }
 }
 
 \seealso{
-Other layers: \code{\link{layer_autoregressive}},
-  \code{\link{layer_conv_1d_flipout}},
-  \code{\link{layer_conv_1d_reparameterization}},
-  \code{\link{layer_conv_2d_flipout}},
-  \code{\link{layer_conv_2d_reparameterization}},
-  \code{\link{layer_conv_3d_flipout}},
-  \code{\link{layer_conv_3d_reparameterization}},
-  \code{\link{layer_dense_flipout}},
-  \code{\link{layer_dense_local_reparameterization}},
-  \code{\link{layer_dense_variational}},
-  \code{\link{layer_variable}}
+Other layers: 
+\code{\link{layer_autoregressive}()},
+\code{\link{layer_conv_1d_flipout}()},
+\code{\link{layer_conv_1d_reparameterization}()},
+\code{\link{layer_conv_2d_flipout}()},
+\code{\link{layer_conv_2d_reparameterization}()},
+\code{\link{layer_conv_3d_flipout}()},
+\code{\link{layer_conv_3d_reparameterization}()},
+\code{\link{layer_dense_flipout}()},
+\code{\link{layer_dense_local_reparameterization}()},
+\code{\link{layer_dense_variational}()},
+\code{\link{layer_variable}()}
 }
 \concept{layers}

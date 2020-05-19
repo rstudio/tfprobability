@@ -12,7 +12,7 @@ tfd_covariance(distribution, ...)
 \item{...}{Additional parameters passed to Python.}
 }
 \value{
-Floating-point Tensor with shape \code{[B1, ..., Bn, k, k]} where the first n dimensions
+Floating-point Tensor with shape \verb{[B1, ..., Bn, k, k]} where the first n dimensions
 are batch coordinates and \code{k = reduce_prod(self.event_shape)}.
 }
 \description{
@@ -24,7 +24,7 @@ where Cov is a (batch of) k x k matrix, 0 <= (i, j) < k, and E denotes expectati
 \details{
 Alternatively, for non-vector, multivariate distributions (e.g., matrix-valued, Wishart),
 Covariance shall return a (batch of) matrices under some vectorization of the events, i.e.,
-\code{Cov[i, j] = Covariance(Vec(X)_i, Vec(X)_j) = [as above]}
+\verb{Cov[i, j] = Covariance(Vec(X)_i, Vec(X)_j) = [as above]}
 where Cov is a (batch of) k x k matrices, 0 <= (i, j) < k = reduce_prod(event_shape),
 and Vec is some function mapping indices of this distribution's event dimensions to indices of a
 length-k vector.
@@ -48,16 +48,21 @@ d <- tfd_vector_diffeomixture(
 }
 }
 \seealso{
-Other distribution_methods: \code{\link{tfd_cdf}},
-  \code{\link{tfd_cross_entropy}},
-  \code{\link{tfd_entropy}},
-  \code{\link{tfd_kl_divergence}},
-  \code{\link{tfd_log_cdf}}, \code{\link{tfd_log_prob}},
-  \code{\link{tfd_log_survival_function}},
-  \code{\link{tfd_mean}}, \code{\link{tfd_mode}},
-  \code{\link{tfd_prob}}, \code{\link{tfd_quantile}},
-  \code{\link{tfd_sample}}, \code{\link{tfd_stddev}},
-  \code{\link{tfd_survival_function}},
-  \code{\link{tfd_variance}}
+Other distribution_methods: 
+\code{\link{tfd_cdf}()},
+\code{\link{tfd_cross_entropy}()},
+\code{\link{tfd_entropy}()},
+\code{\link{tfd_kl_divergence}()},
+\code{\link{tfd_log_cdf}()},
+\code{\link{tfd_log_prob}()},
+\code{\link{tfd_log_survival_function}()},
+\code{\link{tfd_mean}()},
+\code{\link{tfd_mode}()},
+\code{\link{tfd_prob}()},
+\code{\link{tfd_quantile}()},
+\code{\link{tfd_sample}()},
+\code{\link{tfd_stddev}()},
+\code{\link{tfd_survival_function}()},
+\code{\link{tfd_variance}()}
 }
 \concept{distribution_methods}

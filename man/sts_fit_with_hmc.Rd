@@ -4,24 +4,33 @@
 \alias{sts_fit_with_hmc}
 \title{Draw posterior samples using Hamiltonian Monte Carlo (HMC)}
 \usage{
-sts_fit_with_hmc(observed_time_series, model, num_results = 100,
-  num_warmup_steps = 50, num_leapfrog_steps = 15,
-  initial_state = NULL, initial_step_size = NULL,
-  chain_batch_shape = list(), num_variational_steps = 150,
-  variational_optimizer = NULL, variational_sample_size = 5,
-  seed = NULL, name = NULL)
+sts_fit_with_hmc(
+  observed_time_series,
+  model,
+  num_results = 100,
+  num_warmup_steps = 50,
+  num_leapfrog_steps = 15,
+  initial_state = NULL,
+  initial_step_size = NULL,
+  chain_batch_shape = list(),
+  num_variational_steps = 150,
+  variational_optimizer = NULL,
+  variational_sample_size = 5,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{observed_time_series}{\code{float} \code{tensor} of shape
-\code{concat([sample_shape, model.batch_shape, [num_timesteps, 1]])} where
-\code{sample_shape} corresponds to i.i.d. observations, and the trailing \code{[1]}
+\verb{concat([sample_shape, model.batch_shape, [num_timesteps, 1]])} where
+\code{sample_shape} corresponds to i.i.d. observations, and the trailing \verb{[1]}
 dimension may (optionally) be omitted if \code{num_timesteps > 1}. May
 optionally be an instance of \code{sts_masked_time_series}, which includes
 a mask \code{tensor} to specify timesteps with missing observations.}
 
 \item{model}{An instance of \code{StructuralTimeSeries} representing a
 time-series model. This represents a joint distribution over
-time-series and their parameters with batch shape \code{[b1, ..., bN]}.}
+time-series and their parameters with batch shape \verb{[b1, ..., bN]}.}
 
 \item{num_results}{Integer number of Markov chain draws. Default value: \code{100}.}
 
@@ -69,7 +78,7 @@ Default value: \code{1}.}
 list of:
 \itemize{
 \item samples: \code{list} of \code{Tensors} representing posterior samples of model
-parameters, with shapes \code{[concat([[num_results], chain_batch_shape, param.prior.batch_shape, param.prior.event_shape]) for param in model.parameters]}.
+parameters, with shapes \verb{[concat([[num_results], chain_batch_shape, param.prior.batch_shape, param.prior.event_shape]) for param in model.parameters]}.
 \item kernel_results: A (possibly nested) \code{list} of \code{Tensor}s representing
 internal calculations made within the HMC sampler.
 }
@@ -94,7 +103,7 @@ which is thought to be in the desirable range for optimal mixing (Betancourt et 
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1206.1901}{Radford Neal. MCMC Using Hamiltonian Dynamics. Handbook of Markov Chain Monte Carlo, 2011.}
+\item \href{https://arxiv.org/abs/1206.1901}{Radford Neal. MCMC Using Hamiltonian Dynamics. \emph{Handbook of Markov Chain Monte Carlo}, 2011.}
 \item \href{https://arxiv.org/abs/1411.6669}{M.J. Betancourt, Simon Byrne, and Mark Girolami. Optimizing The Integrator Step Size for Hamiltonian Monte Carlo.}
 }
 }
@@ -119,12 +128,13 @@ states_and_results <- observed_time_series \%>\%
 
 }
 \seealso{
-Other sts-functions: \code{\link{sts_build_factored_surrogate_posterior}},
-  \code{\link{sts_build_factored_variational_loss}},
-  \code{\link{sts_decompose_by_component}},
-  \code{\link{sts_decompose_forecast_by_component}},
-  \code{\link{sts_forecast}},
-  \code{\link{sts_one_step_predictive}},
-  \code{\link{sts_sample_uniform_initial_state}}
+Other sts-functions: 
+\code{\link{sts_build_factored_surrogate_posterior}()},
+\code{\link{sts_build_factored_variational_loss}()},
+\code{\link{sts_decompose_by_component}()},
+\code{\link{sts_decompose_forecast_by_component}()},
+\code{\link{sts_forecast}()},
+\code{\link{sts_one_step_predictive}()},
+\code{\link{sts_sample_uniform_initial_state}()}
 }
 \concept{sts-functions}

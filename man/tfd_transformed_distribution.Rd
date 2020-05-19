@@ -4,8 +4,17 @@
 \alias{tfd_transformed_distribution}
 \title{A Transformed Distribution}
 \usage{
-tfd_transformed_distribution(distribution, bijector, batch_shape = NULL,
-  event_shape = NULL, validate_args = FALSE, name = NULL)
+tfd_transformed_distribution(
+  distribution,
+  bijector,
+  batch_shape = NULL,
+  event_shape = NULL,
+ 
+    kwargs_split_fn = tfp$distributions$transformed_distribution$`_default_kwargs_split_fn`,
+  validate_args = FALSE,
+  parameters = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{distribution}{The base distribution instance to transform. Typically an instance of Distribution.}
@@ -18,9 +27,17 @@ valid only if distribution.is_scalar_batch().}
 \item{event_shape}{integer vector Tensor which overrides distribution event_shape;
 valid only if distribution.is_scalar_event().}
 
+\item{kwargs_split_fn}{Python \code{callable} which takes a kwargs \code{dict} and returns
+a tuple of kwargs \code{dict}s for each of the \code{distribution} and \code{bijector}
+parameters respectively. Default value: \verb{_default_kwargs_split_fn} (i.e.,
+\verb{lambda kwargs: (kwargs.get('distribution_kwargs', \{\}), kwargs.get('bijector_kwargs', \{\}))})}
+
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 silently render incorrect outputs. Default value: FALSE.}
+
+\item{parameters}{Locals dict captured by subclass constructor, to be used for
+copy/slice re-instantiation operations.}
 
 \item{name}{The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.}
 }
@@ -47,10 +64,10 @@ We now describe how a \code{TransformedDistribution} alters the input/outputs of
 \code{Distribution} associated with a random variable (rv) \code{X}.
 Write \code{cdf(Y=y)} for an absolutely continuous cumulative distribution function
 of random variable \code{Y}; write the probability density function
-\code{pdf(Y=y) := d^k / (dy_1,...,dy_k) cdf(Y=y)} for its derivative wrt to \code{Y} evaluated at
+\verb{pdf(Y=y) := d^k / (dy_1,...,dy_k) cdf(Y=y)} for its derivative wrt to \code{Y} evaluated at
 \code{y}. Assume that \code{Y = g(X)} where \code{g} is a deterministic diffeomorphism,
 i.e., a non-random, continuous, differentiable, and invertible function.
-Write the inverse of \code{g} as \code{X = g^{-1}(Y)} and \code{(J o g)(x)} for the Jacobian
+Write the inverse of \code{g} as \code{X = g^{-1}(Y)} and \verb{(J o g)(x)} for the Jacobian
 of \code{g} evaluated at \code{x}.
 
 A \code{TransformedDistribution} implements the following operations:
@@ -59,10 +76,10 @@ A \code{TransformedDistribution} implements the following operations:
 Mathematically:   \code{Y = g(X)}
 Programmatically: \code{bijector.forward(distribution.sample(...))}
 \item \code{log_prob}
-Mathematically:   \code{(log o pdf)(Y=y) = (log o pdf o g^{-1})(y) + (log o abs o det o J o g^{-1})(y)}
+Mathematically:   \verb{(log o pdf)(Y=y) = (log o pdf o g^\{-1\})(y) + (log o abs o det o J o g^\{-1\})(y)}
 Programmatically: \code{(distribution.log_prob(bijector.inverse(y)) + bijector.inverse_log_det_jacobian(y))}
 \item \code{log_cdf}
-Mathematically:   \code{(log o cdf)(Y=y) = (log o cdf o g^{-1})(y)}
+Mathematically:   \verb{(log o cdf)(Y=y) = (log o cdf o g^\{-1\})(y)}
 Programmatically: \code{distribution.log_cdf(bijector.inverse(x))}
 \item and similarly for: \code{cdf}, \code{prob}, \code{log_survival_function}, \code{survival_function}.
 }
@@ -70,70 +87,83 @@ Programmatically: \code{distribution.log_cdf(bijector.inverse(x))}
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

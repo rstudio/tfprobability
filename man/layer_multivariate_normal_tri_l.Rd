@@ -4,9 +4,13 @@
 \alias{layer_multivariate_normal_tri_l}
 \title{A d-variate Multivariate Normal TriL Keras layer from \code{d+d*(d+1)/ 2} params}
 \usage{
-layer_multivariate_normal_tri_l(object, event_size,
+layer_multivariate_normal_tri_l(
+  object,
+  event_size,
   convert_to_tensor_fn = tfp$distributions$Distribution$sample,
-  validate_args = FALSE, ...)
+  validate_args = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -31,17 +35,18 @@ A d-variate Multivariate Normal TriL Keras layer from \code{d+d*(d+1)/ 2} params
 \seealso{
 For an example how to use in a Keras model, see \code{\link[=layer_independent_normal]{layer_independent_normal()}}.
 
-Other distribution_layers: \code{\link{layer_categorical_mixture_of_one_hot_categorical}},
-  \code{\link{layer_distribution_lambda}},
-  \code{\link{layer_independent_bernoulli}},
-  \code{\link{layer_independent_logistic}},
-  \code{\link{layer_independent_normal}},
-  \code{\link{layer_independent_poisson}},
-  \code{\link{layer_kl_divergence_add_loss}},
-  \code{\link{layer_kl_divergence_regularizer}},
-  \code{\link{layer_mixture_logistic}},
-  \code{\link{layer_mixture_normal}},
-  \code{\link{layer_mixture_same_family}},
-  \code{\link{layer_one_hot_categorical}}
+Other distribution_layers: 
+\code{\link{layer_categorical_mixture_of_one_hot_categorical}()},
+\code{\link{layer_distribution_lambda}()},
+\code{\link{layer_independent_bernoulli}()},
+\code{\link{layer_independent_logistic}()},
+\code{\link{layer_independent_normal}()},
+\code{\link{layer_independent_poisson}()},
+\code{\link{layer_kl_divergence_add_loss}()},
+\code{\link{layer_kl_divergence_regularizer}()},
+\code{\link{layer_mixture_logistic}()},
+\code{\link{layer_mixture_normal}()},
+\code{\link{layer_mixture_same_family}()},
+\code{\link{layer_one_hot_categorical}()}
 }
 \concept{distribution_layers}

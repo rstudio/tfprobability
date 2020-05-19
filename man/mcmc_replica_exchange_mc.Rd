@@ -4,17 +4,21 @@
 \alias{mcmc_replica_exchange_mc}
 \title{Runs one step of the Replica Exchange Monte Carlo}
 \usage{
-mcmc_replica_exchange_mc(target_log_prob_fn, inverse_temperatures,
+mcmc_replica_exchange_mc(
+  target_log_prob_fn,
+  inverse_temperatures,
   make_kernel_fn,
   swap_proposal_fn = tfp$mcmc$replica_exchange_mc$default_swap_proposal_fn(1),
-  seed = NULL, name = NULL)
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{target_log_prob_fn}{Function which takes an argument like
 \code{current_state} (if it's a list \code{current_state} will be unpacked) and returns its
 (possibly unnormalized) log-density under the target distribution.}
 
-\item{inverse_temperatures}{\code{1D} Tensor of inverse temperatures to perform
+\item{inverse_temperatures}{\verb{1D} Tensor of inverse temperatures to perform
 samplings with each replica. Must have statically known \code{shape}.
 \code{inverse_temperatures[0]} produces the states returned by samplers,
 and is typically == 1.}
@@ -44,14 +48,14 @@ is a Markov chain Monte Carlo (MCMC) algorithm that is also known as Parallel Te
 This algorithm performs multiple sampling with different temperatures in parallel,
 and exchanges those samplings according to the Metropolis-Hastings criterion.
 The \code{K} replicas are parameterized in terms of \code{inverse_temperature}'s,
-\code{(beta[0], beta[1], ..., beta[K-1])}.  If the target distribution has
+\verb{(beta[0], beta[1], ..., beta[K-1])}.  If the target distribution has
 probability density \code{p(x)}, the \code{kth} replica has density \code{p(x)**beta_k}.
 }
 \details{
-Typically \code{beta[0] = 1.0}, and \code{1.0 > beta[1] > beta[2] > ... > 0.0}.
+Typically \code{beta[0] = 1.0}, and \verb{1.0 > beta[1] > beta[2] > ... > 0.0}.
 \itemize{
 \item \code{beta[0] == 1} ==> First replicas samples from the target density, \code{p}.
-\item \code{beta[k] < 1}, for \code{k = 1, ..., K-1} ==> Other replicas sample from
+\item \code{beta[k] < 1}, for \verb{k = 1, ..., K-1} ==> Other replicas sample from
 "flattened" versions of \code{p} (peak is less high, valley less low).  These
 distributions are somewhat closer to a uniform on the support of \code{p}.
 Samples from adjacent replicas \code{i}, \code{i + 1} are used as proposals for each
@@ -62,17 +66,18 @@ Samples from replica 0 are returned, and the others are discarded.
 }
 }
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
-  \code{\link{mcmc_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_no_u_turn_sampler}},
-  \code{\link{mcmc_random_walk_metropolis}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_langevin}},
-  \code{\link{mcmc_uncalibrated_random_walk}}
+Other mcmc_kernels: 
+\code{\link{mcmc_dual_averaging_step_size_adaptation}()},
+\code{\link{mcmc_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_no_u_turn_sampler}()},
+\code{\link{mcmc_random_walk_metropolis}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_transformed_transition_kernel}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_langevin}()},
+\code{\link{mcmc_uncalibrated_random_walk}()}
 }
 \concept{mcmc_kernels}

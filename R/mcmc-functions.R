@@ -245,7 +245,7 @@ mcmc_potential_scale_reduction <- function(chains_states,
 #' (possibly unnormalized) log-density under the target distribution.
 #' @param current_state `Tensor` or `list` of `Tensor`s representing the
 #' current state(s) of the Markov chain(s). The first `r` dimensions index
-#' independent chains, `r = tf$rank(target_log_prob_fn(current_state))`.
+#' independent chains, `r` = `tf$rank(target_log_prob_fn(current_state))`.
 #' @param make_kernel_fn function which returns a `TransitionKernel`-like
 #' object. Must take one argument representing the `TransitionKernel`'s
 #' `target_log_prob_fn`. The `target_log_prob_fn` argument represents the

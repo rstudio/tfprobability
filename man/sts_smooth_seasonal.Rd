@@ -4,9 +4,15 @@
 \alias{sts_smooth_seasonal}
 \title{Formal representation of a smooth seasonal effect model}
 \usage{
-sts_smooth_seasonal(period, frequency_multipliers, allow_drift = TRUE,
-  drift_scale_prior = NULL, initial_state_prior = NULL,
-  observed_time_series = NULL, name = NULL)
+sts_smooth_seasonal(
+  period,
+  frequency_multipliers,
+  allow_drift = TRUE,
+  drift_scale_prior = NULL,
+  initial_state_prior = NULL,
+  observed_time_series = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{period}{positive scalar \code{float} \code{Tensor} giving the number of timesteps
@@ -18,7 +24,7 @@ the base/fundamental frequency \code{2. * pi / period}. Each component is
 specified by the number of times it repeats per period, and adds two
 latent dimensions to the model. A smooth seasonal model that can
 represent any periodic function is given by
-\code{frequency_multipliers = [1,2, ..., floor(period / 2)]}.
+\verb{frequency_multipliers = [1,2, ..., floor(period / 2)]}.
 However, it is often desirable to enforce a
 smoothness assumption (and reduce the computational burden) by dropping
 some of the higher frequencies.}
@@ -38,11 +44,11 @@ Default value: \code{NULL}.}
 
 \item{initial_state_prior}{instance of \code{tfd$MultivariateNormal} representing
 the prior distribution on the latent states. Must have event shape
-\code{[2 * len(frequency_multipliers)]}. If \code{NULL}, a heuristic default prior
+\verb{[2 * len(frequency_multipliers)]}. If \code{NULL}, a heuristic default prior
 is constructed based on the provided \code{observed_time_series}.}
 
 \item{observed_time_series}{optional \code{float} \code{Tensor} of shape
-\code{batch_shape + [T, 1]} (omitting the trailing unit dimension is also
+\verb{batch_shape + [T, 1]} (omitting the trailing unit dimension is also
 supported when \code{T > 1}), specifying an observed time series.
 Any priors not explicitly set will be given default values according to
 the scale of the observed time series (or batch of time series). May
@@ -80,23 +86,24 @@ particularly important.
 \seealso{
 For usage examples see \code{\link[=sts_fit_with_hmc]{sts_fit_with_hmc()}}, \code{\link[=sts_forecast]{sts_forecast()}}, \code{\link[=sts_decompose_by_component]{sts_decompose_by_component()}}.
 
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

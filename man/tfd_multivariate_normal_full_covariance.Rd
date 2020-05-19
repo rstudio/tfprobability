@@ -4,20 +4,24 @@
 \alias{tfd_multivariate_normal_full_covariance}
 \title{Multivariate normal distribution on \code{R^k}}
 \usage{
-tfd_multivariate_normal_full_covariance(loc = NULL,
-  covariance_matrix = NULL, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = "MultivariateNormalFullCovariance")
+tfd_multivariate_normal_full_covariance(
+  loc = NULL,
+  covariance_matrix = NULL,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "MultivariateNormalFullCovariance"
+)
 }
 \arguments{
 \item{loc}{Floating-point \code{Tensor}. If this is set to \code{NULL}, \code{loc} is
-implicitly \code{0}. When specified, may have shape \code{[B1, ..., Bb, k]} where
+implicitly \code{0}. When specified, may have shape \verb{[B1, ..., Bb, k]} where
 \code{b >= 0} and \code{k} is the event size.}
 
 \item{covariance_matrix}{Floating-point, symmetric positive definite \code{Tensor} of
 same \code{dtype} as \code{loc}.  The strict upper triangle of \code{covariance_matrix}
 is ignored, so if \code{covariance_matrix} is not symmetric no error will be
-raised (unless \code{validate_args is TRUE}).  \code{covariance_matrix} has shape
-\code{[B1, ..., Bb, k, k]} where \code{b >= 0} and \code{k} is the event size.}
+raised (unless \verb{validate_args is TRUE}).  \code{covariance_matrix} has shape
+\verb{[B1, ..., Bb, k, k]} where \code{b >= 0} and \code{k} is the event size.}
 
 \item{validate_args}{Logical, default FALSE. When TRUE distribution parameters are checked
 for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
@@ -33,7 +37,7 @@ one or more of the statistic's batch members are undefined.}
 a distribution instance.
 }
 \description{
-The Multivariate Normal distribution is defined over \code{R^k`` and parameterized by a (batch of) length-k loc vector (aka "mu") and a (batch of) }k x k\code{scale matrix;}covariance = scale @ scale.T\code{where}@` denotes
+The Multivariate Normal distribution is defined over \verb{R^k`` and parameterized by a (batch of) length-k loc vector (aka "mu") and a (batch of) }k x k\verb{scale matrix;}covariance = scale @ scale.T\code{where}@` denotes
 matrix-multiplication.
 }
 \details{
@@ -47,9 +51,9 @@ Z = (2 pi)**(0.5 k) |det(scale)|
 where:
 \itemize{
 \item \code{loc} is a vector in \code{R^k},
-\item \code{scale} is a linear operator in \code{R^{k x k}}, \code{cov = scale @ scale.T},
+\item \code{scale} is a linear operator in \verb{R^\{k x k\}}, \code{cov = scale @ scale.T},
 \item \code{Z} denotes the normalization constant, and,
-\item \code{||y||**2} denotes the squared Euclidean norm of \code{y}.
+\item \verb{||y||**2} denotes the squared Euclidean norm of \code{y}.
 }
 
 The MultivariateNormal distribution is a member of the
@@ -63,7 +67,7 @@ The \code{batch_shape} is the broadcast shape between \code{loc} and
 The \code{event_shape} is given by last dimension of the matrix implied by
 \code{covariance_matrix}. The last dimension of \code{loc} (if provided) must
 broadcast with this.
-A non-batch \code{covariance_matrix} matrix is a \code{k x k} symmetric positive
+A non-batch \code{covariance_matrix} matrix is a \verb{k x k} symmetric positive
 definite matrix.  In other words it is (real) symmetric with all eigenvalues
 strictly positive.
 Additional leading dimensions (if any) will index batches.
@@ -71,70 +75,83 @@ Additional leading dimensions (if any) will index batches.
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

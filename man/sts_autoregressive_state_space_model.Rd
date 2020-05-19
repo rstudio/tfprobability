@@ -4,9 +4,16 @@
 \alias{sts_autoregressive_state_space_model}
 \title{State space model for an autoregressive process.}
 \usage{
-sts_autoregressive_state_space_model(num_timesteps, coefficients,
-  level_scale, initial_state_prior, observation_noise_scale = 0,
-  initial_step = 0, validate_args = FALSE, name = NULL)
+sts_autoregressive_state_space_model(
+  num_timesteps,
+  coefficients,
+  level_scale,
+  initial_state_prior,
+  observation_noise_scale = 0,
+  initial_step = 0,
+  validate_args = FALSE,
+  name = NULL
+)
 }
 \arguments{
 \item{num_timesteps}{Scalar \code{integer} \code{tensor} number of timesteps to model
@@ -93,23 +100,24 @@ sense. Setting \code{observation_noise_scale} to a nonzero value corresponds to 
 latent AR process observed under an iid noise model.
 }
 \seealso{
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_smooth_seasonal}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

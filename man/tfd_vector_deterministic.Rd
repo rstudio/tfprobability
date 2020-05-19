@@ -4,9 +4,14 @@
 \alias{tfd_vector_deterministic}
 \title{Vector Deterministic Distribution}
 \usage{
-tfd_vector_deterministic(loc, atol = NULL, rtol = NULL,
-  validate_args = FALSE, allow_nan_stats = TRUE,
-  name = "VectorDeterministic")
+tfd_vector_deterministic(
+  loc,
+  atol = NULL,
+  rtol = NULL,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "VectorDeterministic"
+)
 }
 \arguments{
 \item{loc}{Numeric Tensor of shape [B1, ..., Bb, k], with b >= 0, k >= 0 The

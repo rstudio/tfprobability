@@ -4,12 +4,22 @@
 \alias{glm_fit.tensorflow.tensor}
 \title{Runs multiple Fisher scoring steps}
 \usage{
-\method{glm_fit}{tensorflow.tensor}(x, response, model,
+\method{glm_fit}{tensorflow.tensor}(
+  x,
+  response,
+  model,
   model_coefficients_start = NULL,
-  predicted_linear_response_start = NULL, l2_regularizer = NULL,
-  dispersion = NULL, offset = NULL, convergence_criteria_fn = NULL,
-  learning_rate = NULL, fast_unsafe_numerics = TRUE,
-  maximum_iterations = NULL, name = NULL, ...)
+  predicted_linear_response_start = NULL,
+  l2_regularizer = NULL,
+  dispersion = NULL,
+  offset = NULL,
+  convergence_criteria_fn = NULL,
+  learning_rate = NULL,
+  fast_unsafe_numerics = TRUE,
+  maximum_iterations = NULL,
+  name = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{float-like, matrix-shaped Tensor where each row represents a sample's
@@ -67,7 +77,8 @@ number of required steps.
 Runs multiple Fisher scoring steps
 }
 \seealso{
-Other glm_fit: \code{\link{glm_families}},
-  \code{\link{glm_fit_one_step.tensorflow.tensor}}
+Other glm_fit: 
+\code{\link{glm_families}},
+\code{\link{glm_fit_one_step.tensorflow.tensor}()}
 }
 \concept{glm_fit}

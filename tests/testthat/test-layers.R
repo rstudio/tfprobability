@@ -318,11 +318,20 @@ test_succeeds("layer_dense_reparameterization works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
 
   model %>% fit(x, y, steps_per_epoch = 1)
 
@@ -361,11 +370,21 @@ test_succeeds("layer_dense_flipout works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
@@ -406,11 +425,21 @@ test_succeeds("layer_dense_local_reparameterization works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
@@ -454,11 +483,20 @@ test_succeeds("layer_conv_1d_reparameterization works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
 
   model %>% fit(x, y, steps_per_epoch = 1)
 
@@ -501,11 +539,21 @@ test_succeeds("layer_conv_1d_flipout works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
@@ -551,11 +599,21 @@ test_succeeds("layer_conv_2d_reparameterization works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
@@ -600,11 +658,21 @@ test_succeeds("layer_conv_2d_flipout works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
@@ -650,11 +718,21 @@ test_succeeds("layer_conv_3d_reparameterization works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)
@@ -699,11 +777,21 @@ test_succeeds("layer_conv_3d_flipout works", {
     }
   }
 
-  model %>% compile(
-    optimizer = 'adam',
-    loss = bayesian_loss(),
-    experimental_run_tf_function = FALSE
-  )
+  if (tfp_version() < "0.10") {
+    model %>% compile(
+      optimizer = 'adam',
+      loss = bayesian_loss(),
+      experimental_run_tf_function = FALSE
+    )
+  } else {
+    # KL divergence is now added automatically by keras
+    # see https://github.com/tensorflow/probability/blob/master/tensorflow_probability/examples/bayesian_neural_network.py
+    model %>% compile(
+      optimizer = 'adam',
+      loss = "mse"
+    )
+  }
+
   model %>% fit(x, y, steps_per_epoch = 1)
 
   yhat <- model(x)

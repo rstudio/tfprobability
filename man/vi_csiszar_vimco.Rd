@@ -4,8 +4,15 @@
 \alias{vi_csiszar_vimco}
 \title{Use VIMCO to lower the variance of the gradient of csiszar_function(Avg(logu))}
 \usage{
-vi_csiszar_vimco(f, p_log_prob, q, num_draws, num_batch_draws = 1,
-  seed = NULL, name = NULL)
+vi_csiszar_vimco(
+  f,
+  p_log_prob,
+  q,
+  num_draws,
+  num_batch_draws = 1,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{f}{function representing a Csiszar-function in log-space.}
@@ -39,7 +46,7 @@ f-Divergences.
 Note: if \code{q.reparameterization_type = tfd.FULLY_REPARAMETERIZED},
 consider using \code{monte_carlo_csiszar_f_divergence}.
 
-The VIMCO loss is:\preformatted{vimco = f(Avg{logu[i] : i=0,...,m-1})
+The VIMCO loss is:\preformatted{vimco = f(Avg\{logu[i] : i=0,...,m-1\})
 where,
 logu[i] = log( p(x, h[i]) / q(h[i] | x) )
 h[i] iid~ q(H | x)
@@ -49,12 +56,12 @@ Interestingly, the VIMCO gradient is not the naive gradient of \code{vimco}.
 Rather, it is characterized by:\preformatted{grad[vimco] - variance_reducing_term
 }
 
-where,\preformatted{variance_reducing_term = Sum{ grad[log q(h[i] | x)] * (vimco - f(log Avg{h[j;i] : j=0,...,m-1})) #' : i=0, ..., m-1 }
-h[j;i] =  u[j]  for j!=i,  GeometricAverage{ u[k] : k!=i} for j==i
+where,\preformatted{variance_reducing_term = Sum\{ grad[log q(h[i] | x)] * (vimco - f(log Avg\{h[j;i] : j=0,...,m-1\})) #' : i=0, ..., m-1 \}
+h[j;i] =  u[j]  for j!=i,  GeometricAverage\{ u[k] : k!=i\} for j==i
 }
 
 (We omitted \code{stop_gradient} for brevity. See implementation for more details.)
-The \code{Avg{h[j;i] : j}} term is a kind of "swap-out average" where the \code{i}-th
+The \verb{Avg\{h[j;i] : j\}} term is a kind of "swap-out average" where the \code{i}-th
 element has been replaced by the leave-\code{i}-out Geometric-average.
 
 This implementation prefers numerical precision over efficiency, i.e.,
@@ -64,24 +71,26 @@ This implementation prefers numerical precision over efficiency, i.e.,
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1602.06725}{Andriy Mnih and Danilo Rezende. Variational Inference for Monte Carlo objectives. In International Conference on Machine Learning, 2016.}
+\item \href{https://arxiv.org/abs/1602.06725}{Andriy Mnih and Danilo Rezende. Variational Inference for Monte Carlo objectives. In \emph{International Conference on Machine Learning}, 2016.}
 }
 }
 
 \seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_chi_square}},
-  \code{\link{vi_dual_csiszar_function}},
-  \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_jeffreys}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_log1p_abs}},
-  \code{\link{vi_modified_gan}},
-  \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_pearson}},
-  \code{\link{vi_squared_hellinger}},
-  \code{\link{vi_symmetrized_csiszar_function}}
+Other vi-functions: 
+\code{\link{vi_amari_alpha}()},
+\code{\link{vi_arithmetic_geometric}()},
+\code{\link{vi_chi_square}()},
+\code{\link{vi_dual_csiszar_function}()},
+\code{\link{vi_fit_surrogate_posterior}()},
+\code{\link{vi_jeffreys}()},
+\code{\link{vi_jensen_shannon}()},
+\code{\link{vi_kl_forward}()},
+\code{\link{vi_kl_reverse}()},
+\code{\link{vi_log1p_abs}()},
+\code{\link{vi_modified_gan}()},
+\code{\link{vi_monte_carlo_variational_loss}()},
+\code{\link{vi_pearson}()},
+\code{\link{vi_squared_hellinger}()},
+\code{\link{vi_symmetrized_csiszar_function}()}
 }
 \concept{vi-functions}

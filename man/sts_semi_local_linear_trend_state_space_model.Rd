@@ -4,10 +4,19 @@
 \alias{sts_semi_local_linear_trend_state_space_model}
 \title{State space model for a semi-local linear trend.}
 \usage{
-sts_semi_local_linear_trend_state_space_model(num_timesteps, level_scale,
-  slope_mean, slope_scale, autoregressive_coef, initial_state_prior,
-  observation_noise_scale = 0, initial_step = 0,
-  validate_args = FALSE, allow_nan_stats = TRUE, name = NULL)
+sts_semi_local_linear_trend_state_space_model(
+  num_timesteps,
+  level_scale,
+  slope_mean,
+  slope_scale,
+  autoregressive_coef,
+  initial_state_prior,
+  observation_noise_scale = 0,
+  initial_step = 0,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = NULL
+)
 }
 \arguments{
 \item{num_timesteps}{Scalar \code{integer} \code{tensor} number of timesteps to model
@@ -30,7 +39,7 @@ batch dimensions) \code{float} \code{tensor} defining the AR1 process on the lat
 
 \item{initial_state_prior}{instance of \code{tfd_multivariate_normal}
 representing the prior distribution on latent states.  Must have
-event shape \code{[1]} (as \code{tfd_linear_gaussian_state_space_model} requires a
+event shape \verb{[1]} (as \code{tfd_linear_gaussian_state_space_model} requires a
 rank-1 event shape).}
 
 \item{observation_noise_scale}{Scalar (any additional dimensions are
@@ -75,7 +84,7 @@ slope[t] = (slope_mean + autoregressive_coef * (slope[t-1] - slope_mean) +
            Normal(0., slope_scale))
 }
 
-The latent state is the two-dimensional tuple \code{[level, slope]}. The
+The latent state is the two-dimensional tuple \verb{[level, slope]}. The
 \code{level} is observed at each timestep.
 The parameters \code{level_scale}, \code{slope_mean}, \code{slope_scale},
 \code{autoregressive_coef}, and \code{observation_noise_scale} are each (a batch of)
@@ -92,7 +101,7 @@ transition_noise ~ N(loc=slope_mean - autoregressive_coef * slope_mean,
                      scale=diag([level_scale, slope_scale]))
 }
 
-which implements the evolution of \code{[level, slope]} described above, and
+which implements the evolution of \verb{[level, slope]} described above, and
 the observation model:\preformatted{observation_matrix = [[1., 0.]]
 observation_noise ~ N(loc=0, scale=observation_noise_scale)
 }
@@ -101,23 +110,24 @@ which picks out the first latent component, i.e., the \code{level}, as the
 observation at each timestep.
 }
 \seealso{
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_smooth_seasonal}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

@@ -4,25 +4,32 @@
 \alias{tfd_vector_sinh_arcsinh_diag}
 \title{The (diagonal) SinhArcsinh transformation of a distribution on \code{R^k}}
 \usage{
-tfd_vector_sinh_arcsinh_diag(loc = NULL, scale_diag = NULL,
-  scale_identity_multiplier = NULL, skewness = NULL,
-  tailweight = NULL, distribution = NULL, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = "VectorSinhArcsinhDiag")
+tfd_vector_sinh_arcsinh_diag(
+  loc = NULL,
+  scale_diag = NULL,
+  scale_identity_multiplier = NULL,
+  skewness = NULL,
+  tailweight = NULL,
+  distribution = NULL,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "VectorSinhArcsinhDiag"
+)
 }
 \arguments{
 \item{loc}{Floating-point Tensor. If this is set to NULL, loc is
-implicitly 0. When specified, may have shape \code{[B1, ..., Bb, k]} where
+implicitly 0. When specified, may have shape \verb{[B1, ..., Bb, k]} where
 b >= 0 and k is the event size.}
 
 \item{scale_diag}{Non-zero, floating-point Tensor representing a diagonal
-matrix added to scale. May have shape \code{[B1, ..., Bb, k]}, b >= 0,
+matrix added to scale. May have shape \verb{[B1, ..., Bb, k]}, b >= 0,
 and characterizes b-batches of k x k diagonal matrices added to
 scale. When both scale_identity_multiplier and scale_diag are
 NULL then scale is the Identity.}
 
 \item{scale_identity_multiplier}{Non-zero, floating-point Tensor representing
 a scale-identity-matrix added to scale. May have shape
-\code{[B1, ..., Bb]}, b >= 0, and characterizes b-batches of scale
+\verb{[B1, ..., Bb]}, b >= 0, and characterizes b-batches of scale
 k x k identity matrices added to scale. When both
 scale_identity_multiplier and scale_diag are NULL then scale
 is the Identity.}
@@ -57,7 +64,7 @@ one or more of the statistic's batch members are undefined.}
 a distribution instance.
 }
 \description{
-This distribution models a random vector \code{Y = (Y1,...,Yk)}, making use of
+This distribution models a random vector \verb{Y = (Y1,...,Yk)}, making use of
 a SinhArcsinh transformation (which has adjustable tailweight and skew),
 a rescaling, and a shift.
 The SinhArcsinh transformation of the Normal is described in great depth in
@@ -69,9 +76,9 @@ and control over scale as well as a "shift" parameter loc.
 \details{
 Mathematical Details
 
-Given iid random vector \code{Z = (Z1,...,Zk)}, we define the VectorSinhArcsinhDiag
+Given iid random vector \verb{Z = (Z1,...,Zk)}, we define the VectorSinhArcsinhDiag
 transformation of \code{Z}, \code{Y}, parameterized by
-\code{(loc, scale, skewness, tailweight)}, via the relation (with \code{@} denoting matrix multiplication):\preformatted{Y := loc + scale @ F(Z) * (2 / F_0(2))
+\verb{(loc, scale, skewness, tailweight)}, via the relation (with \code{@} denoting matrix multiplication):\preformatted{Y := loc + scale @ F(Z) * (2 / F_0(2))
 F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
 F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
 }
@@ -94,14 +101,14 @@ reshaping done by \code{F}:
 \item positive skew means positive values of \code{F(Z)} become more likely, and
 negative values become less likely.
 \item Larger (smaller) \code{tailweight} leads to fatter (thinner) tails.
-\item Fatter tails mean larger values of \code{|F(Z)|} become more likely.
+\item Fatter tails mean larger values of \verb{|F(Z)|} become more likely.
 \item \code{tailweight < 1} leads to a distribution that is "flat" around \code{Y = loc},
 and a very steep drop-off in the tails.
 \item \code{tailweight > 1} leads to a distribution more peaked at the mode with
 heavier tails.
-To see the argument about the tails, note that for \code{|Z| >> 1} and
-\code{|Z| >> (|skewness| * tailweight)**tailweight}, we have
-\code{Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)}.
+To see the argument about the tails, note that for \verb{|Z| >> 1} and
+\verb{|Z| >> (|skewness| * tailweight)**tailweight}, we have
+\verb{Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)}.
 To see the argument regarding multiplying \code{scale} by \code{2 / F_0(2)},
 }\preformatted{P[(Y - loc) / scale <= 2] = P[F(Z) * (2 / F_0(2)) <= 2]
 = P[F(Z) <= F_0(2)]
@@ -112,70 +119,83 @@ To see the argument regarding multiplying \code{scale} by \code{2 / F_0(2)},
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_diag}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_diag}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

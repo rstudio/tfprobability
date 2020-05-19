@@ -4,18 +4,27 @@
 \alias{layer_conv_2d_reparameterization}
 \title{2D convolution layer (e.g. spatial convolution over images)}
 \usage{
-layer_conv_2d_reparameterization(object, filters, kernel_size,
-  strides = 1, padding = "valid", data_format = "channels_last",
-  dilation_rate = 1, activation = NULL, activity_regularizer = NULL,
+layer_conv_2d_reparameterization(
+  object,
+  filters,
+  kernel_size,
+  strides = 1,
+  padding = "valid",
+  data_format = "channels_last",
+  dilation_rate = 1,
+  activation = NULL,
+  activity_regularizer = NULL,
   trainable = TRUE,
   kernel_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(),
   kernel_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
   kernel_prior_fn = tfp$layers$util$default_multivariate_normal_fn,
   kernel_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
-  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular
-  = TRUE), bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
-  bias_prior_fn = NULL, bias_divergence_fn = function(q, p, ignore)
-  tfd_kl_divergence(q, p), ...)
+  bias_posterior_fn = tfp$layers$util$default_mean_field_normal_fn(is_singular = TRUE),
+  bias_posterior_tensor_fn = function(d) d \%>\% tfd_sample(),
+  bias_prior_fn = NULL,
+  bias_divergence_fn = function(q, p, ignore) tfd_kl_divergence(q, p),
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -35,8 +44,8 @@ any \code{dilation_rate} value != 1.}
 
 \item{data_format}{A string, one of \code{channels_last} (default) or
 \code{channels_first}. The ordering of the dimensions in the inputs.
-\code{channels_last} corresponds to inputs with shape \code{(batch, length, channels)} while \code{channels_first} corresponds to inputs with shape
-\code{(batch, channels, length)}.}
+\code{channels_last} corresponds to inputs with shape \verb{(batch, length, channels)} while \code{channels_first} corresponds to inputs with shape
+\verb{(batch, channels, length)}.}
 
 \item{dilation_rate}{An integer or tuple/list of a single integer, specifying
 the dilation rate to use for dilated convolution.
@@ -116,21 +125,22 @@ after the layer is built via the \code{kernel_posterior}, \code{kernel_prior},
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1312.6114}{Diederik Kingma and Max Welling. Auto-Encoding Variational Bayes. In International Conference on Learning Representations, 2014.}
+\item \href{https://arxiv.org/abs/1312.6114}{Diederik Kingma and Max Welling. Auto-Encoding Variational Bayes. In \emph{International Conference on Learning Representations}, 2014.}
 }
 }
 
 \seealso{
-Other layers: \code{\link{layer_autoregressive}},
-  \code{\link{layer_conv_1d_flipout}},
-  \code{\link{layer_conv_1d_reparameterization}},
-  \code{\link{layer_conv_2d_flipout}},
-  \code{\link{layer_conv_3d_flipout}},
-  \code{\link{layer_conv_3d_reparameterization}},
-  \code{\link{layer_dense_flipout}},
-  \code{\link{layer_dense_local_reparameterization}},
-  \code{\link{layer_dense_reparameterization}},
-  \code{\link{layer_dense_variational}},
-  \code{\link{layer_variable}}
+Other layers: 
+\code{\link{layer_autoregressive}()},
+\code{\link{layer_conv_1d_flipout}()},
+\code{\link{layer_conv_1d_reparameterization}()},
+\code{\link{layer_conv_2d_flipout}()},
+\code{\link{layer_conv_3d_flipout}()},
+\code{\link{layer_conv_3d_reparameterization}()},
+\code{\link{layer_dense_flipout}()},
+\code{\link{layer_dense_local_reparameterization}()},
+\code{\link{layer_dense_reparameterization}()},
+\code{\link{layer_dense_variational}()},
+\code{\link{layer_variable}()}
 }
 \concept{layers}

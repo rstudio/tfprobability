@@ -4,10 +4,19 @@
 \alias{layer_autoregressive}
 \title{Masked Autoencoder for Distribution Estimation}
 \usage{
-layer_autoregressive(object, params, event_shape = NULL,
-  hidden_units = NULL, input_order = "left-to-right",
-  hidden_degrees = "equal", activation = NULL, use_bias = TRUE,
-  kernel_initializer = "glorot_uniform", validate_args = FALSE, ...)
+layer_autoregressive(
+  object,
+  params,
+  event_shape = NULL,
+  hidden_units = NULL,
+  input_order = "left-to-right",
+  hidden_degrees = "equal",
+  activation = NULL,
+  use_bias = TRUE,
+  kernel_initializer = "glorot_uniform",
+  validate_args = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{Model or layer object}
@@ -27,7 +36,7 @@ the number of units in each hidden layer.}
 \item{input_order}{Order of degrees to the input units: 'random',
 'left-to-right', 'right-to-left', or an array of an explicit order. For
 example, 'left-to-right' builds an autoregressive model:
-\code{p(x) = p(x1) p(x2 | x1) ... p(xD | x<D)}.  Default: 'left-to-right'.}
+\verb{p(x) = p(x1) p(x2 | x1) ... p(xD | x<D)}.  Default: 'left-to-right'.}
 
 \item{hidden_degrees}{Method for assigning degrees to the hidden units:
 'equal', 'random'.  If 'equal', hidden units in each layer are allocated
@@ -50,10 +59,10 @@ performance. When \code{FALSE} invalid inputs may silently render incorrect outp
 a Keras layer
 }
 \description{
-\code{layer_autoregressive} takes as input a Tensor of shape \code{[..., event_size]}
-and returns a Tensor of shape \code{[..., event_size, params]}.
+\code{layer_autoregressive} takes as input a Tensor of shape \verb{[..., event_size]}
+and returns a Tensor of shape \verb{[..., event_size, params]}.
 The output satisfies the autoregressive property.  That is, the layer is
-configured with some permutation \code{ord} of \code{{0, ..., event_size-1}} (i.e., an
+configured with some permutation \code{ord} of \verb{\{0, ..., event_size-1\}} (i.e., an
 ordering of the input dimensions), and the output \code{output[batch_idx, i, ...]}
 for input dimension \code{i} depends only on inputs \code{x[batch_idx, j]} where
 \code{ord(j) < ord(i)}.
@@ -61,25 +70,26 @@ for input dimension \code{i} depends only on inputs \code{x[batch_idx, j]} where
 \details{
 The autoregressive property allows us to use
 \code{output[batch_idx, i]} to parameterize conditional distributions:
-\code{p(x[batch_idx, i] | x[batch_idx, ] for ord(j) < ord(i))}
+\verb{p(x[batch_idx, i] | x[batch_idx, ] for ord(j) < ord(i))}
 which give us a tractable distribution over input \code{x[batch_idx]}:
 
-\code{p(x[batch_idx]) = prod_i p(x[batch_idx, ord(i)] | x[batch_idx, ord(0:i)])}
+\verb{p(x[batch_idx]) = prod_i p(x[batch_idx, ord(i)] | x[batch_idx, ord(0:i)])}
 
 For example, when \code{params} is 2, the output of the layer can parameterize
 the location and log-scale of an autoregressive Gaussian distribution.
 }
 \seealso{
-Other layers: \code{\link{layer_conv_1d_flipout}},
-  \code{\link{layer_conv_1d_reparameterization}},
-  \code{\link{layer_conv_2d_flipout}},
-  \code{\link{layer_conv_2d_reparameterization}},
-  \code{\link{layer_conv_3d_flipout}},
-  \code{\link{layer_conv_3d_reparameterization}},
-  \code{\link{layer_dense_flipout}},
-  \code{\link{layer_dense_local_reparameterization}},
-  \code{\link{layer_dense_reparameterization}},
-  \code{\link{layer_dense_variational}},
-  \code{\link{layer_variable}}
+Other layers: 
+\code{\link{layer_conv_1d_flipout}()},
+\code{\link{layer_conv_1d_reparameterization}()},
+\code{\link{layer_conv_2d_flipout}()},
+\code{\link{layer_conv_2d_reparameterization}()},
+\code{\link{layer_conv_3d_flipout}()},
+\code{\link{layer_conv_3d_reparameterization}()},
+\code{\link{layer_dense_flipout}()},
+\code{\link{layer_dense_local_reparameterization}()},
+\code{\link{layer_dense_reparameterization}()},
+\code{\link{layer_dense_variational}()},
+\code{\link{layer_variable}()}
 }
 \concept{layers}

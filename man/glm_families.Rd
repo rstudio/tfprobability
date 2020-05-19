@@ -12,7 +12,7 @@ A list of models that can be used as the \code{model} argument in \code{\link[=g
 \details{
 \itemize{
 \item \code{Bernoulli}: \code{Bernoulli(probs=mean)} where \code{mean = sigmoid(matmul(X, weights))}
-\item \code{BernoulliNormalCDF}: \code{Bernoulli(probs=mean)} where \code{mean = Normal(0, 1).cdf(matmul(X, weights))}
+\item \code{BernoulliNormalCDF}: \code{Bernoulli(probs=mean)} where \verb{mean = Normal(0, 1).cdf(matmul(X, weights))}
 \item \code{GammaExp}: \code{Gamma(concentration=1, rate=1 / mean)} where \code{mean = exp(matmul(X, weights))}
 \item \code{GammaSoftplus}: \code{Gamma(concentration=1, rate=1 / mean)} where \code{mean = softplus(matmul(X, weights))}
 \item \code{LogNormal}: \code{LogNormal(loc=log(mean) - log(2) / 2, scale=sqrt(log(2)))} where
@@ -26,7 +26,8 @@ A list of models that can be used as the \code{model} argument in \code{\link[=g
 }
 }
 \seealso{
-Other glm_fit: \code{\link{glm_fit.tensorflow.tensor}},
-  \code{\link{glm_fit_one_step.tensorflow.tensor}}
+Other glm_fit: 
+\code{\link{glm_fit.tensorflow.tensor}()},
+\code{\link{glm_fit_one_step.tensorflow.tensor}()}
 }
 \concept{glm_fit}

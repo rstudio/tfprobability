@@ -4,10 +4,16 @@
 \alias{mcmc_hamiltonian_monte_carlo}
 \title{Runs one step of Hamiltonian Monte Carlo.}
 \usage{
-mcmc_hamiltonian_monte_carlo(target_log_prob_fn, step_size,
-  num_leapfrog_steps, state_gradients_are_stopped = FALSE,
-  step_size_update_fn = NULL, seed = NULL,
-  store_parameters_in_results = FALSE, name = NULL)
+mcmc_hamiltonian_monte_carlo(
+  target_log_prob_fn,
+  step_size,
+  num_leapfrog_steps,
+  state_gradients_are_stopped = FALSE,
+  step_size_update_fn = NULL,
+  seed = NULL,
+  store_parameters_in_results = FALSE,
+  name = NULL
+)
 }
 \arguments{
 \item{target_log_prob_fn}{Function which takes an argument like
@@ -63,31 +69,32 @@ that all leftmost dimensions of \code{current_state} index independent chain sta
 (and are therefore updated independently). The output of
 \code{target_log_prob_fn(current_state)} should sum log-probabilities across all
 event dimensions. Slices along the rightmost dimensions may have different
-target distributions; for example, \code{current_state[0, :]} could have a
-different target distribution from \code{current_state[1, :]}. These semantics are
+target distributions; for example, \verb{current_state[0, :]} could have a
+different target distribution from \verb{current_state[1, :]}. These semantics are
 governed by \code{target_log_prob_fn(current_state)}. (The number of independent
 chains is \code{tf$size(target_log_prob_fn(current_state))}.)
 }
 \section{References}{
 
 \itemize{
-\item \href{https://arxiv.org/abs/1206.1901}{Radford Neal. MCMC Using Hamiltonian Dynamics. Handbook of Markov Chain Monte Carlo, 2011.}
-\item \href{https://projecteuclid.org/euclid.aos/1018031103}{Bernard Delyon, Marc Lavielle, Eric, Moulines. Convergence of a stochastic approximation version of the EM algorithm, Ann. Statist. 27 (1999), no. 1, 94--128.}
+\item \href{https://arxiv.org/abs/1206.1901}{Radford Neal. MCMC Using Hamiltonian Dynamics. \emph{Handbook of Markov Chain Monte Carlo}, 2011.}
+\item \href{https://projecteuclid.org/euclid.aos/1018031103}{Bernard Delyon, Marc Lavielle, Eric, Moulines. \emph{Convergence of a stochastic approximation version of the EM algorithm}, Ann. Statist. 27 (1999), no. 1, 94--128.}
 }
 }
 
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_no_u_turn_sampler}},
-  \code{\link{mcmc_random_walk_metropolis}},
-  \code{\link{mcmc_replica_exchange_mc}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_langevin}},
-  \code{\link{mcmc_uncalibrated_random_walk}}
+Other mcmc_kernels: 
+\code{\link{mcmc_dual_averaging_step_size_adaptation}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_no_u_turn_sampler}()},
+\code{\link{mcmc_random_walk_metropolis}()},
+\code{\link{mcmc_replica_exchange_mc}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_transformed_transition_kernel}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_langevin}()},
+\code{\link{mcmc_uncalibrated_random_walk}()}
 }
 \concept{mcmc_kernels}

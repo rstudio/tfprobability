@@ -4,10 +4,16 @@
 \alias{sts_additive_state_space_model}
 \title{A state space model representing a sum of component state space models.}
 \usage{
-sts_additive_state_space_model(component_ssms, constant_offset = 0,
-  observation_noise_scale = NULL, initial_state_prior = NULL,
-  initial_step = 0, validate_args = FALSE, allow_nan_stats = TRUE,
-  name = NULL)
+sts_additive_state_space_model(
+  component_ssms,
+  constant_offset = 0,
+  observation_noise_scale = NULL,
+  initial_state_prior = NULL,
+  initial_step = 0,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = NULL
+)
 }
 \arguments{
 \item{component_ssms}{\code{list} containing one or more
@@ -29,11 +35,11 @@ in \code{component_ssms}. If \code{observation_noise_scale} is specified for the
 \code{sts_additive_state_space_model}, the observation noise scales of component
 models are ignored. If \code{NULL}, the observation noise scale is derived
 by summing the noise variances of the component models, i.e.,
-\code{observation_noise_scale = sqrt(sum([ssm.observation_noise_scale**2 for ssm in component_ssms]))}.}
+\verb{observation_noise_scale = sqrt(sum([ssm.observation_noise_scale**2 for ssm in component_ssms]))}.}
 
 \item{initial_state_prior}{instance of \code{tfd_multivariate_normal}
 representing the prior distribution on latent states.  Must have
-event shape \code{[1]} (as \code{tfd_linear_gaussian_state_space_model} requires a
+event shape \verb{[1]} (as \code{tfd_linear_gaussian_state_space_model} requires a
 rank-1 event shape).}
 
 \item{initial_step}{Optional scalar \code{integer} \code{tensor} specifying the starting
@@ -67,7 +73,7 @@ calculations; see \code{tfd_linear_gaussian_state_space_model} for details.
 \details{
 The \code{sts_additive_state_space_model} represents a sum of component state space
 models. Each of the \code{N} components describes a random process
-generating a distribution on observed time series \code{x1[t], x2[t], ..., xN[t]}.
+generating a distribution on observed time series \verb{x1[t], x2[t], ..., xN[t]}.
 The additive model represents the sum of these
 processes, \code{y[t] = x1[t] + x2[t] + ... + xN[t] + eps[t]}, where
 \code{eps[t] ~ N(0, observation_noise_scale)} is an observation noise term.
@@ -83,8 +89,8 @@ Formally, the transition model is linear Gaussian:\preformatted{p(z[t+1] | z[t])
 }
 
 where each \code{z[t]} is a latent state vector concatenating the component
-state vectors, \code{z[t] = [z1[t], z2[t], ..., zN[t]]}, so it has size
-\code{latent_size = sum([c.latent_size for c in components])}.
+state vectors, \verb{z[t] = [z1[t], z2[t], ..., zN[t]]}, so it has size
+\verb{latent_size = sum([c.latent_size for c in components])}.
 
 The transition matrix is the block-diagonal composition of transition
 matrices from the component processes:\preformatted{transition_matrix =
@@ -105,7 +111,7 @@ component noise covariances:\preformatted{transition_cov =
 The observation model is also linear Gaussian,\preformatted{p(y[t] | z[t]) ~ Normal(loc = observation_matrix.matmul(z[t]), stddev = observation_noise_scale)
 }
 
-This implementation assumes scalar observations, so \code{observation_matrix} has shape \code{[1, latent_size]}.
+This implementation assumes scalar observations, so \code{observation_matrix} has shape \verb{[1, latent_size]}.
 The additive observation matrix simply concatenates the observation matrices from each component:\preformatted{observation_matrix = concat([c0.obs_matrix, c1.obs_matrix, ..., cN.obs_matrix], axis=-1)
 }
 
@@ -118,23 +124,24 @@ by summing the noise variances of the component processes:\preformatted{observat
 }
 }
 \seealso{
-Other sts: \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_autoregressive}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_smooth_seasonal}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_autoregressive}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

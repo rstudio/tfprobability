@@ -16,7 +16,7 @@ Squared-Hellinger_of_u: \code{float}-like \code{Tensor} of the Csiszar-function
 evaluated at \code{u = exp(logu)}.
 }
 \description{
-A Csiszar-function is a member of \code{F = { f:R_+ to R : f convex }}.
+A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
 The Squared-Hellinger Csiszar-function is:\preformatted{f(u) = (sqrt(u) - 1)**2
@@ -26,22 +26,24 @@ This Csiszar-function induces a symmetric f-Divergence, i.e.,
 \code{D_f[p, q] = D_f[q, p]}.
 
 Warning: this function makes non-log-space calculations and may
-therefore be numerically unstable for \code{|logu| >> 0}.
+therefore be numerically unstable for \verb{|logu| >> 0}.
 }
 \seealso{
-Other vi-functions: \code{\link{vi_amari_alpha}},
-  \code{\link{vi_arithmetic_geometric}},
-  \code{\link{vi_chi_square}},
-  \code{\link{vi_csiszar_vimco}},
-  \code{\link{vi_dual_csiszar_function}},
-  \code{\link{vi_fit_surrogate_posterior}},
-  \code{\link{vi_jeffreys}},
-  \code{\link{vi_jensen_shannon}},
-  \code{\link{vi_kl_forward}}, \code{\link{vi_kl_reverse}},
-  \code{\link{vi_log1p_abs}},
-  \code{\link{vi_modified_gan}},
-  \code{\link{vi_monte_carlo_variational_loss}},
-  \code{\link{vi_pearson}},
-  \code{\link{vi_symmetrized_csiszar_function}}
+Other vi-functions: 
+\code{\link{vi_amari_alpha}()},
+\code{\link{vi_arithmetic_geometric}()},
+\code{\link{vi_chi_square}()},
+\code{\link{vi_csiszar_vimco}()},
+\code{\link{vi_dual_csiszar_function}()},
+\code{\link{vi_fit_surrogate_posterior}()},
+\code{\link{vi_jeffreys}()},
+\code{\link{vi_jensen_shannon}()},
+\code{\link{vi_kl_forward}()},
+\code{\link{vi_kl_reverse}()},
+\code{\link{vi_log1p_abs}()},
+\code{\link{vi_modified_gan}()},
+\code{\link{vi_monte_carlo_variational_loss}()},
+\code{\link{vi_pearson}()},
+\code{\link{vi_symmetrized_csiszar_function}()}
 }
 \concept{vi-functions}

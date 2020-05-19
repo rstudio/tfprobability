@@ -4,8 +4,12 @@
 \alias{mcmc_random_walk_metropolis}
 \title{Runs one step of the RWM algorithm with symmetric proposal.}
 \usage{
-mcmc_random_walk_metropolis(target_log_prob_fn, new_state_fn = NULL,
-  seed = NULL, name = NULL)
+mcmc_random_walk_metropolis(
+  target_log_prob_fn,
+  new_state_fn = NULL,
+  seed = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{target_log_prob_fn}{Function which takes an argument like
@@ -41,23 +45,24 @@ that all leftmost dimensions of \code{current_state} index independent chain sta
 (and are therefore updated independently). The output of
 \code{target_log_prob_fn(current_state)} should sum log-probabilities across all
 event dimensions. Slices along the rightmost dimensions may have different
-target distributions; for example, \code{current_state[0, :]} could have a
-different target distribution from \code{current_state[1, :]}. These semantics
+target distributions; for example, \verb{current_state[0, :]} could have a
+different target distribution from \verb{current_state[1, :]}. These semantics
 are governed by \code{target_log_prob_fn(current_state)}. (The number of
 independent chains is \code{tf$size(target_log_prob_fn(current_state))}.)
 }
 \seealso{
-Other mcmc_kernels: \code{\link{mcmc_dual_averaging_step_size_adaptation}},
-  \code{\link{mcmc_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_metropolis_adjusted_langevin_algorithm}},
-  \code{\link{mcmc_metropolis_hastings}},
-  \code{\link{mcmc_no_u_turn_sampler}},
-  \code{\link{mcmc_replica_exchange_mc}},
-  \code{\link{mcmc_simple_step_size_adaptation}},
-  \code{\link{mcmc_slice_sampler}},
-  \code{\link{mcmc_transformed_transition_kernel}},
-  \code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}},
-  \code{\link{mcmc_uncalibrated_langevin}},
-  \code{\link{mcmc_uncalibrated_random_walk}}
+Other mcmc_kernels: 
+\code{\link{mcmc_dual_averaging_step_size_adaptation}()},
+\code{\link{mcmc_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_metropolis_adjusted_langevin_algorithm}()},
+\code{\link{mcmc_metropolis_hastings}()},
+\code{\link{mcmc_no_u_turn_sampler}()},
+\code{\link{mcmc_replica_exchange_mc}()},
+\code{\link{mcmc_simple_step_size_adaptation}()},
+\code{\link{mcmc_slice_sampler}()},
+\code{\link{mcmc_transformed_transition_kernel}()},
+\code{\link{mcmc_uncalibrated_hamiltonian_monte_carlo}()},
+\code{\link{mcmc_uncalibrated_langevin}()},
+\code{\link{mcmc_uncalibrated_random_walk}()}
 }
 \concept{mcmc_kernels}

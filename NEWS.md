@@ -1,4 +1,12 @@
+## 0.10.0.0 (master)
 
+- changes in distributions:
+   - added: tfd_beta_binomial
+   - parameter list changed: tfd_transformed_distribution
+   
+- changes in bijectors: 
+   - added: tfb_lambert_w_tail
+   
 
 ## 0.9.0.0 (CRAN)
 
@@ -7,9 +15,9 @@
   - tfd_doublesided_maxwell
   - tfd_placket_luce
   - tfd_discrete_finite
-  - logit_normal
-  - log_normal
-  - pert
+  - tfd_logit_normal
+  - tfd_log_normal
+  - tfd_pert
   - tfd_wishart_linear_operator
   - tfd_wishart_tri_l
   - tfd_pixel_cnn

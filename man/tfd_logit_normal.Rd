@@ -4,8 +4,13 @@
 \alias{tfd_logit_normal}
 \title{The Logit-Normal distribution}
 \usage{
-tfd_logit_normal(loc, scale, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = "LogitNormal")
+tfd_logit_normal(
+  loc,
+  scale,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "LogitNormal"
+)
 }
 \arguments{
 \item{loc}{Floating point tensor; the means of the distribution(s).}

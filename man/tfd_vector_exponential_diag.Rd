@@ -4,24 +4,29 @@
 \alias{tfd_vector_exponential_diag}
 \title{The vectorization of the Exponential distribution on \code{R^k}}
 \usage{
-tfd_vector_exponential_diag(loc = NULL, scale_diag = NULL,
-  scale_identity_multiplier = NULL, validate_args = FALSE,
-  allow_nan_stats = TRUE, name = "VectorExponentialDiag")
+tfd_vector_exponential_diag(
+  loc = NULL,
+  scale_diag = NULL,
+  scale_identity_multiplier = NULL,
+  validate_args = FALSE,
+  allow_nan_stats = TRUE,
+  name = "VectorExponentialDiag"
+)
 }
 \arguments{
 \item{loc}{Floating-point Tensor. If this is set to NULL, loc is
-implicitly 0. When specified, may have shape \code{[B1, ..., Bb, k]} where
+implicitly 0. When specified, may have shape \verb{[B1, ..., Bb, k]} where
 b >= 0 and k is the event size.}
 
 \item{scale_diag}{Non-zero, floating-point Tensor representing a diagonal
-matrix added to scale. May have shape \code{[B1, ..., Bb, k]}, b >= 0,
+matrix added to scale. May have shape \verb{[B1, ..., Bb, k]}, b >= 0,
 and characterizes b-batches of k x k diagonal matrices added to
 scale. When both scale_identity_multiplier and scale_diag are
 NULL then scale is the Identity.}
 
 \item{scale_identity_multiplier}{Non-zero, floating-point Tensor representing
 a scaled-identity-matrix added to scale. May have shape
-\code{[B1, ..., Bb]}, b >= 0, and characterizes b-batches of scaled
+\verb{[B1, ..., Bb]}, b >= 0, and characterizes b-batches of scaled
 k x k identity matrices added to scale. When both
 scale_identity_multiplier and scale_diag are NULL then scale is
 the Identity.}
@@ -41,7 +46,7 @@ a distribution instance.
 }
 \description{
 The vector exponential distribution is defined over a subset of \code{R^k}, and
-parameterized by a (batch of) length-\code{k} \code{loc} vector and a (batch of) \code{k x k}
+parameterized by a (batch of) length-\code{k} \code{loc} vector and a (batch of) \verb{k x k}
 \code{scale} matrix:  \code{covariance = scale @ scale.T}, where \code{@} denotes
 matrix-multiplication.
 }
@@ -49,7 +54,7 @@ matrix-multiplication.
 Mathematical Details
 The probability density function (pdf) is defined over the image of the
 \code{scale} matrix + \code{loc}, applied to the positive half-space:
-\code{Supp = {loc + scale @ x : x in R^k, x_1 > 0, ..., x_k > 0}}.  On this set,\preformatted{pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in Supp
+\verb{Supp = \{loc + scale @ x : x in R^k, x_1 > 0, ..., x_k > 0\}}.  On this set,\preformatted{pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in Supp
 x = inv(scale) @ (y - loc),
 Z = |det(scale)|,
 }
@@ -57,9 +62,9 @@ Z = |det(scale)|,
 where:
 \itemize{
 \item \code{loc} is a vector in \code{R^k},
-\item \code{scale} is a linear operator in \code{R^{k x k}}, \code{cov = scale @ scale.T},
+\item \code{scale} is a linear operator in \verb{R^\{k x k\}}, \code{cov = scale @ scale.T},
 \item \code{Z} denotes the normalization constant, and,
-\item \code{||x||_1} denotes the \code{l1} norm of \code{x}, \code{sum_i |x_i|}.
+\item \verb{||x||_1} denotes the \code{l1} norm of \code{x}, \verb{sum_i |x_i|}.
 The VectorExponential distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
 constructed as,
 }\preformatted{X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
@@ -70,7 +75,7 @@ About \code{VectorExponential} and \code{Vector} distributions in TensorFlow.
 
 The \code{VectorExponential} is a non-standard distribution that has useful
 properties.
-The marginals \code{Y_1, ..., Y_k} are \emph{not} Exponential random variables, due to
+The marginals \verb{Y_1, ..., Y_k} are \emph{not} Exponential random variables, due to
 the fact that the sum of Exponential random variables is not Exponential.
 Instead, \code{Y} is a vector whose components are linear combinations of
 Exponential random variables.  Thus, \code{Y} lives in the vector space generated
@@ -95,70 +100,83 @@ If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{NULL}, 
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
-Other distributions: \code{\link{tfd_autoregressive}},
-  \code{\link{tfd_batch_reshape}},
-  \code{\link{tfd_bernoulli}}, \code{\link{tfd_beta}},
-  \code{\link{tfd_binomial}},
-  \code{\link{tfd_categorical}}, \code{\link{tfd_cauchy}},
-  \code{\link{tfd_chi2}}, \code{\link{tfd_chi}},
-  \code{\link{tfd_cholesky_lkj}},
-  \code{\link{tfd_deterministic}},
-  \code{\link{tfd_dirichlet_multinomial}},
-  \code{\link{tfd_dirichlet}}, \code{\link{tfd_empirical}},
-  \code{\link{tfd_exponential}},
-  \code{\link{tfd_gamma_gamma}}, \code{\link{tfd_gamma}},
-  \code{\link{tfd_gaussian_process_regression_model}},
-  \code{\link{tfd_gaussian_process}},
-  \code{\link{tfd_geometric}}, \code{\link{tfd_gumbel}},
-  \code{\link{tfd_half_cauchy}},
-  \code{\link{tfd_half_normal}},
-  \code{\link{tfd_hidden_markov_model}},
-  \code{\link{tfd_horseshoe}},
-  \code{\link{tfd_independent}},
-  \code{\link{tfd_inverse_gamma}},
-  \code{\link{tfd_inverse_gaussian}},
-  \code{\link{tfd_joint_distribution_named}},
-  \code{\link{tfd_joint_distribution_sequential}},
-  \code{\link{tfd_kumaraswamy}}, \code{\link{tfd_laplace}},
-  \code{\link{tfd_linear_gaussian_state_space_model}},
-  \code{\link{tfd_lkj}}, \code{\link{tfd_log_normal}},
-  \code{\link{tfd_logistic}},
-  \code{\link{tfd_mixture_same_family}},
-  \code{\link{tfd_mixture}}, \code{\link{tfd_multinomial}},
-  \code{\link{tfd_multivariate_normal_diag_plus_low_rank}},
-  \code{\link{tfd_multivariate_normal_diag}},
-  \code{\link{tfd_multivariate_normal_full_covariance}},
-  \code{\link{tfd_multivariate_normal_linear_operator}},
-  \code{\link{tfd_multivariate_normal_tri_l}},
-  \code{\link{tfd_multivariate_student_t_linear_operator}},
-  \code{\link{tfd_negative_binomial}},
-  \code{\link{tfd_normal}},
-  \code{\link{tfd_one_hot_categorical}},
-  \code{\link{tfd_pareto}}, \code{\link{tfd_pixel_cnn}},
-  \code{\link{tfd_poisson_log_normal_quadrature_compound}},
-  \code{\link{tfd_poisson}},
-  \code{\link{tfd_probit_bernoulli}},
-  \code{\link{tfd_quantized}},
-  \code{\link{tfd_relaxed_bernoulli}},
-  \code{\link{tfd_relaxed_one_hot_categorical}},
-  \code{\link{tfd_sample_distribution}},
-  \code{\link{tfd_sinh_arcsinh}},
-  \code{\link{tfd_student_t_process}},
-  \code{\link{tfd_student_t}},
-  \code{\link{tfd_transformed_distribution}},
-  \code{\link{tfd_triangular}},
-  \code{\link{tfd_truncated_normal}},
-  \code{\link{tfd_uniform}},
-  \code{\link{tfd_variational_gaussian_process}},
-  \code{\link{tfd_vector_diffeomixture}},
-  \code{\link{tfd_vector_exponential_linear_operator}},
-  \code{\link{tfd_vector_laplace_diag}},
-  \code{\link{tfd_vector_laplace_linear_operator}},
-  \code{\link{tfd_vector_sinh_arcsinh_diag}},
-  \code{\link{tfd_von_mises_fisher}},
-  \code{\link{tfd_von_mises}},
-  \code{\link{tfd_wishart_linear_operator}},
-  \code{\link{tfd_wishart_tri_l}},
-  \code{\link{tfd_wishart}}, \code{\link{tfd_zipf}}
+Other distributions: 
+\code{\link{tfd_autoregressive}()},
+\code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bernoulli}()},
+\code{\link{tfd_beta_binomial}()},
+\code{\link{tfd_beta}()},
+\code{\link{tfd_binomial}()},
+\code{\link{tfd_categorical}()},
+\code{\link{tfd_cauchy}()},
+\code{\link{tfd_chi2}()},
+\code{\link{tfd_chi}()},
+\code{\link{tfd_cholesky_lkj}()},
+\code{\link{tfd_deterministic}()},
+\code{\link{tfd_dirichlet_multinomial}()},
+\code{\link{tfd_dirichlet}()},
+\code{\link{tfd_empirical}()},
+\code{\link{tfd_exponential}()},
+\code{\link{tfd_gamma_gamma}()},
+\code{\link{tfd_gamma}()},
+\code{\link{tfd_gaussian_process_regression_model}()},
+\code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_geometric}()},
+\code{\link{tfd_gumbel}()},
+\code{\link{tfd_half_cauchy}()},
+\code{\link{tfd_half_normal}()},
+\code{\link{tfd_hidden_markov_model}()},
+\code{\link{tfd_horseshoe}()},
+\code{\link{tfd_independent}()},
+\code{\link{tfd_inverse_gamma}()},
+\code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential}()},
+\code{\link{tfd_kumaraswamy}()},
+\code{\link{tfd_laplace}()},
+\code{\link{tfd_linear_gaussian_state_space_model}()},
+\code{\link{tfd_lkj}()},
+\code{\link{tfd_log_normal}()},
+\code{\link{tfd_logistic}()},
+\code{\link{tfd_mixture_same_family}()},
+\code{\link{tfd_mixture}()},
+\code{\link{tfd_multinomial}()},
+\code{\link{tfd_multivariate_normal_diag_plus_low_rank}()},
+\code{\link{tfd_multivariate_normal_diag}()},
+\code{\link{tfd_multivariate_normal_full_covariance}()},
+\code{\link{tfd_multivariate_normal_linear_operator}()},
+\code{\link{tfd_multivariate_normal_tri_l}()},
+\code{\link{tfd_multivariate_student_t_linear_operator}()},
+\code{\link{tfd_negative_binomial}()},
+\code{\link{tfd_normal}()},
+\code{\link{tfd_one_hot_categorical}()},
+\code{\link{tfd_pareto}()},
+\code{\link{tfd_pixel_cnn}()},
+\code{\link{tfd_poisson_log_normal_quadrature_compound}()},
+\code{\link{tfd_poisson}()},
+\code{\link{tfd_probit_bernoulli}()},
+\code{\link{tfd_quantized}()},
+\code{\link{tfd_relaxed_bernoulli}()},
+\code{\link{tfd_relaxed_one_hot_categorical}()},
+\code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_sinh_arcsinh}()},
+\code{\link{tfd_student_t_process}()},
+\code{\link{tfd_student_t}()},
+\code{\link{tfd_transformed_distribution}()},
+\code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_normal}()},
+\code{\link{tfd_uniform}()},
+\code{\link{tfd_variational_gaussian_process}()},
+\code{\link{tfd_vector_diffeomixture}()},
+\code{\link{tfd_vector_exponential_linear_operator}()},
+\code{\link{tfd_vector_laplace_diag}()},
+\code{\link{tfd_vector_laplace_linear_operator}()},
+\code{\link{tfd_vector_sinh_arcsinh_diag}()},
+\code{\link{tfd_von_mises_fisher}()},
+\code{\link{tfd_von_mises}()},
+\code{\link{tfd_wishart_linear_operator}()},
+\code{\link{tfd_wishart_tri_l}()},
+\code{\link{tfd_wishart}()},
+\code{\link{tfd_zipf}()}
 }
 \concept{distributions}

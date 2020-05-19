@@ -4,8 +4,13 @@
 \alias{tfd_plackett_luce}
 \title{Plackett-Luce distribution over permutations.}
 \usage{
-tfd_plackett_luce(scores, dtype = tf$int32, validate_args = FALSE,
-  allow_nan_stats = FALSE, name = "PlackettLuce")
+tfd_plackett_luce(
+  scores,
+  dtype = tf$int32,
+  validate_args = FALSE,
+  allow_nan_stats = FALSE,
+  name = "PlackettLuce"
+)
 }
 \arguments{
 \item{scores}{An N-D \code{Tensor}, \code{N >= 1}, representing the scores of a set of
@@ -36,7 +41,7 @@ distributions. If the provided \code{scores} is rank 2 or higher, for
 every fixed set of leading dimensions, the last dimension represents one
 single PlackettLuce distribution. When calling distribution
 functions (e.g. \code{dist.log_prob(x)}), \code{scores} and \code{x} are broadcast to the
-same shape (if possible). In all cases, the last dimension of \code{scores, x}
+same shape (if possible). In all cases, the last dimension of \verb{scores, x}
 represents single PlackettLuce distributions.
 }
 \details{
@@ -44,29 +49,29 @@ Mathematical Details
 
 The Plackett-Luce is a distribution over permutation vectors \code{p} of length \code{k}
 where the permutation \code{p} is an arbitrary ordering of \code{k} indices
-\code{{0, 1, ..., k-1}}.
+\verb{\{0, 1, ..., k-1\}}.
 
-The probability mass function (pmf) is,\preformatted{pmf(p; s) = prod_i s_{p_i} / (Z - Z_i)
-Z = sum_{j=0}^{k-1} s_j
-Z_i = sum_{j=0}^{i-1} s_{p_j} for i>0 and 0 for i=0
+The probability mass function (pmf) is,\preformatted{pmf(p; s) = prod_i s_\{p_i\} / (Z - Z_i)
+Z = sum_\{j=0\}^\{k-1\} s_j
+Z_i = sum_\{j=0\}^\{i-1\} s_\{p_j\} for i>0 and 0 for i=0
 }
 
-where \code{scores = s = [s_0, ..., s_{k-1}]}, \code{s_i >= 0}.
+where \verb{scores = s = [s_0, ..., s_\{k-1\}]}, \code{s_i >= 0}.
 
 Samples from Plackett-Luce distribution are generated sequentially as follows.\preformatted{Initialize normalization `N_0 = Z`
-For `i` in `{0, 1, ..., k-1}`
+For `i` in `\{0, 1, ..., k-1\}`
   1. Sample i-th element of permutation
-     `p_i ~ Categorical(probs=[s_0/N_i, ..., s_{k-1}/N_i])`
+     `p_i ~ Categorical(probs=[s_0/N_i, ..., s_\{k-1\}/N_i])`
   2. Update normalization
-     `N_{i+1} = N_i-s_{p_i}`
+     `N_\{i+1\} = N_i-s_\{p_i\}`
   3. Mask out sampled index for subsequent rounds
-     `s_{p_i} = 0`
+     `s_\{p_i\} = 0`
 Return p
 }
 
 Alternately, an equivalent way to sample from this distribution is to sort
 Gumbel perturbed log-scores (Aditya et al. 2019)\preformatted{p = argsort(log s + g) ~ PlackettLuce(s)
-g = [g_0, ..., g_{k-1}], g_i~ Gumbel(0, 1)
+g = [g_0, ..., g_\{k-1\}], g_i~ Gumbel(0, 1)
 }
 }
 \section{References}{

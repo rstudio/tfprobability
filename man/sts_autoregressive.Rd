@@ -4,14 +4,19 @@
 \alias{sts_autoregressive}
 \title{Formal representation of an autoregressive model.}
 \usage{
-sts_autoregressive(observed_time_series = NULL, order,
-  coefficients_prior = NULL, level_scale_prior = NULL,
-  initial_state_prior = NULL, coefficient_constraining_bijector = NULL,
-  name = NULL)
+sts_autoregressive(
+  observed_time_series = NULL,
+  order,
+  coefficients_prior = NULL,
+  level_scale_prior = NULL,
+  initial_state_prior = NULL,
+  coefficient_constraining_bijector = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{observed_time_series}{optional \code{float} \code{tensor} of shape
-\code{batch_shape + [T, 1]} (omitting the trailing unit dimension is also
+\verb{batch_shape + [T, 1]} (omitting the trailing unit dimension is also
 supported when \code{T > 1}), specifying an observed time series.
 Any priors not explicitly set will be given default values according to
 the scale of the observed time series (or batch of time series). May
@@ -40,9 +45,9 @@ provided \code{observed_time_series}. Default value: \code{NULL}.}
 \item{coefficient_constraining_bijector}{optional \code{Bijector} instance
 representing a constraining mapping for the autoregressive coefficients.
 For example, \code{tfb_tanh()} constrains the coefficients to lie in
-\code{(-1, 1)}, while \code{tfb_softplus()} constrains them to be positive, and
+\verb{(-1, 1)}, while \code{tfb_softplus()} constrains them to be positive, and
 \code{tfb_identity()} implies no constraint. If \code{NULL}, the default behavior
-constrains the coefficients to lie in \code{(-1, 1)} using a \code{tanh} bijector.
+constrains the coefficients to lie in \verb{(-1, 1)} using a \code{tanh} bijector.
 Default value: \code{NULL}.}
 
 \item{name}{the name of this model component. Default value: 'Autoregressive'.}
@@ -60,7 +65,7 @@ The latent state is \code{levels[t:t-order:-1]}. We observe a noisy realization 
 the current level: \code{f[t] = level[t] + Normal(0., observation_noise_scale)} at
 each timestep.
 
-If \code{coefficients=[1.]}, the AR process is a simple random walk, equivalent to
+If \verb{coefficients=[1.]}, the AR process is a simple random walk, equivalent to
 a \code{LocalLevel} model. However, a random walk's variance increases with time,
 while many AR processes (in particular, any first-order process with
 \code{abs(coefficient) < 1}) are \emph{stationary}, i.e., they maintain a constant
@@ -69,23 +74,24 @@ variance over time. This makes AR processes useful models of uncertainty.
 \seealso{
 For usage examples see \code{\link[=sts_fit_with_hmc]{sts_fit_with_hmc()}}, \code{\link[=sts_forecast]{sts_forecast()}}, \code{\link[=sts_decompose_by_component]{sts_decompose_by_component()}}.
 
-Other sts: \code{\link{sts_additive_state_space_model}},
-  \code{\link{sts_autoregressive_state_space_model}},
-  \code{\link{sts_constrained_seasonal_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression_state_space_model}},
-  \code{\link{sts_dynamic_linear_regression}},
-  \code{\link{sts_linear_regression}},
-  \code{\link{sts_local_level_state_space_model}},
-  \code{\link{sts_local_level}},
-  \code{\link{sts_local_linear_trend_state_space_model}},
-  \code{\link{sts_local_linear_trend}},
-  \code{\link{sts_seasonal_state_space_model}},
-  \code{\link{sts_seasonal}},
-  \code{\link{sts_semi_local_linear_trend_state_space_model}},
-  \code{\link{sts_semi_local_linear_trend}},
-  \code{\link{sts_smooth_seasonal_state_space_model}},
-  \code{\link{sts_smooth_seasonal}},
-  \code{\link{sts_sparse_linear_regression}},
-  \code{\link{sts_sum}}
+Other sts: 
+\code{\link{sts_additive_state_space_model}()},
+\code{\link{sts_autoregressive_state_space_model}()},
+\code{\link{sts_constrained_seasonal_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression_state_space_model}()},
+\code{\link{sts_dynamic_linear_regression}()},
+\code{\link{sts_linear_regression}()},
+\code{\link{sts_local_level_state_space_model}()},
+\code{\link{sts_local_level}()},
+\code{\link{sts_local_linear_trend_state_space_model}()},
+\code{\link{sts_local_linear_trend}()},
+\code{\link{sts_seasonal_state_space_model}()},
+\code{\link{sts_seasonal}()},
+\code{\link{sts_semi_local_linear_trend_state_space_model}()},
+\code{\link{sts_semi_local_linear_trend}()},
+\code{\link{sts_smooth_seasonal_state_space_model}()},
+\code{\link{sts_smooth_seasonal}()},
+\code{\link{sts_sparse_linear_regression}()},
+\code{\link{sts_sum}()}
 }
 \concept{sts}

@@ -89,7 +89,7 @@ tfd_normal <- function(loc,
 #'  silently render incorrect outputs. Default value: FALSE.
 #' @param name The name for ops managed by the distribution.  Default value: Independent + distribution.name.
 #'
-#' @inherit tfd_normal return params
+#' @inherit tfd_normal return
 #' @family distributions
 #' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
@@ -419,27 +419,37 @@ tfd_relaxed_bernoulli <- function(temperature,
 #' valid only if distribution.is_scalar_batch().
 #' @param event_shape integer vector Tensor which overrides distribution event_shape;
 #' valid only if distribution.is_scalar_event().
+#' @param kwargs_split_fn Python `callable` which takes a kwargs `dict` and returns
+#' a tuple of kwargs `dict`s for each of the `distribution` and `bijector`
+#' parameters respectively. Default value: `_default_kwargs_split_fn` (i.e.,
+#' `lambda kwargs: (kwargs.get('distribution_kwargs', {}), kwargs.get('bijector_kwargs', {}))`)
 #' @param validate_args Logical, default FALSE. When TRUE distribution parameters are checked
 #'  for validity despite possibly degrading runtime performance. When FALSE invalid inputs may
 #'  silently render incorrect outputs. Default value: FALSE.
+#' @param parameters Locals dict captured by subclass constructor, to be used for
+#' copy/slice re-instantiation operations.
 #' @param name The name for ops managed by the distribution.  Default value: bijector.name + distribution.name.
 #' @family distributions
-#' @inherit tfd_normal return params
+#' @inherit tfd_normal return
 #' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
-tfd_transformed_distribution <- function(distribution,
-                                         bijector,
-                                         batch_shape = NULL,
-                                         event_shape = NULL,
-                                         validate_args = FALSE,
-                                         name = NULL) {
+tfd_transformed_distribution <- function(
+  distribution,
+  bijector,
+  batch_shape = NULL,
+  event_shape = NULL,
+  kwargs_split_fn = tfp$distributions$transformed_distribution$`_default_kwargs_split_fn`,
+  validate_args = FALSE,
+  parameters = NULL,
+  name = NULL) {
   args <- list(
     distribution = distribution,
     bijector = bijector,
     batch_shape = normalize_shape(batch_shape),
     event_shape = normalize_shape(event_shape),
-    # wrap in tf$TensorShape?
+    kwargs_split_fn = kwargs_split_fn,
     validate_args = validate_args,
+    parameters = parameters,
     name = name
   )
 
@@ -2436,13 +2446,14 @@ tfd_multivariate_normal_full_covariance <- function(loc = NULL,
 #' @param  scale_perturb_factor Floating-point `Tensor` representing a rank-`r`
 #' perturbation added to `scale`. May have shape `[B1, ..., Bb, k, r]`,
 #' `b >= 0`, and characterizes `b`-batches of rank-`r` updates to `scale`.
-#' When `NULL`, no rank-`r` update is added to `scale`.
+#' When `NULL`, no rank-`r` update is added to `scale`.#'
 #' @param scale_perturb_diag Floating-point `Tensor` representing a diagonal matrix
 #' inside the rank-`r` perturbation added to `scale`. May have shape
-#' `[B1, ..., Bb, r]`, `b >= 0`, and characterizes `b`-batches of `r x r`
+#' `[B1, ..., Bb, r]`, `b >= 0`, and characterizes `b`-batches of `r` x `r`
 #' diagonal matrices inside the perturbation added to `scale`. When
 #' `NULL`, an identity matrix is used inside the perturbation. Can only be
 #' specified if `scale_perturb_factor` is also specified.
+#'
 #' @family distributions
 #' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
 #' @export
@@ -5337,7 +5348,7 @@ tfd_wishart_tri_l <- function(df,
 #' @param low `integer`, the minimum value of the input data.
 #' @param dtype Data type of the `Distribution`.
 #' @param name `string`, the name of the `Distribution`.
-#' @inherit tfd_normal return params
+#' @inherit tfd_normal return
 #'
 #' @family distributions
 #' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
@@ -5376,5 +5387,86 @@ tfd_pixel_cnn <- function(image_shape,
   )
 
   do.call(tfp$distributions$PixelCNN, args)
+}
+
+#' Beta-Binomial compound distribution
+#'
+#' The Beta-Binomial distribution is parameterized by (a batch of) `total_count`
+#' parameters, the number of trials per draw from Binomial distributions where
+#' the probabilities of success per trial are drawn from underlying Beta
+#' distributions; the Beta distributions are parameterized by `concentration1`
+#' (aka 'alpha') and `concentration0` (aka 'beta').
+#' Mathematically, it is (equivalent to) a special case of the
+#' Dirichlet-Multinomial over two classes, although the computational
+#' representation is slightly different: while the Beta-Binomial is a
+#' distribution over the number of successes in `total_count` trials, the
+#' two-class Dirichlet-Multinomial is a distribution over the number of successes
+#' and failures.
+#'
+#' Mathematical Details
+#'
+#' The Beta-Binomial is a distribution over the number of successes in
+#' `total_count` independent Binomial trials, with each trial having the same
+#' probability of success, the underlying probability being unknown but drawn
+#' from a Beta distribution with known parameters.
+#' The probability mass function (pmf) is,
+#'
+#' ```
+#' pmf(k; n, a, b) = Beta(k + a, n - k + b) / Z
+#' Z = (k! (n - k)! / n!) * Beta(a, b)
+#' ```
+#'
+#' where:
+#' * `concentration1 = a > 0`,
+#' * `concentration0 = b > 0`,
+#' * `total_count = n`, `n` a positive integer,
+#' * `n!` is `n` factorial,
+#' * `Beta(x, y) = Gamma(x) Gamma(y) / Gamma(x + y)` is the
+#' [beta function](https://en.wikipedia.org/wiki/Beta_function), and
+#' * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#' Dirichlet-Multinomial is a [compound distribution](https://en.wikipedia.org/wiki/Compound_probability_distribution),
+#' i.e., its samples are generated as follows.
+#'
+#' 1. Choose success probabilities:
+#'   `probs ~ Beta(concentration1, concentration0)`
+#' 2. Draw integers representing the number of successes:
+#'   `counts ~ Binomial(total_count, probs)`
+#' Distribution parameters are automatically broadcast in all functions; see
+#' examples for details.
+#'
+#' @param  total_count Non-negative integer-valued tensor, whose dtype is the same
+#' as `concentration1` and `concentration0`. The shape is broadcastable to
+#' `[N1,..., Nm]` with `m >= 0`. When `total_count` is broadcast with
+#' `concentration1` and `concentration0`, it defines the distribution as a
+#' batch of `N1 x ... x Nm` different Beta-Binomial distributions. Its
+#' components should be equal to integer values.
+#' @param concentration1 Positive floating-point `Tensor` indicating mean number of
+#' successes. Specifically, the expected number of successes is
+#' `total_count * concentration1 / (concentration1 + concentration0)`.
+#' @param concentration0 Positive floating-point `Tensor` indicating mean number of
+#' failures; see description of `concentration1` for details.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_beta_binomial <- function(total_count,
+                              concentration1,
+                              concentration0,
+                              validate_args = FALSE,
+                              allow_nan_stats = TRUE,
+                              name = "BetaBinomial") {
+  args <- list(
+    total_count = total_count,
+    concentration1 = concentration1,
+    concentration0 = concentration0,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$BetaBinomial,
+          args)
 }
 
