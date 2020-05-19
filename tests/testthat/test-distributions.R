@@ -1068,10 +1068,6 @@ test_succeeds("PixelCNN distribution works", {
   samples <- dist %>% tfd_sample(1, conditional_input = 1)
   expect_equal(dim(samples), c(1, 28, 28, 1))
 
-  #img <- samples[1, , , 1]
-  #img <- t(apply(img, 2, rev))
-  #image(1:28, 1:28, img, col = gray((0:255)/255), xaxt = 'n', yaxt = 'n')
-
 })
 
 test_succeeds("BetaBinomial distribution works", {
