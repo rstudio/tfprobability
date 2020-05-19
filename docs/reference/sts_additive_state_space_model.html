@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@ special case where both the transition and observation models are Gaussians
 with mean specified as a linear function of the inputs, is known as a linear
 Gaussian state space model and supports tractable exact probabilistic
 calculations; see tfd_linear_gaussian_state_space_model for details." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +79,7 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
       </span>
     </div>
 
@@ -115,7 +118,7 @@ calculations; see tfd_linear_gaussian_state_space_model for details." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/tfprobability">
+  <a href="https://github.com/rstudio/tfprobability/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -149,10 +152,16 @@ Gaussian state space model and supports tractable exact probabilistic
 calculations; see <code>tfd_linear_gaussian_state_space_model</code> for details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_additive_state_space_model</span>(<span class='no'>component_ssms</span>, <span class='kw'>constant_offset</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>initial_state_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_additive_state_space_model</span>(
+  <span class='no'>component_ssms</span>,
+  <span class='kw'>constant_offset</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>initial_state_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -232,8 +241,7 @@ processes, <code>y[t] = x1[t] + x2[t] + ... + xN[t] + eps[t]</code>, where
 The generative process runs each component's dynamics in its own subspace of
 latent space, and then observes the sum of the observation models from the
 components.</p>
-<p>Formally, the transition model is linear Gaussian:</p><pre>p(z[t+1] | z[t]) ~ Normal(loc = transition_matrix.matmul(z[t]), cov = transition_cov)
-</pre>
+<p>Formally, the transition model is linear Gaussian:</p><pre><span class='fu'>p</span>(<span class='no'>z</span>[<span class='no'>t</span>+<span class='fl'>1</span>] <span class='kw'>|</span> <span class='no'>z</span>[<span class='no'>t</span>]) ~ <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'>transition_matrix.matmul</span>(<span class='no'>z</span>[<span class='no'>t</span>]), <span class='kw'>cov</span> <span class='kw'>=</span> <span class='no'>transition_cov</span>)</pre>
 
 <p>where each <code>z[t]</code> is a latent state vector concatenating the component
 state vectors, <code>z[t] = [z1[t], z2[t], ..., zN[t]]</code>, so it has size
@@ -254,8 +262,7 @@ component noise covariances:</p><pre>transition_cov =
   [ 0.,                0.,                ..., cN.transition_cov ]]
 </pre>
 
-<p>The observation model is also linear Gaussian,</p><pre>p(y[t] | z[t]) ~ Normal(loc = observation_matrix.matmul(z[t]), stddev = observation_noise_scale)
-</pre>
+<p>The observation model is also linear Gaussian,</p><pre><span class='fu'>p</span>(<span class='no'>y</span>[<span class='no'>t</span>] <span class='kw'>|</span> <span class='no'>z</span>[<span class='no'>t</span>]) ~ <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'>observation_matrix.matmul</span>(<span class='no'>z</span>[<span class='no'>t</span>]), <span class='kw'>stddev</span> <span class='kw'>=</span> <span class='no'>observation_noise_scale</span>)</pre>
 
 <p>This implementation assumes scalar observations, so <code>observation_matrix</code> has shape <code>[1, latent_size]</code>.
 The additive observation matrix simply concatenates the observation matrices from each component:</p><pre>observation_matrix = concat([c0.obs_matrix, c1.obs_matrix, ..., cN.obs_matrix], axis=-1)
@@ -270,35 +277,31 @@ by summing the noise variances of the component processes:</p><pre>observation_n
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other sts: <code><a href='sts_autoregressive_state_space_model.html'>sts_autoregressive_state_space_model</a></code>,
-  <code><a href='sts_autoregressive.html'>sts_autoregressive</a></code>,
-  <code><a href='sts_constrained_seasonal_state_space_model.html'>sts_constrained_seasonal_state_space_model</a></code>,
-  <code><a href='sts_dynamic_linear_regression_state_space_model.html'>sts_dynamic_linear_regression_state_space_model</a></code>,
-  <code><a href='sts_dynamic_linear_regression.html'>sts_dynamic_linear_regression</a></code>,
-  <code><a href='sts_linear_regression.html'>sts_linear_regression</a></code>,
-  <code><a href='sts_local_level_state_space_model.html'>sts_local_level_state_space_model</a></code>,
-  <code><a href='sts_local_level.html'>sts_local_level</a></code>,
-  <code><a href='sts_local_linear_trend_state_space_model.html'>sts_local_linear_trend_state_space_model</a></code>,
-  <code><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></code>,
-  <code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a></code>,
-  <code><a href='sts_seasonal.html'>sts_seasonal</a></code>,
-  <code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a></code>,
-  <code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a></code>,
-  <code><a href='sts_smooth_seasonal_state_space_model.html'>sts_smooth_seasonal_state_space_model</a></code>,
-  <code><a href='sts_smooth_seasonal.html'>sts_smooth_seasonal</a></code>,
-  <code><a href='sts_sparse_linear_regression.html'>sts_sparse_linear_regression</a></code>,
-  <code><a href='sts_sum.html'>sts_sum</a></code></p></div>
+    <div class='dont-index'><p>Other sts: 
+<code><a href='sts_autoregressive_state_space_model.html'>sts_autoregressive_state_space_model</a>()</code>,
+<code><a href='sts_autoregressive.html'>sts_autoregressive</a>()</code>,
+<code><a href='sts_constrained_seasonal_state_space_model.html'>sts_constrained_seasonal_state_space_model</a>()</code>,
+<code><a href='sts_dynamic_linear_regression_state_space_model.html'>sts_dynamic_linear_regression_state_space_model</a>()</code>,
+<code><a href='sts_dynamic_linear_regression.html'>sts_dynamic_linear_regression</a>()</code>,
+<code><a href='sts_linear_regression.html'>sts_linear_regression</a>()</code>,
+<code><a href='sts_local_level_state_space_model.html'>sts_local_level_state_space_model</a>()</code>,
+<code><a href='sts_local_level.html'>sts_local_level</a>()</code>,
+<code><a href='sts_local_linear_trend_state_space_model.html'>sts_local_linear_trend_state_space_model</a>()</code>,
+<code><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a>()</code>,
+<code><a href='sts_seasonal_state_space_model.html'>sts_seasonal_state_space_model</a>()</code>,
+<code><a href='sts_seasonal.html'>sts_seasonal</a>()</code>,
+<code><a href='sts_semi_local_linear_trend_state_space_model.html'>sts_semi_local_linear_trend_state_space_model</a>()</code>,
+<code><a href='sts_semi_local_linear_trend.html'>sts_semi_local_linear_trend</a>()</code>,
+<code><a href='sts_smooth_seasonal_state_space_model.html'>sts_smooth_seasonal_state_space_model</a>()</code>,
+<code><a href='sts_smooth_seasonal.html'>sts_smooth_seasonal</a>()</code>,
+<code><a href='sts_sparse_linear_regression.html'>sts_sparse_linear_regression</a>()</code>,
+<code><a href='sts_sum.html'>sts_sum</a>()</code></p></div>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -309,7 +312,7 @@ by summing the noise variances of the component processes:</p><pre>observation_n
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

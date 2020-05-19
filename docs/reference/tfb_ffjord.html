@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -39,7 +43,6 @@
 <meta property="og:description" content="This bijector implements a continuous dynamics transformation
 parameterized by a differential equation, where initial and terminal
 conditions correspond to domain (X) and image (Y) i.e." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -57,7 +60,7 @@ conditions correspond to domain (X) and image (Y) i.e." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -71,7 +74,7 @@ conditions correspond to domain (X) and image (Y) i.e." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
       </span>
     </div>
 
@@ -110,7 +113,7 @@ conditions correspond to domain (X) and image (Y) i.e." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/tfprobability">
+  <a href="https://github.com/rstudio/tfprobability/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -139,10 +142,16 @@ parameterized by a differential equation, where initial and terminal
 conditions correspond to domain (X) and image (Y) i.e.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_ffjord</span>(<span class='no'>state_time_derivative_fn</span>, <span class='kw'>ode_solve_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>tfb_ffjord</span>(
+  <span class='no'>state_time_derivative_fn</span>,
+  <span class='kw'>ode_solve_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>trace_augmentation_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>bijectors</span>$<span class='no'>ffjord</span>$<span class='no'>trace_jacobian_hutchinson</span>,
-  <span class='kw'>initial_time</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>final_time</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>float32</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"ffjord"</span>)</pre>
+  <span class='kw'>initial_time</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>final_time</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>float32</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"ffjord"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -218,16 +227,14 @@ back to float32.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<pre>d/dt[state(t)] = state_time_derivative_fn(t, state(t))
-state(initial_time) = X
-state(final_time) = Y
-</pre>
+<pre><span class='no'>d</span>/<span class='no'>dt</span>[<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>)] <span class='kw'>=</span> <span class='fu'>state_time_derivative_fn</span>(<span class='no'>t</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>))
+<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>initial_time</span>) <span class='kw'>=</span> <span class='no'>X</span>
+<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>final_time</span>) <span class='kw'>=</span> <span class='no'>Y</span></pre>
 
 <p>For this transformation the value of <code>log_det_jacobian</code> follows another
 differential equation, reducing it to computation of the trace of the jacobian
-along the trajectory</p><pre>state_time_derivative = state_time_derivative_fn(t, state(t))
-d/dt[log_det_jac(t)] = Tr(jacobian(state_time_derivative, state(t)))
-</pre>
+along the trajectory</p><pre><span class='no'>state_time_derivative</span> <span class='kw'>=</span> <span class='fu'>state_time_derivative_fn</span>(<span class='no'>t</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>))
+<span class='no'>d</span>/<span class='no'>dt</span>[<span class='fu'>log_det_jac</span>(<span class='no'>t</span>)] <span class='kw'>=</span> <span class='fu'>Tr</span>(<span class='fu'>jacobian</span>(<span class='no'>state_time_derivative</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>)))</pre>
 
 <p>FFJORD constructor takes two functions <code>ode_solve_fn</code> and
 <code>trace_augmentation_fn</code> arguments that customize integration of the
@@ -250,22 +257,20 @@ using <code>augmented_state_time_derivative_fn</code> that is generated by
 <code>state_time_derivative_fn</code>, <code>state.shape</code> and <code>state.dtype</code> arguments and
 returns a <code>augmented_state_time_derivative_fn</code> callable that computes both
 <code>state_time_derivative</code> and unreduced <code>trace_estimation</code>.</p>
-<p>Custom <code>ode_solve_fn</code> and <code>trace_augmentation_fn</code> examples:</p><pre># custom_solver_fn: `function(f, t_initial, t_solutions, y_initial, ...)`
-# ... : Additional arguments to pass to custom_solver_fn.
-ode_solve_fn &lt;- function(ode_fn, initial_time, initial_state, solution_times) {
-  custom_solver_fn(ode_fn, initial_time, solution_times, initial_state, ...)
+<p>Custom <code>ode_solve_fn</code> and <code>trace_augmentation_fn</code> examples:</p><pre><span class='co'># custom_solver_fn: `function(f, t_initial, t_solutions, y_initial, ...)`</span>
+<span class='co'># ... : Additional arguments to pass to custom_solver_fn.</span>
+<span class='no'>ode_solve_fn</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>ode_fn</span>, <span class='no'>initial_time</span>, <span class='no'>initial_state</span>, <span class='no'>solution_times</span>) {
+  <span class='fu'>custom_solver_fn</span>(<span class='no'>ode_fn</span>, <span class='no'>initial_time</span>, <span class='no'>solution_times</span>, <span class='no'>initial_state</span>, <span class='no'>...</span>)
 }
-ffjord &lt;- tfb_ffjord(state_time_derivative_fn, ode_solve_fn = ode_solve_fn)
-</pre><pre># state_time_derivative_fn: `function(time, state)`
-# trace_jac_fn: `function(time, state)` unreduced jacobian trace function
-trace_augmentation_fn &lt;- function(ode_fn, state_shape, state_dtype) {
-  augmented_ode_fn &lt;- function(time, state) {
-    list(ode_fn(time, state), trace_jac_fn(time, state))
+<span class='no'>ffjord</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'>tfb_ffjord</span>(<span class='no'>state_time_derivative_fn</span>, <span class='kw'>ode_solve_fn</span> <span class='kw'>=</span> <span class='no'>ode_solve_fn</span>)</pre><pre><span class='co'># state_time_derivative_fn: `function(time, state)`</span>
+<span class='co'># trace_jac_fn: `function(time, state)` unreduced jacobian trace function</span>
+<span class='no'>trace_augmentation_fn</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>ode_fn</span>, <span class='no'>state_shape</span>, <span class='no'>state_dtype</span>) {
+  <span class='no'>augmented_ode_fn</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>time</span>, <span class='no'>state</span>) {
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'>ode_fn</span>(<span class='no'>time</span>, <span class='no'>state</span>), <span class='fu'>trace_jac_fn</span>(<span class='no'>time</span>, <span class='no'>state</span>))
   }
-augmented_ode_fn
+<span class='no'>augmented_ode_fn</span>
 }
-ffjord &lt;- tfb_ffjord(state_time_derivative_fn, trace_augmentation_fn = trace_augmentation_fn)
-</pre>
+<span class='no'>ffjord</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'>tfb_ffjord</span>(<span class='no'>state_time_derivative_fn</span>, <span class='kw'>trace_augmentation_fn</span> <span class='kw'>=</span> <span class='no'>trace_augmentation_fn</span>)</pre>
 
 <p>For more details on FFJORD and continous normalizing flows see Chen et al. (2018), Grathwol et al. (2018).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -274,69 +279,77 @@ ffjord &lt;- tfb_ffjord(state_time_derivative_fn, trace_augmentation_fn = trace_
 
 <ul>
 <li><p>Chen, T. Q., Rubanova, Y., Bettencourt, J., &amp; Duvenaud, D. K. (2018). Neural ordinary differential equations. In Advances in neural information processing systems (pp. 6571-6583)</p></li>
-<li><p><a href='http://arxiv.org.abs/1810.01367'>Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., &amp; Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.</a></p></li>
+<li><p><a href='http://arxiv.org/abs/1810.01367'>Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., &amp; Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.</a></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>For usage examples see <code><a href='tfb_forward.html'>tfb_forward()</a></code>, <code><a href='tfb_inverse.html'>tfb_inverse()</a></code>, <code><a href='tfb_inverse_log_det_jacobian.html'>tfb_inverse_log_det_jacobian()</a></code>.</p>
-<p>Other bijectors: <code><a href='tfb_absolute_value.html'>tfb_absolute_value</a></code>,
-  <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a></code>,
-  <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a></code>,
-  <code><a href='tfb_affine.html'>tfb_affine</a></code>,
-  <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a></code>,
-  <code><a href='tfb_blockwise.html'>tfb_blockwise</a></code>, <code><a href='tfb_chain.html'>tfb_chain</a></code>,
-  <code><a href='tfb_cholesky_outer_product.html'>tfb_cholesky_outer_product</a></code>,
-  <code><a href='tfb_cholesky_to_inv_cholesky.html'>tfb_cholesky_to_inv_cholesky</a></code>,
-  <code><a href='tfb_correlation_cholesky.html'>tfb_correlation_cholesky</a></code>,
-  <code><a href='tfb_cumsum.html'>tfb_cumsum</a></code>,
-  <code><a href='tfb_discrete_cosine_transform.html'>tfb_discrete_cosine_transform</a></code>,
-  <code><a href='tfb_expm1.html'>tfb_expm1</a></code>, <code><a href='tfb_exp.html'>tfb_exp</a></code>,
-  <code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a></code>,
-  <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a></code>,
-  <code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a></code>, <code><a href='tfb_gumbel.html'>tfb_gumbel</a></code>,
-  <code><a href='tfb_identity.html'>tfb_identity</a></code>, <code><a href='tfb_inline.html'>tfb_inline</a></code>,
-  <code><a href='tfb_invert.html'>tfb_invert</a></code>,
-  <code><a href='tfb_iterated_sigmoid_centered.html'>tfb_iterated_sigmoid_centered</a></code>,
-  <code><a href='tfb_kumaraswamy_cdf.html'>tfb_kumaraswamy_cdf</a></code>,
-  <code><a href='tfb_kumaraswamy.html'>tfb_kumaraswamy</a></code>,
-  <code><a href='tfb_masked_autoregressive_default_template.html'>tfb_masked_autoregressive_default_template</a></code>,
-  <code><a href='tfb_masked_autoregressive_flow.html'>tfb_masked_autoregressive_flow</a></code>,
-  <code><a href='tfb_masked_dense.html'>tfb_masked_dense</a></code>,
-  <code><a href='tfb_matrix_inverse_tri_l.html'>tfb_matrix_inverse_tri_l</a></code>,
-  <code><a href='tfb_matvec_lu.html'>tfb_matvec_lu</a></code>,
-  <code><a href='tfb_normal_cdf.html'>tfb_normal_cdf</a></code>, <code><a href='tfb_ordered.html'>tfb_ordered</a></code>,
-  <code><a href='tfb_pad.html'>tfb_pad</a></code>, <code><a href='tfb_permute.html'>tfb_permute</a></code>,
-  <code><a href='tfb_power_transform.html'>tfb_power_transform</a></code>,
-  <code><a href='tfb_rational_quadratic_spline.html'>tfb_rational_quadratic_spline</a></code>,
-  <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a></code>,
-  <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a></code>, <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a></code>,
-  <code><a href='tfb_reshape.html'>tfb_reshape</a></code>,
-  <code><a href='tfb_scale_matvec_diag.html'>tfb_scale_matvec_diag</a></code>,
-  <code><a href='tfb_scale_matvec_linear_operator.html'>tfb_scale_matvec_linear_operator</a></code>,
-  <code><a href='tfb_scale_matvec_lu.html'>tfb_scale_matvec_lu</a></code>,
-  <code><a href='tfb_scale_matvec_tri_l.html'>tfb_scale_matvec_tri_l</a></code>,
-  <code><a href='tfb_scale_tri_l.html'>tfb_scale_tri_l</a></code>, <code><a href='tfb_scale.html'>tfb_scale</a></code>,
-  <code><a href='tfb_shift.html'>tfb_shift</a></code>, <code><a href='tfb_sigmoid.html'>tfb_sigmoid</a></code>,
-  <code><a href='tfb_sinh_arcsinh.html'>tfb_sinh_arcsinh</a></code>,
-  <code><a href='tfb_softmax_centered.html'>tfb_softmax_centered</a></code>,
-  <code><a href='tfb_softplus.html'>tfb_softplus</a></code>, <code><a href='tfb_softsign.html'>tfb_softsign</a></code>,
-  <code><a href='tfb_square.html'>tfb_square</a></code>, <code><a href='tfb_tanh.html'>tfb_tanh</a></code>,
-  <code><a href='tfb_transform_diagonal.html'>tfb_transform_diagonal</a></code>,
-  <code><a href='tfb_transpose.html'>tfb_transpose</a></code>,
-  <code><a href='tfb_weibull_cdf.html'>tfb_weibull_cdf</a></code>, <code><a href='tfb_weibull.html'>tfb_weibull</a></code></p></div>
+<p>Other bijectors: 
+<code><a href='tfb_absolute_value.html'>tfb_absolute_value</a>()</code>,
+<code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a>()</code>,
+<code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a>()</code>,
+<code><a href='tfb_affine.html'>tfb_affine</a>()</code>,
+<code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a>()</code>,
+<code><a href='tfb_blockwise.html'>tfb_blockwise</a>()</code>,
+<code><a href='tfb_chain.html'>tfb_chain</a>()</code>,
+<code><a href='tfb_cholesky_outer_product.html'>tfb_cholesky_outer_product</a>()</code>,
+<code><a href='tfb_cholesky_to_inv_cholesky.html'>tfb_cholesky_to_inv_cholesky</a>()</code>,
+<code><a href='tfb_correlation_cholesky.html'>tfb_correlation_cholesky</a>()</code>,
+<code><a href='tfb_cumsum.html'>tfb_cumsum</a>()</code>,
+<code><a href='tfb_discrete_cosine_transform.html'>tfb_discrete_cosine_transform</a>()</code>,
+<code><a href='tfb_expm1.html'>tfb_expm1</a>()</code>,
+<code><a href='tfb_exp.html'>tfb_exp</a>()</code>,
+<code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a>()</code>,
+<code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a>()</code>,
+<code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a>()</code>,
+<code><a href='tfb_gumbel.html'>tfb_gumbel</a>()</code>,
+<code><a href='tfb_identity.html'>tfb_identity</a>()</code>,
+<code><a href='tfb_inline.html'>tfb_inline</a>()</code>,
+<code><a href='tfb_invert.html'>tfb_invert</a>()</code>,
+<code><a href='tfb_iterated_sigmoid_centered.html'>tfb_iterated_sigmoid_centered</a>()</code>,
+<code><a href='tfb_kumaraswamy_cdf.html'>tfb_kumaraswamy_cdf</a>()</code>,
+<code><a href='tfb_kumaraswamy.html'>tfb_kumaraswamy</a>()</code>,
+<code><a href='tfb_lambert_w_tail.html'>tfb_lambert_w_tail</a>()</code>,
+<code><a href='tfb_masked_autoregressive_default_template.html'>tfb_masked_autoregressive_default_template</a>()</code>,
+<code><a href='tfb_masked_autoregressive_flow.html'>tfb_masked_autoregressive_flow</a>()</code>,
+<code><a href='tfb_masked_dense.html'>tfb_masked_dense</a>()</code>,
+<code><a href='tfb_matrix_inverse_tri_l.html'>tfb_matrix_inverse_tri_l</a>()</code>,
+<code><a href='tfb_matvec_lu.html'>tfb_matvec_lu</a>()</code>,
+<code><a href='tfb_normal_cdf.html'>tfb_normal_cdf</a>()</code>,
+<code><a href='tfb_ordered.html'>tfb_ordered</a>()</code>,
+<code><a href='tfb_pad.html'>tfb_pad</a>()</code>,
+<code><a href='tfb_permute.html'>tfb_permute</a>()</code>,
+<code><a href='tfb_power_transform.html'>tfb_power_transform</a>()</code>,
+<code><a href='tfb_rational_quadratic_spline.html'>tfb_rational_quadratic_spline</a>()</code>,
+<code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a>()</code>,
+<code><a href='tfb_real_nvp.html'>tfb_real_nvp</a>()</code>,
+<code><a href='tfb_reciprocal.html'>tfb_reciprocal</a>()</code>,
+<code><a href='tfb_reshape.html'>tfb_reshape</a>()</code>,
+<code><a href='tfb_scale_matvec_diag.html'>tfb_scale_matvec_diag</a>()</code>,
+<code><a href='tfb_scale_matvec_linear_operator.html'>tfb_scale_matvec_linear_operator</a>()</code>,
+<code><a href='tfb_scale_matvec_lu.html'>tfb_scale_matvec_lu</a>()</code>,
+<code><a href='tfb_scale_matvec_tri_l.html'>tfb_scale_matvec_tri_l</a>()</code>,
+<code><a href='tfb_scale_tri_l.html'>tfb_scale_tri_l</a>()</code>,
+<code><a href='tfb_scale.html'>tfb_scale</a>()</code>,
+<code><a href='tfb_shift.html'>tfb_shift</a>()</code>,
+<code><a href='tfb_sigmoid.html'>tfb_sigmoid</a>()</code>,
+<code><a href='tfb_sinh_arcsinh.html'>tfb_sinh_arcsinh</a>()</code>,
+<code><a href='tfb_softmax_centered.html'>tfb_softmax_centered</a>()</code>,
+<code><a href='tfb_softplus.html'>tfb_softplus</a>()</code>,
+<code><a href='tfb_softsign.html'>tfb_softsign</a>()</code>,
+<code><a href='tfb_square.html'>tfb_square</a>()</code>,
+<code><a href='tfb_tanh.html'>tfb_tanh</a>()</code>,
+<code><a href='tfb_transform_diagonal.html'>tfb_transform_diagonal</a>()</code>,
+<code><a href='tfb_transpose.html'>tfb_transpose</a>()</code>,
+<code><a href='tfb_weibull_cdf.html'>tfb_weibull_cdf</a>()</code>,
+<code><a href='tfb_weibull.html'>tfb_weibull</a>()</code></p></div>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -347,7 +360,7 @@ ffjord &lt;- tfb_ffjord(state_time_derivative_fn, trace_augmentation_fn = trace_
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

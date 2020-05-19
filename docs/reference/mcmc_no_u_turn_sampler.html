@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@ that trajectory turns back on itself (hence the name, 'No U-Turn').
 This class implements one random NUTS step from a given
 current_state.  Mathematical details and derivations can be found in
 Hoffman &amp;amp; Gelman (2011)." />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@ Hoffman &amp;amp; Gelman (2011)." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +79,7 @@ Hoffman &amp;amp; Gelman (2011)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
       </span>
     </div>
 
@@ -115,7 +118,7 @@ Hoffman &amp;amp; Gelman (2011)." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/rstudio/tfprobability">
+  <a href="https://github.com/rstudio/tfprobability/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -149,9 +152,15 @@ This class implements one random NUTS step from a given
 Hoffman &amp; Gelman (2011).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_no_u_turn_sampler</span>(<span class='no'>target_log_prob_fn</span>, <span class='no'>step_size</span>,
-  <span class='kw'>max_tree_depth</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>max_energy_diff</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>unrolled_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mcmc_no_u_turn_sampler</span>(
+  <span class='no'>target_log_prob_fn</span>,
+  <span class='no'>step_size</span>,
+  <span class='kw'>max_tree_depth</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>max_energy_diff</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>unrolled_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -225,18 +234,19 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other mcmc_kernels: <code><a href='mcmc_dual_averaging_step_size_adaptation.html'>mcmc_dual_averaging_step_size_adaptation</a></code>,
-  <code><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></code>,
-  <code><a href='mcmc_metropolis_adjusted_langevin_algorithm.html'>mcmc_metropolis_adjusted_langevin_algorithm</a></code>,
-  <code><a href='mcmc_metropolis_hastings.html'>mcmc_metropolis_hastings</a></code>,
-  <code><a href='mcmc_random_walk_metropolis.html'>mcmc_random_walk_metropolis</a></code>,
-  <code><a href='mcmc_replica_exchange_mc.html'>mcmc_replica_exchange_mc</a></code>,
-  <code><a href='mcmc_simple_step_size_adaptation.html'>mcmc_simple_step_size_adaptation</a></code>,
-  <code><a href='mcmc_slice_sampler.html'>mcmc_slice_sampler</a></code>,
-  <code><a href='mcmc_transformed_transition_kernel.html'>mcmc_transformed_transition_kernel</a></code>,
-  <code><a href='mcmc_uncalibrated_hamiltonian_monte_carlo.html'>mcmc_uncalibrated_hamiltonian_monte_carlo</a></code>,
-  <code><a href='mcmc_uncalibrated_langevin.html'>mcmc_uncalibrated_langevin</a></code>,
-  <code><a href='mcmc_uncalibrated_random_walk.html'>mcmc_uncalibrated_random_walk</a></code></p></div>
+    <div class='dont-index'><p>Other mcmc_kernels: 
+<code><a href='mcmc_dual_averaging_step_size_adaptation.html'>mcmc_dual_averaging_step_size_adaptation</a>()</code>,
+<code><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a>()</code>,
+<code><a href='mcmc_metropolis_adjusted_langevin_algorithm.html'>mcmc_metropolis_adjusted_langevin_algorithm</a>()</code>,
+<code><a href='mcmc_metropolis_hastings.html'>mcmc_metropolis_hastings</a>()</code>,
+<code><a href='mcmc_random_walk_metropolis.html'>mcmc_random_walk_metropolis</a>()</code>,
+<code><a href='mcmc_replica_exchange_mc.html'>mcmc_replica_exchange_mc</a>()</code>,
+<code><a href='mcmc_simple_step_size_adaptation.html'>mcmc_simple_step_size_adaptation</a>()</code>,
+<code><a href='mcmc_slice_sampler.html'>mcmc_slice_sampler</a>()</code>,
+<code><a href='mcmc_transformed_transition_kernel.html'>mcmc_transformed_transition_kernel</a>()</code>,
+<code><a href='mcmc_uncalibrated_hamiltonian_monte_carlo.html'>mcmc_uncalibrated_hamiltonian_monte_carlo</a>()</code>,
+<code><a href='mcmc_uncalibrated_langevin.html'>mcmc_uncalibrated_langevin</a>()</code>,
+<code><a href='mcmc_uncalibrated_random_walk.html'>mcmc_uncalibrated_random_walk</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -315,15 +325,15 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
    <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): RuntimeError: Evaluation error: RuntimeError: Evaluation error: RuntimeError: Evaluation error: Incorrect number of dimensions supplied. 0 required, but received 1.</span>
 #&gt; <span class='error'></span>
 #&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 439, in log_prob</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 441, in log_prob</span>
 #&gt; <span class='error'>    dtype=self.dtype,</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 201, in dtype</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 200, in dtype</span>
 #&gt; <span class='error'>    d.dtype for d in self._get_single_sample_distributions()])</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 170, in _get_single_sample_distributions</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution.py", line 173, in _get_single_sample_distributions</span>
 #&gt; <span class='error'>    self._flat_sample_distributions(seed=42)[0])  # Seed for CSE.</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 250, in _flat_sample_distributions</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 259, in _flat_sample_distributions</span>
 #&gt; <span class='error'>    ds.append(dist_fn(*xs[:i]))  # Chain rule of probability.</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 489, in dist_fn_wrapped</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/joint_distribution_sequential.py", line 489, in dist_fn_wrapped</span>
 #&gt; <span class='error'>    return dist_fn(*reversed(xs[-len(args):]))</span>
 #&gt; <span class='error'>  File "&lt;string&gt;", line 4, in fn</span>
 #&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
@@ -331,59 +341,52 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
 #&gt; <span class='error'>.</span>
 #&gt; <span class='error'></span>
 #&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/sample.py", line 324, in sample_chain</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/sample.py", line 324, in sample_chain</span>
 #&gt; <span class='error'>    previous_kernel_results = kernel.bootstrap_results(current_state)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/dual_averaging_step_size_adaptation.py", line 485, in bootstrap_results</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/dual_averaging_step_size_adaptation.py", line 486, in bootstrap_results</span>
 #&gt; <span class='error'>    inner_results = self.inner_kernel.bootstrap_results(init_state)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 408, in bootstrap_results</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 408, in bootstrap_results</span>
 #&gt; <span class='error'>    transformed_init_state))</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/nuts.py", line 437, in bootstrap_results</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/nuts.py", line 439, in bootstrap_results</span>
 #&gt; <span class='error'>    init_state)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/leapfrog_integrator.py", line 368, in process_args</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/leapfrog_integrator.py", line 368, in process_args</span>
 #&gt; <span class='error'>    target_fn, state_parts)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 265, in maybe_call_fn_and_grads</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 264, in maybe_call_fn_and_grads</span>
 #&gt; <span class='error'>    result, grads = _value_and_gradients(fn, fn_arg_list, result, grads)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 225, in _value_and_gradients</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/internal/util.py", line 224, in _value_and_gradients</span>
 #&gt; <span class='error'>    result = fn(*fn_arg_list)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 102, in transformed_log_prob_fn</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/mcmc/transformed_kernel.py", line 102, in transformed_log_prob_fn</span>
 #&gt; <span class='error'>    tlp = log_prob_fn(*fn(state_parts))</span>
 #&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
 #&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span>
 #&gt; <span class='error'>.</span>
 #&gt; <span class='error'></span>
 #&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 568, in __call__</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 580, in __call__</span>
 #&gt; <span class='error'>    result = self._call(*args, **kwds)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 615, in _call</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 627, in _call</span>
 #&gt; <span class='error'>    self._initialize(args, kwds, add_initializers_to=initializers)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 497, in _initialize</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 506, in _initialize</span>
 #&gt; <span class='error'>    *args, **kwds))</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 2389, in _get_concrete_function_internal_garbage_collected</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 2446, in _get_concrete_function_internal_garbage_collected</span>
 #&gt; <span class='error'>    graph_function, _, _ = self._maybe_define_function(args, kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 2703, in _maybe_define_function</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 2777, in _maybe_define_function</span>
 #&gt; <span class='error'>    graph_function = self._create_graph_function(args, kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 2593, in _create_graph_function</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/function.py", line 2667, in _create_graph_function</span>
 #&gt; <span class='error'>    capture_by_value=self._capture_by_value),</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/framework/func_graph.py", line 978, in func_graph_from_py_func</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/func_graph.py", line 981, in func_graph_from_py_func</span>
 #&gt; <span class='error'>    func_outputs = python_func(*func_args, **func_kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/2.1-cpu/lib64/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 439, in wrapped_fn</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/def_function.py", line 441, in wrapped_fn</span>
 #&gt; <span class='error'>    return weak_wrapped_fn().__wrapped__(*args, **kwds)</span>
 #&gt; <span class='error'>  File "&lt;string&gt;", line 4, in fn</span>
 #&gt; <span class='error'>  File "/home/key/R/x86_64-redhat-linux-gnu-library/3.6/reticulate/python/rpytools/call.py", line 21, in python_function</span>
 #&gt; <span class='error'>    raise RuntimeError(res[kErrorKey])</span></div><div class='input'># }
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -394,7 +397,7 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
