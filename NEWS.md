@@ -1,4 +1,4 @@
-## 0.10.0.0 (master)
+## 0.10.0.0 (CRAN)
 
 - changes in distributions:
    - added: tfd_beta_binomial
