@@ -478,7 +478,6 @@ test_succeeds("mcmc_replica_exchange_mc works", {
   make_kernel_fn <- function(target_log_prob_fn, seed) {
     mcmc_hamiltonian_monte_carlo(
       target_log_prob_fn = target_log_prob_fn,
-      seed = seed,
       step_size = 1,
       num_leapfrog_steps = 3)
   }
