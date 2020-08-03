@@ -49,6 +49,7 @@
 #' returned alongside the chain state and the trace specified by the `trace_fn`.
 #' @param parallel_iterations The number of iterations allowed to run in parallel. It
 #' must be a positive integer. See `tf$while_loop` for more details.
+#' @param seed Optional, a seed for reproducible sampling.
 #' @param name string prefixed to Ops created by this function. Default value: `NULL`,
 #' (i.e., "mcmc_sample_chain").
 #' @return list of:
@@ -97,21 +98,36 @@ mcmc_sample_chain <- function(kernel = NULL,
                               trace_fn = NULL,
                               return_final_kernel_results = FALSE,
                               parallel_iterations = 10,
+                              seed = NULL,
                               name = NULL) {
   # need to make sure we keep trace_fn here, even if NULL, so no do.call
 
-  tfp$mcmc$sample_chain(
-    num_results = as.integer(num_results),
-    current_state = as_tensor(current_state),
-    previous_kernel_results = previous_kernel_results,
-    kernel = kernel,
-    num_burnin_steps = as.integer(num_burnin_steps),
-    num_steps_between_results = as.integer(num_steps_between_results),
-    return_final_kernel_results = return_final_kernel_results,
-    trace_fn = trace_fn,
-    parallel_iterations = as.integer(parallel_iterations),
-    name = name
-  )
+  if (tfp_version() > "0.10") {
+    tfp$mcmc$sample_chain(
+      num_results = as.integer(num_results),
+      current_state = as_tensor(current_state),
+      previous_kernel_results = previous_kernel_results,
+      kernel = kernel,
+      num_burnin_steps = as.integer(num_burnin_steps),
+      num_steps_between_results = as.integer(num_steps_between_results),
+      return_final_kernel_results = return_final_kernel_results,
+      trace_fn = trace_fn,
+      parallel_iterations = as.integer(parallel_iterations),
+      seed = as_nullable_integer(seed),
+      name = name)
+  } else {
+    tfp$mcmc$sample_chain(
+      num_results = as.integer(num_results),
+      current_state = as_tensor(current_state),
+      previous_kernel_results = previous_kernel_results,
+      kernel = kernel,
+      num_burnin_steps = as.integer(num_burnin_steps),
+      num_steps_between_results = as.integer(num_steps_between_results),
+      return_final_kernel_results = return_final_kernel_results,
+      trace_fn = trace_fn,
+      parallel_iterations = as.integer(parallel_iterations),
+      name = name)
+  }
 }
 
 #' Estimate a lower bound on effective sample size for each independent chain.
@@ -371,7 +387,7 @@ mcmc_sample_halton_sequence <- function(dim,
     dim = as.integer(dim),
     dtype = dtype,
     randomized = randomized,
-    seed = seed,
+    seed = as_nullable_integer(seed),
     name = name
   )
 

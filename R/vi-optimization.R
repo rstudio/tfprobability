@@ -35,6 +35,12 @@
 #' `tf$train$Optimizer`, TF2-style `tf$optimizers$Optimizer`, or any Python-compatible
 #' object that implements `optimizer$apply_gradients(grads_and_vars)`.
 #' @param num_steps `integer` number of steps to run the optimizer.
+#' @param convergence_criterion Optional instance of
+#' `tfp$optimizer$convergence_criteria$ConvergenceCriterion`
+#' representing a criterion for detecting convergence. If `NULL`,
+#' the optimization will run for `num_steps` steps, otherwise, it will run
+#' for at *most* `num_steps` steps, as determined by the provided criterion.
+#' Default value: `NULL`.
 #' @param trace_fn function with signature `state = trace_fn(loss, grads, variables)`,
 #' where `state` may be a `Tensor` or nested structure of `Tensor`s.
 #' The state values are accumulated (by `tf$scan`)
@@ -75,6 +81,7 @@ vi_fit_surrogate_posterior <-
            surrogate_posterior,
            optimizer,
            num_steps,
+           convergence_criterion = NULL,
            trace_fn = function(loss, grads, variables) loss,
            # default: functools.partial(tfp.vi.monte_carlo_variational_loss, discrepancy_fn=tfp.vi.kl_reverse, use_reparameterization=True)
            variational_loss_fn = NULL,
@@ -91,8 +98,11 @@ vi_fit_surrogate_posterior <-
       trace_fn = trace_fn,
       sample_size = as.integer(sample_size),
       trainable_variables = trainable_variables,
-      seed = seed,
+      seed = as_nullable_integer(seed),
       name = name
     )
+
+    if (tfp_version() > "0.10") args$convergence_criterion = convergence_criterion
+
     do.call(tfp$vi$fit_surrogate_posterior, args)
   }
