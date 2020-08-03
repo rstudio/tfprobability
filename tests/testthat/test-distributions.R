@@ -1095,7 +1095,7 @@ test_succeeds("JointDistributionSequentialAutoBatched distribution works", {
     # for i = 1, ..., 12:  x[i] ~ Bernoulli(logits=m)
     list(
       # e
-      tfd_exponential(rate = c(100, 120), 1),
+      tfd_exponential(rate = c(100, 120)),
       # g
       function(e) tfd_gamma(concentration = e[1], rate = e[2], name = "g"),
       # n
@@ -1112,4 +1112,24 @@ test_succeeds("JointDistributionSequentialAutoBatched distribution works", {
   expect_equal(d$resolve_graph() %>% length(), 5)
 
 })
+
+test_succeeds("JointDistributionNamedAutoBatched distribution works", {
+
+  skip_if_tfp_below("0.11")
+  d <- tfd_joint_distribution_named_auto_batched(
+    list(
+      e = tfd_exponential(rate = c(100, 120)),
+      g = function(e) tfd_gamma(concentration = e[1], rate = e[2]),
+      n = tfd_normal(loc = 0, scale = 2),
+      m = function(n, g) tfd_normal(loc = n, scale = g),
+      x = function(m) tfd_sample_distribution(tfd_bernoulli(logits = m), 12)
+    ))
+
+  x <- d %>% tfd_sample()
+  expect_equal(length(x), 5)
+  expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
+  expect_equal(d$resolve_graph() %>% length(), 5)
+
+})
+
 

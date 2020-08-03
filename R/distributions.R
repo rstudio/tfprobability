@@ -5522,7 +5522,7 @@ tfd_beta_binomial <- function(total_count,
 #' in which we were able to avoid explicitly accounting for batch dimensions
 #' when indexing and slicing computed quantities in the third line.
 #' Note: auto-vectorization is still experimental and some TensorFlow ops may
-#' be unsupported. It can be disabled by setting `use_vectorized_map=False`.
+#' be unsupported. It can be disabled by setting `use_vectorized_map=FALSE`.
 #'
 #' Alternative batch semantics
 #' This class also provides alternative semantics for specifying a batch of
@@ -5584,3 +5584,106 @@ tfd_joint_distribution_sequential_auto_batched <- function(model,
           args)
 }
 
+#' Joint distribution parameterized by named distribution-making functions.
+#'
+#' This class provides automatic vectorization and alternative semantics for
+#' `tfd_joint_distribution_named()`, which in many cases allows for
+#' simplifications in the model specification.
+#'
+#' Automatic vectorization
+#'
+#' Auto-vectorized variants of JointDistribution allow the user to avoid
+#' explicitly annotating a model's vectorization semantics.
+#' When using manually-vectorized joint distributions, each operation in the
+#' model must account for the possibility of batch dimensions in Distributions
+#' and their samples. By contrast, auto-vectorized models need only describe
+#' a *single* sample from the joint distribution; any batch evaluation is
+#' automated using `tf$vectorized_map` as required. In many cases this
+#' allows for significant simplications. For example, the following
+#' manually-vectorized `tfd_joint_distribution_named()` model:
+#'
+#' ```
+#' model <- tfd_joint_distribution_sequential(
+#'     list(
+#'       x = tfd_normal(loc = 0, scale = tf$ones(3L)),
+#'       y = tfd_normal(loc = 0, scale = 1),
+#'       z = function(y, x) {
+#'         tfd_normal(loc = x[reticulate::py_ellipsis(), 1:2] + y[reticulate::py_ellipsis(), tf$newaxis], scale = 1)
+#'       }
+#'     )
+#' )
+#' ```
+#' can be written in auto-vectorized form as
+#' ```
+#' model <- tfd_joint_distribution_sequential_auto_batched(
+#'   list(
+#'     x = tfd_normal(loc = 0, scale = tf$ones(3L)),
+#'     y = tfd_normal(loc = 0, scale = 1),
+#'     z = function(y, x) {tfd_normal(loc = x[1:2] + y, scale = 1)}
+#'   )
+#' )
+#' ```
+#' in which we were able to avoid explicitly accounting for batch dimensions
+#' when indexing and slicing computed quantities in the third line.
+#' Note: auto-vectorization is still experimental and some TensorFlow ops may
+#' be unsupported. It can be disabled by setting `use_vectorized_map=FALSE`.
+#'
+#' Alternative batch semantics
+#' This class also provides alternative semantics for specifying a batch of
+#' independent (non-identical) joint distributions.
+#' Instead of simply summing the `log_prob`s of component distributions
+#' (which may have different shapes), it first reduces the component `log_prob`s
+#' to ensure that `jd$log_prob(jd$sample())` always returns a scalar, unless
+#' `batch_ndims` is explicitly set to a nonzero value (in which case the result
+#' will have the corresponding tensor rank).
+#'
+#' The essential changes are:
+#' - An `event` of `JointDistributionNamedAutoBatched` is the list of
+#' tensors produced by `$sample()`; thus, the `event_shape` is the
+#' list containing the shapes of sampled tensors. These combine both
+#' the event and batch dimensions of the component distributions. By contrast,
+#' the event shape of a base `JointDistribution`s does not include batch
+#' dimensions of component distributions.
+#' - The `batch_shape` is a global property of the entire model, rather
+#' than a per-component property as in base `JointDistribution`s.
+#' The global batch shape must be a prefix of the batch shapes of
+#' each component; the length of this prefix is specified by an optional
+#' argument `batch_ndims`. If `batch_ndims` is not specified, the model has
+#' batch shape `()`.#'
+#'
+#' @param model  A generator that yields a sequence of `tfd$Distribution`-like
+#' instances.
+#' @param batch_ndims `integer` `Tensor` number of batch dimensions. The `batch_shape`s
+#' of all component distributions must be such that the prefixes of
+#' length `batch_ndims` broadcast to a consistent joint batch shape.
+#' Default value: `0`.
+#' @param use_vectorized_map `logical`. Whether to use `tf$vectorized_map`
+#' to automatically vectorize evaluation of the model. This allows the
+#' model specification to focus on drawing a single sample, which is often
+#' simpler, but some ops may not be supported. Default value: `TRUE`.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_joint_distribution_named_auto_batched <- function(model,
+                                                      batch_ndims = 0,
+                                                      use_vectorized_map = TRUE,
+                                                      validate_args = FALSE,
+                                                      name = NULL) {
+  model <- Map(function(d)
+    if (is.function(d))
+      reticulate::py_func(d)
+    else
+      d,
+    model)
+  args <- list(
+    model = model,
+    batch_ndims = as.integer(batch_ndims),
+    use_vectorized_map = use_vectorized_map,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$JointDistributionNamedAutoBatched,
+          args)
+}
