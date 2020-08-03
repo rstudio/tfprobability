@@ -886,6 +886,7 @@ mcmc_replica_exchange_mc <- function(target_log_prob_fn,
                                      inverse_temperatures,
                                      make_kernel_fn,
                                      swap_proposal_fn = tfp$mcmc$replica_exchange_mc$default_swap_proposal_fn(1),
+                                     state_includes_replicas = FALSE,
                                      seed = NULL,
                                      name = NULL) {
   args <- list(
@@ -896,6 +897,9 @@ mcmc_replica_exchange_mc <- function(target_log_prob_fn,
     seed = seed,
     name = name
   )
+
+  if (tfp_version() > "0.11") args$state_includes_replicas = state_includes_replicas
+
   do.call(tfp$mcmc$ReplicaExchangeMC, args)
 }
 

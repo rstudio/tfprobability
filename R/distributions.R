@@ -2473,13 +2473,16 @@ tfd_multivariate_normal_diag_plus_low_rank <- function(loc = NULL,
   args <- list(
     loc = loc,
     scale_diag = scale_diag,
-    scale_identity_multiplier = scale_identity_multiplier,
     scale_perturb_factor = scale_perturb_factor,
     scale_perturb_diag = scale_perturb_diag,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
     name = name
   )
+
+  if (tfp_version() < "0.11") {
+    args$scale_identity_multiplier <- scale_identity_multiplier
+  }
 
   do.call(tfp$distributions$MultivariateNormalDiagPlusLowRank, args)
 }

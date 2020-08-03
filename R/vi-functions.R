@@ -232,7 +232,7 @@ vi_monte_carlo_variational_loss <-
       as.integer(sample_size),
       discrepancy_fn,
       use_reparametrization,
-      seed,
+      as_nullable_integer(seed),
       name
     )
   }

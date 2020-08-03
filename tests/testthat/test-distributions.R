@@ -214,6 +214,8 @@ test_succeeds("VectorExponentialDiag distribution works", {
 
 test_succeeds("VectorDiffeoMixture distribution works", {
 
+  skip_if_tfp_above("0.10")
+
   dims <- 5L
   d <- tfd_vector_diffeomixture(
     mix_loc = list(c(0, 1)),
