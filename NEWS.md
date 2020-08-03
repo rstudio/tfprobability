@@ -1,6 +1,8 @@
 ## 0.11.0.0 (gh)
 
 - new distributions:
+  - tfd_joint_distribution_sequential_auto_batched
+  - tfd_joint_distribution_named_auto_batched
    
 - new in bijectors: 
 
