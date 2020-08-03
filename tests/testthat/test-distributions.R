@@ -1083,3 +1083,33 @@ test_succeeds("BetaBinomial distribution works", {
   expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 3)
 })
 
+test_succeeds("JointDistributionSequentialAutoBatched distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_joint_distribution_sequential_auto_batched(
+    # e ~ Exponential(rate=[100,120])
+    # g ~ Gamma(concentration=e[0], rate=e[1])
+    # n ~ Normal(loc=0, scale=2.)
+    # m ~ Normal(loc=n, scale=g)
+    # for i = 1, ..., 12:  x[i] ~ Bernoulli(logits=m)
+    list(
+      # e
+      tfd_exponential(rate = c(100, 120), 1),
+      # g
+      function(e) tfd_gamma(concentration = e[1], rate = e[2], name = "g"),
+      # n
+      tfd_normal(loc = 0, scale = 2, name = "n1"),
+      # m
+      function(n1, g) tfd_normal(loc = n1, scale = g, name = "n2"),
+      # x
+      function(n2) tfd_sample_distribution(tfd_bernoulli(logits = n2), 12, name = "s")
+    ))
+
+  x <- d %>% tfd_sample()
+  expect_equal(length(x), 5)
+  expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
+  expect_equal(d$resolve_graph() %>% length(), 5)
+
+})
+

@@ -84,6 +84,7 @@ Other distributions:
 \code{\link{tfd_inverse_gamma}()},
 \code{\link{tfd_inverse_gaussian}()},
 \code{\link{tfd_joint_distribution_named}()},
+\code{\link{tfd_joint_distribution_sequential_auto_batched}()},
 \code{\link{tfd_joint_distribution_sequential}()},
 \code{\link{tfd_kumaraswamy}()},
 \code{\link{tfd_laplace}()},

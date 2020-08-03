@@ -869,6 +869,10 @@ mcmc_metropolis_adjusted_langevin_algorithm <-
 #' args and returns a TransitionKernel instance.
 #' @param swap_proposal_fn function which take a number of replicas, and
 #' return combinations of replicas for exchange.
+#' @param state_includes_replicas Boolean indicating whether the leftmost dimension
+#' of each state sample should index replicas. If `TRUE`, the leftmost
+#' dimension of the `current_state` kwarg to `tfp.mcmc.sample_chain` will
+#' be interpreted as indexing replicas.
 #' @param name string prefixed to Ops created by this function.
 #' Default value: `NULL` (i.e., "remc_kernel").
 #'

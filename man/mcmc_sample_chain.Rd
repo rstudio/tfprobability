@@ -14,6 +14,7 @@ mcmc_sample_chain(
   trace_fn = NULL,
   return_final_kernel_results = FALSE,
   parallel_iterations = 10,
+  seed = NULL,
   name = NULL
 )
 }
@@ -47,6 +48,8 @@ returned alongside the chain state and the trace specified by the \code{trace_fn
 
 \item{parallel_iterations}{The number of iterations allowed to run in parallel. It
 must be a positive integer. See \code{tf$while_loop} for more details.}
+
+\item{seed}{Optional, a seed for reproducible sampling.}
 
 \item{name}{string prefixed to Ops created by this function. Default value: \code{NULL},
 (i.e., "mcmc_sample_chain").}

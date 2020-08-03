@@ -9,6 +9,7 @@ mcmc_replica_exchange_mc(
   inverse_temperatures,
   make_kernel_fn,
   swap_proposal_fn = tfp$mcmc$replica_exchange_mc$default_swap_proposal_fn(1),
+  state_includes_replicas = FALSE,
   seed = NULL,
   name = NULL
 )
@@ -28,6 +29,11 @@ args and returns a TransitionKernel instance.}
 
 \item{swap_proposal_fn}{function which take a number of replicas, and
 return combinations of replicas for exchange.}
+
+\item{state_includes_replicas}{Boolean indicating whether the leftmost dimension
+of each state sample should index replicas. If \code{TRUE}, the leftmost
+dimension of the \code{current_state} kwarg to \code{tfp.mcmc.sample_chain} will
+be interpreted as indexing replicas.}
 
 \item{seed}{integer to seed the random number generator.}
 

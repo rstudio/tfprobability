@@ -1,3 +1,11 @@
+## 0.11.0.0 (gh)
+
+- new distributions:
+   
+- new in bijectors: 
+
+
+
 ## 0.10.0.0 (CRAN)
 
 - changes in distributions:
