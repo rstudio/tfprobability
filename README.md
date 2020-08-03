@@ -3,13 +3,9 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
-[![Build
-Status](https://travis-ci.org/rstudio/tfprobability.svg?branch=master)](https://travis-ci.org/rstudio/tfprobability)
-[![Actions
-Status](https://github.com/rstudio/tfprobability/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/tfprobability/)
-[![codecov](https://codecov.io/gh/rstudio/tfprobability/branch/master/graph/badge.svg)](https://codecov.io/gh/rstudio/tfprobability)
+[![R build
+status](https://github.com/rstudio/tfprobability/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/tfprobability/actions?workflow=R-CMD-check)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/tfprobability)](https://cran.r-project.org/package=tfprobability)
 <!-- badges: end -->
 
 # tfprobability: R interface to TensorFlow Probability
