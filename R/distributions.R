@@ -5732,3 +5732,61 @@ tfd_weibull <- function(concentration,
           args)
 }
 
+#' The Truncated Cauchy distribution.
+#'
+#' The truncated Cauchy is a Cauchy distribution bounded between `low`
+#' and `high` (the pdf is 0 outside these bounds and renormalized).
+#' Samples from this distribution are differentiable with respect to `loc`
+#' and `scale`, but not with respect to the bounds `low` and `high`.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) of this distribution is:
+#' ```
+#' pdf(x; loc, scale, low, high) =
+#'     { 1 / (pi * scale * (1 + z**2) * A) for low <= x <= high
+#'     { 0                                 otherwise
+#'     where
+#'         z = (x - loc) / scale
+#'         A = CauchyCDF((high - loc) / scale) - CauchyCDF((low - loc) / scale)
+#' ```
+#' where `CauchyCDF` is the cumulative density function of the Cauchy distribution
+#' with 0 mean and unit variance.
+#' This is a scalar distribution so the event shape is always scalar and the
+#' dimensions of the parameters define the batch_shape.
+#'
+#' @param loc Floating point tensor; the modes of the corresponding non-truncated
+#' Cauchy distribution(s).
+#' @param scale Floating point tensor; the scales of the distribution(s).
+#' Must contain only positive values.
+#' @param low `float` `Tensor` representing lower bound of the distribution's
+#' support. Must be such that `low < high`.
+#' @param high `float` `Tensor` representing upper bound of the distribution's
+#' support. Must be such that `low < high`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_truncated_cauchy <- function(loc,
+                                 scale,
+                                 low,
+                                 high,
+                                 validate_args = FALSE,
+                                 allow_nan_stats = TRUE,
+                                 name = 'TruncatedCauchy') {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    low = low,
+    high = high,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$TruncatedCauchy,
+          args)
+}
+
+

@@ -121,6 +121,7 @@ Other distributions:
 \code{\link{tfd_student_t}()},
 \code{\link{tfd_transformed_distribution}()},
 \code{\link{tfd_triangular}()},
+\code{\link{tfd_truncated_cauchy}()},
 \code{\link{tfd_truncated_normal}()},
 \code{\link{tfd_uniform}()},
 \code{\link{tfd_variational_gaussian_process}()},

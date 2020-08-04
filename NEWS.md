@@ -4,6 +4,7 @@
   - tfd_joint_distribution_sequential_auto_batched
   - tfd_joint_distribution_named_auto_batched
   - tfd_weibull
+  - tfd_truncated_cauchy
    
 - new in bijectors: 
 
