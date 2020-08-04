@@ -144,6 +144,7 @@ Other bijectors:
 \code{\link{tfb_scale_matvec_tri_l}()},
 \code{\link{tfb_scale_tri_l}()},
 \code{\link{tfb_scale}()},
+\code{\link{tfb_shifted_gompertz_cdf}()},
 \code{\link{tfb_shift}()},
 \code{\link{tfb_sigmoid}()},
 \code{\link{tfb_sinh_arcsinh}()},

@@ -2144,6 +2144,51 @@ tfb_gompertz_cdf <- function(concentration,
   do.call(tfp$bijectors$GompertzCDF, args)
 }
 
+#' Compute `Y = g(X) = (1 - exp(-rate * X)) * exp(-c * exp(-rate * X))`
+#'
+#' This bijector maps inputs from `[-inf, inf]` to `[0, inf]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the
+#' [Shifted Gompertz distribution](https://en.wikipedia.org/wiki/Shifted_Gompertz_distribution):
+#' ```
+#' Y ~ ShiftedGompertzCDF(concentration, rate)
+#' pdf(y; c, r) = r * exp(-r * y - exp(-r * y) / c) * (1 + (1 - exp(-r * y)) / c)
+#' ```
+#'
+#' Note: Even though this is called `ShiftedGompertzCDF`, when applied to the
+#' `Uniform` distribution, this is not the same as applying a `GompertzCDF` with
+#' a `Shift` bijector (i.e. the Shifted Gompertz distribution is not the same as
+#' a Gompertz distribution with a location parameter).
+#'
+#' Note: Because the Shifted Gompertz distribution concentrates its mass close
+#' to zero, for larger rates or larger concentrations, `bijector$forward` will
+#' quickly saturate to 1.
+#'
+#' @param concentration Positive Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `concentration`.
+#' This is `c` in `Y = g(X) = (1 - exp(-rate * X)) * exp(-c * exp(-rate * X))`.
+#' @param rate Positive Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `concentration`.
+#' This is `rate` in `Y = g(X) = (1 - exp(-rate * X)) * exp(-c * exp(-rate * X))`.
+#'
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_shifted_gompertz_cdf <- function(concentration,
+                                     rate,
+                                     validate_args = FALSE,
+                                     name = "shifted_gompertz_cdf") {
+  args <- list(
+    concentration = concentration,
+    rate = rate,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$ShiftedGompertzCDF, args)
+}
+
+
 
 
 

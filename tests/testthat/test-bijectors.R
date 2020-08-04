@@ -748,3 +748,14 @@ test_succeeds("Define a GompertzCDF bijector", {
 
 })
 
+test_succeeds("Define a ShiftedGompertzCDF bijector", {
+
+  skip_if_tfp_below("0.11")
+  b <- tfb_shifted_gompertz_cdf(concentration = 1, rate = 1)
+
+  x <- 1
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(),  (1 - exp(-1 * x)) * exp(-1 * exp(-1 * x)), tol = 1e-6)
+
+})
+

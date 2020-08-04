@@ -15,6 +15,8 @@
    
 - new bijectors: 
   - tfb_split
+  - tfb_gompertz_cdf
+  - tfb_shifted_gompertz_cdf
 
 
 
