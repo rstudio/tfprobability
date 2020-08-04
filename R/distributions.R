@@ -5789,4 +5789,51 @@ tfd_truncated_cauchy <- function(loc,
           args)
 }
 
+#' The uniform distribution over unit vectors on `S^{n-1}`.
+#'
+#' The uniform distribution on the unit hypersphere `S^{n-1}` embedded in
+#' `n` dimensions (`R^n`).
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; n) = 1. / A(n)
+#' where,
+#'    A(n) = 2 * pi^{n / 2} / Gamma(n / 2),
+#'    Gamma being the Gamma function.
+#' ```
+#' where `n = dimension`; corresponds to `S^{n-1}` embedded in `R^n`.
+#'
+#' @param dimension `integer`. The dimension of the embedded space where the
+#' sphere resides.
+#' @param batch_shape Positive `integer`-like vector-shaped `Tensor` representing
+#' the new shape of the batch dimensions. Default value: [].
+#' @param dtype dtype of the generated samples.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_spherical_uniform <- function(dimension,
+                                  batch_shape = list(),
+                                  dtype = tf$float32,
+                                  validate_args = FALSE,
+                                  allow_nan_stats = TRUE,
+                                  name = 'SphericalUniform') {
+  args <- list(
+    dimension = as.integer(dimension),
+    batch_shape = as_integer_list(batch_shape),
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$SphericalUniform,
+          args)
+}
+
+
 

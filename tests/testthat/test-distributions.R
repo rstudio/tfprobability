@@ -1155,4 +1155,15 @@ test_succeeds("TruncatedCauchy distribution works", {
   expect_equal(d %>% tfd_cdf(1) %>% tensor_value() %>% length(), 2)
 })
 
+test_succeeds("SphericalUniform distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_spherical_uniform(
+    dimension = 4,
+    batch_shape = list(3)
+  )
+  expect_equal(d %>% tfd_sample(5) %>% tensor_value() %>% dim(), c(5, 3, 4))
+})
+
 
