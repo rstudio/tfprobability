@@ -6139,7 +6139,7 @@ tfd_johnson_s_u <- function(skewness,
 #' very close to 0 or 1. Current implementation allows any value in `(0, 1)`,
 #' but this could be changed to `(1e-6, 1-1e-6)` to avoid these issues.
 #'
-#' @section References
+#' @section References:
 #' - Loaiza-Ganem G and Cunningham JP. The continuous Bernoulli: fixing a
 #' pervasive error in variational autoencoders. NeurIPS2019.
 #' https://arxiv.org/abs/1907.06845

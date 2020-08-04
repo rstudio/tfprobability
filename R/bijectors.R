@@ -2106,3 +2106,46 @@ tfb_split <- function(num_or_size_splits,
   do.call(tfp$bijectors$Split, args)
 }
 
+#' Compute `Y = g(X) = 1 - exp(-c * (exp(rate * X) - 1)`, the Gompertz CDF.
+#'
+#' This bijector maps inputs from `[-inf, inf]` to `[0, inf]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the
+#' [Gompertz distribution](https://en.wikipedia.org/wiki/Gompertz_distribution):
+#' ```
+#' Y ~ GompertzCDF(concentration, rate)
+#' pdf(y; c, r) = r * c * exp(r * y + c - c * exp(-c * exp(r * y)))
+#' ```
+#' Note: Because the Gompertz distribution concentrates its mass close to zero,
+#' for larger rates or larger concentrations, `bijector.forward` will quickly
+#' saturate to 1.
+#'
+#' @param concentration Positive Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `concentration`.
+#' This is `c` in `Y = g(X) = 1 - exp(-c * (exp(rate * X) - 1)`.
+#' @param rate Positive Float-like `Tensor` that is the same dtype and is
+#' broadcastable with `concentration`.
+#' This is `rate` in `Y = g(X) = 1 - exp(-c * (exp(rate * X) - 1)`.
+#'
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_gompertz_cdf <- function(concentration,
+                             rate,
+                             validate_args = FALSE,
+                             name = "gompertz_cdf") {
+  args <- list(
+    concentration = concentration,
+    rate = rate,
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$GompertzCDF, args)
+}
+
+
+
+
+
+

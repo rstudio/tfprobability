@@ -71,6 +71,15 @@ NOTE: Unlike the Bernoulli, numerical instabilities can happen for \code{probs}
 very close to 0 or 1. Current implementation allows any value in \verb{(0, 1)},
 but this could be changed to \verb{(1e-6, 1-1e-6)} to avoid these issues.
 }
+\section{References}{
+
+\itemize{
+\item Loaiza-Ganem G and Cunningham JP. The continuous Bernoulli: fixing a
+pervasive error in variational autoencoders. NeurIPS2019.
+https://arxiv.org/abs/1907.06845
+}
+}
+
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
