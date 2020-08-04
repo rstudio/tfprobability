@@ -1179,5 +1179,28 @@ test_succeeds("PowerSpherical distribution works", {
   expect_equal(d %>% tfd_prob(x) %>% tensor_value() %>% length(), 2)
 })
 
+test_succeeds("LogLogistic distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d1 <- tfd_log_logistic(
+    loc = 1,
+    scale = 1
+  )
+
+  d2 <- tfd_transformed_distribution(
+    distribution = tfd_logistic(loc = 1, scale = 1),
+    bijector = tfb_exp()
+  )
+
+  x <- c(1, 10, 100)
+  expect_equal(d1 %>% tfd_prob(x) %>% tensor_value(),
+               d2 %>% tfd_prob(x) %>% tensor_value(),
+               tol = 1e-6
+  )
+})
+
+
+
 
 

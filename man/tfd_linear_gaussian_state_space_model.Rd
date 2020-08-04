@@ -159,6 +159,7 @@ Other distributions:
 \code{\link{tfd_kumaraswamy}()},
 \code{\link{tfd_laplace}()},
 \code{\link{tfd_lkj}()},
+\code{\link{tfd_log_logistic}()},
 \code{\link{tfd_log_normal}()},
 \code{\link{tfd_logistic}()},
 \code{\link{tfd_mixture_same_family}()},

@@ -5897,6 +5897,37 @@ tfd_power_spherical <- function(mean_direction,
           args)
 }
 
+#' The log-logistic distribution.
+#'
+#' The LogLogistic distribution models positive-valued random variables
+#' whose logarithm is a logistic distribution with loc `loc` and
+#' scale `scale`. It is constructed as the exponential
+#' transformation of a Logistic distribution.
+#'
+#' @param loc Floating-point `Tensor`; the loc of the underlying logistic
+#' distribution(s).
+#' @param scale Floating-point `Tensor`; the scale of the underlying logistic
+#' distribution(s).
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_log_logistic <- function(loc,
+                             scale,
+                             validate_args = FALSE,
+                             allow_nan_stats = TRUE,
+                             name = 'LogLogistic') {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
 
+  do.call(tfp$distributions$LogLogistic,
+          args)
+}
 
 
