@@ -2056,7 +2056,6 @@ tfb_ffjord <- function(state_time_derivative_fn,
 #' (output) random variable(s). Must contain only positive values.
 #' @param tailweight Floating point tensor; the tail behaviors of the output random
 #' variable(s).  Must contain only non-negative values.
-
 #' @inherit tfb_identity return params
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
@@ -2074,5 +2073,36 @@ tfb_lambert_w_tail <- function(shift = NULL,
     name = name
   )
   do.call(tfp$bijectors$LambertWTail, args)
+}
+
+#' Split a `Tensor` event along an axis into a list of `Tensor`s.
+#'
+#' The inverse of `split` concatenates a list of `Tensor`s along `axis`.
+#'
+#' @param num_or_size_splits Either an integer indicating the number of
+#' splits along `axis` or a 1-D integer `Tensor` or Python list containing
+#' the sizes of each output tensor along `axis`. If a list/`Tensor`, it may
+#' contain at most one value of `-1`, which indicates a split size that is
+#' unknown and determined from input.
+#' @param axis A negative integer or scalar `int32` `Tensor`. The dimension along
+#' which to split. Must be negative to enable the bijector to support
+#' arbitrary batch dimensions. Defaults to -1 (note that this is different from the `tf$Split` default of `0`).
+#' Must be statically known.
+#'
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_split <- function(num_or_size_splits,
+                      axis = -1,
+                      validate_args = FALSE,
+                      name = "split") {
+  args <- list(
+    num_or_size_splits = as_integer_list(num_or_size_splits),
+    axis = as.integer(axis),
+    validate_args = validate_args,
+    name = name
+  )
+  do.call(tfp$bijectors$Split, args)
 }
 

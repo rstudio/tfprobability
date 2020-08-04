@@ -724,4 +724,18 @@ test_succeeds("Define a LambertWTail bijector", {
 
 })
 
+test_succeeds("Define a Split bijector", {
+
+  skip_if_tfp_below("0.11")
+  b <- tfb_split(num_or_size_splits = c(3, 2, 1),
+                 axis = -2)
+
+  x <- array(0, dim = c(6, 6, 6))
+  y <- b %>% tfb_forward(x)
+  x_ <- b %>% tfb_inverse(y)
+  expect_equal(x %>% tensor_value() %>% length(), x_ %>% tensor_value() %>% length())
+
+})
+
+
 

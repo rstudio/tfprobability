@@ -83,6 +83,7 @@ Other bijectors:
 \code{\link{tfb_sinh_arcsinh}()},
 \code{\link{tfb_softplus}()},
 \code{\link{tfb_softsign}()},
+\code{\link{tfb_split}()},
 \code{\link{tfb_square}()},
 \code{\link{tfb_tanh}()},
 \code{\link{tfb_transform_diagonal}()},

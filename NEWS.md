@@ -12,9 +12,10 @@
   - tfd_generalized_normal
   - tfd_johnson_s_u
   - tfd_continuous_bernoulli
-  
    
-- new in bijectors: 
+- new bijectors: 
+  - tfb_split
+
 
 
 

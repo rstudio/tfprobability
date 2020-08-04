@@ -14,7 +14,7 @@
 #' @export
 tfb_forward <-
   function(bijector, x, name ="forward") {
-    bijector$forward(as_tf_float(x), name)
+    bijector$forward(as_float_tensor(x), name)
   }
 
 #' Returns the inverse Bijector evaluation, i.e., `X = g^{-1}(Y)`.
@@ -34,7 +34,7 @@ tfb_forward <-
 #' @export
 tfb_inverse <-
   function(bijector, y, name="inverse") {
-    bijector$inverse(as_tf_float(y), name)
+    bijector$inverse(as_float_tensor(y), name)
   }
 
 #' Returns the result of the forward evaluation of the log determinant of the Jacobian
@@ -57,7 +57,7 @@ tfb_inverse <-
 #' @export
 tfb_forward_log_det_jacobian <-
   function(bijector, x, event_ndims, name="forward_log_det_jacobian") {
-    bijector$forward_log_det_jacobian(as_tf_float(x), as.integer(event_ndims), name)
+    bijector$forward_log_det_jacobian(as_float_tensor(x), as.integer(event_ndims), name)
   }
 
 #' Returns the result of the inverse evaluation of the log determinant of the Jacobian
@@ -81,6 +81,6 @@ tfb_forward_log_det_jacobian <-
 #' @export
 tfb_inverse_log_det_jacobian <-
   function(bijector, y, event_ndims, name="inverse_log_det_jacobian") {
-    bijector$inverse_log_det_jacobian(as_tf_float(y), as.integer(event_ndims), name)
+    bijector$inverse_log_det_jacobian(as_float_tensor(y), as.integer(event_ndims), name)
   }
 
