@@ -67,6 +67,7 @@ Other distributions:
 \code{\link{tfd_gamma}()},
 \code{\link{tfd_gaussian_process_regression_model}()},
 \code{\link{tfd_gaussian_process}()},
+\code{\link{tfd_generalized_normal}()},
 \code{\link{tfd_geometric}()},
 \code{\link{tfd_gumbel}()},
 \code{\link{tfd_half_cauchy}()},

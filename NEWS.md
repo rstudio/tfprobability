@@ -9,6 +9,7 @@
   - tfd_power_spherical
   - tfd_log_logistic
   - tfd_bates
+  - tfd_generalized_normal
   
    
 - new in bijectors: 

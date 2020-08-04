@@ -5994,5 +5994,60 @@ tfd_bates <- function(total_count,
           args)
 }
 
+#' The Generalized Normal distribution.
+#'
+#' The Generalized Normal (or Generalized Gaussian) generalizes the Normal
+#' distribution with an additional shape parameter. It is parameterized by
+#' location `loc`, scale `scale` and shape `power`.
+#'
+#' Mathematical details
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale, power) = 1 / (2 * scale * Gamma(1 + 1 / power)) *
+#'   exp(-(|x - loc| / scale) ^ power)
+#' ```
+#'
+#' where `loc` is the mean, `scale` is the scale, and,  `power` is the shape
+#' parameter. If the power is above two, the distribution becomes platykurtic.
+#' A power equal to two results in a Normal distribution. A power smaller than
+#' two produces a leptokurtic (heavy-tailed) distribution. Mean and scale behave
+#' the same way as in the equivalent Normal distribution.
+#'
+#' See https://en.wikipedia.org/w/index.php?title=Generalized_normal_distribution&oldid=954254464
+#' for the definitions used here, including CDF, variance and entropy. See
+#' https://sccn.ucsd.edu/wiki/Generalized_Gaussian_Probability_Density_Function
+#' for the sampling method used here.
+#'
+#' @param loc Floating point tensor; the means of the distribution(s).
+#' @param scale Floating point tensor; the scale of the
+#' distribution(s). Must contain only positive values.
+#' @param power Floating point tensor; the shape parameter of the distribution(s).
+#' Must contain only positive values. `loc`, `scale` and `power` must have
+#' compatible shapes for broadcasting.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_generalized_normal <- function(loc,
+                                   scale,
+                                   power,
+                                   validate_args = FALSE,
+                                   allow_nan_stats = TRUE,
+                                   name = 'GeneralizedNormal') {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    power = power,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$GeneralizedNormal,
+          args)
+}
+
+
+
 
 

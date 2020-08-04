@@ -1212,6 +1212,15 @@ test_succeeds("Bates distribution works", {
   expect_equal(d %>% tfd_sample() %>% tensor_value() %>% length(), 3)
 })
 
+test_succeeds("GeneralizedNormal distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_generalized_normal(loc = c(1, 2), scale = c(11, 22), power = c(1, 1))
+  x <- d %>% tfd_sample(c(2, 2))
+  expect_equal(d$batch_shape$as_list(), 2)
+
+})
 
 
 
