@@ -2188,6 +2188,18 @@ tfb_shifted_gompertz_cdf <- function(concentration,
   do.call(tfp$bijectors$ShiftedGompertzCDF, args)
 }
 
+#' Bijector that computes `Y = sinh(X)`.
+#'
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_sinh <- function(validate_args = FALSE,
+                     name = "sinh") {
+  args <- list(validate_args = validate_args,
+               name = name)
+  do.call(tfp$bijectors$Sinh, args)
+}
 
 
 

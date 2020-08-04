@@ -727,6 +727,7 @@ test_succeeds("Define a LambertWTail bijector", {
 test_succeeds("Define a Split bijector", {
 
   skip_if_tfp_below("0.11")
+
   b <- tfb_split(num_or_size_splits = c(3, 2, 1),
                  axis = -2)
 
@@ -740,6 +741,7 @@ test_succeeds("Define a Split bijector", {
 test_succeeds("Define a GompertzCDF bijector", {
 
   skip_if_tfp_below("0.11")
+
   b <- tfb_gompertz_cdf(concentration = 1, rate = 1)
 
   x <- 1
@@ -751,6 +753,7 @@ test_succeeds("Define a GompertzCDF bijector", {
 test_succeeds("Define a ShiftedGompertzCDF bijector", {
 
   skip_if_tfp_below("0.11")
+
   b <- tfb_shifted_gompertz_cdf(concentration = 1, rate = 1)
 
   x <- 1
@@ -758,4 +761,17 @@ test_succeeds("Define a ShiftedGompertzCDF bijector", {
   expect_equal(y %>% tensor_value(),  (1 - exp(-1 * x)) * exp(-1 * exp(-1 * x)), tol = 1e-6)
 
 })
+
+test_succeeds("Define a sinh bijector", {
+
+  skip_if_tfp_below("0.11")
+
+  b <- tfb_sinh()
+  x <- 0
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
+               tf$sinh(x) %>% tensor_value(),
+               tol = 1e-6)
+})
+
+
 
