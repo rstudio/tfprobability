@@ -5866,10 +5866,10 @@ tfd_spherical_uniform <- function(dimension,
 #' `mean_direction`, where 0 pertains to the uniform distribution on the
 #' hypersphere, and `\inf` indicates a delta function at `mean_direction`.
 #'
-#' @param mean_direction Floating-point `Tensor` with shape [B1, ... Bn, N].
+#' @param mean_direction Floating-point `Tensor` with shape `[B1, ... Bn, N]`.
 #' A unit vector indicating the mode of the distribution, or the
 #' unit-normalized direction of the mean.
-#' @param concentration Floating-point `Tensor` having batch shape [B1, ... Bn]
+#' @param concentration Floating-point `Tensor` having batch shape `[B1, ... Bn]`
 #' broadcastable with `mean_direction`. The level of concentration of
 #' samples around the `mean_direction`. `concentration=0` indicates a
 #' uniform distribution over the unit hypersphere, and `concentration=+inf`

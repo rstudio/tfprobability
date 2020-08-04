@@ -13,11 +13,11 @@ tfd_power_spherical(
 )
 }
 \arguments{
-\item{mean_direction}{Floating-point \code{Tensor} with shape \link{B1, ... Bn, N}.
+\item{mean_direction}{Floating-point \code{Tensor} with shape \verb{[B1, ... Bn, N]}.
 A unit vector indicating the mode of the distribution, or the
 unit-normalized direction of the mean.}
 
-\item{concentration}{Floating-point \code{Tensor} having batch shape \link{B1, ... Bn}
+\item{concentration}{Floating-point \code{Tensor} having batch shape \verb{[B1, ... Bn]}
 broadcastable with \code{mean_direction}. The level of concentration of
 samples around the \code{mean_direction}. \code{concentration=0} indicates a
 uniform distribution over the unit hypersphere, and \code{concentration=+inf}
