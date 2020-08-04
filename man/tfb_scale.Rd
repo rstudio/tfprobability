@@ -4,10 +4,18 @@
 \alias{tfb_scale}
 \title{Compute \verb{Y = g(X; scale) = scale * X}.}
 \usage{
-tfb_scale(scale, validate_args = FALSE, name = "scale")
+tfb_scale(
+  scale = NULL,
+  log_scale = NULL,
+  validate_args = FALSE,
+  name = "scale"
+)
 }
 \arguments{
 \item{scale}{Floating-point \code{Tensor}.}
+
+\item{log_scale}{Floating-point \code{Tensor}. Logarithm of the scale. If this is set
+to \code{NULL}, no scale is applied. This should not be set if \code{scale} is set.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
@@ -77,6 +85,7 @@ Other bijectors:
 \code{\link{tfb_shift}()},
 \code{\link{tfb_sigmoid}()},
 \code{\link{tfb_sinh_arcsinh}()},
+\code{\link{tfb_sinh}()},
 \code{\link{tfb_softmax_centered}()},
 \code{\link{tfb_softplus}()},
 \code{\link{tfb_softsign}()},

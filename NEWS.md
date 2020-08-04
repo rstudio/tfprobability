@@ -19,7 +19,8 @@
   - tfb_shifted_gompertz_cdf
   - tfb_sinh
 
-
+- bijector changes:
+  - add log_scale argument to tfb_scale
 
 ## 0.10.0.0 (CRAN)
 

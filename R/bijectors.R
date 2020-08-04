@@ -1856,13 +1856,17 @@ tfb_kumaraswamy_cdf <- function(concentration1 = 1,
 #'
 #' @inherit tfb_identity return params
 #' @param scale Floating-point `Tensor`.
+#' @param log_scale Floating-point `Tensor`. Logarithm of the scale. If this is set
+#' to `NULL`, no scale is applied. This should not be set if `scale` is set.
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
-tfb_scale <- function(scale,
+tfb_scale <- function(scale = NULL,
+                      log_scale = NULL,
                       validate_args = FALSE,
                       name = 'scale') {
   tfp$bijectors$Scale(scale = scale,
+                      log_scale = log_scale,
                       validate_args = validate_args,
                       name = name)
 }

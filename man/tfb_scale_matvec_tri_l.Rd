@@ -98,6 +98,7 @@ Other bijectors:
 \code{\link{tfb_shift}()},
 \code{\link{tfb_sigmoid}()},
 \code{\link{tfb_sinh_arcsinh}()},
+\code{\link{tfb_sinh}()},
 \code{\link{tfb_softmax_centered}()},
 \code{\link{tfb_softplus}()},
 \code{\link{tfb_softsign}()},

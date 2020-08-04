@@ -666,11 +666,19 @@ test_succeeds("Define a scale bijector", {
   skip_if_tfp_below("0.9")
 
   scale <- 1.5
-  b <- tfb_scale(scale)
+  b <- tfb_scale(scale = scale)
   x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
   y <- b %>% tfb_forward(x)
   expect_equal(y %>% tensor_value(),
                matrix(1:4, ncol = 2) * scale)
+
+  scale <- log(scale)
+  b <- tfb_scale(log_scale = scale)
+  x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(),
+               matrix(1:4, ncol = 2) * exp(scale),
+               to = 1e-6)
 
 })
 
