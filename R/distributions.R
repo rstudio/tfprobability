@@ -5835,5 +5835,68 @@ tfd_spherical_uniform <- function(dimension,
           args)
 }
 
+#' The Power Spherical distribution over unit vectors on `S^{n-1}`.
+#'
+#' The Power Spherical distribution is a distribution over vectors
+#' on the unit hypersphere `S^{n-1}` embedded in `n` dimensions (`R^n`).
+#' It serves as an alternative to the von Mises-Fisher distribution with a
+#' simpler (faster) `log_prob` calculation, as well as a reparameterizable
+#' sampler. In contrast, the Power Spherical distribution does have
+#' -`mean_direction` as a point with zero density (and hence a neighborhood
+#' around that having arbitrarily small density), in contrast with the
+#' von Mises-Fisher distribution which has non-zero density everywhere.
+#' NOTE: `mean_direction` is not in general the mean of the distribution. For
+#' spherical distributions, the mean is generally not in the support of the
+#' distribution.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; mu, kappa) = C(kappa) (1 + mu^T x) ** k
+#'   where,
+#'      C(kappa) = 2**(a + b) pi**b Gamma(a) / Gamma(a + b)
+#'      a = (n - 1) / 2. + k
+#'      b = (n - 1) / 2.
+#' ```
+#'
+#' where
+#' * `mean_direction = mu`; a unit vector in `R^k`,
+#' * `concentration = kappa`; scalar real >= 0, concentration of samples around
+#' `mean_direction`, where 0 pertains to the uniform distribution on the
+#' hypersphere, and `\inf` indicates a delta function at `mean_direction`.
+#'
+#' @param mean_direction Floating-point `Tensor` with shape [B1, ... Bn, N].
+#' A unit vector indicating the mode of the distribution, or the
+#' unit-normalized direction of the mean.
+#' @param concentration Floating-point `Tensor` having batch shape [B1, ... Bn]
+#' broadcastable with `mean_direction`. The level of concentration of
+#' samples around the `mean_direction`. `concentration=0` indicates a
+#' uniform distribution over the unit hypersphere, and `concentration=+inf`
+#' indicates a `Deterministic` distribution (delta function) at
+#' `mean_direction`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_power_spherical <- function(mean_direction,
+                                concentration,
+                                validate_args = FALSE,
+                                allow_nan_stats = TRUE,
+                                name = 'PowerSpherical') {
+  args <- list(
+    mean_direction = mean_direction,
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$PowerSpherical,
+          args)
+}
+
+
 
 

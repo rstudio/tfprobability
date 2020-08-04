@@ -6,6 +6,7 @@
   - tfd_weibull
   - tfd_truncated_cauchy
   - tfd_spherical_uniform
+  - tfd_power_spherical
   
    
 - new in bijectors: 

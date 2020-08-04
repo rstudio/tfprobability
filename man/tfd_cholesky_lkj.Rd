@@ -96,6 +96,7 @@ Other distributions:
 \code{\link{tfd_pixel_cnn}()},
 \code{\link{tfd_poisson_log_normal_quadrature_compound}()},
 \code{\link{tfd_poisson}()},
+\code{\link{tfd_power_spherical}()},
 \code{\link{tfd_probit_bernoulli}()},
 \code{\link{tfd_quantized}()},
 \code{\link{tfd_relaxed_bernoulli}()},

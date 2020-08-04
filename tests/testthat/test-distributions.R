@@ -1166,4 +1166,18 @@ test_succeeds("SphericalUniform distribution works", {
   expect_equal(d %>% tfd_sample(5) %>% tensor_value() %>% dim(), c(5, 3, 4))
 })
 
+test_succeeds("PowerSpherical distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_power_spherical(
+    mean_direction = list(list(0, 1, 0), list(1, 0, 0)),
+    concentration = c(1, 2)
+  )
+
+  x <- rbind(c(0, 0, 1), c(0, 1, 0))
+  expect_equal(d %>% tfd_prob(x) %>% tensor_value() %>% length(), 2)
+})
+
+
 
