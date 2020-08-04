@@ -1200,6 +1200,17 @@ test_succeeds("LogLogistic distribution works", {
   )
 })
 
+test_succeeds("Bates distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  counts <- c(1, 2, 5)
+  low <- c(0, 5, 10)
+  high <- 100
+
+  d <- tfd_bates(total_count = counts, low = low, high = high)
+  expect_equal(d %>% tfd_sample() %>% tensor_value() %>% length(), 3)
+})
 
 
 

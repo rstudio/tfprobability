@@ -5930,4 +5930,69 @@ tfd_log_logistic <- function(loc,
           args)
 }
 
+#' Bates distribution.
+#'
+#' The Bates distribution is the distribution of the average of `total_count`
+#' independent samples from `Uniform(low, high)`. It is parameterized by the
+#' interval bounds `low` and `high`, and `total_count`, the number of samples.
+#' Although some care has been taken to avoid numerical issues, the `pdf`, `cdf`,
+#' and log versions thereof may still exhibit numerical instability. They are
+#' relatively stable near the tails; however near the mode they are unstable if
+#' `total_count` is greater than about `75` for `tf$float64`, `25` for
+#' `tf$float32`, and `7` for `tf$float16`. Beyond these limits a warning will be
+#' shown if `validate_args=FALSE`; otherwise an exception is thrown. For high
+#' `total_count`, consider using a `Normal` approximation.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is supported in the interval
+#' `[low, high]`. If `[low, high]` is the unit interval `[0, 1]`, the pdf
+#' is,
+#' ```
+#' pdf(x; n, 0, 1) = ((n / (n-1)!) sum_{k=0}^j (-1)^k (n choose k) (nx - k)^{n-1}
+#' ```
+#' where
+#' * `total_count = n`,
+#' * `j = floor(nx)`
+#' * `n!` is the factorial of `n`,
+#' * `(n choose k)` is the binomial coefficient `n! / (k!(n - k)!)`
+#' For arbitrary intervals `[low, high]`, the pdf is,
+#' ```
+#' pdf(x; n, low, high) = pdf((x - low) / (high - low); n, 0, 1) / (high - low)
+#' ```
+#' @param total_count Non-negative integer-valued `Tensor` with shape broadcastable
+#' to the batch shape `[N1,..., Nm]`, `m >= 0`. This controls the number of
+#' samples of `Uniform(low, high)` to take the mean of.
+#' @param low Floating point `Tensor` representing the lower bounds of the support.
+#' Should be broadcastable to `[N1,..., Nm]` with `m >= 0`, the same dtype
+#' as `total_count`, and `low < high` component-wise, after broadcasting.
+#' Defaults to `0`.
+#' @param high Floating point `Tensor` representing the upper bounds of the
+#' support.  Should be broadcastable to `[N1,..., Nm]` with `m >= 0`, the
+#' same dtype as `total_count`, and `low < high` component-wise, after
+#' broadcasting.  Defaults to `1`.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_bates <- function(total_count,
+                      low = 0,
+                      high = 1,
+                      validate_args = FALSE,
+                      allow_nan_stats = TRUE,
+                      name = 'Bates') {
+  args <- list(
+    total_count = as.integer(total_count),
+    low = low,
+    high = high,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Bates,
+          args)
+}
+
+
 

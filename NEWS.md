@@ -7,6 +7,8 @@
   - tfd_truncated_cauchy
   - tfd_spherical_uniform
   - tfd_power_spherical
+  - tfd_log_logistic
+  - tfd_bates
   
    
 - new in bijectors: 

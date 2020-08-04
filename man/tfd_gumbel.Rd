@@ -51,6 +51,7 @@ Y = loc + scale * X
 Other distributions: 
 \code{\link{tfd_autoregressive}()},
 \code{\link{tfd_batch_reshape}()},
+\code{\link{tfd_bates}()},
 \code{\link{tfd_bernoulli}()},
 \code{\link{tfd_beta_binomial}()},
 \code{\link{tfd_beta}()},
