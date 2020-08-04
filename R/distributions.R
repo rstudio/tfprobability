@@ -6047,6 +6047,75 @@ tfd_generalized_normal <- function(loc,
           args)
 }
 
+#' Johnson's SU-distribution.
+#'
+#' This distribution has parameters: shape parameters `skewness` and
+#' `tailweight`, location `loc`, and `scale`.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; s, t, xi, sigma) = exp(-0.5 (s + t arcsinh(y))**2) / Z
+#'   where,
+#'     s = skewness
+#'     t = tailweight
+#'     y = (x - xi) / sigma
+#'     Z = sigma sqrt(2 pi) sqrt(1 + y**2) / t
+#' ```
+#'
+#' where:
+#' * `loc = xi`,
+#' * `scale = sigma`, and,
+#' * `Z` is the normalization constant.
+#' The JohnsonSU distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ JohnsonSU(skewness, tailweight, loc=0, scale=1)
+#' Y = loc + scale * X
+#' ```
+#' @param skewness Floating-point `Tensor`. Skewness of the distribution(s).
+#' @param tailweight Floating-point `Tensor`. Tail weight of the
+#' distribution(s). `tailweight` must contain only positive values.
+#' @param loc Floating-point `Tensor`. The mean(s) of the distribution(s).
+#' @param scale Floating-point `Tensor`. The scaling factor(s) for the
+#' distribution(s). Note that `scale` is not technically the standard
+#' deviation of this distribution but has semantics more similar to
+#' standard deviation than variance.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_johnson_s_u <- function(skewness,
+                            tailweight,
+                            loc,
+                            scale,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = NULL) {
+  args <- list(
+    skewness = skewness,
+    tailweight = tailweight,
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$JohnsonSU,
+          args)
+}
+
+
+
+#'
+
+
+
 
 
 

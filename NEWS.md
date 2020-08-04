@@ -10,6 +10,7 @@
   - tfd_log_logistic
   - tfd_bates
   - tfd_generalized_normal
+  - tfd_johnson_s_u
   
    
 - new in bijectors: 

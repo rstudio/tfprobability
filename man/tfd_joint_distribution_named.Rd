@@ -83,6 +83,7 @@ Other distributions:
 \code{\link{tfd_independent}()},
 \code{\link{tfd_inverse_gamma}()},
 \code{\link{tfd_inverse_gaussian}()},
+\code{\link{tfd_johnson_s_u}()},
 \code{\link{tfd_joint_distribution_named_auto_batched}()},
 \code{\link{tfd_joint_distribution_sequential_auto_batched}()},
 \code{\link{tfd_joint_distribution_sequential}()},

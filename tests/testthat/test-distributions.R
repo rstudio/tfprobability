@@ -1222,5 +1222,13 @@ test_succeeds("GeneralizedNormal distribution works", {
 
 })
 
+test_succeeds("JohnsonSU distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_johnson_s_u(skewness = -2, tailweight = 2, loc = 1.1, scale = 1.5)
+  expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 1)
+
+})
 
 
