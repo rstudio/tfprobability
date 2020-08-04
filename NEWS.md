@@ -3,6 +3,7 @@
 - new distributions:
   - tfd_joint_distribution_sequential_auto_batched
   - tfd_joint_distribution_named_auto_batched
+  - tfd_weibull
    
 - new in bijectors: 
 

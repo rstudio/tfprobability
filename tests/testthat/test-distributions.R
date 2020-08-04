@@ -1133,3 +1133,13 @@ test_succeeds("JointDistributionNamedAutoBatched distribution works", {
 })
 
 
+test_succeeds("BetaBinomial distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_weibull(scale = c(1, 3, 45),
+                   concentration = c(2.5, 22, 7))
+  expect_equal(d %>% tfd_cdf(1) %>% tensor_value() %>% length(), 3)
+})
+
+

@@ -195,6 +195,7 @@ Other distributions:
 \code{\link{tfd_vector_laplace_linear_operator}()},
 \code{\link{tfd_von_mises_fisher}()},
 \code{\link{tfd_von_mises}()},
+\code{\link{tfd_weibull}()},
 \code{\link{tfd_wishart_linear_operator}()},
 \code{\link{tfd_wishart_tri_l}()},
 \code{\link{tfd_wishart}()},

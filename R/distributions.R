@@ -5687,3 +5687,48 @@ tfd_joint_distribution_named_auto_batched <- function(model,
   do.call(tfp$distributions$JointDistributionNamedAutoBatched,
           args)
 }
+
+#' The Weibull distribution with 'concentration' and `scale` parameters.
+#'
+#' The probability density function (pdf) of this distribution is,
+#' ```
+#' pdf(x; lambda, k) = k / lambda * (x / lambda) ** (k - 1) * exp(-(x / lambda) ** k)
+#' ```
+#' where `concentration = k` and `scale = lambda`.
+#' The cumulative density function of this distribution is,
+#' ```
+#' cdf(x; lambda, k) = 1 - exp(-(x / lambda) ** k)
+#' ```
+#' The Weibull distribution includes the Exponential and Rayleigh distributions
+#' as special cases:
+#' ```
+#' Exponential(rate) = Weibull(concentration=1., 1. / rate)
+#' ```
+#' ```
+#' Rayleigh(scale) = Weibull(concentration=2., sqrt(2.) * scale)
+#' ```
+#' @param concentration Positive Float-type `Tensor`, the concentration param of the
+#' distribution. Must contain only positive values.
+#' @param scale Positive Float-type `Tensor`, the scale param of the distribution.
+#' Must contain only positive values.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_weibull <- function(concentration,
+                        scale,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        name = 'Weibull') {
+  args <- list(
+    concentration = concentration,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Weibull,
+          args)
+}
+
