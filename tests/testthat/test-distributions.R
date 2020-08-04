@@ -1231,4 +1231,14 @@ test_succeeds("JohnsonSU distribution works", {
 
 })
 
+test_succeeds("ContinuousBernoulli distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_continuous_bernoulli(logits = c(0.1, 0.9))
+  expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 2)
+
+})
+
+
 

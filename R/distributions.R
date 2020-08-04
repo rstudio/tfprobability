@@ -6112,7 +6112,78 @@ tfd_johnson_s_u <- function(skewness,
 
 
 
+#' Continuous Bernoulli distribution.
 #'
+#' This distribution is parameterized by `probs`, a (batch of) parameters
+#' taking values in `(0, 1)`. Note that, unlike in the Bernoulli case, `probs`
+#' does not correspond to a probability, but the same name is used due to the
+#' similarity with the Bernoulli.
+#'
+#' Mathematical Details
+#'
+#' The continuous Bernoulli is a distribution over the interval `[0, 1]`,
+#' parameterized by `probs` in `(0, 1)`.
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; probs) = probs**x * (1 - probs)**(1 - x) * C(probs)
+#' C(probs) = (2 * atanh(1 - 2 * probs) / (1 - 2 * probs) if probs != 0.5 else 2.)
+#' ```
+#'
+#' While the normalizing constant `C(probs)` is a continuous function of `probs`
+#' (even at `probs = 0.5`), computing it at values close to 0.5 can result in
+#' numerical instabilities due to 0/0 errors. A Taylor approximation of
+#' `C(probs)` is thus used for values of `probs`
+#' in a small interval `[lims[0], lims[1]]` around 0.5. For more details,
+#' see Loaiza-Ganem and Cunningham (2019).
+#' NOTE: Unlike the Bernoulli, numerical instabilities can happen for `probs`
+#' very close to 0 or 1. Current implementation allows any value in `(0, 1)`,
+#' but this could be changed to `(1e-6, 1-1e-6)` to avoid these issues.
+#'
+#' @section References
+#' - Loaiza-Ganem G and Cunningham JP. The continuous Bernoulli: fixing a
+#' pervasive error in variational autoencoders. NeurIPS2019.
+#' https://arxiv.org/abs/1907.06845
+#'
+#' @param logits An N-D `Tensor`. Each entry in the `Tensor` parameterizes
+#' an independent continuous Bernoulli distribution with parameter
+#' sigmoid(logits). Only one of `logits` or `probs` should be passed
+#' in. Note that this does not correspond to the log-odds as in the
+#' Bernoulli case.
+#' @param probs An N-D `Tensor` representing the parameter of a continuous
+#' Bernoulli. Each entry in the `Tensor` parameterizes an independent
+#' continuous Bernoulli distribution. Only one of `logits` or `probs`
+#' should be passed in. Note that this also does not correspond to a
+#' probability as in the Bernoulli case.
+#' @param lims A list with two floats containing the lower and upper limits
+#' used to approximate the continuous Bernoulli around 0.5 for
+#' numerical stability purposes.
+#' @param dtype The type of the event samples. Default: `float32`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_continuous_bernoulli <- function(logits = NULL,
+                                     probs = NULL,
+                                     lims = c(0.499, 0.501),
+                                     dtype = tf$float32,
+                                     validate_args = FALSE,
+                                     allow_nan_stats = TRUE,
+                                     name = "ContinuousBernoulli") {
+  args <- list(
+    logits = logits,
+    probs = probs,
+    lims = lims,
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$ContinuousBernoulli,
+          args)
+}
+
 
 
 

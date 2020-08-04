@@ -53,6 +53,7 @@ Other distributions:
 \code{\link{tfd_cauchy}()},
 \code{\link{tfd_chi2}()},
 \code{\link{tfd_chi}()},
+\code{\link{tfd_continuous_bernoulli}()},
 \code{\link{tfd_deterministic}()},
 \code{\link{tfd_dirichlet_multinomial}()},
 \code{\link{tfd_dirichlet}()},
