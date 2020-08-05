@@ -85,30 +85,28 @@ y_sigma <- tf$cast(c(61,25,38,15,21,15,27,14,30,16,14,25,52,16,34,31,42,26,
   16,22),tf$float32)
 
 # Robust linear regression model
-robust_lm <- tfd_joint_distribution_sequential(list(
-  tfd_normal(loc = 0, scale = 1),
-  # b0
-  tfd_normal(loc = 0, scale = 1),
-  # b1
-  tfd_half_normal(5),
-  # df
-  function(df, b1, b0)
-    tfd_independent(
-      tfd_student_t(
-        # Likelihood
-        df = df[, NULL],
-        loc = b0[, NULL] + b1[, NULL] * predictors[NULL,],
-        scale = y_sigma[NULL,]
-      )
-   )
- ),  validate_args = TRUE)
+robust_lm <- tfd_joint_distribution_sequential(
+ list(
+   tfd_normal(loc = 0, scale = 1, name = "b0"),
+   tfd_normal(loc = 0, scale = 1, name = "b1"),
+   tfd_half_normal(5, name = "df"),
+   function(df, b1, b0)
+     tfd_independent(
+       tfd_student_t(
+         # Likelihood
+           df = tf$expand_dims(df, axis = -1L),
+           loc = tf$expand_dims(b0, axis = -1L) +
+                 tf$expand_dims(b1, axis = -1L) * predictors[tf$newaxis, ],
+           scale = y_sigma,
+           name = "st"
+           ), name = "ind")), validate_args = TRUE)
 
  log_prob <-function(b0, b1, df) {robust_lm \%>\%
    tfd_log_prob(list(b0, b1, df, obs))}
  step_size0 <- Map(function(x) tf$cast(x, tf$float32), c(1, .2, .5))
 
- number_of_steps <- 100
- burnin <- 50
+ number_of_steps <- 10
+ burnin <- 5
  nchain <- 50
 
  run_chain <- function() {

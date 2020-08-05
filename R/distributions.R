@@ -5478,3 +5478,716 @@ tfd_beta_binomial <- function(total_count,
           args)
 }
 
+
+
+#' Joint distribution parameterized by distribution-making functions.
+#'
+#' This class provides automatic vectorization and alternative semantics for
+#' `tfd_joint_distribution_sequential()`, which in many cases allows for
+#' simplifications in the model specification.
+#'
+#' Automatic vectorization
+#'
+#' Auto-vectorized variants of JointDistribution allow the user to avoid
+#' explicitly annotating a model's vectorization semantics.
+#' When using manually-vectorized joint distributions, each operation in the
+#' model must account for the possibility of batch dimensions in Distributions
+#' and their samples. By contrast, auto-vectorized models need only describe
+#' a *single* sample from the joint distribution; any batch evaluation is
+#' automated using `tf$vectorized_map` as required. In many cases this
+#' allows for significant simplications. For example, the following
+#' manually-vectorized `tfd_joint_distribution_sequential()` model:
+#'
+#' ```
+#' model <- tfd_joint_distribution_sequential(
+#'     list(
+#'       tfd_normal(loc = 0, scale = tf$ones(3L)),
+#'       tfd_normal(loc = 0, scale = 1),
+#'       function(y, x) {
+#'         tfd_normal(loc = x[reticulate::py_ellipsis(), 1:2] + y[reticulate::py_ellipsis(), tf$newaxis], scale = 1)
+#'       }
+#'     )
+#' )
+#' ```
+#' can be written in auto-vectorized form as
+#' ```
+#' model <- tfd_joint_distribution_sequential_auto_batched(
+#'   list(
+#'     tfd_normal(loc = 0, scale = tf$ones(3L)),
+#'     tfd_normal(loc = 0, scale = 1),
+#'     function(y, x) {tfd_normal(loc = x[1:2] + y, scale = 1)}
+#'   )
+#' )
+#' ```
+#' in which we were able to avoid explicitly accounting for batch dimensions
+#' when indexing and slicing computed quantities in the third line.
+#' Note: auto-vectorization is still experimental and some TensorFlow ops may
+#' be unsupported. It can be disabled by setting `use_vectorized_map=FALSE`.
+#'
+#' Alternative batch semantics
+#' This class also provides alternative semantics for specifying a batch of
+#' independent (non-identical) joint distributions.
+#' Instead of simply summing the `log_prob`s of component distributions
+#' (which may have different shapes), it first reduces the component `log_prob`s
+#' to ensure that `jd$log_prob(jd$sample())` always returns a scalar, unless
+#' `batch_ndims` is explicitly set to a nonzero value (in which case the result
+#' will have the corresponding tensor rank).
+#'
+#' The essential changes are:
+#' - An `event` of `JointDistributionSequentialAutoBatched` is the list of
+#' tensors produced by `$sample()`; thus, the `event_shape` is the
+#' list containing the shapes of sampled tensors. These combine both
+#' the event and batch dimensions of the component distributions. By contrast,
+#' the event shape of a base `JointDistribution`s does not include batch
+#' dimensions of component distributions.
+#' - The `batch_shape` is a global property of the entire model, rather
+#' than a per-component property as in base `JointDistribution`s.
+#' The global batch shape must be a prefix of the batch shapes of
+#' each component; the length of this prefix is specified by an optional
+#' argument `batch_ndims`. If `batch_ndims` is not specified, the model has
+#' batch shape `()`.#'
+#'
+#' @param model  A generator that yields a sequence of `tfd$Distribution`-like
+#' instances.
+#' @param batch_ndims `integer` `Tensor` number of batch dimensions. The `batch_shape`s
+#' of all component distributions must be such that the prefixes of
+#' length `batch_ndims` broadcast to a consistent joint batch shape.
+#' Default value: `0`.
+#' @param use_vectorized_map `logical`. Whether to use `tf$vectorized_map`
+#' to automatically vectorize evaluation of the model. This allows the
+#' model specification to focus on drawing a single sample, which is often
+#' simpler, but some ops may not be supported. Default value: `TRUE`.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_joint_distribution_sequential_auto_batched <- function(model,
+                                                           batch_ndims = 0,
+                                                           use_vectorized_map = TRUE,
+                                                           validate_args = FALSE,
+                                                           name = NULL) {
+  model <- Map(function(d)
+    if (is.function(d))
+      reticulate::py_func(d)
+    else
+      d,
+    model)
+  args <- list(
+    model = model,
+    batch_ndims = as.integer(batch_ndims),
+    use_vectorized_map = use_vectorized_map,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$JointDistributionSequentialAutoBatched,
+          args)
+}
+
+#' Joint distribution parameterized by named distribution-making functions.
+#'
+#' This class provides automatic vectorization and alternative semantics for
+#' `tfd_joint_distribution_named()`, which in many cases allows for
+#' simplifications in the model specification.
+#'
+#' Automatic vectorization
+#'
+#' Auto-vectorized variants of JointDistribution allow the user to avoid
+#' explicitly annotating a model's vectorization semantics.
+#' When using manually-vectorized joint distributions, each operation in the
+#' model must account for the possibility of batch dimensions in Distributions
+#' and their samples. By contrast, auto-vectorized models need only describe
+#' a *single* sample from the joint distribution; any batch evaluation is
+#' automated using `tf$vectorized_map` as required. In many cases this
+#' allows for significant simplications. For example, the following
+#' manually-vectorized `tfd_joint_distribution_named()` model:
+#'
+#' ```
+#' model <- tfd_joint_distribution_sequential(
+#'     list(
+#'       x = tfd_normal(loc = 0, scale = tf$ones(3L)),
+#'       y = tfd_normal(loc = 0, scale = 1),
+#'       z = function(y, x) {
+#'         tfd_normal(loc = x[reticulate::py_ellipsis(), 1:2] + y[reticulate::py_ellipsis(), tf$newaxis], scale = 1)
+#'       }
+#'     )
+#' )
+#' ```
+#' can be written in auto-vectorized form as
+#' ```
+#' model <- tfd_joint_distribution_sequential_auto_batched(
+#'   list(
+#'     x = tfd_normal(loc = 0, scale = tf$ones(3L)),
+#'     y = tfd_normal(loc = 0, scale = 1),
+#'     z = function(y, x) {tfd_normal(loc = x[1:2] + y, scale = 1)}
+#'   )
+#' )
+#' ```
+#' in which we were able to avoid explicitly accounting for batch dimensions
+#' when indexing and slicing computed quantities in the third line.
+#' Note: auto-vectorization is still experimental and some TensorFlow ops may
+#' be unsupported. It can be disabled by setting `use_vectorized_map=FALSE`.
+#'
+#' Alternative batch semantics
+#' This class also provides alternative semantics for specifying a batch of
+#' independent (non-identical) joint distributions.
+#' Instead of simply summing the `log_prob`s of component distributions
+#' (which may have different shapes), it first reduces the component `log_prob`s
+#' to ensure that `jd$log_prob(jd$sample())` always returns a scalar, unless
+#' `batch_ndims` is explicitly set to a nonzero value (in which case the result
+#' will have the corresponding tensor rank).
+#'
+#' The essential changes are:
+#' - An `event` of `JointDistributionNamedAutoBatched` is the list of
+#' tensors produced by `$sample()`; thus, the `event_shape` is the
+#' list containing the shapes of sampled tensors. These combine both
+#' the event and batch dimensions of the component distributions. By contrast,
+#' the event shape of a base `JointDistribution`s does not include batch
+#' dimensions of component distributions.
+#' - The `batch_shape` is a global property of the entire model, rather
+#' than a per-component property as in base `JointDistribution`s.
+#' The global batch shape must be a prefix of the batch shapes of
+#' each component; the length of this prefix is specified by an optional
+#' argument `batch_ndims`. If `batch_ndims` is not specified, the model has
+#' batch shape `()`.#'
+#'
+#' @param model  A generator that yields a sequence of `tfd$Distribution`-like
+#' instances.
+#' @param batch_ndims `integer` `Tensor` number of batch dimensions. The `batch_shape`s
+#' of all component distributions must be such that the prefixes of
+#' length `batch_ndims` broadcast to a consistent joint batch shape.
+#' Default value: `0`.
+#' @param use_vectorized_map `logical`. Whether to use `tf$vectorized_map`
+#' to automatically vectorize evaluation of the model. This allows the
+#' model specification to focus on drawing a single sample, which is often
+#' simpler, but some ops may not be supported. Default value: `TRUE`.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_joint_distribution_named_auto_batched <- function(model,
+                                                      batch_ndims = 0,
+                                                      use_vectorized_map = TRUE,
+                                                      validate_args = FALSE,
+                                                      name = NULL) {
+  model <- Map(function(d)
+    if (is.function(d))
+      reticulate::py_func(d)
+    else
+      d,
+    model)
+  args <- list(
+    model = model,
+    batch_ndims = as.integer(batch_ndims),
+    use_vectorized_map = use_vectorized_map,
+    validate_args = validate_args,
+    name = name
+  )
+
+  do.call(tfp$distributions$JointDistributionNamedAutoBatched,
+          args)
+}
+
+#' The Weibull distribution with 'concentration' and `scale` parameters.
+#'
+#' The probability density function (pdf) of this distribution is,
+#' ```
+#' pdf(x; lambda, k) = k / lambda * (x / lambda) ** (k - 1) * exp(-(x / lambda) ** k)
+#' ```
+#' where `concentration = k` and `scale = lambda`.
+#' The cumulative density function of this distribution is,
+#' ```
+#' cdf(x; lambda, k) = 1 - exp(-(x / lambda) ** k)
+#' ```
+#' The Weibull distribution includes the Exponential and Rayleigh distributions
+#' as special cases:
+#' ```
+#' Exponential(rate) = Weibull(concentration=1., 1. / rate)
+#' ```
+#' ```
+#' Rayleigh(scale) = Weibull(concentration=2., sqrt(2.) * scale)
+#' ```
+#' @param concentration Positive Float-type `Tensor`, the concentration param of the
+#' distribution. Must contain only positive values.
+#' @param scale Positive Float-type `Tensor`, the scale param of the distribution.
+#' Must contain only positive values.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_weibull <- function(concentration,
+                        scale,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        name = 'Weibull') {
+  args <- list(
+    concentration = concentration,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Weibull,
+          args)
+}
+
+#' The Truncated Cauchy distribution.
+#'
+#' The truncated Cauchy is a Cauchy distribution bounded between `low`
+#' and `high` (the pdf is 0 outside these bounds and renormalized).
+#' Samples from this distribution are differentiable with respect to `loc`
+#' and `scale`, but not with respect to the bounds `low` and `high`.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) of this distribution is:
+#' ```
+#' pdf(x; loc, scale, low, high) =
+#'     { 1 / (pi * scale * (1 + z**2) * A) for low <= x <= high
+#'     { 0                                 otherwise
+#'     where
+#'         z = (x - loc) / scale
+#'         A = CauchyCDF((high - loc) / scale) - CauchyCDF((low - loc) / scale)
+#' ```
+#' where `CauchyCDF` is the cumulative density function of the Cauchy distribution
+#' with 0 mean and unit variance.
+#' This is a scalar distribution so the event shape is always scalar and the
+#' dimensions of the parameters define the batch_shape.
+#'
+#' @param loc Floating point tensor; the modes of the corresponding non-truncated
+#' Cauchy distribution(s).
+#' @param scale Floating point tensor; the scales of the distribution(s).
+#' Must contain only positive values.
+#' @param low `float` `Tensor` representing lower bound of the distribution's
+#' support. Must be such that `low < high`.
+#' @param high `float` `Tensor` representing upper bound of the distribution's
+#' support. Must be such that `low < high`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_truncated_cauchy <- function(loc,
+                                 scale,
+                                 low,
+                                 high,
+                                 validate_args = FALSE,
+                                 allow_nan_stats = TRUE,
+                                 name = 'TruncatedCauchy') {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    low = low,
+    high = high,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$TruncatedCauchy,
+          args)
+}
+
+#' The uniform distribution over unit vectors on `S^{n-1}`.
+#'
+#' The uniform distribution on the unit hypersphere `S^{n-1}` embedded in
+#' `n` dimensions (`R^n`).
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; n) = 1. / A(n)
+#' where,
+#'    A(n) = 2 * pi^{n / 2} / Gamma(n / 2),
+#'    Gamma being the Gamma function.
+#' ```
+#' where `n = dimension`; corresponds to `S^{n-1}` embedded in `R^n`.
+#'
+#' @param dimension `integer`. The dimension of the embedded space where the
+#' sphere resides.
+#' @param batch_shape Positive `integer`-like vector-shaped `Tensor` representing
+#' the new shape of the batch dimensions. Default value: [].
+#' @param dtype dtype of the generated samples.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_spherical_uniform <- function(dimension,
+                                  batch_shape = list(),
+                                  dtype = tf$float32,
+                                  validate_args = FALSE,
+                                  allow_nan_stats = TRUE,
+                                  name = 'SphericalUniform') {
+  args <- list(
+    dimension = as.integer(dimension),
+    batch_shape = as_integer_list(batch_shape),
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$SphericalUniform,
+          args)
+}
+
+#' The Power Spherical distribution over unit vectors on `S^{n-1}`.
+#'
+#' The Power Spherical distribution is a distribution over vectors
+#' on the unit hypersphere `S^{n-1}` embedded in `n` dimensions (`R^n`).
+#' It serves as an alternative to the von Mises-Fisher distribution with a
+#' simpler (faster) `log_prob` calculation, as well as a reparameterizable
+#' sampler. In contrast, the Power Spherical distribution does have
+#' -`mean_direction` as a point with zero density (and hence a neighborhood
+#' around that having arbitrarily small density), in contrast with the
+#' von Mises-Fisher distribution which has non-zero density everywhere.
+#' NOTE: `mean_direction` is not in general the mean of the distribution. For
+#' spherical distributions, the mean is generally not in the support of the
+#' distribution.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; mu, kappa) = C(kappa) (1 + mu^T x) ** k
+#'   where,
+#'      C(kappa) = 2**(a + b) pi**b Gamma(a) / Gamma(a + b)
+#'      a = (n - 1) / 2. + k
+#'      b = (n - 1) / 2.
+#' ```
+#'
+#' where
+#' * `mean_direction = mu`; a unit vector in `R^k`,
+#' * `concentration = kappa`; scalar real >= 0, concentration of samples around
+#' `mean_direction`, where 0 pertains to the uniform distribution on the
+#' hypersphere, and `\inf` indicates a delta function at `mean_direction`.
+#'
+#' @param mean_direction Floating-point `Tensor` with shape `[B1, ... Bn, N]`.
+#' A unit vector indicating the mode of the distribution, or the
+#' unit-normalized direction of the mean.
+#' @param concentration Floating-point `Tensor` having batch shape `[B1, ... Bn]`
+#' broadcastable with `mean_direction`. The level of concentration of
+#' samples around the `mean_direction`. `concentration=0` indicates a
+#' uniform distribution over the unit hypersphere, and `concentration=+inf`
+#' indicates a `Deterministic` distribution (delta function) at
+#' `mean_direction`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_power_spherical <- function(mean_direction,
+                                concentration,
+                                validate_args = FALSE,
+                                allow_nan_stats = TRUE,
+                                name = 'PowerSpherical') {
+  args <- list(
+    mean_direction = mean_direction,
+    concentration = concentration,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$PowerSpherical,
+          args)
+}
+
+#' The log-logistic distribution.
+#'
+#' The LogLogistic distribution models positive-valued random variables
+#' whose logarithm is a logistic distribution with loc `loc` and
+#' scale `scale`. It is constructed as the exponential
+#' transformation of a Logistic distribution.
+#'
+#' @param loc Floating-point `Tensor`; the loc of the underlying logistic
+#' distribution(s).
+#' @param scale Floating-point `Tensor`; the scale of the underlying logistic
+#' distribution(s).
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_log_logistic <- function(loc,
+                             scale,
+                             validate_args = FALSE,
+                             allow_nan_stats = TRUE,
+                             name = 'LogLogistic') {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$LogLogistic,
+          args)
+}
+
+#' Bates distribution.
+#'
+#' The Bates distribution is the distribution of the average of `total_count`
+#' independent samples from `Uniform(low, high)`. It is parameterized by the
+#' interval bounds `low` and `high`, and `total_count`, the number of samples.
+#' Although some care has been taken to avoid numerical issues, the `pdf`, `cdf`,
+#' and log versions thereof may still exhibit numerical instability. They are
+#' relatively stable near the tails; however near the mode they are unstable if
+#' `total_count` is greater than about `75` for `tf$float64`, `25` for
+#' `tf$float32`, and `7` for `tf$float16`. Beyond these limits a warning will be
+#' shown if `validate_args=FALSE`; otherwise an exception is thrown. For high
+#' `total_count`, consider using a `Normal` approximation.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is supported in the interval
+#' `[low, high]`. If `[low, high]` is the unit interval `[0, 1]`, the pdf
+#' is,
+#' ```
+#' pdf(x; n, 0, 1) = ((n / (n-1)!) sum_{k=0}^j (-1)^k (n choose k) (nx - k)^{n-1}
+#' ```
+#' where
+#' * `total_count = n`,
+#' * `j = floor(nx)`
+#' * `n!` is the factorial of `n`,
+#' * `(n choose k)` is the binomial coefficient `n! / (k!(n - k)!)`
+#' For arbitrary intervals `[low, high]`, the pdf is,
+#' ```
+#' pdf(x; n, low, high) = pdf((x - low) / (high - low); n, 0, 1) / (high - low)
+#' ```
+#' @param total_count Non-negative integer-valued `Tensor` with shape broadcastable
+#' to the batch shape `[N1,..., Nm]`, `m >= 0`. This controls the number of
+#' samples of `Uniform(low, high)` to take the mean of.
+#' @param low Floating point `Tensor` representing the lower bounds of the support.
+#' Should be broadcastable to `[N1,..., Nm]` with `m >= 0`, the same dtype
+#' as `total_count`, and `low < high` component-wise, after broadcasting.
+#' Defaults to `0`.
+#' @param high Floating point `Tensor` representing the upper bounds of the
+#' support.  Should be broadcastable to `[N1,..., Nm]` with `m >= 0`, the
+#' same dtype as `total_count`, and `low < high` component-wise, after
+#' broadcasting.  Defaults to `1`.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_bates <- function(total_count,
+                      low = 0,
+                      high = 1,
+                      validate_args = FALSE,
+                      allow_nan_stats = TRUE,
+                      name = 'Bates') {
+  args <- list(
+    total_count = as.integer(total_count),
+    low = low,
+    high = high,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Bates,
+          args)
+}
+
+#' The Generalized Normal distribution.
+#'
+#' The Generalized Normal (or Generalized Gaussian) generalizes the Normal
+#' distribution with an additional shape parameter. It is parameterized by
+#' location `loc`, scale `scale` and shape `power`.
+#'
+#' Mathematical details
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; loc, scale, power) = 1 / (2 * scale * Gamma(1 + 1 / power)) *
+#'   exp(-(|x - loc| / scale) ^ power)
+#' ```
+#'
+#' where `loc` is the mean, `scale` is the scale, and,  `power` is the shape
+#' parameter. If the power is above two, the distribution becomes platykurtic.
+#' A power equal to two results in a Normal distribution. A power smaller than
+#' two produces a leptokurtic (heavy-tailed) distribution. Mean and scale behave
+#' the same way as in the equivalent Normal distribution.
+#'
+#' See https://en.wikipedia.org/w/index.php?title=Generalized_normal_distribution&oldid=954254464
+#' for the definitions used here, including CDF, variance and entropy. See
+#' https://sccn.ucsd.edu/wiki/Generalized_Gaussian_Probability_Density_Function
+#' for the sampling method used here.
+#'
+#' @param loc Floating point tensor; the means of the distribution(s).
+#' @param scale Floating point tensor; the scale of the
+#' distribution(s). Must contain only positive values.
+#' @param power Floating point tensor; the shape parameter of the distribution(s).
+#' Must contain only positive values. `loc`, `scale` and `power` must have
+#' compatible shapes for broadcasting.
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_generalized_normal <- function(loc,
+                                   scale,
+                                   power,
+                                   validate_args = FALSE,
+                                   allow_nan_stats = TRUE,
+                                   name = 'GeneralizedNormal') {
+  args <- list(
+    loc = loc,
+    scale = scale,
+    power = power,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$GeneralizedNormal,
+          args)
+}
+
+#' Johnson's SU-distribution.
+#'
+#' This distribution has parameters: shape parameters `skewness` and
+#' `tailweight`, location `loc`, and `scale`.
+#'
+#' Mathematical details
+#'
+#' The probability density function (pdf) is,
+#'
+#' ```
+#' pdf(x; s, t, xi, sigma) = exp(-0.5 (s + t arcsinh(y))**2) / Z
+#'   where,
+#'     s = skewness
+#'     t = tailweight
+#'     y = (x - xi) / sigma
+#'     Z = sigma sqrt(2 pi) sqrt(1 + y**2) / t
+#' ```
+#'
+#' where:
+#' * `loc = xi`,
+#' * `scale = sigma`, and,
+#' * `Z` is the normalization constant.
+#' The JohnsonSU distribution is a member of the
+#' [location-scale family](https://en.wikipedia.org/wiki/Location-scale_family), i.e., it can be
+#' constructed as,
+#' ```
+#' X ~ JohnsonSU(skewness, tailweight, loc=0, scale=1)
+#' Y = loc + scale * X
+#' ```
+#' @param skewness Floating-point `Tensor`. Skewness of the distribution(s).
+#' @param tailweight Floating-point `Tensor`. Tail weight of the
+#' distribution(s). `tailweight` must contain only positive values.
+#' @param loc Floating-point `Tensor`. The mean(s) of the distribution(s).
+#' @param scale Floating-point `Tensor`. The scaling factor(s) for the
+#' distribution(s). Note that `scale` is not technically the standard
+#' deviation of this distribution but has semantics more similar to
+#' standard deviation than variance.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_johnson_s_u <- function(skewness,
+                            tailweight,
+                            loc,
+                            scale,
+                            validate_args = FALSE,
+                            allow_nan_stats = TRUE,
+                            name = NULL) {
+  args <- list(
+    skewness = skewness,
+    tailweight = tailweight,
+    loc = loc,
+    scale = scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$JohnsonSU,
+          args)
+}
+
+
+
+#' Continuous Bernoulli distribution.
+#'
+#' This distribution is parameterized by `probs`, a (batch of) parameters
+#' taking values in `(0, 1)`. Note that, unlike in the Bernoulli case, `probs`
+#' does not correspond to a probability, but the same name is used due to the
+#' similarity with the Bernoulli.
+#'
+#' Mathematical Details
+#'
+#' The continuous Bernoulli is a distribution over the interval `[0, 1]`,
+#' parameterized by `probs` in `(0, 1)`.
+#' The probability density function (pdf) is,
+#' ```
+#' pdf(x; probs) = probs**x * (1 - probs)**(1 - x) * C(probs)
+#' C(probs) = (2 * atanh(1 - 2 * probs) / (1 - 2 * probs) if probs != 0.5 else 2.)
+#' ```
+#'
+#' While the normalizing constant `C(probs)` is a continuous function of `probs`
+#' (even at `probs = 0.5`), computing it at values close to 0.5 can result in
+#' numerical instabilities due to 0/0 errors. A Taylor approximation of
+#' `C(probs)` is thus used for values of `probs`
+#' in a small interval `[lims[0], lims[1]]` around 0.5. For more details,
+#' see Loaiza-Ganem and Cunningham (2019).
+#' NOTE: Unlike the Bernoulli, numerical instabilities can happen for `probs`
+#' very close to 0 or 1. Current implementation allows any value in `(0, 1)`,
+#' but this could be changed to `(1e-6, 1-1e-6)` to avoid these issues.
+#'
+#' @section References:
+#' - Loaiza-Ganem G and Cunningham JP. The continuous Bernoulli: fixing a
+#' pervasive error in variational autoencoders. NeurIPS2019.
+#' https://arxiv.org/abs/1907.06845
+#'
+#' @param logits An N-D `Tensor`. Each entry in the `Tensor` parameterizes
+#' an independent continuous Bernoulli distribution with parameter
+#' sigmoid(logits). Only one of `logits` or `probs` should be passed
+#' in. Note that this does not correspond to the log-odds as in the
+#' Bernoulli case.
+#' @param probs An N-D `Tensor` representing the parameter of a continuous
+#' Bernoulli. Each entry in the `Tensor` parameterizes an independent
+#' continuous Bernoulli distribution. Only one of `logits` or `probs`
+#' should be passed in. Note that this also does not correspond to a
+#' probability as in the Bernoulli case.
+#' @param lims A list with two floats containing the lower and upper limits
+#' used to approximate the continuous Bernoulli around 0.5 for
+#' numerical stability purposes.
+#' @param dtype The type of the event samples. Default: `float32`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_continuous_bernoulli <- function(logits = NULL,
+                                     probs = NULL,
+                                     lims = c(0.499, 0.501),
+                                     dtype = tf$float32,
+                                     validate_args = FALSE,
+                                     allow_nan_stats = TRUE,
+                                     name = "ContinuousBernoulli") {
+  args <- list(
+    logits = logits,
+    probs = probs,
+    lims = lims,
+    dtype = dtype,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$ContinuousBernoulli,
+          args)
+}
+
+
+
+
+
+
+
+

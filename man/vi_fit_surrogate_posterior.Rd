@@ -9,8 +9,9 @@ vi_fit_surrogate_posterior(
   surrogate_posterior,
   optimizer,
   num_steps,
-  trace_fn = function(loss, grads, variables) loss,
-  variational_loss_fn = NULL,
+  convergence_criterion = NULL,
+  trace_fn = tfp$vi$optimization$`_trace_loss`,
+  variational_loss_fn = tfp$vi$optimization$`_reparameterized_elbo`,
   sample_size = 1,
   trainable_variables = NULL,
   seed = NULL,
@@ -41,6 +42,13 @@ transformations execute at runtime instead of at distribution creation.}
 object that implements \code{optimizer$apply_gradients(grads_and_vars)}.}
 
 \item{num_steps}{\code{integer} number of steps to run the optimizer.}
+
+\item{convergence_criterion}{Optional instance of
+\code{tfp$optimizer$convergence_criteria$ConvergenceCriterion}
+representing a criterion for detecting convergence. If \code{NULL},
+the optimization will run for \code{num_steps} steps, otherwise, it will run
+for at \emph{most} \code{num_steps} steps, as determined by the provided criterion.
+Default value: \code{NULL}.}
 
 \item{trace_fn}{function with signature \code{state = trace_fn(loss, grads, variables)},
 where \code{state} may be a \code{Tensor} or nested structure of \code{Tensor}s.

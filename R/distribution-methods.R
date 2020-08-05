@@ -235,20 +235,8 @@ tfd_stddev <- function(distribution, ...) {
 #' are batch coordinates and `k = reduce_prod(self.event_shape)`.
 #' @examples
 #' \donttest{
-#' d <- tfd_vector_diffeomixture(
-#'  mix_loc = list(c(0, 1)),
-#'  temperature = list(1),
-#'  distribution = tfd_normal(loc = 0, scale = 1),
-#'  loc = list(NULL, rep(2, 5)),
-#'  scale = list(
-#'   tf$linalg$LinearOperatorScaledIdentity(
-#'       num_rows = 5L,
-#'       multiplier = 1.1,
-#'       is_positive_definite = TRUE),
-#'   tf$linalg$LinearOperatorDiag(
-#'       diag = seq(2.5, 3.5,  length.out = 5),
-#'       is_positive_definite = TRUE)))
-#'   d %>% tfd_covariance()
+#' d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
+#' d %>% tfd_variance()
 #' }
 #' @family distribution_methods
 #' @export

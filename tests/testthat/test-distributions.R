@@ -1083,3 +1083,162 @@ test_succeeds("BetaBinomial distribution works", {
   expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 3)
 })
 
+test_succeeds("JointDistributionSequentialAutoBatched distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_joint_distribution_sequential_auto_batched(
+    # e ~ Exponential(rate=[100,120])
+    # g ~ Gamma(concentration=e[0], rate=e[1])
+    # n ~ Normal(loc=0, scale=2.)
+    # m ~ Normal(loc=n, scale=g)
+    # for i = 1, ..., 12:  x[i] ~ Bernoulli(logits=m)
+    list(
+      # e
+      tfd_exponential(rate = c(100, 120)),
+      # g
+      function(e) tfd_gamma(concentration = e[1], rate = e[2], name = "g"),
+      # n
+      tfd_normal(loc = 0, scale = 2, name = "n1"),
+      # m
+      function(n1, g) tfd_normal(loc = n1, scale = g, name = "n2"),
+      # x
+      function(n2) tfd_sample_distribution(tfd_bernoulli(logits = n2), 12, name = "s")
+    ))
+
+  x <- d %>% tfd_sample()
+  expect_equal(length(x), 5)
+  expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
+  expect_equal(d$resolve_graph() %>% length(), 5)
+
+})
+
+test_succeeds("JointDistributionNamedAutoBatched distribution works", {
+
+  skip_if_tfp_below("0.11")
+  d <- tfd_joint_distribution_named_auto_batched(
+    list(
+      e = tfd_exponential(rate = c(100, 120)),
+      g = function(e) tfd_gamma(concentration = e[1], rate = e[2]),
+      n = tfd_normal(loc = 0, scale = 2),
+      m = function(n, g) tfd_normal(loc = n, scale = g),
+      x = function(m) tfd_sample_distribution(tfd_bernoulli(logits = m), 12)
+    ))
+
+  x <- d %>% tfd_sample()
+  expect_equal(length(x), 5)
+  expect_equal((d %>% tfd_log_prob(x))$get_shape()$as_list(), list())
+  expect_equal(d$resolve_graph() %>% length(), 5)
+
+})
+
+
+test_succeeds("Weibull distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_weibull(scale = c(1, 3, 45),
+                   concentration = c(2.5, 22, 7))
+  expect_equal(d %>% tfd_cdf(1) %>% tensor_value() %>% length(), 3)
+})
+
+test_succeeds("TruncatedCauchy distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_truncated_cauchy(
+    loc = c(0, 1),
+    scale = 1,
+    low = c(-1, 0),
+    high = c(1, 1)
+  )
+  expect_equal(d %>% tfd_cdf(1) %>% tensor_value() %>% length(), 2)
+})
+
+test_succeeds("SphericalUniform distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_spherical_uniform(
+    dimension = 4,
+    batch_shape = list(3)
+  )
+  expect_equal(d %>% tfd_sample(5) %>% tensor_value() %>% dim(), c(5, 3, 4))
+})
+
+test_succeeds("PowerSpherical distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_power_spherical(
+    mean_direction = list(list(0, 1, 0), list(1, 0, 0)),
+    concentration = c(1, 2)
+  )
+
+  x <- rbind(c(0, 0, 1), c(0, 1, 0))
+  expect_equal(d %>% tfd_prob(x) %>% tensor_value() %>% length(), 2)
+})
+
+test_succeeds("LogLogistic distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d1 <- tfd_log_logistic(
+    loc = 1,
+    scale = 1
+  )
+
+  d2 <- tfd_transformed_distribution(
+    distribution = tfd_logistic(loc = 1, scale = 1),
+    bijector = tfb_exp()
+  )
+
+  x <- c(1, 10, 100)
+  expect_equal(d1 %>% tfd_prob(x) %>% tensor_value(),
+               d2 %>% tfd_prob(x) %>% tensor_value(),
+               tol = 1e-6
+  )
+})
+
+test_succeeds("Bates distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  counts <- c(1, 2, 5)
+  low <- c(0, 5, 10)
+  high <- 100
+
+  d <- tfd_bates(total_count = counts, low = low, high = high)
+  expect_equal(d %>% tfd_sample() %>% tensor_value() %>% length(), 3)
+})
+
+test_succeeds("GeneralizedNormal distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_generalized_normal(loc = c(1, 2), scale = c(11, 22), power = c(1, 1))
+  x <- d %>% tfd_sample(c(2, 2))
+  expect_equal(d$batch_shape$as_list(), 2)
+
+})
+
+test_succeeds("JohnsonSU distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_johnson_s_u(skewness = -2, tailweight = 2, loc = 1.1, scale = 1.5)
+  expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 1)
+
+})
+
+test_succeeds("ContinuousBernoulli distribution works", {
+
+  skip_if_tfp_below("0.11")
+
+  d <- tfd_continuous_bernoulli(logits = c(0.1, 0.9))
+  expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 2)
+
+})
+
+
+

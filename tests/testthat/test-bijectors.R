@@ -666,7 +666,7 @@ test_succeeds("Define a scale bijector", {
   skip_if_tfp_below("0.9")
 
   scale <- 1.5
-  b <- tfb_scale(scale)
+  b <- tfb_scale(scale = scale)
   x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
   y <- b %>% tfb_forward(x)
   expect_equal(y %>% tensor_value(),
@@ -723,5 +723,55 @@ test_succeeds("Define a LambertWTail bijector", {
   expect_equal(y %>% tensor_value(), x %>% tensor_value())
 
 })
+
+test_succeeds("Define a Split bijector", {
+
+  skip_if_tfp_below("0.11")
+
+  b <- tfb_split(num_or_size_splits = c(3, 2, 1),
+                 axis = -2)
+
+  x <- array(0, dim = c(6, 6, 6))
+  y <- b %>% tfb_forward(x)
+  x_ <- b %>% tfb_inverse(y)
+  expect_equal(x %>% tensor_value() %>% length(), x_ %>% tensor_value() %>% length())
+
+})
+
+test_succeeds("Define a GompertzCDF bijector", {
+
+  skip_if_tfp_below("0.11")
+
+  b <- tfb_gompertz_cdf(concentration = 1, rate = 1)
+
+  x <- 1
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(),  1 - exp(-1 * (exp(1 * x) - 1)), tol = 1e-6)
+
+})
+
+test_succeeds("Define a ShiftedGompertzCDF bijector", {
+
+  skip_if_tfp_below("0.11")
+
+  b <- tfb_shifted_gompertz_cdf(concentration = 1, rate = 1)
+
+  x <- 1
+  y <- b %>% tfb_forward(x)
+  expect_equal(y %>% tensor_value(),  (1 - exp(-1 * x)) * exp(-1 * exp(-1 * x)), tol = 1e-6)
+
+})
+
+test_succeeds("Define a sinh bijector", {
+
+  skip_if_tfp_below("0.11")
+
+  b <- tfb_sinh()
+  x <- 0
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
+               tf$sinh(x) %>% tensor_value(),
+               tol = 1e-6)
+})
+
 
 

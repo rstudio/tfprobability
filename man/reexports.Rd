@@ -23,7 +23,7 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{magrittr}{\code{\link[magrittr]{\%>\%}}}
+  \item{magrittr}{\code{\link[magrittr:pipe]{\%>\%}}}
 
   \item{tensorflow}{\code{\link[tensorflow]{shape}}, \code{\link[tensorflow]{tf}}, \code{\link[tensorflow]{tf_config}}}
 }}

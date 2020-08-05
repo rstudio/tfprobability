@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.0</span>
       </span>
     </div>
 
@@ -184,26 +184,28 @@
   <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>))</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
 #&gt; <span class='error'></span>
 #&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "&lt;decorator-gen-120&gt;", line 2, in __init__</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/distribution.py", line 332, in wrapped_init</span>
+#&gt; <span class='error'>  File "&lt;decorator-gen-184&gt;", line 2, in __init__</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow_probability/python/distributions/distribution.py", line 334, in wrapped_init</span>
 #&gt; <span class='error'>    default_init(self_, *args, **kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/distributions/normal.py", line 138, in __init__</span>
-#&gt; <span class='error'>    loc, dtype=dtype, name='loc')</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow_probability/python/internal/tensor_util.py", line 115, in convert_nonref_to_tensor</span>
-#&gt; <span class='error'>    value, dtype=dtype, dtype_hint=dtype_hint, name=name)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1283, in convert_to_tensor_v2</span>
-#&gt; <span class='error'>    as_ref=False)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow_probability/python/distributions/normal.py", line 138, in __init__</span>
+#&gt; <span class='error'>    self._loc = tensor_util.convert_nonref_to_tensor(</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow_probability/python/internal/tensor_util.py", line 114, in convert_nonref_to_tensor</span>
+#&gt; <span class='error'>    return tf.convert_to_tensor(</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1377, in convert_to_tensor_v2</span>
+#&gt; <span class='error'>    return convert_to_tensor(</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1499, in convert_to_tensor</span>
 #&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 321, in _constant_tensor_conversion_function</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 338, in _constant_tensor_conversion_function</span>
 #&gt; <span class='error'>    return constant(v, dtype=dtype, name=name)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
-#&gt; <span class='error'>    allow_broadcast=True)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 263, in constant</span>
+#&gt; <span class='error'>    return _constant_impl(value, dtype, shape, name, verify_shape=False,</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 275, in _constant_impl</span>
+#&gt; <span class='error'>    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 300, in _constant_eager_impl</span>
 #&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 97, in convert_to_eager_tensor</span>
 #&gt; <span class='error'>    ctx.ensure_initialized()</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/eager/context.py", line 539, in ensure_initialized</span>
 #&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'>  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_sample</span>()</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'd' not found</span></div><div class='input'># }
 </div></pre>
   </div>

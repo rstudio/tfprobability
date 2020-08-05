@@ -78,7 +78,7 @@ probability density p(x), the kth replica has density p(x)**beta_k." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.0</span>
       </span>
     </div>
 
@@ -155,6 +155,7 @@ probability density <code>p(x)</code>, the <code>kth</code> replica has density 
   <span class='no'>inverse_temperatures</span>,
   <span class='no'>make_kernel_fn</span>,
   <span class='kw'>swap_proposal_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>mcmc</span>$<span class='no'>replica_exchange_mc</span>$<span class='fu'>default_swap_proposal_fn</span>(<span class='fl'>1</span>),
+  <span class='kw'>state_includes_replicas</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
@@ -184,6 +185,13 @@ args and returns a TransitionKernel instance.</p></td>
       <th>swap_proposal_fn</th>
       <td><p>function which take a number of replicas, and
 return combinations of replicas for exchange.</p></td>
+    </tr>
+    <tr>
+      <th>state_includes_replicas</th>
+      <td><p>Boolean indicating whether the leftmost dimension
+of each state sample should index replicas. If <code>TRUE</code>, the leftmost
+dimension of the <code>current_state</code> kwarg to <code>tfp.mcmc.sample_chain</code> will
+be interpreted as indexing replicas.</p></td>
     </tr>
     <tr>
       <th>seed</th>

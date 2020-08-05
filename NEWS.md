@@ -1,3 +1,27 @@
+## 0.11.0.0 (gh)
+
+- new distributions:
+  - tfd_joint_distribution_sequential_auto_batched
+  - tfd_joint_distribution_named_auto_batched
+  - tfd_weibull
+  - tfd_truncated_cauchy
+  - tfd_spherical_uniform
+  - tfd_power_spherical
+  - tfd_log_logistic
+  - tfd_bates
+  - tfd_generalized_normal
+  - tfd_johnson_s_u
+  - tfd_continuous_bernoulli
+   
+- new bijectors: 
+  - tfb_split
+  - tfb_gompertz_cdf
+  - tfb_shifted_gompertz_cdf
+  - tfb_sinh
+
+- bijector changes:
+  - add log_scale argument to tfb_scale
+
 ## 0.10.0.0 (CRAN)
 
 - changes in distributions:
