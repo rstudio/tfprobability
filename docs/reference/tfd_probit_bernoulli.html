@@ -82,7 +82,7 @@ probit  regression." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.0</span>
       </span>
     </div>
 
@@ -215,6 +215,7 @@ one or more of the statistic's batch members are undefined.</p></td>
 <p>Other distributions: 
 <code><a href='tfd_autoregressive.html'>tfd_autoregressive</a>()</code>,
 <code><a href='tfd_batch_reshape.html'>tfd_batch_reshape</a>()</code>,
+<code><a href='tfd_bates.html'>tfd_bates</a>()</code>,
 <code><a href='tfd_bernoulli.html'>tfd_bernoulli</a>()</code>,
 <code><a href='tfd_beta_binomial.html'>tfd_beta_binomial</a>()</code>,
 <code><a href='tfd_beta.html'>tfd_beta</a>()</code>,
@@ -224,6 +225,7 @@ one or more of the statistic's batch members are undefined.</p></td>
 <code><a href='tfd_chi2.html'>tfd_chi2</a>()</code>,
 <code><a href='tfd_chi.html'>tfd_chi</a>()</code>,
 <code><a href='tfd_cholesky_lkj.html'>tfd_cholesky_lkj</a>()</code>,
+<code><a href='tfd_continuous_bernoulli.html'>tfd_continuous_bernoulli</a>()</code>,
 <code><a href='tfd_deterministic.html'>tfd_deterministic</a>()</code>,
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
@@ -233,6 +235,7 @@ one or more of the statistic's batch members are undefined.</p></td>
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
 <code><a href='tfd_gaussian_process_regression_model.html'>tfd_gaussian_process_regression_model</a>()</code>,
 <code><a href='tfd_gaussian_process.html'>tfd_gaussian_process</a>()</code>,
+<code><a href='tfd_generalized_normal.html'>tfd_generalized_normal</a>()</code>,
 <code><a href='tfd_geometric.html'>tfd_geometric</a>()</code>,
 <code><a href='tfd_gumbel.html'>tfd_gumbel</a>()</code>,
 <code><a href='tfd_half_cauchy.html'>tfd_half_cauchy</a>()</code>,
@@ -242,12 +245,16 @@ one or more of the statistic's batch members are undefined.</p></td>
 <code><a href='tfd_independent.html'>tfd_independent</a>()</code>,
 <code><a href='tfd_inverse_gamma.html'>tfd_inverse_gamma</a>()</code>,
 <code><a href='tfd_inverse_gaussian.html'>tfd_inverse_gaussian</a>()</code>,
+<code><a href='tfd_johnson_s_u.html'>tfd_johnson_s_u</a>()</code>,
+<code><a href='tfd_joint_distribution_named_auto_batched.html'>tfd_joint_distribution_named_auto_batched</a>()</code>,
 <code><a href='tfd_joint_distribution_named.html'>tfd_joint_distribution_named</a>()</code>,
+<code><a href='tfd_joint_distribution_sequential_auto_batched.html'>tfd_joint_distribution_sequential_auto_batched</a>()</code>,
 <code><a href='tfd_joint_distribution_sequential.html'>tfd_joint_distribution_sequential</a>()</code>,
 <code><a href='tfd_kumaraswamy.html'>tfd_kumaraswamy</a>()</code>,
 <code><a href='tfd_laplace.html'>tfd_laplace</a>()</code>,
 <code><a href='tfd_linear_gaussian_state_space_model.html'>tfd_linear_gaussian_state_space_model</a>()</code>,
 <code><a href='tfd_lkj.html'>tfd_lkj</a>()</code>,
+<code><a href='tfd_log_logistic.html'>tfd_log_logistic</a>()</code>,
 <code><a href='tfd_log_normal.html'>tfd_log_normal</a>()</code>,
 <code><a href='tfd_logistic.html'>tfd_logistic</a>()</code>,
 <code><a href='tfd_mixture_same_family.html'>tfd_mixture_same_family</a>()</code>,
@@ -266,15 +273,18 @@ one or more of the statistic's batch members are undefined.</p></td>
 <code><a href='tfd_pixel_cnn.html'>tfd_pixel_cnn</a>()</code>,
 <code><a href='tfd_poisson_log_normal_quadrature_compound.html'>tfd_poisson_log_normal_quadrature_compound</a>()</code>,
 <code><a href='tfd_poisson.html'>tfd_poisson</a>()</code>,
+<code><a href='tfd_power_spherical.html'>tfd_power_spherical</a>()</code>,
 <code><a href='tfd_quantized.html'>tfd_quantized</a>()</code>,
 <code><a href='tfd_relaxed_bernoulli.html'>tfd_relaxed_bernoulli</a>()</code>,
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_student_t.html'>tfd_student_t</a>()</code>,
 <code><a href='tfd_transformed_distribution.html'>tfd_transformed_distribution</a>()</code>,
 <code><a href='tfd_triangular.html'>tfd_triangular</a>()</code>,
+<code><a href='tfd_truncated_cauchy.html'>tfd_truncated_cauchy</a>()</code>,
 <code><a href='tfd_truncated_normal.html'>tfd_truncated_normal</a>()</code>,
 <code><a href='tfd_uniform.html'>tfd_uniform</a>()</code>,
 <code><a href='tfd_variational_gaussian_process.html'>tfd_variational_gaussian_process</a>()</code>,
@@ -286,6 +296,7 @@ one or more of the statistic's batch members are undefined.</p></td>
 <code><a href='tfd_vector_sinh_arcsinh_diag.html'>tfd_vector_sinh_arcsinh_diag</a>()</code>,
 <code><a href='tfd_von_mises_fisher.html'>tfd_von_mises_fisher</a>()</code>,
 <code><a href='tfd_von_mises.html'>tfd_von_mises</a>()</code>,
+<code><a href='tfd_weibull.html'>tfd_weibull</a>()</code>,
 <code><a href='tfd_wishart_linear_operator.html'>tfd_wishart_linear_operator</a>()</code>,
 <code><a href='tfd_wishart_tri_l.html'>tfd_wishart_tri_l</a>()</code>,
 <code><a href='tfd_wishart.html'>tfd_wishart</a>()</code>,

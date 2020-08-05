@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.0</span>
       </span>
     </div>
 
@@ -85,13 +85,13 @@
 
       
 
-      </header><script src="layer_dense_variational_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
+      </header><script src="layer_dense_variational_files/header-attrs-2.3/header-attrs.js"></script><script src="layer_dense_variational_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Uncertainty estimates with layer_dense_variational</h1>
                         <h4 class="author">Sigrid Keydana</h4>
             
-            <h4 class="date">2020-05-19</h4>
+            <h4 class="date">2020-08-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/tfprobability/blob/master/vignettes/layer_dense_variational.Rmd"><code>vignettes/layer_dense_variational.Rmd</code></a></small>
       <div class="hidden name"><code>layer_dense_variational.Rmd</code></div>
@@ -201,9 +201,9 @@ Simulated data
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># each time we ask the model to predict, we get a different line</span>
 <span class="no">yhats</span> <span class="kw">&lt;-</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="fl">1</span>:<span class="fl">100</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu">model</span>(<span class="no">tf</span>$<span class="fu">constant</span>(<span class="no">x_test</span>)))
 <span class="no">means</span> <span class="kw">&lt;-</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">yhats</span>, <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span>(<span class="no">as.matrix</span>, <span class="no">tfd_mean</span>)) <span class="kw">%&gt;%</span> <span class="kw pkg">abind</span><span class="kw ns">::</span><span class="fu">abind</span>()
+  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">yhats</span>, <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span>(<span class="no">as.matrix</span>, <span class="no">tfd_mean</span>)) <span class="kw">%&gt;%</span> <span class="kw pkg">abind</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html">abind</a></span>()
 <span class="no">sds</span> <span class="kw">&lt;-</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">yhats</span>, <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span>(<span class="no">as.matrix</span>, <span class="no">tfd_stddev</span>)) <span class="kw">%&gt;%</span> <span class="kw pkg">abind</span><span class="kw ns">::</span><span class="fu">abind</span>()
+  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">yhats</span>, <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span>(<span class="no">as.matrix</span>, <span class="no">tfd_stddev</span>)) <span class="kw">%&gt;%</span> <span class="kw pkg">abind</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html">abind</a></span>()
 
 <span class="no">means_gathered</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">x_test</span>, <span class="no">means</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="no">run</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">mean_val</span>,-<span class="no">X1</span>)
@@ -211,7 +211,7 @@ Simulated data
   <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="no">run</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">sd_val</span>,-<span class="no">X1</span>)
 
 <span class="no">lines</span> <span class="kw">&lt;-</span>
-  <span class="no">means_gathered</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join.html">inner_join</a></span>(<span class="no">sds_gathered</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"X1"</span>, <span class="st">"run"</span>))
+  <span class="no">means_gathered</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span>(<span class="no">sds_gathered</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"X1"</span>, <span class="st">"run"</span>))
 <span class="no">mean</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">means</span>, <span class="fl">1</span>, <span class="no">mean</span>)
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>, <span class="kw">mean</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">mean</span>)), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">x</span>, <span class="no">y</span>)) +

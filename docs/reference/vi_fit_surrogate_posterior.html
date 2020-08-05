@@ -75,7 +75,7 @@ elbo_loss &amp;amp;lt;- -tf$reduce_mean(target_log_prob_fn(q_samples) - surrogat
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.0</span>
       </span>
     </div>
 
@@ -149,8 +149,9 @@ evidence lower bound (ELBO), given by</p><pre><span class='no'>q_samples</span> 
   <span class='no'>surrogate_posterior</span>,
   <span class='no'>optimizer</span>,
   <span class='no'>num_steps</span>,
-  <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>loss</span>, <span class='no'>grads</span>, <span class='no'>variables</span>) <span class='no'>loss</span>,
-  <span class='kw'>variational_loss_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>convergence_criterion</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>vi</span>$<span class='no'>optimization</span>$<span class='no'>`_trace_loss`</span>,
+  <span class='kw'>variational_loss_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>vi</span>$<span class='no'>optimization</span>$<span class='no'>`_reparameterized_elbo`</span>,
   <span class='kw'>sample_size</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>trainable_variables</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -191,6 +192,15 @@ object that implements <code>optimizer$apply_gradients(grads_and_vars)</code>.</
     <tr>
       <th>num_steps</th>
       <td><p><code>integer</code> number of steps to run the optimizer.</p></td>
+    </tr>
+    <tr>
+      <th>convergence_criterion</th>
+      <td><p>Optional instance of
+<code>tfp$optimizer$convergence_criteria$ConvergenceCriterion</code>
+representing a criterion for detecting convergence. If <code>NULL</code>,
+the optimization will run for <code>num_steps</code> steps, otherwise, it will run
+for at <em>most</em> <code>num_steps</code> steps, as determined by the provided criterion.
+Default value: <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>trace_fn</th>

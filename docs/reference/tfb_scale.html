@@ -74,7 +74,7 @@ b &amp;amp;lt;- tfb_scale(scale = 2)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.0</span>
       </span>
     </div>
 
@@ -142,7 +142,12 @@ b &amp;amp;lt;- tfb_scale(scale = 2)
 
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_scale</span>(<span class='no'>scale</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"scale"</span>)</pre>
+    <pre class="usage"><span class='fu'>tfb_scale</span>(
+  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>log_scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"scale"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,6 +155,11 @@ b &amp;amp;lt;- tfb_scale(scale = 2)
     <tr>
       <th>scale</th>
       <td><p>Floating-point <code>Tensor</code>.</p></td>
+    </tr>
+    <tr>
+      <th>log_scale</th>
+      <td><p>Floating-point <code>Tensor</code>. Logarithm of the scale. If this is set
+to <code>NULL</code>, no scale is applied. This should not be set if <code>scale</code> is set.</p></td>
     </tr>
     <tr>
       <th>validate_args</th>
@@ -186,6 +196,7 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
 <code><a href='tfb_ffjord.html'>tfb_ffjord</a>()</code>,
 <code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a>()</code>,
 <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a>()</code>,
+<code><a href='tfb_gompertz_cdf.html'>tfb_gompertz_cdf</a>()</code>,
 <code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a>()</code>,
 <code><a href='tfb_gumbel.html'>tfb_gumbel</a>()</code>,
 <code><a href='tfb_identity.html'>tfb_identity</a>()</code>,
@@ -215,12 +226,15 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.</p></td>
 <code><a href='tfb_scale_matvec_lu.html'>tfb_scale_matvec_lu</a>()</code>,
 <code><a href='tfb_scale_matvec_tri_l.html'>tfb_scale_matvec_tri_l</a>()</code>,
 <code><a href='tfb_scale_tri_l.html'>tfb_scale_tri_l</a>()</code>,
+<code><a href='tfb_shifted_gompertz_cdf.html'>tfb_shifted_gompertz_cdf</a>()</code>,
 <code><a href='tfb_shift.html'>tfb_shift</a>()</code>,
 <code><a href='tfb_sigmoid.html'>tfb_sigmoid</a>()</code>,
 <code><a href='tfb_sinh_arcsinh.html'>tfb_sinh_arcsinh</a>()</code>,
+<code><a href='tfb_sinh.html'>tfb_sinh</a>()</code>,
 <code><a href='tfb_softmax_centered.html'>tfb_softmax_centered</a>()</code>,
 <code><a href='tfb_softplus.html'>tfb_softplus</a>()</code>,
 <code><a href='tfb_softsign.html'>tfb_softsign</a>()</code>,
+<code><a href='tfb_split.html'>tfb_split</a>()</code>,
 <code><a href='tfb_square.html'>tfb_square</a>()</code>,
 <code><a href='tfb_tanh.html'>tfb_tanh</a>()</code>,
 <code><a href='tfb_transform_diagonal.html'>tfb_transform_diagonal</a>()</code>,

@@ -73,7 +73,7 @@ distribution over future observations for num_steps_forecast timesteps." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tfprobability</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.10.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0.0</span>
       </span>
     </div>
 
@@ -203,19 +203,21 @@ This may optionally also be a named list mapping parameter names to <code>tensor
   <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='fu'>convert_to_tensor</span>(<span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='no'>float64</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
 #&gt; <span class='error'></span>
 #&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1283, in convert_to_tensor_v2</span>
-#&gt; <span class='error'>    as_ref=False)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/ops.py", line 1341, in convert_to_tensor</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1377, in convert_to_tensor_v2</span>
+#&gt; <span class='error'>    return convert_to_tensor(</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1499, in convert_to_tensor</span>
 #&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 321, in _constant_tensor_conversion_function</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 338, in _constant_tensor_conversion_function</span>
 #&gt; <span class='error'>    return constant(v, dtype=dtype, name=name)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 262, in constant</span>
-#&gt; <span class='error'>    allow_broadcast=True)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 270, in _constant_impl</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 263, in constant</span>
+#&gt; <span class='error'>    return _constant_impl(value, dtype, shape, name, verify_shape=False,</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 275, in _constant_impl</span>
+#&gt; <span class='error'>    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 300, in _constant_eager_impl</span>
 #&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/framework/constant_op.py", line 95, in convert_to_eager_tensor</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 97, in convert_to_eager_tensor</span>
 #&gt; <span class='error'>    ctx.ensure_initialized()</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.2/lib64/python3.7/site-packages/tensorflow/python/eager/context.py", line 515, in ensure_initialized</span>
+#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/eager/context.py", line 539, in ensure_initialized</span>
 #&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'><span class='no'>day_of_week</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span>(<span class='kw'>num_seasons</span> <span class='kw'>=</span> <span class='fl'>7</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'observed_time_series' not found</span></div><div class='input'><span class='no'>local_linear_trend</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'observed_time_series' not found</span></div><div class='input'><span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='sts_sum.html'>sts_sum</a></span>(<span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>day_of_week</span>, <span class='no'>local_linear_trend</span>))</div><div class='output co'>#&gt; <span class='error'>Error in eval(lhs, parent, parent): object 'observed_time_series' not found</span></div><div class='input'><span class='no'>states_and_results</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></span>(
