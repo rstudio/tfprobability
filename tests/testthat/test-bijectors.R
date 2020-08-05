@@ -672,14 +672,6 @@ test_succeeds("Define a scale bijector", {
   expect_equal(y %>% tensor_value(),
                matrix(1:4, ncol = 2) * scale)
 
-  scale <- log(scale)
-  b <- tfb_scale(log_scale = scale)
-  x <- matrix(1:4, ncol = 2) %>% tf$cast(tf$float32)
-  y <- b %>% tfb_forward(x)
-  expect_equal(y %>% tensor_value(),
-               matrix(1:4, ncol = 2) * exp(scale),
-               to = 1e-6)
-
 })
 
 test_succeeds("Define a fill_scale_tri_l bijector", {
