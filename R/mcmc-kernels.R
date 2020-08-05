@@ -165,7 +165,7 @@ mcmc_uncalibrated_hamiltonian_monte_carlo <-
 #' @section References:
 #' - [Andrieu, Christophe, Thoms, Johannes. A tutorial on adaptive MCMC. _Statistics and Computing_, 2008.](https://people.eecs.berkeley.edu/~jordan/sail/readings/andrieu-thoms.pdf)
 #' - http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745
-#' - [Betancourt, M. J., Byrne, S., & Girolami, M. (2014). _Optimizing The Integrator Step Size for Hamiltonian Monte Carlo_.](http://arxiv.org/abs/1411.6669)
+#' - [Betancourt, M. J., Byrne, S., & Girolami, M. (2014). _Optimizing The Integrator Step Size for Hamiltonian Monte Carlo_.](https://arxiv.org/abs/1411.6669)
 #'
 #' @param inner_kernel `TransitionKernel`-like object.
 #' @param num_adaptation_steps Scalar `integer` `Tensor` number of initial steps to

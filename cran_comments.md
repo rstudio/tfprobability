@@ -1,3 +1,16 @@
+
+
+
+
+This is a resubmission. Fixed:
+
+* possibly invalid URLs
+* added markdown to "suggests" section
+
+
+###############################################################################################
+
+
 This is a submission of tfprobability 0.11, successor to tfprobability 0.10 which is the current CRAN version.
 
 ## Test environments

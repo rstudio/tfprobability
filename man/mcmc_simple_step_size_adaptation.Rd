@@ -121,7 +121,7 @@ single distribution, all sampled in parallel.
 \itemize{
 \item \href{https://people.eecs.berkeley.edu/~jordan/sail/readings/andrieu-thoms.pdf}{Andrieu, Christophe, Thoms, Johannes. A tutorial on adaptive MCMC. \emph{Statistics and Computing}, 2008.}
 \item http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745
-\item \href{http://arxiv.org/abs/1411.6669}{Betancourt, M. J., Byrne, S., & Girolami, M. (2014). \emph{Optimizing The Integrator Step Size for Hamiltonian Monte Carlo}.}
+\item \href{https://arxiv.org/abs/1411.6669}{Betancourt, M. J., Byrne, S., & Girolami, M. (2014). \emph{Optimizing The Integrator Step Size for Hamiltonian Monte Carlo}.}
 }
 }
 

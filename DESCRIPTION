@@ -28,5 +28,6 @@ Imports:
 Suggests: 
     tfdatasets,
     testthat (>= 2.1.0),
-    knitr
+    knitr,
+    markdown
 VignetteBuilder: knitr

@@ -48,7 +48,7 @@ where \code{sigma ~ half_cauchy(0, 1)}
 \section{References}{
 
 \itemize{
-\item \href{http://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf}{Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)}.
+\item \href{https://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf}{Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)}.
 \item \href{https://doi.org/10.1016/S0022-1694(99)00184-5}{Barry, Parlange, Li. Approximation for the exponential integral (2000)}.
 }
 }

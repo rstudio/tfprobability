@@ -273,66 +273,25 @@ accordingly. See below for some examples of this feature.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
   <span class='no'>dims</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
   <span class='no'>true_stddev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='no'>dims</span>))
-  <span class='no'>likelihood</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></span>(<span class='kw'>scale_diag</span> <span class='kw'>=</span> <span class='no'>true_stddev</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
-#&gt; <span class='error'></span>
-#&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "&lt;decorator-gen-258&gt;", line 2, in __init__</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow_probability/python/distributions/distribution.py", line 334, in wrapped_init</span>
-#&gt; <span class='error'>    default_init(self_, *args, **kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/util/deprecation.py", line 507, in new_func</span>
-#&gt; <span class='error'>    return func(*args, **kwargs)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow_probability/python/distributions/mvn_diag.py", line 205, in __init__</span>
-#&gt; <span class='error'>    scale_diag = tensor_util.convert_nonref_to_tensor(</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow_probability/python/internal/tensor_util.py", line 114, in convert_nonref_to_tensor</span>
-#&gt; <span class='error'>    return tf.convert_to_tensor(</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1377, in convert_to_tensor_v2</span>
-#&gt; <span class='error'>    return convert_to_tensor(</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1499, in convert_to_tensor</span>
-#&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 338, in _constant_tensor_conversion_function</span>
-#&gt; <span class='error'>    return constant(v, dtype=dtype, name=name)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 263, in constant</span>
-#&gt; <span class='error'>    return _constant_impl(value, dtype, shape, name, verify_shape=False,</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 275, in _constant_impl</span>
-#&gt; <span class='error'>    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 300, in _constant_eager_impl</span>
-#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 97, in convert_to_eager_tensor</span>
-#&gt; <span class='error'>    ctx.ensure_initialized()</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/eager/context.py", line 539, in ensure_initialized</span>
-#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'>
+  <span class='no'>likelihood</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></span>(<span class='kw'>scale_diag</span> <span class='kw'>=</span> <span class='no'>true_stddev</span>)
+
   <span class='no'>kernel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></span>(
     <span class='kw'>target_log_prob_fn</span> <span class='kw'>=</span> <span class='no'>likelihood</span>$<span class='no'>log_prob</span>,
     <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
     <span class='kw'>num_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>2</span>
-  )</div><div class='output co'>#&gt; <span class='error'>Error in mcmc_hamiltonian_monte_carlo(target_log_prob_fn = likelihood$log_prob,     step_size = 0.5, num_leapfrog_steps = 2): object 'likelihood' not found</span></div><div class='input'>
+  )
+
   <span class='no'>states</span> <span class='kw'>&lt;-</span> <span class='no'>kernel</span> <span class='kw'>%&gt;%</span> <span class='fu'>mcmc_sample_chain</span>(
     <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
     <span class='kw'>num_burnin_steps</span> <span class='kw'>=</span> <span class='fl'>500</span>,
     <span class='kw'>current_state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='no'>dims</span>),
     <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-  )</div><div class='output co'>#&gt; <span class='error'>Error in py_call_impl(callable, dots$args, dots$keywords): InternalError: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory</span>
-#&gt; <span class='error'></span>
-#&gt; <span class='error'>Detailed traceback: </span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1377, in convert_to_tensor_v2</span>
-#&gt; <span class='error'>    return convert_to_tensor(</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/ops.py", line 1499, in convert_to_tensor</span>
-#&gt; <span class='error'>    ret = conversion_func(value, dtype=dtype, name=name, as_ref=as_ref)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 338, in _constant_tensor_conversion_function</span>
-#&gt; <span class='error'>    return constant(v, dtype=dtype, name=name)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 263, in constant</span>
-#&gt; <span class='error'>    return _constant_impl(value, dtype, shape, name, verify_shape=False,</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 275, in _constant_impl</span>
-#&gt; <span class='error'>    return _constant_eager_impl(ctx, value, dtype, shape, verify_shape)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 300, in _constant_eager_impl</span>
-#&gt; <span class='error'>    t = convert_to_eager_tensor(value, ctx, dtype)</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/framework/constant_op.py", line 97, in convert_to_eager_tensor</span>
-#&gt; <span class='error'>    ctx.ensure_initialized()</span>
-#&gt; <span class='error'>  File "/home/key/.virtualenvs/tf2.3/lib64/python3.8/site-packages/tensorflow/python/eager/context.py", line 539, in ensure_initialized</span>
-#&gt; <span class='error'>    context_handle = pywrap_tfe.TFE_NewContext(opts)</span></div><div class='input'>
-  <span class='no'>sample_mean</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>states</span>, <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>)</div><div class='output co'>#&gt; <span class='error'>Error in py_resolve_dots(list(...)): object 'states' not found</span></div><div class='input'>  <span class='no'>sample_stddev</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(
-    <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>tf</span>$<span class='no'>math</span>$<span class='fu'>squared_difference</span>(<span class='no'>states</span>, <span class='no'>sample_mean</span>), <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>))</div><div class='output co'>#&gt; <span class='error'>Error in py_resolve_dots(list(...)): object 'states' not found</span></div><div class='input'># }
-</div></pre>
+  )
+
+  <span class='no'>sample_mean</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>states</span>, <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>)
+  <span class='no'>sample_stddev</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(
+    <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>tf</span>$<span class='no'>math</span>$<span class='fu'>squared_difference</span>(<span class='no'>states</span>, <span class='no'>sample_mean</span>), <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>))
+<span class='co'># }</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

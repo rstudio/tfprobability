@@ -887,7 +887,7 @@ tfb_real_nvp_default_template <- function(hidden_layers,
 #' - [George Papamakarios, Theo Pavlakou, and Iain Murray. Masked Autoregressive Flow for Density Estimation. In _Neural Information Processing Systems_, 2017.](https://arxiv.org/abs/1705.07057)
 #' - [Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP. In _International Conference on Learning Representations_, 2017.](https://arxiv.org/abs/1605.08803)
 #' - [Laurent Dinh, David Krueger, and Yoshua Bengio. NICE: Non-linear Independent Components Estimation._arXiv preprint arXiv:1410.8516_,2014.](https://arxiv.org/abs/1410.8516)
-#' - [Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows. Technical Report_, 2018.](http://blog.evjang.com/2018/01/nf2.html)
+#' - [Eric Jang. Normalizing Flows Tutorial, Part 2: Modern Normalizing Flows. Technical Report_, 2018.](https://blog.evjang.com/2018/01/nf2.html)
 #'
 #' @param num_masked integer indicating that the first d units of the event
 #' should be masked. Must be in the closed interval `[1, D-1]`, where D
@@ -1980,7 +1980,7 @@ tfb_fill_scale_tri_l <- function(diag_bijector = NULL,
 #' For more details on FFJORD and continous normalizing flows see Chen et al. (2018), Grathwol et al. (2018).
 #' @section References:
 #'   -  Chen, T. Q., Rubanova, Y., Bettencourt, J., & Duvenaud, D. K. (2018). Neural ordinary differential equations. In Advances in neural information processing systems (pp. 6571-6583)
-#'   -  [Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., & Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.](http://arxiv.org/abs/1810.01367)
+#'   -  [Grathwohl, W., Chen, R. T., Betterncourt, J., Sutskever, I., & Duvenaud, D. (2018). Ffjord: Free-form continuous dynamics for scalable reversible generative models. arXiv preprint arXiv:1810.01367.](https://arxiv.org/abs/1810.01367)
 #'
 #' @param state_time_derivative_fn  `function` taking arguments `time`
 #' (a scalar representing time) and `state` (a Tensor representing the
