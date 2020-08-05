@@ -1865,10 +1865,18 @@ tfb_scale <- function(scale = NULL,
                       log_scale = NULL,
                       validate_args = FALSE,
                       name = 'scale') {
-  tfp$bijectors$Scale(scale = scale,
-                      log_scale = log_scale,
-                      validate_args = validate_args,
-                      name = name)
+
+  if (tfp_version() > "0.10") {
+    tfp$bijectors$Scale(scale = scale,
+                        log_scale = log_scale,
+                        validate_args = validate_args,
+                        name = name)
+  } else {
+    tfp$bijectors$Scale(scale = scale,
+                        validate_args = validate_args,
+                        name = name)
+  }
+
 }
 
 #' Transforms unconstrained vectors to TriL matrices with positive diagonal
