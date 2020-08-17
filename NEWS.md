@@ -1,4 +1,4 @@
-## 0.11.0.0 (gh)
+## 0.11.0.0 (CRAN)
 
 - new distributions:
   - tfd_joint_distribution_sequential_auto_batched
