@@ -8,14 +8,14 @@ knitr::opts_chunk$set(
 ## -----------------------------------------------------------------------------
 #  library(tensorflow)
 #  library(tfprobability)
-#  
+#
 #  library(tidyverse)
 #  library(zeallot)
-#  
+#
 #  # As the data does not seem to be available at the address given in Petris et al. any more,
 #  # we put it on the TensorFlow for R blog for download
 #  # download from:
-#  # https://github.com/rstudio/tensorflow-blog/blob/master/docs/posts/2019-06-25-dynamic_linear_models_tfprobability/data/capm.txt
+#  # https://github.com/rstudio/ai-blog/tree/master/_posts/2019-06-25-dynamic_linear_models_tfprobability/data/capm.txt
 #  df <- read_table(
 #    "capm.txt",
 #    col_types = list(X1 = col_date(format = "%Y.%m"))) %>%
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(
 #  ibm <- df$IBM - df$RKFREE
 #  # market excess returns
 #  x <- df$MARKET - df$RKFREE
-#  
+#
 #  fit <- lm(ibm ~ x)
 #  summary(fit)
 
@@ -37,7 +37,7 @@ knitr::opts_chunk$set(
 #  # forecast 12 months
 #  n_forecast_steps <- 12
 #  ts_train <- ts[1:(length(ts) - n_forecast_steps), 1, drop = FALSE]
-#  
+#
 #  # make sure we work with float32 here
 #  ts_train <- tf$cast(ts_train, tf$float32)
 #  ts <- tf$cast(ts, tf$float32)
@@ -58,16 +58,16 @@ knitr::opts_chunk$set(
 #             n_param_samples,
 #             n_forecast_steps,
 #             n_forecast_samples) {
-#  
+#
 #      optimizer <- tf$compat$v1$train$AdamOptimizer(0.1)
-#  
+#
 #      loss_and_dists <-
 #        ts_train %>% sts_build_factored_variational_loss(model = model)
 #      variational_loss <- loss_and_dists[[1]]
 #      train_op <- optimizer$minimize(variational_loss)
-#  
+#
 #      with (tf$Session() %as% sess,  {
-#  
+#
 #        # step 1: train the model using variational inference
 #        sess$run(tf$compat$v1$global_variables_initializer())
 #        for (step in 1:n_iterations) {
@@ -88,17 +88,17 @@ knitr::opts_chunk$set(
 #          ts_train %>% sts_forecast(model, posterior_samples, n_forecast_steps)
 #        fc_means <- forecast_dists %>% tfd_mean()
 #        fc_sds <- forecast_dists %>% tfd_stddev()
-#  
+#
 #        # step 3: obtain smoothed and filtered estimates from the Kálmán filter
 #        ssm <- model$make_state_space_model(length(ts_train), param_vals = posterior_samples)
 #        c(smoothed_means, smoothed_covs) %<-% ssm$posterior_marginals(ts_train)
 #        c(., filtered_means, filtered_covs, ., ., ., .) %<-% ssm$forward_filter(ts_train)
-#  
+#
 #        c(posterior_samples, fc_means, fc_sds, smoothed_means, smoothed_covs, filtered_means, filtered_covs) %<-%
 #          sess$run(list(posterior_samples, fc_means, fc_sds, smoothed_means, smoothed_covs, filtered_means, filtered_covs))
-#  
+#
 #      })
-#  
+#
 #      list(
 #        variational_distributions,
 #        posterior_samples,
@@ -118,7 +118,7 @@ knitr::opts_chunk$set(
 #  n_param_samples <- 50
 #  # sample size to draw from the forecast distribution
 #  n_forecast_samples <- 50
-#  
+#
 #  # call fit_vi defined above
 #  c(
 #    param_distributions,
@@ -138,21 +138,21 @@ knitr::opts_chunk$set(
 #    n_forecast_steps,
 #    n_forecast_samples
 #  )
-#  
+#
 
 ## -----------------------------------------------------------------------------
 #  smoothed_means_intercept <- smoothed_means[, , 1] %>% colMeans()
 #  smoothed_means_slope <- smoothed_means[, , 2] %>% colMeans()
-#  
+#
 #  smoothed_sds_intercept <- smoothed_covs[, , 1, 1] %>% colMeans() %>% sqrt()
 #  smoothed_sds_slope <- smoothed_covs[, , 2, 2] %>% colMeans() %>% sqrt()
-#  
+#
 #  filtered_means_intercept <- filtered_means[, , 1] %>% colMeans()
 #  filtered_means_slope <- filtered_means[, , 2] %>% colMeans()
-#  
+#
 #  filtered_sds_intercept <- filtered_covs[, , 1, 1] %>% colMeans() %>% sqrt()
 #  filtered_sds_slope <- filtered_covs[, , 2, 2] %>% colMeans() %>% sqrt()
-#  
+#
 #  forecast_df <- df %>%
 #    select(month, IBM) %>%
 #    add_column(pred_mean = c(rep(NA, length(ts_train)), fc_means)) %>%
@@ -165,7 +165,7 @@ knitr::opts_chunk$set(
 #    add_column(filtered_means_slope = c(filtered_means_slope, rep(NA, n_forecast_steps))) %>%
 #    add_column(filtered_sds_intercept = c(filtered_sds_intercept, rep(NA, n_forecast_steps))) %>%
 #    add_column(filtered_sds_slope = c(filtered_sds_slope, rep(NA, n_forecast_steps)))
-#  
+#
 
 ## -----------------------------------------------------------------------------
 #  ggplot(forecast_df, aes(x = month, y = IBM)) +
@@ -204,7 +204,7 @@ knitr::include_graphics("images/capm_forecast.png")
 #    ) +
 #    coord_cartesian(xlim = c(forecast_df$month[1], forecast_df$month[length(ts) - n_forecast_steps]))  +
 #    theme(axis.title = element_blank())
-#  
+#
 
 ## ---- eval=TRUE, echo=FALSE, layout="l-body-outset", fig.cap = "Smoothing estimates from the Kálmán filter. Green: coefficient for dependence on excess market returns (slope), orange: vector of ones (intercept)."----
 knitr::include_graphics("images/capm_smoothed.png")

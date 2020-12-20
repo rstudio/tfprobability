@@ -38,7 +38,7 @@ library(zeallot)
 # As the data does not seem to be available at the address given in Petris et al. any more,
 # we put it on the TensorFlow for R blog for download
 # download from:
-# https://github.com/rstudio/tensorflow-blog/blob/master/docs/posts/2019-06-25-dynamic_linear_models_tfprobability/data/capm.txt
+# https://github.com/rstudio/ai-blog/tree/master/_posts/2019-06-25-dynamic_linear_models_tfprobability/data/capm.txt
 df <- read_table(
   "capm.txt",
   col_types = list(X1 = col_date(format = "%Y.%m"))) %>%
