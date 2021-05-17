@@ -1,3 +1,12 @@
+## 0.12.0.0 (dev)
+
+- changes in distributions:
+  - remove deprecated batch_shape and event_shape in tfd_transformed_distribution
+  
+- changes in bijectors
+  - tfb_chain() takes new parameters validate_event_size and parameters
+
+
 ## 0.11.0.0 (CRAN)
 
 - new distributions:
@@ -19,7 +28,7 @@
   - tfb_shifted_gompertz_cdf
   - tfb_sinh
 
-- bijector changes:
+- changes in bijectors:
   - add log_scale argument to tfb_scale
 
 ## 0.10.0.0 (CRAN)
