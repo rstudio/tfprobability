@@ -5,6 +5,7 @@
   
 - changes in bijectors
   - tfb_chain() takes new parameters validate_event_size and parameters
+  
 
 
 ## 0.11.0.0 (CRAN)
