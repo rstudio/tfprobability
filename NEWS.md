@@ -5,6 +5,7 @@
   - remove deprecated batch_shape and event_shape in tfd_transformed_distribution
 
 - new bijectors:
+  - tfb_glow
   - tfb_rayleigh_cdf
   - tfb_ascending
 

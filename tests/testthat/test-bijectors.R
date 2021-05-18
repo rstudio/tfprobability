@@ -804,6 +804,25 @@ test_succeeds("Define an ascending bijector", {
   expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), x, tol = 1e-6)
 })
 
+test_succeeds("Define a Glow bijector", {
+  skip_if_tfp_below("0.12")
+  image_shape <- c(32, 32, 4)
+
+  glow <- tfb_glow(
+    output_shape = image_shape,
+    coupling_bijector_fn = tfp$bijectors$GlowDefaultNetwork,
+    exit_bijector_fn = tfp$bijectors$GlowDefaultExitNetwork
+  )
+
+  pz <- tfd_sample_distribution(tfd_normal(0, 1), prod(image_shape))
+  px <- glow(pz)
+  image <- px$sample(1L)
+
+  expect_equal(dim(image), c(1, 32, 32, 4))
+})
+
+
+
 
 
 

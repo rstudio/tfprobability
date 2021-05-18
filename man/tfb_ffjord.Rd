@@ -157,6 +157,7 @@ Other bijectors:
 \code{\link{tfb_exp}()},
 \code{\link{tfb_fill_scale_tri_l}()},
 \code{\link{tfb_fill_triangular}()},
+\code{\link{tfb_glow}()},
 \code{\link{tfb_gompertz_cdf}()},
 \code{\link{tfb_gumbel_cdf}()},
 \code{\link{tfb_gumbel}()},
