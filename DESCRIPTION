@@ -25,11 +25,9 @@ Imports:
     reticulate,
     keras,
     magrittr
-Depends:
-    rmarkdown
 Suggests: 
     tfdatasets,
     testthat (>= 2.1.0),
     knitr,
-    markdown
+    rmarkdown
 VignetteBuilder: knitr
