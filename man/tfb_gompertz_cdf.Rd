@@ -48,6 +48,7 @@ Other bijectors:
 \code{\link{tfb_affine_linear_operator}()},
 \code{\link{tfb_affine_scalar}()},
 \code{\link{tfb_affine}()},
+\code{\link{tfb_ascending}()},
 \code{\link{tfb_batch_normalization}()},
 \code{\link{tfb_blockwise}()},
 \code{\link{tfb_chain}()},

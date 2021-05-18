@@ -392,6 +392,7 @@ test_succeeds("Define a kumaraswamy bijector", {
 
 
 test_succeeds("Define an ordered bijector", {
+  skip_if_tfp_above("0.11")
   b <- tfb_ordered()
   x <- seq(0, 1, by = 0.1)
   y <- b %>% tfb_forward(x)
@@ -793,6 +794,14 @@ test_succeeds("Define a RayleighCDF bijector", {
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
                1 - exp(-(x/scale)^2 / 2),
                tol = 1e-6)
+})
+
+test_succeeds("Define an ascending bijector", {
+  skip_if_tfp_below("0.12")
+  b <- tfb_ascending()
+  y <- c(2, 3, 4)
+  x <- c(2, 0, 0)
+  expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), x, tol = 1e-6)
 })
 
 

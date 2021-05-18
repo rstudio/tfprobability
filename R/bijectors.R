@@ -2260,6 +2260,24 @@ tfb_rayleigh_cdf <- function(scale,
 }
 
 
+#' Maps unconstrained R^n to R^n in ascending order.
+#'
+#' Both the domain and the codomain of the mapping is `[-inf, inf]^n`, however,
+#' the input of the inverse mapping must be strictly increasing.
+#' On the last dimension of the tensor, the Ascending bijector performs:
+#' `y = tf$cumsum([x[0], tf$exp(x[1]), tf$exp(x[2]), ..., tf$exp(x[-1])])`
+#'
+#' @inherit tfb_identity return params
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_ascending <- function(validate_args = FALSE,
+                          name = "ascending") {
+  args <- list(validate_args = validate_args,
+               name = name)
+
+  do.call(tfp$bijectors$Ascending, args)
+}
 
 
 
