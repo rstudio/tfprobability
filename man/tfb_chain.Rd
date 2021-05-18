@@ -4,13 +4,33 @@
 \alias{tfb_chain}
 \title{Bijector which applies a sequence of bijectors}
 \usage{
-tfb_chain(bijectors = NULL, validate_args = FALSE, name = NULL)
+tfb_chain(
+  bijectors = NULL,
+  validate_args = FALSE,
+  validate_event_size = TRUE,
+  parameters = NULL,
+  name = NULL
+)
 }
 \arguments{
 \item{bijectors}{list of bijector instances. An empty list makes this
 bijector equivalent to the Identity bijector.}
 
 \item{validate_args}{Logical indicating whether arguments should be checked for correctness.}
+
+\item{validate_event_size}{Checks that bijectors are not applied to inputs with
+incomplete support (that is, inputs where one or more elements are a
+deterministic transformation of the others). For example, the following
+LDJ would be incorrect:
+\code{tfb_chain(list(tfb_scale(), tfb_softmax_centered()))$forward_log_det_jacobian(matrix(1:2, ncol = 2))}
+The jacobian contribution from \code{tfb_scale()} applies to a 2-dimensional input,
+but the output from \code{tfb_softmax_centered()} is a 1-dimensional input embedded
+in a 2-dimensional space. Setting \code{validate_event_size=TRUE} (default)
+prints warnings in these cases. When \code{validate_args} is also \code{TRUE}, the
+warning is promoted to an exception.}
+
+\item{parameters}{Locals dict captured by subclass constructor, to be used for
+copy/slice re-instantiation operators.}
 
 \item{name}{String, name given to ops managed by this object. Default:
 E.g., \code{tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"}.}

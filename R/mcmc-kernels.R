@@ -701,7 +701,7 @@ mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
 #'
 #'  # bijector to map contrained parameters to real
 #'  unconstraining_bijectors <- list(
-#'    tfb_identity(), tfb_identity(), tfb_identity(), tfb_exp())
+#'    tfb_identity(), tfb_identity(), tfb_exp())
 #'
 #'  trace_fn <- function(x, pkr) {
 #'    list(pkr$inner_results$inner_results$step_size,
