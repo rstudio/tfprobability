@@ -371,6 +371,8 @@ test_succeeds("layer_variational_gaussian_process works", {
     )
   )
 
+  KernelFn$`__module__` <- "KernelFn"
+
   model <- keras_model_sequential() %>%
     layer_dense(units = 10) %>%
     layer_variational_gaussian_process(
