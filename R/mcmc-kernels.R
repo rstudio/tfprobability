@@ -68,10 +68,13 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
     num_leapfrog_steps = as.integer(num_leapfrog_steps),
     state_gradients_are_stopped = state_gradients_are_stopped,
     step_size_update_fn = step_size_update_fn,
-    seed = seed,
     store_parameters_in_results = store_parameters_in_results,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
 
   do.call(tfp$mcmc$HamiltonianMonteCarlo, args)
 }
@@ -99,10 +102,13 @@ mcmc_uncalibrated_hamiltonian_monte_carlo <-
       step_size = step_size,
       num_leapfrog_steps = as.integer(num_leapfrog_steps),
       state_gradients_are_stopped = state_gradients_are_stopped,
-      seed = seed,
       store_parameters_in_results = store_parameters_in_results,
       name = name
     )
+
+    if (tfp_version() < "0.12") {
+      args$seed = seed
+    }
 
     do.call(tfp$mcmc$UncalibratedHamiltonianMonteCarlo, args)
   }
@@ -336,8 +342,11 @@ mcmc_metropolis_hastings <- function(inner_kernel,
                                      seed = NULL,
                                      name = NULL) {
   args <- list(inner_kernel = inner_kernel,
-               seed = seed,
                name = name)
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
 
   do.call(tfp$mcmc$MetropolisHastings, args)
 }
@@ -383,9 +392,12 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
   args <- list(
     target_log_prob_fn = target_log_prob_fn,
     new_state_fn = new_state_fn,
-    seed = seed,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
 
   do.call(tfp$mcmc$RandomWalkMetropolis, args)
 }
@@ -689,7 +701,7 @@ mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
 #'
 #'  # bijector to map contrained parameters to real
 #'  unconstraining_bijectors <- list(
-#'    tfb_identity(), tfb_identity(), tfb_identity(), tfb_exp())
+#'    tfb_identity(), tfb_identity(), tfb_exp())
 #'
 #'  trace_fn <- function(x, pkr) {
 #'    list(pkr$inner_results$inner_results$step_size,
@@ -734,9 +746,12 @@ mcmc_no_u_turn_sampler <- function(target_log_prob_fn,
     max_tree_depth = as.integer(max_tree_depth),
     max_energy_diff = max_energy_diff,
     unrolled_leapfrog_steps = as.integer(unrolled_leapfrog_steps),
-    seed = seed,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
 
   do.call(tfp$mcmc$NoUTurnSampler, args)
 }
@@ -785,9 +800,12 @@ mcmc_uncalibrated_langevin <- function(target_log_prob_fn,
     volatility_fn = volatility_fn,
     parallel_iterations = as.integer(parallel_iterations),
     compute_acceptance = compute_acceptance,
-    seed = seed,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
 
   do.call(tfp$mcmc$UncalibratedLangevin, args)
 }
@@ -831,9 +849,11 @@ mcmc_metropolis_adjusted_langevin_algorithm <-
       step_size = step_size,
       volatility_fn = volatility_fn,
       parallel_iterations = as.integer(parallel_iterations),
-      seed = seed,
       name = name
     )
+    if (tfp_version() < "0.12") {
+      args$seed = seed
+    }
     do.call(tfp$mcmc$MetropolisAdjustedLangevinAlgorithm, args)
   }
 
@@ -896,9 +916,12 @@ mcmc_replica_exchange_mc <- function(target_log_prob_fn,
     inverse_temperatures = inverse_temperatures,
     make_kernel_fn = make_kernel_fn,
     swap_proposal_fn = swap_proposal_fn,
-    seed = seed,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
 
   if (tfp_version() > "0.11") args$state_includes_replicas = state_includes_replicas
 
@@ -962,9 +985,13 @@ mcmc_slice_sampler <- function(target_log_prob_fn,
     target_log_prob_fn = target_log_prob_fn,
     step_size = step_size,
     max_doublings = as.integer(max_doublings),
-    seed = seed,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
+
   do.call(tfp$mcmc$SliceSampler, args)
 }
 
@@ -985,9 +1012,12 @@ mcmc_uncalibrated_random_walk <- function(target_log_prob_fn,
   args <- list(
     target_log_prob_fn = target_log_prob_fn,
     new_state_fn = new_state_fn,
-    seed = seed,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$seed = seed
+  }
 
   do.call(tfp$mcmc$UncalibratedRandomWalk, args)
 }

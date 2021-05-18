@@ -5,7 +5,7 @@
 \alias{tfp}
 \title{Handle to the \code{tensorflow_probability} module}
 \format{
-An object of class \code{python.builtin.module} (inherits from \code{python.builtin.object}) of length 5.
+An object of class \code{python.builtin.module} (inherits from \code{python.builtin.object}) of length 6.
 }
 \usage{
 tfp

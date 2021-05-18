@@ -450,13 +450,16 @@ tfd_transformed_distribution <- function(distribution,
   args <- list(
     distribution = distribution,
     bijector = bijector,
-    batch_shape = normalize_shape(batch_shape),
-    event_shape = normalize_shape(event_shape),
     kwargs_split_fn = kwargs_split_fn,
     validate_args = validate_args,
     parameters = parameters,
     name = name
   )
+
+  if (tfp_version() < "0.12") {
+    args$batch_shape <- normalize_shape(batch_shape)
+    args$event_shape <- normalize_shape(event_shape)
+  }
 
   do.call(tfp$distributions$TransformedDistribution, args)
 }

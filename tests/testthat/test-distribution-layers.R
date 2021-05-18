@@ -140,6 +140,7 @@ test_succeeds("can use layer_one_hot_categorical in a keras model", {
 
   d <- 3
   n <- 7L
+
   model <- keras_model_sequential(
     list(
       layer_dense(units = params_size_one_hot_categorical(d) - 1, input_shape = n),
@@ -147,7 +148,15 @@ test_succeeds("can use layer_one_hot_categorical in a keras model", {
       layer_one_hot_categorical(event_size = d)
     )
   )
-  expect_equal(model$output_shape[[2]], d)
+
+  # removed check in 0.12 because model$output_shape does not exist anymore
+  # see https://github.com/tensorflow/probability/issues/1200
+  # Message: AttributeError: 'UserRegisteredSpec' object has no attribute '_shape'
+  # expect_equal(model$output_shape[[2]], d)
+
+  m <- matrix(1:14, ncol = n)
+  res <- model(m)
+  expect_equal(res$event_shape[[1]], d)
 
 })
 
@@ -180,7 +189,15 @@ test_succeeds("can use layer_independent_poisson in a keras model", {
       layer_independent_poisson(event_shape = d)
     )
   )
-  expect_equal(model$output_shape[[2]], d)
+
+  # removed check in 0.12 because model$output_shape does not exist anymore
+  # see https://github.com/tensorflow/probability/issues/1200
+  # Message: AttributeError: 'UserRegisteredSpec' object has no attribute '_shape'
+  # expect_equal(model$output_shape[[2]], d)
+
+  m <- matrix(1:14, ncol = n)
+  res <- model(m)
+  expect_equal(res$event_shape[[1]], d)
 
 })
 
@@ -188,20 +205,25 @@ test_succeeds("can use layer_independent_logistic in a keras model", {
 
   library(keras)
 
-  input_shape <- c(28, 28, 1)
+  input_shape <- c(28L, 28L, 1L)
   encoded_shape <- 2
   n <- 3
 
-  model <- keras_model_sequential(
-    list(
-      layer_input(shape = input_shape),
-      layer_flatten(),
-      layer_dense(units = n),
-      layer_dense(units = params_size_independent_logistic(encoded_shape)),
+  model <- keras_model_sequential() %>%
+      layer_flatten(input_shape = input_shape) %>%
+      layer_dense(units = n) %>%
+      layer_dense(units = params_size_independent_logistic(encoded_shape)) %>%
       layer_independent_logistic(event_shape = encoded_shape)
-    )
-  )
-  expect_equal(model$output_shape[[2]], encoded_shape)
+
+  # removed check in 0.12 because model$output_shape does not exist anymore
+  # see https://github.com/tensorflow/probability/issues/1200
+  # Message: AttributeError: 'UserRegisteredSpec' object has no attribute '_shape'
+  # expect_equal(model$output_shape[[2]], encoded_shape)
+
+  a <- array(28 * 28, dim = c(1L, input_shape))
+  res <- model(a)
+  expect_equal(res$event_shape[[1]], encoded_shape)
+
 
 })
 
@@ -213,16 +235,20 @@ test_succeeds("can use layer_independent_normal in a keras model", {
   encoded_shape <- 2
   n <- 2
 
-  model <- keras_model_sequential(
-    list(
-      layer_input(shape = input_shape),
-      layer_flatten(),
-      layer_dense(units = n),
-      layer_dense(units = params_size_independent_normal(encoded_shape)),
-      layer_independent_normal(event_shape = encoded_shape)
-    )
-  )
-  expect_equal(model$output_shape[[2]], encoded_shape)
+  model <- keras_model_sequential() %>%
+    layer_flatten(input_shape = input_shape) %>%
+    layer_dense(units = n) %>%
+    layer_dense(units = params_size_independent_normal(encoded_shape)) %>%
+    layer_independent_normal(event_shape = encoded_shape)
+
+  # removed check in 0.12 because model$output_shape does not exist anymore
+  # see https://github.com/tensorflow/probability/issues/1200
+  # Message: AttributeError: 'UserRegisteredSpec' object has no attribute '_shape'
+  # expect_equal(model$output_shape[[2]], encoded_shape)
+
+  a <- array(28 * 28, dim = c(1L, input_shape))
+  res <- model(a)
+  expect_equal(res$event_shape[[1]], encoded_shape)
 
 })
 
@@ -243,7 +269,15 @@ test_succeeds("can use layer_mixture_same_family in a keras model", {
       component_layer = layer_independent_normal(event_shape = event_shape)
     )
   ))
-  expect_equal(model$output_shape[[2]], event_shape)
+
+  # removed check in 0.12 because model$output_shape does not exist anymore
+  # see https://github.com/tensorflow/probability/issues/1200
+  # Message: AttributeError: 'UserRegisteredSpec' object has no attribute '_shape'
+  # expect_equal(model$output_shape[[2]], event_shape)
+
+  m <- matrix(1:4, ncol = 2)
+  res <- model(m)
+  expect_equal(res$event_shape[[1]], event_shape)
 
 })
 
@@ -262,7 +296,15 @@ test_succeeds("can use layer_mixture_normal in a keras model", {
       num_components = num_components,
       event_shape = event_shape)
   ))
-  expect_equal(model$output_shape[[2]], event_shape)
+
+  # removed check in 0.12 because model$output_shape does not exist anymore
+  # see https://github.com/tensorflow/probability/issues/1200
+  # Message: AttributeError: 'UserRegisteredSpec' object has no attribute '_shape'
+  # expect_equal(model$output_shape[[2]], event_shape)
+
+  m <- matrix(1:4, ncol = 2)
+  res <- model(m)
+  expect_equal(res$event_shape[[1]], event_shape)
 })
 
 test_succeeds("can use layer_mixture_logistic in a keras model", {
@@ -280,7 +322,15 @@ test_succeeds("can use layer_mixture_logistic in a keras model", {
       num_components = num_components,
       event_shape = event_shape)
   ))
-  expect_equal(model$output_shape[[2]], event_shape)
+
+  # removed check in 0.12 because model$output_shape does not exist anymore
+  # see https://github.com/tensorflow/probability/issues/1200
+  # Message: AttributeError: 'UserRegisteredSpec' object has no attribute '_shape'
+  # expect_equal(model$output_shape[[2]], encoded_shape)
+
+  m <- matrix(1:4, ncol = 2)
+  res <- model(m)
+  expect_equal(res$event_shape[[1]], event_shape)
 })
 
 test_succeeds("layer_variational_gaussian_process works", {
@@ -320,6 +370,8 @@ test_succeeds("layer_variational_gaussian_process works", {
       )
     )
   )
+
+  KernelFn$`__module__` <- "KernelFn"
 
   model <- keras_model_sequential() %>%
     layer_dense(units = 10) %>%

@@ -365,7 +365,6 @@ test_succeeds("mcmc_no_u_turn_sampler works", {
     # bijector to map contrained parameters to real
     unconstraining_bijectors <- list(tfb_identity(),
                                      tfb_identity(),
-                                     tfb_identity(),
                                      tfb_exp())
 
     trace_fn <- function(x, pkr) {

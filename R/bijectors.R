@@ -280,6 +280,18 @@ tfb_blockwise <- function(bijectors,
 #' @param bijectors list of bijector instances. An empty list makes this
 #' bijector equivalent to the Identity bijector.
 #' @param validate_args Logical indicating whether arguments should be checked for correctness.
+#' @param validate_event_size Checks that bijectors are not applied to inputs with
+#' incomplete support (that is, inputs where one or more elements are a
+#' deterministic transformation of the others). For example, the following
+#' LDJ would be incorrect:
+#' `tfb_chain(list(tfb_scale(), tfb_softmax_centered()))$forward_log_det_jacobian(matrix(1:2, ncol = 2))`
+#' The jacobian contribution from `tfb_scale()` applies to a 2-dimensional input,
+#' but the output from `tfb_softmax_centered()` is a 1-dimensional input embedded
+#' in a 2-dimensional space. Setting `validate_event_size=TRUE` (default)
+#' prints warnings in these cases. When `validate_args` is also `TRUE`, the
+#' warning is promoted to an exception.
+#' @param parameters Locals dict captured by subclass constructor, to be used for
+#' copy/slice re-instantiation operators.
 #' @param name String, name given to ops managed by this object. Default:
 #' E.g., `tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_softplus"`.
 #' @inherit tfb_identity return
@@ -288,10 +300,17 @@ tfb_blockwise <- function(bijectors,
 #' @export
 tfb_chain <- function(bijectors = NULL,
                       validate_args = FALSE,
+                      validate_event_size = TRUE,
+                      parameters = NULL,
                       name = NULL) {
   args <- list(bijectors = bijectors,
                validate_args = validate_args,
                name = name)
+
+  if (tfp_version() >= "0.12") {
+    args$validate_event_size <- validate_event_size
+    args$parameters <- parameters
+  }
   do.call(tfp$bijectors$Chain, args)
 }
 

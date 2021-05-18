@@ -1062,8 +1062,8 @@ test_succeeds("PixelCNN distribution works", {
   log_prob <- dist %>% tfd_log_prob(image_input, conditional_input = label_input)
 
   model <- keras_model(inputs = list(image_input, label_input), outputs = log_prob)
-  model$add_loss(-tf$reduce_mean(log_prob))
-  model$compile(optimizer=optimizer_adam(lr = .001))
+  model$add_loss(tf$negative(tf$reduce_mean(log_prob)))
+  model$compile(optimizer = optimizer_adam(lr = .001))
 
   model %>% fit(train_ds, epochs = 1)
 

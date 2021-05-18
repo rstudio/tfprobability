@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ['windows-latest', 'macOS-latest', 'ubuntu-16.04']
-        tfp: ['0.9', '0.10', '0.11', 'nightly']
+        tfp: ['0.9', '0.10', '0.11', '0.12', 'nightly']
         include:
           - os: ubuntu-16.04
             cran: https://demo.rstudiopm.com/all/__linux__/xenial/latest
@@ -25,6 +25,8 @@ jobs:
             tf: '2.2.0'
           - tfp: '0.11'
             tf: '2.3.0'
+          - tfp: '0.12'
+            tf: '2.4.0'
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} (TFP ${{ matrix.tfp }}, TF ${{matrix.tf}})
     env:
