@@ -2313,6 +2313,7 @@ tfb_ascending <- function(validate_args = FALSE,
 #' which is given to the `RealNVP`. This function returns a bijector which
 #' defines the coupling (e.g. `Shift(Scale)` for affine coupling or `Shift` for
 #' additive coupling).
+#'
 #' A "Squeeze" converts spatial features into channel features. It is
 #' implemented using the `Expand` bijector. The difference in names is
 #' due to the fact that the `forward` function from glow is meant to ultimately
@@ -2323,14 +2324,14 @@ tfb_ascending <- function(validate_args = FALSE,
 #' from a single 1x1x4 tile in the input tensor, as depicted in the figure below.
 #'
 #' Forward pass (Expand)
-#'
-#' ______        __________
+#' ```
 #' \     \       \    \    \
 #' \\     \ ----> \  1 \  2 \
 #' \\\__1__\       \____\____\
 #' \\\__2__\        \    \    \
 #' \\__3__\  <----  \  3 \  4 \
 #' \__4__\          \____\____\
+#' ```
 #'
 #' Inverse pass (Squeeze)
 #' This is implemented using a chain of `Reshape` -> `Transpose` -> `Reshape`
@@ -2346,7 +2347,7 @@ tfb_ascending <- function(validate_args = FALSE,
 #' rest of the glow model, and the rest are given to a bypass implemented using
 #' the `Identity` bijector. The fraction of channels to be removed at each exit
 #' is determined by the `grab_after_block` arg, indicates the fraction of
-#' _remaining_ channels which join the identity bypass. The fraction is
+#' remaining channels which join the identity bypass. The fraction is
 #' converted to an integer number of channels by multiplying by the remaining
 #' number of channels and rounding.
 #' Additionally, at each exit, glow couples the tensor exiting the highway to
@@ -2372,7 +2373,7 @@ tfb_ascending <- function(validate_args = FALSE,
 #' bijector starts from the bottom and goes upward, while the `inverse` function
 #' starts from the top and proceeds downward.
 #'
-#' ```
+#' #' ```
 #' ==============================================================================
 #' Glow Schematic Diagram
 #' Input Image     ########################   shape = [H, W, C]
@@ -2412,8 +2413,7 @@ tfb_ascending <- function(validate_args = FALSE,
 #'                         v    v   v
 #' Output Distribution    ##########          shape = [H * W * C]
 #'
-#' _________________________
-#'|         Legend          |
+#'         Legend
 #'| XX  = Step of flow      |
 #'| X\  = Exit bijector     |
 #'| \/  = Expand bijector   |
@@ -2428,6 +2428,7 @@ tfb_ascending <- function(validate_args = FALSE,
 #' @section References:
 #' - [Diederik P Kingma, Prafulla Dhariwal, Glow: Generative Flow with Invertible 1x1 Convolutions. In _Neural Information Processing Systems_, 2018.](https://arxiv.org/abs/1807.03039)
 #' - [Laurent Dinh, Jascha Sohl-Dickstein, and Samy Bengio. Density Estimation using Real NVP. In _International Conference on Learning Representations_, 2017.](https://arxiv.org/abs/1605.08803)
+#'
 #'
 #' @param output_shape A list of integers, specifying the event shape of the
 #' output, of the bijectors forward pass (the image).  Specified as
@@ -2462,6 +2463,7 @@ tfb_ascending <- function(validate_args = FALSE,
 #' initialization is used to initialize this layer. Default value: `FALSE`
 #' @param seed A seed to control randomness in the 1x1 convolution initialization.
 #' Default value: `NULL` (i.e., non-reproducible sampling).
+#'
 #' @inherit tfb_identity return params
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].

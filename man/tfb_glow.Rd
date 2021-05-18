@@ -78,8 +78,133 @@ in the image space. In the paper, an Independent Normal distribution is used
 as the base distribution.
 }
 \details{
+A "Block" (implemented as the \code{GlowBlock} Bijector) performs much of the
+transformations which allow glow to produce sophisticated and complex mappings
+between the image space and the latent space and therefore achieve rich image
+generation performance. A Block is composed of \code{num_steps_per_block} steps,
+which are each implemented as a \code{Chain} containing an
+\code{ActivationNormalization} (ActNorm) bijector, followed by an (invertible)
+\code{OneByOneConv} bijector, and finally a coupling bijector. The coupling
+bijector is an instance of a \code{RealNVP} bijector, and uses the
+\code{coupling_bijector_fn} function to instantiate the coupling bijector function
+which is given to the \code{RealNVP}. This function returns a bijector which
+defines the coupling (e.g. \code{Shift(Scale)} for affine coupling or \code{Shift} for
+additive coupling).
 
+A "Squeeze" converts spatial features into channel features. It is
+implemented using the \code{Expand} bijector. The difference in names is
+due to the fact that the \code{forward} function from glow is meant to ultimately
+correspond to sampling from a \code{tfp$util$TransformedDistribution} object,
+which would use \code{Expand} (Squeeze is just Invert(Expand)). The \code{Expand}
+bijector takes a tensor with shape \verb{[H, W, C]} and returns a tensor with shape
+\verb{[2H, 2W, C / 4]}, such that each 2x2x1 spatial tile in the output is composed
+from a single 1x1x4 tile in the input tensor, as depicted in the figure below.
+
+Forward pass (Expand)\preformatted{\\     \\       \\    \\    \\
+\\\\     \\ ----> \\  1 \\  2 \\
+\\\\\\__1__\\       \\____\\____\\
+\\\\\\__2__\\        \\    \\    \\
+\\\\__3__\\  <----  \\  3 \\  4 \\
+\\__4__\\          \\____\\____\\
 }
+
+Inverse pass (Squeeze)
+This is implemented using a chain of \code{Reshape} -> \code{Transpose} -> \code{Reshape}
+bijectors. Note that on an inverse pass through the bijector, each Squeeze
+will cause the width/height of the image to decrease by a factor of 2.
+Therefore, the input image must be evenly divisible by 2 at least
+\code{num_glow_blocks} times, since it will pass through a Squeeze step that many
+times.
+
+An "Exit" is simply a junction at which some of the tensor "exits" from the
+glow bijector and therefore avoids any further alteration. Each exit is
+implemented as a \code{Blockwise} bijector, where some channels are given to the
+rest of the glow model, and the rest are given to a bypass implemented using
+the \code{Identity} bijector. The fraction of channels to be removed at each exit
+is determined by the \code{grab_after_block} arg, indicates the fraction of
+remaining channels which join the identity bypass. The fraction is
+converted to an integer number of channels by multiplying by the remaining
+number of channels and rounding.
+Additionally, at each exit, glow couples the tensor exiting the highway to
+the tensor continuing onward. This makes small scale features in the image
+dependent on larger scale features, since the larger scale features dictate
+the mean and scale of the distribution over the smaller scale features.
+This coupling is done similarly to the Coupling bijector in each step of the
+flow (i.e. using a RealNVP bijector). However for the exit bijector, the
+coupling is instantiated using \code{exit_bijector_fn} rather than coupling
+bijector fn, allowing for different behaviors between standard coupling and
+exit coupling. Also note that because the exit utilizes a coupling bijector,
+there are two special cases (all channels exiting and no channels exiting).
+The full Glow bijector consists of \code{num_glow_blocks} Blocks each of which
+contains \code{num_steps_per_block} steps. Each step implements a coupling using
+\code{bijector_coupling_fn}. Between blocks, glow converts between spatial pixels
+and channels using the Expand Bijector, and splits channels out of the
+bijector using the Exit Bijector. The channels which have exited continue
+onward through Identity bijectors and those which have not exited are given
+to the next block. After passing through all Blocks, the tensor is reshaped
+to a rank-1 tensor with the same number of elements. This is where the
+distribution will be defined.
+A schematic diagram of Glow is shown below. The \code{forward} function of the
+bijector starts from the bottom and goes upward, while the \code{inverse} function
+starts from the top and proceeds downward.
+}
+\section{#' ```}{
+Glow Schematic Diagram
+Input Image     ########################   shape = [H, W, C]
+\                      /<- Expand Bijector turns spatial
+\                    /    dimensions into channels.
+|  XXXXXXXXXXXXXXXXXXXX
+|  XXXXXXXXXXXXXXXXXXXX
+|  XXXXXXXXXXXXXXXXXXXX     A single step of the flow consists
+Glow Block  - |  XXXXXXXXXXXXXXXXXXXX  <- of ActNorm -> 1x1Conv -> Coupling.
+|  XXXXXXXXXXXXXXXXXXXX     there are num_steps_per_block
+|  XXXXXXXXXXXXXXXXXXXX     steps of the flow in each block.
+|_ XXXXXXXXXXXXXXXXXXXX
+\                  / <-- Expand bijectors follow each glow
+\                /      block
+XXXXXXXX\\\\\\\\   <-- Exit Bijector removes channels
+_                    _     from additional alteration.
+|    XXXXXXXX !  |  !
+|    XXXXXXXX !  |  !
+|    XXXXXXXX !  |  !       After exiting, channels are passed
+Glow Block  - |    XXXXXXXX !  |  !  <--- downward using the Blockwise and
+|    XXXXXXXX !  |  !       Identify bijectors.
+|    XXXXXXXX !  |  !
+|_   XXXXXXXX !  |  !
+\              / <---- Expand Bijector
+\            /
+XXX\\\    | !  <---- Exit Bijector
+_
+|      XXX ! |   | !
+|      XXX ! |   | !
+|      XXX ! |   | !
+low Block  - |      XXX ! |   | !
+|      XXX ! |   | !
+|      XXX ! |   | !
+|_     XXX ! |   | !
+XX\ ! |   | ! <----- (Optional) Exit Bijector
+|    |   |
+v    v   v
+Output Distribution    ##########          shape = [H * W * C]\preformatted{    Legend
+}
+}
+
+\section{| XX  = Step of flow      |
+| X\  = Exit bijector     |
+| \/  = Expand bijector   |
+| !|! = Identity bijector |
+|                         |
+| up  = Forward pass      |
+| dn  = Inverse pass      |
+|_________________________|}{
+\preformatted{
+[H, W, C]: R:H,\%20W,\%20C
+[2H, 2W, C / 4]: R:2H,\%202W,\%20C\%20/\%204
+[H, W, C]: R:H,\%20W,\%20C
+[H * W * C]: R:H\%20*\%20W\%20*\%20C
+}
+}
+
 \section{References}{
 
 \itemize{
