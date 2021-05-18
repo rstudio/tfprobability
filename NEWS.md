@@ -9,6 +9,7 @@
   - tfb_ascending
 
 - changes in bijectors
+  - add optional low parameter to tfb_softplus.
   - tfb_chain() takes new parameters validate_event_size and parameters
   
 

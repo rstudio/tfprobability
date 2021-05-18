@@ -1265,16 +1265,27 @@ tfb_softmax_centered <- function(validate_args = FALSE,
 #'
 #' @param hinge_softness Nonzero floating point Tensor.  Controls the softness of what
 #' would otherwise be a kink at the origin.  Default is 1.0.
+#' @param low Nonzero floating point tensor, lower bound on output values.
+#' Implicitly zero if `NULL`. Otherwise, the
+#' transformation `y = softplus(x) + low` is implemented. This
+#' is equivalent to a `tfb_chain(list(tfb_shift(low), tfb_softplus()))` bijector
+#' and is provided for convenience.
+#'
 #' @inherit tfb_identity return params
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
 #' @export
 tfb_softplus <- function(hinge_softness = NULL,
+                         low = NULL,
                          validate_args = FALSE,
                          name = "softplus") {
   args <- list(hinge_softness = hinge_softness,
                validate_args = validate_args,
                name = name)
+
+  if (tfp_version() > "0.11") {
+    args$low <- low
+  }
   do.call(tfp$bijectors$Softplus, args)
 }
 

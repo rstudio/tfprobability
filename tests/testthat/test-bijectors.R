@@ -410,7 +410,7 @@ test_succeeds("Define a softplus bijector", {
   expect_equivalent(rev_x %>% tensor_value(), log(exp(x) - 1), tol = 1e-6)
 })
 
-test_succeeds("Define a softplus bijector", {
+test_succeeds("Define a softsign bijector", {
   b <- tfb_softsign()
   x <- matrix(1:8, ncol = 2, byrow = TRUE)
   expect_equivalent(b %>% tfb_forward(x) %>% tensor_value(), x / (1 + abs(x)), tol = 1e-6)
