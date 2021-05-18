@@ -116,6 +116,7 @@ Other bijectors:
 \code{\link{tfb_pad}()},
 \code{\link{tfb_permute}()},
 \code{\link{tfb_power_transform}()},
+\code{\link{tfb_rayleigh_cdf}()},
 \code{\link{tfb_real_nvp_default_template}()},
 \code{\link{tfb_real_nvp}()},
 \code{\link{tfb_reciprocal}()},

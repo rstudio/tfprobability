@@ -2232,6 +2232,33 @@ tfb_sinh <- function(validate_args = FALSE,
   do.call(tfp$bijectors$Sinh, args)
 }
 
+#' Compute `Y = g(X) = 1 - exp( -(X/scale)**2 / 2 ), X >= 0`.
+#'
+#' This bijector maps inputs from `[0, inf]` to `[0, 1]`. The inverse of the
+#' bijector applied to a uniform random variable `X ~ U(0, 1)` gives back a
+#' random variable with the
+#' [Rayleigh distribution](https://en.wikipedia.org/wiki/Rayleigh_distribution):
+#' ```
+#' Y ~ Rayleigh(scale)
+#' pdf(y; scale, y >= 0) = (1 / scale) * (y / scale) * exp(-(y / scale)**2 / 2)
+#' ```
+#'
+#' Likewise, the forward of this bijector is the Rayleigh distribution CDF.
+#'
+#' @inherit tfb_identity return params
+#' @param scale  Positive floating-point tensor.
+#' This is `l` in `Y = g(X) = 1 - exp( -(X/l)**2 / 2 ), X >= 0`.
+#' @family bijectors
+#' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @export
+tfb_rayleigh_cdf <- function(scale,
+                             validate_args = FALSE,
+                             name = 'rayleigh_cdf') {
+  tfp$bijectors$RayleighCDF(scale = scale,
+                            validate_args = validate_args,
+                            name = name)
+}
+
 
 
 

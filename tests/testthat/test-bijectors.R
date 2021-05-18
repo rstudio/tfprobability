@@ -777,11 +777,25 @@ test_succeeds("Define a sinh bijector", {
   skip_if_tfp_below("0.11")
 
   b <- tfb_sinh()
-  x <- 0
+  x <- 1
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
                tf$sinh(x) %>% tensor_value(),
                tol = 1e-6)
 })
+
+test_succeeds("Define a RayleighCDF bijector", {
+
+  skip_if_tfp_below("0.12")
+
+  scale <- 0.5
+  b <- tfb_rayleigh_cdf(scale = scale)
+  x <- 0.77
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
+               1 - exp(-(x/scale)^2 / 2),
+               tol = 1e-6)
+})
+
+
 
 
 
