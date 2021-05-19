@@ -156,7 +156,7 @@ observation model, to generate the time series modeled by that component.</p></l
 
     </div>
 
-    <pre class="usage"><span class='fu'>sts_decompose_by_component</span>(<span class='no'>observed_time_series</span>, <span class='no'>model</span>, <span class='no'>parameter_samples</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_decompose_by_component</span><span class='op'>(</span><span class='va'>observed_time_series</span>, <span class='va'>model</span>, <span class='va'>parameter_samples</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,23 +205,24 @@ event shape of <code><a href='https://rdrr.io/r/base/list.html'>list(num_timeste
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>observed_time_series</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>2</span> * <span class='fl'>1</span> * <span class='fl'>12</span>), <span class='kw'>dim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>12</span>))
-<span class='no'>day_of_week</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span>(<span class='kw'>num_seasons</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"seasonal"</span>)
-<span class='no'>local_linear_trend</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"local_linear"</span>)
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span>(<span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>day_of_week</span>, <span class='no'>local_linear_trend</span>))
-<span class='no'>states_and_results</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></span>(
-    <span class='no'>model</span>,
-    <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-    <span class='kw'>num_warmup_steps</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-    <span class='kw'>num_variational_steps</span> <span class='kw'>=</span> <span class='fl'>15</span>
-    )
-<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='no'>states_and_results</span><span class='kw'>[[</span><span class='fl'>1</span>]]
+<span class='va'>observed_time_series</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/array.html'>array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>2</span> <span class='op'>*</span> <span class='fl'>1</span> <span class='op'>*</span> <span class='fl'>12</span><span class='op'>)</span>, dim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>12</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>day_of_week</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span><span class='op'>(</span>num_seasons <span class='op'>=</span> <span class='fl'>7</span>, name <span class='op'>=</span> <span class='st'>"seasonal"</span><span class='op'>)</span>
+<span class='va'>local_linear_trend</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"local_linear"</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span><span class='op'>(</span>components <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>day_of_week</span>, <span class='va'>local_linear_trend</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>states_and_results</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></span><span class='op'>(</span>
+    <span class='va'>model</span>,
+    num_results <span class='op'>=</span> <span class='fl'>10</span>,
+    num_warmup_steps <span class='op'>=</span> <span class='fl'>5</span>,
+    num_variational_steps <span class='op'>=</span> <span class='fl'>15</span>
+    <span class='op'>)</span>
+<span class='va'>samples</span> <span class='op'>&lt;-</span> <span class='va'>states_and_results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 
-<span class='no'>component_dists</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
- <span class='fu'>sts_decompose_by_component</span>(<span class='kw'>model</span> <span class='kw'>=</span> <span class='no'>model</span>, <span class='kw'>parameter_samples</span> <span class='kw'>=</span> <span class='no'>samples</span>)
-<span class='co'># }</span></div></pre>
+<span class='va'>component_dists</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span>
+ <span class='fu'>sts_decompose_by_component</span><span class='op'>(</span>model <span class='op'>=</span> <span class='va'>model</span>, parameter_samples <span class='op'>=</span> <span class='va'>samples</span><span class='op'>)</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -237,7 +238,7 @@ event shape of <code><a href='https://rdrr.io/r/base/list.html'>list(num_timeste
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

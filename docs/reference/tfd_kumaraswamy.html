@@ -142,13 +142,13 @@ parameters <code>concentration1</code> (aka "alpha") and <code>concentration0</c
 shape similar to the Beta distribution, but is easier to reparameterize.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_kumaraswamy</span>(
-  <span class='kw'>concentration1</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>concentration0</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Kumaraswamy"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_kumaraswamy</span><span class='op'>(</span>
+  concentration1 <span class='op'>=</span> <span class='fl'>1</span>,
+  concentration0 <span class='op'>=</span> <span class='fl'>1</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='st'>"Kumaraswamy"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,6 +220,8 @@ Distribution parameters are automatically broadcast in all functions.</p></li>
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
 <code><a href='tfd_empirical.html'>tfd_empirical</a>()</code>,
+<code><a href='tfd_exp_gamma.html'>tfd_exp_gamma</a>()</code>,
+<code><a href='tfd_exp_inverse_gamma.html'>tfd_exp_inverse_gamma</a>()</code>,
 <code><a href='tfd_exponential.html'>tfd_exponential</a>()</code>,
 <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a>()</code>,
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
@@ -269,6 +271,7 @@ Distribution parameters are automatically broadcast in all functions.</p></li>
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_skellam.html'>tfd_skellam</a>()</code>,
 <code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_student_t.html'>tfd_student_t</a>()</code>,
@@ -307,7 +310,7 @@ Distribution parameters are automatically broadcast in all functions.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

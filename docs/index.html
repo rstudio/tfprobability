@@ -101,14 +101,16 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install the released version of <code>tfprobability</code> from CRAN:</p>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tfprobability"</span>)</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tfprobability"</span><span class="op">)</span></code></pre></div>
 <p>To install <code>tfprobability</code> from github, do</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"rstudio/tfprobability"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"rstudio/tfprobability"</span>)</span></code></pre></div>
 <p>Then, use the <code><a href="reference/install_tfprobability.html">install_tfprobability()</a></code> function to install TensorFlow and TensorFlow Probability python modules.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tfprobability</span>)
-<span class="fu"><a href="reference/install_tfprobability.html">install_tfprobability</a></span>()</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tfprobability">tfprobability</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/install_tfprobability.html">install_tfprobability</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>you will automatically get the current stable version of TensorFlow Probability together with TensorFlow. Correspondingly, if you need nightly builds,</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">install_tfprobability</span>(<span class="dt">version =</span> <span class="st">"nightly"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install_tfprobability</span>(<span class="at">version =</span> <span class="st">"nightly"</span>)</span></code></pre></div>
 <p>will get you the nightly build of TensorFlow as well as TensorFlow Probability.</p>
 </div>
 <div id="usage" class="section level2">
@@ -123,9 +125,10 @@
 </ul>
 <p>are described in the vignettes/articles and/or featured on the <a href="https://blogs.rstudio.com/ai/">TensorFlow for R blog</a>.</p>
 <p>This introductory text illustrates the lower-level building blocks: distributions, bijectors, and probabilistic <code>keras</code> layers.</p>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tfprobability</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tensorflow</span>)
-<span class="no">tf</span>$<span class="no">compat</span>$<span class="no">v2</span>$<span class="fu">enable_v2_behavior</span>()</pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tfprobability">tfprobability</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tensorflow">tensorflow</a></span><span class="op">)</span>
+<span class="va">tf</span><span class="op">$</span><span class="va">compat</span><span class="op">$</span><span class="va">v2</span><span class="op">$</span><span class="fu">enable_v2_behavior</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div id="distributions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distributions" class="anchor"></a>Distributions</h3>
@@ -133,47 +136,49 @@
 <div id="example-binomial-distribution" class="section level4">
 <h4 class="hasAnchor">
 <a href="#example-binomial-distribution" class="anchor"></a>Example: Binomial distribution</h4>
-<div class="sourceCode" id="cb6"><pre class="r"><span class="co"># create a binomial distribution with n = 7 and p = 0.3</span>
-<span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_binomial.html">tfd_binomial</a></span>(<span class="kw">total_count</span> <span class="kw">=</span> <span class="fl">7</span>, <span class="kw">probs</span> <span class="kw">=</span> <span class="fl">0.3</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># create a binomial distribution with n = 7 and p = 0.3</span>
+<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tfd_binomial.html">tfd_binomial</a></span><span class="op">(</span>total_count <span class="op">=</span> <span class="fl">7</span>, probs <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span>
 
 <span class="co"># compute mean</span>
-<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_mean.html">tfd_mean</a></span>()
+<span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfd_mean.html">tfd_mean</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># compute variance</span>
-<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_variance.html">tfd_variance</a></span>()
+<span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfd_variance.html">tfd_variance</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># compute probability</span>
-<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_prob.html">tfd_prob</a></span>(<span class="fl">2.3</span>)</pre></div>
+<span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfd_prob.html">tfd_prob</a></span><span class="op">(</span><span class="fl">2.3</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example-hidden-markov-model" class="section level4">
 <h4 class="hasAnchor">
 <a href="#example-hidden-markov-model" class="anchor"></a>Example: Hidden Markov Model</h4>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="co"># Represent a cold day with 0 and a hot day with 1.</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Represent a cold day with 0 and a hot day with 1.</span>
 <span class="co"># Suppose the first day of a sequence has a 0.8 chance of being cold.</span>
 <span class="co"># We can model this using the categorical distribution:</span>
-<span class="no">initial_distribution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(<span class="kw">probs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>))
+<span class="va">initial_distribution</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tfd_categorical.html">tfd_categorical</a></span><span class="op">(</span>probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.8</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># Suppose a cold day has a 30% chance of being followed by a hot day</span>
 <span class="co"># and a hot day has a 20% chance of being followed by a cold day.</span>
 <span class="co"># We can model this as:</span>
-<span class="no">transition_distribution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_categorical.html">tfd_categorical</a></span>(
-  <span class="kw">probs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.7</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.8</span>), <span class="kw">nrow</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">byrow</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
-    <span class="no">tf</span>$<span class="fu">cast</span>(<span class="no">tf</span>$<span class="no">float32</span>)
-)
+<span class="va">transition_distribution</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tfd_categorical.html">tfd_categorical</a></span><span class="op">(</span>
+  probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="fl">0.3</span>, <span class="fl">0.2</span>, <span class="fl">0.8</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="va">tf</span><span class="op">$</span><span class="fu">cast</span><span class="op">(</span><span class="va">tf</span><span class="op">$</span><span class="va">float32</span><span class="op">)</span>
+<span class="op">)</span>
 <span class="co"># Suppose additionally that on each day the temperature is</span>
 <span class="co"># normally distributed with mean and standard deviation 0 and 5 on</span>
 <span class="co"># a cold day and mean and standard deviation 15 and 10 on a hot day.</span>
 <span class="co"># We can model this with:</span>
-<span class="no">observation_distribution</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">15</span>), <span class="kw">scale</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>, <span class="fl">10</span>))
+<span class="va">observation_distribution</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tfd_normal.html">tfd_normal</a></span><span class="op">(</span>loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">15</span><span class="op">)</span>, scale <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># We can combine these distributions into a single week long</span>
 <span class="co"># hidden Markov model with:</span>
-<span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfd_hidden_markov_model.html">tfd_hidden_markov_model</a></span>(
-  <span class="kw">initial_distribution</span> <span class="kw">=</span> <span class="no">initial_distribution</span>,
-  <span class="kw">transition_distribution</span> <span class="kw">=</span> <span class="no">transition_distribution</span>,
-  <span class="kw">observation_distribution</span> <span class="kw">=</span> <span class="no">observation_distribution</span>,
-  <span class="kw">num_steps</span> <span class="kw">=</span> <span class="fl">7</span>
-)
+<span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tfd_hidden_markov_model.html">tfd_hidden_markov_model</a></span><span class="op">(</span>
+  initial_distribution <span class="op">=</span> <span class="va">initial_distribution</span>,
+  transition_distribution <span class="op">=</span> <span class="va">transition_distribution</span>,
+  observation_distribution <span class="op">=</span> <span class="va">observation_distribution</span>,
+  num_steps <span class="op">=</span> <span class="fl">7</span>
+<span class="op">)</span>
 <span class="co"># The expected temperatures for each day are given by:</span>
-<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_mean.html">tfd_mean</a></span>()  <span class="co"># shape [7], elements approach 9.0</span>
+<span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfd_mean.html">tfd_mean</a></span><span class="op">(</span><span class="op">)</span>  <span class="co"># shape [7], elements approach 9.0</span>
 <span class="co"># The log pdf of a week of temperature 0 is:</span>
-<span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fl">7</span>))</pre></div>
+<span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
 </div>
 </div>
 <div id="bijectors" class="section level3">
@@ -183,72 +188,75 @@
 <div id="affine-bijector" class="section level4">
 <h4 class="hasAnchor">
 <a href="#affine-bijector" class="anchor"></a>Affine bijector</h4>
-<div class="sourceCode" id="cb8"><pre class="r"><span class="co"># create an affine transformation that shifts by 3.33 and scales by 0.5</span>
-<span class="no">b</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfb_affine_scalar.html">tfb_affine_scalar</a></span>(<span class="kw">shift</span> <span class="kw">=</span> <span class="fl">3.33</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">0.5</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># create an affine transformation that shifts by 3.33 and scales by 0.5</span>
+<span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tfb_affine_scalar.html">tfb_affine_scalar</a></span><span class="op">(</span>shift <span class="op">=</span> <span class="fl">3.33</span>, scale <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
 
 <span class="co"># apply the transformation</span>
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">10000</span>)
-<span class="no">b</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfb_forward.html">tfb_forward</a></span>(<span class="no">x</span>)</pre></div>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">1000</span>, <span class="fl">10000</span><span class="op">)</span>
+<span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfb_forward.html">tfb_forward</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="discrete-cosine-transform-bijector" class="section level4">
 <h4 class="hasAnchor">
 <a href="#discrete-cosine-transform-bijector" class="anchor"></a>Discrete cosine transform bijector</h4>
-<div class="sourceCode" id="cb9"><pre class="r"><span class="co"># create a bijector to that performs the discrete cosine transform (DCT)</span>
-<span class="no">b</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform</a></span>()
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># create a bijector to that performs the discrete cosine transform (DCT)</span>
+<span class="va">b</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/tfb_discrete_cosine_transform.html">tfb_discrete_cosine_transform</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># run on sample data</span>
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="fl">3</span>))
-<span class="no">b</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfb_forward.html">tfb_forward</a></span>(<span class="no">x</span>)</pre></div>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span>
+<span class="va">b</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfb_forward.html">tfb_forward</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="keras-layers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#keras-layers" class="anchor"></a>Keras layers</h3>
 <p><code>tfprobality</code> wraps distributions in Keras layers so we can use them seemlessly in a neural network, and work with tensors as targets as usual. For example, we can use <code>layer_kl_divergence_add_loss</code> to have the network take care of the KL loss automatically, and train a variational autoencoder with just negative log likelihood only, like this:</p>
-<div class="sourceCode" id="cb10"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">keras</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://keras.rstudio.com">keras</a></span><span class="op">)</span>
 
-<span class="no">encoded_size</span> <span class="kw">&lt;-</span> <span class="fl">2</span>
-<span class="no">input_shape</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2L</span>, <span class="fl">2L</span>, <span class="fl">1L</span>)
-<span class="no">train_size</span> <span class="kw">&lt;-</span> <span class="fl">100</span>
-<span class="no">x_train</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">train_size</span> * <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Reduce</a></span>(<span class="no">`*`</span>, <span class="no">input_shape</span>)), <span class="kw">dim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">train_size</span>, <span class="no">input_shape</span>))
+<span class="va">encoded_size</span> <span class="op">&lt;-</span> <span class="fl">2</span>
+<span class="va">input_shape</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2L</span>, <span class="fl">2L</span>, <span class="fl">1L</span><span class="op">)</span>
+<span class="va">train_size</span> <span class="op">&lt;-</span> <span class="fl">100</span>
+<span class="va">x_train</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html">array</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">train_size</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Reduce</a></span><span class="op">(</span><span class="va">`*`</span>, <span class="va">input_shape</span><span class="op">)</span><span class="op">)</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">train_size</span>, <span class="va">input_shape</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># encoder is a keras sequential model</span>
-<span class="no">encoder_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_flatten.html">layer_flatten</a></span>(<span class="kw">input_shape</span> <span class="kw">=</span> <span class="no">input_shape</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw">units</span> <span class="kw">=</span> <span class="fl">10</span>, <span class="kw">activation</span> <span class="kw">=</span> <span class="st">"relu"</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw">units</span> <span class="kw">=</span> <span class="fu"><a href="reference/params_size_multivariate_normal_tri_l.html">params_size_multivariate_normal_tri_l</a></span>(<span class="no">encoded_size</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/layer_multivariate_normal_tri_l.html">layer_multivariate_normal_tri_l</a></span>(<span class="kw">event_size</span> <span class="kw">=</span> <span class="no">encoded_size</span>) <span class="kw">%&gt;%</span>
+<span class="va">encoder_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_flatten.html">layer_flatten</a></span><span class="op">(</span>input_shape <span class="op">=</span> <span class="va">input_shape</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">10</span>, activation <span class="op">=</span> <span class="st">"relu"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fu"><a href="reference/params_size_multivariate_normal_tri_l.html">params_size_multivariate_normal_tri_l</a></span><span class="op">(</span><span class="va">encoded_size</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/layer_multivariate_normal_tri_l.html">layer_multivariate_normal_tri_l</a></span><span class="op">(</span>event_size <span class="op">=</span> <span class="va">encoded_size</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># last layer adds KL divergence loss</span>
-  <span class="fu"><a href="reference/layer_kl_divergence_add_loss.html">layer_kl_divergence_add_loss</a></span>(
-      <span class="kw">distribution</span> <span class="kw">=</span> <span class="fu"><a href="reference/tfd_independent.html">tfd_independent</a></span>(
-        <span class="fu"><a href="reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">0</span>), <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">1</span>),
-        <span class="kw">reinterpreted_batch_ndims</span> <span class="kw">=</span> <span class="fl">1</span>
-      ),
-      <span class="kw">weight</span> <span class="kw">=</span> <span class="no">train_size</span>)
+  <span class="fu"><a href="reference/layer_kl_divergence_add_loss.html">layer_kl_divergence_add_loss</a></span><span class="op">(</span>
+      distribution <span class="op">=</span> <span class="fu"><a href="reference/tfd_independent.html">tfd_independent</a></span><span class="op">(</span>
+        <span class="fu"><a href="reference/tfd_normal.html">tfd_normal</a></span><span class="op">(</span>loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
+        reinterpreted_batch_ndims <span class="op">=</span> <span class="fl">1</span>
+      <span class="op">)</span>,
+      weight <span class="op">=</span> <span class="va">train_size</span><span class="op">)</span>
 
 <span class="co"># decoder is a keras sequential model</span>
-<span class="no">decoder_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="kw">units</span> <span class="kw">=</span> <span class="fl">10</span>,
-              <span class="kw">activation</span> <span class="kw">=</span> <span class="st">'relu'</span>,
-              <span class="kw">input_shape</span> <span class="kw">=</span> <span class="no">encoded_size</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span>(<span class="fu"><a href="reference/params_size_independent_bernoulli.html">params_size_independent_bernoulli</a></span>(<span class="no">input_shape</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="reference/layer_independent_bernoulli.html">layer_independent_bernoulli</a></span>(<span class="kw">event_shape</span> <span class="kw">=</span> <span class="no">input_shape</span>,
-                              <span class="kw">convert_to_tensor_fn</span> <span class="kw">=</span> <span class="no">tfp</span>$<span class="no">distributions</span>$<span class="no">Bernoulli</span>$<span class="no">logits</span>)
+<span class="va">decoder_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span>units <span class="op">=</span> <span class="fl">10</span>,
+              activation <span class="op">=</span> <span class="st">'relu'</span>,
+              input_shape <span class="op">=</span> <span class="va">encoded_size</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/keras/man/layer_dense.html">layer_dense</a></span><span class="op">(</span><span class="fu"><a href="reference/params_size_independent_bernoulli.html">params_size_independent_bernoulli</a></span><span class="op">(</span><span class="va">input_shape</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="reference/layer_independent_bernoulli.html">layer_independent_bernoulli</a></span><span class="op">(</span>event_shape <span class="op">=</span> <span class="va">input_shape</span>,
+                              convert_to_tensor_fn <span class="op">=</span> <span class="va">tfp</span><span class="op">$</span><span class="va">distributions</span><span class="op">$</span><span class="va">Bernoulli</span><span class="op">$</span><span class="va">logits</span><span class="op">)</span>
 
 <span class="co"># keras functional model uniting them both</span>
-<span class="no">vae_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model.html">keras_model</a></span>(<span class="kw">inputs</span> <span class="kw">=</span> <span class="no">encoder_model</span>$<span class="no">inputs</span>,
-                         <span class="kw">outputs</span> <span class="kw">=</span> <span class="fu">decoder_model</span>(<span class="no">encoder_model</span>$<span class="no">outputs</span>[<span class="fl">1</span>]))
+<span class="va">vae_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model.html">keras_model</a></span><span class="op">(</span>inputs <span class="op">=</span> <span class="va">encoder_model</span><span class="op">$</span><span class="va">inputs</span>,
+                         outputs <span class="op">=</span> <span class="fu">decoder_model</span><span class="op">(</span><span class="va">encoder_model</span><span class="op">$</span><span class="va">outputs</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># VAE loss now is just log probability of the data</span>
-<span class="no">vae_loss</span> <span class="kw">&lt;-</span> <span class="kw">function</span> (<span class="no">x</span>, <span class="no">rv_x</span>)
-    - (<span class="no">rv_x</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="no">x</span>))
+<span class="va">vae_loss</span> <span class="op">&lt;-</span> <span class="kw">function</span> <span class="op">(</span><span class="va">x</span>, <span class="va">rv_x</span><span class="op">)</span>
+    <span class="op">-</span> <span class="op">(</span><span class="va">rv_x</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/tfd_log_prob.html">tfd_log_prob</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
 
-<span class="no">vae_model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">compile</a></span>(
-  <span class="kw">optimizer</span> <span class="kw">=</span> <span class="st">"adam"</span>,
-  <span class="kw">loss</span> <span class="kw">=</span> <span class="no">vae_loss</span>
-)
+<span class="va">vae_model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>
+  optimizer <span class="op">=</span> <span class="st">"adam"</span>,
+  loss <span class="op">=</span> <span class="va">vae_loss</span>
+<span class="op">)</span>
 
-<span class="no">vae_model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">fit</a></span>(<span class="no">x_train</span>, <span class="no">x_train</span>, <span class="kw">batch_size</span> <span class="kw">=</span> <span class="fl">25</span>, <span class="kw">epochs</span> <span class="kw">=</span> <span class="fl">1</span>)</pre></div>
+<span class="va">vae_model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">x_train</span>, <span class="va">x_train</span>, batch_size <span class="op">=</span> <span class="fl">25</span>, epochs <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -298,7 +306,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

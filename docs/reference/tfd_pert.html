@@ -144,15 +144,15 @@ along with a <code>peak</code> to indicate the expert's most frequent prediction
 and <code>temperature</code> to control how sharp the peak is.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_pert</span>(
-  <span class='no'>low</span>,
-  <span class='no'>peak</span>,
-  <span class='no'>high</span>,
-  <span class='kw'>temperature</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Pert"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_pert</span><span class='op'>(</span>
+  <span class='va'>low</span>,
+  <span class='va'>peak</span>,
+  <span class='va'>high</span>,
+  temperature <span class='op'>=</span> <span class='fl'>4</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='st'>"Pert"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,13 +199,15 @@ one or more of the statistic's batch members are undefined.</p></td>
     <p>The distribution is similar to a <a href='https://en.wikipedia.org/wiki/Triangular_distribution'>Triangular distribution</a>
 (i.e. <code>tfd.Triangular</code>) but with a smooth peak.</p>
 <p>Mathematical Details</p>
-<p>In terms of a Beta distribution, PERT can be expressed as</p><pre><span class='no'>PERT</span> ~ <span class='no'>loc</span> + <span class='no'>scale</span> * <span class='fu'><a href='https://rdrr.io/r/stats/Beta.html'>Beta</a></span>(<span class='no'>concentration1</span>, <span class='no'>concentration0</span>)</pre>
+<p>In terms of a Beta distribution, PERT can be expressed as</p><pre><span class='va'>PERT</span> <span class='op'>~</span> <span class='va'>loc</span> <span class='op'>+</span> <span class='va'>scale</span> <span class='op'>*</span> <span class='fu'><a href='https://rdrr.io/r/stats/Beta.html'>Beta</a></span><span class='op'>(</span><span class='va'>concentration1</span>, <span class='va'>concentration0</span><span class='op'>)</span>
+</pre>
 
-<p>where</p><pre><span class='no'>loc</span> <span class='kw'>=</span> <span class='no'>low</span>
-<span class='no'>scale</span> <span class='kw'>=</span> <span class='no'>high</span> - <span class='no'>low</span>
-<span class='no'>concentration1</span> <span class='kw'>=</span> <span class='fl'>1</span> + <span class='no'>temperature</span> * (<span class='no'>peak</span> - <span class='no'>low</span>)/(<span class='no'>high</span> - <span class='no'>low</span>)
-<span class='no'>concentration0</span> <span class='kw'>=</span> <span class='fl'>1</span> + <span class='no'>temperature</span> * (<span class='no'>high</span> - <span class='no'>peak</span>)/(<span class='no'>high</span> - <span class='no'>low</span>)
-<span class='no'>temperature</span> <span class='kw'>&amp;</span><span class='no'>gt</span>; <span class='fl'>0</span></pre>
+<p>where</p><pre><span class='va'>loc</span> <span class='op'>=</span> <span class='va'>low</span>
+<span class='va'>scale</span> <span class='op'>=</span> <span class='va'>high</span> <span class='op'>-</span> <span class='va'>low</span>
+<span class='va'>concentration1</span> <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='va'>temperature</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>peak</span> <span class='op'>-</span> <span class='va'>low</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>high</span> <span class='op'>-</span> <span class='va'>low</span><span class='op'>)</span>
+<span class='va'>concentration0</span> <span class='op'>=</span> <span class='fl'>1</span> <span class='op'>+</span> <span class='va'>temperature</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>high</span> <span class='op'>-</span> <span class='va'>peak</span><span class='op'>)</span><span class='op'>/</span><span class='op'>(</span><span class='va'>high</span> <span class='op'>-</span> <span class='va'>low</span><span class='op'>)</span>
+<span class='va'>temperature</span> <span class='op'>&gt;</span> <span class='fl'>0</span>
+</pre>
 
 <p>The support is <code>[low, high]</code>.  The <code>peak</code> must fit in that interval:
 <code>low &lt; peak &lt; high</code>.  The <code>temperature</code> is a positive parameter that
@@ -230,7 +232,7 @@ The standard PERT distribution is obtained when <code>temperature = 4</code>.</p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

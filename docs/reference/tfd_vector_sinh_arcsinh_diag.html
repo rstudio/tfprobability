@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code> — tfd_vector_sinh_arcsinh_diag • tfprobability</title>
+<title>The (diagonal) SinhArcsinh transformation of a distribution on R^k — tfd_vector_sinh_arcsinh_diag • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="The (diagonal) SinhArcsinh transformation of a distribution on <code>R^k</code> — tfd_vector_sinh_arcsinh_diag" />
+<meta property="og:title" content="The (diagonal) SinhArcsinh transformation of a distribution on R^k — tfd_vector_sinh_arcsinh_diag" />
 <meta property="og:description" content="This distribution models a random vector Y = (Y1,...,Yk), making use of
 a SinhArcsinh transformation (which has adjustable tailweight and skew),
 a rescaling, and a shift.
@@ -152,17 +152,17 @@ and skewness.  Additionally we allow for distributions other than Normal,
 and control over scale as well as a "shift" parameter loc.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_vector_sinh_arcsinh_diag</span>(
-  <span class='kw'>loc</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>scale_diag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>scale_identity_multiplier</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>skewness</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tailweight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>distribution</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"VectorSinhArcsinhDiag"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_vector_sinh_arcsinh_diag</span><span class='op'>(</span>
+  loc <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale_diag <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale_identity_multiplier <span class='op'>=</span> <span class='cn'>NULL</span>,
+  skewness <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tailweight <span class='op'>=</span> <span class='cn'>NULL</span>,
+  distribution <span class='op'>=</span> <span class='cn'>NULL</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='st'>"VectorSinhArcsinhDiag"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -238,9 +238,10 @@ one or more of the statistic's batch members are undefined.</p></td>
     <p>Mathematical Details</p>
 <p>Given iid random vector <code>Z = (Z1,...,Zk)</code>, we define the VectorSinhArcsinhDiag
 transformation of <code>Z</code>, <code>Y</code>, parameterized by
-<code>(loc, scale, skewness, tailweight)</code>, via the relation (with <code>@</code> denoting matrix multiplication):</p><pre><span class='no'>Y</span> <span class='kw'>:=</span> <span class='no'>loc</span> + <span class='no'>scale</span> @ <span class='kw'>F</span>(<span class='no'>Z</span>) * (<span class='fl'>2</span> / <span class='fu'>F_0</span>(<span class='fl'>2</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/logical.html'>F</a></span>(<span class='no'>Z</span>) <span class='kw'>:=</span> <span class='fu'>Sinh</span>( (<span class='fu'>Arcsinh</span>(<span class='no'>Z</span>) + <span class='no'>skewness</span>) * <span class='no'>tailweight</span> )
-<span class='fu'>F_0</span>(<span class='no'>Z</span>) <span class='kw'>:=</span> <span class='fu'>Sinh</span>( <span class='fu'>Arcsinh</span>(<span class='no'>Z</span>) * <span class='no'>tailweight</span> )</pre>
+<code>(loc, scale, skewness, tailweight)</code>, via the relation (with <code><a href='https://rdrr.io/r/base/slotOp.html'>@</a></code> denoting matrix multiplication):</p><pre><span class='va'>Y</span> <span class='op'>:=</span> <span class='va'>loc</span> <span class='op'>+</span> <span class='va'>scale</span> <span class='op'>@</span> <span class='va'>F</span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span> <span class='op'>*</span> <span class='op'>(</span><span class='fl'>2</span> <span class='op'>/</span> <span class='fu'>F_0</span><span class='op'>(</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/logical.html'>F</a></span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span> <span class='op'>:=</span> <span class='fu'>Sinh</span><span class='op'>(</span> <span class='op'>(</span><span class='fu'>Arcsinh</span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>skewness</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>tailweight</span> <span class='op'>)</span>
+<span class='fu'>F_0</span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span> <span class='op'>:=</span> <span class='fu'>Sinh</span><span class='op'>(</span> <span class='fu'>Arcsinh</span><span class='op'>(</span><span class='va'>Z</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>tailweight</span> <span class='op'>)</span>
+</pre>
 
 <p>This distribution is similar to the location-scale transformation
 <code>L(Z) := loc + scale @ Z</code> in the following ways:</p><ul>
@@ -267,9 +268,9 @@ To see the argument about the tails, note that for <code>|Z| &gt;&gt; 1</code> a
 <code>|Z| &gt;&gt; (|skewness| * tailweight)**tailweight</code>, we have
 <code>Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)</code>.
 To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)</code>,</p></li>
-</ul><pre>P[(Y - loc) / scale &amp;lt;= 2] = P[F(Z) * (2 / F_0(2)) &amp;lt;= 2]
-= P[F(Z) &amp;lt;= F_0(2)]
-= P[Z &amp;lt;= 2]  (if F = F_0).
+</ul><pre>P[(Y - loc) / scale &lt;= 2] = P[F(Z) * (2 / F_0(2)) &lt;= 2]
+= P[F(Z) &lt;= F_0(2)]
+= P[Z &lt;= 2]  (if F = F_0).
 </pre></li>
 </ul>
 
@@ -294,6 +295,8 @@ To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
 <code><a href='tfd_empirical.html'>tfd_empirical</a>()</code>,
+<code><a href='tfd_exp_gamma.html'>tfd_exp_gamma</a>()</code>,
+<code><a href='tfd_exp_inverse_gamma.html'>tfd_exp_inverse_gamma</a>()</code>,
 <code><a href='tfd_exponential.html'>tfd_exponential</a>()</code>,
 <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a>()</code>,
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
@@ -344,6 +347,7 @@ To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_skellam.html'>tfd_skellam</a>()</code>,
 <code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_student_t.html'>tfd_student_t</a>()</code>,
@@ -381,7 +385,7 @@ To see the argument regarding multiplying <code>scale</code> by <code>2 / F_0(2)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -138,14 +138,14 @@
     <p>This distribution has parameters: degree of freedom <code>df</code>, location <code>loc</code>, and <code>scale</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_student_t</span>(
-  <span class='no'>df</span>,
-  <span class='no'>loc</span>,
-  <span class='no'>scale</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"StudentT"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_student_t</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  <span class='va'>loc</span>,
+  <span class='va'>scale</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='st'>"StudentT"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,8 +203,9 @@ Z = abs(sigma) sqrt(df pi) Gamma(0.5 df) / Gamma(0.5 (df + 1))
 <li><p><code>Gamma</code> is the <a href='https://en.wikipedia.org/wiki/Gamma_function'>gamma function</a>.
 The StudentT distribution is a member of the <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>, i.e., it can be
 constructed as,</p></li>
-</ul><pre><span class='no'>X</span> ~ <span class='fu'>StudentT</span>(<span class='no'>df</span>, <span class='kw'>loc</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>1</span>)
-<span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>loc</span> + <span class='no'>scale</span> * <span class='no'>X</span></pre>
+</ul><pre><span class='va'>X</span> <span class='op'>~</span> <span class='fu'>StudentT</span><span class='op'>(</span><span class='va'>df</span>, loc<span class='op'>=</span><span class='fl'>0</span>, scale<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>Y</span> <span class='op'>=</span> <span class='va'>loc</span> <span class='op'>+</span> <span class='va'>scale</span> <span class='op'>*</span> <span class='va'>X</span>
+</pre>
 
 <p>Notice that <code>scale</code> has semantics more similar to standard deviation than
 variance. However it is not actually the std. deviation; the Student's
@@ -233,6 +234,8 @@ The derivatives are computed using the approach described in the paper
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
 <code><a href='tfd_empirical.html'>tfd_empirical</a>()</code>,
+<code><a href='tfd_exp_gamma.html'>tfd_exp_gamma</a>()</code>,
+<code><a href='tfd_exp_inverse_gamma.html'>tfd_exp_inverse_gamma</a>()</code>,
 <code><a href='tfd_exponential.html'>tfd_exponential</a>()</code>,
 <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a>()</code>,
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
@@ -283,6 +286,7 @@ The derivatives are computed using the approach described in the paper
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_skellam.html'>tfd_skellam</a>()</code>,
 <code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_transformed_distribution.html'>tfd_transformed_distribution</a>()</code>,
@@ -320,7 +324,7 @@ The derivatives are computed using the approach described in the paper
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title><code>PoissonLogNormalQuadratureCompound</code> distribution — tfd_poisson_log_normal_quadrature_compound • tfprobability</title>
+<title>PoissonLogNormalQuadratureCompound distribution — tfd_poisson_log_normal_quadrature_compound • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="<code>PoissonLogNormalQuadratureCompound</code> distribution — tfd_poisson_log_normal_quadrature_compound" />
+<meta property="og:title" content="PoissonLogNormalQuadratureCompound distribution — tfd_poisson_log_normal_quadrature_compound" />
 <meta property="og:description" content="The PoissonLogNormalQuadratureCompound is an approximation to a
 Poisson-LogNormal compound distribution, i.e.,p(k|loc, scale) = int_{R_+} dl LogNormal(l | loc, scale) Poisson(k | l)
 approx= sum{ prob[d] Poisson(k | lambda(grid[d])) : d=0, ..., deg-1 }
@@ -146,15 +146,15 @@ approx= sum{ prob[d] Poisson(k | lambda(grid[d])) : d=0, ..., deg-1 }
 
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_poisson_log_normal_quadrature_compound</span>(
-  <span class='no'>loc</span>,
-  <span class='no'>scale</span>,
-  <span class='kw'>quadrature_size</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-  <span class='kw'>quadrature_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>distributions</span>$<span class='no'>quadrature_scheme_lognormal_quantiles</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"PoissonLogNormalQuadratureCompound"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_poisson_log_normal_quadrature_compound</span><span class='op'>(</span>
+  <span class='va'>loc</span>,
+  <span class='va'>scale</span>,
+  quadrature_size <span class='op'>=</span> <span class='fl'>8</span>,
+  quadrature_fn <span class='op'>=</span> <span class='va'>tfp</span><span class='op'>$</span><span class='va'>distributions</span><span class='op'>$</span><span class='va'>quadrature_scheme_lognormal_quantiles</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='st'>"PoissonLogNormalQuadratureCompound"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,7 +177,7 @@ points.</p></td>
     <tr>
       <th>quadrature_fn</th>
       <td><p>Function taking <code>loc</code>, <code>scale</code>,
-<code>quadrature_size</code>, <code>validate_args</code> and returning <code>tuple(grid, probs)</code>
+<code>quadrature_size</code>, <code>validate_args</code> and returning <code><a href='https://rdrr.io/pkg/reticulate/man/tuple.html'>tuple(grid, probs)</a></code>
 representing the LogNormal grid and corresponding normalized weight.
 Default value: <code>quadrature_scheme_lognormal_quantiles</code>.</p></td>
     </tr>
@@ -251,6 +251,8 @@ correspondence with the returned <code>grid</code>. (I.e., broadcasting is only 
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
 <code><a href='tfd_empirical.html'>tfd_empirical</a>()</code>,
+<code><a href='tfd_exp_gamma.html'>tfd_exp_gamma</a>()</code>,
+<code><a href='tfd_exp_inverse_gamma.html'>tfd_exp_inverse_gamma</a>()</code>,
 <code><a href='tfd_exponential.html'>tfd_exponential</a>()</code>,
 <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a>()</code>,
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
@@ -300,6 +302,7 @@ correspondence with the returned <code>grid</code>. (I.e., broadcasting is only 
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_skellam.html'>tfd_skellam</a>()</code>,
 <code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_student_t.html'>tfd_student_t</a>()</code>,
@@ -338,7 +341,7 @@ correspondence with the returned <code>grid</code>. (I.e., broadcasting is only 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

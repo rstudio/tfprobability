@@ -53,6 +53,7 @@ A smooth seasonal effect model is a special case of a linear Gaussian SSM. It
 is the sum of a set of &quot;cyclic&quot; components, with one component for each
 frequency:frequencies[j] = 2. * pi * frequency_multipliers[j] / period
 
+
 Each cyclic component contains two latent states which we denote effect and
 auxiliary. The two latent states for component j drift over time via:effect[t] = (effect[t-1] * cos(frequencies[j]) +
              auxiliary[t-] * sin(frequencies[j]) +
@@ -167,7 +168,8 @@ calculations; see <code>tfp$distributions$LinearGaussianStateSpaceModel</code> f
 details.
 A smooth seasonal effect model is a special case of a linear Gaussian SSM. It
 is the sum of a set of "cyclic" components, with one component for each
-frequency:</p><pre><span class='no'>frequencies</span>[<span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>2.</span> * <span class='no'>pi</span> * <span class='no'>frequency_multipliers</span>[<span class='no'>j</span>] / <span class='no'>period</span></pre>
+frequency:</p><pre><span class='va'>frequencies</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>2.</span> <span class='op'>*</span> <span class='va'>pi</span> <span class='op'>*</span> <span class='va'>frequency_multipliers</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>period</span>
+</pre>
 
 <p>Each cyclic component contains two latent states which we denote <code>effect</code> and
 <code>auxiliary</code>. The two latent states for component <code>j</code> drift over time via:</p><pre>effect[t] = (effect[t-1] * cos(frequencies[j]) +
@@ -180,18 +182,18 @@ auxiliary[t] = (-effect[t-1] * sin(frequencies[j]) +
 
     </div>
 
-    <pre class="usage"><span class='fu'>sts_smooth_seasonal_state_space_model</span>(
-  <span class='no'>num_timesteps</span>,
-  <span class='no'>period</span>,
-  <span class='no'>frequency_multipliers</span>,
-  <span class='no'>drift_scale</span>,
-  <span class='no'>initial_state_prior</span>,
-  <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sts_smooth_seasonal_state_space_model</span><span class='op'>(</span>
+  <span class='va'>num_timesteps</span>,
+  <span class='va'>period</span>,
+  <span class='va'>frequency_multipliers</span>,
+  <span class='va'>drift_scale</span>,
+  <span class='va'>initial_state_prior</span>,
+  observation_noise_scale <span class='op'>=</span> <span class='fl'>0</span>,
+  initial_step <span class='op'>=</span> <span class='fl'>0</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -333,7 +335,7 @@ observation_noise ~ Normal(loc=0, scale=observation_noise_scale)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -140,12 +140,12 @@ covariate time series provided in a design matrix:" />
 covariate time series provided in a design matrix:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_sparse_linear_regression</span>(
-  <span class='no'>design_matrix</span>,
-  <span class='kw'>weights_prior_scale</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>weights_batch_shape</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sts_sparse_linear_regression</span><span class='op'>(</span>
+  <span class='va'>design_matrix</span>,
+  weights_prior_scale <span class='op'>=</span> <span class='fl'>0.1</span>,
+  weights_batch_shape <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,7 +180,8 @@ shape of <code>design_matrix</code>. Default value: <code>NULL</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<pre><span class='no'>observed_time_series</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>tf</span>$<span class='fu'>matmul</span>(<span class='no'>design_matrix</span>, <span class='no'>weights</span>)</pre>
+<pre><span class='va'>observed_time_series</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>matmul</span><span class='op'>(</span><span class='va'>design_matrix</span>, <span class='va'>weights</span><span class='op'>)</span>
+</pre>
 
 <p>This is identical to <code>sts_linear_regression</code>, except that
 <code>sts_sparse_linear_regression</code> uses a parameterization of a Horseshoe
@@ -287,7 +288,7 @@ weights[i] ~ Normal(loc=0., scale=local_scales[i] * global_scale)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

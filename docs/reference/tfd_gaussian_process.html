@@ -148,16 +148,16 @@ space. In such cases, the GP may be thought of as a distribution over
 (real- or complex-valued) functions defined over the index set.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_gaussian_process</span>(
-  <span class='no'>kernel</span>,
-  <span class='no'>index_points</span>,
-  <span class='kw'>mean_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>observation_noise_variance</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"GaussianProcess"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_gaussian_process</span><span class='op'>(</span>
+  <span class='va'>kernel</span>,
+  <span class='va'>index_points</span>,
+  mean_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  observation_noise_variance <span class='op'>=</span> <span class='fl'>0</span>,
+  jitter <span class='op'>=</span> <span class='fl'>1e-06</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='st'>"GaussianProcess"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -306,6 +306,8 @@ machine precision (otherwise Cholesky-decomposition is prone to failure),</p></l
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
 <code><a href='tfd_empirical.html'>tfd_empirical</a>()</code>,
+<code><a href='tfd_exp_gamma.html'>tfd_exp_gamma</a>()</code>,
+<code><a href='tfd_exp_inverse_gamma.html'>tfd_exp_inverse_gamma</a>()</code>,
 <code><a href='tfd_exponential.html'>tfd_exponential</a>()</code>,
 <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a>()</code>,
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
@@ -355,6 +357,7 @@ machine precision (otherwise Cholesky-decomposition is prone to failure),</p></l
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_skellam.html'>tfd_skellam</a>()</code>,
 <code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_student_t.html'>tfd_student_t</a>()</code>,
@@ -393,7 +396,7 @@ machine precision (otherwise Cholesky-decomposition is prone to failure),</p></l
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
