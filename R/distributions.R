@@ -6315,6 +6315,68 @@ tfd_exp_gamma <- function(concentration,
           args)
 }
 
+#' ExpInverseGamma distribution.
+#'
+#' The `ExpInverseGamma` distribution is defined over the real numbers such that
+#' X ~ ExpInverseGamma(..) => exp(X) ~ InverseGamma(..).
+#' The distribution is logically equivalent to `tfb_log()(tfd_inverse_gamma(..))`,
+#' but can be sampled with much better precision.
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) is very similar to ExpGamma,
+#' ```
+#' pdf(x; alpha, beta > 0) = exp(-x)**(alpha - 1) exp(-exp(-x) beta) / Z - x
+#' Z = Gamma(alpha) beta**(-alpha)
+#' ```
+#' where:
+#' * `concentration = alpha`,
+#' * `scale = beta`,
+#' * `Z` is the normalizing constant, and,
+#' * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#' The cumulative density function (cdf) is,
+#' ```
+#' cdf(x; alpha, beta, x) = 1 - GammaInc(alpha, beta exp(-x)) / Gamma(alpha)
+#' ```
+#' where `GammaInc` is the [upper incomplete Gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma_function).
+#'
+#' Distribution parameters are automatically broadcast in all functions.
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#' The derivatives are computed using the approach described in Figurnov et al, 2018.
+#'
+#' @section References:
+#' - [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. _arXiv preprint arXiv:1805.08498_, 2018.](https://arxiv.org/abs/1805.08498)
+#'
+#' @param concentration Floating point tensor, the concentration params of the
+#' distribution(s). Must contain only positive values.
+#' @param scale Floating point tensor, the scale params of the distribution(s).
+#' Must contain only positive values. Mutually exclusive with `log_scale`.
+#' @param log_scale Floating point tensor, the natural logarithm of the scale
+#' params of the distribution(s). Mutually exclusive with `scale`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_exp_inverse_gamma <- function(concentration,
+                                  scale = NULL,
+                                  log_scale = NULL,
+                                  validate_args = FALSE,
+                                  allow_nan_stats = TRUE,
+                                  name = "ExpGamma") {
+  args <- list(
+    concentration = concentration,
+    scale = scale,
+    log_scale = log_scale,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$ExpInverseGamma,
+          args)
+}
 
 
 

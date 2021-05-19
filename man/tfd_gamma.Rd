@@ -93,6 +93,7 @@ Other distributions:
 \code{\link{tfd_dirichlet}()},
 \code{\link{tfd_empirical}()},
 \code{\link{tfd_exp_gamma}()},
+\code{\link{tfd_exp_inverse_gamma}()},
 \code{\link{tfd_exponential}()},
 \code{\link{tfd_gamma_gamma}()},
 \code{\link{tfd_gaussian_process_regression_model}()},

@@ -69,6 +69,13 @@ Distribution parameters are automatically broadcast in all functions.
 Samples of this distribution are reparameterized (pathwise differentiable).
 The derivatives are computed using the approach described in Figurnov et al., 2018.
 }
+\section{References}{
+
+\itemize{
+\item \href{https://arxiv.org/abs/1805.08498}{Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. \emph{arXiv preprint arXiv:1805.08498}, 2018.}
+}
+}
+
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.
 
@@ -90,6 +97,7 @@ Other distributions:
 \code{\link{tfd_dirichlet_multinomial}()},
 \code{\link{tfd_dirichlet}()},
 \code{\link{tfd_empirical}()},
+\code{\link{tfd_exp_inverse_gamma}()},
 \code{\link{tfd_exponential}()},
 \code{\link{tfd_gamma_gamma}()},
 \code{\link{tfd_gamma}()},
