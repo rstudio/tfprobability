@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_dual_averaging_step_size_adaptation • tfprobability</title>
+<title>Adapts the inner kernel's step_size based on log_accept_prob. — mcmc_dual_averaging_step_size_adaptation • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_dual_averaging_step_size_adaptation" />
+<meta property="og:title" content="Adapts the inner kernel's step_size based on log_accept_prob. — mcmc_dual_averaging_step_size_adaptation" />
 <meta property="og:description" content="The dual averaging policy uses a noisy step size for exploration, while
 averaging over tuning steps to provide a smoothed estimate of an optimal
 value. It is based on section 3.2 of Hoffman and Gelman (2013), which
@@ -160,19 +160,19 @@ acceptance probability depends on the inner kernel. If this kernel is
 kernels' docstrings for guidance.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_dual_averaging_step_size_adaptation</span>(
-  <span class='no'>inner_kernel</span>,
-  <span class='no'>num_adaptation_steps</span>,
-  <span class='kw'>target_accept_prob</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
-  <span class='kw'>exploration_shrinkage</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
-  <span class='kw'>step_count_smoothing</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>decay_rate</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
-  <span class='kw'>step_size_setter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>step_size_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>log_accept_prob_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mcmc_dual_averaging_step_size_adaptation</span><span class='op'>(</span>
+  <span class='va'>inner_kernel</span>,
+  <span class='va'>num_adaptation_steps</span>,
+  target_accept_prob <span class='op'>=</span> <span class='fl'>0.75</span>,
+  exploration_shrinkage <span class='op'>=</span> <span class='fl'>0.05</span>,
+  step_count_smoothing <span class='op'>=</span> <span class='fl'>10</span>,
+  decay_rate <span class='op'>=</span> <span class='fl'>0.75</span>,
+  step_size_setter_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  step_size_getter_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  log_accept_prob_getter_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -337,7 +337,7 @@ single distribution, all sampled in parallel.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

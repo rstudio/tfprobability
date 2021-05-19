@@ -85,13 +85,14 @@
 
       
 
-      </header><script src="layer_dense_variational_files/header-attrs-2.3/header-attrs.js"></script><script src="layer_dense_variational_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="layer_dense_variational_files/header-attrs-2.5/header-attrs.js"></script><link href="layer_dense_variational_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="layer_dense_variational_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Uncertainty estimates with layer_dense_variational</h1>
                         <h4 class="author">Sigrid Keydana</h4>
             
-            <h4 class="date">2020-08-05</h4>
+            <h4 class="date">2021-05-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/tfprobability/blob/master/vignettes/layer_dense_variational.Rmd"><code>vignettes/layer_dense_variational.Rmd</code></a></small>
       <div class="hidden name"><code>layer_dense_variational.Rmd</code></div>
@@ -112,130 +113,137 @@
 <li>stay close to a <em>prior</em> (as measured by <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">KL divergence</a>).</li>
 </ol>
 <p>As users, we get to specify the form of the posterior as well as that of the prior. But first let’s generate some data.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tensorflow</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tensorflow">tensorflow</a></span><span class="op">)</span>
 <span class="co"># assume it's version 1.14, with eager not yet being the default</span>
-<span class="no">tf</span>$<span class="no">compat</span>$<span class="no">v1</span>$<span class="fu">enable_v2_behavior</span>()
+<span class="va">tf</span><span class="op">$</span><span class="va">compat</span><span class="op">$</span><span class="va">v1</span><span class="op">$</span><span class="fu">enable_v2_behavior</span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tfprobability</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">keras</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tfprobability">tfprobability</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://keras.rstudio.com">keras</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="co"># generate the data</span>
-<span class="no">x_min</span> <span class="kw">&lt;-</span> -<span class="fl">40</span>
-<span class="no">x_max</span> <span class="kw">&lt;-</span> <span class="fl">60</span>
-<span class="no">n</span> <span class="kw">&lt;-</span> <span class="fl">150</span>
-<span class="no">w0</span> <span class="kw">&lt;-</span> <span class="fl">0.125</span>
-<span class="no">b0</span> <span class="kw">&lt;-</span> <span class="fl">5</span>
+<span class="va">x_min</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">40</span>
+<span class="va">x_max</span> <span class="op">&lt;-</span> <span class="fl">60</span>
+<span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">150</span>
+<span class="va">w0</span> <span class="op">&lt;-</span> <span class="fl">0.125</span>
+<span class="va">b0</span> <span class="op">&lt;-</span> <span class="fl">5</span>
 
-<span class="no">normalize</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) (<span class="no">x</span> - <span class="no">x_min</span>) / (<span class="no">x_max</span> - <span class="no">x_min</span>)
+<span class="va">normalize</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="va">x_min</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">x_max</span> <span class="op">-</span> <span class="va">x_min</span><span class="op">)</span>
 
 <span class="co"># training data; predictor </span>
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="no">x_min</span> + (<span class="no">x_max</span> - <span class="no">x_min</span>) * <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">n</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>()
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x_min</span> <span class="op">+</span> <span class="op">(</span><span class="va">x_max</span> <span class="op">-</span> <span class="va">x_min</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># training data; target</span>
-<span class="no">eps</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="no">n</span>) * (<span class="fl">3</span> * (<span class="fl">0.25</span> + (<span class="fu"><a href="https://rdrr.io/pkg/keras/man/normalize.html">normalize</a></span>(<span class="no">x</span>)) ^ <span class="fl">2</span>))
-<span class="no">y</span> <span class="kw">&lt;-</span> (<span class="no">w0</span> * <span class="no">x</span> * (<span class="fl">1</span> + <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span>(<span class="no">x</span>)) + <span class="no">b0</span>) + <span class="no">eps</span>
+<span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">3</span> <span class="op">*</span> <span class="op">(</span><span class="fl">0.25</span> <span class="op">+</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/keras/man/normalize.html">normalize</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">^</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">w0</span> <span class="op">*</span> <span class="va">x</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="va">b0</span><span class="op">)</span> <span class="op">+</span> <span class="va">eps</span>
 
 <span class="co"># test data (predictor)</span>
-<span class="no">x_test</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="no">x_min</span>, <span class="no">x_max</span>, <span class="kw">length.out</span> <span class="kw">=</span> <span class="no">n</span>) <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>()</pre></body></html></div>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">x</span>, <span class="no">y</span>)) + <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>()</pre></body></html></div>
+<span class="va">x_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="va">x_min</span>, <span class="va">x_max</span>, length.out <span class="op">=</span> <span class="va">n</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="images/uncertainty_data.png" alt="Simulated data" width="500"><p class="caption">
 Simulated data
 </p>
 </div>
 <p>Here is a simple, <em>trainable</em> prior (in <em>empirical Bayesian</em> spirit: A normal distribution where the network may learn the mean (but not the scale). Alternatively, we could disallow learning from the data by setting <code>trainable</code> to <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">prior_trainable</span> <span class="kw">&lt;-</span>
-  <span class="kw">function</span>(<span class="no">kernel_size</span>,
-           <span class="no">bias_size</span> <span class="kw">=</span> <span class="fl">0</span>,
-           <span class="no">dtype</span> <span class="kw">=</span> <span class="kw">NULL</span>) {
-    <span class="no">n</span> <span class="kw">&lt;-</span> <span class="no">kernel_size</span> + <span class="no">bias_size</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="kw">%&gt;%</span>
-      <span class="fu"><a href="../reference/layer_variable.html">layer_variable</a></span>(<span class="no">n</span>, <span class="kw">dtype</span> <span class="kw">=</span> <span class="no">dtype</span>, <span class="kw">trainable</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
-      <span class="fu"><a href="../reference/layer_distribution_lambda.html">layer_distribution_lambda</a></span>(<span class="kw">function</span>(<span class="no">t</span>) {
-        <span class="fu"><a href="../reference/tfd_independent.html">tfd_independent</a></span>(<span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="no">t</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">1</span>),
-                        <span class="kw">reinterpreted_batch_ndims</span> <span class="kw">=</span> <span class="fl">1</span>)
-      })
-  }</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">prior_trainable</span> <span class="op">&lt;-</span>
+  <span class="kw">function</span><span class="op">(</span><span class="va">kernel_size</span>,
+           <span class="va">bias_size</span> <span class="op">=</span> <span class="fl">0</span>,
+           <span class="va">dtype</span> <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">n</span> <span class="op">&lt;-</span> <span class="va">kernel_size</span> <span class="op">+</span> <span class="va">bias_size</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+      <span class="fu"><a href="../reference/layer_variable.html">layer_variable</a></span><span class="op">(</span><span class="va">n</span>, dtype <span class="op">=</span> <span class="va">dtype</span>, trainable <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+      <span class="fu"><a href="../reference/layer_distribution_lambda.html">layer_distribution_lambda</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">{</span>
+        <span class="fu"><a href="../reference/tfd_independent.html">tfd_independent</a></span><span class="op">(</span><span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span><span class="op">(</span>loc <span class="op">=</span> <span class="va">t</span>, scale <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
+                        reinterpreted_batch_ndims <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+      <span class="op">}</span><span class="op">)</span>
+  <span class="op">}</span></code></pre></div>
 <p>The posterior then is a normal, too:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">posterior_mean_field</span> <span class="kw">&lt;-</span>
-  <span class="kw">function</span>(<span class="no">kernel_size</span>,
-           <span class="no">bias_size</span> <span class="kw">=</span> <span class="fl">0</span>,
-           <span class="no">dtype</span> <span class="kw">=</span> <span class="kw">NULL</span>) {
-    <span class="no">n</span> <span class="kw">&lt;-</span> <span class="no">kernel_size</span> + <span class="no">bias_size</span>
-    <span class="no">c</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">expm1</a></span>(<span class="fl">1</span>))
-    <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="fu"><a href="../reference/layer_variable.html">layer_variable</a></span>(<span class="kw">shape</span> <span class="kw">=</span> <span class="fl">2</span> * <span class="no">n</span>, <span class="kw">dtype</span> <span class="kw">=</span> <span class="no">dtype</span>),
-      <span class="fu"><a href="../reference/layer_distribution_lambda.html">layer_distribution_lambda</a></span>(
-        <span class="kw">make_distribution_fn</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">t</span>) {
-          <span class="fu"><a href="../reference/tfd_independent.html">tfd_independent</a></span>(<span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span>(
-            <span class="kw">loc</span> <span class="kw">=</span> <span class="no">t</span>[<span class="fl">1</span>:<span class="no">n</span>],
-            <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">1e-5</span> + <span class="no">tf</span>$<span class="no">nn</span>$<span class="fu">softplus</span>(<span class="no">c</span> + <span class="no">t</span>[(<span class="no">n</span> + <span class="fl">1</span>):(<span class="fl">2</span> * <span class="no">n</span>)])
-            ), <span class="kw">reinterpreted_batch_ndims</span> <span class="kw">=</span> <span class="fl">1</span>)
-        }
-      )
-    ))
-  }</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">posterior_mean_field</span> <span class="op">&lt;-</span>
+  <span class="kw">function</span><span class="op">(</span><span class="va">kernel_size</span>,
+           <span class="va">bias_size</span> <span class="op">=</span> <span class="fl">0</span>,
+           <span class="va">dtype</span> <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">n</span> <span class="op">&lt;-</span> <span class="va">kernel_size</span> <span class="op">+</span> <span class="va">bias_size</span>
+    <span class="va">c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">expm1</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="fu"><a href="../reference/layer_variable.html">layer_variable</a></span><span class="op">(</span>shape <span class="op">=</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">n</span>, dtype <span class="op">=</span> <span class="va">dtype</span><span class="op">)</span>,
+      <span class="fu"><a href="../reference/layer_distribution_lambda.html">layer_distribution_lambda</a></span><span class="op">(</span>
+        make_distribution_fn <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">t</span><span class="op">)</span> <span class="op">{</span>
+          <span class="fu"><a href="../reference/tfd_independent.html">tfd_independent</a></span><span class="op">(</span><span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span><span class="op">(</span>
+            loc <span class="op">=</span> <span class="va">t</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">]</span>,
+            scale <span class="op">=</span> <span class="fl">1e-5</span> <span class="op">+</span> <span class="va">tf</span><span class="op">$</span><span class="va">nn</span><span class="op">$</span><span class="fu">softplus</span><span class="op">(</span><span class="va">c</span> <span class="op">+</span> <span class="va">t</span><span class="op">[</span><span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">n</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+            <span class="op">)</span>, reinterpreted_batch_ndims <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
+        <span class="op">}</span>
+      <span class="op">)</span>
+    <span class="op">)</span><span class="op">)</span>
+  <span class="op">}</span></code></pre></div>
 <p>Now for the main model. The variational-dense layer is defined to have two units, one for the distribution of means and distribution of scales each. <code>layer_distribution_lambda</code> then takes their respective outputs as the mean and scale of the posterior distribution.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span>() <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/layer_dense_variational.html">layer_dense_variational</a></span>(
-    <span class="kw">units</span> <span class="kw">=</span> <span class="fl">2</span>,
-    <span class="kw">make_posterior_fn</span> <span class="kw">=</span> <span class="no">posterior_mean_field</span>,
-    <span class="kw">make_prior_fn</span> <span class="kw">=</span> <span class="no">prior_trainable</span>,
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/keras_model_sequential.html">keras_model_sequential</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/layer_dense_variational.html">layer_dense_variational</a></span><span class="op">(</span>
+    units <span class="op">=</span> <span class="fl">2</span>,
+    make_posterior_fn <span class="op">=</span> <span class="va">posterior_mean_field</span>,
+    make_prior_fn <span class="op">=</span> <span class="va">prior_trainable</span>,
     <span class="co"># scale by the size of the dataset</span>
-    <span class="kw">kl_weight</span> <span class="kw">=</span> <span class="fl">1</span> / <span class="no">n</span>
-  ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/layer_distribution_lambda.html">layer_distribution_lambda</a></span>(<span class="kw">function</span>(<span class="no">x</span>)
-    <span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="no">x</span>[, <span class="fl">1</span>, <span class="kw">drop</span> <span class="kw">=</span> <span class="fl">FALSE</span>],
-               <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">1e-3</span> + <span class="no">tf</span>$<span class="no">math</span>$<span class="fu">softplus</span>(<span class="fl">0.01</span> * <span class="no">x</span>[, <span class="fl">2</span>, <span class="kw">drop</span> <span class="kw">=</span> <span class="fl">FALSE</span>])
-               )
-    )</pre></body></html></div>
+    kl_weight <span class="op">=</span> <span class="fl">1</span> <span class="op">/</span> <span class="va">n</span>
+  <span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/layer_distribution_lambda.html">layer_distribution_lambda</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+    <span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span><span class="op">(</span>loc <span class="op">=</span> <span class="va">x</span><span class="op">[</span>, <span class="fl">1</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>,
+               scale <span class="op">=</span> <span class="fl">1e-3</span> <span class="op">+</span> <span class="va">tf</span><span class="op">$</span><span class="va">math</span><span class="op">$</span><span class="fu">softplus</span><span class="op">(</span><span class="fl">0.01</span> <span class="op">*</span> <span class="va">x</span><span class="op">[</span>, <span class="fl">2</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span><span class="op">)</span>
+               <span class="op">)</span>
+    <span class="op">)</span></code></pre></div>
 <p>The model is then simply trained to minimize the negative log likelihood, and fitted like a normal <code>keras</code> network.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">negloglik</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">y</span>, <span class="no">model</span>) - (<span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="no">y</span>))
-<span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">compile</a></span>(<span class="kw">optimizer</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/optimizer_adam.html">optimizer_adam</a></span>(<span class="kw">lr</span> <span class="kw">=</span> <span class="fl">0.01</span>), <span class="kw">loss</span> <span class="kw">=</span> <span class="no">negloglik</span>)
-<span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/reexports.html">fit</a></span>(<span class="no">x</span>, <span class="no">y</span>, <span class="kw">epochs</span> <span class="kw">=</span> <span class="fl">1000</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">negloglik</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">y</span>, <span class="va">model</span><span class="op">)</span> <span class="op">-</span> <span class="op">(</span><span class="va">model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_log_prob.html">tfd_log_prob</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span>
+<span class="va">model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/compile.html">compile</a></span><span class="op">(</span>optimizer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/keras/man/optimizer_adam.html">optimizer_adam</a></span><span class="op">(</span>lr <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, loss <span class="op">=</span> <span class="va">negloglik</span><span class="op">)</span>
+<span class="va">model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://generics.r-lib.org/reference/fit.html">fit</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, epochs <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></code></pre></div>
 <p>Because of the uncertainty in the weights, this model does not predict one line, but an ensemble of lines. Each of these lines has its own opinion about the spread in the data. Here is a way we could display this – each colored line is the mean of a distribution, surrounded by a confidence band indicating +/- two standard deviations.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># each time we ask the model to predict, we get a different line</span>
-<span class="no">yhats</span> <span class="kw">&lt;-</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="fl">1</span>:<span class="fl">100</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu">model</span>(<span class="no">tf</span>$<span class="fu">constant</span>(<span class="no">x_test</span>)))
-<span class="no">means</span> <span class="kw">&lt;-</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">yhats</span>, <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span>(<span class="no">as.matrix</span>, <span class="no">tfd_mean</span>)) <span class="kw">%&gt;%</span> <span class="kw pkg">abind</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html">abind</a></span>()
-<span class="no">sds</span> <span class="kw">&lt;-</span>
-  <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">yhats</span>, <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span>(<span class="no">as.matrix</span>, <span class="no">tfd_stddev</span>)) <span class="kw">%&gt;%</span> <span class="kw pkg">abind</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html">abind</a></span>()
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># each time we ask the model to predict, we get a different line</span>
+<span class="va">yhats</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">model</span><span class="op">(</span><span class="va">tf</span><span class="op">$</span><span class="fu">constant</span><span class="op">(</span><span class="va">x_test</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">means</span> <span class="op">&lt;-</span>
+  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">yhats</span>, <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span><span class="op">(</span><span class="va">as.matrix</span>, <span class="va">tfd_mean</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html">abind</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">sds</span> <span class="op">&lt;-</span>
+  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">yhats</span>, <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span><span class="op">(</span><span class="va">as.matrix</span>, <span class="va">tfd_stddev</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">abind</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/abind/man/abind.html">abind</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="no">means_gathered</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">x_test</span>, <span class="no">means</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="no">run</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">mean_val</span>,-<span class="no">X1</span>)
-<span class="no">sds_gathered</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="no">x_test</span>, <span class="no">sds</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="no">run</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">sd_val</span>,-<span class="no">X1</span>)
+<span class="va">means_gathered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">x_test</span>, <span class="va">means</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">run</span>, value <span class="op">=</span> <span class="va">mean_val</span>,<span class="op">-</span><span class="va">X1</span><span class="op">)</span>
+<span class="va">sds_gathered</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="va">x_test</span>, <span class="va">sds</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/gather.html">gather</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">run</span>, value <span class="op">=</span> <span class="va">sd_val</span>,<span class="op">-</span><span class="va">X1</span><span class="op">)</span>
 
-<span class="no">lines</span> <span class="kw">&lt;-</span>
-  <span class="no">means_gathered</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span>(<span class="no">sds_gathered</span>, <span class="kw">by</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"X1"</span>, <span class="st">"run"</span>))
-<span class="no">mean</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">means</span>, <span class="fl">1</span>, <span class="no">mean</span>)
+<span class="va">lines</span> <span class="op">&lt;-</span>
+  <span class="va">means_gathered</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">inner_join</a></span><span class="op">(</span><span class="va">sds_gathered</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"X1"</span>, <span class="st">"run"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">mean</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">means</span>, <span class="fl">1</span>, <span class="va">mean</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">y</span>, <span class="kw">mean</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">mean</span>)), <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="no">x</span>, <span class="no">y</span>)) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>() +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="kw">legend.position</span> <span class="kw">=</span> <span class="st">"none"</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">x_test</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">mean</span>), <span class="kw">color</span> <span class="kw">=</span> <span class="st">"violet"</span>, <span class="kw">size</span> <span class="kw">=</span> <span class="fl">1.5</span>) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(
-    <span class="kw">data</span> <span class="kw">=</span> <span class="no">lines</span>,
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">X1</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">mean_val</span>, <span class="kw">color</span> <span class="kw">=</span> <span class="no">run</span>),
-    <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.6</span>,
-    <span class="kw">size</span> <span class="kw">=</span> <span class="fl">0.5</span>
-  ) +
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span>(
-    <span class="kw">data</span> <span class="kw">=</span> <span class="no">lines</span>,
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(
-      <span class="kw">x</span> <span class="kw">=</span> <span class="no">X1</span>,
-      <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">mean_val</span> - <span class="fl">2</span> * <span class="no">sd_val</span>,
-      <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">mean_val</span> + <span class="fl">2</span> * <span class="no">sd_val</span>,
-      <span class="kw">group</span> <span class="kw">=</span> <span class="no">run</span>
-    ),
-    <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.05</span>,
-    <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"grey"</span>,
-    <span class="kw">inherit.aes</span> <span class="kw">=</span> <span class="fl">FALSE</span>
-  )</pre></body></html></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span>, mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x_test</span>, y <span class="op">=</span> <span class="va">mean</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"violet"</span>, size <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span>
+    data <span class="op">=</span> <span class="va">lines</span>,
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">X1</span>, y <span class="op">=</span> <span class="va">mean_val</span>, color <span class="op">=</span> <span class="va">run</span><span class="op">)</span>,
+    alpha <span class="op">=</span> <span class="fl">0.6</span>,
+    size <span class="op">=</span> <span class="fl">0.5</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon</a></span><span class="op">(</span>
+    data <span class="op">=</span> <span class="va">lines</span>,
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>
+      x <span class="op">=</span> <span class="va">X1</span>,
+      ymin <span class="op">=</span> <span class="va">mean_val</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sd_val</span>,
+      ymax <span class="op">=</span> <span class="va">mean_val</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">sd_val</span>,
+      group <span class="op">=</span> <span class="va">run</span>
+    <span class="op">)</span>,
+    alpha <span class="op">=</span> <span class="fl">0.05</span>,
+    fill <span class="op">=</span> <span class="st">"grey"</span>,
+    inherit.aes <span class="op">=</span> <span class="cn">FALSE</span>
+  <span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="images/uncertainty.png" alt="Displaying both epistemic and aleatoric uncertainty on the simulated dataset." width="500"><p class="caption">
 Displaying both epistemic and aleatoric uncertainty on the simulated dataset.
@@ -257,7 +265,7 @@ Displaying both epistemic and aleatoric uncertainty on the simulated dataset.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

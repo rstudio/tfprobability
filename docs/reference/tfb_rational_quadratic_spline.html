@@ -142,14 +142,14 @@ quadratic function. Outside of the bounds of <code>knot_x</code>/<code>knot_y</c
 behaves as an identity function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_rational_quadratic_spline</span>(
-  <span class='no'>bin_widths</span>,
-  <span class='no'>bin_heights</span>,
-  <span class='no'>knot_slopes</span>,
-  <span class='kw'>range_min</span> <span class='kw'>=</span> -<span class='fl'>1</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfb_rational_quadratic_spline</span><span class='op'>(</span>
+  <span class='va'>bin_widths</span>,
+  <span class='va'>bin_heights</span>,
+  <span class='va'>knot_slopes</span>,
+  range_min <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,12 +208,13 @@ transform for each of three dimensions might have <code>bin_widths</code> shaped
 broadcast against <code>x</code> and use a <code>bin_widths</code> parameter shaped <code>[32]</code>.</p>
 <p>Parameters will be broadcast against each other and against the input
 <code>x</code>/<code>y</code>s, so if we want fixed slopes, we can use kwarg <code>knot_slopes=1</code>.
-A typical recipe for acquiring compatible bin widths and heights would be:</p><pre><span class='no'>nbins</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>unconstrained_vector</span>$<span class='no'>shape</span>[-<span class='fl'>1</span>]
-<span class='no'>range_min</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fl'>1</span>
-<span class='no'>range_max</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fl'>1</span>
-<span class='no'>min_bin_size</span> <span class='kw'>=</span> <span class='fl'>1e-2</span>
-<span class='no'>scale</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>range_max</span> - <span class='no'>range_min</span> - <span class='no'>nbins</span> * <span class='no'>min_bin_size</span>
-<span class='no'>bin_widths</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>math</span>$<span class='fu'>softmax</span>(<span class='no'>unconstrained_vector</span>) * <span class='no'>scale</span> + <span class='no'>min_bin_size</span></pre>
+A typical recipe for acquiring compatible bin widths and heights would be:</p><pre><span class='va'>nbins</span> <span class='op'>&lt;-</span> <span class='va'>unconstrained_vector</span><span class='op'>$</span><span class='va'>shape</span><span class='op'>[</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span>
+<span class='va'>range_min</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>range_max</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>min_bin_size</span> <span class='op'>=</span> <span class='fl'>1e-2</span>
+<span class='va'>scale</span> <span class='op'>&lt;-</span> <span class='va'>range_max</span> <span class='op'>-</span> <span class='va'>range_min</span> <span class='op'>-</span> <span class='va'>nbins</span> <span class='op'>*</span> <span class='va'>min_bin_size</span>
+<span class='va'>bin_widths</span> <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='va'>math</span><span class='op'>$</span><span class='fu'>softmax</span><span class='op'>(</span><span class='va'>unconstrained_vector</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>scale</span> <span class='op'>+</span> <span class='va'>min_bin_size</span>
+</pre>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -231,6 +232,7 @@ A typical recipe for acquiring compatible bin widths and heights would be:</p><p
 <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a>()</code>,
 <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a>()</code>,
 <code><a href='tfb_affine.html'>tfb_affine</a>()</code>,
+<code><a href='tfb_ascending.html'>tfb_ascending</a>()</code>,
 <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a>()</code>,
 <code><a href='tfb_blockwise.html'>tfb_blockwise</a>()</code>,
 <code><a href='tfb_chain.html'>tfb_chain</a>()</code>,
@@ -244,6 +246,7 @@ A typical recipe for acquiring compatible bin widths and heights would be:</p><p
 <code><a href='tfb_ffjord.html'>tfb_ffjord</a>()</code>,
 <code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a>()</code>,
 <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a>()</code>,
+<code><a href='tfb_glow.html'>tfb_glow</a>()</code>,
 <code><a href='tfb_gompertz_cdf.html'>tfb_gompertz_cdf</a>()</code>,
 <code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a>()</code>,
 <code><a href='tfb_gumbel.html'>tfb_gumbel</a>()</code>,
@@ -264,6 +267,7 @@ A typical recipe for acquiring compatible bin widths and heights would be:</p><p
 <code><a href='tfb_pad.html'>tfb_pad</a>()</code>,
 <code><a href='tfb_permute.html'>tfb_permute</a>()</code>,
 <code><a href='tfb_power_transform.html'>tfb_power_transform</a>()</code>,
+<code><a href='tfb_rayleigh_cdf.html'>tfb_rayleigh_cdf</a>()</code>,
 <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a>()</code>,
 <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a>()</code>,
 <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a>()</code>,
@@ -305,7 +309,7 @@ A typical recipe for acquiring compatible bin widths and heights would be:</p><p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_simple_step_size_adaptation • tfprobability</title>
+<title>Adapts the inner kernel's step_size based on log_accept_prob. — mcmc_simple_step_size_adaptation • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Adapts the inner kernel's <code>step_size</code> based on <code>log_accept_prob</code>. — mcmc_simple_step_size_adaptation" />
+<meta property="og:title" content="Adapts the inner kernel's step_size based on log_accept_prob. — mcmc_simple_step_size_adaptation" />
 <meta property="og:description" content="The simple policy multiplicatively increases or decreases the step_size of
 the inner kernel based on the value of log_accept_prob. It is based on
 equation 19 of Andrieu and Thoms (2008). Given enough steps and small
@@ -154,17 +154,17 @@ acceptance probability depends on the inner kernel. If this kernel is
 kernels' docstrings for guidance.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_simple_step_size_adaptation</span>(
-  <span class='no'>inner_kernel</span>,
-  <span class='no'>num_adaptation_steps</span>,
-  <span class='kw'>target_accept_prob</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
-  <span class='kw'>adaptation_rate</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>step_size_setter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>step_size_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>log_accept_prob_getter_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mcmc_simple_step_size_adaptation</span><span class='op'>(</span>
+  <span class='va'>inner_kernel</span>,
+  <span class='va'>num_adaptation_steps</span>,
+  target_accept_prob <span class='op'>=</span> <span class='fl'>0.75</span>,
+  adaptation_rate <span class='op'>=</span> <span class='fl'>0.01</span>,
+  step_size_setter_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  step_size_getter_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  log_accept_prob_getter_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -303,35 +303,37 @@ single distribution, all sampled in parallel.</p></li>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-  <span class='no'>target_log_prob_fn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>)$<span class='no'>log_prob</span>
-  <span class='no'>num_burnin_steps</span> <span class='kw'>&lt;-</span> <span class='fl'>500</span>
-  <span class='no'>num_results</span> <span class='kw'>&lt;-</span> <span class='fl'>500</span>
-  <span class='no'>num_chains</span> <span class='kw'>&lt;-</span> <span class='fl'>64L</span>
-  <span class='no'>step_size</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>fill</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>num_chains</span>), <span class='fl'>0.1</span>)
+  <span class='va'>target_log_prob_fn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span><span class='op'>(</span>loc <span class='op'>=</span> <span class='fl'>0</span>, scale <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span><span class='op'>$</span><span class='va'>log_prob</span>
+  <span class='va'>num_burnin_steps</span> <span class='op'>&lt;-</span> <span class='fl'>500</span>
+  <span class='va'>num_results</span> <span class='op'>&lt;-</span> <span class='fl'>500</span>
+  <span class='va'>num_chains</span> <span class='op'>&lt;-</span> <span class='fl'>64L</span>
+  <span class='va'>step_size</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>fill</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>num_chains</span><span class='op'>)</span>, <span class='fl'>0.1</span><span class='op'>)</span>
 
-  <span class='no'>kernel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></span>(
-    <span class='kw'>target_log_prob_fn</span> <span class='kw'>=</span> <span class='no'>target_log_prob_fn</span>,
-    <span class='kw'>num_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-    <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='no'>step_size</span>
-  ) <span class='kw'>%&gt;%</span>
-    <span class='fu'>mcmc_simple_step_size_adaptation</span>(<span class='kw'>num_adaptation_steps</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>num_burnin_steps</span> * <span class='fl'>0.8</span>))
+  <span class='va'>kernel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></span><span class='op'>(</span>
+    target_log_prob_fn <span class='op'>=</span> <span class='va'>target_log_prob_fn</span>,
+    num_leapfrog_steps <span class='op'>=</span> <span class='fl'>2</span>,
+    step_size <span class='op'>=</span> <span class='va'>step_size</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+    <span class='fu'>mcmc_simple_step_size_adaptation</span><span class='op'>(</span>num_adaptation_steps <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>num_burnin_steps</span> <span class='op'>*</span> <span class='fl'>0.8</span><span class='op'>)</span><span class='op'>)</span>
 
-  <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='no'>kernel</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a></span>(
-    <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='no'>num_results</span>,
-    <span class='kw'>num_burnin_steps</span> <span class='kw'>=</span> <span class='no'>num_burnin_steps</span>,
-    <span class='kw'>current_state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='no'>num_chains</span>),
-    <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>pkr</span>) {
-      <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> (
-        <span class='no'>pkr</span>$<span class='no'>inner_results</span>$<span class='no'>accepted_results</span>$<span class='no'>step_size</span>,
-        <span class='no'>pkr</span>$<span class='no'>inner_results</span>$<span class='no'>log_accept_ratio</span>
-      )
-    }
-  )
+  <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='va'>kernel</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a></span><span class='op'>(</span>
+    num_results <span class='op'>=</span> <span class='va'>num_results</span>,
+    num_burnin_steps <span class='op'>=</span> <span class='va'>num_burnin_steps</span>,
+    current_state <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>num_chains</span><span class='op'>)</span>,
+    trace_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>pkr</span><span class='op'>)</span> <span class='op'>{</span>
+      <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> <span class='op'>(</span>
+        <span class='va'>pkr</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>accepted_results</span><span class='op'>$</span><span class='va'>step_size</span>,
+        <span class='va'>pkr</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>log_accept_ratio</span>
+      <span class='op'>)</span>
+    <span class='op'>}</span>
+  <span class='op'>)</span>
 
-  <span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='no'>res</span>$<span class='no'>all_states</span>
-  <span class='no'>step_size</span> <span class='kw'>&lt;-</span> <span class='no'>res</span>$<span class='no'>trace</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-  <span class='no'>log_accept_ratio</span> <span class='kw'>&lt;-</span> <span class='no'>res</span>$<span class='no'>trace</span><span class='kw'>[[</span><span class='fl'>2</span>]]
-<span class='co'># }</span></div></pre>
+  <span class='va'>samples</span> <span class='op'>&lt;-</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>all_states</span>
+  <span class='va'>step_size</span> <span class='op'>&lt;-</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>trace</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+  <span class='va'>log_accept_ratio</span> <span class='op'>&lt;-</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>trace</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
+<span class='co'># }</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -347,7 +349,7 @@ single distribution, all sampled in parallel.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

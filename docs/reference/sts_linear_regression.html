@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Formal representation of a linear regression from provided covariates. — sts_linear_regression" />
 <meta property="og:description" content="This model defines a time series given by a linear combination of
-covariate time series provided in a design matrix:observed_time_series &amp;amp;lt;- tf$matmul(design_matrix, weights)
+covariate time series provided in a design matrix:observed_time_series &amp;lt;- tf$matmul(design_matrix, weights)
+
 " />
 
 
@@ -138,11 +139,12 @@ covariate time series provided in a design matrix:observed_time_series &amp;amp;
 
     <div class="ref-description">
     <p>This model defines a time series given by a linear combination of
-covariate time series provided in a design matrix:</p><pre><span class='no'>observed_time_series</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>tf</span>$<span class='fu'>matmul</span>(<span class='no'>design_matrix</span>, <span class='no'>weights</span>)</pre>
+covariate time series provided in a design matrix:</p><pre><span class='va'>observed_time_series</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>matmul</span><span class='op'>(</span><span class='va'>design_matrix</span>, <span class='va'>weights</span><span class='op'>)</span>
+</pre>
 
     </div>
 
-    <pre class="usage"><span class='fu'>sts_linear_regression</span>(<span class='no'>design_matrix</span>, <span class='kw'>weights_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>sts_linear_regression</span><span class='op'>(</span><span class='va'>design_matrix</span>, weights_prior <span class='op'>=</span> <span class='cn'>NULL</span>, name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -223,7 +225,7 @@ observation noise from another component such as <code>sts_sum</code>, as demons
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

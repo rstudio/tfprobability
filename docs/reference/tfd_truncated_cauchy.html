@@ -144,15 +144,15 @@ Samples from this distribution are differentiable with respect to <code>loc</cod
 and <code>scale</code>, but not with respect to the bounds <code>low</code> and <code>high</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_truncated_cauchy</span>(
-  <span class='no'>loc</span>,
-  <span class='no'>scale</span>,
-  <span class='no'>low</span>,
-  <span class='no'>high</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"TruncatedCauchy"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_truncated_cauchy</span><span class='op'>(</span>
+  <span class='va'>loc</span>,
+  <span class='va'>scale</span>,
+  <span class='va'>low</span>,
+  <span class='va'>high</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='st'>"TruncatedCauchy"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,7 +202,7 @@ one or more of the statistic's batch members are undefined.</p></td>
 
     <p>Mathematical Details</p>
 <p>The probability density function (pdf) of this distribution is:</p><pre>pdf(x; loc, scale, low, high) =
-    { 1 / (pi * scale * (1 + z**2) * A) for low &amp;lt;= x &amp;lt;= high
+    { 1 / (pi * scale * (1 + z**2) * A) for low &lt;= x &lt;= high
     { 0                                 otherwise
     where
         z = (x - loc) / scale
@@ -234,6 +234,8 @@ dimensions of the parameters define the batch_shape.</p>
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
 <code><a href='tfd_empirical.html'>tfd_empirical</a>()</code>,
+<code><a href='tfd_exp_gamma.html'>tfd_exp_gamma</a>()</code>,
+<code><a href='tfd_exp_inverse_gamma.html'>tfd_exp_inverse_gamma</a>()</code>,
 <code><a href='tfd_exponential.html'>tfd_exponential</a>()</code>,
 <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a>()</code>,
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
@@ -284,6 +286,7 @@ dimensions of the parameters define the batch_shape.</p>
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_skellam.html'>tfd_skellam</a>()</code>,
 <code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_student_t.html'>tfd_student_t</a>()</code>,
@@ -321,7 +324,7 @@ dimensions of the parameters define the batch_shape.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

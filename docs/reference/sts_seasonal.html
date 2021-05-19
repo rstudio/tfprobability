@@ -150,15 +150,15 @@ timesteps. The effect of each season drifts from one occurrence to the next
 following a Gaussian random walk:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_seasonal</span>(
-  <span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>num_seasons</span>,
-  <span class='kw'>num_steps_per_season</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>drift_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial_effect_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>constrain_mean_effect_to_zero</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sts_seasonal</span><span class='op'>(</span>
+  observed_time_series <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>num_seasons</span>,
+  num_steps_per_season <span class='op'>=</span> <span class='fl'>1</span>,
+  drift_scale_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initial_effect_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  constrain_mean_effect_to_zero <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -226,8 +226,9 @@ examine the latent space of the underlying state space model. Default value: <co
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<pre><span class='no'>effects</span>[<span class='no'>season</span>, <span class='no'>occurrence</span>[<span class='no'>i</span>]] <span class='kw'>=</span> (
-  <span class='no'>effects</span>[<span class='no'>season</span>, <span class='no'>occurrence</span>[<span class='no'>i</span>-<span class='fl'>1</span>]] + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span>(<span class='kw'>loc</span><span class='kw'>=</span><span class='fl'>0.</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='no'>drift_scale</span>))</pre>
+<pre><span class='va'>effects</span><span class='op'>[</span><span class='va'>season</span>, <span class='va'>occurrence</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>=</span> <span class='op'>(</span>
+  <span class='va'>effects</span><span class='op'>[</span><span class='va'>season</span>, <span class='va'>occurrence</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span><span class='op'>(</span>loc<span class='op'>=</span><span class='fl'>0.</span>, scale<span class='op'>=</span><span class='va'>drift_scale</span><span class='op'>)</span><span class='op'>)</span>
+</pre>
 
 <p>The <code>drift_scale</code> parameter governs the standard deviation of the random walk;
 for example, in a day-of-week model it governs the change in effect from this
@@ -270,7 +271,7 @@ Monday to next Monday.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

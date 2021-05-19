@@ -140,12 +140,12 @@ distribution over future observations for num_steps_forecast timesteps." />
 distribution over future observations for num_steps_forecast timesteps.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_forecast</span>(
-  <span class='no'>observed_time_series</span>,
-  <span class='no'>model</span>,
-  <span class='no'>parameter_samples</span>,
-  <span class='no'>num_steps_forecast</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sts_forecast</span><span class='op'>(</span>
+  <span class='va'>observed_time_series</span>,
+  <span class='va'>model</span>,
+  <span class='va'>parameter_samples</span>,
+  <span class='va'>num_steps_forecast</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,27 +197,29 @@ This may optionally also be a named list mapping parameter names to <code>tensor
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>observed_time_series</span> <span class='kw'>&lt;-</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3.5</span>, <span class='fl'>4.1</span>, <span class='fl'>4.5</span>, <span class='fl'>3.9</span>, <span class='fl'>2.4</span>, <span class='fl'>2.1</span>, <span class='fl'>1.2</span>), <span class='fl'>5</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.1</span>, <span class='fl'>1.5</span>, <span class='fl'>2.4</span>, <span class='fl'>3.1</span>, <span class='fl'>4.0</span>), <span class='kw'>each</span> <span class='kw'>=</span> <span class='fl'>7</span>) <span class='kw'>%&gt;%</span>
-  <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='fu'>convert_to_tensor</span>(<span class='kw'>dtype</span> <span class='kw'>=</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span>$<span class='no'>float64</span>)
-<span class='no'>day_of_week</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span>(<span class='kw'>num_seasons</span> <span class='kw'>=</span> <span class='fl'>7</span>)
-<span class='no'>local_linear_trend</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span>()
-<span class='no'>model</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span>(<span class='kw'>components</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>day_of_week</span>, <span class='no'>local_linear_trend</span>))
-<span class='no'>states_and_results</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></span>(
-    <span class='no'>model</span>,
-    <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-    <span class='kw'>num_warmup_steps</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-    <span class='kw'>num_variational_steps</span> <span class='kw'>=</span> <span class='fl'>15</span>)
-<span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='no'>states_and_results</span><span class='kw'>[[</span><span class='fl'>1</span>]]
-<span class='no'>preds</span> <span class='kw'>&lt;-</span> <span class='no'>observed_time_series</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>sts_forecast</span>(<span class='no'>model</span>,
-               <span class='kw'>parameter_samples</span> <span class='kw'>=</span> <span class='no'>samples</span>,
-               <span class='kw'>num_steps_forecast</span> <span class='kw'>=</span> <span class='fl'>50</span>)
-<span class='no'>predictions</span> <span class='kw'>&lt;-</span> <span class='no'>preds</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(<span class='fl'>10</span>)
-<span class='co'># }</span></div></pre>
+<span class='va'>observed_time_series</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3.5</span>, <span class='fl'>4.1</span>, <span class='fl'>4.5</span>, <span class='fl'>3.9</span>, <span class='fl'>2.4</span>, <span class='fl'>2.1</span>, <span class='fl'>1.2</span><span class='op'>)</span>, <span class='fl'>5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1.1</span>, <span class='fl'>1.5</span>, <span class='fl'>2.4</span>, <span class='fl'>3.1</span>, <span class='fl'>4.0</span><span class='op'>)</span>, each <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>tensorflow</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span><span class='op'>$</span><span class='fu'>convert_to_tensor</span><span class='op'>(</span>dtype <span class='op'>=</span> <span class='fu'>tensorflow</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/tensorflow/man/tf.html'>tf</a></span><span class='op'>$</span><span class='va'>float64</span><span class='op'>)</span>
+<span class='va'>day_of_week</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sts_seasonal.html'>sts_seasonal</a></span><span class='op'>(</span>num_seasons <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span>
+<span class='va'>local_linear_trend</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sts_local_linear_trend.html'>sts_local_linear_trend</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>model</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='sts_sum.html'>sts_sum</a></span><span class='op'>(</span>components <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>day_of_week</span>, <span class='va'>local_linear_trend</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>states_and_results</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='sts_fit_with_hmc.html'>sts_fit_with_hmc</a></span><span class='op'>(</span>
+    <span class='va'>model</span>,
+    num_results <span class='op'>=</span> <span class='fl'>10</span>,
+    num_warmup_steps <span class='op'>=</span> <span class='fl'>5</span>,
+    num_variational_steps <span class='op'>=</span> <span class='fl'>15</span><span class='op'>)</span>
+<span class='va'>samples</span> <span class='op'>&lt;-</span> <span class='va'>states_and_results</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>preds</span> <span class='op'>&lt;-</span> <span class='va'>observed_time_series</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>sts_forecast</span><span class='op'>(</span><span class='va'>model</span>,
+               parameter_samples <span class='op'>=</span> <span class='va'>samples</span>,
+               num_steps_forecast <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
+<span class='va'>predictions</span> <span class='op'>&lt;-</span> <span class='va'>preds</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='co'># }</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -233,7 +235,7 @@ This may optionally also be a named list mapping parameter names to <code>tensor
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

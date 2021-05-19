@@ -142,15 +142,15 @@ distribution's concretization (i.e., <code>tf$convert_to_tensor(distribution)</c
 sample. To override this behavior, set test_points_fn.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>layer_kl_divergence_regularizer</span>(
-  <span class='no'>object</span>,
-  <span class='no'>distribution_b</span>,
-  <span class='kw'>use_exact_kl</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>test_points_reduce_axis</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>test_points_fn</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>convert_to_tensor</span>,
-  <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>layer_kl_divergence_regularizer</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>distribution_b</span>,
+  use_exact_kl <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  test_points_reduce_axis <span class='op'>=</span> <span class='cn'>NULL</span>,
+  test_points_fn <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='va'>convert_to_tensor</span>,
+  weight <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,7 +229,7 @@ Default value: NULL (i.e., do not weight each batch member).</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

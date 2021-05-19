@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Computes<code>Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )</code> — tfb_sinh_arcsinh • tfprobability</title>
+<title>ComputesY = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ) — tfb_sinh_arcsinh • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Computes<code>Y = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight )</code> — tfb_sinh_arcsinh" />
+<meta property="og:title" content="ComputesY = g(X) = Sinh( (Arcsinh(X) + skewness) * tailweight ) — tfb_sinh_arcsinh" />
 <meta property="og:description" content="For skewness in (-inf, inf) and tailweight in (0, inf), this
 transformation is a diffeomorphism of the real line (-inf, inf).
 The inverse transform is X = g^{-1}(Y) = Sinh( ArcSinh(Y) / tailweight - skewness ).
@@ -146,12 +146,12 @@ The SinhArcsinh transformation of the Normal is described in
 <a href='https://oro.open.ac.uk/22510/'>Sinh-arcsinh distributions</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_sinh_arcsinh</span>(
-  <span class='kw'>skewness</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>tailweight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"SinhArcsinh"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfb_sinh_arcsinh</span><span class='op'>(</span>
+  skewness <span class='op'>=</span> <span class='cn'>NULL</span>,
+  tailweight <span class='op'>=</span> <span class='cn'>NULL</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='st'>"SinhArcsinh"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,6 +205,7 @@ Y approx 0.5 X</strong>tailweight e**(sign(X) skewness * tailweight).</p></li>
 <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a>()</code>,
 <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a>()</code>,
 <code><a href='tfb_affine.html'>tfb_affine</a>()</code>,
+<code><a href='tfb_ascending.html'>tfb_ascending</a>()</code>,
 <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a>()</code>,
 <code><a href='tfb_blockwise.html'>tfb_blockwise</a>()</code>,
 <code><a href='tfb_chain.html'>tfb_chain</a>()</code>,
@@ -218,6 +219,7 @@ Y approx 0.5 X</strong>tailweight e**(sign(X) skewness * tailweight).</p></li>
 <code><a href='tfb_ffjord.html'>tfb_ffjord</a>()</code>,
 <code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a>()</code>,
 <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a>()</code>,
+<code><a href='tfb_glow.html'>tfb_glow</a>()</code>,
 <code><a href='tfb_gompertz_cdf.html'>tfb_gompertz_cdf</a>()</code>,
 <code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a>()</code>,
 <code><a href='tfb_gumbel.html'>tfb_gumbel</a>()</code>,
@@ -239,6 +241,7 @@ Y approx 0.5 X</strong>tailweight e**(sign(X) skewness * tailweight).</p></li>
 <code><a href='tfb_permute.html'>tfb_permute</a>()</code>,
 <code><a href='tfb_power_transform.html'>tfb_power_transform</a>()</code>,
 <code><a href='tfb_rational_quadratic_spline.html'>tfb_rational_quadratic_spline</a>()</code>,
+<code><a href='tfb_rayleigh_cdf.html'>tfb_rayleigh_cdf</a>()</code>,
 <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a>()</code>,
 <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a>()</code>,
 <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a>()</code>,
@@ -279,7 +282,7 @@ Y approx 0.5 X</strong>tailweight e**(sign(X) skewness * tailweight).</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

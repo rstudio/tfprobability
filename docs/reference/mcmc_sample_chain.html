@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Implements Markov chain Monte Carlo via repeated <code>TransitionKernel</code> steps. — mcmc_sample_chain • tfprobability</title>
+<title>Implements Markov chain Monte Carlo via repeated TransitionKernel steps. — mcmc_sample_chain • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Implements Markov chain Monte Carlo via repeated <code>TransitionKernel</code> steps. — mcmc_sample_chain" />
+<meta property="og:title" content="Implements Markov chain Monte Carlo via repeated TransitionKernel steps. — mcmc_sample_chain" />
 <meta property="og:description" content="This function samples from an Markov chain at current_state and whose
 stationary distribution is governed by the supplied TransitionKernel
 instance (kernel)." />
@@ -142,19 +142,19 @@ stationary distribution is governed by the supplied <code>TransitionKernel</code
 instance (<code>kernel</code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_sample_chain</span>(
-  <span class='kw'>kernel</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>num_results</span>,
-  <span class='no'>current_state</span>,
-  <span class='kw'>previous_kernel_results</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>num_burnin_steps</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>num_steps_between_results</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>return_final_kernel_results</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parallel_iterations</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mcmc_sample_chain</span><span class='op'>(</span>
+  kernel <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>num_results</span>,
+  <span class='va'>current_state</span>,
+  previous_kernel_results <span class='op'>=</span> <span class='cn'>NULL</span>,
+  num_burnin_steps <span class='op'>=</span> <span class='fl'>0</span>,
+  num_steps_between_results <span class='op'>=</span> <span class='fl'>0</span>,
+  trace_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  return_final_kernel_results <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  parallel_iterations <span class='op'>=</span> <span class='fl'>10</span>,
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -271,27 +271,28 @@ accordingly. See below for some examples of this feature.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-  <span class='no'>dims</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
-  <span class='no'>true_stddev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='no'>dims</span>))
-  <span class='no'>likelihood</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></span>(<span class='kw'>scale_diag</span> <span class='kw'>=</span> <span class='no'>true_stddev</span>)
+  <span class='va'>dims</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+  <span class='va'>true_stddev</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span>, length.out <span class='op'>=</span> <span class='va'>dims</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>likelihood</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tfd_multivariate_normal_diag.html'>tfd_multivariate_normal_diag</a></span><span class='op'>(</span>scale_diag <span class='op'>=</span> <span class='va'>true_stddev</span><span class='op'>)</span>
 
-  <span class='no'>kernel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></span>(
-    <span class='kw'>target_log_prob_fn</span> <span class='kw'>=</span> <span class='no'>likelihood</span>$<span class='no'>log_prob</span>,
-    <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-    <span class='kw'>num_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>2</span>
-  )
+  <span class='va'>kernel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mcmc_hamiltonian_monte_carlo.html'>mcmc_hamiltonian_monte_carlo</a></span><span class='op'>(</span>
+    target_log_prob_fn <span class='op'>=</span> <span class='va'>likelihood</span><span class='op'>$</span><span class='va'>log_prob</span>,
+    step_size <span class='op'>=</span> <span class='fl'>0.5</span>,
+    num_leapfrog_steps <span class='op'>=</span> <span class='fl'>2</span>
+  <span class='op'>)</span>
 
-  <span class='no'>states</span> <span class='kw'>&lt;-</span> <span class='no'>kernel</span> <span class='kw'>%&gt;%</span> <span class='fu'>mcmc_sample_chain</span>(
-    <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-    <span class='kw'>num_burnin_steps</span> <span class='kw'>=</span> <span class='fl'>500</span>,
-    <span class='kw'>current_state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>0</span>, <span class='no'>dims</span>),
-    <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-  )
+  <span class='va'>states</span> <span class='op'>&lt;-</span> <span class='va'>kernel</span> <span class='op'>%&gt;%</span> <span class='fu'>mcmc_sample_chain</span><span class='op'>(</span>
+    num_results <span class='op'>=</span> <span class='fl'>1000</span>,
+    num_burnin_steps <span class='op'>=</span> <span class='fl'>500</span>,
+    current_state <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>dims</span><span class='op'>)</span>,
+    trace_fn <span class='op'>=</span> <span class='cn'>NULL</span>
+  <span class='op'>)</span>
 
-  <span class='no'>sample_mean</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>states</span>, <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>)
-  <span class='no'>sample_stddev</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(
-    <span class='no'>tf</span>$<span class='fu'>reduce_mean</span>(<span class='no'>tf</span>$<span class='no'>math</span>$<span class='fu'>squared_difference</span>(<span class='no'>states</span>, <span class='no'>sample_mean</span>), <span class='kw'>axis</span> <span class='kw'>=</span> <span class='fl'>0L</span>))
-<span class='co'># }</span></div></pre>
+  <span class='va'>sample_mean</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>reduce_mean</span><span class='op'>(</span><span class='va'>states</span>, axis <span class='op'>=</span> <span class='fl'>0L</span><span class='op'>)</span>
+  <span class='va'>sample_stddev</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>sqrt</span><span class='op'>(</span>
+    <span class='va'>tf</span><span class='op'>$</span><span class='fu'>reduce_mean</span><span class='op'>(</span><span class='va'>tf</span><span class='op'>$</span><span class='va'>math</span><span class='op'>$</span><span class='fu'>squared_difference</span><span class='op'>(</span><span class='va'>states</span>, <span class='va'>sample_mean</span><span class='op'>)</span>, axis <span class='op'>=</span> <span class='fl'>0L</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -307,7 +308,7 @@ accordingly. See below for some examples of this feature.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

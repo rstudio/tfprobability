@@ -138,7 +138,7 @@
     <p>Mode.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_mode</span>(<span class='no'>distribution</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>tfd_mode</span><span class='op'>(</span><span class='va'>distribution</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,8 +177,9 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-  <span class='no'>d</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0.5</span>))
-  <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'>tfd_mode</span>()</div><div class='output co'>#&gt; tf.Tensor([1. 2.], shape=(2,), dtype=float32)</div><div class='input'># }
+  <span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span><span class='op'>(</span>loc <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span>, scale <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>d</span> <span class='op'>%&gt;%</span> <span class='fu'>tfd_mode</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tf.Tensor([1. 2.], shape=(2,), dtype=float32)</div><div class='input'><span class='co'># }</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -195,7 +196,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

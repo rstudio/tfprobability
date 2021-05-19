@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>An autoregressive normalizing flow layer, given a <code>layer_autoregressive</code>. — layer_autoregressive_transform • tfprobability</title>
+<title>An autoregressive normalizing flow layer, given a layer_autoregressive. — layer_autoregressive_transform • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="An autoregressive normalizing flow layer, given a <code>layer_autoregressive</code>. — layer_autoregressive_transform" />
+<meta property="og:title" content="An autoregressive normalizing flow layer, given a layer_autoregressive. — layer_autoregressive_transform" />
 <meta property="og:description" content="Following Papamakarios et al. (2017), given
 an autoregressive model \(p(x)\) with conditional distributions in the location-scale
 family, we can construct a normalizing flow for \(p(x)\)." />
@@ -142,7 +142,7 @@ an autoregressive model \(p(x)\) with conditional distributions in the location-
 family, we can construct a normalizing flow for \(p(x)\).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>layer_autoregressive_transform</span>(<span class='no'>object</span>, <span class='no'>made</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>layer_autoregressive_transform</span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>made</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,12 +171,13 @@ a Masked Autoencoder for Distribution Estimation (MADE) -- that computes locatio
 and log-scale parameters \(made(x)[i]\) for each input \(x[i]\). Then we can represent
 the autoregressive model \(p(x)\) as \(x = f(u)\) where \(u\) is drawn
 from from some base distribution and where \(f\) is an invertible and
-differentiable function (i.e., a Bijector) and \(f^{-1}(x)\) is defined by:</p><pre><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>tensorflow</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>zeallot</span>)
-<span class='no'>f_inverse</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>x</span>) {
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>shift</span>, <span class='no'>log_scale</span>) <span class='kw'>%&amp;lt;-%</span> <span class='no'>tf</span>$<span class='fu'><a href='https://rdrr.io/r/utils/stack.html'>unstack</a></span>(<span class='fu'>made</span>(<span class='no'>x</span>), <span class='fl'>2</span>, <span class='kw'>axis</span> <span class='kw'>=</span> -<span class='fl'>1L</span>)
-  (<span class='no'>x</span> - <span class='no'>shift</span>) * <span class='no'>tf</span>$<span class='no'>math</span>$<span class='fu'><a href='https://rdrr.io/r/base/Log.html'>exp</a></span>(-<span class='no'>log_scale</span>)
-}</pre>
+differentiable function (i.e., a Bijector) and \(f^{-1}(x)\) is defined by:</p><pre><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/tensorflow'>tensorflow</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/nteetor/zeallot'>zeallot</a></span><span class='op'>)</span>
+<span class='va'>f_inverse</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>shift</span>, <span class='va'>log_scale</span><span class='op'>)</span> <span class='op'>%&lt;-%</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>unstack</span><span class='op'>(</span><span class='fu'>made</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fl'>2</span>, axis <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1L</span><span class='op'>)</span>
+  <span class='op'>(</span><span class='va'>x</span> <span class='op'>-</span> <span class='va'>shift</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>tf</span><span class='op'>$</span><span class='va'>math</span><span class='op'>$</span><span class='fu'>exp</span><span class='op'>(</span><span class='op'>-</span><span class='va'>log_scale</span><span class='op'>)</span>
+<span class='op'>}</span>
+</pre>
 
 <p>Given a <code><a href='layer_autoregressive.html'>layer_autoregressive()</a></code> made, a <code>layer_autoregressive_transform()</code>
 transforms an input <code>tfd_*</code> \(p(u)\) to an output <code>tfd_*</code> \(p(x)\) where
@@ -203,7 +204,7 @@ transforms an input <code>tfd_*</code> \(p(u)\) to an output <code>tfd_*</code> 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

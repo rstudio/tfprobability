@@ -154,13 +154,13 @@ same shape (if possible). In all cases, the last dimension of <code>scores, x</c
 represents single PlackettLuce distributions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_plackett_luce</span>(
-  <span class='no'>scores</span>,
-  <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>int32</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"PlackettLuce"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_plackett_luce</span><span class='op'>(</span>
+  <span class='va'>scores</span>,
+  dtype <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='va'>int32</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='st'>"PlackettLuce"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -205,7 +205,7 @@ where the permutation <code>p</code> is an arbitrary ordering of <code>k</code> 
 <code>{0, 1, ..., k-1}</code>.</p>
 <p>The probability mass function (pmf) is,</p><pre>pmf(p; s) = prod_i s_{p_i} / (Z - Z_i)
 Z = sum_{j=0}^{k-1} s_j
-Z_i = sum_{j=0}^{i-1} s_{p_j} for i&amp;gt;0 and 0 for i=0
+Z_i = sum_{j=0}^{i-1} s_{p_j} for i&gt;0 and 0 for i=0
 </pre>
 
 <p>where <code>scores = s = [s_0, ..., s_{k-1}]</code>, <code>s_i &gt;= 0</code>.</p>
@@ -252,7 +252,7 @@ g = [g_0, ..., g_{k-1}], g_i~ Gumbel(0, 1)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

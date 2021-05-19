@@ -138,7 +138,13 @@
     <p>Bijector which applies a sequence of bijectors</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_chain</span>(<span class='kw'>bijectors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tfb_chain</span><span class='op'>(</span>
+  bijectors <span class='op'>=</span> <span class='cn'>NULL</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  validate_event_size <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  parameters <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,6 +157,24 @@ bijector equivalent to the Identity bijector.</p></td>
     <tr>
       <th>validate_args</th>
       <td><p>Logical indicating whether arguments should be checked for correctness.</p></td>
+    </tr>
+    <tr>
+      <th>validate_event_size</th>
+      <td><p>Checks that bijectors are not applied to inputs with
+incomplete support (that is, inputs where one or more elements are a
+deterministic transformation of the others). For example, the following
+LDJ would be incorrect:
+<code>tfb_chain(list(tfb_scale(), tfb_softmax_centered()))$forward_log_det_jacobian(matrix(1:2, ncol = 2))</code>
+The jacobian contribution from <code><a href='tfb_scale.html'>tfb_scale()</a></code> applies to a 2-dimensional input,
+but the output from <code><a href='tfb_softmax_centered.html'>tfb_softmax_centered()</a></code> is a 1-dimensional input embedded
+in a 2-dimensional space. Setting <code>validate_event_size=TRUE</code> (default)
+prints warnings in these cases. When <code>validate_args</code> is also <code>TRUE</code>, the
+warning is promoted to an exception.</p></td>
+    </tr>
+    <tr>
+      <th>parameters</th>
+      <td><p>Locals dict captured by subclass constructor, to be used for
+copy/slice re-instantiation operators.</p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -170,6 +194,7 @@ E.g., <code>tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_
 <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a>()</code>,
 <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a>()</code>,
 <code><a href='tfb_affine.html'>tfb_affine</a>()</code>,
+<code><a href='tfb_ascending.html'>tfb_ascending</a>()</code>,
 <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a>()</code>,
 <code><a href='tfb_blockwise.html'>tfb_blockwise</a>()</code>,
 <code><a href='tfb_cholesky_outer_product.html'>tfb_cholesky_outer_product</a>()</code>,
@@ -182,6 +207,7 @@ E.g., <code>tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_
 <code><a href='tfb_ffjord.html'>tfb_ffjord</a>()</code>,
 <code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a>()</code>,
 <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a>()</code>,
+<code><a href='tfb_glow.html'>tfb_glow</a>()</code>,
 <code><a href='tfb_gompertz_cdf.html'>tfb_gompertz_cdf</a>()</code>,
 <code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a>()</code>,
 <code><a href='tfb_gumbel.html'>tfb_gumbel</a>()</code>,
@@ -203,6 +229,7 @@ E.g., <code>tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_
 <code><a href='tfb_permute.html'>tfb_permute</a>()</code>,
 <code><a href='tfb_power_transform.html'>tfb_power_transform</a>()</code>,
 <code><a href='tfb_rational_quadratic_spline.html'>tfb_rational_quadratic_spline</a>()</code>,
+<code><a href='tfb_rayleigh_cdf.html'>tfb_rayleigh_cdf</a>()</code>,
 <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a>()</code>,
 <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a>()</code>,
 <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a>()</code>,
@@ -244,7 +271,7 @@ E.g., <code>tfb_chain(list(tfb_exp(), tfb_softplus()))$name == "chain_of_exp_of_
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

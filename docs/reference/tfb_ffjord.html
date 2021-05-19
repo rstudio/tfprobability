@@ -142,16 +142,16 @@ parameterized by a differential equation, where initial and terminal
 conditions correspond to domain (X) and image (Y) i.e.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_ffjord</span>(
-  <span class='no'>state_time_derivative_fn</span>,
-  <span class='kw'>ode_solve_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>trace_augmentation_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>bijectors</span>$<span class='no'>ffjord</span>$<span class='no'>trace_jacobian_hutchinson</span>,
-  <span class='kw'>initial_time</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>final_time</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>float32</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"ffjord"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfb_ffjord</span><span class='op'>(</span>
+  <span class='va'>state_time_derivative_fn</span>,
+  ode_solve_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trace_augmentation_fn <span class='op'>=</span> <span class='va'>tfp</span><span class='op'>$</span><span class='va'>bijectors</span><span class='op'>$</span><span class='va'>ffjord</span><span class='op'>$</span><span class='va'>trace_jacobian_hutchinson</span>,
+  initial_time <span class='op'>=</span> <span class='fl'>0</span>,
+  final_time <span class='op'>=</span> <span class='fl'>1</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  dtype <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='va'>float32</span>,
+  name <span class='op'>=</span> <span class='st'>"ffjord"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -227,14 +227,16 @@ back to float32.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<pre><span class='no'>d</span>/<span class='no'>dt</span>[<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>)] <span class='kw'>=</span> <span class='fu'>state_time_derivative_fn</span>(<span class='no'>t</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>))
-<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>initial_time</span>) <span class='kw'>=</span> <span class='no'>X</span>
-<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>final_time</span>) <span class='kw'>=</span> <span class='no'>Y</span></pre>
+<pre><span class='va'>d</span><span class='op'>/</span><span class='va'>dt</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span><span class='op'>(</span><span class='va'>t</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'>state_time_derivative_fn</span><span class='op'>(</span><span class='va'>t</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span><span class='op'>(</span><span class='va'>t</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span><span class='op'>(</span><span class='va'>initial_time</span><span class='op'>)</span> <span class='op'>=</span> <span class='va'>X</span>
+<span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span><span class='op'>(</span><span class='va'>final_time</span><span class='op'>)</span> <span class='op'>=</span> <span class='va'>Y</span>
+</pre>
 
 <p>For this transformation the value of <code>log_det_jacobian</code> follows another
 differential equation, reducing it to computation of the trace of the jacobian
-along the trajectory</p><pre><span class='no'>state_time_derivative</span> <span class='kw'>=</span> <span class='fu'>state_time_derivative_fn</span>(<span class='no'>t</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>))
-<span class='no'>d</span>/<span class='no'>dt</span>[<span class='fu'>log_det_jac</span>(<span class='no'>t</span>)] <span class='kw'>=</span> <span class='fu'>Tr</span>(<span class='fu'>jacobian</span>(<span class='no'>state_time_derivative</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span>(<span class='no'>t</span>)))</pre>
+along the trajectory</p><pre><span class='va'>state_time_derivative</span> <span class='op'>=</span> <span class='fu'>state_time_derivative_fn</span><span class='op'>(</span><span class='va'>t</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span><span class='op'>(</span><span class='va'>t</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>d</span><span class='op'>/</span><span class='va'>dt</span><span class='op'>[</span><span class='fu'>log_det_jac</span><span class='op'>(</span><span class='va'>t</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>=</span> <span class='fu'>Tr</span><span class='op'>(</span><span class='fu'>jacobian</span><span class='op'>(</span><span class='va'>state_time_derivative</span>, <span class='fu'><a href='https://rdrr.io/r/datasets/state.html'>state</a></span><span class='op'>(</span><span class='va'>t</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</pre>
 
 <p>FFJORD constructor takes two functions <code>ode_solve_fn</code> and
 <code>trace_augmentation_fn</code> arguments that customize integration of the
@@ -259,18 +261,20 @@ returns a <code>augmented_state_time_derivative_fn</code> callable that computes
 <code>state_time_derivative</code> and unreduced <code>trace_estimation</code>.</p>
 <p>Custom <code>ode_solve_fn</code> and <code>trace_augmentation_fn</code> examples:</p><pre><span class='co'># custom_solver_fn: `function(f, t_initial, t_solutions, y_initial, ...)`</span>
 <span class='co'># ... : Additional arguments to pass to custom_solver_fn.</span>
-<span class='no'>ode_solve_fn</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>ode_fn</span>, <span class='no'>initial_time</span>, <span class='no'>initial_state</span>, <span class='no'>solution_times</span>) {
-  <span class='fu'>custom_solver_fn</span>(<span class='no'>ode_fn</span>, <span class='no'>initial_time</span>, <span class='no'>solution_times</span>, <span class='no'>initial_state</span>, <span class='no'>...</span>)
-}
-<span class='no'>ffjord</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'>tfb_ffjord</span>(<span class='no'>state_time_derivative_fn</span>, <span class='kw'>ode_solve_fn</span> <span class='kw'>=</span> <span class='no'>ode_solve_fn</span>)</pre><pre><span class='co'># state_time_derivative_fn: `function(time, state)`</span>
+<span class='va'>ode_solve_fn</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>ode_fn</span>, <span class='va'>initial_time</span>, <span class='va'>initial_state</span>, <span class='va'>solution_times</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>custom_solver_fn</span><span class='op'>(</span><span class='va'>ode_fn</span>, <span class='va'>initial_time</span>, <span class='va'>solution_times</span>, <span class='va'>initial_state</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='va'>ffjord</span> <span class='op'>&lt;-</span> <span class='fu'>tfb_ffjord</span><span class='op'>(</span><span class='va'>state_time_derivative_fn</span>, ode_solve_fn <span class='op'>=</span> <span class='va'>ode_solve_fn</span><span class='op'>)</span>
+</pre><pre><span class='co'># state_time_derivative_fn: `function(time, state)`</span>
 <span class='co'># trace_jac_fn: `function(time, state)` unreduced jacobian trace function</span>
-<span class='no'>trace_augmentation_fn</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>ode_fn</span>, <span class='no'>state_shape</span>, <span class='no'>state_dtype</span>) {
-  <span class='no'>augmented_ode_fn</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='kw'>function</span>(<span class='no'>time</span>, <span class='no'>state</span>) {
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'>ode_fn</span>(<span class='no'>time</span>, <span class='no'>state</span>), <span class='fu'>trace_jac_fn</span>(<span class='no'>time</span>, <span class='no'>state</span>))
-  }
-<span class='no'>augmented_ode_fn</span>
-}
-<span class='no'>ffjord</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'>tfb_ffjord</span>(<span class='no'>state_time_derivative_fn</span>, <span class='kw'>trace_augmentation_fn</span> <span class='kw'>=</span> <span class='no'>trace_augmentation_fn</span>)</pre>
+<span class='va'>trace_augmentation_fn</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>ode_fn</span>, <span class='va'>state_shape</span>, <span class='va'>state_dtype</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>augmented_ode_fn</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>state</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>ode_fn</span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>state</span><span class='op'>)</span>, <span class='fu'>trace_jac_fn</span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>state</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='va'>augmented_ode_fn</span>
+<span class='op'>}</span>
+<span class='va'>ffjord</span> <span class='op'>&lt;-</span> <span class='fu'>tfb_ffjord</span><span class='op'>(</span><span class='va'>state_time_derivative_fn</span>, trace_augmentation_fn <span class='op'>=</span> <span class='va'>trace_augmentation_fn</span><span class='op'>)</span>
+</pre>
 
 <p>For more details on FFJORD and continous normalizing flows see Chen et al. (2018), Grathwol et al. (2018).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -290,6 +294,7 @@ returns a <code>augmented_state_time_derivative_fn</code> callable that computes
 <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a>()</code>,
 <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a>()</code>,
 <code><a href='tfb_affine.html'>tfb_affine</a>()</code>,
+<code><a href='tfb_ascending.html'>tfb_ascending</a>()</code>,
 <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a>()</code>,
 <code><a href='tfb_blockwise.html'>tfb_blockwise</a>()</code>,
 <code><a href='tfb_chain.html'>tfb_chain</a>()</code>,
@@ -302,6 +307,7 @@ returns a <code>augmented_state_time_derivative_fn</code> callable that computes
 <code><a href='tfb_exp.html'>tfb_exp</a>()</code>,
 <code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a>()</code>,
 <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a>()</code>,
+<code><a href='tfb_glow.html'>tfb_glow</a>()</code>,
 <code><a href='tfb_gompertz_cdf.html'>tfb_gompertz_cdf</a>()</code>,
 <code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a>()</code>,
 <code><a href='tfb_gumbel.html'>tfb_gumbel</a>()</code>,
@@ -323,6 +329,7 @@ returns a <code>augmented_state_time_derivative_fn</code> callable that computes
 <code><a href='tfb_permute.html'>tfb_permute</a>()</code>,
 <code><a href='tfb_power_transform.html'>tfb_power_transform</a>()</code>,
 <code><a href='tfb_rational_quadratic_spline.html'>tfb_rational_quadratic_spline</a>()</code>,
+<code><a href='tfb_rayleigh_cdf.html'>tfb_rayleigh_cdf</a>()</code>,
 <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a>()</code>,
 <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a>()</code>,
 <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a>()</code>,
@@ -364,7 +371,7 @@ returns a <code>augmented_state_time_derivative_fn</code> callable that computes
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

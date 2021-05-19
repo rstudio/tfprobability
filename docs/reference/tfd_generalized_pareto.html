@@ -144,14 +144,14 @@ on the reals. Special cases include <code>Exponential</code> (when <code>loc = 0
 <code>loc = scale / concentration</code>), and <code>Uniform</code> (when <code>concentration = -1</code>).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_generalized_pareto</span>(
-  <span class='no'>loc</span>,
-  <span class='no'>scale</span>,
-  <span class='no'>concentration</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_generalized_pareto</span><span class='op'>(</span>
+  <span class='va'>loc</span>,
+  <span class='va'>scale</span>,
+  <span class='va'>concentration</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -208,19 +208,20 @@ As a member of the location-scale family,
 <p>For positive concentrations, the distribution is equivalent to a hierarchical
 Exponential-Gamma model with <code>X|rate ~ Exponential(rate)</code> and
 <code>rate ~ Gamma(concentration=1 / concentration, scale=scale / concentration)</code>.
-In the following, <code>samps1</code> and <code>samps2</code> are identically distributed:</p><pre><span class='no'>genp</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'>tfd_generalized_pareto</span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale</span>, <span class='kw'>concentration</span> <span class='kw'>=</span> <span class='no'>conc</span>)
-<span class='no'>samps1</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>genp</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(<span class='fl'>1000</span>)
-<span class='no'>jd</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='fu'><a href='tfd_joint_distribution_named.html'>tfd_joint_distribution_named</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='kw'>rate</span> <span class='kw'>=</span>  <span class='fu'><a href='tfd_gamma.html'>tfd_gamma</a></span>(<span class='fl'>1</span> / <span class='no'>genp</span>$<span class='no'>concentration</span>, <span class='no'>genp</span>$<span class='no'>scale</span> / <span class='no'>genp</span>$<span class='no'>concentration</span>),
-    <span class='kw'>x</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>rate</span>) <span class='fu'><a href='tfd_exponential.html'>tfd_exponential</a></span>(<span class='no'>rate</span>)))
-<span class='no'>samps2</span> <span class='kw'>&amp;</span><span class='no'>lt</span>;- <span class='no'>jd</span> <span class='kw'>%&amp;gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(<span class='fl'>1000</span>) <span class='kw'>%&amp;gt;%</span> <span class='no'>.</span>$<span class='no'>x</span></pre>
+In the following, <code>samps1</code> and <code>samps2</code> are identically distributed:</p><pre><span class='va'>genp</span> <span class='op'>&lt;-</span> <span class='fu'>tfd_generalized_pareto</span><span class='op'>(</span>loc <span class='op'>=</span> <span class='fl'>0</span>, scale <span class='op'>=</span> <span class='va'>scale</span>, concentration <span class='op'>=</span> <span class='va'>conc</span><span class='op'>)</span>
+<span class='va'>samps1</span> <span class='op'>&lt;-</span> <span class='va'>genp</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span><span class='op'>(</span><span class='fl'>1000</span><span class='op'>)</span>
+<span class='va'>jd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tfd_joint_distribution_named.html'>tfd_joint_distribution_named</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    rate <span class='op'>=</span>  <span class='fu'><a href='tfd_gamma.html'>tfd_gamma</a></span><span class='op'>(</span><span class='fl'>1</span> <span class='op'>/</span> <span class='va'>genp</span><span class='op'>$</span><span class='va'>concentration</span>, <span class='va'>genp</span><span class='op'>$</span><span class='va'>scale</span> <span class='op'>/</span> <span class='va'>genp</span><span class='op'>$</span><span class='va'>concentration</span><span class='op'>)</span>,
+    x <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>rate</span><span class='op'>)</span> <span class='fu'><a href='tfd_exponential.html'>tfd_exponential</a></span><span class='op'>(</span><span class='va'>rate</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>samps2</span> <span class='op'>&lt;-</span> <span class='va'>jd</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span><span class='op'>(</span><span class='fl'>1000</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='va'>.</span><span class='op'>$</span><span class='va'>x</span>
+</pre>
 
 <p>The support of the distribution is always lower bounded by <code>loc</code>. When
 <code>concentration &lt; 0</code>, the support is also upper bounded by
 <code>loc + scale / abs(concentration)</code>.</p>
 <p>Mathematical Details</p>
-<p>The probability density function (pdf) is,</p><pre>pdf(x; mu, sigma, shp, x &amp;gt; mu) =   (1 + shp * (x - mu) / sigma)**(-1 / shp - 1) / sigma
+<p>The probability density function (pdf) is,</p><pre>pdf(x; mu, sigma, shp, x &gt; mu) =   (1 + shp * (x - mu) / sigma)**(-1 / shp - 1) / sigma
 </pre>
 
 <p>where:</p><ul>
@@ -229,7 +230,7 @@ In the following, <code>samps1</code> and <code>samps2</code> are identically di
 <li><p><code>loc = mu</code>.</p></li>
 </ul>
 
-<p>The cumulative density function (cdf) is,</p><pre>cdf(x; mu, sigma, shp, x &amp;gt; mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
+<p>The cumulative density function (cdf) is,</p><pre>cdf(x; mu, sigma, shp, x &gt; mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
 </pre>
 
 <p>Distribution parameters are automatically broadcast in all functions; see
@@ -254,7 +255,7 @@ Samples of this distribution are reparameterized (pathwise differentiable).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

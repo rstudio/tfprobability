@@ -140,13 +140,13 @@ distributions. See Mohamed et al. (2019) for more details." />
 distributions. See Mohamed et al. (2019) for more details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_doublesided_maxwell</span>(
-  <span class='no'>loc</span>,
-  <span class='no'>scale</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"doublesided_maxwell"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_doublesided_maxwell</span><span class='op'>(</span>
+  <span class='va'>loc</span>,
+  <span class='va'>scale</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='st'>"doublesided_maxwell"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,8 +191,9 @@ the entire real line.</p><pre>pdf(x; mu, sigma) = 1/(sigma*sqrt(2*pi)) * ((x-mu)
 <p>where <code>loc = mu</code> and <code>scale = sigma</code>.
 The DoublesidedMaxwell distribution is a member of the
 <a href='https://en.wikipedia.org/wiki/Location-scale_family'>location-scale family</a>,
-i.e., it can be constructed as,</p><pre><span class='no'>X</span> ~ <span class='fu'>DoublesidedMaxwell</span>(<span class='kw'>loc</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>1</span>)
-<span class='no'>Y</span> <span class='kw'>=</span> <span class='no'>loc</span> + <span class='no'>scale</span> * <span class='no'>X</span></pre>
+i.e., it can be constructed as,</p><pre><span class='va'>X</span> <span class='op'>~</span> <span class='fu'>DoublesidedMaxwell</span><span class='op'>(</span>loc<span class='op'>=</span><span class='fl'>0</span>, scale<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>Y</span> <span class='op'>=</span> <span class='va'>loc</span> <span class='op'>+</span> <span class='va'>scale</span> <span class='op'>*</span> <span class='va'>X</span>
+</pre>
 
 <p>The double-sided Maxwell is a symmetric distribution that extends the
 one-sided maxwell from R+ to the entire real line. Their densities are
@@ -233,7 +234,7 @@ sqrt(X^2 + Y^2 + Z^2) are samples from the one-sided Maxwell
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -85,13 +85,14 @@
 
       
 
-      </header><script src="hamiltonian_monte_carlo_files/header-attrs-2.3/header-attrs.js"></script><script src="hamiltonian_monte_carlo_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="hamiltonian_monte_carlo_files/header-attrs-2.5/header-attrs.js"></script><link href="hamiltonian_monte_carlo_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="hamiltonian_monte_carlo_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Multi-level modeling with Hamiltonian Monte Carlo</h1>
                         <h4 class="author">Sigrid Keydana</h4>
             
-            <h4 class="date">2020-08-05</h4>
+            <h4 class="date">2021-05-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/tfprobability/blob/master/vignettes/hamiltonian_monte_carlo.Rmd"><code>vignettes/hamiltonian_monte_carlo.Rmd</code></a></small>
       <div class="hidden name"><code>hamiltonian_monte_carlo.Rmd</code></div>
@@ -103,18 +104,19 @@
 <p>Hierarchical models of any complexity may be specified using <code><a href="../reference/tfd_joint_distribution_sequential.html">tfd_joint_distribution_sequential()</a></code>. As hinted at by that function’s name, it builds a representation of a joint distribution where every component may optionally depend on components declared before it.</p>
 <p>The model is then fitted to data using some form of Monte Carlo algorithm – Hamiltonian Monte Carlo (HMC), in most cases. Supplementing Monte Carlo methods is an implementation of Variational Inference (VI), but we don’t cover VI in this document.</p>
 <p>We illustrate the process by example, using the <em>reedfrogs</em> dataset from Richard McElreath’s <code>rethinking</code> package. Each row in the dataset describes one tadpole tank, with its initial count of inhabitants (<code>density</code>) and number of survivors (<code>surv</code>).</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># assume it's version 1.14, with eager not yet being the default</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tensorflow</span>)
-<span class="no">tf</span>$<span class="fu">enable_v2_behavior</span>()
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># assume it's version 1.14, with eager not yet being the default</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tensorflow">tensorflow</a></span><span class="op">)</span>
+<span class="va">tf</span><span class="op">$</span><span class="fu">enable_v2_behavior</span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tfprobability</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rethinking</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">zeallot</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">purrr</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tfprobability">tfprobability</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rethinking</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot">zeallot</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"reedfrogs"</span>)
-<span class="no">d</span> <span class="kw">&lt;-</span> <span class="no">reedfrogs</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">d</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"reedfrogs"</span><span class="op">)</span>
+<span class="va">d</span> <span class="op">&lt;-</span> <span class="va">reedfrogs</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span></code></pre></div>
 <pre><code>'data.frame':   48 obs. of  5 variables:
  $ density : int  10 10 10 10 10 10 10 10 10 10 ...
  $ pred    : Factor w/ 2 levels "no","pred": 1 1 1 1 1 1 1 1 2 2 ...
@@ -123,35 +125,37 @@
  $ propsurv: num  0.9 1 0.7 1 0.9 0.9 1 0.9 0.4 0.9 ...</code></pre>
 <p>We port to <code>tfprobability</code> the partially-pooled model presented in McElreath’s book. With partial pooling, each tank gets its own probability of survival.</p>
 <p>In the model specification, we list the global priors first; then comes the intermediate layer yielding the per-tank priors; finally we have the likelihood which in this case is a binomial:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">n_tadpole_tanks</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">d</span>)
-<span class="no">n_surviving</span> <span class="kw">&lt;-</span> <span class="no">d</span>$<span class="no">surv</span>
-<span class="no">n_start</span> <span class="kw">&lt;-</span> <span class="no">d</span>$<span class="no">density</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">n_tadpole_tanks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
+<span class="va">n_surviving</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">surv</span>
+<span class="va">n_start</span> <span class="op">&lt;-</span> <span class="va">d</span><span class="op">$</span><span class="va">density</span>
 
-<span class="no">model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/tfd_joint_distribution_sequential.html">tfd_joint_distribution_sequential</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tfd_joint_distribution_sequential.html">tfd_joint_distribution_sequential</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
     <span class="co"># a_bar, the prior for the mean of the normal distribution of per-tank logits</span>
-    <span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="fl">1.5</span>),
+    <span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span><span class="op">(</span>loc <span class="op">=</span> <span class="fl">0</span>, scale <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span>,
     <span class="co"># sigma, the prior for the variance of the normal distribution of per-tank logits</span>
-    <span class="fu"><a href="../reference/tfd_exponential.html">tfd_exponential</a></span>(<span class="kw">rate</span> <span class="kw">=</span> <span class="fl">1</span>),
+    <span class="fu"><a href="../reference/tfd_exponential.html">tfd_exponential</a></span><span class="op">(</span>rate <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
     <span class="co"># normal distribution of per-tank logits</span>
     <span class="co"># parameters sigma and a_bar refer to the outputs of the above two distributions</span>
-    <span class="kw">function</span>(<span class="no">sigma</span>, <span class="no">a_bar</span>)
-      <span class="fu"><a href="../reference/tfd_sample_distribution.html">tfd_sample_distribution</a></span>(
-        <span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span>(<span class="kw">loc</span> <span class="kw">=</span> <span class="no">a_bar</span>, <span class="kw">scale</span> <span class="kw">=</span> <span class="no">sigma</span>),
-        <span class="kw">sample_shape</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">n_tadpole_tanks</span>)
-      ),
+    <span class="kw">function</span><span class="op">(</span><span class="va">sigma</span>, <span class="va">a_bar</span><span class="op">)</span> 
+      <span class="fu"><a href="../reference/tfd_sample_distribution.html">tfd_sample_distribution</a></span><span class="op">(</span>
+        <span class="fu"><a href="../reference/tfd_normal.html">tfd_normal</a></span><span class="op">(</span>loc <span class="op">=</span> <span class="va">a_bar</span>, scale <span class="op">=</span> <span class="va">sigma</span><span class="op">)</span>,
+        sample_shape <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">n_tadpole_tanks</span><span class="op">)</span>
+      <span class="op">)</span>, 
     <span class="co"># binomial distribution of survival counts</span>
     <span class="co"># parameter l refers to the output of the normal distribution immediately above</span>
-    <span class="kw">function</span>(<span class="no">l</span>)
-      <span class="fu"><a href="../reference/tfd_independent.html">tfd_independent</a></span>(
-        <span class="fu"><a href="../reference/tfd_binomial.html">tfd_binomial</a></span>(<span class="kw">total_count</span> <span class="kw">=</span> <span class="no">n_start</span>, <span class="kw">logits</span> <span class="kw">=</span> <span class="no">l</span>),
-        <span class="kw">reinterpreted_batch_ndims</span> <span class="kw">=</span> <span class="fl">1</span>
-      )
-  )
-)</pre></body></html></div>
+    <span class="kw">function</span><span class="op">(</span><span class="va">l</span><span class="op">)</span>
+      <span class="fu"><a href="../reference/tfd_independent.html">tfd_independent</a></span><span class="op">(</span>
+        <span class="fu"><a href="../reference/tfd_binomial.html">tfd_binomial</a></span><span class="op">(</span>total_count <span class="op">=</span> <span class="va">n_start</span>, logits <span class="op">=</span> <span class="va">l</span><span class="op">)</span>,
+        reinterpreted_batch_ndims <span class="op">=</span> <span class="fl">1</span>
+      <span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 <p>Our model technically being a <em>distribution</em>, we can verify it conforms to our expectations by <em>sampling</em> from it:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">s</span> <span class="kw">&lt;-</span> <span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_sample.html">tfd_sample</a></span>(<span class="fl">2</span>)
-<span class="no">s</span></pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">s</span> <span class="op">&lt;-</span> <span class="va">model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_sample.html">tfd_sample</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+<span class="va">s</span> </code></pre></div>
 <pre><code>[[1]]
 tf.Tensor([2.1276963  0.26374984], shape=(2,), dtype=float32)
 
@@ -176,53 +180,59 @@ tf.Tensor(
    1. 14.  4. 14.  9.  6. 12.  0. 20. 19.  1. 15. 15.  7. 30.  7. 12.  4.
   23.  3. 16. 34. 35.  5. 14. 10. 20. 32. 19. 24.]], shape=(2, 48), dtype=float32)</code></pre>
 <p>Another useful correctness check is that it yields a scalar log likelihood:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="no">s</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_log_prob.html">tfd_log_prob</a></span><span class="op">(</span><span class="va">s</span><span class="op">)</span></code></pre></div>
 <pre><code>tf.Tensor([-149.4476  -193.44107], shape=(2,), dtype=float32)</code></pre>
 <p>`</p>
 <p>Besides the model, we need to specify the loss, which here is just the joint log likelihood of the parameters and the target variable:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">logprob</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">a</span>, <span class="no">s</span>, <span class="no">l</span>)
-  <span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_log_prob.html">tfd_log_prob</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">a</span>, <span class="no">s</span>, <span class="no">l</span>, <span class="no">n_surviving</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">logprob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">a</span>, <span class="va">s</span>, <span class="va">l</span><span class="op">)</span>
+  <span class="va">model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_log_prob.html">tfd_log_prob</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">s</span>, <span class="va">l</span>, <span class="va">n_surviving</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now we can set up HMC sampling, making use of <code>mcmc_simple_step_size_adaptation</code> for dynamic step size evolution based on a desired acceptance probability.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># number of steps after burnin</span>
-<span class="no">n_steps</span> <span class="kw">&lt;-</span> <span class="fl">500</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># number of steps after burnin</span>
+<span class="va">n_steps</span> <span class="op">&lt;-</span> <span class="fl">500</span>
 <span class="co"># number of chains</span>
-<span class="no">n_chain</span> <span class="kw">&lt;-</span> <span class="fl">4</span>
+<span class="va">n_chain</span> <span class="op">&lt;-</span> <span class="fl">4</span>
 <span class="co"># number of burnin steps</span>
-<span class="no">n_burnin</span> <span class="kw">&lt;-</span> <span class="fl">500</span>
+<span class="va">n_burnin</span> <span class="op">&lt;-</span> <span class="fl">500</span>
 
-<span class="no">hmc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mcmc_hamiltonian_monte_carlo.html">mcmc_hamiltonian_monte_carlo</a></span>(
-  <span class="kw">target_log_prob_fn</span> <span class="kw">=</span> <span class="no">logprob</span>,
-  <span class="kw">num_leapfrog_steps</span> <span class="kw">=</span> <span class="fl">3</span>,
+<span class="va">hmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mcmc_hamiltonian_monte_carlo.html">mcmc_hamiltonian_monte_carlo</a></span><span class="op">(</span>
+  target_log_prob_fn <span class="op">=</span> <span class="va">logprob</span>,
+  num_leapfrog_steps <span class="op">=</span> <span class="fl">3</span>,
   <span class="co"># one step size for each parameter</span>
-  <span class="kw">step_size</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span>),
-) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/mcmc_simple_step_size_adaptation.html">mcmc_simple_step_size_adaptation</a></span>(<span class="kw">target_accept_prob</span> <span class="kw">=</span> <span class="fl">0.8</span>,
-                                   <span class="kw">num_adaptation_steps</span> <span class="kw">=</span> <span class="no">n_burnin</span>)</pre></body></html></div>
+  step_size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.1</span><span class="op">)</span>,
+<span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/mcmc_simple_step_size_adaptation.html">mcmc_simple_step_size_adaptation</a></span><span class="op">(</span>target_accept_prob <span class="op">=</span> <span class="fl">0.8</span>,
+                                   num_adaptation_steps <span class="op">=</span> <span class="va">n_burnin</span><span class="op">)</span></code></pre></div>
 <p>The actual sampling should run on the TensorFlow graph for performance. So if we’re executing in eager mode, we wrap the call in <code>tf_function</code>:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co"># initial values to start the sampler</span>
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">initial_a</span>, <span class="no">initial_s</span>, <span class="no">initial_logits</span>, <span class="no">.</span>) <span class="kw">%&lt;-%</span> (<span class="no">model</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_sample.html">tfd_sample</a></span>(<span class="no">n_chain</span>))
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># initial values to start the sampler</span>
+<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">initial_a</span>, <span class="va">initial_s</span>, <span class="va">initial_logits</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&lt;-%</span> <span class="op">(</span><span class="va">model</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_sample.html">tfd_sample</a></span><span class="op">(</span><span class="va">n_chain</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># optionally retrieve metadata such as acceptance ratio and step size</span>
-<span class="no">trace_fn</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">state</span>, <span class="no">pkr</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">pkr</span>$<span class="no">inner_results</span>$<span class="no">is_accepted</span>,
-       <span class="no">pkr</span>$<span class="no">inner_results</span>$<span class="no">accepted_results</span>$<span class="no">step_size</span>)
-}
+<span class="va">trace_fn</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">pkr</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">pkr</span><span class="op">$</span><span class="va">inner_results</span><span class="op">$</span><span class="va">is_accepted</span>,
+       <span class="va">pkr</span><span class="op">$</span><span class="va">inner_results</span><span class="op">$</span><span class="va">accepted_results</span><span class="op">$</span><span class="va">step_size</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">run_mcmc</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">kernel</span>) {
-  <span class="no">kernel</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/mcmc_sample_chain.html">mcmc_sample_chain</a></span>(
-    <span class="kw">num_results</span> <span class="kw">=</span> <span class="no">n_steps</span>,
-    <span class="kw">num_burnin_steps</span> <span class="kw">=</span> <span class="no">n_burnin</span>,
-    <span class="kw">current_state</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">initial_a</span>, <span class="no">tf</span>$<span class="fu">ones_like</span>(<span class="no">initial_s</span>), <span class="no">initial_logits</span>),
-    <span class="kw">trace_fn</span> <span class="kw">=</span> <span class="no">trace_fn</span>
-  )
-}
+<span class="va">run_mcmc</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">kernel</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">kernel</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/mcmc_sample_chain.html">mcmc_sample_chain</a></span><span class="op">(</span>
+    num_results <span class="op">=</span> <span class="va">n_steps</span>,
+    num_burnin_steps <span class="op">=</span> <span class="va">n_burnin</span>,
+    current_state <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">initial_a</span>, <span class="va">tf</span><span class="op">$</span><span class="fu">ones_like</span><span class="op">(</span><span class="va">initial_s</span><span class="op">)</span>, <span class="va">initial_logits</span><span class="op">)</span>,
+    trace_fn <span class="op">=</span> <span class="va">trace_fn</span>
+  <span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">run_mcmc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tensorflow/man/tf_function.html">tf_function</a></span>(<span class="no">run_mcmc</span>)
-<span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu">run_mcmc</span>(<span class="no">hmc</span>)</pre></body></html></div>
+<span class="va">run_mcmc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tensorflow/man/tf_function.html">tf_function</a></span><span class="op">(</span><span class="va">run_mcmc</span><span class="op">)</span>
+<span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">run_mcmc</span><span class="op">(</span><span class="va">hmc</span><span class="op">)</span></code></pre></div>
 <p>Now <code>res$all_states</code> contains the samples from the four chains, while <code>res$trace</code> has the diagnostic output.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">mcmc_trace</span> <span class="kw">&lt;-</span> <span class="no">res</span>$<span class="no">all_states</span></pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mcmc_trace</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">all_states</span></code></pre></div>
 <p>In our example, we have three levels of learned parameters (the two “hyperpriors” and the per-tank prior), so the samples come as a list of three. For each distribution, the first dimension reflects the number of samples per chain, the second, the number of chains and the third, the number of parameters in the chain.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">mcmc_trace</span>, ~ <span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span>(<span class="no">dim</span>, <span class="no">as.array</span>)(<span class="no">.x</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">mcmc_trace</span>, <span class="op">~</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/compose.html">compose</a></span><span class="op">(</span><span class="va">dim</span>, <span class="va">as.array</span><span class="op">)</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>[[1]]
 [1] 500   4
 
@@ -232,8 +242,9 @@ tf.Tensor(
 [[3]]
 [1] 500   4  48</code></pre>
 <p>We can obtain the <em>rhat</em> value, as well as the effective sample size, using <code>mcmc_potential_scale_reduction</code> and <code>mcmc_effective_sample_size</code>, respectively:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="../reference/mcmc_potential_scale_reduction.html">mcmc_potential_scale_reduction</a></span>(<span class="no">mcmc_trace</span>)
-<span class="fu"><a href="../reference/mcmc_effective_sample_size.html">mcmc_effective_sample_size</a></span>(<span class="no">mcmc_trace</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mcmc_potential_scale_reduction.html">mcmc_potential_scale_reduction</a></span><span class="op">(</span><span class="va">mcmc_trace</span><span class="op">)</span>
+<span class="fu"><a href="../reference/mcmc_effective_sample_size.html">mcmc_effective_sample_size</a></span><span class="op">(</span><span class="va">mcmc_trace</span><span class="op">)</span></code></pre></div>
 <p>These again are returned as lists of three.</p>
 <p>Rounding up on diagnostic output, we may inspect individual acceptance in <code>res$trace[[1]]</code> and step sizes in <code>res$trace[[2]]</code>.</p>
 <p>For ways to plot the samples and create summary output, as well as some background narrative, see <a href="https://blogs.rstudio.com/ai/posts/2019-05-06-tadpoles-on-tensorflow/">Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability</a> and its follow-up, <a href="https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/">Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability</a> on the TensorFlow for R blog.</p>
@@ -252,7 +263,7 @@ tf.Tensor(
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

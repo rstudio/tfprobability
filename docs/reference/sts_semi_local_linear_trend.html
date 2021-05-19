@@ -142,18 +142,18 @@ latent <code>level</code> and <code>slope</code>, with the level component updat
 the current slope plus a random walk:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_semi_local_linear_trend</span>(
-  <span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>level_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>slope_mean_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>slope_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>autoregressive_coef_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial_level_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial_slope_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>constrain_ar_coef_stationary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>constrain_ar_coef_positive</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sts_semi_local_linear_trend</span><span class='op'>(</span>
+  observed_time_series <span class='op'>=</span> <span class='cn'>NULL</span>,
+  level_scale_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  slope_mean_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  slope_scale_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  autoregressive_coef_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initial_level_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initial_slope_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  constrain_ar_coef_stationary <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  constrain_ar_coef_positive <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -237,10 +237,12 @@ Default value: <code>FALSE</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<pre><span class='no'>level</span>[<span class='no'>t</span>] <span class='kw'>=</span> <span class='no'>level</span>[<span class='no'>t</span>-<span class='fl'>1</span>] + <span class='no'>slope</span>[<span class='no'>t</span>-<span class='fl'>1</span>] + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span>(<span class='fl'>0.</span>, <span class='no'>level_scale</span>)</pre>
+<pre><span class='va'>level</span><span class='op'>[</span><span class='va'>t</span><span class='op'>]</span> <span class='op'>=</span> <span class='va'>level</span><span class='op'>[</span><span class='va'>t</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='va'>slope</span><span class='op'>[</span><span class='va'>t</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span><span class='op'>(</span><span class='fl'>0.</span>, <span class='va'>level_scale</span><span class='op'>)</span>
+</pre>
 
 <p>The slope component in a <code>sts_semi_local_linear_trend</code> model evolves according to
-a first-order autoregressive (AR1) process with potentially nonzero mean:</p><pre><span class='no'>slope</span>[<span class='no'>t</span>] <span class='kw'>=</span> (<span class='no'>slope_mean</span> + <span class='no'>autoregressive_coef</span> * (<span class='no'>slope</span>[<span class='no'>t</span>-<span class='fl'>1</span>] - <span class='no'>slope_mean</span>) + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span>(<span class='fl'>0.</span>, <span class='no'>slope_scale</span>))</pre>
+a first-order autoregressive (AR1) process with potentially nonzero mean:</p><pre><span class='va'>slope</span><span class='op'>[</span><span class='va'>t</span><span class='op'>]</span> <span class='op'>=</span> <span class='op'>(</span><span class='va'>slope_mean</span> <span class='op'>+</span> <span class='va'>autoregressive_coef</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>slope</span><span class='op'>[</span><span class='va'>t</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>-</span> <span class='va'>slope_mean</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span><span class='op'>(</span><span class='fl'>0.</span>, <span class='va'>slope_scale</span><span class='op'>)</span><span class='op'>)</span>
+</pre>
 
 <p>Unlike the random walk used in <code>LocalLinearTrend</code>, a stationary
 AR1 process (coefficient in <code>(-1, 1)</code>) maintains bounded variance over time,
@@ -284,7 +286,7 @@ uncertainties when forecasting over long timescales.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

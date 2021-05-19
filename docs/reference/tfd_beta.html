@@ -140,13 +140,13 @@ concentration1 (aka &quot;alpha&quot;) and concentration0 (aka &quot;beta&quot;)
 <code>concentration1</code> (aka "alpha") and <code>concentration0</code> (aka "beta").</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfd_beta</span>(
-  <span class='kw'>concentration1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>concentration0</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Beta"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfd_beta</span><span class='op'>(</span>
+  concentration1 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  concentration0 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='st'>"Beta"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,8 +197,9 @@ Z = Gamma(alpha) Gamma(beta) / Gamma(alpha + beta)
 <li><p><code>Gamma</code> is the <a href='https://en.wikipedia.org/wiki/Gamma_function'>gamma function</a>.
 The concentration parameters represent mean total counts of a <code>1</code> or a <code>0</code>,
 i.e.,</p></li>
-</ul><pre><span class='no'>concentration1</span> <span class='kw'>=</span> <span class='no'>alpha</span> <span class='kw'>=</span> <span class='no'>mean</span> * <span class='no'>total_concentration</span>
-<span class='no'>concentration0</span> <span class='kw'>=</span> <span class='no'>beta</span>  <span class='kw'>=</span> (<span class='fl'>1.</span> - <span class='no'>mean</span>) * <span class='no'>total_concentration</span></pre>
+</ul><pre><span class='va'>concentration1</span> <span class='op'>=</span> <span class='va'>alpha</span> <span class='op'>=</span> <span class='va'>mean</span> <span class='op'>*</span> <span class='va'>total_concentration</span>
+<span class='va'>concentration0</span> <span class='op'>=</span> <span class='va'>beta</span>  <span class='op'>=</span> <span class='op'>(</span><span class='fl'>1.</span> <span class='op'>-</span> <span class='va'>mean</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>total_concentration</span>
+</pre>
 
 <p>where <code>mean</code> in <code>(0, 1)</code> and <code>total_concentration</code> is a positive real number
 representing a mean <code>total_count = concentration1 + concentration0</code>.
@@ -230,6 +231,8 @@ The derivatives are computed using the approach described in the paper
 <code><a href='tfd_dirichlet_multinomial.html'>tfd_dirichlet_multinomial</a>()</code>,
 <code><a href='tfd_dirichlet.html'>tfd_dirichlet</a>()</code>,
 <code><a href='tfd_empirical.html'>tfd_empirical</a>()</code>,
+<code><a href='tfd_exp_gamma.html'>tfd_exp_gamma</a>()</code>,
+<code><a href='tfd_exp_inverse_gamma.html'>tfd_exp_inverse_gamma</a>()</code>,
 <code><a href='tfd_exponential.html'>tfd_exponential</a>()</code>,
 <code><a href='tfd_gamma_gamma.html'>tfd_gamma_gamma</a>()</code>,
 <code><a href='tfd_gamma.html'>tfd_gamma</a>()</code>,
@@ -280,6 +283,7 @@ The derivatives are computed using the approach described in the paper
 <code><a href='tfd_relaxed_one_hot_categorical.html'>tfd_relaxed_one_hot_categorical</a>()</code>,
 <code><a href='tfd_sample_distribution.html'>tfd_sample_distribution</a>()</code>,
 <code><a href='tfd_sinh_arcsinh.html'>tfd_sinh_arcsinh</a>()</code>,
+<code><a href='tfd_skellam.html'>tfd_skellam</a>()</code>,
 <code><a href='tfd_spherical_uniform.html'>tfd_spherical_uniform</a>()</code>,
 <code><a href='tfd_student_t_process.html'>tfd_student_t_process</a>()</code>,
 <code><a href='tfd_student_t.html'>tfd_student_t</a>()</code>,
@@ -318,7 +322,7 @@ The derivatives are computed using the approach described in the paper
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

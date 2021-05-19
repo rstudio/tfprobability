@@ -85,13 +85,14 @@
 
       
 
-      </header><script src="dynamic_linear_models_files/header-attrs-2.3/header-attrs.js"></script><script src="dynamic_linear_models_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="dynamic_linear_models_files/header-attrs-2.5/header-attrs.js"></script><link href="dynamic_linear_models_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="dynamic_linear_models_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Dynamic linear models</h1>
                         <h4 class="author">Sigrid Keydana</h4>
             
-            <h4 class="date">2020-08-05</h4>
+            <h4 class="date">2021-05-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rstudio/tfprobability/blob/master/vignettes/dynamic_linear_models.Rmd"><code>vignettes/dynamic_linear_models.Rmd</code></a></small>
       <div class="hidden name"><code>dynamic_linear_models.Rmd</code></div>
@@ -105,21 +106,22 @@
 <p>For one, they let us estimate dynamically changing parameters. In regression, the parameters can be viewed as a hidden state; we may thus have a slope and an intercept that vary over time. When parameters can vary, we speak of <em>dynamic linear models</em> (DLMs). In this vignette, we introduce DLMs by way of <em>dynamic linear regression</em>.</p>
 <p>Second, linear-Gaussian SSMs are useful in time-series forecasting because Gaussian processes can be <em>added</em>. A time series can thus be framed as, e.g. the sum of a linear trend and a process that varies seasonally. At the end of the vignette, we refer to a post that illustrates this application.</p>
 <p>For the walkthrough of dynamic linear regression, we use an example by Petris et al.(2009), <em>Dynamic linear models with R</em>. The example applies dynamic regression to the <a href="https://en.wikipedia.org/wiki/Capital_asset_pricing_model">Capital Asset Pricing Model</a> (CAPM) data from Berndt (1991). This dataset has monthly returns, collected from January 1978 to December 1987, for four different stocks, the 30-day Treasury Bill – standing in for a <em>risk-free</em> asset –, and the value-weighted average returns for all stocks listed at the New York and American Stock Exchanges, representing the overall <em>market returns</em>.</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tensorflow</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tfprobability</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tensorflow">tensorflow</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/tfprobability">tfprobability</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyverse</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">zeallot</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/nteetor/zeallot">zeallot</a></span><span class="op">)</span>
 
 <span class="co"># As the data does not seem to be available at the address given in Petris et al. any more,</span>
 <span class="co"># we put it on the TensorFlow for R blog for download</span>
 <span class="co"># download from:</span>
-<span class="co"># https://github.com/rstudio/tensorflow-blog/blob/master/docs/posts/2019-06-25-dynamic_linear_models_tfprobability/data/capm.txt</span>
-<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu">read_table</span>(
+<span class="co"># https://github.com/rstudio/ai-blog/tree/master/_posts/2019-06-25-dynamic_linear_models_tfprobability/data/capm.txt</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_table</span><span class="op">(</span>
   <span class="st">"capm.txt"</span>,
-  <span class="kw">col_types</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">X1</span> <span class="kw">=</span> <span class="fu">col_date</span>(<span class="kw">format</span> <span class="kw">=</span> <span class="st">"%Y.%m"</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">rename</span>(<span class="kw">month</span> <span class="kw">=</span> <span class="no">X1</span>)
-<span class="no">df</span> <span class="kw">%&gt;%</span> <span class="fu">glimpse</span>()</pre></body></html></div>
+  col_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>X1 <span class="op">=</span> <span class="fu">col_date</span><span class="op">(</span>format <span class="op">=</span> <span class="st">"%Y.%m"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">rename</span><span class="op">(</span>month <span class="op">=</span> <span class="va">X1</span><span class="op">)</span>
+<span class="va">df</span> <span class="op">%&gt;%</span> <span class="fu">glimpse</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>Observations: 120
 Variables: 7
 $ month  &lt;date&gt; 1978-01-01, 1978-02-01, 1978-03-01, 1978-04-01, 1978-05-01, 19…
@@ -131,13 +133,14 @@ $ MARKET &lt;dbl&gt; -0.045, 0.010, 0.050, 0.063, 0.067, 0.007, 0.071, 0.079, 0.
 $ RKFREE &lt;dbl&gt; 0.00487, 0.00494, 0.00526, 0.00491, 0.00513, 0.00527, 0.00528, …</code></pre>
 <p>The <a href="https://en.wikipedia.org/wiki/Capital_asset_pricing_model">Capital Asset Pricing Model</a> then assumes a linear relationship between the excess returns of an asset under study and the excess returns of the market. For both, <em>excess returns</em> are obtained by subtracting the returns of the chosen <em>risk-free</em> asset; then, the scaling coefficient between them reveals the asset to either be an “aggressive” investment (slope &gt; 1: changes in the market are amplified), or a conservative one (slope &lt; 1: changes are damped).</p>
 <p>Assuming this relationship does not change over time, we can easily use <code>lm</code> to illustrate this. Following Petris et al. in zooming in on IBM as the asset under study, we have</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># excess returns of the asset under study</span>
-<span class="no">ibm</span> <span class="kw">&lt;-</span> <span class="no">df</span>$<span class="no">IBM</span> - <span class="no">df</span>$<span class="no">RKFREE</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># excess returns of the asset under study</span>
+<span class="va">ibm</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">IBM</span> <span class="op">-</span> <span class="va">df</span><span class="op">$</span><span class="va">RKFREE</span>
 <span class="co"># market excess returns</span>
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="no">df</span>$<span class="no">MARKET</span> - <span class="no">df</span>$<span class="no">RKFREE</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="va">df</span><span class="op">$</span><span class="va">MARKET</span> <span class="op">-</span> <span class="va">df</span><span class="op">$</span><span class="va">RKFREE</span>
 
-<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">ibm</span> ~ <span class="no">x</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">fit</span>)</pre></body></html></div>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">ibm</span> <span class="op">~</span> <span class="va">x</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></code></pre></div>
 <pre><code>Call:
 lm(formula = ibm ~ x)
 
@@ -157,21 +160,23 @@ Multiple R-squared:  0.2793,    Adjusted R-squared:  0.2732
 F-statistic: 45.74 on 1 and 118 DF,  p-value: 5.489e-10</code></pre>
 <p>So IBM is found to be a conservative investment, the slope being ~ 0.5. But is this relationship stable over time?</p>
 <p>Let’s turn to <code>tfprobability</code> to investigate.</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># zoom in on ibm</span>
-<span class="no">ts</span> <span class="kw">&lt;-</span> <span class="no">ibm</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>()
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># zoom in on ibm</span>
+<span class="va">ts</span> <span class="op">&lt;-</span> <span class="va">ibm</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co"># forecast 12 months</span>
-<span class="no">n_forecast_steps</span> <span class="kw">&lt;-</span> <span class="fl">12</span>
-<span class="no">ts_train</span> <span class="kw">&lt;-</span> <span class="no">ts</span>[<span class="fl">1</span>:(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">ts</span>) - <span class="no">n_forecast_steps</span>), <span class="fl">1</span>, <span class="kw">drop</span> <span class="kw">=</span> <span class="fl">FALSE</span>]
+<span class="va">n_forecast_steps</span> <span class="op">&lt;-</span> <span class="fl">12</span>
+<span class="va">ts_train</span> <span class="op">&lt;-</span> <span class="va">ts</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ts</span><span class="op">)</span> <span class="op">-</span> <span class="va">n_forecast_steps</span><span class="op">)</span>, <span class="fl">1</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span>
 
 <span class="co"># make sure we work with float32 here</span>
-<span class="no">ts_train</span> <span class="kw">&lt;-</span> <span class="no">tf</span>$<span class="fu">cast</span>(<span class="no">ts_train</span>, <span class="no">tf</span>$<span class="no">float32</span>)
-<span class="no">ts</span> <span class="kw">&lt;-</span> <span class="no">tf</span>$<span class="fu">cast</span>(<span class="no">ts</span>, <span class="no">tf</span>$<span class="no">float32</span>)</pre></body></html></div>
+<span class="va">ts_train</span> <span class="op">&lt;-</span> <span class="va">tf</span><span class="op">$</span><span class="fu">cast</span><span class="op">(</span><span class="va">ts_train</span>, <span class="va">tf</span><span class="op">$</span><span class="va">float32</span><span class="op">)</span>
+<span class="va">ts</span> <span class="op">&lt;-</span> <span class="va">tf</span><span class="op">$</span><span class="fu">cast</span><span class="op">(</span><span class="va">ts</span>, <span class="va">tf</span><span class="op">$</span><span class="va">float32</span><span class="op">)</span></code></pre></div>
 <p>In consttructing the model, <a href="https://rstudio.github.io/tfprobability/reference/sts_dynamic_linear_regression.html">sts_dynamic_linear_regression()</a> does what we want:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="co"># define the model on the complete series</span>
-<span class="no">linreg</span> <span class="kw">&lt;-</span> <span class="no">ts</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="../reference/sts_dynamic_linear_regression.html">sts_dynamic_linear_regression</a></span>(
-    <span class="kw">design_matrix</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">x</span>)), <span class="no">x</span>) <span class="kw">%&gt;%</span> <span class="no">tf</span>$<span class="fu">cast</span>(<span class="no">tf</span>$<span class="no">float32</span>)
-  )</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># define the model on the complete series</span>
+<span class="va">linreg</span> <span class="op">&lt;-</span> <span class="va">ts</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/sts_dynamic_linear_regression.html">sts_dynamic_linear_regression</a></span><span class="op">(</span>
+    design_matrix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>, <span class="va">x</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="va">tf</span><span class="op">$</span><span class="fu">cast</span><span class="op">(</span><span class="va">tf</span><span class="op">$</span><span class="va">float32</span><span class="op">)</span>
+  <span class="op">)</span></code></pre></div>
 <p>Now we define a function, <code>fit_with_vi</code>, that</p>
 <ul>
 <li>trains the model on the training set, using variational inference (<a href="https://rstudio.github.io/tfprobability/reference/sts_build_factored_variational_loss.html">sts_build_factored_variational_loss()</a>)</li>
@@ -179,186 +184,192 @@ F-statistic: 45.74 on 1 and 118 DF,  p-value: 5.489e-10</code></pre>
 </li>
 <li>obtains the smoothed as well as the filtered estimates from the <a href="https://en.wikipedia.org/wiki/Kalman_filter">Kálmán Filter</a> by converting to a <code><a href="../reference/tfd_linear_gaussian_state_space_model.html">tfd_linear_gaussian_state_space_model()</a></code> and calling <code>posterior_marginals()</code> on it:</li>
 </ul>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">fit_with_vi</span> <span class="kw">&lt;-</span>
-  <span class="kw">function</span>(<span class="no">ts</span>,
-           <span class="no">ts_train</span>,
-           <span class="no">model</span>,
-           <span class="no">n_iterations</span>,
-           <span class="no">n_param_samples</span>,
-           <span class="no">n_forecast_steps</span>,
-           <span class="no">n_forecast_samples</span>) {
-
-    <span class="no">optimizer</span> <span class="kw">&lt;-</span> <span class="no">tf</span>$<span class="no">compat</span>$<span class="no">v1</span>$<span class="no">train</span>$<span class="fu">AdamOptimizer</span>(<span class="fl">0.1</span>)
-
-    <span class="no">loss_and_dists</span> <span class="kw">&lt;-</span>
-      <span class="no">ts_train</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/sts_build_factored_variational_loss.html">sts_build_factored_variational_loss</a></span>(<span class="kw">model</span> <span class="kw">=</span> <span class="no">model</span>)
-    <span class="no">variational_loss</span> <span class="kw">&lt;-</span> <span class="no">loss_and_dists</span><span class="kw">[[</span><span class="fl">1</span>]]
-    <span class="no">train_op</span> <span class="kw">&lt;-</span> <span class="no">optimizer</span>$<span class="fu">minimize</span>(<span class="no">variational_loss</span>)
-
-    <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span> (<span class="no">tf</span>$<span class="fu">Session</span>() <span class="kw">%as%</span> <span class="no">sess</span>,  {
-
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fit_with_vi</span> <span class="op">&lt;-</span>
+  <span class="kw">function</span><span class="op">(</span><span class="va">ts</span>,
+           <span class="va">ts_train</span>,
+           <span class="va">model</span>,
+           <span class="va">n_iterations</span>,
+           <span class="va">n_param_samples</span>,
+           <span class="va">n_forecast_steps</span>,
+           <span class="va">n_forecast_samples</span><span class="op">)</span> <span class="op">{</span>
+    
+    <span class="va">optimizer</span> <span class="op">&lt;-</span> <span class="va">tf</span><span class="op">$</span><span class="va">compat</span><span class="op">$</span><span class="va">v1</span><span class="op">$</span><span class="va">train</span><span class="op">$</span><span class="fu">AdamOptimizer</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>
+    
+    <span class="va">loss_and_dists</span> <span class="op">&lt;-</span>
+      <span class="va">ts_train</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/sts_build_factored_variational_loss.html">sts_build_factored_variational_loss</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">model</span><span class="op">)</span>
+    <span class="va">variational_loss</span> <span class="op">&lt;-</span> <span class="va">loss_and_dists</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+    <span class="va">train_op</span> <span class="op">&lt;-</span> <span class="va">optimizer</span><span class="op">$</span><span class="fu">minimize</span><span class="op">(</span><span class="va">variational_loss</span><span class="op">)</span>
+    
+    <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span> <span class="op">(</span><span class="va">tf</span><span class="op">$</span><span class="fu">Session</span><span class="op">(</span><span class="op">)</span> <span class="op">%as%</span> <span class="va">sess</span>,  <span class="op">{</span>
+      
       <span class="co"># step 1: train the model using variational inference</span>
-      <span class="no">sess</span>$<span class="fu">run</span>(<span class="no">tf</span>$<span class="no">compat</span>$<span class="no">v1</span>$<span class="fu">global_variables_initializer</span>())
-      <span class="kw">for</span> (<span class="no">step</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="no">n_iterations</span>) {
-        <span class="no">sess</span>$<span class="fu">run</span>(<span class="no">train_op</span>)
-        <span class="no">loss</span> <span class="kw">&lt;-</span> <span class="no">sess</span>$<span class="fu">run</span>(<span class="no">variational_loss</span>)
-        <span class="kw">if</span> (<span class="no">step</span> <span class="kw">%%</span> <span class="fl">1</span> <span class="kw">==</span> <span class="fl">0</span>)
-          <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(<span class="st">"Loss: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">loss</span>), <span class="st">"\n"</span>)
-      }
+      <span class="va">sess</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="va">tf</span><span class="op">$</span><span class="va">compat</span><span class="op">$</span><span class="va">v1</span><span class="op">$</span><span class="fu">global_variables_initializer</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+      <span class="kw">for</span> <span class="op">(</span><span class="va">step</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n_iterations</span><span class="op">)</span> <span class="op">{</span>
+        <span class="va">sess</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="va">train_op</span><span class="op">)</span>
+        <span class="va">loss</span> <span class="op">&lt;-</span> <span class="va">sess</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="va">variational_loss</span><span class="op">)</span>
+        <span class="kw">if</span> <span class="op">(</span><span class="va">step</span> <span class="op">%%</span> <span class="fl">1</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>
+          <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="st">"Loss: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">loss</span><span class="op">)</span>, <span class="st">"\n"</span><span class="op">)</span>
+      <span class="op">}</span>
       <span class="co"># step 2: obtain forecasts</span>
-      <span class="no">variational_distributions</span> <span class="kw">&lt;-</span> <span class="no">loss_and_dists</span><span class="kw">[[</span><span class="fl">2</span>]]
-      <span class="no">posterior_samples</span> <span class="kw">&lt;-</span>
-        <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Map</a></span>(
-          <span class="kw">function</span>(<span class="no">d</span>)
-            <span class="no">d</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_sample.html">tfd_sample</a></span>(<span class="no">n_param_samples</span>),
-          <span class="no">variational_distributions</span> <span class="kw">%&gt;%</span> <span class="kw pkg">reticulate</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/r-py-conversion.html">py_to_r</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span>()
-        )
-      <span class="no">forecast_dists</span> <span class="kw">&lt;-</span>
-        <span class="no">ts_train</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/sts_forecast.html">sts_forecast</a></span>(<span class="no">model</span>, <span class="no">posterior_samples</span>, <span class="no">n_forecast_steps</span>)
-      <span class="no">fc_means</span> <span class="kw">&lt;-</span> <span class="no">forecast_dists</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_mean.html">tfd_mean</a></span>()
-      <span class="no">fc_sds</span> <span class="kw">&lt;-</span> <span class="no">forecast_dists</span> <span class="kw">%&gt;%</span> <span class="fu"><a href="../reference/tfd_stddev.html">tfd_stddev</a></span>()
-
+      <span class="va">variational_distributions</span> <span class="op">&lt;-</span> <span class="va">loss_and_dists</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>
+      <span class="va">posterior_samples</span> <span class="op">&lt;-</span>
+        <span class="fu"><a href="https://rdrr.io/r/base/funprog.html">Map</a></span><span class="op">(</span>
+          <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span>
+            <span class="va">d</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_sample.html">tfd_sample</a></span><span class="op">(</span><span class="va">n_param_samples</span><span class="op">)</span>,
+          <span class="va">variational_distributions</span> <span class="op">%&gt;%</span> <span class="fu">reticulate</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/r-py-conversion.html">py_to_r</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">)</span>
+        <span class="op">)</span>
+      <span class="va">forecast_dists</span> <span class="op">&lt;-</span>
+        <span class="va">ts_train</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/sts_forecast.html">sts_forecast</a></span><span class="op">(</span><span class="va">model</span>, <span class="va">posterior_samples</span>, <span class="va">n_forecast_steps</span><span class="op">)</span>
+      <span class="va">fc_means</span> <span class="op">&lt;-</span> <span class="va">forecast_dists</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_mean.html">tfd_mean</a></span><span class="op">(</span><span class="op">)</span>
+      <span class="va">fc_sds</span> <span class="op">&lt;-</span> <span class="va">forecast_dists</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/tfd_stddev.html">tfd_stddev</a></span><span class="op">(</span><span class="op">)</span>
+      
       <span class="co"># step 3: obtain smoothed and filtered estimates from the Kálmán filter</span>
-      <span class="no">ssm</span> <span class="kw">&lt;-</span> <span class="no">model</span>$<span class="fu">make_state_space_model</span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">ts_train</span>), <span class="kw">param_vals</span> <span class="kw">=</span> <span class="no">posterior_samples</span>)
-      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">smoothed_means</span>, <span class="no">smoothed_covs</span>) <span class="kw">%&lt;-%</span> <span class="no">ssm</span>$<span class="fu">posterior_marginals</span>(<span class="no">ts_train</span>)
-      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">.</span>, <span class="no">filtered_means</span>, <span class="no">filtered_covs</span>, <span class="no">.</span>, <span class="no">.</span>, <span class="no">.</span>, <span class="no">.</span>) <span class="kw">%&lt;-%</span> <span class="no">ssm</span>$<span class="fu">forward_filter</span>(<span class="no">ts_train</span>)
-
-      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">posterior_samples</span>, <span class="no">fc_means</span>, <span class="no">fc_sds</span>, <span class="no">smoothed_means</span>, <span class="no">smoothed_covs</span>, <span class="no">filtered_means</span>, <span class="no">filtered_covs</span>) <span class="kw">%&lt;-%</span>
-        <span class="no">sess</span>$<span class="fu">run</span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="no">posterior_samples</span>, <span class="no">fc_means</span>, <span class="no">fc_sds</span>, <span class="no">smoothed_means</span>, <span class="no">smoothed_covs</span>, <span class="no">filtered_means</span>, <span class="no">filtered_covs</span>))
-
-    })
-
-    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-      <span class="no">variational_distributions</span>,
-      <span class="no">posterior_samples</span>,
-      <span class="no">fc_means</span>[, <span class="fl">1</span>],
-      <span class="no">fc_sds</span>[, <span class="fl">1</span>],
-      <span class="no">smoothed_means</span>,
-      <span class="no">smoothed_covs</span>,
-      <span class="no">filtered_means</span>,
-      <span class="no">filtered_covs</span>
-    )
-  }</pre></body></html></div>
+      <span class="va">ssm</span> <span class="op">&lt;-</span> <span class="va">model</span><span class="op">$</span><span class="fu">make_state_space_model</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ts_train</span><span class="op">)</span>, param_vals <span class="op">=</span> <span class="va">posterior_samples</span><span class="op">)</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">smoothed_means</span>, <span class="va">smoothed_covs</span><span class="op">)</span> <span class="op">%&lt;-%</span> <span class="va">ssm</span><span class="op">$</span><span class="fu">posterior_marginals</span><span class="op">(</span><span class="va">ts_train</span><span class="op">)</span>
+      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">filtered_means</span>, <span class="va">filtered_covs</span>, <span class="va">.</span>, <span class="va">.</span>, <span class="va">.</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&lt;-%</span> <span class="va">ssm</span><span class="op">$</span><span class="fu">forward_filter</span><span class="op">(</span><span class="va">ts_train</span><span class="op">)</span>
+   
+      <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">posterior_samples</span>, <span class="va">fc_means</span>, <span class="va">fc_sds</span>, <span class="va">smoothed_means</span>, <span class="va">smoothed_covs</span>, <span class="va">filtered_means</span>, <span class="va">filtered_covs</span><span class="op">)</span> <span class="op">%&lt;-%</span>
+        <span class="va">sess</span><span class="op">$</span><span class="fu">run</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">posterior_samples</span>, <span class="va">fc_means</span>, <span class="va">fc_sds</span>, <span class="va">smoothed_means</span>, <span class="va">smoothed_covs</span>, <span class="va">filtered_means</span>, <span class="va">filtered_covs</span><span class="op">)</span><span class="op">)</span>
+      
+    <span class="op">}</span><span class="op">)</span>
+    
+    <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+      <span class="va">variational_distributions</span>,
+      <span class="va">posterior_samples</span>,
+      <span class="va">fc_means</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>,
+      <span class="va">fc_sds</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>,
+      <span class="va">smoothed_means</span>,
+      <span class="va">smoothed_covs</span>,
+      <span class="va">filtered_means</span>,
+      <span class="va">filtered_covs</span>
+    <span class="op">)</span>
+  <span class="op">}</span></code></pre></div>
 <p>Now we’re ready to call that function.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="co"># number of VI steps</span>
-<span class="no">n_iterations</span> <span class="kw">&lt;-</span> <span class="fl">300</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># number of VI steps</span>
+<span class="va">n_iterations</span> <span class="op">&lt;-</span> <span class="fl">300</span>
 <span class="co"># sample size for posterior samples</span>
-<span class="no">n_param_samples</span> <span class="kw">&lt;-</span> <span class="fl">50</span>
+<span class="va">n_param_samples</span> <span class="op">&lt;-</span> <span class="fl">50</span>
 <span class="co"># sample size to draw from the forecast distribution</span>
-<span class="no">n_forecast_samples</span> <span class="kw">&lt;-</span> <span class="fl">50</span>
+<span class="va">n_forecast_samples</span> <span class="op">&lt;-</span> <span class="fl">50</span>
 
 <span class="co"># call fit_vi defined above</span>
-<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
-  <span class="no">param_distributions</span>,
-  <span class="no">param_samples</span>,
-  <span class="no">fc_means</span>,
-  <span class="no">fc_sds</span>,
-  <span class="no">smoothed_means</span>,
-  <span class="no">smoothed_covs</span>,
-  <span class="no">filtered_means</span>,
-  <span class="no">filtered_covs</span>
-) <span class="kw">%&lt;-%</span> <span class="fu">fit_vi</span>(
-  <span class="no">ts</span>,
-  <span class="no">ts_train</span>,
-  <span class="no">model</span>,
-  <span class="no">n_iterations</span>,
-  <span class="no">n_param_samples</span>,
-  <span class="no">n_forecast_steps</span>,
-  <span class="no">n_forecast_samples</span>
-)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+  <span class="va">param_distributions</span>,
+  <span class="va">param_samples</span>,
+  <span class="va">fc_means</span>,
+  <span class="va">fc_sds</span>,
+  <span class="va">smoothed_means</span>,
+  <span class="va">smoothed_covs</span>,
+  <span class="va">filtered_means</span>,
+  <span class="va">filtered_covs</span>
+<span class="op">)</span> <span class="op">%&lt;-%</span> <span class="fu">fit_vi</span><span class="op">(</span>
+  <span class="va">ts</span>,
+  <span class="va">ts_train</span>,
+  <span class="va">model</span>,
+  <span class="va">n_iterations</span>,
+  <span class="va">n_param_samples</span>,
+  <span class="va">n_forecast_steps</span>,
+  <span class="va">n_forecast_samples</span>
+<span class="op">)</span></code></pre></div>
 <p>Let’s look at the forecasts and filtering resp. smoothing estimates.</p>
 <p>Putting all we need into one dataframe, we have</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">smoothed_means_intercept</span> <span class="kw">&lt;-</span> <span class="no">smoothed_means</span>[, , <span class="fl">1</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>()
-<span class="no">smoothed_means_slope</span> <span class="kw">&lt;-</span> <span class="no">smoothed_means</span>[, , <span class="fl">2</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>()
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">smoothed_means_intercept</span> <span class="op">&lt;-</span> <span class="va">smoothed_means</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">smoothed_means_slope</span> <span class="op">&lt;-</span> <span class="va">smoothed_means</span><span class="op">[</span>, , <span class="fl">2</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="no">smoothed_sds_intercept</span> <span class="kw">&lt;-</span> <span class="no">smoothed_covs</span>[, , <span class="fl">1</span>, <span class="fl">1</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>()
-<span class="no">smoothed_sds_slope</span> <span class="kw">&lt;-</span> <span class="no">smoothed_covs</span>[, , <span class="fl">2</span>, <span class="fl">2</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>()
+<span class="va">smoothed_sds_intercept</span> <span class="op">&lt;-</span> <span class="va">smoothed_covs</span><span class="op">[</span>, , <span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">smoothed_sds_slope</span> <span class="op">&lt;-</span> <span class="va">smoothed_covs</span><span class="op">[</span>, , <span class="fl">2</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="no">filtered_means_intercept</span> <span class="kw">&lt;-</span> <span class="no">filtered_means</span>[, , <span class="fl">1</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>()
-<span class="no">filtered_means_slope</span> <span class="kw">&lt;-</span> <span class="no">filtered_means</span>[, , <span class="fl">2</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>()
+<span class="va">filtered_means_intercept</span> <span class="op">&lt;-</span> <span class="va">filtered_means</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">filtered_means_slope</span> <span class="op">&lt;-</span> <span class="va">filtered_means</span><span class="op">[</span>, , <span class="fl">2</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="no">filtered_sds_intercept</span> <span class="kw">&lt;-</span> <span class="no">filtered_covs</span>[, , <span class="fl">1</span>, <span class="fl">1</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>()
-<span class="no">filtered_sds_slope</span> <span class="kw">&lt;-</span> <span class="no">filtered_covs</span>[, , <span class="fl">2</span>, <span class="fl">2</span>] <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>() <span class="kw">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>()
+<span class="va">filtered_sds_intercept</span> <span class="op">&lt;-</span> <span class="va">filtered_covs</span><span class="op">[</span>, , <span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">)</span>
+<span class="va">filtered_sds_slope</span> <span class="op">&lt;-</span> <span class="va">filtered_covs</span><span class="op">[</span>, , <span class="fl">2</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="no">forecast_df</span> <span class="kw">&lt;-</span> <span class="no">df</span> <span class="kw">%&gt;%</span>
-  <span class="fu">select</span>(<span class="no">month</span>, <span class="no">IBM</span>) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">pred_mean</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">ts_train</span>)), <span class="no">fc_means</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">pred_sd</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">ts_train</span>)), <span class="no">fc_sds</span>)) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">smoothed_means_intercept</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">smoothed_means_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">smoothed_means_slope</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">smoothed_means_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">smoothed_sds_intercept</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">smoothed_sds_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">smoothed_sds_slope</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">smoothed_sds_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">filtered_means_intercept</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">filtered_means_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">filtered_means_slope</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">filtered_means_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">filtered_sds_intercept</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">filtered_sds_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>))) <span class="kw">%&gt;%</span>
-  <span class="fu">add_column</span>(<span class="kw">filtered_sds_slope</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">filtered_sds_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">NA</span>, <span class="no">n_forecast_steps</span>)))</pre></body></html></div>
+<span class="va">forecast_df</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">%&gt;%</span>
+  <span class="fu">select</span><span class="op">(</span><span class="va">month</span>, <span class="va">IBM</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>pred_mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ts_train</span><span class="op">)</span><span class="op">)</span>, <span class="va">fc_means</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>pred_sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ts_train</span><span class="op">)</span><span class="op">)</span>, <span class="va">fc_sds</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>smoothed_means_intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">smoothed_means_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>smoothed_means_slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">smoothed_means_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>smoothed_sds_intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">smoothed_sds_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>smoothed_sds_slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">smoothed_sds_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>filtered_means_intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">filtered_means_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>filtered_means_slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">filtered_means_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>filtered_sds_intercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">filtered_sds_intercept</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">add_column</span><span class="op">(</span>filtered_sds_slope <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">filtered_sds_slope</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="va">n_forecast_steps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Here first are the forecasts.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">forecast_df</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">month</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">IBM</span>)) +
-  <span class="fu">geom_line</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"grey"</span>) +
-  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">pred_mean</span>), <span class="kw">color</span> <span class="kw">=</span> <span class="st">"cyan"</span>) +
-  <span class="fu">geom_ribbon</span>(
-    <span class="fu">aes</span>(<span class="kw">ymin</span> <span class="kw">=</span> <span class="no">pred_mean</span> - <span class="fl">2</span> * <span class="no">pred_sd</span>, <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">pred_mean</span> + <span class="fl">2</span> * <span class="no">pred_sd</span>),
-    <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.2</span>,
-    <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"cyan"</span>
-  ) +
-  <span class="fu">theme</span>(<span class="kw">axis.title</span> <span class="kw">=</span> <span class="fu">element_blank</span>())</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">forecast_df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">IBM</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"grey"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">pred_mean</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"cyan"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_ribbon</span><span class="op">(</span>
+    <span class="fu">aes</span><span class="op">(</span>ymin <span class="op">=</span> <span class="va">pred_mean</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pred_sd</span>, ymax <span class="op">=</span> <span class="va">pred_mean</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">pred_sd</span><span class="op">)</span>,
+    alpha <span class="op">=</span> <span class="fl">0.2</span>,
+    fill <span class="op">=</span> <span class="st">"cyan"</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="images/capm_forecast.png" alt="12-point-ahead forecasts for IBM; posterior means +/- 2 standard deviations." width="500"><p class="caption">
 12-point-ahead forecasts for IBM; posterior means +/- 2 standard deviations.
 </p>
 </div>
 <p>Here are the smoothing estimates. The intercept (shown in orange) remains pretty stable over time, but we do see a trend in the slope (displayed in green).</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">forecast_df</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">month</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">smoothed_means_intercept</span>)) +
-  <span class="fu">geom_line</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"orange"</span>) +
-  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">smoothed_means_slope</span>),
-            <span class="kw">color</span> <span class="kw">=</span> <span class="st">"green"</span>) +
-  <span class="fu">geom_ribbon</span>(
-    <span class="fu">aes</span>(
-      <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">smoothed_means_intercept</span> - <span class="fl">2</span> * <span class="no">smoothed_sds_intercept</span>,
-      <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">smoothed_means_intercept</span> + <span class="fl">2</span> * <span class="no">smoothed_sds_intercept</span>
-    ),
-    <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.3</span>,
-    <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"orange"</span>
-  ) +
-  <span class="fu">geom_ribbon</span>(
-    <span class="fu">aes</span>(
-      <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">smoothed_means_slope</span> - <span class="fl">2</span> * <span class="no">smoothed_sds_slope</span>,
-      <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">smoothed_means_slope</span> + <span class="fl">2</span> * <span class="no">smoothed_sds_slope</span>
-    ),
-    <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.1</span>,
-    <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"green"</span>
-  ) +
-  <span class="fu">coord_cartesian</span>(<span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">forecast_df</span>$<span class="no">month</span>[<span class="fl">1</span>], <span class="no">forecast_df</span>$<span class="no">month</span>[<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">ts</span>) - <span class="no">n_forecast_steps</span>]))  +
-  <span class="fu">theme</span>(<span class="kw">axis.title</span> <span class="kw">=</span> <span class="fu">element_blank</span>())</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">forecast_df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">smoothed_means_intercept</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">smoothed_means_slope</span><span class="op">)</span>,
+            color <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_ribbon</span><span class="op">(</span>
+    <span class="fu">aes</span><span class="op">(</span>
+      ymin <span class="op">=</span> <span class="va">smoothed_means_intercept</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">smoothed_sds_intercept</span>,
+      ymax <span class="op">=</span> <span class="va">smoothed_means_intercept</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">smoothed_sds_intercept</span>
+    <span class="op">)</span>,
+    alpha <span class="op">=</span> <span class="fl">0.3</span>,
+    fill <span class="op">=</span> <span class="st">"orange"</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_ribbon</span><span class="op">(</span>
+    <span class="fu">aes</span><span class="op">(</span>
+      ymin <span class="op">=</span> <span class="va">smoothed_means_slope</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">smoothed_sds_slope</span>,
+      ymax <span class="op">=</span> <span class="va">smoothed_means_slope</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">smoothed_sds_slope</span>
+    <span class="op">)</span>,
+    alpha <span class="op">=</span> <span class="fl">0.1</span>,
+    fill <span class="op">=</span> <span class="st">"green"</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu">coord_cartesian</span><span class="op">(</span>xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">forecast_df</span><span class="op">$</span><span class="va">month</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">forecast_df</span><span class="op">$</span><span class="va">month</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ts</span><span class="op">)</span> <span class="op">-</span> <span class="va">n_forecast_steps</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>  <span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="images/capm_smoothed.png" alt="Smoothing estimates from the Kálmán filter. Green: coefficient for dependence on excess market returns (slope), orange: vector of ones (intercept)." width="500"><p class="caption">
 Smoothing estimates from the Kálmán filter. Green: coefficient for dependence on excess market returns (slope), orange: vector of ones (intercept).
 </p>
 </div>
 <p>For comparison, this is how the filtered estimates look.</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">ggplot</span>(<span class="no">forecast_df</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">month</span>, <span class="kw">y</span> <span class="kw">=</span> <span class="no">filtered_means_intercept</span>)) +
-  <span class="fu">geom_line</span>(<span class="kw">color</span> <span class="kw">=</span> <span class="st">"orange"</span>) +
-  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">filtered_means_slope</span>),
-            <span class="kw">color</span> <span class="kw">=</span> <span class="st">"green"</span>) +
-  <span class="fu">geom_ribbon</span>(
-    <span class="fu">aes</span>(
-      <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">filtered_means_intercept</span> - <span class="fl">2</span> * <span class="no">filtered_sds_intercept</span>,
-      <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">filtered_means_intercept</span> + <span class="fl">2</span> * <span class="no">filtered_sds_intercept</span>
-    ),
-    <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.3</span>,
-    <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"orange"</span>
-  ) +
-  <span class="fu">geom_ribbon</span>(
-    <span class="fu">aes</span>(
-      <span class="kw">ymin</span> <span class="kw">=</span> <span class="no">filtered_means_slope</span> - <span class="fl">2</span> * <span class="no">filtered_sds_slope</span>,
-      <span class="kw">ymax</span> <span class="kw">=</span> <span class="no">filtered_means_slope</span> + <span class="fl">2</span> * <span class="no">filtered_sds_slope</span>
-    ),
-    <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.1</span>,
-    <span class="kw">fill</span> <span class="kw">=</span> <span class="st">"green"</span>
-  ) +
-  <span class="fu">coord_cartesian</span>(<span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">2</span>, <span class="fl">2</span>),
-                  <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">forecast_df</span>$<span class="no">month</span>[<span class="fl">1</span>], <span class="no">forecast_df</span>$<span class="no">month</span>[<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">ts</span>) - <span class="no">n_forecast_steps</span>])) +
-  <span class="fu">theme</span>(<span class="kw">axis.title</span> <span class="kw">=</span> <span class="fu">element_blank</span>())</pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">forecast_df</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">month</span>, y <span class="op">=</span> <span class="va">filtered_means_intercept</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span>color <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">filtered_means_slope</span><span class="op">)</span>,
+            color <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_ribbon</span><span class="op">(</span>
+    <span class="fu">aes</span><span class="op">(</span>
+      ymin <span class="op">=</span> <span class="va">filtered_means_intercept</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">filtered_sds_intercept</span>,
+      ymax <span class="op">=</span> <span class="va">filtered_means_intercept</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">filtered_sds_intercept</span>
+    <span class="op">)</span>,
+    alpha <span class="op">=</span> <span class="fl">0.3</span>,
+    fill <span class="op">=</span> <span class="st">"orange"</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu">geom_ribbon</span><span class="op">(</span>
+    <span class="fu">aes</span><span class="op">(</span>
+      ymin <span class="op">=</span> <span class="va">filtered_means_slope</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">filtered_sds_slope</span>,
+      ymax <span class="op">=</span> <span class="va">filtered_means_slope</span> <span class="op">+</span> <span class="fl">2</span> <span class="op">*</span> <span class="va">filtered_sds_slope</span>
+    <span class="op">)</span>,
+    alpha <span class="op">=</span> <span class="fl">0.1</span>,
+    fill <span class="op">=</span> <span class="st">"green"</span>
+  <span class="op">)</span> <span class="op">+</span>
+  <span class="fu">coord_cartesian</span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,
+                  xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">forecast_df</span><span class="op">$</span><span class="va">month</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">forecast_df</span><span class="op">$</span><span class="va">month</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">ts</span><span class="op">)</span> <span class="op">-</span> <span class="va">n_forecast_steps</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme</span><span class="op">(</span>axis.title <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="figure">
 <img src="images/capm_filtered.png" alt="Filtering estimates from the Kálmán filter. Green: coefficient for dependence on excess market returns (slope), orange: vector of ones (intercept)." width="500"><p class="caption">
 Filtering estimates from the Kálmán filter. Green: coefficient for dependence on excess market returns (slope), orange: vector of ones (intercept).
@@ -380,7 +391,7 @@ Filtering estimates from the Kálmán filter. Green: coefficient for dependence 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

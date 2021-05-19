@@ -154,18 +154,18 @@ calculations; see <code>tfd_linear_gaussian_state_space_model</code> for
 details.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_seasonal_state_space_model</span>(
-  <span class='no'>num_timesteps</span>,
-  <span class='no'>num_seasons</span>,
-  <span class='no'>drift_scale</span>,
-  <span class='no'>initial_state_prior</span>,
-  <span class='kw'>observation_noise_scale</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>num_steps_per_season</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>initial_step</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>allow_nan_stats</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sts_seasonal_state_space_model</span><span class='op'>(</span>
+  <span class='va'>num_timesteps</span>,
+  <span class='va'>num_seasons</span>,
+  <span class='va'>drift_scale</span>,
+  <span class='va'>initial_state_prior</span>,
+  observation_noise_scale <span class='op'>=</span> <span class='fl'>0</span>,
+  num_steps_per_season <span class='op'>=</span> <span class='fl'>1</span>,
+  initial_step <span class='op'>=</span> <span class='fl'>0</span>,
+  validate_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_nan_stats <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -242,7 +242,8 @@ Default value: "SeasonalStateSpaceModel".</p></td>
 latent states represent an unknown effect from each of several 'seasons';
 these are generally not meteorological seasons, but represent regular
 recurring patterns such as hour-of-day or day-of-week effects. The effect of
-each season drifts from one occurrence to the next, following a Gaussian random walk:</p><pre><span class='no'>effects</span>[<span class='no'>season</span>, <span class='no'>occurrence</span>[<span class='no'>i</span>]] <span class='kw'>=</span> (<span class='no'>effects</span>[<span class='no'>season</span>, <span class='no'>occurrence</span>[<span class='no'>i</span>-<span class='fl'>1</span>]] + <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span>(<span class='kw'>loc</span><span class='kw'>=</span><span class='fl'>0.</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='no'>drift_scale</span>))</pre>
+each season drifts from one occurrence to the next, following a Gaussian random walk:</p><pre><span class='va'>effects</span><span class='op'>[</span><span class='va'>season</span>, <span class='va'>occurrence</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>=</span> <span class='op'>(</span><span class='va'>effects</span><span class='op'>[</span><span class='va'>season</span>, <span class='va'>occurrence</span><span class='op'>[</span><span class='va'>i</span><span class='op'>-</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>Normal</a></span><span class='op'>(</span>loc<span class='op'>=</span><span class='fl'>0.</span>, scale<span class='op'>=</span><span class='va'>drift_scale</span><span class='op'>)</span><span class='op'>)</span>
+</pre>
 
 <p>The latent state has dimension <code>num_seasons</code>, containing one effect for each
 seasonal component. The parameters <code>drift_scale</code> and
@@ -308,7 +309,7 @@ observation_noise ~ Normal(loc=0, scale=observation_noise_scale)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

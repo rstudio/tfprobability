@@ -152,15 +152,15 @@ This class implements one random NUTS step from a given
 Hoffman &amp; Gelman (2011).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_no_u_turn_sampler</span>(
-  <span class='no'>target_log_prob_fn</span>,
-  <span class='no'>step_size</span>,
-  <span class='kw'>max_tree_depth</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>max_energy_diff</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>unrolled_leapfrog_steps</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mcmc_no_u_turn_sampler</span><span class='op'>(</span>
+  <span class='va'>target_log_prob_fn</span>,
+  <span class='va'>step_size</span>,
+  max_tree_depth <span class='op'>=</span> <span class='fl'>10</span>,
+  max_energy_diff <span class='op'>=</span> <span class='fl'>1000</span>,
+  unrolled_leapfrog_steps <span class='op'>=</span> <span class='fl'>1</span>,
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -250,78 +250,79 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>predictors</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>( <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>201</span>,<span class='fl'>244</span>, <span class='fl'>47</span>,<span class='fl'>287</span>,<span class='fl'>203</span>,<span class='fl'>58</span>,<span class='fl'>210</span>,<span class='fl'>202</span>,<span class='fl'>198</span>,<span class='fl'>158</span>,<span class='fl'>165</span>,<span class='fl'>201</span>,<span class='fl'>157</span>,
-  <span class='fl'>131</span>,<span class='fl'>166</span>,<span class='fl'>160</span>,<span class='fl'>186</span>,<span class='fl'>125</span>,<span class='fl'>218</span>,<span class='fl'>146</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)
-<span class='no'>obs</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>592</span>,<span class='fl'>401</span>,<span class='fl'>583</span>,<span class='fl'>402</span>,<span class='fl'>495</span>,<span class='fl'>173</span>,<span class='fl'>479</span>,<span class='fl'>504</span>,<span class='fl'>510</span>,<span class='fl'>416</span>,<span class='fl'>393</span>,<span class='fl'>442</span>,<span class='fl'>317</span>,<span class='fl'>311</span>,<span class='fl'>400</span>,
-  <span class='fl'>337</span>,<span class='fl'>423</span>,<span class='fl'>334</span>,<span class='fl'>533</span>,<span class='fl'>344</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)
-<span class='no'>y_sigma</span> <span class='kw'>&lt;-</span> <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>61</span>,<span class='fl'>25</span>,<span class='fl'>38</span>,<span class='fl'>15</span>,<span class='fl'>21</span>,<span class='fl'>15</span>,<span class='fl'>27</span>,<span class='fl'>14</span>,<span class='fl'>30</span>,<span class='fl'>16</span>,<span class='fl'>14</span>,<span class='fl'>25</span>,<span class='fl'>52</span>,<span class='fl'>16</span>,<span class='fl'>34</span>,<span class='fl'>31</span>,<span class='fl'>42</span>,<span class='fl'>26</span>,
-  <span class='fl'>16</span>,<span class='fl'>22</span>),<span class='no'>tf</span>$<span class='no'>float32</span>)
+<span class='va'>predictors</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>cast</span><span class='op'>(</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>201</span>,<span class='fl'>244</span>, <span class='fl'>47</span>,<span class='fl'>287</span>,<span class='fl'>203</span>,<span class='fl'>58</span>,<span class='fl'>210</span>,<span class='fl'>202</span>,<span class='fl'>198</span>,<span class='fl'>158</span>,<span class='fl'>165</span>,<span class='fl'>201</span>,<span class='fl'>157</span>,
+  <span class='fl'>131</span>,<span class='fl'>166</span>,<span class='fl'>160</span>,<span class='fl'>186</span>,<span class='fl'>125</span>,<span class='fl'>218</span>,<span class='fl'>146</span><span class='op'>)</span>,<span class='va'>tf</span><span class='op'>$</span><span class='va'>float32</span><span class='op'>)</span>
+<span class='va'>obs</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>cast</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>592</span>,<span class='fl'>401</span>,<span class='fl'>583</span>,<span class='fl'>402</span>,<span class='fl'>495</span>,<span class='fl'>173</span>,<span class='fl'>479</span>,<span class='fl'>504</span>,<span class='fl'>510</span>,<span class='fl'>416</span>,<span class='fl'>393</span>,<span class='fl'>442</span>,<span class='fl'>317</span>,<span class='fl'>311</span>,<span class='fl'>400</span>,
+  <span class='fl'>337</span>,<span class='fl'>423</span>,<span class='fl'>334</span>,<span class='fl'>533</span>,<span class='fl'>344</span><span class='op'>)</span>,<span class='va'>tf</span><span class='op'>$</span><span class='va'>float32</span><span class='op'>)</span>
+<span class='va'>y_sigma</span> <span class='op'>&lt;-</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>cast</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>61</span>,<span class='fl'>25</span>,<span class='fl'>38</span>,<span class='fl'>15</span>,<span class='fl'>21</span>,<span class='fl'>15</span>,<span class='fl'>27</span>,<span class='fl'>14</span>,<span class='fl'>30</span>,<span class='fl'>16</span>,<span class='fl'>14</span>,<span class='fl'>25</span>,<span class='fl'>52</span>,<span class='fl'>16</span>,<span class='fl'>34</span>,<span class='fl'>31</span>,<span class='fl'>42</span>,<span class='fl'>26</span>,
+  <span class='fl'>16</span>,<span class='fl'>22</span><span class='op'>)</span>,<span class='va'>tf</span><span class='op'>$</span><span class='va'>float32</span><span class='op'>)</span>
 
 <span class='co'># Robust linear regression model</span>
-<span class='no'>robust_lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tfd_joint_distribution_sequential.html'>tfd_joint_distribution_sequential</a></span>(
- <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-   <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"b0"</span>),
-   <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span>(<span class='kw'>loc</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"b1"</span>),
-   <span class='fu'><a href='tfd_half_normal.html'>tfd_half_normal</a></span>(<span class='fl'>5</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"df"</span>),
-   <span class='kw'>function</span>(<span class='no'>df</span>, <span class='no'>b1</span>, <span class='no'>b0</span>)
-     <span class='fu'><a href='tfd_independent.html'>tfd_independent</a></span>(
-       <span class='fu'><a href='tfd_student_t.html'>tfd_student_t</a></span>(
+<span class='va'>robust_lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tfd_joint_distribution_sequential.html'>tfd_joint_distribution_sequential</a></span><span class='op'>(</span>
+ <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+   <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span><span class='op'>(</span>loc <span class='op'>=</span> <span class='fl'>0</span>, scale <span class='op'>=</span> <span class='fl'>1</span>, name <span class='op'>=</span> <span class='st'>"b0"</span><span class='op'>)</span>,
+   <span class='fu'><a href='tfd_normal.html'>tfd_normal</a></span><span class='op'>(</span>loc <span class='op'>=</span> <span class='fl'>0</span>, scale <span class='op'>=</span> <span class='fl'>1</span>, name <span class='op'>=</span> <span class='st'>"b1"</span><span class='op'>)</span>,
+   <span class='fu'><a href='tfd_half_normal.html'>tfd_half_normal</a></span><span class='op'>(</span><span class='fl'>5</span>, name <span class='op'>=</span> <span class='st'>"df"</span><span class='op'>)</span>,
+   <span class='kw'>function</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>b1</span>, <span class='va'>b0</span><span class='op'>)</span>
+     <span class='fu'><a href='tfd_independent.html'>tfd_independent</a></span><span class='op'>(</span>
+       <span class='fu'><a href='tfd_student_t.html'>tfd_student_t</a></span><span class='op'>(</span>
          <span class='co'># Likelihood</span>
-           <span class='kw'>df</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='fu'>expand_dims</span>(<span class='no'>df</span>, <span class='kw'>axis</span> <span class='kw'>=</span> -<span class='fl'>1L</span>),
-           <span class='kw'>loc</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='fu'>expand_dims</span>(<span class='no'>b0</span>, <span class='kw'>axis</span> <span class='kw'>=</span> -<span class='fl'>1L</span>) +
-                 <span class='no'>tf</span>$<span class='fu'>expand_dims</span>(<span class='no'>b1</span>, <span class='kw'>axis</span> <span class='kw'>=</span> -<span class='fl'>1L</span>) * <span class='no'>predictors</span>[<span class='no'>tf</span>$<span class='no'>newaxis</span>, ],
-           <span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>y_sigma</span>,
-           <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"st"</span>
-           ), <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"ind"</span>)), <span class='kw'>validate_args</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+           df <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>expand_dims</span><span class='op'>(</span><span class='va'>df</span>, axis <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1L</span><span class='op'>)</span>,
+           loc <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>expand_dims</span><span class='op'>(</span><span class='va'>b0</span>, axis <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1L</span><span class='op'>)</span> <span class='op'>+</span>
+                 <span class='va'>tf</span><span class='op'>$</span><span class='fu'>expand_dims</span><span class='op'>(</span><span class='va'>b1</span>, axis <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1L</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>predictors</span><span class='op'>[</span><span class='va'>tf</span><span class='op'>$</span><span class='va'>newaxis</span>, <span class='op'>]</span>,
+           scale <span class='op'>=</span> <span class='va'>y_sigma</span>,
+           name <span class='op'>=</span> <span class='st'>"st"</span>
+           <span class='op'>)</span>, name <span class='op'>=</span> <span class='st'>"ind"</span><span class='op'>)</span><span class='op'>)</span>, validate_args <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
- <span class='no'>log_prob</span> <span class='kw'>&lt;-</span><span class='kw'>function</span>(<span class='no'>b0</span>, <span class='no'>b1</span>, <span class='no'>df</span>) {<span class='no'>robust_lm</span> <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='tfd_log_prob.html'>tfd_log_prob</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>b0</span>, <span class='no'>b1</span>, <span class='no'>df</span>, <span class='no'>obs</span>))}
- <span class='no'>step_size0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span>(<span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>tf</span>$<span class='fu'>cast</span>(<span class='no'>x</span>, <span class='no'>tf</span>$<span class='no'>float32</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>.2</span>, <span class='fl'>.5</span>))
+ <span class='va'>log_prob</span> <span class='op'>&lt;-</span><span class='kw'>function</span><span class='op'>(</span><span class='va'>b0</span>, <span class='va'>b1</span>, <span class='va'>df</span><span class='op'>)</span> <span class='op'>{</span><span class='va'>robust_lm</span> <span class='op'>%&gt;%</span>
+   <span class='fu'><a href='tfd_log_prob.html'>tfd_log_prob</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>b0</span>, <span class='va'>b1</span>, <span class='va'>df</span>, <span class='va'>obs</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span>
+ <span class='va'>step_size0</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/funprog.html'>Map</a></span><span class='op'>(</span><span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='va'>tf</span><span class='op'>$</span><span class='fu'>cast</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>tf</span><span class='op'>$</span><span class='va'>float32</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>.2</span>, <span class='fl'>.5</span><span class='op'>)</span><span class='op'>)</span>
 
- <span class='no'>number_of_steps</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
- <span class='no'>burnin</span> <span class='kw'>&lt;-</span> <span class='fl'>5</span>
- <span class='no'>nchain</span> <span class='kw'>&lt;-</span> <span class='fl'>50</span>
+ <span class='va'>number_of_steps</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
+ <span class='va'>burnin</span> <span class='op'>&lt;-</span> <span class='fl'>5</span>
+ <span class='va'>nchain</span> <span class='op'>&lt;-</span> <span class='fl'>50</span>
 
- <span class='no'>run_chain</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>() {
+ <span class='va'>run_chain</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>{</span>
  <span class='co'># random initialization of the starting postion of each chain</span>
- <span class='no'>samples</span> <span class='kw'>&lt;-</span> <span class='no'>robust_lm</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(<span class='no'>nchain</span>)
- <span class='no'>b0</span> <span class='kw'>&lt;-</span> <span class='no'>samples</span><span class='kw'>[[</span><span class='fl'>1</span>]]
- <span class='no'>b1</span> <span class='kw'>&lt;-</span> <span class='no'>samples</span><span class='kw'>[[</span><span class='fl'>2</span>]]
- <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='no'>samples</span><span class='kw'>[[</span><span class='fl'>3</span>]]
+ <span class='va'>samples</span> <span class='op'>&lt;-</span> <span class='va'>robust_lm</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span><span class='op'>(</span><span class='va'>nchain</span><span class='op'>)</span>
+ <span class='va'>b0</span> <span class='op'>&lt;-</span> <span class='va'>samples</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
+ <span class='va'>b1</span> <span class='op'>&lt;-</span> <span class='va'>samples</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>
+ <span class='va'>df</span> <span class='op'>&lt;-</span> <span class='va'>samples</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>
 
- <span class='co'># bijector to map contrained parameters to real</span>
- <span class='no'>unconstraining_bijectors</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-   <span class='fu'><a href='tfb_identity.html'>tfb_identity</a></span>(), <span class='fu'><a href='tfb_identity.html'>tfb_identity</a></span>(), <span class='fu'><a href='tfb_identity.html'>tfb_identity</a></span>(), <span class='fu'><a href='tfb_exp.html'>tfb_exp</a></span>())
+ <span class='co'># bijector to map constrained parameters to real</span>
+ <span class='va'>unconstraining_bijectors</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+   <span class='fu'><a href='tfb_identity.html'>tfb_identity</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='tfb_identity.html'>tfb_identity</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='fu'><a href='tfb_exp.html'>tfb_exp</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
- <span class='no'>trace_fn</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>pkr</span>) {
-   <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>pkr</span>$<span class='no'>inner_results</span>$<span class='no'>inner_results</span>$<span class='no'>step_size</span>,
-     <span class='no'>pkr</span>$<span class='no'>inner_results</span>$<span class='no'>inner_results</span>$<span class='no'>log_accept_ratio</span>)
- }
+ <span class='va'>trace_fn</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>pkr</span><span class='op'>)</span> <span class='op'>{</span>
+   <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>pkr</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>step_size</span>,
+     <span class='va'>pkr</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>log_accept_ratio</span><span class='op'>)</span>
+ <span class='op'>}</span>
 
- <span class='no'>nuts</span> <span class='kw'>&lt;-</span> <span class='fu'>mcmc_no_u_turn_sampler</span>(
-   <span class='kw'>target_log_prob_fn</span> <span class='kw'>=</span> <span class='no'>log_prob</span>,
-   <span class='kw'>step_size</span> <span class='kw'>=</span> <span class='no'>step_size0</span>
-   ) <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='mcmc_transformed_transition_kernel.html'>mcmc_transformed_transition_kernel</a></span>(<span class='kw'>bijector</span> <span class='kw'>=</span> <span class='no'>unconstraining_bijectors</span>) <span class='kw'>%&gt;%</span>
-   <span class='fu'><a href='mcmc_dual_averaging_step_size_adaptation.html'>mcmc_dual_averaging_step_size_adaptation</a></span>(
-     <span class='kw'>num_adaptation_steps</span> <span class='kw'>=</span> <span class='no'>burnin</span>,
-     <span class='kw'>step_size_setter_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>pkr</span>, <span class='no'>new_step_size</span>)
-       <span class='no'>pkr</span>$<span class='fu'>`_replace`</span>(
-         <span class='kw'>inner_results</span> <span class='kw'>=</span> <span class='no'>pkr</span>$<span class='no'>inner_results</span>$<span class='fu'>`_replace`</span>(<span class='kw'>step_size</span> <span class='kw'>=</span> <span class='no'>new_step_size</span>)),
-     <span class='kw'>step_size_getter_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>pkr</span>) <span class='no'>pkr</span>$<span class='no'>inner_results</span>$<span class='no'>step_size</span>,
-     <span class='kw'>log_accept_prob_getter_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>pkr</span>) <span class='no'>pkr</span>$<span class='no'>inner_results</span>$<span class='no'>log_accept_ratio</span>
-     )
+ <span class='va'>nuts</span> <span class='op'>&lt;-</span> <span class='fu'>mcmc_no_u_turn_sampler</span><span class='op'>(</span>
+   target_log_prob_fn <span class='op'>=</span> <span class='va'>log_prob</span>,
+   step_size <span class='op'>=</span> <span class='va'>step_size0</span>
+   <span class='op'>)</span> <span class='op'>%&gt;%</span>
+   <span class='fu'><a href='mcmc_transformed_transition_kernel.html'>mcmc_transformed_transition_kernel</a></span><span class='op'>(</span>bijector <span class='op'>=</span> <span class='va'>unconstraining_bijectors</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+   <span class='fu'><a href='mcmc_dual_averaging_step_size_adaptation.html'>mcmc_dual_averaging_step_size_adaptation</a></span><span class='op'>(</span>
+     num_adaptation_steps <span class='op'>=</span> <span class='va'>burnin</span>,
+     step_size_setter_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>pkr</span>, <span class='va'>new_step_size</span><span class='op'>)</span>
+       <span class='va'>pkr</span><span class='op'>$</span><span class='fu'>`_replace`</span><span class='op'>(</span>
+         inner_results <span class='op'>=</span> <span class='va'>pkr</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='fu'>`_replace`</span><span class='op'>(</span>step_size <span class='op'>=</span> <span class='va'>new_step_size</span><span class='op'>)</span><span class='op'>)</span>,
+     step_size_getter_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>pkr</span><span class='op'>)</span> <span class='va'>pkr</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>step_size</span>,
+     log_accept_prob_getter_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>pkr</span><span class='op'>)</span> <span class='va'>pkr</span><span class='op'>$</span><span class='va'>inner_results</span><span class='op'>$</span><span class='va'>log_accept_ratio</span>
+     <span class='op'>)</span>
 
-   <span class='no'>nuts</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a></span>(
-     <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='no'>number_of_steps</span>,
-     <span class='kw'>num_burnin_steps</span> <span class='kw'>=</span> <span class='no'>burnin</span>,
-     <span class='kw'>current_state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>b0</span>, <span class='no'>b1</span>, <span class='no'>df</span>),
-     <span class='kw'>trace_fn</span> <span class='kw'>=</span> <span class='no'>trace_fn</span>)
-   }
+   <span class='va'>nuts</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='mcmc_sample_chain.html'>mcmc_sample_chain</a></span><span class='op'>(</span>
+     num_results <span class='op'>=</span> <span class='va'>number_of_steps</span>,
+     num_burnin_steps <span class='op'>=</span> <span class='va'>burnin</span>,
+     current_state <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>b0</span>, <span class='va'>b1</span>, <span class='va'>df</span><span class='op'>)</span>,
+     trace_fn <span class='op'>=</span> <span class='va'>trace_fn</span><span class='op'>)</span>
+   <span class='op'>}</span>
 
-   <span class='no'>run_chain</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>tensorflow</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tensorflow/man/tf_function.html'>tf_function</a></span>(<span class='no'>run_chain</span>)
-   <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>run_chain</span>()
-<span class='co'># }</span></div></pre>
+   <span class='va'>run_chain</span> <span class='op'>&lt;-</span> <span class='fu'>tensorflow</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/tensorflow/man/tf_function.html'>tf_function</a></span><span class='op'>(</span><span class='va'>run_chain</span><span class='op'>)</span>
+   <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>run_chain</span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -337,7 +338,7 @@ semantics are governed by <code>target_log_prob_fn(*current_state)</code>.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

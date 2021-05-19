@@ -144,16 +144,16 @@ Germain et al. (2015)) and log_scale ("alpha" in Germain et al. (2015)) from
 the MADE network.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tfb_masked_autoregressive_default_template</span>(
-  <span class='no'>hidden_layers</span>,
-  <span class='kw'>shift_only</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>activation</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>nn</span>$<span class='no'>relu</span>,
-  <span class='kw'>log_scale_min_clip</span> <span class='kw'>=</span> -<span class='fl'>5</span>,
-  <span class='kw'>log_scale_max_clip</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>log_scale_clip_gradient</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tfb_masked_autoregressive_default_template</span><span class='op'>(</span>
+  <span class='va'>hidden_layers</span>,
+  shift_only <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  activation <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='va'>nn</span><span class='op'>$</span><span class='va'>relu</span>,
+  log_scale_min_clip <span class='op'>=</span> <span class='op'>-</span><span class='fl'>5</span>,
+  log_scale_max_clip <span class='op'>=</span> <span class='fl'>3</span>,
+  log_scale_clip_gradient <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -236,6 +236,7 @@ rather than the usual <code>grad[clip(x)] exp(clip(x))</code>.</p>
 <code><a href='tfb_affine_linear_operator.html'>tfb_affine_linear_operator</a>()</code>,
 <code><a href='tfb_affine_scalar.html'>tfb_affine_scalar</a>()</code>,
 <code><a href='tfb_affine.html'>tfb_affine</a>()</code>,
+<code><a href='tfb_ascending.html'>tfb_ascending</a>()</code>,
 <code><a href='tfb_batch_normalization.html'>tfb_batch_normalization</a>()</code>,
 <code><a href='tfb_blockwise.html'>tfb_blockwise</a>()</code>,
 <code><a href='tfb_chain.html'>tfb_chain</a>()</code>,
@@ -249,6 +250,7 @@ rather than the usual <code>grad[clip(x)] exp(clip(x))</code>.</p>
 <code><a href='tfb_ffjord.html'>tfb_ffjord</a>()</code>,
 <code><a href='tfb_fill_scale_tri_l.html'>tfb_fill_scale_tri_l</a>()</code>,
 <code><a href='tfb_fill_triangular.html'>tfb_fill_triangular</a>()</code>,
+<code><a href='tfb_glow.html'>tfb_glow</a>()</code>,
 <code><a href='tfb_gompertz_cdf.html'>tfb_gompertz_cdf</a>()</code>,
 <code><a href='tfb_gumbel_cdf.html'>tfb_gumbel_cdf</a>()</code>,
 <code><a href='tfb_gumbel.html'>tfb_gumbel</a>()</code>,
@@ -269,6 +271,7 @@ rather than the usual <code>grad[clip(x)] exp(clip(x))</code>.</p>
 <code><a href='tfb_permute.html'>tfb_permute</a>()</code>,
 <code><a href='tfb_power_transform.html'>tfb_power_transform</a>()</code>,
 <code><a href='tfb_rational_quadratic_spline.html'>tfb_rational_quadratic_spline</a>()</code>,
+<code><a href='tfb_rayleigh_cdf.html'>tfb_rayleigh_cdf</a>()</code>,
 <code><a href='tfb_real_nvp_default_template.html'>tfb_real_nvp_default_template</a>()</code>,
 <code><a href='tfb_real_nvp.html'>tfb_real_nvp</a>()</code>,
 <code><a href='tfb_reciprocal.html'>tfb_reciprocal</a>()</code>,
@@ -310,7 +313,7 @@ rather than the usual <code>grad[clip(x)] exp(clip(x))</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns a sample from the <code>dim</code> dimensional Halton sequence. — mcmc_sample_halton_sequence • tfprobability</title>
+<title>Returns a sample from the dim dimensional Halton sequence. — mcmc_sample_halton_sequence • tfprobability</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Returns a sample from the <code>dim</code> dimensional Halton sequence. — mcmc_sample_halton_sequence" />
+<meta property="og:title" content="Returns a sample from the dim dimensional Halton sequence. — mcmc_sample_halton_sequence" />
 <meta property="og:description" content="Warning: The sequence elements take values only between 0 and 1. Care must be
 taken to appropriately transform the domain of a function if it differs from
 the unit cube before evaluating integrals using Halton samples. It is also
@@ -150,15 +150,15 @@ are completely deterministic and typically have significant negative
 autocorrelation unless randomization is used.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mcmc_sample_halton_sequence</span>(
-  <span class='no'>dim</span>,
-  <span class='kw'>num_results</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sequence_indices</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dtype</span> <span class='kw'>=</span> <span class='no'>tf</span>$<span class='no'>float32</span>,
-  <span class='kw'>randomized</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mcmc_sample_halton_sequence</span><span class='op'>(</span>
+  <span class='va'>dim</span>,
+  num_results <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sequence_indices <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dtype <span class='op'>=</span> <span class='va'>tf</span><span class='op'>$</span><span class='va'>float32</span>,
+  randomized <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -271,7 +271,7 @@ equivalent to specifying n=10.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -142,15 +142,15 @@ capture a recurring pattern whereby adjacent (in time) effects are
 similar. The model uses <code>frequencies</code> calculated via:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sts_smooth_seasonal</span>(
-  <span class='no'>period</span>,
-  <span class='no'>frequency_multipliers</span>,
-  <span class='kw'>allow_drift</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>drift_scale_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>initial_state_prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>observed_time_series</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sts_smooth_seasonal</span><span class='op'>(</span>
+  <span class='va'>period</span>,
+  <span class='va'>frequency_multipliers</span>,
+  allow_drift <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  drift_scale_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  initial_state_prior <span class='op'>=</span> <span class='cn'>NULL</span>,
+  observed_time_series <span class='op'>=</span> <span class='cn'>NULL</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,7 +220,8 @@ Default value: <code>NULL</code>.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<pre><span class='no'>frequencies</span>[<span class='no'>j</span>] <span class='kw'>=</span> <span class='fl'>2.</span> * <span class='no'>pi</span> * <span class='no'>frequency_multipliers</span>[<span class='no'>j</span>] / <span class='no'>period</span></pre>
+<pre><span class='va'>frequencies</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>2.</span> <span class='op'>*</span> <span class='va'>pi</span> <span class='op'>*</span> <span class='va'>frequency_multipliers</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span> <span class='op'>/</span> <span class='va'>period</span>
+</pre>
 
 <p>and then posits two latent states for each <code>frequency</code>. The two latent states
 associated with frequency <code>j</code> drift over time via:</p><pre>effect[t] = (effect[t-1] * cos(frequencies[j]) +
@@ -272,7 +273,7 @@ particularly important.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

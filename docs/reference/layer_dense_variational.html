@@ -144,7 +144,7 @@ Y ~ Likelihood(M)
     <div class="ref-description">
     <p>This layer uses variational inference to fit a "surrogate" posterior to the
 distribution over both the <code>kernel</code> matrix and the <code>bias</code> terms which are
-otherwise used in a manner similar to <code>layer_dense()</code>.
+otherwise used in a manner similar to <code><a href='https://rdrr.io/pkg/keras/man/layer_dense.html'>layer_dense()</a></code>.
 This layer fits the "weights posterior" according to the following generative
 process:<div class="none"></p><pre>[K, b] ~ Prior()
 M = matmul(X, K) + b
@@ -152,17 +152,17 @@ Y ~ Likelihood(M)
 </pre><p></div></p>
     </div>
 
-    <pre class="usage"><span class='fu'>layer_dense_variational</span>(
-  <span class='no'>object</span>,
-  <span class='no'>units</span>,
-  <span class='no'>make_posterior_fn</span>,
-  <span class='no'>make_prior_fn</span>,
-  <span class='kw'>kl_weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>kl_use_exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>activation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use_bias</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>layer_dense_variational</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>units</span>,
+  <span class='va'>make_posterior_fn</span>,
+  <span class='va'>make_prior_fn</span>,
+  kl_weight <span class='op'>=</span> <span class='cn'>NULL</span>,
+  kl_use_exact <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  activation <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use_bias <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,7 +245,7 @@ should have a bias term.  See <code><a href='https://rdrr.io/pkg/keras/man/layer
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

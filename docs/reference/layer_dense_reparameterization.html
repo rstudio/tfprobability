@@ -142,22 +142,22 @@ a dense layer by assuming the <code>kernel</code> and/or the <code>bias</code> a
 from distributions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>layer_dense_reparameterization</span>(
-  <span class='no'>object</span>,
-  <span class='no'>units</span>,
-  <span class='kw'>activation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>activity_regularizer</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>trainable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>kernel_posterior_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>layers</span>$<span class='no'>util</span>$<span class='fu'>default_mean_field_normal_fn</span>(),
-  <span class='kw'>kernel_posterior_tensor_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>d</span>) <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(),
-  <span class='kw'>kernel_prior_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>layers</span>$<span class='no'>util</span>$<span class='no'>default_multivariate_normal_fn</span>,
-  <span class='kw'>kernel_divergence_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>q</span>, <span class='no'>p</span>, <span class='no'>ignore</span>) <span class='fu'><a href='tfd_kl_divergence.html'>tfd_kl_divergence</a></span>(<span class='no'>q</span>, <span class='no'>p</span>),
-  <span class='kw'>bias_posterior_fn</span> <span class='kw'>=</span> <span class='no'>tfp</span>$<span class='no'>layers</span>$<span class='no'>util</span>$<span class='fu'>default_mean_field_normal_fn</span>(<span class='kw'>is_singular</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-  <span class='kw'>bias_posterior_tensor_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>d</span>) <span class='no'>d</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span>(),
-  <span class='kw'>bias_prior_fn</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>bias_divergence_fn</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>q</span>, <span class='no'>p</span>, <span class='no'>ignore</span>) <span class='fu'><a href='tfd_kl_divergence.html'>tfd_kl_divergence</a></span>(<span class='no'>q</span>, <span class='no'>p</span>),
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>layer_dense_reparameterization</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  <span class='va'>units</span>,
+  activation <span class='op'>=</span> <span class='cn'>NULL</span>,
+  activity_regularizer <span class='op'>=</span> <span class='cn'>NULL</span>,
+  trainable <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  kernel_posterior_fn <span class='op'>=</span> <span class='va'>tfp</span><span class='op'>$</span><span class='va'>layers</span><span class='op'>$</span><span class='va'>util</span><span class='op'>$</span><span class='fu'>default_mean_field_normal_fn</span><span class='op'>(</span><span class='op'>)</span>,
+  kernel_posterior_tensor_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='va'>d</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span><span class='op'>(</span><span class='op'>)</span>,
+  kernel_prior_fn <span class='op'>=</span> <span class='va'>tfp</span><span class='op'>$</span><span class='va'>layers</span><span class='op'>$</span><span class='va'>util</span><span class='op'>$</span><span class='va'>default_multivariate_normal_fn</span>,
+  kernel_divergence_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>p</span>, <span class='va'>ignore</span><span class='op'>)</span> <span class='fu'><a href='tfd_kl_divergence.html'>tfd_kl_divergence</a></span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>p</span><span class='op'>)</span>,
+  bias_posterior_fn <span class='op'>=</span> <span class='va'>tfp</span><span class='op'>$</span><span class='va'>layers</span><span class='op'>$</span><span class='va'>util</span><span class='op'>$</span><span class='fu'>default_mean_field_normal_fn</span><span class='op'>(</span>is_singular <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+  bias_posterior_tensor_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>d</span><span class='op'>)</span> <span class='va'>d</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='tfd_sample.html'>tfd_sample</a></span><span class='op'>(</span><span class='op'>)</span>,
+  bias_prior_fn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bias_divergence_fn <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>p</span>, <span class='va'>ignore</span><span class='op'>)</span> <span class='fu'><a href='tfd_kl_divergence.html'>tfd_kl_divergence</a></span><span class='op'>(</span><span class='va'>q</span>, <span class='va'>p</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -294,7 +294,7 @@ after the layer is built via the <code>kernel_posterior</code>, <code>kernel_pri
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
