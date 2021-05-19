@@ -1,5 +1,6 @@
 ## 0.12.0.0 (dev)
-
+- new distributions:
+  - tfd_skellam
   
 - changes in distributions:
   - remove deprecated batch_shape and event_shape in tfd_transformed_distribution

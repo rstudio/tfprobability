@@ -6187,6 +6187,68 @@ tfd_continuous_bernoulli <- function(logits = NULL,
           args)
 }
 
+#' Skellam distribution.
+#'
+#' The Skellam distribution is parameterized by two rate parameters,
+#' `rate1` and `rate2`. Its samples are defined as:
+#' ```
+#' x ~ Poisson(rate1)
+#' y ~ Poisson(rate2)
+#' z = x - y
+#' z ~ Skellam(rate1, rate2)
+#' ```
+#' where the samples `x` and `y` are assumed to be independent.
+#'
+#' Mathematical Details
+#' The probability mass function (pmf) is,
+#' ```
+#' pmf(k; l1, l2) = (l1 / l2) ** (k / 2) * I_k(2 * sqrt(l1 * l2)) / Z
+#' Z = exp(l1 + l2).
+#' ```
+#' where `rate1 = l1`, `rate2 = l2`,  `Z` is the normalizing constant
+#' and `I_k` is the modified bessel function of the first kind.
+#'
+#' @param rate1 Floating point tensor, the first rate parameter. `rate1` must be
+#' positive. Must specify exactly one of `rate1` and `log_rate1`
+#' @param rate2 Floating point tensor, the second rate parameter. `rate` must be
+#' positive.  Must specify exactly one of `rate2` and `log_rate2`.
+#' @param log_rate1 Floating point tensor, the log of the first rate parameter.
+#' Must specify exactly one of `rate1` and `log_rate1`.
+#' @param log_rate2 Floating point tensor, the log of the second rate parameter.
+#' Must specify exactly one of `rate2` and `log_rate2`.
+#' @param force_probs_to_zero_outside_support logical. When `TRUE`,
+#' `log_prob` returns `-inf` (and `prob` returns `0`) for non-integer
+#' inputs. When `FALSE`, `log_prob` evaluates the Skellam pmf as a
+#' continuous function (note that this function is not itself
+#' a normalized probability log-density). Default value: `FALSE`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_skellam <- function(rate1 = NULL,
+                        rate2 = NULL,
+                        log_rate1 = NULL,
+                        log_rate2 = NULL,
+                        force_probs_to_zero_outside_support = FALSE,
+                        validate_args = FALSE,
+                        allow_nan_stats = TRUE,
+                        name = "Skellam") {
+  args <- list(
+    rate1 = rate1,
+    rate2 = rate2,
+    log_rate1 = log_rate1,
+    log_rate2 = log_rate2,
+    force_probs_to_zero_outside_support = force_probs_to_zero_outside_support,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
+
+  do.call(tfp$distributions$Skellam,
+          args)
+}
+
 
 
 

@@ -172,6 +172,7 @@ Other distributions:
 \code{\link{tfd_relaxed_bernoulli}()},
 \code{\link{tfd_relaxed_one_hot_categorical}()},
 \code{\link{tfd_sample_distribution}()},
+\code{\link{tfd_skellam}()},
 \code{\link{tfd_spherical_uniform}()},
 \code{\link{tfd_student_t_process}()},
 \code{\link{tfd_student_t}()},

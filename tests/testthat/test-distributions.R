@@ -1240,5 +1240,13 @@ test_succeeds("ContinuousBernoulli distribution works", {
 
 })
 
+test_succeeds("Skellam distribution works", {
+
+  skip_if_tfp_below("0.12")
+
+  d <- tfd_skellam(rate1 = 0.1, rate2 = 0.7)
+  expect_equal(d %>% tfd_log_prob(1) %>% tensor_value() %>% length(), 1)
+
+})
 
 
