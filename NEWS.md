@@ -1,6 +1,8 @@
 ## 0.12.0.0 (dev)
 - new distributions:
   - tfd_skellam
+  - tfd_exp_gamma
+  - tfd_exp_inverse_gamma
   
 - changes in distributions:
   - remove deprecated batch_shape and event_shape in tfd_transformed_distribution

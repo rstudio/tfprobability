@@ -1249,4 +1249,10 @@ test_succeeds("Skellam distribution works", {
 
 })
 
+test_succeeds("ExpGamma distribution works", {
+
+  d <- tfd_exp_gamma(concentration = 1, rate = 1)
+  expect_equal(d %>% tfd_mean() %>% tensor_value() %>% length(), 1)
+})
+
 

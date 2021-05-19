@@ -6249,7 +6249,71 @@ tfd_skellam <- function(rate1 = NULL,
           args)
 }
 
+#' ExpGamma distribution.
+#'
+#' The ExpGamma distribution is defined over the real line using
+#' parameters `concentration` (aka "alpha") and `rate` (aka "beta").
+#' This distribution is a transformation of the Gamma distribution such that
+#' X ~ ExpGamma(..) => exp(X) ~ Gamma(..).
+#'
+#' Mathematical Details
+#'
+#' The probability density function (pdf) can be derived from the change of
+#' variables rule (since the distribution is logically equivalent to
+#' `tfb_log()(tfd_gamma(..))`):
+#' ```
+#' pdf(x; alpha, beta > 0) = exp(x)**(alpha - 1) exp(-exp(x) beta) / Z + x
+#' Z = Gamma(alpha) beta**(-alpha)
+#' ```
+#' where:
+#'   * `concentration = alpha`, `alpha > 0`,
+#'   * `rate = beta`, `beta > 0`,
+#'   * `Z` is the normalizing constant of the corresponding Gamma distribution, and
+#'   * `Gamma` is the [gamma function](https://en.wikipedia.org/wiki/Gamma_function).
+#'
+#' The cumulative density function (cdf) is,
+#' ```
+#' cdf(x; alpha, beta, x) = GammaInc(alpha, beta exp(x)) / Gamma(alpha)
+#' ```
+#' where `GammaInc` is the [lower incomplete Gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma_function).
+#'
+#' Distribution parameters are automatically broadcast in all functions.
+#' Samples of this distribution are reparameterized (pathwise differentiable).
+#' The derivatives are computed using the approach described in Figurnov et al., 2018.
+#'
+#' @section References:
+#' - [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients. _arXiv preprint arXiv:1805.08498_, 2018.](https://arxiv.org/abs/1805.08498)
+#'
+#' @param concentration Floating point tensor, the concentration params of the
+#' distribution(s). Must contain only positive values.
+#' @param rate Floating point tensor, the inverse scale params of the
+#' distribution(s). Must contain only positive values. Mutually exclusive
+#' with `log_rate`.
+#' @param log_rate Floating point tensor, natural logarithm of the inverse scale
+#' params of the distribution(s). Mutually exclusive with `rate`.
+#'
+#' @inherit tfd_normal return params
+#' @family distributions
+#' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
+#' @export
+tfd_exp_gamma <- function(concentration,
+                          rate = NULL,
+                          log_rate = NULL,
+                          validate_args = FALSE,
+                          allow_nan_stats = TRUE,
+                          name = "ExpGamma") {
+  args <- list(
+    concentration = concentration,
+    rate = rate,
+    log_rate = log_rate,
+    validate_args = validate_args,
+    allow_nan_stats = allow_nan_stats,
+    name = name
+  )
 
+  do.call(tfp$distributions$ExpGamma,
+          args)
+}
 
 
 
