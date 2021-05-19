@@ -392,6 +392,7 @@ test_succeeds("Define a kumaraswamy bijector", {
 
 
 test_succeeds("Define an ordered bijector", {
+  skip_if_tfp_above("0.11")
   b <- tfb_ordered()
   x <- seq(0, 1, by = 0.1)
   y <- b %>% tfb_forward(x)
@@ -409,7 +410,7 @@ test_succeeds("Define a softplus bijector", {
   expect_equivalent(rev_x %>% tensor_value(), log(exp(x) - 1), tol = 1e-6)
 })
 
-test_succeeds("Define a softplus bijector", {
+test_succeeds("Define a softsign bijector", {
   b <- tfb_softsign()
   x <- matrix(1:8, ncol = 2, byrow = TRUE)
   expect_equivalent(b %>% tfb_forward(x) %>% tensor_value(), x / (1 + abs(x)), tol = 1e-6)
@@ -777,11 +778,52 @@ test_succeeds("Define a sinh bijector", {
   skip_if_tfp_below("0.11")
 
   b <- tfb_sinh()
-  x <- 0
+  x <- 1
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
                tf$sinh(x) %>% tensor_value(),
                tol = 1e-6)
 })
+
+test_succeeds("Define a RayleighCDF bijector", {
+
+  skip_if_tfp_below("0.12")
+
+  scale <- 0.5
+  b <- tfb_rayleigh_cdf(scale = scale)
+  x <- 0.77
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
+               1 - exp(-(x/scale)^2 / 2),
+               tol = 1e-6)
+})
+
+test_succeeds("Define an ascending bijector", {
+  skip_if_tfp_below("0.12")
+  b <- tfb_ascending()
+  y <- c(2, 3, 4)
+  x <- c(2, 0, 0)
+  expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), x, tol = 1e-6)
+})
+
+test_succeeds("Define a Glow bijector", {
+  skip_if_tfp_below("0.12")
+  image_shape <- c(32, 32, 4)
+
+  glow <- tfb_glow(
+    output_shape = image_shape,
+    coupling_bijector_fn = tfp$bijectors$GlowDefaultNetwork,
+    exit_bijector_fn = tfp$bijectors$GlowDefaultExitNetwork
+  )
+
+  pz <- tfd_sample_distribution(tfd_normal(0, 1), prod(image_shape))
+  px <- glow(pz)
+  image <- px$sample(1L)
+
+  expect_equal(dim(image), c(1, 32, 32, 4))
+})
+
+
+
+
 
 
 

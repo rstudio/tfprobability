@@ -1,9 +1,16 @@
 ## 0.12.0.0 (dev)
 
+  
 - changes in distributions:
   - remove deprecated batch_shape and event_shape in tfd_transformed_distribution
-  
+
+- new bijectors:
+  - tfb_glow
+  - tfb_rayleigh_cdf
+  - tfb_ascending
+
 - changes in bijectors
+  - add optional low parameter to tfb_softplus.
   - tfb_chain() takes new parameters validate_event_size and parameters
   
 

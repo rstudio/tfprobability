@@ -4,11 +4,22 @@
 \alias{tfb_softplus}
 \title{Computes \code{Y = g(X) = Log[1 + exp(X)]}}
 \usage{
-tfb_softplus(hinge_softness = NULL, validate_args = FALSE, name = "softplus")
+tfb_softplus(
+  hinge_softness = NULL,
+  low = NULL,
+  validate_args = FALSE,
+  name = "softplus"
+)
 }
 \arguments{
 \item{hinge_softness}{Nonzero floating point Tensor.  Controls the softness of what
 would otherwise be a kink at the origin.  Default is 1.0.}
+
+\item{low}{Nonzero floating point tensor, lower bound on output values.
+Implicitly zero if \code{NULL}. Otherwise, the
+transformation \code{y = softplus(x) + low} is implemented. This
+is equivalent to a \code{tfb_chain(list(tfb_shift(low), tfb_softplus()))} bijector
+and is provided for convenience.}
 
 \item{validate_args}{Logical, default FALSE. Whether to validate input with asserts. If validate_args is
 FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
@@ -58,6 +69,7 @@ Other bijectors:
 \code{\link{tfb_affine_linear_operator}()},
 \code{\link{tfb_affine_scalar}()},
 \code{\link{tfb_affine}()},
+\code{\link{tfb_ascending}()},
 \code{\link{tfb_batch_normalization}()},
 \code{\link{tfb_blockwise}()},
 \code{\link{tfb_chain}()},
@@ -71,6 +83,7 @@ Other bijectors:
 \code{\link{tfb_ffjord}()},
 \code{\link{tfb_fill_scale_tri_l}()},
 \code{\link{tfb_fill_triangular}()},
+\code{\link{tfb_glow}()},
 \code{\link{tfb_gompertz_cdf}()},
 \code{\link{tfb_gumbel_cdf}()},
 \code{\link{tfb_gumbel}()},
@@ -92,6 +105,7 @@ Other bijectors:
 \code{\link{tfb_permute}()},
 \code{\link{tfb_power_transform}()},
 \code{\link{tfb_rational_quadratic_spline}()},
+\code{\link{tfb_rayleigh_cdf}()},
 \code{\link{tfb_real_nvp_default_template}()},
 \code{\link{tfb_real_nvp}()},
 \code{\link{tfb_reciprocal}()},

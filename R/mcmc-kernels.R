@@ -699,7 +699,7 @@ mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
 #'  b1 <- samples[[2]]
 #'  df <- samples[[3]]
 #'
-#'  # bijector to map contrained parameters to real
+#'  # bijector to map constrained parameters to real
 #'  unconstraining_bijectors <- list(
 #'    tfb_identity(), tfb_identity(), tfb_exp())
 #'
