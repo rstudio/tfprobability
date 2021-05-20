@@ -423,7 +423,7 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
 #'
 #' @section References:
 #' - [Matthew Parno and Youssef Marzouk. Transport map accelerated Markov chain Monte Carlo. _arXiv preprint arXiv:1412.5492_, 2014.](https://arxiv.org/abs/1412.5492)
-#' - [Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In _Journal of the Royal Statistical Society_, 2011.](https://doi.org/10.1111/j.1467-9868.2010.00765.x)
+#' - [Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In _Journal of the Royal Statistical Society_, 2011.](http://people.ee.duke.edu/~lcarin/Girolami2011.pdf)
 #'
 #' @param inner_kernel `TransitionKernel`-like object which has a `target_log_prob_fn` argument.
 #' @param bijector bijector or list of bijectors. These bijectors use `forward` to map the
@@ -831,7 +831,7 @@ mcmc_uncalibrated_langevin <- function(target_log_prob_fn,
 #' chains is `tf.size(target_log_prob_fn(current_state))`.)
 #'
 #' @section References:
-#' - [Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. _Journal of the Royal Statistical Society: Series B (Statistical Methodology)_, 60: 255-268, 1998.](https://doi.org/10.1111/1467-9868.00123)
+#' - [Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. _Journal of the Royal Statistical Society: Series B (Statistical Methodology)_, 60: 255-268, 1998.](http://probability.ca/jeff/ftpdir/lang.pdf)
 #' - [T. Xifara et al. Langevin diffusions and the Metropolis-adjusted Langevin algorithm. _arXiv preprint arXiv:1309.2983_, 2013.](https://arxiv.org/abs/1309.2983)
 #'
 #' @inheritParams mcmc_uncalibrated_langevin

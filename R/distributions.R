@@ -3521,7 +3521,7 @@ tfd_inverse_gamma <- function(concentration,
 #'
 #' @section References:
 #' - [Carvalho, Polson, Scott. Handling Sparsity via the Horseshoe (2008)](https://faculty.chicagobooth.edu/nicholas.polson/research/papers/Horse.pdf).
-#' - [Barry, Parlange, Li. Approximation for the exponential integral (2000)](https://doi.org/10.1016/S0022-1694(99)00184-5).
+#' - [Barry, Parlange, Li. Approximation for the exponential integral (2000)](https://www.semanticscholar.org/paper/Approximation-for-the-exponential-integral-(Theis-Barry-Parlange/d1359a5f96e543c18dc204bfec16ed1e417cbb44).
 #'
 #' @param scale Floating point tensor; the scales of the distribution(s). Must contain only positive values.
 #' @inherit tfd_normal return params

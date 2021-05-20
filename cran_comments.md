@@ -1,24 +1,13 @@
 
-
-
-
-This is a resubmission. Fixed:
-
-* possibly invalid URLs
-* added markdown to "suggests" section
-
-
-###############################################################################################
-
-
-This is a submission of tfprobability 0.11, successor to tfprobability 0.10 which is the current CRAN version.
+This is a submission of tfprobability 0.12, successor to tfprobability 0.11 which is the current CRAN version.
 
 ## Test environments
 
-* local install: Fedora 32, R 4.0.2
+* local install: Fedora 33, R 4.0.5
 * Ubuntu 16.04 (github actions)
 * MAC OS X (github actions)
 * win-builder (R-devel)
+* RHub
 
 
 ## R CMD check results
