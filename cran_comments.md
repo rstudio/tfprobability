@@ -12,6 +12,6 @@ This is a submission of tfprobability 0.12, successor to tfprobability 0.11 whic
 
 ## R CMD check results
 
-There were no errors, warnings or notes.
+There were no errors or warnings. There was one note.
 
 

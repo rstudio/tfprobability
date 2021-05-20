@@ -19,10 +19,6 @@ jobs:
           - tf: nightly
             tfp: nightly
             allow_failure: true
-          - tfp: '0.9'
-            tf: '2.1.0'
-          - tfp: '0.10'
-            tf: '2.2.0'
           - tfp: '0.11'
             tf: '2.3.0'
           - tfp: '0.12'

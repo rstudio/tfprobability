@@ -1,4 +1,5 @@
-## 0.12.0.0 (dev)
+## 0.12.0.0 (CRAN)
+
 - new distributions:
   - tfd_skellam
   - tfd_exp_gamma

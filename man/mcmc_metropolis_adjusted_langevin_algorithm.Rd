@@ -62,7 +62,7 @@ chains is \code{tf.size(target_log_prob_fn(current_state))}.)
 \section{References}{
 
 \itemize{
-\item \href{https://doi.org/10.1111/1467-9868.00123}{Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, 60: 255-268, 1998.}
+\item \href{http://probability.ca/jeff/ftpdir/lang.pdf}{Gareth Roberts and Jeffrey Rosenthal. Optimal Scaling of Discrete Approximations to Langevin Diffusions. \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, 60: 255-268, 1998.}
 \item \href{https://arxiv.org/abs/1309.2983}{T. Xifara et al. Langevin diffusions and the Metropolis-adjusted Langevin algorithm. \emph{arXiv preprint arXiv:1309.2983}, 2013.}
 }
 }

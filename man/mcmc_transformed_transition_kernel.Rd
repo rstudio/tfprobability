@@ -41,7 +41,7 @@ with transition kernels \code{mcmc_hamiltonian_monte_carlo}, \code{mcmc_random_w
 
 \itemize{
 \item \href{https://arxiv.org/abs/1412.5492}{Matthew Parno and Youssef Marzouk. Transport map accelerated Markov chain Monte Carlo. \emph{arXiv preprint arXiv:1412.5492}, 2014.}
-\item \href{https://doi.org/10.1111/j.1467-9868.2010.00765.x}{Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In \emph{Journal of the Royal Statistical Society}, 2011.}
+\item \href{http://people.ee.duke.edu/~lcarin/Girolami2011.pdf}{Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In \emph{Journal of the Royal Statistical Society}, 2011.}
 }
 }
 
