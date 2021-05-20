@@ -5327,7 +5327,7 @@ tfd_wishart_tri_l <- function(df,
 #' Categorical probabilities over the components.
 #'
 #' @section References:
-#' - [Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications. In _International Conference on Learning Representations_, 2017.](https://pdfs.semanticscholar.org/9e90/6792f67cbdda7b7777b69284a81044857656.pdf)
+#' - [Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications. In _International Conference on Learning Representations_, 2017.](https://www.semanticscholar.org/paper/OTHER-MODIFICATIONS-Karpathy/2e77b99e8bd10b9e4551a780c0bde9dd10fdbe9b?p2df)
 #' - [Aaron van den Oord, Nal Kalchbrenner, Oriol Vinyals, Lasse Espeholt, Alex Graves, and Koray Kavukcuoglu. Conditional Image Generation with PixelCNN Decoders. In _Neural Information Processing Systems_, 2016.](https://arxiv.org/abs/1606.05328)
 #' - [Aaron van den Oord, Nal Kalchbrenner, and Koray Kavukcuoglu. Pixel Recurrent Neural Networks. In _International Conference on Machine Learning_, 2016.](https://arxiv.org/pdf/1601.06759.pdf)
 #'

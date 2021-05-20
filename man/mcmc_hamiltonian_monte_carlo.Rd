@@ -78,7 +78,7 @@ chains is \code{tf$size(target_log_prob_fn(current_state))}.)
 
 \itemize{
 \item \href{https://arxiv.org/abs/1206.1901}{Radford Neal. MCMC Using Hamiltonian Dynamics. \emph{Handbook of Markov Chain Monte Carlo}, 2011.}
-\item \href{https://projecteuclid.org/euclid.aos/1018031103}{Bernard Delyon, Marc Lavielle, Eric, Moulines. \emph{Convergence of a stochastic approximation version of the EM algorithm}, Ann. Statist. 27 (1999), no. 1, 94--128.}
+\item \href{https://www.jstor.org/stable/120120?seq=1}{Bernard Delyon, Marc Lavielle, Eric, Moulines. \emph{Convergence of a stochastic approximation version of the EM algorithm}, Ann. Statist. 27 (1999), no. 1, 94--128.}
 }
 }
 

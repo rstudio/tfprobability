@@ -18,7 +18,7 @@
 #'
 #' @section References:
 #' - [Radford Neal. MCMC Using Hamiltonian Dynamics. _Handbook of Markov Chain Monte Carlo_, 2011.](https://arxiv.org/abs/1206.1901)
-#' - [Bernard Delyon, Marc Lavielle, Eric, Moulines. _Convergence of a stochastic approximation version of the EM algorithm_, Ann. Statist. 27 (1999), no. 1, 94--128.](https://projecteuclid.org/euclid.aos/1018031103)
+#' - [Bernard Delyon, Marc Lavielle, Eric, Moulines. _Convergence of a stochastic approximation version of the EM algorithm_, Ann. Statist. 27 (1999), no. 1, 94--128.](https://www.jstor.org/stable/120120?seq=1)
 #'
 #' @param target_log_prob_fn Function which takes an argument like
 #' `current_state` (if it's a list `current_state` will be unpacked) and returns its
@@ -170,7 +170,6 @@ mcmc_uncalibrated_hamiltonian_monte_carlo <-
 #'
 #' @section References:
 #' - [Andrieu, Christophe, Thoms, Johannes. A tutorial on adaptive MCMC. _Statistics and Computing_, 2008.](https://people.eecs.berkeley.edu/~jordan/sail/readings/andrieu-thoms.pdf)
-#' - http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745
 #' - [Betancourt, M. J., Byrne, S., & Girolami, M. (2014). _Optimizing The Integrator Step Size for Hamiltonian Monte Carlo_.](https://arxiv.org/abs/1411.6669)
 #'
 #' @param inner_kernel `TransitionKernel`-like object.
@@ -502,9 +501,9 @@ mcmc_transformed_transition_kernel <- function(inner_kernel,
 #' single distribution, all sampled in parallel.
 #'
 #' @section References:
-#' - [Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In _Journal of Machine Learning Research_, 15(1):1593-1623, 2014.](http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf)
+#' - [Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In _Journal of Machine Learning Research_, 15(1):1593-1623, 2014.](https://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf)
 #' - [Yurii Nesterov. Primal-dual subgradient methods for convex problems. Mathematical programming 120.1 (2009): 221-259](https://link.springer.com/article/10.1007/s10107-007-0149-x)
-#' - [http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745](http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745)
+#' - [https://statmodeling.stat.columbia.edu/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/](https://statmodeling.stat.columbia.edu/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/)
 #'
 #' @param inner_kernel `TransitionKernel`-like object.
 #' @param num_adaptation_steps Scalar `integer` `Tensor` number of initial steps to

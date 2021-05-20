@@ -130,9 +130,9 @@ single distribution, all sampled in parallel.
 \section{References}{
 
 \itemize{
-\item \href{http://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf}{Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In \emph{Journal of Machine Learning Research}, 15(1):1593-1623, 2014.}
+\item \href{https://jmlr.org/papers/volume15/hoffman14a/hoffman14a.pdf}{Matthew D. Hoffman, Andrew Gelman. The No-U-Turn Sampler: Adaptively Setting Path Lengths in Hamiltonian Monte Carlo. In \emph{Journal of Machine Learning Research}, 15(1):1593-1623, 2014.}
 \item \href{https://link.springer.com/article/10.1007/s10107-007-0149-x}{Yurii Nesterov. Primal-dual subgradient methods for convex problems. Mathematical programming 120.1 (2009): 221-259}
-\item \url{http://andrewgelman.com/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/#comment-627745}
+\item \url{https://statmodeling.stat.columbia.edu/2017/12/15/burn-vs-warm-iterative-simulation-algorithms/}
 }
 }
 

@@ -1,5 +1,13 @@
 
-This is a submission of tfprobability 0.12, successor to tfprobability 0.11 which is the current CRAN version.
+This is a resubmission of tfprobability 0.12, successor to tfprobability 0.11 which is the current CRAN version.
+
+Fixed notes:
+
+- removed lazydata entry
+
+#########################################################################################################
+
+# Original submission
 
 ## Test environments
 

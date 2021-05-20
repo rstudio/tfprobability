@@ -96,7 +96,7 @@ Categorical probabilities over the components.
 \section{References}{
 
 \itemize{
-\item \href{https://pdfs.semanticscholar.org/9e90/6792f67cbdda7b7777b69284a81044857656.pdf}{Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications. In \emph{International Conference on Learning Representations}, 2017.}
+\item \href{https://www.semanticscholar.org/paper/OTHER-MODIFICATIONS-Karpathy/2e77b99e8bd10b9e4551a780c0bde9dd10fdbe9b?p2df}{Tim Salimans, Andrej Karpathy, Xi Chen, and Diederik P. Kingma. PixelCNN++: Improving the PixelCNN with Discretized Logistic Mixture Likelihood and Other Modifications. In \emph{International Conference on Learning Representations}, 2017.}
 \item \href{https://arxiv.org/abs/1606.05328}{Aaron van den Oord, Nal Kalchbrenner, Oriol Vinyals, Lasse Espeholt, Alex Graves, and Koray Kavukcuoglu. Conditional Image Generation with PixelCNN Decoders. In \emph{Neural Information Processing Systems}, 2016.}
 \item \href{https://arxiv.org/pdf/1601.06759.pdf}{Aaron van den Oord, Nal Kalchbrenner, and Koray Kavukcuoglu. Pixel Recurrent Neural Networks. In \emph{International Conference on Machine Learning}, 2016.}
 }
