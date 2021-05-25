@@ -15,7 +15,6 @@ Fixed notes:
 * Ubuntu 16.04 (github actions)
 * MAC OS X (github actions)
 * win-builder (R-devel)
-* RHub
 
 
 ## R CMD check results
