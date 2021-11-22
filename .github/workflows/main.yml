@@ -1,8 +1,10 @@
 on:
   push:
+    branches:
+      - main
   pull_request:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 1 * * MON'
 
 name: R-CMD-check
 
@@ -35,8 +37,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - uses: r-lib/actions/setup-r@master
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
       - name: Install system dependencies
         if: runner.os == 'Linux'
         env:
