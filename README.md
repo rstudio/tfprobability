@@ -1,11 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
 [![R build
 status](https://github.com/rstudio/tfprobability/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/tfprobability/actions?workflow=R-CMD-check)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/tfprobability)](https://cran.r-project.org/package=tfprobability)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/tfprobability)](https://cran.r-project.org/package=tfprobability)
+[![R-CMD-check](https://github.com/rstudio/tfprobability/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/tfprobability/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # tfprobability: R interface to TensorFlow Probability
@@ -52,11 +52,11 @@ Probability.
 
 High-level application of `tfprobability` to tasks like
 
-  - probabilistic (multi-level) modeling with MCMC and/or variational
+-   probabilistic (multi-level) modeling with MCMC and/or variational
     inference,
-  - uncertainty estimation for neural networks,
-  - time series modeling with state space models, or
-  - density estimation with autoregressive flows
+-   uncertainty estimation for neural networks,
+-   time series modeling with state space models, or
+-   density estimation with autoregressive flows
 
 are described in the vignettes/articles and/or featured on the
 [TensorFlow for R blog](https://blogs.rstudio.com/ai/).
@@ -67,7 +67,6 @@ distributions, bijectors, and probabilistic `keras` layers.
 ``` r
 library(tfprobability)
 library(tensorflow)
-tf$compat$v2$enable_v2_behavior()
 ```
 
 ### Distributions
@@ -101,7 +100,7 @@ initial_distribution <- tfd_categorical(probs = c(0.8, 0.2))
 # and a hot day has a 20% chance of being followed by a cold day.
 # We can model this as:
 transition_distribution <- tfd_categorical(
-  probs = matrix(c(0.7, 0.3, 0.2, 0.8), nrow = 2, byrow = TRUE) %>% 
+  probs = matrix(c(0.7, 0.3, 0.2, 0.8), nrow = 2, byrow = TRUE) %>%
     tf$cast(tf$float32)
 )
 # Suppose additionally that on each day the temperature is
@@ -120,7 +119,7 @@ d <- tfd_hidden_markov_model(
 # The expected temperatures for each day are given by:
 d %>% tfd_mean()  # shape [7], elements approach 9.0
 # The log pdf of a week of temperature 0 is:
-d %>% tfd_log_prob(rep(0, 7)) 
+d %>% tfd_log_prob(rep(0, 7))
 ```
 
 ### Bijectors

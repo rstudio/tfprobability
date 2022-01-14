@@ -30,7 +30,7 @@ Its building blocks include a vast range of distributions and invertible transfo
 
 Install the released version of `tfprobability` from CRAN:
 
-```{r}
+```{r, eval = FALSE}
 install.packages("tfprobability")
 ```
 
@@ -42,7 +42,7 @@ devtools::install_github("rstudio/tfprobability")
 
 Then, use the `install_tfprobability()` function to install TensorFlow and TensorFlow Probability python modules.
 
-```{r}
+```{r, eval = FALSE}
 library(tfprobability)
 install_tfprobability()
 ```
@@ -73,7 +73,6 @@ This introductory text illustrates the lower-level building blocks: distribution
 ```{r}
 library(tfprobability)
 library(tensorflow)
-tf$compat$v2$enable_v2_behavior()
 ```
 
 
