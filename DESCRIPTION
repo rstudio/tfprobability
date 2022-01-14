@@ -7,7 +7,7 @@ Authors@R: c(
     person("Daniel", "Falbel", email = "daniel@rstudio.com", role = c("ctb")),
     person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com", role = c("ctb"),
            comment = c(ORCID = "0000-0001-7803-7901")),
-    person(family = "RStudio", role = c("cph"))
+    person("RStudio", role = c("cph"))
     )
 Description: Interface to 'TensorFlow Probability', a 'Python' library built on 'TensorFlow'
     that makes it easy to combine probabilistic models and deep learning on modern hardware ('TPU', 'GPU').
