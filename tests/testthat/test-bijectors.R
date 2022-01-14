@@ -161,7 +161,7 @@ test_succeeds("Define a softmax_centered bijector", {
   x <- tf$math$log(c(2, 3, 4))
   y <- array(c(0.2, 0.3, 0.4, 0.1))
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(), y, tolerance = 1e-7)
-  expect_equal(b %>% tfb_inverse(y) %>% tensor_value(), x %>% tensor_value(), tolerance = 1e-7)
+  expect_equal(b %>% tfb_inverse(y) %>% tensor_value(), x %>% tensor_value(), tolerance = 2e-7)
 })
 
 test_succeeds("Define a permute bijector", {
@@ -243,7 +243,7 @@ test_succeeds("Define an affine linear operator bijector", {
   b <-
     tfb_affine_linear_operator(shift = c(-1, 0, 1),
                                scale = tf$linalg$LinearOperatorDiag(c(1, 2, 3)))
-  x <- c(100, 1000, 10000)
+  x <- array(c(100, 1000, 10000))
   y <- b %>% tfb_forward(x)
   expect_equal(b %>% tfb_inverse(y) %>% length(), 3)
 })
