@@ -9,12 +9,12 @@ knitr::opts_chunk$set(
 #  # assume it's version 1.14, with eager not yet being the default
 #  library(tensorflow)
 #  tf$enable_v2_behavior()
-#  
+#
 #  library(tfprobability)
 #  library(rethinking)
 #  library(zeallot)
 #  library(purrr)
-#  
+#
 #  data("reedfrogs")
 #  d <- reedfrogs
 #  str(d)
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 #  n_tadpole_tanks <- nrow(d)
 #  n_surviving <- d$surv
 #  n_start <- d$density
-#  
+#
 #  model <- tfd_joint_distribution_sequential(
 #    list(
 #      # a_bar, the prior for the mean of the normal distribution of per-tank logits
@@ -65,7 +65,7 @@ knitr::opts_chunk$set(
 #  n_chain <- 4
 #  # number of burnin steps
 #  n_burnin <- 500
-#  
+#
 #  hmc <- mcmc_hamiltonian_monte_carlo(
 #    target_log_prob_fn = logprob,
 #    num_leapfrog_steps = 3,
@@ -74,18 +74,18 @@ knitr::opts_chunk$set(
 #  ) %>%
 #    mcmc_simple_step_size_adaptation(target_accept_prob = 0.8,
 #                                     num_adaptation_steps = n_burnin)
-#  
+#
 
 ## -----------------------------------------------------------------------------
 #  # initial values to start the sampler
 #  c(initial_a, initial_s, initial_logits, .) %<-% (model %>% tfd_sample(n_chain))
-#  
+#
 #  # optionally retrieve metadata such as acceptance ratio and step size
 #  trace_fn <- function(state, pkr) {
 #    list(pkr$inner_results$is_accepted,
 #         pkr$inner_results$accepted_results$step_size)
 #  }
-#  
+#
 #  run_mcmc <- function(kernel) {
 #    kernel %>% mcmc_sample_chain(
 #      num_results = n_steps,
@@ -94,7 +94,7 @@ knitr::opts_chunk$set(
 #      trace_fn = trace_fn
 #    )
 #  }
-#  
+#
 #  run_mcmc <- tf_function(run_mcmc)
 #  res <- run_mcmc(hmc)
 
@@ -107,4 +107,3 @@ knitr::opts_chunk$set(
 ## -----------------------------------------------------------------------------
 #  mcmc_potential_scale_reduction(mcmc_trace)
 #  mcmc_effective_sample_size(mcmc_trace)
-

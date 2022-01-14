@@ -20,5 +20,3 @@ Fixed notes:
 ## R CMD check results
 
 There were no errors or warnings. There was one note.
-
-

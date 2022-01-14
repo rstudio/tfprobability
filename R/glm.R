@@ -205,4 +205,3 @@ family_from_string <- function(model) {
   else
     stop("Model ", model, "not implemented", call. = FALSE)
 }
-

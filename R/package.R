@@ -41,7 +41,3 @@ tfp_version <- function() {
   pkg_version <- package_version(paste(version[[1]], version[[2]], sep = "."))
   pkg_version
 }
-
-
-
-

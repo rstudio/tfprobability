@@ -236,4 +236,3 @@ knitr::include_graphics("images/capm_smoothed.png")
 
 ## ---- eval=TRUE, echo=FALSE, layout="l-body-outset", fig.cap = "Filtering estimates from the Kálmán filter. Green: coefficient for dependence on excess market returns (slope), orange: vector of ones (intercept)."----
 knitr::include_graphics("images/capm_filtered.png")
-

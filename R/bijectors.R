@@ -2493,7 +2493,3 @@ tfb_glow <- function(output_shape = c(32, 32, 3),
 
   do.call(tfp$bijectors$Glow, args)
 }
-
-
-
-

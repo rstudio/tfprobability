@@ -408,4 +408,3 @@ mcmc_sample_halton_sequence <- function(dim,
 
   do.call(tfp$mcmc$sample_halton_sequence, args)
 }
-

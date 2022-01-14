@@ -516,5 +516,3 @@ layer_variational_gaussian_process <- function(object,
 
   create_layer(tfp$layers$VariationalGaussianProcess, object, args)
 }
-
-

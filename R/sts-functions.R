@@ -406,4 +406,3 @@ sts_decompose_forecast_by_component <- function(model,
                                           forecast_dist,
                                           parameter_samples)
 }
-

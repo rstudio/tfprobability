@@ -53,7 +53,7 @@ b0 <- 5
 
 normalize <- function(x) (x - x_min) / (x_max - x_min)
 
-# training data; predictor 
+# training data; predictor
 x <- x_min + (x_max - x_min) * runif(n) %>% as.matrix()
 
 # training data; target

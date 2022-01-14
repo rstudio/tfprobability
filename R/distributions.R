@@ -6377,8 +6377,3 @@ tfd_exp_inverse_gamma <- function(concentration,
   do.call(tfp$distributions$ExpInverseGamma,
           args)
 }
-
-
-
-
-

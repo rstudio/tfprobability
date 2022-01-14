@@ -24,7 +24,7 @@ Imports:
     reticulate,
     keras,
     magrittr
-Suggests: 
+Suggests:
     tfdatasets,
     testthat (>= 2.1.0),
     knitr,

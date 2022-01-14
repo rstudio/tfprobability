@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 ```
 
 Hierarchical models of any complexity may be specified using `tfd_joint_distribution_sequential()`.
-As hinted at by that function's name, it builds a representation of a joint distribution where every component may optionally depend on components declared before it. 
+As hinted at by that function's name, it builds a representation of a joint distribution where every component may optionally depend on components declared before it.
 
 The model is then fitted to data using some form of Monte Carlo algorithm -- Hamiltonian Monte Carlo (HMC), in most cases.
 Supplementing Monte Carlo methods is an implementation of Variational Inference (VI), but we don't cover VI in this document.
@@ -68,11 +68,11 @@ model <- tfd_joint_distribution_sequential(
     tfd_exponential(rate = 1),
     # normal distribution of per-tank logits
     # parameters sigma and a_bar refer to the outputs of the above two distributions
-    function(sigma, a_bar) 
+    function(sigma, a_bar)
       tfd_sample_distribution(
         tfd_normal(loc = a_bar, scale = sigma),
         sample_shape = list(n_tadpole_tanks)
-      ), 
+      ),
     # binomial distribution of survival counts
     # parameter l refers to the output of the normal distribution immediately above
     function(l)
@@ -84,11 +84,11 @@ model <- tfd_joint_distribution_sequential(
 )
 ```
 
-Our model technically being a _distribution_, we can verify it conforms to our expectations by _sampling_ from it: 
+Our model technically being a _distribution_, we can verify it conforms to our expectations by _sampling_ from it:
 
 ```{r}
 s <- model %>% tfd_sample(2)
-s 
+s
 ```
 
 ```
@@ -135,7 +135,7 @@ logprob <- function(a, s, l)
   model %>% tfd_log_prob(list(a, s, l, n_surviving))
 ```
 
-Now we can set up HMC sampling, making use of `mcmc_simple_step_size_adaptation` for dynamic step size evolution based on a desired acceptance probability. 
+Now we can set up HMC sampling, making use of `mcmc_simple_step_size_adaptation` for dynamic step size evolution based on a desired acceptance probability.
 
 ```{r}
 # number of steps after burnin
@@ -180,7 +180,7 @@ run_mcmc <- function(kernel) {
 run_mcmc <- tf_function(run_mcmc)
 res <- run_mcmc(hmc)
 ```
- 
+
 Now `res$all_states` contains the samples from the four chains, while `res$trace` has the diagnostic output.
 
 
@@ -217,4 +217,4 @@ These again are returned as lists of three.
 Rounding up on diagnostic output, we may inspect individual acceptance in `res$trace[[1]]` and step sizes in `res$trace[[2]]`.
 
 
-For ways to plot the samples and create summary output, as well as some background narrative, see [Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability](https://blogs.rstudio.com/ai/posts/2019-05-06-tadpoles-on-tensorflow/) and its follow-up, [Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability](https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/) on the TensorFlow for R blog. 
+For ways to plot the samples and create summary output, as well as some background narrative, see [Tadpoles on TensorFlow: Hierarchical partial pooling with tfprobability](https://blogs.rstudio.com/ai/posts/2019-05-06-tadpoles-on-tensorflow/) and its follow-up, [Hierarchical partial pooling, continued: Varying slopes models with TensorFlow Probability](https://blogs.rstudio.com/tensorflow/posts/2019-05-24-varying-slopes/) on the TensorFlow for R blog.

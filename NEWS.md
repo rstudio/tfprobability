@@ -4,7 +4,7 @@
   - tfd_skellam
   - tfd_exp_gamma
   - tfd_exp_inverse_gamma
-  
+
 - changes in distributions:
   - remove deprecated batch_shape and event_shape in tfd_transformed_distribution
 
@@ -16,7 +16,7 @@
 - changes in bijectors
   - add optional low parameter to tfb_softplus.
   - tfb_chain() takes new parameters validate_event_size and parameters
-  
+
 
 
 ## 0.11.0.0 (CRAN)
@@ -33,8 +33,8 @@
   - tfd_generalized_normal
   - tfd_johnson_s_u
   - tfd_continuous_bernoulli
-   
-- new bijectors: 
+
+- new bijectors:
   - tfb_split
   - tfb_gompertz_cdf
   - tfb_shifted_gompertz_cdf
@@ -48,10 +48,10 @@
 - changes in distributions:
    - added: tfd_beta_binomial
    - parameter list changed: tfd_transformed_distribution
-   
-- changes in bijectors: 
+
+- changes in bijectors:
    - added: tfb_lambert_w_tail
-   
+
 
 ## 0.9.0.0 (CRAN)
 
@@ -66,7 +66,7 @@
   - tfd_wishart_linear_operator
   - tfd_wishart_tri_l
   - tfd_pixel_cnn
-  
+
 - new bijectors
   - tfb_shift
   - tfb_pad
@@ -81,7 +81,7 @@
   - tfb_kumaraswamy_cdf
   - tfb_fill_scale_triangular
   - tfb_ffjord
-  
+
 - new state space models
   - sts_smooth_seasonal
   - sts_smooth_seasonal_state_space_model

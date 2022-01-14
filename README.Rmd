@@ -22,7 +22,7 @@ library(tfprobability)
 
 # tfprobability: R interface to TensorFlow Probability
 
-[TensorFlow Probability](https://www.tensorflow.org/probability/) is a library for statistical computation and probabilistic modeling built on top of TensorFlow.  
+[TensorFlow Probability](https://www.tensorflow.org/probability/) is a library for statistical computation and probabilistic modeling built on top of TensorFlow.
 
 Its building blocks include a vast range of distributions and invertible transformations (_bijectors_), probabilistic layers that may be used in `keras` models, and tools for probabilistic reasoning including variational inference and Markov Chain Monte Carlo.
 
@@ -48,7 +48,7 @@ install_tfprobability()
 ```
 
 
-you will automatically get the current stable version of TensorFlow Probability together with TensorFlow. Correspondingly, if you need nightly builds, 
+you will automatically get the current stable version of TensorFlow Probability together with TensorFlow. Correspondingly, if you need nightly builds,
 
 ```
 install_tfprobability(version = "nightly")
@@ -59,12 +59,12 @@ will get you the nightly build of TensorFlow as well as TensorFlow Probability.
 
 ## Usage
 
-High-level application of `tfprobability` to tasks like 
+High-level application of `tfprobability` to tasks like
 
 - probabilistic (multi-level) modeling with MCMC and/or variational inference,
-- uncertainty estimation for neural networks, 
+- uncertainty estimation for neural networks,
 - time series modeling with state space models, or
-- density estimation with autoregressive flows 
+- density estimation with autoregressive flows
 
 are described in the vignettes/articles and/or featured on the [TensorFlow for R blog](https://blogs.rstudio.com/ai/).
 
@@ -106,7 +106,7 @@ initial_distribution <- tfd_categorical(probs = c(0.8, 0.2))
 # and a hot day has a 20% chance of being followed by a cold day.
 # We can model this as:
 transition_distribution <- tfd_categorical(
-  probs = matrix(c(0.7, 0.3, 0.2, 0.8), nrow = 2, byrow = TRUE) %>% 
+  probs = matrix(c(0.7, 0.3, 0.2, 0.8), nrow = 2, byrow = TRUE) %>%
     tf$cast(tf$float32)
 )
 # Suppose additionally that on each day the temperature is
@@ -125,7 +125,7 @@ d <- tfd_hidden_markov_model(
 # The expected temperatures for each day are given by:
 d %>% tfd_mean()  # shape [7], elements approach 9.0
 # The log pdf of a week of temperature 0 is:
-d %>% tfd_log_prob(rep(0, 7)) 
+d %>% tfd_log_prob(rep(0, 7))
 ```
 
 ### Bijectors
@@ -207,10 +207,3 @@ vae_model %>% compile(
 
 vae_model %>% fit(x_train, x_train, batch_size = 25, epochs = 1)
 ```
-
-
-
-
-
-
-

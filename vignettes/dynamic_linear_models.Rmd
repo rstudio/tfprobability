@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 In _state space models_, we assume that there is a _latent process_, hidden from our eyes; all we have are the _observations_ we can make. The process evolves due to some hidden logic (_transition model_); and the way it produces the observations follows some hidden logic (_observation model_). There is noise in process evolution, and there is noise in observation. If the transition and observation models both are linear, and the process as well as observation noise are Gaussian, we have a _linear-Gaussian state space model_ (SSM). The task then is to infer the latent state from the observations. The most famous technique here is the _Kálmán filter_.
 
-In practical applications, two characteristics of linear-Gaussian SSMs are especially attractive. 
+In practical applications, two characteristics of linear-Gaussian SSMs are especially attractive.
 
 For one, they let us estimate dynamically changing parameters. In regression, the parameters can be viewed as a hidden state; we may thus have a slope and an intercept that vary over time. When parameters can vary, we speak of _dynamic linear models_ (DLMs). In this vignette, we introduce DLMs by way of _dynamic linear regression_.
 
@@ -78,18 +78,18 @@ Call:
 lm(formula = ibm ~ x)
 
 Residuals:
-     Min       1Q   Median       3Q      Max 
--0.11850 -0.03327 -0.00263  0.03332  0.15042 
+     Min       1Q   Median       3Q      Max
+-0.11850 -0.03327 -0.00263  0.03332  0.15042
 
 Coefficients:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -0.0004896  0.0046400  -0.106    0.916    
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -0.0004896  0.0046400  -0.106    0.916
 x            0.4568208  0.0675477   6.763 5.49e-10 ***
 ---
 Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
 
 Residual standard error: 0.05055 on 118 degrees of freedom
-Multiple R-squared:  0.2793,	Adjusted R-squared:  0.2732 
+Multiple R-squared:  0.2793,	Adjusted R-squared:  0.2732
 F-statistic: 45.74 on 1 and 118 DF,  p-value: 5.489e-10
 ```
 
@@ -112,7 +112,7 @@ ts <- tf$cast(ts, tf$float32)
 ```
 
 
-In consttructing the model, [sts_dynamic_linear_regression()](https://rstudio.github.io/tfprobability/reference/sts_dynamic_linear_regression.html) does what we want: 
+In consttructing the model, [sts_dynamic_linear_regression()](https://rstudio.github.io/tfprobability/reference/sts_dynamic_linear_regression.html) does what we want:
 
 ```{r}
 # define the model on the complete series
@@ -127,7 +127,7 @@ Now we define a function, `fit_with_vi`, that
 
 - trains the model on the training set, using variational inference ([sts_build_factored_variational_loss()](https://rstudio.github.io/tfprobability/reference/sts_build_factored_variational_loss.html))
 - obtains forecasts using [sts_forecast()](https://rstudio.github.io/tfprobability/reference/sts_forecast.html)
-- obtains the smoothed as well as the filtered estimates from the [Kálmán Filter](https://en.wikipedia.org/wiki/Kalman_filter) by converting to a `tfd_linear_gaussian_state_space_model()` and calling `posterior_marginals()` on it: 
+- obtains the smoothed as well as the filtered estimates from the [Kálmán Filter](https://en.wikipedia.org/wiki/Kalman_filter) by converting to a `tfd_linear_gaussian_state_space_model()` and calling `posterior_marginals()` on it:
 
 ```{r}
 fit_with_vi <-
@@ -138,16 +138,16 @@ fit_with_vi <-
            n_param_samples,
            n_forecast_steps,
            n_forecast_samples) {
-    
+
     optimizer <- tf$compat$v1$train$AdamOptimizer(0.1)
-    
+
     loss_and_dists <-
       ts_train %>% sts_build_factored_variational_loss(model = model)
     variational_loss <- loss_and_dists[[1]]
     train_op <- optimizer$minimize(variational_loss)
-    
+
     with (tf$Session() %as% sess,  {
-      
+
       # step 1: train the model using variational inference
       sess$run(tf$compat$v1$global_variables_initializer())
       for (step in 1:n_iterations) {
@@ -168,17 +168,17 @@ fit_with_vi <-
         ts_train %>% sts_forecast(model, posterior_samples, n_forecast_steps)
       fc_means <- forecast_dists %>% tfd_mean()
       fc_sds <- forecast_dists %>% tfd_stddev()
-      
+
       # step 3: obtain smoothed and filtered estimates from the Kálmán filter
       ssm <- model$make_state_space_model(length(ts_train), param_vals = posterior_samples)
       c(smoothed_means, smoothed_covs) %<-% ssm$posterior_marginals(ts_train)
       c(., filtered_means, filtered_covs, ., ., ., .) %<-% ssm$forward_filter(ts_train)
-   
+
       c(posterior_samples, fc_means, fc_sds, smoothed_means, smoothed_covs, filtered_means, filtered_covs) %<-%
         sess$run(list(posterior_samples, fc_means, fc_sds, smoothed_means, smoothed_covs, filtered_means, filtered_covs))
-      
+
     })
-    
+
     list(
       variational_distributions,
       posterior_samples,
@@ -257,7 +257,7 @@ forecast_df <- df %>%
 
 ```
 
-Here first are the forecasts. 
+Here first are the forecasts.
 
 ```{r}
 ggplot(forecast_df, aes(x = month, y = IBM)) +
@@ -276,7 +276,7 @@ knitr::include_graphics("images/capm_forecast.png")
 ```
 
 
-Here are the smoothing estimates. The intercept (shown in orange) remains pretty stable over time, but we do see a trend in the slope (displayed in green). 
+Here are the smoothing estimates. The intercept (shown in orange) remains pretty stable over time, but we do see a trend in the slope (displayed in green).
 
 ```{r}
 ggplot(forecast_df, aes(x = month, y = smoothed_means_intercept)) +
@@ -342,4 +342,3 @@ knitr::include_graphics("images/capm_filtered.png")
 ```
 
 For an example illustrating the additivity feature of DLMs -- that allows us to _decompose_ a time series into its constituents --, as well as for more narrative on the above example, see [Dynamic linear models with tfprobability](https://blogs.rstudio.com/ai/posts/2019-06-25-dynamic_linear_models_tfprobability/) on the TensorFlow for R blog.
-

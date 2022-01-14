@@ -1163,6 +1163,3 @@ layer_conv_3d_flipout <- function(object,
                object,
                args)
 }
-
-
-

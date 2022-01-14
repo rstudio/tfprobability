@@ -83,4 +83,3 @@ tfb_inverse_log_det_jacobian <-
   function(bijector, y, event_ndims, name="inverse_log_det_jacobian") {
     bijector$inverse_log_det_jacobian(as_float_tensor(y), as.integer(event_ndims), name)
   }
-

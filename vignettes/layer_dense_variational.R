@@ -9,30 +9,30 @@ knitr::opts_chunk$set(
 #  library(tensorflow)
 #  # assume it's version 1.14, with eager not yet being the default
 #  tf$compat$v1$enable_v2_behavior()
-#  
+#
 #  library(tfprobability)
 #  library(keras)
-#  
+#
 #  library(dplyr)
 #  library(tidyr)
 #  library(ggplot2)
-#  
+#
 #  # generate the data
 #  x_min <- -40
 #  x_max <- 60
 #  n <- 150
 #  w0 <- 0.125
 #  b0 <- 5
-#  
+#
 #  normalize <- function(x) (x - x_min) / (x_max - x_min)
-#  
+#
 #  # training data; predictor
 #  x <- x_min + (x_max - x_min) * runif(n) %>% as.matrix()
-#  
+#
 #  # training data; target
 #  eps <- rnorm(n) * (3 * (0.25 + (normalize(x)) ^ 2))
 #  y <- (w0 * x * (1 + sin(x)) + b0) + eps
-#  
+#
 #  # test data (predictor)
 #  x_test <- seq(x_min, x_max, length.out = n) %>% as.matrix()
 
@@ -55,7 +55,7 @@ knitr::include_graphics("images/uncertainty_data.png")
 #                          reinterpreted_batch_ndims = 1)
 #        })
 #    }
-#  
+#
 
 ## -----------------------------------------------------------------------------
 #  posterior_mean_field <-
@@ -91,7 +91,7 @@ knitr::include_graphics("images/uncertainty_data.png")
 #                 scale = 1e-3 + tf$math$softplus(0.01 * x[, 2, drop = FALSE])
 #                 )
 #      )
-#  
+#
 
 ## -----------------------------------------------------------------------------
 #  negloglik <- function(y, model) - (model %>% tfd_log_prob(y))
@@ -105,16 +105,16 @@ knitr::include_graphics("images/uncertainty_data.png")
 #    purrr::map(yhats, purrr::compose(as.matrix, tfd_mean)) %>% abind::abind()
 #  sds <-
 #    purrr::map(yhats, purrr::compose(as.matrix, tfd_stddev)) %>% abind::abind()
-#  
+#
 #  means_gathered <- data.frame(cbind(x_test, means)) %>%
 #    gather(key = run, value = mean_val,-X1)
 #  sds_gathered <- data.frame(cbind(x_test, sds)) %>%
 #    gather(key = run, value = sd_val,-X1)
-#  
+#
 #  lines <-
 #    means_gathered %>% inner_join(sds_gathered, by = c("X1", "run"))
 #  mean <- apply(means, 1, mean)
-#  
+#
 #  ggplot(data.frame(x = x, y = y, mean = as.numeric(mean)), aes(x, y)) +
 #    geom_point() +
 #    theme(legend.position = "none") +
@@ -140,4 +140,3 @@ knitr::include_graphics("images/uncertainty_data.png")
 
 ## ---- eval=TRUE, echo=FALSE, layout="l-body-outset", fig.cap = "Displaying both epistemic and aleatoric uncertainty on the simulated dataset."----
 knitr::include_graphics("images/uncertainty.png")
-

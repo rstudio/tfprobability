@@ -1020,4 +1020,3 @@ mcmc_uncalibrated_random_walk <- function(target_log_prob_fn,
 
   do.call(tfp$mcmc$UncalibratedRandomWalk, args)
 }
-
