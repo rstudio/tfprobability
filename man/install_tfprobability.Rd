@@ -14,28 +14,37 @@ install_tfprobability(
 )
 }
 \arguments{
-\item{method}{Installation method ("virtualenv" or "conda")}
+\item{method}{Installation method. By default, "auto" automatically finds a
+method that will work in the local environment. Change the default to force
+a specific installation method. Note that the "virtualenv" method is not
+available on Windows.}
 
-\item{conda}{The path to a \code{conda} executable. Use \code{"auto"} to allow \code{reticulate} to
-automatically find an appropriate \code{conda} binary. See \strong{Finding Conda} for more details.}
+\item{conda}{The path to a \code{conda} executable. Use \code{"auto"} to allow
+\code{reticulate} to automatically find an appropriate \code{conda} binary. See
+\code{\link[reticulate:conda-tools]{conda_binary()}} for more details on how \code{reticulate} tries to resolve
+the \code{conda} executable.}
 
-\item{version}{Version of Keras to install. Specify "default" to install
-the latest release. Otherwise specify an alternate version (e.g. "2.2.2").}
+\item{version}{TensorFlow version to install. Valid values include:
+\itemize{
+\item \code{"default"} installs  2.7
+\item \code{"release"} installs the latest release version of tensorflow (which may
+be incompatible with the current version of the R package)
+\item A version specification like \code{"2.4"} or \code{"2.4.0"}. Note that if the patch
+version is not supplied, the latest patch release is installed (e.g.,
+\code{"2.4"} today installs version "2.4.2")
+\item \code{nightly} for the latest available nightly build.
+\item To any specification, you can append "-cpu" to install the cpu version
+only of the package (e.g., \code{"2.4-cpu"})
+\item The full URL or path to a installer binary or python *.whl file.
+}}
 
-\item{tensorflow}{TensorFlow version to install. Specify "default" to install
-the CPU version of the latest release. Specify "gpu" to install the GPU
-version of the latest release.
+\item{tensorflow}{Synonym for \code{version}. Maintained for backwards.}
 
-You can also provide a full major.minor.patch specification (e.g. "1.1.0"),
-appending "-gpu" if you want the GPU version (e.g. "1.1.0-gpu").
+\item{extra_packages}{Additional Python packages to install along with
+TensorFlow.}
 
-Alternatively, you can provide the full URL to an installer binary (e.g.
-for a nightly binary).}
-
-\item{extra_packages}{Additional PyPI packages to install along with
-Keras and TensorFlow.}
-
-\item{...}{Other arguments passed to \code{\link[tensorflow:install_tensorflow]{tensorflow::install_tensorflow()}}.}
+\item{...}{other arguments passed to \code{\link[reticulate:conda-tools]{reticulate::conda_install()}} or
+\code{\link[reticulate:virtualenv-tools]{reticulate::virtualenv_install()}}, depending on the \code{method} used.}
 }
 \value{
 invisible

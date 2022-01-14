@@ -15,7 +15,14 @@ layer_kl_divergence_add_loss(
 )
 }
 \arguments{
-\item{object}{Model or layer object}
+\item{object}{What to compose the new \code{Layer} instance with. Typically a
+Sequential model or a Tensor (e.g., as returned by \code{layer_input()}).
+The return value depends on \code{object}. If \code{object} is:
+\itemize{
+\item missing or \code{NULL}, the \code{Layer} instance is returned.
+\item a \code{Sequential} model, the model with an additional layer is returned.
+\item a Tensor, the output tensor from \code{layer_instance(object)} is returned.
+}}
 
 \item{distribution_b}{Distribution instance corresponding to b as in  \code{KL[a, b]}.
 The previous layer's output is presumed to be a Distribution instance and is a.}

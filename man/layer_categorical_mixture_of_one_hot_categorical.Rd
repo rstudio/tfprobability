@@ -15,7 +15,14 @@ layer_categorical_mixture_of_one_hot_categorical(
 )
 }
 \arguments{
-\item{object}{Model or layer object}
+\item{object}{What to compose the new \code{Layer} instance with. Typically a
+Sequential model or a Tensor (e.g., as returned by \code{layer_input()}).
+The return value depends on \code{object}. If \code{object} is:
+\itemize{
+\item missing or \code{NULL}, the \code{Layer} instance is returned.
+\item a \code{Sequential} model, the model with an additional layer is returned.
+\item a Tensor, the output tensor from \code{layer_instance(object)} is returned.
+}}
 
 \item{event_size}{Scalar \code{integer} representing the size of single draw from this distribution.}
 

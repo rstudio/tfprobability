@@ -17,7 +17,14 @@ layer_dense_variational(
 )
 }
 \arguments{
-\item{object}{Model or layer object}
+\item{object}{What to compose the new \code{Layer} instance with. Typically a
+Sequential model or a Tensor (e.g., as returned by \code{layer_input()}).
+The return value depends on \code{object}. If \code{object} is:
+\itemize{
+\item missing or \code{NULL}, the \code{Layer} instance is returned.
+\item a \code{Sequential} model, the model with an additional layer is returned.
+\item a Tensor, the output tensor from \code{layer_instance(object)} is returned.
+}}
 
 \item{units}{Positive integer, dimensionality of the output space.}
 
@@ -50,7 +57,7 @@ This layer uses variational inference to fit a "surrogate" posterior to the
 distribution over both the \code{kernel} matrix and the \code{bias} terms which are
 otherwise used in a manner similar to \code{layer_dense()}.
 This layer fits the "weights posterior" according to the following generative
-process:\if{html}{\out{<div class="none">}}\preformatted{[K, b] ~ Prior()
+process:\if{html}{\out{<div class="sourceCode none">}}\preformatted{[K, b] ~ Prior()
 M = matmul(X, K) + b
 Y ~ Likelihood(M)
 }\if{html}{\out{</div>}}
