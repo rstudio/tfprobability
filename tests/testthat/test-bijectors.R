@@ -159,9 +159,9 @@ test_succeeds("Define a sinh_arcsinh bijector", {
 test_succeeds("Define a softmax_centered bijector", {
   b <- tfb_softmax_centered()
   x <- tf$math$log(c(2, 3, 4))
-  y <- c(0.2, 0.3, 0.4, 0.1)
-  expect_equivalent(b %>% tfb_forward(x) %>% tensor_value(), y)
-  expect_equivalent(b %>% tfb_inverse(y) %>% tensor_value(), x %>% tensor_value())
+  y <- array(c(0.2, 0.3, 0.4, 0.1))
+  expect_equal(b %>% tfb_forward(x) %>% tensor_value(), y, tolerance = 1e-7)
+  expect_equal(b %>% tfb_inverse(y) %>% tensor_value(), x %>% tensor_value(), tolerance = 1e-7)
 })
 
 test_succeeds("Define a permute bijector", {
