@@ -61,4 +61,4 @@ tensor_value <- function(tensor) {
   }
 }
 
-as_tensor <- tfprobability:::as_tensor
+as_tensors <- tfprobability:::as_tensors

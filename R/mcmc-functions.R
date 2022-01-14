@@ -105,7 +105,7 @@ mcmc_sample_chain <- function(kernel = NULL,
   if (tfp_version() > "0.11") {
     tfp$mcmc$sample_chain(
       num_results = as.integer(num_results),
-      current_state = as_tensor(current_state),
+      current_state = as_tensors(current_state),
       previous_kernel_results = previous_kernel_results,
       kernel = kernel,
       num_burnin_steps = as.integer(num_burnin_steps),
@@ -117,7 +117,7 @@ mcmc_sample_chain <- function(kernel = NULL,
   } else if (tfp_version() > "0.10") {
     tfp$mcmc$sample_chain(
       num_results = as.integer(num_results),
-      current_state = as_tensor(current_state),
+      current_state = as_tensors(current_state),
       previous_kernel_results = previous_kernel_results,
       kernel = kernel,
       num_burnin_steps = as.integer(num_burnin_steps),
@@ -130,7 +130,7 @@ mcmc_sample_chain <- function(kernel = NULL,
   } else {
     tfp$mcmc$sample_chain(
       num_results = as.integer(num_results),
-      current_state = as_tensor(current_state),
+      current_state = as_tensors(current_state),
       previous_kernel_results = previous_kernel_results,
       kernel = kernel,
       num_burnin_steps = as.integer(num_burnin_steps),
