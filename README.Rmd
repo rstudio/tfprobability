@@ -17,6 +17,7 @@ library(tfprobability)
 
 <!-- badges: start -->
 [![R build status](https://github.com/rstudio/tfprobability/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/tfprobability/actions?workflow=R-CMD-check) [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/tfprobability)](https://cran.r-project.org/package=tfprobability)
+[![R-CMD-check](https://github.com/rstudio/tfprobability/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/tfprobability/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # tfprobability: R interface to TensorFlow Probability
