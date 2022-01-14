@@ -13,19 +13,19 @@ tfp <- NULL
 
     priority = 20,
 
-    environment = "r-tensorflow",
+    environment = "r-tensorflow"
 
-    on_load = function() {
-      if (!grepl("tensorflow", keras::backend()))
-        stop("TensorFlow Probability has to be used with the TensorFlow Keras backend.")
-      if (!grepl("tensorflow", keras::implementation()))
-        stop("TensorFlow Probability has to be used with the TensorFlow Keras implementation.")
-    }
-    ,
-
-    on_error = function(e) {
-      stop(e$message, call. = FALSE)
-    }
+    # on_load = function() {
+    #   if (!grepl("tensorflow", keras::backend()))
+    #     stop("TensorFlow Probability has to be used with the TensorFlow Keras backend.")
+    #   if (!grepl("tensorflow", keras::implementation()))
+    #     stop("TensorFlow Probability has to be used with the TensorFlow Keras implementation.")
+    # }
+    # ,
+    #
+    # on_error = function(e) {
+    #   stop(e$message, call. = FALSE)
+    # }
 
   ))
 
