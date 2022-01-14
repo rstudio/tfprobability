@@ -1,7 +1,5 @@
 context("vi-functions")
 
-source("utils.R")
-
 test_succeeds("vi_amari_alpha works", {
   u <- 2
   logu <- log(u)

@@ -1,7 +1,5 @@
 context("mcmc")
 
-source("utils.R")
-
 test_succeeds("sampling from chain works", {
   dims <- 10
   true_stddev <- sqrt(seq(1, 3, length.out = dims))

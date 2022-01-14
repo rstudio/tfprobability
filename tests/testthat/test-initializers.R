@@ -1,7 +1,5 @@
 context("tensorflow probability keras initializers")
 
-source("utils.R")
-
 test_succeeds("initializer_blockwise works", {
 
   init <- initializer_blockwise(

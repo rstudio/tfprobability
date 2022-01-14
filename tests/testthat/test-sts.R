@@ -1,8 +1,6 @@
 
 context("sts")
 
-source("utils.R")
-
 test_succeeds("local level state space model works", {
 
   ll <- sts_local_level_state_space_model(

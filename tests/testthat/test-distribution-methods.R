@@ -1,7 +1,5 @@
 context("distribution methods")
 
-source("utils.R")
-
 test_succeeds("can sample from distributions", {
 
   d <- tfd_normal(0,1)

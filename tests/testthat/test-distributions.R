@@ -1,7 +1,5 @@
 context("distributions")
 
-source("utils.R")
-
 test_succeeds("Normal distribution works", {
   d <- tfd_normal(loc = c(1, 2), scale = c(11, 22))
   x <- d %>% tfd_sample(c(2, 2))

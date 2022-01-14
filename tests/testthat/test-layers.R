@@ -1,8 +1,6 @@
 
 context("tensorflow probability keras layers")
 
-source("utils.R")
-
 # test_succeeds("use layer_autoregressive with 1d autoregressivity", {
 #
 #   library(keras)

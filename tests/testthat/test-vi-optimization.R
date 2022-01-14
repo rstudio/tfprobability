@@ -1,7 +1,5 @@
 context("vi-optimization")
 
-source("utils.R")
-
 test_succeeds("vi_fit_surrogate_posterior works", {
   skip_if_tfp_below("0.9")
 

@@ -1,7 +1,5 @@
 context("sts-functions")
 
-source("utils.R")
-
 test_succeeds("sts_build_factored_variational_loss works", {
   skip_if_eager()
 

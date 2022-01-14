@@ -1,4 +1,3 @@
-source("utils.R")
 
 test_succeeds("glm_fit.tensorflow.tensor works", {
 

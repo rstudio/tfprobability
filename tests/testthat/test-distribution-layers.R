@@ -1,8 +1,6 @@
 
 context("tensorflow probability distribution layers")
 
-source("utils.R")
-
 test_succeeds("can use layer_multivariate_normal_tri_l in a keras model", {
   library(keras)
   n <- as.integer(1e3)

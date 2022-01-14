@@ -1,3 +1,6 @@
+
+options(testthat.progress.max_fails = Inf)
+
 have_tfp <- function() {
   reticulate::py_module_available("tensorflow_probability")
 }
