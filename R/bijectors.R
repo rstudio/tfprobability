@@ -163,7 +163,7 @@ tfb_affine_linear_operator <- function(shift = NULL,
 }
 
 
-#' AffineScalar bijector
+#' AffineScalar bijector (Deprecated)
 #'
 #' This Bijector is initialized with shift Tensor and scale arguments, giving the forward operation:
 #' `Y = g(X) = scale * X + shift`
@@ -175,8 +175,8 @@ tfb_affine_linear_operator <- function(shift = NULL,
 #' @inherit tfb_identity return params
 #' @family bijectors
 #' @seealso For usage examples see [tfb_forward()], [tfb_inverse()], [tfb_inverse_log_det_jacobian()].
+#' @keywords internal
 #' @export
-
 tfb_affine_scalar <- function(shift = NULL,
                               scale = NULL,
                               validate_args = FALSE,
@@ -187,7 +187,11 @@ tfb_affine_scalar <- function(shift = NULL,
     validate_args = validate_args,
     name = name
   )
-  do.call(tfp$bijectors$AffineScalar, args)
+  # lifecycle::deprecate_warn("0.15", "tfb_affine_scalar()", "tfb_shift(shift)(tfb_scale(scale))")
+  # https://github.com/r-lib/lifecycle/issues/118
+  warning("tfb_affine_scalar() is deprecated, please use `tfb_shift(shift)(tfb_scale(scale))` instead")
+  tfb_shift(shift, validate_args = validate_args, name = name)(
+    tfb_scale(scale, validate_args = validate_args, name = name))
 }
 
 #' Computes`Y = g(X)` s.t. `X = g^-1(Y) = (Y - mean(Y)) / std(Y)`

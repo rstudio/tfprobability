@@ -2,7 +2,7 @@
 % Please edit documentation in R/bijectors.R
 \name{tfb_affine_scalar}
 \alias{tfb_affine_scalar}
-\title{AffineScalar bijector}
+\title{AffineScalar bijector (Deprecated)}
 \usage{
 tfb_affine_scalar(
   shift = NULL,
@@ -101,3 +101,4 @@ Other bijectors:
 \code{\link{tfb_weibull}()}
 }
 \concept{bijectors}
+\keyword{internal}
