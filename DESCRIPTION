@@ -2,7 +2,8 @@ Package: tfprobability
 Title: Interface to 'TensorFlow Probability'
 Version: 0.12.0.9000
 Authors@R: c(
-    person("Sigrid", "Keydana", email = "sigrid@rstudio.com", role = c("aut", "cre")),
+    person("Tomasz", "Kalinowski", email = "tomasz.kalinowski@rstudio.com", role = c("ctb", "cre")),
+    person("Sigrid", "Keydana", email = "sigrid@rstudio.com", role = c("aut")),
     person("Daniel", "Falbel", email = "daniel@rstudio.com", role = c("ctb")),
     person("Kevin", "Kuo", email = "kevin.kuo@rstudio.com", role = c("ctb"),
            comment = c(ORCID = "0000-0001-7803-7901")),
