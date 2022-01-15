@@ -65,3 +65,5 @@ as_tensors <- function(x) {
 as_integer_list <- function(x) {
   lapply(x, as.integer)
 }
+
+capture_args <- get("capture_args", asNamespace("keras"))
