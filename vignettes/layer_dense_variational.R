@@ -95,7 +95,7 @@ knitr::include_graphics("images/uncertainty_data.png")
 
 ## -----------------------------------------------------------------------------
 #  negloglik <- function(y, model) - (model %>% tfd_log_prob(y))
-#  model %>% compile(optimizer = optimizer_adam(lr = 0.01), loss = negloglik)
+#  model %>% compile(optimizer = optimizer_adam(0.01), loss = negloglik)
 #  model %>% fit(x, y, epochs = 1000)
 
 ## -----------------------------------------------------------------------------
