@@ -6,9 +6,11 @@
 #' @export
 install_tfprobability <- function (method = c("auto", "virtualenv", "conda"),
                                    conda = "auto",
-                                   version = "default", tensorflow = "default",
+                                   version = "default",
+                                   tensorflow = "default",
                                    extra_packages = NULL,
-                                   ...) {
+                                   ...,
+                                   pip_ignore_installed = TRUE) {
 
 
   if (version  == "default" || is.null(version))
@@ -20,7 +22,12 @@ install_tfprobability <- function (method = c("auto", "virtualenv", "conda"),
 
   extra_packages <- unique(c(package, extra_packages))
 
-  tensorflow::install_tensorflow(method = method, conda = conda, version = tensorflow,
-                     extra_packages = extra_packages, pip_ignore_installed = FALSE,
-                     ...)
+  tensorflow::install_tensorflow(
+    method = method,
+    conda = conda,
+    version = tensorflow,
+    extra_packages = extra_packages,
+    pip_ignore_installed = pip_ignore_installed,
+    ...
+  )
 }
