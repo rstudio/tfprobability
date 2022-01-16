@@ -6157,9 +6157,6 @@ tfd_johnson_s_u <- function(skewness,
 #' continuous Bernoulli distribution. Only one of `logits` or `probs`
 #' should be passed in. Note that this also does not correspond to a
 #' probability as in the Bernoulli case.
-#' @param lims A list with two floats containing the lower and upper limits
-#' used to approximate the continuous Bernoulli around 0.5 for
-#' numerical stability purposes.
 #' @param dtype The type of the event samples. Default: `float32`.
 #'
 #' @inherit tfd_normal return params
@@ -6168,15 +6165,14 @@ tfd_johnson_s_u <- function(skewness,
 #' @export
 tfd_continuous_bernoulli <- function(logits = NULL,
                                      probs = NULL,
-                                     lims = c(0.499, 0.501),
                                      dtype = tf$float32,
                                      validate_args = FALSE,
                                      allow_nan_stats = TRUE,
                                      name = "ContinuousBernoulli") {
+
   args <- list(
     logits = logits,
     probs = probs,
-    lims = lims,
     dtype = dtype,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
