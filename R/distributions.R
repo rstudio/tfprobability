@@ -2632,10 +2632,6 @@ tfd_multinomial <- function(total_count,
 #' @param components A list or tuple of `Distribution` instances.
 #' Each instance must have the same type, be defined on the same domain,
 #' and have matching `event_shape` and `batch_shape`.
-#' @param use_static_graph Calls to `sample` will not rely on dynamic tensor
-#' indexing, allowing for some static graph compilation optimizations, but
-#' at the expense of sampling all underlying distributions in the mixture.
-#' (Possibly useful when running on TPUs). Default value: `FALSE` (i.e., use dynamic indexing).
 #' @inherit tfd_normal return params
 #' @family distributions
 #' @seealso For usage examples see e.g. [tfd_sample()], [tfd_log_prob()], [tfd_mean()].
@@ -2644,14 +2640,12 @@ tfd_mixture <- function(cat,
                         components,
                         validate_args = FALSE,
                         allow_nan_stats = TRUE,
-                        use_static_graph = FALSE,
                         name = "Mixture") {
   args <- list(
     cat = cat,
     components = components,
     validate_args = validate_args,
     allow_nan_stats = allow_nan_stats,
-    use_static_graph = use_static_graph,
     name = name
   )
 

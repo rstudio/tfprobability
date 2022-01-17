@@ -9,7 +9,6 @@ tfd_mixture(
   components,
   validate_args = FALSE,
   allow_nan_stats = TRUE,
-  use_static_graph = FALSE,
   name = "Mixture"
 )
 }
@@ -28,11 +27,6 @@ silently render incorrect outputs. Default value: FALSE.}
 \item{allow_nan_stats}{Logical, default TRUE. When TRUE, statistics (e.g., mean, mode, variance)
 use the value NaN to indicate the result is undefined. When FALSE, an exception is raised if
 one or more of the statistic's batch members are undefined.}
-
-\item{use_static_graph}{Calls to \code{sample} will not rely on dynamic tensor
-indexing, allowing for some static graph compilation optimizations, but
-at the expense of sampling all underlying distributions in the mixture.
-(Possibly useful when running on TPUs). Default value: \code{FALSE} (i.e., use dynamic indexing).}
 
 \item{name}{name prefixed to Ops created by this class.}
 }
