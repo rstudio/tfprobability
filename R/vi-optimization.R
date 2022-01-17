@@ -123,5 +123,8 @@ function(target_log_prob_fn,
     )
   )
 
+  if(!is.null(args$variational_loss_fn))
+    warning("`variational_loss_fn` arg is deprecated. See https://www.tensorflow.org/probability/api_docs/python/tfp/vi/fit_surrogate_posterior for details.")
+
   do.call(tfp$vi$fit_surrogate_posterior, args)
 }
