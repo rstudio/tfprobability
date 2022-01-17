@@ -228,7 +228,7 @@ test_succeeds("layer_variable works", {
 
   negloglik <- function(x, rv_x) -(rv_x %>% tfd_log_prob(x))
   trainable_normal %>% compile(optimizer = 'adam', loss = negloglik)
-  trainable_normal %>% fit(x, y, steps_per_epoch = 1)
+  trainable_normal %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
 })
 
@@ -279,7 +279,7 @@ test_succeeds("layer_dense_variational works", {
 
   negloglik <- function(x, rv_x) -(rv_x %>% tfd_log_prob(x))
   model %>% compile(optimizer = 'adam', loss = negloglik)
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal((yhat %>% tfd_sample())$get_shape()$as_list(), c(150,1))
@@ -331,7 +331,7 @@ test_succeeds("layer_dense_reparameterization works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(150, 1))
@@ -383,7 +383,7 @@ test_succeeds("layer_dense_flipout works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(150, 1))
@@ -438,7 +438,7 @@ test_succeeds("layer_dense_local_reparameterization works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(150, 1))
@@ -496,7 +496,7 @@ test_succeeds("layer_conv_1d_reparameterization works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(150, 10))
@@ -552,7 +552,7 @@ test_succeeds("layer_conv_1d_flipout works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(150, 10))
@@ -612,7 +612,7 @@ test_succeeds("layer_conv_2d_reparameterization works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(7, 10))
@@ -671,7 +671,7 @@ test_succeeds("layer_conv_2d_flipout works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(7, 10))
@@ -731,7 +731,7 @@ test_succeeds("layer_conv_3d_reparameterization works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(7, 10))
@@ -790,7 +790,7 @@ test_succeeds("layer_conv_3d_flipout works", {
     )
   }
 
-  model %>% fit(x, y, steps_per_epoch = 1)
+  model %>% fit(x, y, steps_per_epoch = 1, verbose = 0L)
 
   yhat <- model(x)
   expect_equal(yhat$get_shape()$as_list(), c(7, 10))
