@@ -228,6 +228,8 @@ test_succeeds("Define an absolute value bijector", {
 })
 
 test_succeeds("Define an affine bijector", {
+  skip("tfp$bijectors$Affine removed, wrapper needs fixing")
+  # https://github.com/tensorflow/probability/commit/9afe4303054055959d631407cd2ef091a6c11fc0
   b <-
     tfb_affine(
       shift = c(0, 0),
@@ -240,6 +242,8 @@ test_succeeds("Define an affine bijector", {
 })
 
 test_succeeds("Define an affine linear operator bijector", {
+  skip("tfp$bijectors$Affine removed, wrapper needs fixing")
+  # https://github.com/tensorflow/probability/commit/9afe4303054055959d631407cd2ef091a6c11fc0
   b <-
     tfb_affine_linear_operator(shift = c(-1, 0, 1),
                                scale = tf$linalg$LinearOperatorDiag(c(1, 2, 3)))
@@ -252,6 +256,7 @@ test_succeeds("Define an affine scalar bijector", {
   b <- tfb_affine_scalar(shift = 3.33)
   x <- c(100, 1000, 10000)
   y <- b %>% tfb_forward(x)
+  skip("upstream bug in bijector.inverse_log_det_jacobian, needs reporting + fixing")
   expect_equal(b %>% tfb_inverse_log_det_jacobian(y, event_ndims = 0) %>% tensor_value(),
                0)
 })
@@ -422,6 +427,8 @@ test_succeeds("Define a square bijector", {
 })
 
 test_succeeds("Define a tanh bijector", {
+  skip("tfp$bijectors$Affine removed, wrapper needs fixing")
+  # https://github.com/tensorflow/probability/commit/9afe4303054055959d631407cd2ef091a6c11fc0
   b <- tfb_tanh()
   chain <-
     tfb_chain(list(
