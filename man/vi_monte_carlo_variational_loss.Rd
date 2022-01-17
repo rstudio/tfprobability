@@ -7,7 +7,8 @@
 vi_monte_carlo_variational_loss(
   target_log_prob_fn,
   surrogate_posterior,
-  sample_size = 1,
+  sample_size = 1L,
+  importance_sample_size = 1L,
   discrepancy_fn = vi_kl_reverse,
   use_reparametrization = NULL,
   seed = NULL,

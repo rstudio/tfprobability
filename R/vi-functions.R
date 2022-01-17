@@ -219,23 +219,21 @@ vi_kl_forward <-
 #'
 #' @export
 vi_monte_carlo_variational_loss <-
-  function(target_log_prob_fn,
-           surrogate_posterior,
-           sample_size = 1,
-           discrepancy_fn = vi_kl_reverse,
-           use_reparametrization = NULL,
-           seed = NULL,
-           name = NULL) {
-    tfp$vi$monte_carlo_variational_loss(
-      target_log_prob_fn,
-      surrogate_posterior,
-      as.integer(sample_size),
-      discrepancy_fn,
-      use_reparametrization,
-      as_nullable_integer(seed),
-      name
-    )
-  }
+function(target_log_prob_fn,
+         surrogate_posterior,
+         sample_size = 1L,
+         importance_sample_size = 1L,
+         discrepancy_fn = vi_kl_reverse,
+         use_reparametrization = NULL,
+         seed = NULL,
+         name = NULL) {
+  args <- capture_args(match.call(),
+    list(sample_size = as.integer,
+         importance_sample_size = as.integer,
+         seed = as_nullable_integer))
+  names(args)[1:2] <- "" # first 2 args are required to be positional
+  do.call(tfp$vi$monte_carlo_variational_loss, args)
+}
 
 #' The Jensen-Shannon Csiszar-function in log-space
 #'
