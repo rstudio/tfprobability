@@ -204,20 +204,23 @@ sts_fit_with_hmc <- function(observed_time_series,
 #'
 #' @inheritParams sts_build_factored_variational_loss
 #'
+#' @param timesteps_are_event_shape Deprecated, for backwards compatibility only. If False, the predictive distribution will return per-timestep probabilities Default value: TRUE.
 #' @return forecast_dist a `tfd_mixture_same_family` instance with event shape
 #' `list(num_timesteps)` and batch shape `tf$concat(list(sample_shape, model$batch_shape))`, with
 #' `num_posterior_draws` mixture components. The `t`th step represents the
 #' forecast distribution `p(observed_time_series[t] | observed_time_series[0:t-1], parameter_samples)`.
+#'
+#'
 #'
 #' @family sts-functions
 #'
 #' @export
 sts_one_step_predictive <- function(observed_time_series,
                                     model,
-                                    parameter_samples) {
-  tfp$sts$one_step_predictive(model,
-                              observed_time_series,
-                              parameter_samples)
+                                    parameter_samples,
+                                    timesteps_are_event_shape = TRUE) {
+  args <- capture_args(match.call())
+  do.call(tfp$sts$one_step_predictive, args)
 }
 
 #' Construct predictive distribution over future observations

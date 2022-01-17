@@ -4,7 +4,12 @@
 \alias{sts_one_step_predictive}
 \title{Compute one-step-ahead predictive distributions for all timesteps}
 \usage{
-sts_one_step_predictive(observed_time_series, model, parameter_samples)
+sts_one_step_predictive(
+  observed_time_series,
+  model,
+  parameter_samples,
+  timesteps_are_event_shape = TRUE
+)
 }
 \arguments{
 \item{observed_time_series}{\code{float} \code{tensor} of shape
@@ -23,6 +28,8 @@ of model parameters, with shapes
 \verb{list(tf$concat(list(list(num_posterior_draws), param<1>$prior$batch_shape, param<1>$prior$event_shape), list(list(num_posterior_draws), param<2>$prior$batch_shape, param<2>$prior$event_shape), ... ) )}
 for all model parameters.
 This may optionally also be a named list mapping parameter names to \code{tensor} values.}
+
+\item{timesteps_are_event_shape}{Deprecated, for backwards compatibility only. If False, the predictive distribution will return per-timestep probabilities Default value: TRUE.}
 }
 \value{
 forecast_dist a \code{tfd_mixture_same_family} instance with event shape
