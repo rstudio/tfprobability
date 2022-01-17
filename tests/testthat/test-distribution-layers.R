@@ -387,8 +387,14 @@ test_succeeds("layer_variational_gaussian_process works", {
   model %>%
     compile(optimizer = "adam", loss = loss)
 
+  x <- as_tensors(x)
+  y <- as_tensors(y)
+
+  x <- tf$expand_dims(x, -1L)
+  y <- tf$expand_dims(y, -1L)
+
   model %>%
-    fit(x = as_tensors(x), y = as_tensors(y), batch_size = batch_size)
+    fit(x = x, y = y, batch_size = batch_size, verbose = 0L)
 })
 
 
