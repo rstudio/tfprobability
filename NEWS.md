@@ -1,3 +1,16 @@
+## 0.15.0
+
+- updated `install_tfprobability()` to use latest release.
+- `vi_mote_carlo_variational_loss()` gains a `importance_sample_size` arg.
+- `sts_one_step_predictive()` gains a `timesteps_are_event_shape` arg.
+
+- Deprecations:
+  - `tfb_affine_scalar()`
+  - `variational_loss_fn` arg in `vi_fit_surrogate_posterior`
+  -
+- New maintainer @t-kalinowski
+
+
 ## 0.12.0.0 (CRAN)
 
 - new distributions:
