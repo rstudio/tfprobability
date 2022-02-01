@@ -18,7 +18,7 @@
 #'
 #' @section References:
 #' - [Radford Neal. MCMC Using Hamiltonian Dynamics. _Handbook of Markov Chain Monte Carlo_, 2011.](https://arxiv.org/abs/1206.1901)
-#' - [Bernard Delyon, Marc Lavielle, Eric, Moulines. _Convergence of a stochastic approximation version of the EM algorithm_, Ann. Statist. 27 (1999), no. 1, 94--128.](https://www.jstor.org/stable/120120?seq=1)
+#' - [Bernard Delyon, Marc Lavielle, Eric, Moulines. _Convergence of a stochastic approximation version of the EM algorithm_, Ann. Statist. 27 (1999), no. 1, 94--128.](https://www.jstor.org/stable/120120)
 #'
 #' @param target_log_prob_fn Function which takes an argument like
 #' `current_state` (if it's a list `current_state` will be unpacked) and returns its

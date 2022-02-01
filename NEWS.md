@@ -7,8 +7,8 @@
 - Deprecations:
   - `tfb_affine_scalar()`
   - `variational_loss_fn` arg in `vi_fit_surrogate_posterior`
-  -
-- New maintainer @t-kalinowski
+
+- New maintainer Tomasz Kalinowski (@t-kalinowski)
 
 
 ## 0.12.0.0 (CRAN)
