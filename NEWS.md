@@ -1,4 +1,4 @@
-# tfprobability (development version)
+# tfprobability 0.15.1
 
 - updated docs for compatibility with R 4.2 / HTML5
 
