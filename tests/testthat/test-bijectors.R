@@ -253,7 +253,7 @@ test_succeeds("Define an affine linear operator bijector", {
 })
 
 test_succeeds("Define an affine scalar bijector", {
-  b <- tfb_affine_scalar(shift = 3.33)
+  b <- tfb_shift(3.33)
   x <- c(100, 1000, 10000)
   y <- b %>% tfb_forward(x)
   skip("upstream bug in bijector.inverse_log_det_jacobian, needs reporting + fixing")
@@ -336,7 +336,7 @@ test_succeeds("Define a discrete cosine transform bijector", {
 
 test_succeeds("Define an expm1 bijector", {
   b <- tfb_expm1()
-  chain <- tfb_chain(list(tfb_affine_scalar(shift = -1), tfb_exp()))
+  chain <- tfb_chain(list(tfb_shift(-1), tfb_exp()))
   x <- matrix(1.1:4.1, ncol = 2, byrow = TRUE)
   expect_equal(b %>% tfb_forward(x) %>% tensor_value(),
                chain %>% tfb_forward(x) %>% tensor_value(),
