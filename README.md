@@ -141,9 +141,7 @@ on the TensorFlow for R blog.
 
 ``` r
 # create an affine transformation that shifts by 3.33 and scales by 0.5
-b <- tfb_affine_scalar(shift = 3.33, scale = 0.5)
-#> Warning in tfb_affine_scalar(shift = 3.33, scale = 0.5): tfb_affine_scalar() is
-#> deprecated, please use `tfb_shift(shift)(tfb_scale(scale))` instead
+b <- tfb_shift(3.33)(tfb_scale(0.5))
 
 # apply the transformation
 x <- c(100, 1000, 10000)
@@ -161,9 +159,9 @@ b <- tfb_discrete_cosine_transform()
 x <- matrix(runif(3))
 b %>% tfb_forward(x)
 #> tf.Tensor(
-#> [[0.01871747]
-#>  [0.34306413]
-#>  [0.5662492 ]], shape=(3, 1), dtype=float32)
+#> [[0.5221709 ]
+#>  [0.5336635 ]
+#>  [0.06735111]], shape=(3, 1), dtype=float32)
 ```
 
 ### Keras layers
