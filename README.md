@@ -2,8 +2,6 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/rstudio/tfprobability/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/tfprobability/actions?workflow=R-CMD-check)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/tfprobability)](https://cran.r-project.org/package=tfprobability)
 [![R-CMD-check](https://github.com/rstudio/tfprobability/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rstudio/tfprobability/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
