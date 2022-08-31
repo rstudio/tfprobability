@@ -1420,7 +1420,7 @@ tfd_vector_diffeomixture <- function(mix_loc,
 #' @section References:
 #' - [Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.](http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf)
 #' - [Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013.](https://arxiv.org/abs/1309.6835)
-#' - [Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006.](http://www.gaussianprocess.org/gpml/)
+#' - [Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006.](http://gaussianprocess.org/gpml/)
 #'
 #' @param  kernel `PositiveSemidefiniteKernel`-like instance representing the
 #' GP's covariance function.

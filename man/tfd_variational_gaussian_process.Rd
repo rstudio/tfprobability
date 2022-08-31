@@ -244,7 +244,7 @@ optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
 \itemize{
 \item \href{http://proceedings.mlr.press/v5/titsias09a/titsias09a.pdf}{Titsias, M. "Variational Model Selection for Sparse Gaussian Process Regression", 2009.}
 \item \href{https://arxiv.org/abs/1309.6835}{Hensman, J., Lawrence, N. "Gaussian Processes for Big Data", 2013.}
-\item \href{http://www.gaussianprocess.org/gpml/}{Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006.}
+\item \href{http://gaussianprocess.org/gpml/}{Carl Rasmussen, Chris Williams. Gaussian Processes For Machine Learning, 2006.}
 }
 }
 
