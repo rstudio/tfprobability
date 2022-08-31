@@ -1,6 +1,6 @@
 Package: tfprobability
 Title: Interface to 'TensorFlow Probability'
-Version: 0.15.0
+Version: 0.15.0.9000
 Authors@R: c(
     person("Tomasz", "Kalinowski", email = "tomasz.kalinowski@rstudio.com", role = c("ctb", "cre")),
     person("Sigrid", "Keydana", email = "sigrid@rstudio.com", role = c("aut")),
