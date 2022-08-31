@@ -1,5 +1,7 @@
 # tfprobability (development version)
 
+- updated docs for compatibility with R 4.2 / HTML5
+
 ## 0.15.0
 
 - updated `install_tfprobability()` to use latest release.
