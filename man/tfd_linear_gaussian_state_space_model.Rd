@@ -106,16 +106,20 @@ Importantly, the timestep is passed as a \code{Tensor}, not a Python
 integer, so any conditional behavior must occur \emph{inside} the
 TensorFlow graph. For example, suppose we want to use a different
 transition model on even days than odd days. It does \emph{not} work to
-write\preformatted{transition_matrix <- function(t) \{
+write
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix <- function(t) \{
 if(t \%\% 2 == 0) even_day_matrix else odd_day_matrix
 \}
-}
+}\if{html}{\out{</div>}}
 
 since the value of \code{t} is not fixed at graph-construction
-time. Instead we need to write\preformatted{transition_matrix <- function(t) \{
+time. Instead we need to write
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix <- function(t) \{
 tf$cond(tf$equal(tf$mod(t, 2), 0), function() even_day_matrix, function() odd_day_matrix)
 \}
-}
+}\if{html}{\out{</div>}}
 
 so that TensorFlow can switch between operators appropriately at runtime.
 }

@@ -79,10 +79,12 @@ The semi-local linear trend model is a special case of a linear Gaussian
 SSM, in which the latent state posits a \code{level} and \code{slope}. The \code{level}
 evolves via a Gaussian random walk centered at the current \code{slope}, while
 the \code{slope} follows a first-order autoregressive (AR1) process with
-mean \code{slope_mean}:\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0, level_scale)
+mean \code{slope_mean}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0, level_scale)
 slope[t] = (slope_mean + autoregressive_coef * (slope[t-1] - slope_mean) +
            Normal(0., slope_scale))
-}
+}\if{html}{\out{</div>}}
 
 The latent state is the two-dimensional tuple \verb{[level, slope]}. The
 \code{level} is observed at each timestep.
@@ -95,16 +97,20 @@ Mathematical Details
 
 The semi-local linear trend model implements a
 \code{tfp.distributions.LinearGaussianStateSpaceModel} with \code{latent_size = 2}
-and \code{observation_size = 1}, following the transition model:\preformatted{transition_matrix = [[1., 1.]
+and \code{observation_size = 1}, following the transition model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix = [[1., 1.]
                      [0., autoregressive_coef]]
 transition_noise ~ N(loc=slope_mean - autoregressive_coef * slope_mean,
                      scale=diag([level_scale, slope_scale]))
-}
+}\if{html}{\out{</div>}}
 
 which implements the evolution of \verb{[level, slope]} described above, and
-the observation model:\preformatted{observation_matrix = [[1., 0.]]
+the observation model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix = [[1., 0.]]
 observation_noise ~ N(loc=0, scale=observation_noise_scale)
-}
+}\if{html}{\out{</div>}}
 
 which picks out the first latent component, i.e., the \code{level}, as the
 observation at each timestep.

@@ -57,9 +57,11 @@ symmetric positive definite operator, which defines the scale matrix.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(X; df, scale) = det(X)**(0.5 (df-k-1)) exp(-0.5 tr[inv(scale) X]) / Z
 Z = 2**(0.5 df k) |det(scale)|**(0.5 df) Gamma_k(0.5 df)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

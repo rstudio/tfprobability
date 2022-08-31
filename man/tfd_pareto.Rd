@@ -39,14 +39,16 @@ The Pareto distribution is parameterized by a \code{scale} and a
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; alpha, scale, x >= scale) = alpha * scale ** alpha / x ** (alpha + 1)
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha, scale, x >= scale) = alpha * scale ** alpha / x ** (alpha + 1)
 ```#'
 where `concentration = alpha`.
 
 Note that `scale` acts as a scaling parameter, since
 `Pareto(c, scale).pdf(x) == Pareto(c, 1.).pdf(x / scale)`.
 The support of the distribution is defined on `[scale, infinity)`.
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

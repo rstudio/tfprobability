@@ -33,13 +33,17 @@ Mathematical details
 }
 \details{
 The half normal is a transformation of a centered normal distribution.
-If some random variable \code{X} has normal distribution,\preformatted{X ~ Normal(0.0, scale)
+If some random variable \code{X} has normal distribution,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ Normal(0.0, scale)
 Y = |X|
-}
+}\if{html}{\out{</div>}}
 
 Then \code{Y} will have half normal distribution. The probability density
-function (pdf) is:\preformatted{pdf(x; scale, x > 0) = sqrt(2) / (scale * sqrt(pi)) * exp(- 1/2 * (x / scale) ** 2))
-}
+function (pdf) is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; scale, x > 0) = sqrt(2) / (scale * sqrt(pi)) * exp(- 1/2 * (x / scale) ** 2))
+}\if{html}{\out{</div>}}
 
 Where \code{scale = sigma} is the standard deviation of the underlying normal
 distribution.

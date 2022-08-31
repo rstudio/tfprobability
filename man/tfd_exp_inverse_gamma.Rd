@@ -45,9 +45,11 @@ but can be sampled with much better precision.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is very similar to ExpGamma,\preformatted{pdf(x; alpha, beta > 0) = exp(-x)**(alpha - 1) exp(-exp(-x) beta) / Z - x
+The probability density function (pdf) is very similar to ExpGamma,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha, beta > 0) = exp(-x)**(alpha - 1) exp(-exp(-x) beta) / Z - x
 Z = Gamma(alpha) beta**(-alpha)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -57,8 +59,10 @@ where:
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 }
 
-The cumulative density function (cdf) is,\preformatted{cdf(x; alpha, beta, x) = 1 - GammaInc(alpha, beta exp(-x)) / Gamma(alpha)
-}
+The cumulative density function (cdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cdf(x; alpha, beta, x) = 1 - GammaInc(alpha, beta exp(-x)) / Gamma(alpha)
+}\if{html}{\out{</div>}}
 
 where \code{GammaInc} is the \href{https://en.wikipedia.org/wiki/Incomplete_gamma_function}{upper incomplete Gamma function}.
 

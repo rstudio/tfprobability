@@ -48,9 +48,11 @@ Mathematical Details
 
 The probability density function (pdf) can be derived from the change of
 variables rule (since the distribution is logically equivalent to
-\code{tfb_log()(tfd_gamma(..))}):\preformatted{pdf(x; alpha, beta > 0) = exp(x)**(alpha - 1) exp(-exp(x) beta) / Z + x
+\code{tfb_log()(tfd_gamma(..))}):
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha, beta > 0) = exp(x)**(alpha - 1) exp(-exp(x) beta) / Z + x
 Z = Gamma(alpha) beta**(-alpha)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -60,8 +62,10 @@ where:
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 }
 
-The cumulative density function (cdf) is,\preformatted{cdf(x; alpha, beta, x) = GammaInc(alpha, beta exp(x)) / Gamma(alpha)
-}
+The cumulative density function (cdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cdf(x; alpha, beta, x) = GammaInc(alpha, beta exp(x)) / Gamma(alpha)
+}\if{html}{\out{</div>}}
 
 where \code{GammaInc} is the \href{https://en.wikipedia.org/wiki/Incomplete_gamma_function}{lower incomplete Gamma function}.
 

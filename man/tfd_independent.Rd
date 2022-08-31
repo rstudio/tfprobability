@@ -52,9 +52,11 @@ will have independent components.
 
 Mathematical Details
 
-The probability function is,\preformatted{prob(x; reinterpreted_batch_ndims) =
+The probability function is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{prob(x; reinterpreted_batch_ndims) =
  tf.reduce_prod(dist.prob(x), axis=-1-range(reinterpreted_batch_ndims))
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

@@ -33,13 +33,17 @@ For a lower triangular matrix \code{L} to be a valid Cholesky-factor of a positi
 definite correlation matrix, it is necessary and sufficient that each row of
 \code{L} have unit Euclidean norm. To see this, observe that if \code{L_i} is the
 \code{i}th row of the Cholesky factor corresponding to the correlation matrix \code{R},
-then the \code{i}th diagonal entry of \code{R} satisfies:\preformatted{1 = R_i,i = L_i . L_i = ||L_i||^2
-}
+then the \code{i}th diagonal entry of \code{R} satisfies:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{1 = R_i,i = L_i . L_i = ||L_i||^2
+}\if{html}{\out{</div>}}
 
 where '.' is the dot product of vectors and \verb{||...||} denotes the Euclidean
 norm. Furthermore, observe that \verb{R_i,j} lies in the interval \verb{[-1, 1]}. By the
-Cauchy-Schwarz inequality:\preformatted{|R_i,j| = |L_i . L_j| <= ||L_i|| ||L_j|| = 1
-}
+Cauchy-Schwarz inequality:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{|R_i,j| = |L_i . L_j| <= ||L_i|| ||L_j|| = 1
+}\if{html}{\out{</div>}}
 
 This is a consequence of the fact that \code{R} is symmetric positive definite with
 1s on the main diagonal.

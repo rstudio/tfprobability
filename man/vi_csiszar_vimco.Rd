@@ -46,19 +46,25 @@ f-Divergences.
 Note: if \code{q.reparameterization_type = tfd.FULLY_REPARAMETERIZED},
 consider using \code{monte_carlo_csiszar_f_divergence}.
 
-The VIMCO loss is:\preformatted{vimco = f(Avg\{logu[i] : i=0,...,m-1\})
+The VIMCO loss is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{vimco = f(Avg\{logu[i] : i=0,...,m-1\})
 where,
 logu[i] = log( p(x, h[i]) / q(h[i] | x) )
 h[i] iid~ q(H | x)
-}
+}\if{html}{\out{</div>}}
 
 Interestingly, the VIMCO gradient is not the naive gradient of \code{vimco}.
-Rather, it is characterized by:\preformatted{grad[vimco] - variance_reducing_term
-}
+Rather, it is characterized by:
 
-where,\preformatted{variance_reducing_term = Sum\{ grad[log q(h[i] | x)] * (vimco - f(log Avg\{h[j;i] : j=0,...,m-1\})) #' : i=0, ..., m-1 \}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{grad[vimco] - variance_reducing_term
+}\if{html}{\out{</div>}}
+
+where,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{variance_reducing_term = Sum\{ grad[log q(h[i] | x)] * (vimco - f(log Avg\{h[j;i] : j=0,...,m-1\})) #' : i=0, ..., m-1 \}
 h[j;i] =  u[j]  for j!=i,  GeometricAverage\{ u[k] : k!=i\} for j==i
-}
+}\if{html}{\out{</div>}}
 
 (We omitted \code{stop_gradient} for brevity. See implementation for more details.)
 The \verb{Avg\{h[j;i] : j\}} term is a kind of "swap-out average" where the \code{i}-th

@@ -44,9 +44,11 @@ The ProbitBernoulli distribution with \code{probs} parameter, i.e., the probabil
 of a \code{1} outcome (vs a \code{0} outcome). Unlike a regular Bernoulli distribution,
 which uses the logistic (aka 'sigmoid') function to go from the un-constrained
 parameters to probabilities, this distribution uses the CDF of the
-\href{https://en.wikipedia.org/wiki/Normal_distribution}{standard normal distribution}:\preformatted{p(x=1; probits) = 0.5 * (1 + erf(probits / sqrt(2)))
+\href{https://en.wikipedia.org/wiki/Normal_distribution}{standard normal distribution}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{p(x=1; probits) = 0.5 * (1 + erf(probits / sqrt(2)))
 p(x=0; probits) = 1 - p(x=1; probits)
-}
+}\if{html}{\out{</div>}}
 
 Where \code{erf} is the \href{https://en.wikipedia.org/wiki/Error_function}{error function}.
 A typical application of this distribution is in

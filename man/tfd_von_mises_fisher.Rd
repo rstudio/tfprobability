@@ -44,11 +44,13 @@ on the unit hypersphere \code{S^{n-1}} embedded in n dimensions \code{(R^n)}.
 }
 \details{
 Mathematical details
-The probability density function (pdf) is,\preformatted{pdf(x; mu, kappa) = C(kappa) exp(kappa * mu^T x)
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, kappa) = C(kappa) exp(kappa * mu^T x)
 where,
 C(kappa) = (2 pi)^\{-n/2\} kappa^\{n/2-1\} / I_\{n/2-1\}(kappa),
 I_v(z) being the modified Bessel function of the first kind of order v
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

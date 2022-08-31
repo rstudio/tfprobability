@@ -35,16 +35,20 @@ a distribution instance.
 Mathematical details
 }
 \details{
-The probability density function (pdf) is,\preformatted{pdf(x; mu, sigma) = exp(-0.5 (x - mu)**2 / sigma**2) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, sigma) = exp(-0.5 (x - mu)**2 / sigma**2) / Z
 Z = (2 pi sigma**2)**0.5
-}
+}\if{html}{\out{</div>}}
 
 where \code{loc = mu} is the mean, \code{scale = sigma} is the std. deviation, and, \code{Z}
 is the normalization constant.
 The Normal distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X ~ Normal(loc=0, scale=1)
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ Normal(loc=0, scale=1)
 Y = loc + scale * X
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

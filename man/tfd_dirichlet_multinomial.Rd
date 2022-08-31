@@ -51,9 +51,11 @@ Mathematical Details
 The Dirichlet-Multinomial is a distribution over \code{K}-class counts, i.e., a
 length-\code{K} vector of non-negative integer \verb{counts = n = [n_0, ..., n_\{K-1\}]}.
 
-The probability mass function (pmf) is,\preformatted{pmf(n; alpha, N) = Beta(alpha + n) / (prod_j n_j!) / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(n; alpha, N) = Beta(alpha + n) / (prod_j n_j!) / Z
 Z = Beta(alpha) / N!
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

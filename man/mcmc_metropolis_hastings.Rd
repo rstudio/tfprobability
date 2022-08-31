@@ -29,21 +29,25 @@ Note: \code{inner_kernel$one_step} must return \code{kernel_results} as a \code{
 \item have only fields which are \code{Tensor}-valued.
 }
 
-The Metropolis-Hastings log acceptance-probability is computed as:\preformatted{log_accept_ratio = (current_kernel_results.target_log_prob
+The Metropolis-Hastings log acceptance-probability is computed as:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{log_accept_ratio = (current_kernel_results.target_log_prob
                    - previous_kernel_results.target_log_prob
                    + current_kernel_results.log_acceptance_correction)
-}
+}\if{html}{\out{</div>}}
 
 If \code{current_kernel_results$log_acceptance_correction} does not exist, it is
 presumed \code{0} (i.e., that the proposal distribution is symmetric).
 The most common use-case for \code{log_acceptance_correction} is in the
-Metropolis-Hastings algorithm, i.e.,\preformatted{accept_prob(x' | x) = p(x') / p(x) (g(x|x') / g(x'|x))
+Metropolis-Hastings algorithm, i.e.,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{accept_prob(x' | x) = p(x') / p(x) (g(x|x') / g(x'|x))
 where,
 p  represents the target distribution,
 g  represents the proposal (conditional) distribution,
 x' is the proposed state, and,
 x  is current state
-}
+}\if{html}{\out{</div>}}
 
 The log of the parenthetical term is the \code{log_acceptance_correction}.
 The \code{log_acceptance_correction} may not necessarily correspond to the ratio of

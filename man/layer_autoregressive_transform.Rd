@@ -34,13 +34,15 @@ a Masked Autoencoder for Distribution Estimation (MADE) -- that computes locatio
 and log-scale parameters \eqn{made(x)[i]} for each input \eqn{x[i]}. Then we can represent
 the autoregressive model \eqn{p(x)} as \eqn{x = f(u)} where \eqn{u} is drawn
 from from some base distribution and where \eqn{f} is an invertible and
-differentiable function (i.e., a Bijector) and \eqn{f^{-1}(x)} is defined by:\preformatted{library(tensorflow)
+differentiable function (i.e., a Bijector) and \eqn{f^{-1}(x)} is defined by:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{library(tensorflow)
 library(zeallot)
 f_inverse <- function(x) \{
   c(shift, log_scale) \%<-\% tf$unstack(made(x), 2, axis = -1L)
   (x - shift) * tf$math$exp(-log_scale)
 \}
-}
+}\if{html}{\out{</div>}}
 
 Given a \code{\link[=layer_autoregressive]{layer_autoregressive()}} made, a \code{\link[=layer_autoregressive_transform]{layer_autoregressive_transform()}}
 transforms an input \verb{tfd_*} \eqn{p(u)} to an output \verb{tfd_*} \eqn{p(x)} where

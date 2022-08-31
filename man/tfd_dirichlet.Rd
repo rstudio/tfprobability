@@ -40,12 +40,16 @@ Beta distribution when \code{k = 2}.
 \details{
 Mathematical Details
 
-The Dirichlet is a distribution over the open \code{(k-1)}-simplex, i.e.,\preformatted{S^\{k-1\} = \{ (x_0, ..., x_\{k-1\}) in R^k : sum_j x_j = 1 and all_j x_j > 0 \}.
-}
+The Dirichlet is a distribution over the open \code{(k-1)}-simplex, i.e.,
 
-The probability density function (pdf) is,\preformatted{pdf(x; alpha) = prod_j x_j**(alpha_j - 1) / Z
+\if{html}{\out{<div class="sourceCode">}}\preformatted{S^\{k-1\} = \{ (x_0, ..., x_\{k-1\}) in R^k : sum_j x_j = 1 and all_j x_j > 0 \}.
+}\if{html}{\out{</div>}}
+
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha) = prod_j x_j**(alpha_j - 1) / Z
 Z = prod_j Gamma(alpha_j) / Gamma(sum_j alpha_j)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -56,8 +60,10 @@ and,
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 }
 
-The \code{concentration} represents mean total counts of class occurrence, i.e.,\preformatted{concentration = alpha = mean * total_concentration
-}
+The \code{concentration} represents mean total counts of class occurrence, i.e.,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{concentration = alpha = mean * total_concentration
+}\if{html}{\out{</div>}}
 
 where \code{mean} in \code{S^{k-1}} and \code{total_concentration} is a positive real number
 representing a mean total count.

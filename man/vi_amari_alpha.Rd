@@ -25,10 +25,12 @@ at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-When \code{self_normalized = TRUE}, the Amari-alpha Csiszar-function is:\preformatted{f(u) = \{ -log(u) + (u - 1)\},     alpha = 0
+When \code{self_normalized = TRUE}, the Amari-alpha Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = \{ -log(u) + (u - 1)\},     alpha = 0
        \{ u log(u) - (u - 1)\},    alpha = 1
        \{ ((u^alpha - 1) - alpha (u - 1) / (alpha (alpha - 1))\},    otherwise
-}
+}\if{html}{\out{</div>}}
 
 When \code{self_normalized = FALSE} the \code{(u - 1)} terms are omitted.
 

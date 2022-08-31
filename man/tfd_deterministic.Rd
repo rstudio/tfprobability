@@ -47,9 +47,11 @@ See \href{https://en.wikipedia.org/wiki/Degenerate_distribution}{Degenerate rv}.
 \details{
 Mathematical Details
 
-The probability mass function (pmf) and cumulative distribution function (cdf) are\preformatted{pmf(x; loc) = 1, if x == loc, else 0
+The probability mass function (pmf) and cumulative distribution function (cdf) are
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(x; loc) = 1, if x == loc, else 0
 cdf(x; loc) = 1, if x >= loc, else 0
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

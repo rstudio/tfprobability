@@ -30,9 +30,11 @@ degrees of freedom ("df") parameter.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; df, x >= 0) = x**(df - 1) exp(-0.5 x**2) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; df, x >= 0) = x**(df - 1) exp(-0.5 x**2) / Z
 Z = 2**(0.5 df - 1) Gamma(0.5 df)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

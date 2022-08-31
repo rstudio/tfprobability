@@ -32,9 +32,11 @@ a bijector instance.
 This bijector maps inputs from \verb{[-inf, inf]} to \verb{[0, inf]}. The inverse of the
 bijector applied to a uniform random variable \code{X ~ U(0, 1)} gives back a
 random variable with the
-\href{https://en.wikipedia.org/wiki/Shifted_Gompertz_distribution}{Shifted Gompertz distribution}:\preformatted{Y ~ ShiftedGompertzCDF(concentration, rate)
+\href{https://en.wikipedia.org/wiki/Shifted_Gompertz_distribution}{Shifted Gompertz distribution}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Y ~ ShiftedGompertzCDF(concentration, rate)
 pdf(y; c, r) = r * exp(-r * y - exp(-r * y) / c) * (1 + (1 - exp(-r * y)) / c)
-}
+}\if{html}{\out{</div>}}
 }
 \details{
 Note: Even though this is called \code{ShiftedGompertzCDF}, when applied to the

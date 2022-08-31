@@ -36,18 +36,22 @@ a distribution instance.
 Mathematical details
 }
 \details{
-The probability density function (pdf) of this distribution is,\preformatted{pdf(x; mu, sigma) = exp(-|x - mu| / sigma) / Z
+The probability density function (pdf) of this distribution is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, sigma) = exp(-|x - mu| / sigma) / Z
 Z = 2 sigma
-}
+}\if{html}{\out{</div>}}
 
 where \code{loc = mu}, \code{scale = sigma}, and \code{Z} is the normalization constant.
 
 Note that the Laplace distribution can be thought of two exponential
 distributions spliced together "back-to-back."
 The Laplace distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X ~ Laplace(loc=0, scale=1)
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ Laplace(loc=0, scale=1)
 Y = loc + scale * X
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

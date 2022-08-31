@@ -68,9 +68,11 @@ calculations; see \code{tfd_linear_gaussian_state_space_model} for details.
 \details{
 The local linear trend model is a special case of a linear Gaussian SSM, in
 which the latent state posits a \code{level} and \code{slope}, each evolving via a
-Gaussian random walk:\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
+Gaussian random walk:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
 slope[t] = slope[t-1] + Normal(0., slope_scale)
-}
+}\if{html}{\out{</div>}}
 
 The latent state is the two-dimensional tuple \verb{[level, slope]}. The
 \code{level} is observed at each timestep.
@@ -82,14 +84,18 @@ broadcast batch shape of these parameters and of the \code{initial_state_prior}.
 Mathematical Details
 
 The linear trend model implements a \code{tfd_linear_gaussian_state_space_model}
-with \code{latent_size = 2} and \code{observation_size = 1}, following the transition model:\preformatted{transition_matrix = [[1., 1.]
+with \code{latent_size = 2} and \code{observation_size = 1}, following the transition model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix = [[1., 1.]
                      [0., 1.]]
 transition_noise ~ N(loc = 0, scale = diag([level_scale, slope_scale]))
-}
+}\if{html}{\out{</div>}}
 
-which implements the evolution of \verb{[level, slope]} described above, and the observation model:\preformatted{observation_matrix = [[1., 0.]]
+which implements the evolution of \verb{[level, slope]} described above, and the observation model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix = [[1., 0.]]
 observation_noise ~ N(loc= 0 , scale = observation_noise_scale)
-}
+}\if{html}{\out{</div>}}
 
 which picks out the first latent component, i.e., the \code{level}, as the
 observation at each timestep.

@@ -90,19 +90,23 @@ Warning: no attempt is made to validate that the shift_and_log_scale_fn
 enforces the "autoregressive property".
 
 Assuming shift_and_log_scale_fn has valid shape and autoregressive semantics,
-the forward transformation is\preformatted{def forward(x):
+the forward transformation is
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{def forward(x):
    y = zeros_like(x)
    event_size = x.shape[-event_dims:].num_elements()
    for _ in range(event_size):
      shift, log_scale = shift_and_log_scale_fn(y)
      y = x * tf.exp(log_scale) + shift
    return y
-}
+}\if{html}{\out{</div>}}
 
-and the inverse transformation is\preformatted{def inverse(y):
+and the inverse transformation is
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{def inverse(y):
   shift, log_scale = shift_and_log_scale_fn(y)
   return (y - shift) / tf.exp(log_scale)
-}
+}\if{html}{\out{</div>}}
 
 Notice that the inverse does not need a for-loop. This is because in the
 forward pass each calculation of shift and log_scale is based on the y

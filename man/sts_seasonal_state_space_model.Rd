@@ -78,8 +78,10 @@ A seasonal effect model is a special case of a linear Gaussian SSM. The
 latent states represent an unknown effect from each of several 'seasons';
 these are generally not meteorological seasons, but represent regular
 recurring patterns such as hour-of-day or day-of-week effects. The effect of
-each season drifts from one occurrence to the next, following a Gaussian random walk:\preformatted{effects[season, occurrence[i]] = (effects[season, occurrence[i-1]] + Normal(loc=0., scale=drift_scale))
-}
+each season drifts from one occurrence to the next, following a Gaussian random walk:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{effects[season, occurrence[i]] = (effects[season, occurrence[i-1]] + Normal(loc=0., scale=drift_scale))
+}\if{html}{\out{</div>}}
 
 The latent state has dimension \code{num_seasons}, containing one effect for each
 seasonal component. The parameters \code{drift_scale} and
@@ -94,21 +96,25 @@ The seasonal effect model implements a \code{tfd_linear_gaussian_state_space_mod
 \code{latent_size = num_seasons} and \code{observation_size = 1}. The latent state
 is organized so that the \emph{current} seasonal effect is always in the first
 (zeroth) dimension. The transition model rotates the latent state to shift
-to a new effect at the end of each season:\preformatted{transition_matrix[t] = (permutation_matrix([1, 2, ..., num_seasons-1, 0])
+to a new effect at the end of each season:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix[t] = (permutation_matrix([1, 2, ..., num_seasons-1, 0])
                        if season_is_changing(t)
                        else eye(num_seasons)
 transition_noise[t] ~ Normal(loc=0., scale_diag=(
                       [drift_scale, 0, ..., 0]
                       if season_is_changing(t)
                       else [0, 0, ..., 0]))
-}
+}\if{html}{\out{</div>}}
 
 where \code{season_is_changing(t)} is \code{True} if \verb{t `mod` sum(num_steps_per_season)} is in
 the set of final days for each season, given by \code{cumsum(num_steps_per_season) - 1}.
 The observation model always picks out the effect for the current season, i.e.,
-the first element of the latent state:\preformatted{observation_matrix = [[1., 0., ..., 0.]]
+the first element of the latent state:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix = [[1., 0., ..., 0.]]
 observation_noise ~ Normal(loc=0, scale=observation_noise_scale)
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 Other sts: 

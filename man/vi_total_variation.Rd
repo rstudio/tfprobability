@@ -19,8 +19,10 @@ evaluated at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-The Total-Variation Csiszar-function is:\preformatted{f(u) = 0.5 |u - 1|
-}
+The Total-Variation Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = 0.5 |u - 1|
+}\if{html}{\out{</div>}}
 
 Warning: this function makes non-log-space calculations and may therefore be
 numerically unstable for \verb{|logu| >> 0}.

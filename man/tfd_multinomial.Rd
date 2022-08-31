@@ -58,9 +58,11 @@ Mathematical Details
 
 The Multinomial is a distribution over \code{K}-class counts, i.e., a length-\code{K}
 vector of non-negative integer \verb{counts = n = [n_0, ..., n_\{K-1\}]}.
-The probability mass function (pmf) is,\preformatted{pmf(n; pi, N) = prod_j (pi_j)**n_j / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(n; pi, N) = prod_j (pi_j)**n_j / Z
 Z = (prod_j n_j!) / N!
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

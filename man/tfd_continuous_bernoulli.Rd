@@ -52,9 +52,11 @@ Mathematical Details
 
 The continuous Bernoulli is a distribution over the interval \verb{[0, 1]},
 parameterized by \code{probs} in \verb{(0, 1)}.
-The probability density function (pdf) is,\preformatted{pdf(x; probs) = probs**x * (1 - probs)**(1 - x) * C(probs)
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; probs) = probs**x * (1 - probs)**(1 - x) * C(probs)
 C(probs) = (2 * atanh(1 - 2 * probs) / (1 - 2 * probs) if probs != 0.5 else 2.)
-}
+}\if{html}{\out{</div>}}
 
 While the normalizing constant \code{C(probs)} is a continuous function of \code{probs}
 (even at \code{probs = 0.5}), computing it at values close to 0.5 can result in

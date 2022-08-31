@@ -108,8 +108,10 @@ This layer implements the Bayesian variational inference analogue to
 a dense layer by assuming the \code{kernel} and/or the \code{bias} are drawn
 from distributions.
 
-By default, the layer implements a stochastic forward pass via sampling from the kernel and bias posteriors,\preformatted{outputs = f(inputs; kernel, bias), kernel, bias ~ posterior
-}
+By default, the layer implements a stochastic forward pass via sampling from the kernel and bias posteriors,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{outputs = f(inputs; kernel, bias), kernel, bias ~ posterior
+}\if{html}{\out{</div>}}
 
 where f denotes the layer's calculation. It uses the Flipout
 estimator (Wen et al., 2018), which performs a Monte Carlo approximation

@@ -61,8 +61,10 @@ Gaussian state space model and supports tractable exact probabilistic
 calculations; see \code{tfd_linear_gaussian_state_space_model} for
 details.
 The local level model is a special case of a linear Gaussian SSM, in which the
-latent state posits a \code{level} evolving via a Gaussian random walk:\preformatted{level[t] = level[t-1] + Normal(0., level_scale)
-}
+latent state posits a \code{level} evolving via a Gaussian random walk:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t] = level[t-1] + Normal(0., level_scale)
+}\if{html}{\out{</div>}}
 }
 \details{
 The latent state is \verb{[level]} and \verb{[level]} is observed (with noise) at each timestep.
@@ -74,13 +76,17 @@ shape of these parameters and of the \code{initial_state_prior}.
 Mathematical Details
 
 The local level model implements a \code{tfp$distributions$LinearGaussianStateSpaceModel} with
-\code{latent_size = 1} and \code{observation_size = 1}, following the transition model:\preformatted{transition_matrix = [[1]]
-transition_noise ~ N(loc = 0, scale = diag([level_scale]))
-}
+\code{latent_size = 1} and \code{observation_size = 1}, following the transition model:
 
-which implements the evolution of \code{level} described above, and the observation model:\preformatted{observation_matrix = [[1]]
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix = [[1]]
+transition_noise ~ N(loc = 0, scale = diag([level_scale]))
+}\if{html}{\out{</div>}}
+
+which implements the evolution of \code{level} described above, and the observation model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix = [[1]]
 observation_noise ~ N(loc = 0, scale = observation_noise_scale)
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 Other sts: 

@@ -55,9 +55,11 @@ success, the NegativeBinomial distribution represents the distribution over
 the number of successes \code{s} that occur until we observe \code{f} failures.
 }
 \details{
-The probability mass function (pmf) is,\preformatted{pmf(s; f, p) = p**s (1 - p)**f / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(s; f, p) = p**s (1 - p)**f / Z
 Z = s! (f - 1)! / (s + f - 1)!
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

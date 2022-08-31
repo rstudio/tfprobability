@@ -43,11 +43,13 @@ This distribution has parameters: degree of freedom \code{df}, location \code{lo
 \details{
 Mathematical details
 
-The probability density function (pdf) is,\preformatted{pdf(x; df, mu, sigma) = (1 + y**2 / df)**(-0.5 (df + 1)) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; df, mu, sigma) = (1 + y**2 / df)**(-0.5 (df + 1)) / Z
 where,
 y = (x - mu) / sigma
 Z = abs(sigma) sqrt(df pi) Gamma(0.5 df) / Gamma(0.5 (df + 1))
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -57,9 +59,11 @@ where:
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 The StudentT distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
 constructed as,
-}\preformatted{X ~ StudentT(df, loc=0, scale=1)
-Y = loc + scale * X
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ StudentT(df, loc=0, scale=1)
+Y = loc + scale * X
+}\if{html}{\out{</div>}}
 
 Notice that \code{scale} has semantics more similar to standard deviation than
 variance. However it is not actually the std. deviation; the Student's

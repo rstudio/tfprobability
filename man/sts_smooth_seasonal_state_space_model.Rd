@@ -77,17 +77,21 @@ calculations; see \code{tfp$distributions$LinearGaussianStateSpaceModel} for
 details.
 A smooth seasonal effect model is a special case of a linear Gaussian SSM. It
 is the sum of a set of "cyclic" components, with one component for each
-frequency:\preformatted{frequencies[j] = 2. * pi * frequency_multipliers[j] / period
-}
+frequency:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{frequencies[j] = 2. * pi * frequency_multipliers[j] / period
+}\if{html}{\out{</div>}}
 
 Each cyclic component contains two latent states which we denote \code{effect} and
-\code{auxiliary}. The two latent states for component \code{j} drift over time via:\preformatted{effect[t] = (effect[t-1] * cos(frequencies[j]) +
+\code{auxiliary}. The two latent states for component \code{j} drift over time via:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{effect[t] = (effect[t-1] * cos(frequencies[j]) +
              auxiliary[t-] * sin(frequencies[j]) +
              Normal(0., drift_scale))
 auxiliary[t] = (-effect[t-1] * sin(frequencies[j]) +
                 auxiliary[t-] * cos(frequencies[j]) +
                 Normal(0., drift_scale))
-}
+}\if{html}{\out{</div>}}
 }
 \details{
 The \code{auxiliary} latent state only appears as a matter of construction and thus
@@ -104,13 +108,17 @@ The smooth seasonal effect model implements a
 \code{latent_size = 2 * len(frequency_multipliers)} and \code{observation_size = 1}.
 The latent state is the concatenation of the cyclic latent states which themselves
 comprise an \code{effect} and an \code{auxiliary} state. The transition matrix is a block diagonal
-matrix where block \code{j} is:\preformatted{transition_matrix[j] =  [[cos(frequencies[j]), sin(frequencies[j])],
-                         [-sin(frequencies[j]), cos(frequencies[j])]]
-}
+matrix where block \code{j} is:
 
-The observation model picks out the cyclic \code{effect} values from the latent state:\preformatted{observation_matrix = [[1., 0., 1., 0., ..., 1., 0.]]
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix[j] =  [[cos(frequencies[j]), sin(frequencies[j])],
+                         [-sin(frequencies[j]), cos(frequencies[j])]]
+}\if{html}{\out{</div>}}
+
+The observation model picks out the cyclic \code{effect} values from the latent state:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix = [[1., 0., 1., 0., ..., 1., 0.]]
 observation_noise ~ Normal(loc=0, scale=observation_noise_scale)
-}
+}\if{html}{\out{</div>}}
 
 For further mathematical details please see Harvey (1990).
 }

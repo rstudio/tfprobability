@@ -54,8 +54,10 @@ being identical to \verb{argmax\{ Multinomial(probs, total_count=1) \}}.
 
 Mathematical Details
 
-The probability mass function (pmf) is,\preformatted{pmf(k; pi) = prod_j pi_j**[k == j]
-}
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; pi) = prod_j pi_j**[k == j]
+}\if{html}{\out{</div>}}
 
 Pitfalls
 

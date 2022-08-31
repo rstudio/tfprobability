@@ -21,16 +21,22 @@ dual_f_of_u \code{float}-like \code{Tensor} of the result of calculating the dua
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-The Csiszar-dual is defined as:\preformatted{f^*(u) = u f(1 / u)
-}
+The Csiszar-dual is defined as:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f^*(u) = u f(1 / u)
+}\if{html}{\out{</div>}}
 
 where \code{f} is some other Csiszar-function.
-For example, the dual of \code{kl_reverse} is \code{kl_forward}, i.e.,\preformatted{f(u) = -log(u)
-f^*(u) = u f(1 / u) = -u log(1 / u) = u log(u)
-}
+For example, the dual of \code{kl_reverse} is \code{kl_forward}, i.e.,
 
-The dual of the dual is the original function:\preformatted{f^**(u) = \{u f(1/u)\}^*(u) = u (1/u) f(1/(1/u)) = f(u)
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = -log(u)
+f^*(u) = u f(1 / u) = -u log(1 / u) = u log(u)
+}\if{html}{\out{</div>}}
+
+The dual of the dual is the original function:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f^**(u) = \{u f(1/u)\}^*(u) = u (1/u) f(1/(1/u)) = f(u)
+}\if{html}{\out{</div>}}
 
 Warning: this function makes non-log-space calculations and may therefore be
 numerically unstable for \verb{|logu| >> 0}.

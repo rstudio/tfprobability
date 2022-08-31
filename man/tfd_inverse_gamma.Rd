@@ -39,9 +39,11 @@ parameters \code{concentration} (aka "alpha") and \code{scale} (aka "beta").
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; alpha, beta, x > 0) = x**(-alpha - 1) exp(-beta / x) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha, beta, x > 0) = x**(-alpha - 1) exp(-beta / x) / Z
 Z = Gamma(alpha) beta**-alpha
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -51,19 +53,25 @@ where:
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 }
 
-The cumulative density function (cdf) is,\preformatted{cdf(x; alpha, beta, x > 0) = GammaInc(alpha, beta / x) / Gamma(alpha)#' ```
+The cumulative density function (cdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cdf(x; alpha, beta, x > 0) = GammaInc(alpha, beta / x) / Gamma(alpha)#' ```
 
 where `GammaInc` is the [upper incomplete Gamma function](https://en.wikipedia.org/wiki/Incomplete_gamma_function).
 The parameters can be intuited via their relationship to mean and variance
 when these moments exist,
-}
+}\if{html}{\out{</div>}}
 
 mean = beta / (alpha - 1) when alpha > 1
-variance = beta**2 / (alpha - 1)**2 / (alpha - 2)   when alpha > 2\preformatted{i.e., under the same conditions:
-}
+variance = beta**2 / (alpha - 1)**2 / (alpha - 2)   when alpha > 2
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{i.e., under the same conditions:
+}\if{html}{\out{</div>}}
 
 alpha = mean\strong{2 / variance + 2
-beta = mean * (mean}2 / variance + 1)\preformatted{
+beta = mean * (mean}2 / variance + 1)
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{
 Distribution parameters are automatically broadcast in all functions; see
 examples for details.
 Samples of this distribution are reparameterized (pathwise differentiable).
@@ -73,7 +81,7 @@ The derivatives are computed using the approach described in the paper
 [gamma function]: R:gamma\%20function
 [upper incomplete Gamma function]: R:upper\%20incomplete\%20Gamma\%20function
 [Michael Figurnov, Shakir Mohamed, Andriy Mnih. Implicit Reparameterization Gradients, 2018]: R:Michael\%20Figurnov,\%20Shakir\%20Mohamed,\%20Andriy\%20Mnih.\%20Implicit\%20Reparameterization\%20Gradients,\%202018
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

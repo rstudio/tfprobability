@@ -69,9 +69,9 @@ timesteps. The effect of each season drifts from one occurrence to the next
 following a Gaussian random walk:
 }
 \details{
-\preformatted{effects[season, occurrence[i]] = (
+\if{html}{\out{<div class="sourceCode">}}\preformatted{effects[season, occurrence[i]] = (
   effects[season, occurrence[i-1]] + Normal(loc=0., scale=drift_scale))
-}
+}\if{html}{\out{</div>}}
 
 The \code{drift_scale} parameter governs the standard deviation of the random walk;
 for example, in a day-of-week model it governs the change in effect from this

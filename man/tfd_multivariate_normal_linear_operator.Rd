@@ -40,10 +40,12 @@ matrix-multiplication.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
 y = inv(scale) @ (x - loc)
 Z = (2 pi)**(0.5 k) |det(scale)|
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -55,9 +57,11 @@ where:
 
 The MultivariateNormal distribution is a member of the
 \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
 Y = scale @ X + loc
-}
+}\if{html}{\out{</div>}}
 
 The \code{batch_shape} is the broadcast shape between \code{loc} and \code{scale}
 arguments.

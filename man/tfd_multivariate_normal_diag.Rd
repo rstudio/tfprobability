@@ -47,10 +47,12 @@ matrix-multiplication.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale) = exp(-0.5 ||y||**2) / Z
 y = inv(scale) @ (x - loc)
 Z = (2 pi)**(0.5 k) |det(scale)|
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -60,8 +62,10 @@ where:
 \item \verb{||y||**2} denotes the squared Euclidean norm of \code{y}.
 }
 
-A (non-batch) \code{scale} matrix is:\preformatted{scale = diag(scale_diag + scale_identity_multiplier * ones(k))
-}
+A (non-batch) \code{scale} matrix is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{scale = diag(scale_diag + scale_identity_multiplier * ones(k))
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -75,9 +79,11 @@ If both \code{scale_diag} and \code{scale_identity_multiplier} are \code{NULL}, 
 \code{scale} is the Identity matrix.
 The MultivariateNormal distribution is a member of the
 \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ MultivariateNormal(loc=0, scale=1)   # Identity scale, zero shift.
 Y = scale @ X + loc
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

@@ -78,12 +78,14 @@ latent \code{level} and \code{slope}, with the level component updated according
 the current slope plus a random walk:
 }
 \details{
-\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
+}\if{html}{\out{</div>}}
 
 The slope component in a \code{sts_semi_local_linear_trend} model evolves according to
-a first-order autoregressive (AR1) process with potentially nonzero mean:\preformatted{slope[t] = (slope_mean + autoregressive_coef * (slope[t-1] - slope_mean) + Normal(0., slope_scale))
-}
+a first-order autoregressive (AR1) process with potentially nonzero mean:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{slope[t] = (slope_mean + autoregressive_coef * (slope[t-1] - slope_mean) + Normal(0., slope_scale))
+}\if{html}{\out{</div>}}
 
 Unlike the random walk used in \code{LocalLinearTrend}, a stationary
 AR1 process (coefficient in \verb{(-1, 1)}) maintains bounded variance over time,

@@ -43,8 +43,10 @@ shape similar to the Beta distribution, but is easier to reparameterize.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; alpha, beta) = alpha * beta * x**(alpha - 1) * (1 - x**alpha)**(beta - 1)
-}
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha, beta) = alpha * beta * x**(alpha - 1) * (1 - x**alpha)**(beta - 1)
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

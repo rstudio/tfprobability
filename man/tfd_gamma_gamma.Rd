@@ -48,9 +48,11 @@ can be useful for transaction value modeling, as in Fader and Hardi, 2013.
 Mathematical Details
 
 It is derived from the following Gamma-Gamma hierarchical model by integrating
-out the random variable \code{beta}.\preformatted{beta ~ Gamma(alpha0, beta0)
+out the random variable \code{beta}.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{beta ~ Gamma(alpha0, beta0)
 X | beta ~ Gamma(alpha, beta)
-}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{
@@ -59,9 +61,11 @@ where
 \item \code{mixing_rate = beta0}
 }
 
-The probability density function (pdf) is\preformatted{x**(alpha - 1)
+The probability density function (pdf) is
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{x**(alpha - 1)
 pdf(x; alpha, alpha0, beta0) =  Z * (x + beta0)**(alpha + alpha0)
-}
+}\if{html}{\out{</div>}}
 
 where the normalizing constant \code{Z = Beta(alpha, alpha0) * beta0**(-alpha0)}.
 Samples of this distribution are reparameterized as samples of the Gamma

@@ -44,9 +44,11 @@ a distribution instance.
 }
 \description{
 The \code{PoissonLogNormalQuadratureCompound} is an approximation to a
-Poisson-LogNormal \href{https://en.wikipedia.org/wiki/Compound_probability_distribution}{compound distribution}, i.e.,\preformatted{p(k|loc, scale) = int_\{R_+\} dl LogNormal(l | loc, scale) Poisson(k | l)
+Poisson-LogNormal \href{https://en.wikipedia.org/wiki/Compound_probability_distribution}{compound distribution}, i.e.,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{p(k|loc, scale) = int_\{R_+\} dl LogNormal(l | loc, scale) Poisson(k | l)
 approx= sum\{ prob[d] Poisson(k | lambda(grid[d])) : d=0, ..., deg-1 \}
-}
+}\if{html}{\out{</div>}}
 }
 \details{
 By default, the \code{grid} is chosen as quantiles of the \code{LogNormal} distribution
@@ -73,8 +75,10 @@ parameter-less convex combination of \code{deg} different Poisson samples.
 That is, defined over positive integers, this distribution is parameterized
 by a (batch of) \code{loc} and \code{scale} scalars.
 
-The probability density function (pdf) is,\preformatted{pdf(k | loc, scale, deg) = sum\{ prob[d] Poisson(k | lambda=exp(grid[d])) : d=0, ..., deg-1 \}
-}
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(k | loc, scale, deg) = sum\{ prob[d] Poisson(k | lambda=exp(grid[d])) : d=0, ..., deg-1 \}
+}\if{html}{\out{</div>}}
 
 Note: \code{probs} returned by (optional) \code{quadrature_fn} are presumed to be
 either a length-\code{quadrature_size} vector or a batch of vectors in 1-to-1

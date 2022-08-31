@@ -21,13 +21,12 @@ a specific installation method. Note that the "virtualenv" method is not
 available on Windows.}
 
 \item{conda}{The path to a \code{conda} executable. Use \code{"auto"} to allow
-\code{reticulate} to automatically find an appropriate \code{conda} binary. See
-\code{\link[reticulate:conda-tools]{conda_binary()}} for more details on how \code{reticulate} tries to resolve
-the \code{conda} executable.}
+\code{reticulate} to automatically find an appropriate \code{conda} binary.
+See \strong{Finding Conda} and \code{\link[reticulate:conda_binary]{conda_binary()}} for more details.}
 
 \item{version}{TensorFlow version to install. Valid values include:
 \itemize{
-\item \code{"default"} installs  2.7
+\item \code{"default"} installs  2.9
 \item \code{"release"} installs the latest release version of tensorflow (which may
 be incompatible with the current version of the R package)
 \item A version specification like \code{"2.4"} or \code{"2.4.0"}. Note that if the patch

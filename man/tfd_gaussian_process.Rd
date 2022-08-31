@@ -81,11 +81,13 @@ values at a given finite collection of points \verb{[x[1], ..., x[N]]} from the
 index set \code{S}. By definition, this marginal distribution is just a
 multivariate normal distribution, whose mean is given by the vector
 \verb{[ m(x[1]), ..., m(x[N]) ]} and whose covariance matrix is constructed from
-pairwise applications of the kernel function to the given inputs:\preformatted{| k(x[1], x[1])    k(x[1], x[2])  ...  k(x[1], x[N]) |
+pairwise applications of the kernel function to the given inputs:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{| k(x[1], x[1])    k(x[1], x[2])  ...  k(x[1], x[N]) |
 | k(x[2], x[1])    k(x[2], x[2])  ...  k(x[2], x[N]) |
 |      ...              ...                 ...      |
 | k(x[N], x[1])    k(x[N], x[2])  ...  k(x[N], x[N]) |
-}
+}\if{html}{\out{</div>}}
 
 For this to be a valid covariance matrix, it must be symmetric and positive
 definite; hence the requirement that \code{k} be a positive definite function
@@ -93,9 +95,11 @@ definite; hence the requirement that \code{k} be a positive definite function
 
 We also support the inclusion of zero-mean Gaussian noise in the model, via
 the \code{observation_noise_variance} parameter. This augments the generative model
-to\preformatted{f ~ GP(m, k)
+to
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f ~ GP(m, k)
 (y[i] | f, x[i]) ~ Normal(f(x[i]), s)
-}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{
@@ -115,12 +119,14 @@ prior with a non-conjugate likelihood using MCMC to sample from the posterior.
 Mathematical Details
 
 The probability density function (pdf) is a multivariate normal whose
-parameters are derived from the GP's properties:\preformatted{pdf(x; index_points, mean_fn, kernel) = exp(-0.5 * y) / Z
+parameters are derived from the GP's properties:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; index_points, mean_fn, kernel) = exp(-0.5 * y) / Z
 K = (kernel.matrix(index_points, index_points) +
     (observation_noise_variance + jitter) * eye(N))
 y = (x - mean_fn(index_points))^T @ K @ (x - mean_fn(index_points))
 Z = (2 * pi)**(.5 * N) |det(K)|**(.5)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

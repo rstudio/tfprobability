@@ -52,10 +52,12 @@ matrix-multiplication.
 }
 \details{
 Mathematical Details
-The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = exp(-||y||_1) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale) = exp(-||y||_1) / Z
 y = inv(scale) @ (x - loc)
 Z = 2**k |det(scale)|
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -65,8 +67,10 @@ where:
 \item \verb{||y||_1} denotes the \code{l1} norm of \code{y}, `sum_i |y_i|.
 }
 
-A (non-batch) \code{scale} matrix is:\preformatted{scale = diag(scale_diag + scale_identity_multiplier * ones(k))
-}
+A (non-batch) \code{scale} matrix is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{scale = diag(scale_diag + scale_identity_multiplier * ones(k))
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

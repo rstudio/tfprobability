@@ -19,8 +19,8 @@ evaluated at \code{u = exp(logu)}.
 The Triangular Csiszar-function is:
 }
 \details{
-\preformatted{f(u) = (u - 1)**2 / (1 + u)
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = (u - 1)**2 / (1 + u)
+}\if{html}{\out{</div>}}
 
 Warning: this function makes non-log-space calculations and may
 therefore be numerically unstable for \verb{|logu| >> 0}.

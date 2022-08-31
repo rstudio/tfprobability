@@ -34,20 +34,26 @@ The Exponential distribution is parameterized by an event \code{rate} parameter.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; lambda, x > 0) = exp(-lambda x) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; lambda, x > 0) = exp(-lambda x) / Z
 Z = 1 / lambda
-}
+}\if{html}{\out{</div>}}
 
 where \code{rate = lambda} and \code{Z} is the normalizing constant.
 
 The Exponential distribution is a special case of the Gamma distribution,
-i.e.,\preformatted{Exponential(rate) = Gamma(concentration=1., rate)
-}
+i.e.,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Exponential(rate) = Gamma(concentration=1., rate)
+}\if{html}{\out{</div>}}
 
 The Exponential distribution uses a \code{rate} parameter, or "inverse scale",
-which can be intuited as,\preformatted{X ~ Exponential(rate=1)
+which can be intuited as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ Exponential(rate=1)
 Y = X / rate
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

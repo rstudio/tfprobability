@@ -39,11 +39,13 @@ a distribution instance.
 Mathematical Details
 }
 \details{
-The probability density function (pdf) is,\preformatted{pdf(x; df, loc, Sigma) = (1 + ||y||**2 / df)**(-0.5 (df + k)) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; df, loc, Sigma) = (1 + ||y||**2 / df)**(-0.5 (df + k)) / Z
 where,
 y = inv(Sigma) (x - loc)
 Z = abs(det(Sigma)) sqrt(df pi)**k Gamma(0.5 df) / Gamma(0.5 (df + k))
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -57,9 +59,11 @@ as \code{scale @ scale.T} in this class,
 
 The Multivariate Student's t-distribution distribution is a member of the
 \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X ~ MultivariateT(loc=0, scale=1)   # Identity scale, zero shift.
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ MultivariateT(loc=0, scale=1)   # Identity scale, zero shift.
 Y = scale @ X + loc
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

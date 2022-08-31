@@ -42,11 +42,13 @@ The uniform distribution on the unit hypersphere \code{S^{n-1}} embedded in
 \details{
 Mathematical details
 
-The probability density function (pdf) is,\preformatted{pdf(x; n) = 1. / A(n)
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; n) = 1. / A(n)
 where,
    A(n) = 2 * pi^\{n / 2\} / Gamma(n / 2),
    Gamma being the Gamma function.
-}
+}\if{html}{\out{</div>}}
 
 where \code{n = dimension}; corresponds to \code{S^{n-1}} embedded in \code{R^n}.
 }

@@ -40,9 +40,11 @@ a \href{https://en.wikipedia.org/wiki/Cauchy_distribution}{Cauchy distribution}.
 Mathematical Details
 
 The probability density function (pdf) for the half-Cauchy distribution
-is given by\preformatted{pdf(x; loc, scale) = 2 / (pi scale (1 + z**2))
+is given by
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale) = 2 / (pi scale (1 + z**2))
 z = (x - loc) / scale
-}
+}\if{html}{\out{</div>}}
 
 where \code{loc} is a scalar in \code{R} and \code{scale} is a positive scalar in \code{R}.
 The support of the distribution is given by the interval \verb{[loc, infinity)}.

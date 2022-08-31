@@ -47,13 +47,15 @@ This distribution has parameters: shape parameters \code{skewness} and
 \details{
 Mathematical details
 
-The probability density function (pdf) is,\preformatted{pdf(x; s, t, xi, sigma) = exp(-0.5 (s + t arcsinh(y))**2) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; s, t, xi, sigma) = exp(-0.5 (s + t arcsinh(y))**2) / Z
   where,
     s = skewness
     t = tailweight
     y = (x - xi) / sigma
     Z = sigma sqrt(2 pi) sqrt(1 + y**2) / t
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -63,9 +65,11 @@ where:
 The JohnsonSU distribution is a member of the
 \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
 constructed as,
-}\preformatted{X ~ JohnsonSU(skewness, tailweight, loc=0, scale=1)
-Y = loc + scale * X
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ JohnsonSU(skewness, tailweight, loc=0, scale=1)
+Y = loc + scale * X
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

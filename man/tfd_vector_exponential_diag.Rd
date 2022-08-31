@@ -54,10 +54,12 @@ matrix-multiplication.
 Mathematical Details
 The probability density function (pdf) is defined over the image of the
 \code{scale} matrix + \code{loc}, applied to the positive half-space:
-\verb{Supp = \{loc + scale @ x : x in R^k, x_1 > 0, ..., x_k > 0\}}.  On this set,\preformatted{pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in Supp
+\verb{Supp = \{loc + scale @ x : x in R^k, x_1 > 0, ..., x_k > 0\}}.  On this set,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in Supp
 x = inv(scale) @ (y - loc),
 Z = |det(scale)|,
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -67,9 +69,11 @@ where:
 \item \verb{||x||_1} denotes the \code{l1} norm of \code{x}, \verb{sum_i |x_i|}.
 The VectorExponential distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
 constructed as,
-}\preformatted{X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
-Y = (Y_1, ...,Y_k) = scale @ X + loc
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
+Y = (Y_1, ...,Y_k) = scale @ X + loc
+}\if{html}{\out{</div>}}
 
 About \code{VectorExponential} and \code{Vector} distributions in TensorFlow.
 

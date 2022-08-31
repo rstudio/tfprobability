@@ -57,8 +57,10 @@ an instance of \code{StructuralTimeSeries}.
 }
 \description{
 An autoregressive (AR) model posits a latent \code{level} whose value at each step
-is a noisy linear combination of previous steps:\preformatted{level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
-}
+is a noisy linear combination of previous steps:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
+}\if{html}{\out{</div>}}
 }
 \details{
 The latent state is \code{levels[t:t-order:-1]}. We observe a noisy realization of

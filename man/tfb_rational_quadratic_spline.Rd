@@ -60,13 +60,15 @@ broadcast against \code{x} and use a \code{bin_widths} parameter shaped \verb{[3
 
 Parameters will be broadcast against each other and against the input
 \code{x}/\code{y}s, so if we want fixed slopes, we can use kwarg \code{knot_slopes=1}.
-A typical recipe for acquiring compatible bin widths and heights would be:\preformatted{nbins <- unconstrained_vector$shape[-1]
+A typical recipe for acquiring compatible bin widths and heights would be:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{nbins <- unconstrained_vector$shape[-1]
 range_min <- 1
 range_max <- 1
 min_bin_size = 1e-2
 scale <- range_max - range_min - nbins * min_bin_size
 bin_widths = tf$math$softmax(unconstrained_vector) * scale + min_bin_size
-}
+}\if{html}{\out{</div>}}
 }
 \section{References}{
 

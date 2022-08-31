@@ -26,9 +26,11 @@ FALSE, and the inputs are invalid, correct behavior is not guaranteed.}
 a bijector instance.
 }
 \description{
-Examples:\preformatted{Y <- 2 * X
+Examples:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Y <- 2 * X
 b <- tfb_scale(scale = 2)
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.

@@ -49,19 +49,23 @@ a distribution instance.
 }
 \description{
 The Skellam distribution is parameterized by two rate parameters,
-\code{rate1} and \code{rate2}. Its samples are defined as:\preformatted{x ~ Poisson(rate1)
+\code{rate1} and \code{rate2}. Its samples are defined as:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{x ~ Poisson(rate1)
 y ~ Poisson(rate2)
 z = x - y
 z ~ Skellam(rate1, rate2)
-}
+}\if{html}{\out{</div>}}
 
 where the samples \code{x} and \code{y} are assumed to be independent.
 }
 \details{
 Mathematical Details
-The probability mass function (pmf) is,\preformatted{pmf(k; l1, l2) = (l1 / l2) ** (k / 2) * I_k(2 * sqrt(l1 * l2)) / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; l1, l2) = (l1 / l2) ** (k / 2) * I_k(2 * sqrt(l1 * l2)) / Z
 Z = exp(l1 + l2).
-}
+}\if{html}{\out{</div>}}
 
 where \code{rate1 = l1}, \code{rate2 = l2},  \code{Z} is the normalizing constant
 and \code{I_k} is the modified bessel function of the first kind.

@@ -50,9 +50,11 @@ samples and location as (x, y) points on a circle, while VonMises represents
 them as scalar angles.
 
 Mathematical details
-The probability density function (pdf) of this distribution is,\preformatted{pdf(x; loc, concentration) = exp(concentration cos(x - loc)) / Z
+The probability density function (pdf) of this distribution is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, concentration) = exp(concentration cos(x - loc)) / Z
 Z = 2 * pi * I_0 (concentration)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

@@ -67,17 +67,19 @@ capture a recurring pattern whereby adjacent (in time) effects are
 similar. The model uses \code{frequencies} calculated via:
 }
 \details{
-\preformatted{frequencies[j] = 2. * pi * frequency_multipliers[j] / period
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{frequencies[j] = 2. * pi * frequency_multipliers[j] / period
+}\if{html}{\out{</div>}}
 
 and then posits two latent states for each \code{frequency}. The two latent states
-associated with frequency \code{j} drift over time via:\preformatted{effect[t] = (effect[t-1] * cos(frequencies[j]) +
+associated with frequency \code{j} drift over time via:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{effect[t] = (effect[t-1] * cos(frequencies[j]) +
              auxiliary[t-] * sin(frequencies[j]) +
              Normal(0., drift_scale))
 auxiliary[t] = (-effect[t-1] * sin(frequencies[j]) +
                 auxiliary[t-] * cos(frequencies[j]) +
                 Normal(0., drift_scale))
-}
+}\if{html}{\out{</div>}}
 
 where \code{effect} is the smooth seasonal effect and \code{auxiliary} only appears as a
 matter of construction. The interpretation of \code{auxiliary} is thus not

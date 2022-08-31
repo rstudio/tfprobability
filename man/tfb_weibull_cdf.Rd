@@ -32,11 +32,13 @@ a bijector instance.
 This bijector maps inputs from \verb{[0, inf]} to \verb{[0, 1]}. The inverse of the
 bijector applied to a uniform random variable \code{X ~ U(0, 1)} gives back a
 random variable with the
-\href{https://en.wikipedia.org/wiki/Weibull_distribution}{Weibull distribution}:\preformatted{Y ~ Weibull(scale, concentration)
+\href{https://en.wikipedia.org/wiki/Weibull_distribution}{Weibull distribution}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Y ~ Weibull(scale, concentration)
 pdf(y; scale, concentration, y >= 0) =
   (concentration / scale) * (y / scale)**(concentration - 1) *
     exp(-(y / scale)**concentration)
-}
+}\if{html}{\out{</div>}}
 }
 \details{
 Likwewise, the forward of this bijector is the Weibull distribution CDF.

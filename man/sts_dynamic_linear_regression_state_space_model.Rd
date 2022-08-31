@@ -81,14 +81,18 @@ Mathematical Details
 
 The dynamic linear regression model implements a
 \code{tfd_linear_gaussian_state_space_model} with \code{latent_size = num_features} and
-\code{observation_size = 1} following the transition model:\preformatted{transition_matrix = eye(num_features)
+\code{observation_size = 1} following the transition model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix = eye(num_features)
 transition_noise ~ Normal(0, diag([drift_scale]))
-}
+}\if{html}{\out{</div>}}
 
 which implements the evolution of \code{weights} described above. The observation
-model is:\preformatted{observation_matrix[t] = design_matrix[t]
+model is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix[t] = design_matrix[t]
 observation_noise ~ Normal(0, observation_noise_scale)
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 Other sts: 

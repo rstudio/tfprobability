@@ -36,8 +36,10 @@ Mathematical Details
 
 The \code{JointDistributionSequential} implements the chain rule of probability.
 
-That is, the probability function of a length-\code{d} vector \code{x} is,\preformatted{p(x) = prod\{ p(x[i] | x[:i]) : i = 0, ..., (d - 1) \}
-}
+That is, the probability function of a length-\code{d} vector \code{x} is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{p(x) = prod\{ p(x[i] | x[:i]) : i = 0, ..., (d - 1) \}
+}\if{html}{\out{</div>}}
 
 The \code{JointDistributionSequential} is parameterized by a \code{list} comprised of
 either:

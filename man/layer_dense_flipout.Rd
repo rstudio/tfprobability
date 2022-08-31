@@ -82,9 +82,11 @@ from distributions.
 }
 \details{
 By default, the layer implements a stochastic
-forward pass via sampling from the kernel and bias posteriors,\preformatted{kernel, bias ~ posterior
+forward pass via sampling from the kernel and bias posteriors,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{kernel, bias ~ posterior
 outputs = activation(matmul(inputs, kernel) + bias)
-}
+}\if{html}{\out{</div>}}
 
 It uses the Flipout estimator (Wen et al., 2018), which performs a Monte
 Carlo approximation of the distribution integrating over the \code{kernel} and

@@ -39,10 +39,12 @@ matrix-multiplication.
 }
 \details{
 Mathematical Details
-The probability density function (pdf) is\preformatted{pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in S(loc, scale),
+The probability density function (pdf) is
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(y; loc, scale) = exp(-||x||_1) / Z,  for y in S(loc, scale),
 x = inv(scale) @ (y - loc),
 Z = |det(scale)|,
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -55,9 +57,11 @@ the positive half-space,
 }
 
 The VectorExponential distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X = (X_1, ..., X_k), each X_i ~ Exponential(rate=1)
 Y = (Y_1, ...,Y_k) = scale @ X + loc
-}
+}\if{html}{\out{</div>}}
 
 About \code{VectorExponential} and \code{Vector} distributions in TensorFlow.
 

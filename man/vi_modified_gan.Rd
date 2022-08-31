@@ -24,8 +24,10 @@ A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
 When \code{self_normalized = True} the modified-GAN (Generative/Adversarial
-Network) Csiszar-function is:\preformatted{f(u) = log(1 + u) - log(u) + 0.5 (u - 1)
-}
+Network) Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = log(1 + u) - log(u) + 0.5 (u - 1)
+}\if{html}{\out{</div>}}
 
 When \code{self_normalized = False} the \code{0.5 (u - 1)} is omitted.
 

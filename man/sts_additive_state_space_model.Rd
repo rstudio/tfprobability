@@ -85,43 +85,55 @@ The generative process runs each component's dynamics in its own subspace of
 latent space, and then observes the sum of the observation models from the
 components.
 
-Formally, the transition model is linear Gaussian:\preformatted{p(z[t+1] | z[t]) ~ Normal(loc = transition_matrix.matmul(z[t]), cov = transition_cov)
-}
+Formally, the transition model is linear Gaussian:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{p(z[t+1] | z[t]) ~ Normal(loc = transition_matrix.matmul(z[t]), cov = transition_cov)
+}\if{html}{\out{</div>}}
 
 where each \code{z[t]} is a latent state vector concatenating the component
 state vectors, \verb{z[t] = [z1[t], z2[t], ..., zN[t]]}, so it has size
 \verb{latent_size = sum([c.latent_size for c in components])}.
 
 The transition matrix is the block-diagonal composition of transition
-matrices from the component processes:\preformatted{transition_matrix =
+matrices from the component processes:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix =
  [[ c0.transition_matrix,  0.,                   ..., 0.                   ],
   [ 0.,                    c1.transition_matrix, ..., 0.                   ],
   [ ...                    ...                   ...                       ],
   [ 0.,                    0.,                   ..., cN.transition_matrix ]]
-}
+}\if{html}{\out{</div>}}
 
 and the noise covariance is similarly the block-diagonal composition of
-component noise covariances:\preformatted{transition_cov =
+component noise covariances:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_cov =
  [[ c0.transition_cov, 0.,                ..., 0.                ],
   [ 0.,                c1.transition_cov, ..., 0.                ],
   [ ...                ...                     ...               ],
   [ 0.,                0.,                ..., cN.transition_cov ]]
-}
+}\if{html}{\out{</div>}}
 
-The observation model is also linear Gaussian,\preformatted{p(y[t] | z[t]) ~ Normal(loc = observation_matrix.matmul(z[t]), stddev = observation_noise_scale)
-}
+The observation model is also linear Gaussian,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{p(y[t] | z[t]) ~ Normal(loc = observation_matrix.matmul(z[t]), stddev = observation_noise_scale)
+}\if{html}{\out{</div>}}
 
 This implementation assumes scalar observations, so \code{observation_matrix} has shape \verb{[1, latent_size]}.
-The additive observation matrix simply concatenates the observation matrices from each component:\preformatted{observation_matrix = concat([c0.obs_matrix, c1.obs_matrix, ..., cN.obs_matrix], axis=-1)
-}
+The additive observation matrix simply concatenates the observation matrices from each component:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix = concat([c0.obs_matrix, c1.obs_matrix, ..., cN.obs_matrix], axis=-1)
+}\if{html}{\out{</div>}}
 
 The effect is that each component observation matrix acts on the dimensions
 of latent state corresponding to that component, and the overall expected
 observation is the sum of the expected observations from each component.
 
 If \code{observation_noise_scale} is not explicitly specified, it is also computed
-by summing the noise variances of the component processes:\preformatted{observation_noise_scale = sqrt(sum([c.observation_noise_scale**2 for c in components]))
-}
+by summing the noise variances of the component processes:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_noise_scale = sqrt(sum([c.observation_noise_scale**2 for c in components]))
+}\if{html}{\out{</div>}}
 }
 \seealso{
 Other sts: 

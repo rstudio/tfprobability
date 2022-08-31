@@ -48,15 +48,19 @@ The distribution is similar to a \href{https://en.wikipedia.org/wiki/Triangular_
 
 Mathematical Details
 
-In terms of a Beta distribution, PERT can be expressed as\preformatted{PERT ~ loc + scale * Beta(concentration1, concentration0)
-}
+In terms of a Beta distribution, PERT can be expressed as
 
-where\preformatted{loc = low
+\if{html}{\out{<div class="sourceCode">}}\preformatted{PERT ~ loc + scale * Beta(concentration1, concentration0)
+}\if{html}{\out{</div>}}
+
+where
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{loc = low
 scale = high - low
 concentration1 = 1 + temperature * (peak - low)/(high - low)
 concentration0 = 1 + temperature * (high - peak)/(high - low)
 temperature > 0
-}
+}\if{html}{\out{</div>}}
 
 The support is \verb{[low, high]}.  The \code{peak} must fit in that interval:
 \verb{low < peak < high}.  The \code{temperature} is a positive parameter that

@@ -33,17 +33,25 @@ one or more of the statistic's batch members are undefined.}
 a distribution instance.
 }
 \description{
-The probability density function (pdf) of this distribution is,\preformatted{pdf(x; lambda, k) = k / lambda * (x / lambda) ** (k - 1) * exp(-(x / lambda) ** k)
-}
+The probability density function (pdf) of this distribution is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; lambda, k) = k / lambda * (x / lambda) ** (k - 1) * exp(-(x / lambda) ** k)
+}\if{html}{\out{</div>}}
 
 where \code{concentration = k} and \code{scale = lambda}.
-The cumulative density function of this distribution is,\preformatted{cdf(x; lambda, k) = 1 - exp(-(x / lambda) ** k)
-}
+The cumulative density function of this distribution is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cdf(x; lambda, k) = 1 - exp(-(x / lambda) ** k)
+}\if{html}{\out{</div>}}
 
 The Weibull distribution includes the Exponential and Rayleigh distributions
-as special cases:\preformatted{Exponential(rate) = Weibull(concentration=1., 1. / rate)
-}\preformatted{Rayleigh(scale) = Weibull(concentration=2., sqrt(2.) * scale)
-}
+as special cases:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Exponential(rate) = Weibull(concentration=1., 1. / rate)
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Rayleigh(scale) = Weibull(concentration=2., sqrt(2.) * scale)
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

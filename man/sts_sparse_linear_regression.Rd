@@ -34,8 +34,8 @@ This model defines a time series given by a sparse linear combination of
 covariate time series provided in a design matrix:
 }
 \details{
-\preformatted{observed_time_series <- tf$matmul(design_matrix, weights)
-}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observed_time_series <- tf$matmul(design_matrix, weights)
+}\if{html}{\out{</div>}}
 
 This is identical to \code{sts_linear_regression}, except that
 \code{sts_sparse_linear_regression} uses a parameterization of a Horseshoe
@@ -54,9 +54,11 @@ observation noise from another component such as \code{sts_sum}.
 
 Mathematical Details
 
-The basic horseshoe prior Carvalho et al. (2009) is defined as a Cauchy-normal scale mixture:\preformatted{scales[i] ~ HalfCauchy(loc=0, scale=1)
+The basic horseshoe prior Carvalho et al. (2009) is defined as a Cauchy-normal scale mixture:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{scales[i] ~ HalfCauchy(loc=0, scale=1)
 weights[i] ~ Normal(loc=0., scale=scales[i] * global_scale)`
-}
+}\if{html}{\out{</div>}}
 
 The Cauchy scale parameters puts substantial mass near zero, encouraging
 weights to be sparse, but their heavy tails allow weights far from zero to be
@@ -88,7 +90,9 @@ regularization is appropriate. If you need this functionality, please
 email tfprobability@tensorflow.org.
 
 The full prior parameterization implemented in \code{SparseLinearRegression} is
-as follows:\preformatted{Sample global_scale from Cauchy(0, scale=weights_prior_scale).
+as follows:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Sample global_scale from Cauchy(0, scale=weights_prior_scale).
 global_scale_variance ~ InverseGamma(alpha=0.5, beta=0.5)
 global_scale_noncentered ~ HalfNormal(loc=0, scale=1)
 global_scale = (global_scale_noncentered *
@@ -99,7 +103,7 @@ local_scale_variances[i] ~ InverseGamma(alpha=0.5, beta=0.5)
 local_scales_noncentered[i] ~ HalfNormal(loc=0, scale=1)
 local_scales[i] = local_scales_noncentered[i] * sqrt(local_scale_variances[i])
 weights[i] ~ Normal(loc=0., scale=local_scales[i] * global_scale)
-}
+}\if{html}{\out{</div>}}
 }
 \section{References}{
 

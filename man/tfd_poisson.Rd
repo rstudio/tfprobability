@@ -46,9 +46,11 @@ The Poisson distribution is parameterized by an event \code{rate} parameter.
 \details{
 Mathematical Details
 
-The probability mass function (pmf) is,\preformatted{pmf(k; lambda, k >= 0) = (lambda^k / k!) / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; lambda, k >= 0) = (lambda^k / k!) / Z
 Z = exp(lambda).
-}
+}\if{html}{\out{</div>}}
 
 where \code{rate = lambda} and \code{Z} is the normalizing constant.
 }

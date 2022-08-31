@@ -39,15 +39,19 @@ distributions. See Mohamed et al. (2019) for more details.
 Mathematical details
 
 The double-sided Maxwell distribution generalizes the Maxwell distribution to
-the entire real line.\preformatted{pdf(x; mu, sigma) = 1/(sigma*sqrt(2*pi)) * ((x-mu)/sigma)^2 * exp(-0.5 ((x-mu)/sigma)^2)
-}
+the entire real line.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, sigma) = 1/(sigma*sqrt(2*pi)) * ((x-mu)/sigma)^2 * exp(-0.5 ((x-mu)/sigma)^2)
+}\if{html}{\out{</div>}}
 
 where \code{loc = mu} and \code{scale = sigma}.
 The DoublesidedMaxwell distribution is a member of the
 \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family},
-i.e., it can be constructed as,\preformatted{X ~ DoublesidedMaxwell(loc=0, scale=1)
+i.e., it can be constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ DoublesidedMaxwell(loc=0, scale=1)
 Y = loc + scale * X
-}
+}\if{html}{\out{</div>}}
 
 The double-sided Maxwell is a symmetric distribution that extends the
 one-sided maxwell from R+ to the entire real line. Their densities are

@@ -51,7 +51,9 @@ and their samples. By contrast, auto-vectorized models need only describe
 a \emph{single} sample from the joint distribution; any batch evaluation is
 automated using \code{tf$vectorized_map} as required. In many cases this
 allows for significant simplications. For example, the following
-manually-vectorized \code{tfd_joint_distribution_named()} model:\preformatted{model <- tfd_joint_distribution_sequential(
+manually-vectorized \code{tfd_joint_distribution_named()} model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{model <- tfd_joint_distribution_sequential(
     list(
       x = tfd_normal(loc = 0, scale = tf$ones(3L)),
       y = tfd_normal(loc = 0, scale = 1),
@@ -60,16 +62,18 @@ manually-vectorized \code{tfd_joint_distribution_named()} model:\preformatted{mo
       \}
     )
 )
-}
+}\if{html}{\out{</div>}}
 
-can be written in auto-vectorized form as\preformatted{model <- tfd_joint_distribution_sequential_auto_batched(
+can be written in auto-vectorized form as
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{model <- tfd_joint_distribution_sequential_auto_batched(
   list(
     x = tfd_normal(loc = 0, scale = tf$ones(3L)),
     y = tfd_normal(loc = 0, scale = 1),
     z = function(y, x) \{tfd_normal(loc = x[1:2] + y, scale = 1)\}
   )
 )
-}
+}\if{html}{\out{</div>}}
 
 in which we were able to avoid explicitly accounting for batch dimensions
 when indexing and slicing computed quantities in the third line.

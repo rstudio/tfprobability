@@ -58,14 +58,16 @@ As a member of the location-scale family,
 For positive concentrations, the distribution is equivalent to a hierarchical
 Exponential-Gamma model with \code{X|rate ~ Exponential(rate)} and
 \code{rate ~ Gamma(concentration=1 / concentration, scale=scale / concentration)}.
-In the following, \code{samps1} and \code{samps2} are identically distributed:\preformatted{genp <- tfd_generalized_pareto(loc = 0, scale = scale, concentration = conc)
+In the following, \code{samps1} and \code{samps2} are identically distributed:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{genp <- tfd_generalized_pareto(loc = 0, scale = scale, concentration = conc)
 samps1 <- genp \%>\% tfd_sample(1000)
 jd <- tfd_joint_distribution_named(
   list(
     rate =  tfd_gamma(1 / genp$concentration, genp$scale / genp$concentration),
     x = function(rate) tfd_exponential(rate)))
 samps2 <- jd \%>\% tfd_sample(1000) \%>\% .$x
-}
+}\if{html}{\out{</div>}}
 
 The support of the distribution is always lower bounded by \code{loc}. When
 \code{concentration < 0}, the support is also upper bounded by
@@ -73,8 +75,10 @@ The support of the distribution is always lower bounded by \code{loc}. When
 
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; mu, sigma, shp, x > mu) =   (1 + shp * (x - mu) / sigma)**(-1 / shp - 1) / sigma
-}
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, sigma, shp, x > mu) =   (1 + shp * (x - mu) / sigma)**(-1 / shp - 1) / sigma
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -83,8 +87,10 @@ where:
 \item \code{loc = mu}.
 }
 
-The cumulative density function (cdf) is,\preformatted{cdf(x; mu, sigma, shp, x > mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
-}
+The cumulative density function (cdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cdf(x; mu, sigma, shp, x > mu) = 1 - (1 + shp * (x - mu) / sigma)**(-1 / shp)
+}\if{html}{\out{</div>}}
 
 Distribution parameters are automatically broadcast in all functions; see
 examples for details.

@@ -25,10 +25,12 @@ evaluated at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-When \code{self_normalized = True} the T-Power Csiszar-function is:\preformatted{f(u) = s [ u**t - 1 - t(u - 1) ]
+When \code{self_normalized = True} the T-Power Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = s [ u**t - 1 - t(u - 1) ]
 s = \{ -1   0 < t < 1 \}
     \{ +1   otherwise \}
-}
+}\if{html}{\out{</div>}}
 
 When \code{self_normalized = False} the \code{- t(u - 1)} term is omitted.
 

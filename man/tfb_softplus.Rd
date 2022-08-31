@@ -38,7 +38,9 @@ The softplus Bijector has the following two useful properties:
 }
 \details{
 The optional nonzero hinge_softness parameter changes the transition at zero.
-With hinge_softness = c, the bijector is:\preformatted{f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
+With hinge_softness = c, the bijector is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f_c(x) := c * g(x / c) = c * Log[1 + exp(x / c)].
 ```
 
 For large x >> 1,
@@ -59,7 +61,7 @@ Note: log(.) and exp(.) are applied element-wise but the Jacobian is a reduction
 [1 + exp(x / c)]: R:1\%20+\%20exp(x\%20/\%20c)
 [1 + exp(x / c)]: R:1\%20+\%20exp(x\%20/\%20c)
 [exp(x / c)]: R:exp(x\%20/\%20c)
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.

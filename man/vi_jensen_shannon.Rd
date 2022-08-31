@@ -23,14 +23,18 @@ evaluated at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-When \code{self_normalized = True}, the Jensen-Shannon Csiszar-function is:\preformatted{f(u) = u log(u) - (1 + u) log(1 + u) + (u + 1) log(2)
-}
+When \code{self_normalized = True}, the Jensen-Shannon Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = u log(u) - (1 + u) log(1 + u) + (u + 1) log(2)
+}\if{html}{\out{</div>}}
 
 When \code{self_normalized = False} the \verb{(u + 1) log(2)} term is omitted.
 
-Observe that as an f-Divergence, this Csiszar-function implies:\preformatted{D_f[p, q] = KL[p, m] + KL[q, m]
+Observe that as an f-Divergence, this Csiszar-function implies:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{D_f[p, q] = KL[p, m] + KL[q, m]
 m(x) = 0.5 p(x) + 0.5 q(x)
-}
+}\if{html}{\out{</div>}}
 
 In a sense, this divergence is the "reverse" of the Arithmetic-Geometric
 f-Divergence.

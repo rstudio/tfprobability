@@ -78,10 +78,12 @@ Mathematical Details
 
 Given iid random vector \verb{Z = (Z1,...,Zk)}, we define the VectorSinhArcsinhDiag
 transformation of \code{Z}, \code{Y}, parameterized by
-\verb{(loc, scale, skewness, tailweight)}, via the relation (with \code{@} denoting matrix multiplication):\preformatted{Y := loc + scale @ F(Z) * (2 / F_0(2))
+\verb{(loc, scale, skewness, tailweight)}, via the relation (with \code{@} denoting matrix multiplication):
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Y := loc + scale @ F(Z) * (2 / F_0(2))
 F(Z) := Sinh( (Arcsinh(Z) + skewness) * tailweight )
 F_0(Z) := Sinh( Arcsinh(Z) * tailweight )
-}
+}\if{html}{\out{</div>}}
 
 This distribution is similar to the location-scale transformation
 \code{L(Z) := loc + scale @ Z} in the following ways:
@@ -110,10 +112,12 @@ To see the argument about the tails, note that for \verb{|Z| >> 1} and
 \verb{|Z| >> (|skewness| * tailweight)**tailweight}, we have
 \verb{Y approx 0.5 Z**tailweight e**(sign(Z) skewness * tailweight)}.
 To see the argument regarding multiplying \code{scale} by \code{2 / F_0(2)},
-}\preformatted{P[(Y - loc) / scale <= 2] = P[F(Z) * (2 / F_0(2)) <= 2]
+}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{P[(Y - loc) / scale <= 2] = P[F(Z) * (2 / F_0(2)) <= 2]
 = P[F(Z) <= F_0(2)]
 = P[Z <= 2]  (if F = F_0).
-}
+}\if{html}{\out{</div>}}
 }
 }
 \seealso{

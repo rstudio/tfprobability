@@ -44,9 +44,11 @@ random variable.
 
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; mu, lambda) = [lambda / (2 pi x ** 3)] ** 0.5
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, lambda) = [lambda / (2 pi x ** 3)] ** 0.5
 exp\{-lambda(x - mu) ** 2 / (2 mu ** 2 x)\}
-}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{

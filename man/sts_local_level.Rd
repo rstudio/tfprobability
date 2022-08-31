@@ -37,8 +37,10 @@ Default value: \code{NULL}.}
 an instance of \code{StructuralTimeSeries}.
 }
 \description{
-The local level model posits a \code{level} evolving via a Gaussian random walk:\preformatted{level[t] = level[t-1] + Normal(0., level_scale)
-}
+The local level model posits a \code{level} evolving via a Gaussian random walk:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t] = level[t-1] + Normal(0., level_scale)
+}\if{html}{\out{</div>}}
 }
 \details{
 The latent state is \verb{[level]}. We observe a noisy realization of the current

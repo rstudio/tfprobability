@@ -30,9 +30,11 @@ freedom ("df") parameter.
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; df, x > 0) = x**(0.5 df - 1) exp(-0.5 x) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; df, x > 0) = x**(0.5 df - 1) exp(-0.5 x) / Z
 Z = 2**(0.5 df) Gamma(0.5 df)
-}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{
@@ -40,8 +42,10 @@ where
 \item \code{Z} is the normalization constant, and,
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 The Chi2 distribution is a special case of the Gamma distribution, i.e.,
-}\preformatted{Chi2(df) = Gamma(concentration=0.5 * df, rate=0.5)
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Chi2(df) = Gamma(concentration=0.5 * df, rate=0.5)
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

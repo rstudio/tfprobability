@@ -35,15 +35,19 @@ a distribution instance.
 Mathematical details
 }
 \details{
-The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = 1 / (pi scale (1 + z**2))
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale) = 1 / (pi scale (1 + z**2))
 z = (x - loc) / scale
-}
+}\if{html}{\out{</div>}}
 
 where \code{loc} is the location, and \code{scale} is the scale.
 The Cauchy distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e.
-\code{Y ~ Cauchy(loc, scale)} is equivalent to,\preformatted{X ~ Cauchy(loc=0, scale=1)
+\code{Y ~ Cauchy(loc, scale)} is equivalent to,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ Cauchy(loc=0, scale=1)
 Y = loc + scale * X
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

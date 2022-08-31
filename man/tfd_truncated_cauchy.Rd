@@ -49,13 +49,15 @@ and \code{scale}, but not with respect to the bounds \code{low} and \code{high}.
 \details{
 Mathematical Details
 
-The probability density function (pdf) of this distribution is:\preformatted{pdf(x; loc, scale, low, high) =
+The probability density function (pdf) of this distribution is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale, low, high) =
     \{ 1 / (pi * scale * (1 + z**2) * A) for low <= x <= high
     \{ 0                                 otherwise
     where
         z = (x - loc) / scale
         A = CauchyCDF((high - loc) / scale) - CauchyCDF((low - loc) / scale)
-}
+}\if{html}{\out{</div>}}
 
 where \code{CauchyCDF} is the cumulative density function of the Cauchy distribution
 with 0 mean and unit variance.

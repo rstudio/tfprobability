@@ -19,14 +19,18 @@ evaluated at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-The Log1p-Abs Csiszar-function is:\preformatted{f(u) = u**(sign(u-1)) - 1
-}
+The Log1p-Abs Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = u**(sign(u-1)) - 1
+}\if{html}{\out{</div>}}
 
 This function is so-named because it was invented from the following recipe.
-Choose a convex function g such that g(0)=0 and solve for f:\preformatted{log(1 + f(u)) = g(log(u)).
+Choose a convex function g such that g(0)=0 and solve for f:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{log(1 + f(u)) = g(log(u)).
 <=>
 f(u) = exp(g(log(u))) - 1
-}
+}\if{html}{\out{</div>}}
 
 That is, the graph is identically \code{g} when y-axis is \code{log1p}-domain and x-axis
 is \code{log}-domain.

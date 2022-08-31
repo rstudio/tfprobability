@@ -46,11 +46,13 @@ with regard to samples.
 \details{
 Mathematical Details
 
-The probability mass function (pmf) and cumulative distribution function (cdf) are\preformatted{pmf(k; s1, ..., sn) = sum_i I(k)^\{k == si\} / n
+The probability mass function (pmf) and cumulative distribution function (cdf) are
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; s1, ..., sn) = sum_i I(k)^\{k == si\} / n
 I(k)^\{k == si\} == 1, if k == si, else 0.
 cdf(k; s1, ..., sn) = sum_i I(k)^\{k >= si\} / n
 I(k)^\{k >= si\} == 1, if k >= si, else 0.
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

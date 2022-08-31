@@ -21,30 +21,40 @@ symmetrization of \code{g} evaluated at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-The symmetrized Csiszar-function is defined as:\preformatted{f_g(u) = 0.5 g(u) + 0.5 u g (1 / u)
-}
+The symmetrized Csiszar-function is defined as:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f_g(u) = 0.5 g(u) + 0.5 u g (1 / u)
+}\if{html}{\out{</div>}}
 
 where \code{g} is some other Csiszar-function.
-We say the function is "symmetrized" because:\preformatted{D_\{f_g\}[p, q] = D_\{f_g\}[q, p]
-}
+We say the function is "symmetrized" because:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{D_\{f_g\}[p, q] = D_\{f_g\}[q, p]
+}\if{html}{\out{</div>}}
 
 for all \verb{p << >> q} (i.e., \code{support(p) = support(q)}).
 
-There exists alternatives for symmetrizing a Csiszar-function. For example,\preformatted{f_g(u) = max(f(u), f^*(u)),
-}
+There exists alternatives for symmetrizing a Csiszar-function. For example,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f_g(u) = max(f(u), f^*(u)),
+}\if{html}{\out{</div>}}
 
 where \verb{f^*} is the dual Csiszar-function, also implies a symmetric
 f-Divergence.
 
 Example:
 When either of the following functions are symmetrized, we obtain the
-Jensen-Shannon Csiszar-function, i.e.,\preformatted{g(u) = -log(u) - (1 + u) log((1 + u) / 2) + u - 1
-h(u) = log(4) + 2 u log(u / (1 + u))
-}
+Jensen-Shannon Csiszar-function, i.e.,
 
-implies,\preformatted{f_g(u) = f_h(u) = u log(u) - (1 + u) log((1 + u) / 2)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{g(u) = -log(u) - (1 + u) log((1 + u) / 2) + u - 1
+h(u) = log(4) + 2 u log(u / (1 + u))
+}\if{html}{\out{</div>}}
+
+implies,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f_g(u) = f_h(u) = u log(u) - (1 + u) log((1 + u) / 2)
 = jensen_shannon(log(u)).
-}
+}\if{html}{\out{</div>}}
 
 Warning: this function makes non-log-space calculations and may therefore be
 numerically unstable for \verb{|logu| >> 0}.

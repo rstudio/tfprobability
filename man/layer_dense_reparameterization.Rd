@@ -78,9 +78,11 @@ from distributions.
 }
 \details{
 By default, the layer implements a stochastic
-forward pass via sampling from the kernel and bias posteriors,\preformatted{kernel, bias ~ posterior
+forward pass via sampling from the kernel and bias posteriors,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{kernel, bias ~ posterior
 outputs = activation(matmul(inputs, kernel) + bias)
-}
+}\if{html}{\out{</div>}}
 
 It uses the reparameterization estimator (Kingma and Welling, 2014)
 which performs a Monte Carlo approximation of the distribution integrating

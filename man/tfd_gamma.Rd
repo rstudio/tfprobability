@@ -39,9 +39,11 @@ parameters \code{concentration} (aka "alpha") and \code{rate} (aka "beta").
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; alpha, beta, x > 0) = x**(alpha - 1) exp(-x beta) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha, beta, x > 0) = x**(alpha - 1) exp(-x beta) / Z
 Z = Gamma(alpha) beta**(-alpha)
-}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{
@@ -51,13 +53,17 @@ where
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 }
 
-The cumulative density function (cdf) is,\preformatted{cdf(x; alpha, beta, x > 0) = GammaInc(alpha, beta x) / Gamma(alpha)
-}
+The cumulative density function (cdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cdf(x; alpha, beta, x > 0) = GammaInc(alpha, beta x) / Gamma(alpha)
+}\if{html}{\out{</div>}}
 
 where \code{GammaInc} is the \href{https://en.wikipedia.org/wiki/Incomplete_gamma_function}{lower incomplete Gamma function}.
-The parameters can be intuited via their relationship to mean and stddev,\preformatted{concentration = alpha = (mean / stddev)**2
+The parameters can be intuited via their relationship to mean and stddev,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{concentration = alpha = (mean / stddev)**2
 rate = beta = mean / stddev**2 = concentration / mean
-}
+}\if{html}{\out{</div>}}
 
 Distribution parameters are automatically broadcast in all functions; see
 examples for details.

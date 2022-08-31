@@ -60,8 +60,10 @@ details.
 }
 \details{
 In an autoregressive process, the expected level at each timestep is a linear
-function of previous levels, with added Gaussian noise:\preformatted{level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
-}
+function of previous levels, with added Gaussian noise:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t+1] = (sum(coefficients * levels[t:t-order:-1]) + Normal(0., level_scale))
+}\if{html}{\out{</div>}}
 
 The process is characterized by a vector \code{coefficients} whose size determines
 the order of the process (how many previous values it looks at), and by
@@ -82,18 +84,24 @@ and \code{observation_size = 1}. The latent state vector encodes the recent hist
 of the process, with the current value in the topmost dimension. At each
 timestep, the transition sums the previous values to produce the new expected
 value, shifts all other values down by a dimension, and adds noise to the
-current value. This is formally encoded by the transition model:\preformatted{transition_matrix = [ coefs[0], coefs[1], ..., coefs[order]
+current value. This is formally encoded by the transition model:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_matrix = [ coefs[0], coefs[1], ..., coefs[order]
                       1.,       0 ,       ..., 0.
                       0.,       1.,       ..., 0.
                       ...
                       0.,       0.,  ...,  1., 0.         ]
-}\preformatted{transition_noise ~ N(loc=0., scale=diag([level_scale, 0., 0., ..., 0.]))
-}
+}\if{html}{\out{</div>}}
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{transition_noise ~ N(loc=0., scale=diag([level_scale, 0., 0., ..., 0.]))
+}\if{html}{\out{</div>}}
 
 The observation model simply extracts the current (topmost) value, and
-optionally adds independent noise at each step:\preformatted{observation_matrix = [[1., 0., ..., 0.]]
+optionally adds independent noise at each step:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{observation_matrix = [[1., 0., ..., 0.]]
 observation_noise ~ N(loc=0, scale=observation_noise_scale)
-}
+}\if{html}{\out{</div>}}
 
 Models with \code{observation_noise_scale = 0} are AR processes in the formal
 sense. Setting \code{observation_noise_scale} to a nonzero value corresponds to a

@@ -40,9 +40,11 @@ The Beta distribution is defined over the \verb{(0, 1)} interval using parameter
 \details{
 Mathematical Details
 
-The probability density function (pdf) is,\preformatted{pdf(x; alpha, beta) = x**(alpha - 1) (1 - x)**(beta - 1) / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; alpha, beta) = x**(alpha - 1) (1 - x)**(beta - 1) / Z
 Z = Gamma(alpha) Gamma(beta) / Gamma(alpha + beta)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -52,9 +54,11 @@ where:
 \item \code{Gamma} is the \href{https://en.wikipedia.org/wiki/Gamma_function}{gamma function}.
 The concentration parameters represent mean total counts of a \code{1} or a \code{0},
 i.e.,
-}\preformatted{concentration1 = alpha = mean * total_concentration
-concentration0 = beta  = (1. - mean) * total_concentration
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{concentration1 = alpha = mean * total_concentration
+concentration0 = beta  = (1. - mean) * total_concentration
+}\if{html}{\out{</div>}}
 
 where \code{mean} in \verb{(0, 1)} and \code{total_concentration} is a positive real number
 representing a mean \code{total_count = concentration1 + concentration0}.

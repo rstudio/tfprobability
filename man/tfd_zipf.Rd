@@ -49,9 +49,11 @@ The Zipf distribution is parameterized by a power parameter.
 }
 \details{
 Mathematical Details
-The probability mass function (pmf) is,\preformatted{pmf(k; alpha, k >= 0) = (k^(-alpha)) / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; alpha, k >= 0) = (k^(-alpha)) / Z
 Z = zeta(alpha).
-}
+}\if{html}{\out{</div>}}
 
 where \code{power = alpha} and Z is the normalization constant.
 \code{zeta} is the \href{https://en.wikipedia.org/wiki/Riemann_zeta_function}{Riemann zeta function}.

@@ -61,9 +61,11 @@ The Beta-Binomial is a distribution over the number of successes in
 \code{total_count} independent Binomial trials, with each trial having the same
 probability of success, the underlying probability being unknown but drawn
 from a Beta distribution with known parameters.
-The probability mass function (pmf) is,\preformatted{pmf(k; n, a, b) = Beta(k + a, n - k + b) / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; n, a, b) = Beta(k + a, n - k + b) / Z
 Z = (k! (n - k)! / n!) * Beta(a, b)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

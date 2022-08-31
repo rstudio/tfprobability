@@ -38,33 +38,39 @@ a distribution instance.
 Definition in Terms of Sampling
 }
 \details{
-\preformatted{1. Draw X
+\if{html}{\out{<div class="sourceCode">}}\preformatted{1. Draw X
 2. Set Y <-- ceiling(X)
 3. If Y < low, reset Y <-- low
 4. If Y > high, reset Y <-- high
 5. Return Y
-}
+}\if{html}{\out{</div>}}
 
 Definition in Terms of the Probability Mass Function
 
 Given scalar random variable \code{X}, we define a discrete random variable \code{Y}
-supported on the integers as follows:\preformatted{P[Y = j] := P[X <= low],  if j == low,
+supported on the integers as follows:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{P[Y = j] := P[X <= low],  if j == low,
          := P[X > high - 1],  j == high,
          := 0, if j < low or j > high,
          := P[j - 1 < X <= j],  all other j.
-}
+}\if{html}{\out{</div>}}
 
 Conceptually, without cutoffs, the quantization process partitions the real
 line \code{R} into half open intervals, and identifies an integer \code{j} with the
-right endpoints:\preformatted{R = ... (-2, -1](-1, 0](0, 1](1, 2](2, 3](3, 4] ...
+right endpoints:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{R = ... (-2, -1](-1, 0](0, 1](1, 2](2, 3](3, 4] ...
 j = ...      -1      0     1     2     3     4  ...
-}
+}\if{html}{\out{</div>}}
 
 \code{P[Y = j]} is the mass of \code{X} within the \code{jth} interval.
 If \code{low = 0}, and \code{high = 2}, then the intervals are redrawn
-and \code{j} is re-assigned:\preformatted{R = (-infty, 0](0, 1](1, infty)
+and \code{j} is re-assigned:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{R = (-infty, 0](0, 1](1, infty)
 j =          0     1     2
-}
+}\if{html}{\out{</div>}}
 
 \code{P[Y = j]} is still the mass of \code{X} within the \code{jth} interval.
 

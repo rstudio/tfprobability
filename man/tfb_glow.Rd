@@ -100,13 +100,15 @@ bijector takes a tensor with shape \verb{[H, W, C]} and returns a tensor with sh
 \verb{[2H, 2W, C / 4]}, such that each 2x2x1 spatial tile in the output is composed
 from a single 1x1x4 tile in the input tensor, as depicted in the figure below.
 
-Forward pass (Expand)\preformatted{\\     \\       \\    \\    \\
+Forward pass (Expand)
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{\\     \\       \\    \\    \\
 \\\\     \\ ----> \\  1 \\  2 \\
 \\\\\\__1__\\       \\____\\____\\
 \\\\\\__2__\\        \\    \\    \\
 \\\\__3__\\  <----  \\  3 \\  4 \\
 \\__4__\\          \\____\\____\\
-}
+}\if{html}{\out{</div>}}
 
 Inverse pass (Squeeze)
 This is implemented using a chain of \code{Reshape} -> \code{Transpose} -> \code{Reshape}
@@ -185,8 +187,10 @@ low Block  - |      XXX ! |   | !
 XX\ ! |   | ! <----- (Optional) Exit Bijector
 |    |   |
 v    v   v
-Output Distribution    ##########          shape = [H * W * C]\preformatted{    Legend
-}
+Output Distribution    ##########          shape = [H * W * C]
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{    Legend
+}\if{html}{\out{</div>}}
 }
 
 \section{| XX  = Step of flow      |
@@ -197,12 +201,12 @@ Output Distribution    ##########          shape = [H * W * C]\preformatted{    
 | up  = Forward pass      |
 | dn  = Inverse pass      |
 |_________________________|}{
-\preformatted{
+\if{html}{\out{<div class="sourceCode">}}\preformatted{
 [H, W, C]: R:H,\%20W,\%20C
 [2H, 2W, C / 4]: R:2H,\%202W,\%20C\%20/\%204
 [H, W, C]: R:H,\%20W,\%20C
 [H * W * C]: R:H\%20*\%20W\%20*\%20C
-}
+}\if{html}{\out{</div>}}
 }
 
 \section{References}{

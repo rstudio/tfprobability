@@ -86,10 +86,12 @@ total variation distance, Amari alpha-divergences, and more.
 Csiszar f-divergences
 
 A Csiszar function \code{f} is a convex function from \verb{R^+} (the positive reals)
-to \code{R}. The Csiszar f-Divergence is given by:\preformatted{D_f[p(X), q(X)] := E_\{q(X)\}[ f( p(X) / q(X) ) ]
+to \code{R}. The Csiszar f-Divergence is given by:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{D_f[p(X), q(X)] := E_\{q(X)\}[ f( p(X) / q(X) ) ]
 ~= m**-1 sum_j^m f( p(x_j) / q(x_j) ),
 where x_j ~iid q(X)
-}
+}\if{html}{\out{</div>}}
 
 For example, \verb{f = lambda u: -log(u)} recovers \code{KL[q||p]}, while \verb{f = lambda u: u * log(u)}
 recovers the forward \code{KL[p||q]}. These and other functions are available in \code{tfp$vi}.
@@ -105,24 +107,28 @@ and \verb{s_i = f(x_i), x_i ~iid q(X)}.
 However, if q is not reparameterized, TensorFlow's gradient will be incorrect
 since the chain-rule stops at samples of unreparameterized distributions. In
 this circumstance using the Score-Gradient trick results in an unbiased
-gradient, i.e.,\preformatted{grad[ E_q[f(X)] ]
+gradient, i.e.,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{grad[ E_q[f(X)] ]
   = grad[ int dx q(x) f(x) ]
   = int dx grad[ q(x) f(x) ]
   = int dx [ q'(x) f(x) + q(x) f'(x) ]
   = int dx q(x) [q'(x) / q(x) f(x) + f'(x) ]
   = int dx q(x) grad[ f(x) q(x) / stop_grad[q(x)] ]
   = E_q[ grad[ f(x) q(x) / stop_grad[q(x)] ] ]
-}
+}\if{html}{\out{</div>}}
 
 Unless \code{q.reparameterization_type != tfd.FULLY_REPARAMETERIZED} it is
 usually preferable to set \code{use_reparametrization = True}.
 
 Example Application:
 The Csiszar f-Divergence is a useful framework for variational inference.
-I.e., observe that,\preformatted{f(p(x)) =  f( E_\{q(Z | x)\}[ p(x, Z) / q(Z | x) ] )
+I.e., observe that,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(p(x)) =  f( E_\{q(Z | x)\}[ p(x, Z) / q(Z | x) ] )
         <= E_\{q(Z | x)\}[ f( p(x, Z) / q(Z | x) ) ]
         := D_f[p(x, Z), q(Z | x)]
-}
+}\if{html}{\out{</div>}}
 
 The inequality follows from the fact that the "perspective" of \code{f}, i.e.,
 \verb{(s, t) |-> t f(s / t))}, is convex in \verb{(s, t)} when \verb{s/t in domain(f)} and

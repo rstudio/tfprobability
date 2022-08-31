@@ -32,9 +32,11 @@ a bijector instance.
 This bijector maps inputs from \verb{[-inf, inf]} to \verb{[0, inf]}. The inverse of the
 bijector applied to a uniform random variable \code{X ~ U(0, 1)} gives back a
 random variable with the
-\href{https://en.wikipedia.org/wiki/Gompertz_distribution}{Gompertz distribution}:\preformatted{Y ~ GompertzCDF(concentration, rate)
+\href{https://en.wikipedia.org/wiki/Gompertz_distribution}{Gompertz distribution}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Y ~ GompertzCDF(concentration, rate)
 pdf(y; c, r) = r * c * exp(r * y + c - c * exp(-c * exp(r * y)))
-}
+}\if{html}{\out{</div>}}
 
 Note: Because the Gompertz distribution concentrates its mass close to zero,
 for larger rates or larger concentrations, \code{bijector.forward} will quickly

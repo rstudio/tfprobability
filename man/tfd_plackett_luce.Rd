@@ -51,14 +51,18 @@ The Plackett-Luce is a distribution over permutation vectors \code{p} of length 
 where the permutation \code{p} is an arbitrary ordering of \code{k} indices
 \verb{\{0, 1, ..., k-1\}}.
 
-The probability mass function (pmf) is,\preformatted{pmf(p; s) = prod_i s_\{p_i\} / (Z - Z_i)
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(p; s) = prod_i s_\{p_i\} / (Z - Z_i)
 Z = sum_\{j=0\}^\{k-1\} s_j
 Z_i = sum_\{j=0\}^\{i-1\} s_\{p_j\} for i>0 and 0 for i=0
-}
+}\if{html}{\out{</div>}}
 
 where \verb{scores = s = [s_0, ..., s_\{k-1\}]}, \code{s_i >= 0}.
 
-Samples from Plackett-Luce distribution are generated sequentially as follows.\preformatted{Initialize normalization `N_0 = Z`
+Samples from Plackett-Luce distribution are generated sequentially as follows.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Initialize normalization `N_0 = Z`
 For `i` in `\{0, 1, ..., k-1\}`
   1. Sample i-th element of permutation
      `p_i ~ Categorical(probs=[s_0/N_i, ..., s_\{k-1\}/N_i])`
@@ -67,12 +71,14 @@ For `i` in `\{0, 1, ..., k-1\}`
   3. Mask out sampled index for subsequent rounds
      `s_\{p_i\} = 0`
 Return p
-}
+}\if{html}{\out{</div>}}
 
 Alternately, an equivalent way to sample from this distribution is to sort
-Gumbel perturbed log-scores (Aditya et al. 2019)\preformatted{p = argsort(log s + g) ~ PlackettLuce(s)
+Gumbel perturbed log-scores (Aditya et al. 2019)
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{p = argsort(log s + g) ~ PlackettLuce(s)
 g = [g_0, ..., g_\{k-1\}], g_i~ Gumbel(0, 1)
-}
+}\if{html}{\out{</div>}}
 }
 \section{References}{
 

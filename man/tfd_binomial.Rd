@@ -55,9 +55,11 @@ The Binomial is a distribution over the number of \code{1}'s in \code{total_coun
 independent trials, with each trial having the same probability of \code{1}, i.e.,
 \code{probs}.
 
-The probability mass function (pmf) is,\preformatted{pmf(k; n, p) = p**k (1 - p)**(n - k) / Z
+The probability mass function (pmf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; n, p) = p**k (1 - p)**(n - k) / Z
 Z = k! (n - k)! / n!
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

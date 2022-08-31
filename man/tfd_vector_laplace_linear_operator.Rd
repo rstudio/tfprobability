@@ -41,10 +41,12 @@ matrix-multiplication.
 }
 \details{
 Mathematical Details
-The probability density function (pdf) is,\preformatted{pdf(x; loc, scale) = exp(-||y||_1) / Z,
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale) = exp(-||y||_1) / Z,
 y = inv(scale) @ (x - loc),
 Z = 2**k |det(scale)|,
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
@@ -55,9 +57,11 @@ where:
 }
 
 The VectorLaplace distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X = (X_1, ..., X_k), each X_i ~ Laplace(loc=0, scale=1)
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X = (X_1, ..., X_k), each X_i ~ Laplace(loc=0, scale=1)
 Y = (Y_1, ...,Y_k) = scale @ X + loc
-}
+}\if{html}{\out{</div>}}
 
 About VectorLaplace and Vector distributions in TensorFlow
 

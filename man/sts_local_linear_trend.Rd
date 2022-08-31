@@ -48,9 +48,11 @@ an instance of \code{StructuralTimeSeries}.
 }
 \description{
 The local linear trend model posits a \code{level} and \code{slope}, each
-evolving via a Gaussian random walk:\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
+evolving via a Gaussian random walk:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{level[t] = level[t-1] + slope[t-1] + Normal(0., level_scale)
 slope[t] = slope[t-1] + Normal(0., slope_scale)
-}
+}\if{html}{\out{</div>}}
 }
 \details{
 The latent state is the two-dimensional tuple \verb{[level, slope]}. At each

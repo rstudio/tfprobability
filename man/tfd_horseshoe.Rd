@@ -40,8 +40,10 @@ sparsity-inducing effect.
 Mathematical details
 
 The Horseshoe distribution is centered at zero, with scale parameter $lambda$.
-It is defined by:\preformatted{ horseshoe(scale = lambda) ~ Normal(0, lamda * sigma)
-}
+It is defined by:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{ horseshoe(scale = lambda) ~ Normal(0, lamda * sigma)
+}\if{html}{\out{</div>}}
 
 where \code{sigma ~ half_cauchy(0, 1)}
 }

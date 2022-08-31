@@ -58,8 +58,10 @@ Mathematical Details
 
 The probability density function (pdf) is supported in the interval
 \verb{[low, high]}. If \verb{[low, high]} is the unit interval \verb{[0, 1]}, the pdf
-is,\preformatted{pdf(x; n, 0, 1) = ((n / (n-1)!) sum_\{k=0\}^j (-1)^k (n choose k) (nx - k)^\{n-1\}
-}
+is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; n, 0, 1) = ((n / (n-1)!) sum_\{k=0\}^j (-1)^k (n choose k) (nx - k)^\{n-1\}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{
@@ -68,8 +70,10 @@ where
 \item \verb{n!} is the factorial of \code{n},
 \item \verb{(n choose k)} is the binomial coefficient \verb{n! / (k!(n - k)!)}
 For arbitrary intervals \verb{[low, high]}, the pdf is,
-}\preformatted{pdf(x; n, low, high) = pdf((x - low) / (high - low); n, 0, 1) / (high - low)
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; n, low, high) = pdf((x - low) / (high - low); n, 0, 1) / (high - low)
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

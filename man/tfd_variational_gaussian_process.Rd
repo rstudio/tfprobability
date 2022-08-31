@@ -137,13 +137,15 @@ To lighten notation, we'll use \verb{X, Z, T} to denote the above collections.
 Similarly, we'll denote by \code{f(X)} the collection of function values at each of
 the \code{x[i]}, and by \code{Y}, the collection of (noisy) observed data at each \code{x[i]}.
 We'll denote kernel matrices generated from pairs of index points as \code{K_tt},
-\code{K_xt}, \code{K_tz}, etc, e.g.,\preformatted{K_tz =
+\code{K_xt}, \code{K_tz}, etc, e.g.,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{K_tz =
 | k(t[1], z[1])    k(t[1], z[2])  ...  k(t[1], z[M]) |
 | k(t[2], z[1])    k(t[2], z[2])  ...  k(t[2], z[M]) |
 |      ...              ...                 ...      |
 | k(t[P], z[1])    k(t[P], z[2])  ...  k(t[P], z[M]) |
 
-}
+}\if{html}{\out{</div>}}
 
 Preliminaries
 A Gaussian process is an indexed collection of random variables, any finite
@@ -155,14 +157,18 @@ these can't be represented in finite compute memory, so one typically works
 with the marginals at a finite collection of index points. The properties of
 the GP are entirely determined by its mean function \code{m} and covariance
 function \code{k}. The generative process, assuming a mean-zero normal likelihood
-with stddev \code{sigma}, is\preformatted{f ~ GP(m, k)
+with stddev \code{sigma}, is
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f ~ GP(m, k)
 Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
-}
+}\if{html}{\out{</div>}}
 
 In finite terms (ie, marginalizing out all but a finite number of f(X), sigma),
-we can write\preformatted{f(X) ~ MVN(loc=m(X), cov=K_xx)
+we can write
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(X) ~ MVN(loc=m(X), cov=K_xx)
 Y | f(X) ~ Normal(f(X), sigma),   i = 1, ... , N
-}
+}\if{html}{\out{</div>}}
 
 Posterior inference is possible in analytical closed form but becomes
 intractible as data sizes get large. See Rasmussen (2006) for details.
@@ -177,17 +183,23 @@ conditioned on function values at the inducing points,
 \item the (expensive) posterior over function values at inducing points
 conditional on obseravtions is replaced with an arbitrary (learnable)
 full-rank Gaussian distribution,
-}\preformatted{q(f(Z)) = MVN(loc=m, scale=S),
 }
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{q(f(Z)) = MVN(loc=m, scale=S),
+}\if{html}{\out{</div>}}
 
 where \code{m} and \code{S} are parameters to be chosen by optimizing an evidence
 lower bound (ELBO).
-The posterior predictive distribution becomes\preformatted{q(f(T)) = integral df(Z) p(f(T) | f(Z)) q(f(Z)) = MVN(loc = A @ m, scale = B^(1/2))
-}
+The posterior predictive distribution becomes
 
-where\preformatted{A = K_tz @ K_zz^-1
+\if{html}{\out{<div class="sourceCode">}}\preformatted{q(f(T)) = integral df(Z) p(f(T) | f(Z)) q(f(Z)) = MVN(loc = A @ m, scale = B^(1/2))
+}\if{html}{\out{</div>}}
+
+where
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{A = K_tz @ K_zz^-1
 B = K_tt - A @ (K_zz - S S^T) A^T
-}
+}\if{html}{\out{</div>}}
 
 The approximate posterior predictive distribution \code{q(f(T))} is what the
 \code{VariationalGaussianProcess} class represents.
@@ -196,12 +208,14 @@ Model selection in this framework entails choosing the kernel parameters,
 inducing point locations, and variational parameters. We do this by optimizing
 a variational lower bound on the marginal log likelihood of observed data. The
 lower bound takes the following form (see Titsias (2009) and
-Hensman (2013) for details on the derivation):\preformatted{L(Z, m, S, Y) = MVN(loc=
+Hensman (2013) for details on the derivation):
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{L(Z, m, S, Y) = MVN(loc=
 (K_zx @ K_zz^-1) @ m, scale_diag=sigma).log_prob(Y) -
 (Tr(K_xx - K_zx @ K_zz^-1 @ K_xz) +
 Tr(S @ S^T @ K_zz^1 @ K_zx @ K_xz @ K_zz^-1)) / (2 * sigma^2) -
 KL(q(f(Z)) || p(f(Z))))
-}
+}\if{html}{\out{</div>}}
 
 where in the final KL term, \code{p(f(Z))} is the GP prior on inducing point
 function values. This variational lower bound can be computed on minibatches
@@ -218,10 +232,12 @@ posterior distribution over inducing point function values in terms of the GP
 parameters (mean and kernel functions), inducing point locations, observation
 index points, and observations. Note that the inducing index point locations
 must still be optimized even when these parameters are known functions of the
-inducing index points. The optimal parameters are computed as follows:\preformatted{C = sigma^-2 (K_zz + K_zx @ K_xz)^-1
+inducing index points. The optimal parameters are computed as follows:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{C = sigma^-2 (K_zz + K_zx @ K_xz)^-1
 optimal Gaussian covariance: K_zz @ C @ K_zz
 optimal Gaussian location: sigma^-2 K_zz @ C @ K_zx @ Y
-}
+}\if{html}{\out{</div>}}
 }
 \section{References}{
 

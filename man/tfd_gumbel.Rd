@@ -34,8 +34,10 @@ a distribution instance.
 Mathematical details
 }
 \details{
-The probability density function (pdf) of this distribution is,\preformatted{pdf(x; mu, sigma) = exp(-(x - mu) / sigma - exp(-(x - mu) / sigma)) / sigma
-}
+The probability density function (pdf) of this distribution is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, sigma) = exp(-(x - mu) / sigma - exp(-(x - mu) / sigma)) / sigma
+}\if{html}{\out{</div>}}
 
 where \code{loc = mu} and \code{scale = sigma}.
 
@@ -43,9 +45,11 @@ The cumulative density function of this distribution is,
 \verb{cdf(x; mu, sigma) = exp(-exp(-(x - mu) / sigma))}
 
 The Gumbel distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X ~ Gumbel(loc=0, scale=1)
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ Gumbel(loc=0, scale=1)
 Y = loc + scale * X
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 Other distributions: 

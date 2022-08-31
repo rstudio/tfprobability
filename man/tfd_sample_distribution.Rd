@@ -34,8 +34,10 @@ identical draws. It is otherwise identical to the input distribution.
 }
 \details{
 Mathematical Details
-The probability function is,\preformatted{p(x) = prod\{ p(x[i]) : i = 0, ..., (n - 1) \}
-}
+The probability function is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{p(x) = prod\{ p(x[i]) : i = 0, ..., (n - 1) \}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

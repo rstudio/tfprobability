@@ -29,9 +29,9 @@ bijector applied to a uniform random variable \code{X ~ U(0, 1)} gives back a
 random variable with the \href{https://en.wikipedia.org/wiki/Gumbel_distribution}{Gumbel distribution}:
 }
 \details{
-\preformatted{Y ~ GumbelCDF(loc, scale)
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Y ~ GumbelCDF(loc, scale)
 pdf(y; loc, scale) = exp(-( (y - loc) / scale + exp(- (y - loc) / scale) ) ) / scale
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see \code{\link[=tfb_forward]{tfb_forward()}}, \code{\link[=tfb_inverse]{tfb_inverse()}}, \code{\link[=tfb_inverse_log_det_jacobian]{tfb_inverse_log_det_jacobian()}}.

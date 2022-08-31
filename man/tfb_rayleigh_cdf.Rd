@@ -22,9 +22,11 @@ a bijector instance.
 This bijector maps inputs from \verb{[0, inf]} to \verb{[0, 1]}. The inverse of the
 bijector applied to a uniform random variable \code{X ~ U(0, 1)} gives back a
 random variable with the
-\href{https://en.wikipedia.org/wiki/Rayleigh_distribution}{Rayleigh distribution}:\preformatted{Y ~ Rayleigh(scale)
+\href{https://en.wikipedia.org/wiki/Rayleigh_distribution}{Rayleigh distribution}:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{Y ~ Rayleigh(scale)
 pdf(y; scale, y >= 0) = (1 / scale) * (y / scale) * exp(-(y / scale)**2 / 2)
-}
+}\if{html}{\out{</div>}}
 }
 \details{
 Likewise, the forward of this bijector is the Rayleigh distribution CDF.

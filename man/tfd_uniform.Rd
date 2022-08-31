@@ -36,9 +36,11 @@ a distribution instance.
 Mathematical Details
 }
 \details{
-The probability density function (pdf) is,\preformatted{pdf(x; a, b) = I[a <= x < b] / Z
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; a, b) = I[a <= x < b] / Z
 Z = b - a
-}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{

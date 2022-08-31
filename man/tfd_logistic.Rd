@@ -35,15 +35,19 @@ a distribution instance.
 Mathematical details
 }
 \details{
-The cumulative density function of this distribution is:\preformatted{cdf(x; mu, sigma) = 1 / (1 + exp(-(x - mu) / sigma))
-}
+The cumulative density function of this distribution is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{cdf(x; mu, sigma) = 1 / (1 + exp(-(x - mu) / sigma))
+}\if{html}{\out{</div>}}
 
 where \code{loc = mu} and \code{scale = sigma}.
 
 The Logistic distribution is a member of the \href{https://en.wikipedia.org/wiki/Location-scale_family}{location-scale family}, i.e., it can be
-constructed as,\preformatted{X ~ Logistic(loc=0, scale=1)
+constructed as,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{X ~ Logistic(loc=0, scale=1)
 Y = loc + scale * X
-}
+}\if{html}{\out{</div>}}
 }
 \seealso{
 For usage examples see e.g. \code{\link[=tfd_sample]{tfd_sample()}}, \code{\link[=tfd_log_prob]{tfd_log_prob()}}, \code{\link[=tfd_mean]{tfd_mean()}}.

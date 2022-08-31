@@ -33,8 +33,10 @@ to \code{float32}.}
 a bijector instance.
 }
 \description{
-In TF parlance, the \code{scale} term is logically equivalent to:\preformatted{scale = tf$diag(scale_diag)
-}
+In TF parlance, the \code{scale} term is logically equivalent to:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{scale = tf$diag(scale_diag)
+}\if{html}{\out{</div>}}
 
 The \code{scale} term is applied without materializing a full dense matrix.
 }

@@ -85,11 +85,13 @@ requires that we know the mean as well. To fix this, we'll define
 \code{z_N = sum_i(e_i)/N} as the mean effect. It's easy to see that this is
 invertible: given the mean effect and the differences of the first \code{N - 1}
 effects from the mean, it's easy to solve for all \code{N} effects. Formally,
-we've defined the invertible linear reparameterization \verb{Z = R E}, where\preformatted{R = [1 - 1/N, -1/N,    ..., -1/N
+we've defined the invertible linear reparameterization \verb{Z = R E}, where
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{R = [1 - 1/N, -1/N,    ..., -1/N
      -1/N,    1 - 1/N, ..., -1/N,
      ...
      1/N,     1/N,     ...,  1/N]
-}
+}\if{html}{\out{</div>}}
 
 represents the change of basis from 'effect coordinates' E to
 'residual coordinates' Z. The \code{Z}s form the latent space of the

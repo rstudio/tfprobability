@@ -50,12 +50,14 @@ For more details, see \href{https://en.wikipedia.org/wiki/Truncated_normal_distr
 \details{
 Mathematical Details
 
-The probability density function (pdf) of this distribution is:\preformatted{pdf(x; loc, scale, low, high) =
+The probability density function (pdf) of this distribution is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale, low, high) =
   \{ (2 pi)**(-0.5) exp(-0.5 y**2) / (scale * z)\} for low <= x <= high
   \{ 0 \}                                  otherwise
 y = (x - loc)/scale
 z = NormalCDF((high - loc) / scale) - NormalCDF((lower - loc) / scale)
-}
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{

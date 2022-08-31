@@ -57,7 +57,9 @@ This layer uses variational inference to fit a "surrogate" posterior to the
 distribution over both the \code{kernel} matrix and the \code{bias} terms which are
 otherwise used in a manner similar to \code{layer_dense()}.
 This layer fits the "weights posterior" according to the following generative
-process:\if{html}{\out{<div class="sourceCode none">}}\preformatted{[K, b] ~ Prior()
+process:
+
+\if{html}{\out{<div class="sourceCode none">}}\preformatted{[K, b] ~ Prior()
 M = matmul(X, K) + b
 Y ~ Likelihood(M)
 }\if{html}{\out{</div>}}

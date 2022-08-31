@@ -19,8 +19,10 @@ evaluated at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-The Squared-Hellinger Csiszar-function is:\preformatted{f(u) = (sqrt(u) - 1)**2
-}
+The Squared-Hellinger Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = (sqrt(u) - 1)**2
+}\if{html}{\out{</div>}}
 
 This Csiszar-function induces a symmetric f-Divergence, i.e.,
 \code{D_f[p, q] = D_f[q, p]}.

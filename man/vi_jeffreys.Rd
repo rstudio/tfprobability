@@ -19,11 +19,13 @@ evaluated at \code{u = exp(logu)}.
 A Csiszar-function is a member of \verb{F = \{ f:R_+ to R : f convex \}}.
 }
 \details{
-The Jeffreys Csiszar-function is:\preformatted{f(u) = 0.5 ( u log(u) - log(u))
+The Jeffreys Csiszar-function is:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{f(u) = 0.5 ( u log(u) - log(u))
 = 0.5 kl_forward + 0.5 kl_reverse
 = symmetrized_csiszar_function(kl_reverse)
 = symmetrized_csiszar_function(kl_forward)
-}
+}\if{html}{\out{</div>}}
 
 This Csiszar-function induces a symmetric f-Divergence, i.e.,
 \code{D_f[p, q] = D_f[q, p]}.

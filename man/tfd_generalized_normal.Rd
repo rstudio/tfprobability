@@ -43,9 +43,11 @@ location \code{loc}, scale \code{scale} and shape \code{power}.
 }
 \details{
 Mathematical details
-The probability density function (pdf) is,\preformatted{pdf(x; loc, scale, power) = 1 / (2 * scale * Gamma(1 + 1 / power)) *
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; loc, scale, power) = 1 / (2 * scale * Gamma(1 + 1 / power)) *
   exp(-(|x - loc| / scale) ^ power)
-}
+}\if{html}{\out{</div>}}
 
 where \code{loc} is the mean, \code{scale} is the scale, and,  \code{power} is the shape
 parameter. If the power is above two, the distribution becomes platykurtic.

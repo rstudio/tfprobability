@@ -53,12 +53,14 @@ distribution.
 \details{
 Mathematical details
 
-The probability density function (pdf) is,\preformatted{pdf(x; mu, kappa) = C(kappa) (1 + mu^T x) ** k
+The probability density function (pdf) is,
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pdf(x; mu, kappa) = C(kappa) (1 + mu^T x) ** k
   where,
      C(kappa) = 2**(a + b) pi**b Gamma(a) / Gamma(a + b)
      a = (n - 1) / 2. + k
      b = (n - 1) / 2.
-}
+}\if{html}{\out{</div>}}
 
 where
 \itemize{

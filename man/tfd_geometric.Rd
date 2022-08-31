@@ -45,8 +45,10 @@ the first k trials failed, before seeing a success.
 The pmf of this distribution is:
 }
 \details{
-Mathematical Details\preformatted{pmf(k; p) = (1 - p)**k * p
-}
+Mathematical Details
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{pmf(k; p) = (1 - p)**k * p
+}\if{html}{\out{</div>}}
 
 where:
 \itemize{
