@@ -41,7 +41,9 @@ you will automatically get the current stable version of TensorFlow
 Probability together with TensorFlow. Correspondingly, if you need
 nightly builds,
 
-    install_tfprobability(version = "nightly")
+``` r
+install_tfprobability(version = "nightly")
+```
 
 will get you the nightly build of TensorFlow as well as TensorFlow
 Probability.
@@ -81,10 +83,13 @@ d <- tfd_binomial(total_count = 7, probs = 0.3)
 
 # compute mean
 d %>% tfd_mean()
+#> tf.Tensor(2.1000001, shape=(), dtype=float32)
 # compute variance
 d %>% tfd_variance()
+#> tf.Tensor(1.47, shape=(), dtype=float32)
 # compute probability
 d %>% tfd_prob(2.3)
+#> tf.Tensor(0.303791, shape=(), dtype=float32)
 ```
 
 #### Example: Hidden Markov Model
@@ -94,6 +99,7 @@ d %>% tfd_prob(2.3)
 # Suppose the first day of a sequence has a 0.8 chance of being cold.
 # We can model this using the categorical distribution:
 initial_distribution <- tfd_categorical(probs = c(0.8, 0.2))
+#> Loaded Tensorflow version 2.9.1
 # Suppose a cold day has a 30% chance of being followed by a hot day
 # and a hot day has a 20% chance of being followed by a cold day.
 # We can model this as:
@@ -116,8 +122,10 @@ d <- tfd_hidden_markov_model(
 )
 # The expected temperatures for each day are given by:
 d %>% tfd_mean()  # shape [7], elements approach 9.0
+#> tf.Tensor([3.        6.        7.4999995 8.249999  8.625001  8.812501  8.90625  ], shape=(7), dtype=float32)
 # The log pdf of a week of temperature 0 is:
 d %>% tfd_log_prob(rep(0, 7))
+#> tf.Tensor(-19.855635, shape=(), dtype=float32)
 ```
 
 ### Bijectors
@@ -134,10 +142,13 @@ on the TensorFlow for R blog.
 ``` r
 # create an affine transformation that shifts by 3.33 and scales by 0.5
 b <- tfb_affine_scalar(shift = 3.33, scale = 0.5)
+#> Warning in tfb_affine_scalar(shift = 3.33, scale = 0.5): tfb_affine_scalar() is
+#> deprecated, please use `tfb_shift(shift)(tfb_scale(scale))` instead
 
 # apply the transformation
 x <- c(100, 1000, 10000)
 b %>% tfb_forward(x)
+#> tf.Tensor([  53.33  503.33 5003.33], shape=(3), dtype=float32)
 ```
 
 #### Discrete cosine transform bijector
@@ -149,6 +160,10 @@ b <- tfb_discrete_cosine_transform()
 # run on sample data
 x <- matrix(runif(3))
 b %>% tfb_forward(x)
+#> tf.Tensor(
+#> [[0.01871747]
+#>  [0.34306413]
+#>  [0.5662492 ]], shape=(3, 1), dtype=float32)
 ```
 
 ### Keras layers
@@ -203,6 +218,26 @@ vae_model %>% compile(
   optimizer = "adam",
   loss = vae_loss
 )
+
+vae_model
+#> Model: "model"
+#> ________________________________________________________________________________
+#>  Layer (type)                       Output Shape                    Param #     
+#> ================================================================================
+#>  flatten_input (InputLayer)         [(None, 2, 2, 1)]               0           
+#>  flatten (Flatten)                  (None, 4)                       0           
+#>  dense_1 (Dense)                    (None, 10)                      50          
+#>  dense (Dense)                      (None, 5)                       55          
+#>  multivariate_normal_tri_l (Multiva  ((None, 2),                    0           
+#>  riateNormalTriL)                    (None, 2))                                 
+#>  kl_divergence_add_loss (KLDivergen  (None, 2)                      0           
+#>  ceAddLoss)                                                                     
+#>  sequential_1 (Sequential)          (None, 2, 2, 1)                 74          
+#> ================================================================================
+#> Total params: 179
+#> Trainable params: 179
+#> Non-trainable params: 0
+#> ________________________________________________________________________________
 
 vae_model %>% fit(x_train, x_train, batch_size = 25, epochs = 1)
 ```

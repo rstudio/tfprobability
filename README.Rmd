@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  eval = FALSE
+  eval = TRUE
 )
 library(tfprobability)
 ```
@@ -50,7 +50,7 @@ install_tfprobability()
 
 you will automatically get the current stable version of TensorFlow Probability together with TensorFlow. Correspondingly, if you need nightly builds,
 
-```
+```r
 install_tfprobability(version = "nightly")
 ```
 
@@ -160,7 +160,7 @@ b %>% tfb_forward(x)
 `tfprobality` wraps distributions in Keras layers so we can use them seemlessly in a neural network, and work with tensors as targets as usual.
 For example, we can use `layer_kl_divergence_add_loss` to have the network take care of the KL loss automatically, and train a variational autoencoder with just negative log likelihood only, like this:
 
-```{r, eval=FALSE}
+```{r}
 library(keras)
 
 encoded_size <- 2
@@ -203,6 +203,8 @@ vae_model %>% compile(
   optimizer = "adam",
   loss = vae_loss
 )
+
+vae_model
 
 vae_model %>% fit(x_train, x_train, batch_size = 25, epochs = 1)
 ```
