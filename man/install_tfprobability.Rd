@@ -26,7 +26,7 @@ See \strong{Finding Conda} and \code{\link[reticulate:conda_binary]{conda_binary
 
 \item{version}{TensorFlow version to install. Valid values include:
 \itemize{
-\item \code{"default"} installs  2.9
+\item \code{"default"} installs  2.16
 \item \code{"release"} installs the latest release version of tensorflow (which may
 be incompatible with the current version of the R package)
 \item A version specification like \code{"2.4"} or \code{"2.4.0"}. Note that if the patch
@@ -45,11 +45,6 @@ TensorFlow.}
 
 \item{...}{other arguments passed to \code{\link[reticulate:conda-tools]{reticulate::conda_install()}} or
 \code{\link[reticulate:virtualenv-tools]{reticulate::virtualenv_install()}}, depending on the \code{method} used.}
-
-\item{pip_ignore_installed}{Whether pip should ignore installed python
-packages and reinstall all already installed python packages. This defaults
-to \code{TRUE}, to ensure that TensorFlow dependencies like NumPy are compatible
-with the prebuilt TensorFlow binaries.}
 }
 \value{
 invisible

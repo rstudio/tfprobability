@@ -39,7 +39,7 @@ Returns the result of the forward evaluation of the log determinant of the Jacob
 \seealso{
 Other bijector_methods: 
 \code{\link{tfb_forward}()},
-\code{\link{tfb_inverse_log_det_jacobian}()},
-\code{\link{tfb_inverse}()}
+\code{\link{tfb_inverse}()},
+\code{\link{tfb_inverse_log_det_jacobian}()}
 }
 \concept{bijector_methods}
