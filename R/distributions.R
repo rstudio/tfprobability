@@ -604,7 +604,7 @@ tfd_wishart <- function(df,
 #' `mean_direction`, where 0 pertains to the uniform distribution on the
 #' hypersphere, and `inf` indicates a delta function at `mean_direction`.
 #'
-#' NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
+#' NOTE: Currently only n in `{2, 3, 4, 5}` are supported. For n=5 some numerical
 #' instability can occur for low concentrations (<.01).
 #' @param mean_direction Floating-point Tensor with shape `[B1, ... Bn, D]`.
 #' A unit vector indicating the mode of the distribution, or the
