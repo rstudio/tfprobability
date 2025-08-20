@@ -99,7 +99,7 @@ accordingly. See below for some examples of this feature.
 \section{References}{
 
 \itemize{
-\item \href{http://statweb.stanford.edu/~owen/reports/bestthinning.pdf}{Art B. Owen. Statistically efficient thinning of a Markov chain sampler. \emph{Technical Report}, 2017.}
+\item \href{https://arxiv.org/abs/1510.07727}{Art B. Owen. Statistically efficient thinning of a Markov chain sampler. \emph{Technical Report}, 2017.}
 }
 }
 
