@@ -8,7 +8,13 @@
 tfp <- NULL
 
 .onLoad <- function(libname, pkgname) {
-
+  Sys.setenv(TF_USE_LEGACY_KERAS = 1L)
+  reticulate::py_require(c(
+    "tensorflow!=2.20.0",
+    "numpy<2",
+    "tf-keras",
+    "tensorflow-probability"
+  ))
   tfp <<- reticulate::import("tensorflow_probability", delay_load = list(
 
     priority = 20,

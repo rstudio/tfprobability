@@ -2,6 +2,7 @@
 Sys.setenv("CUDA_VISIBLE_DEVICES" = "")
 
 options(testthat.progress.max_fails = Inf)
+reticulate::py_require("tensorflow_datasets")
 tensorflow::as_tensor(1)
 
 have_tfp <- function() {
