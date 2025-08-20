@@ -8,7 +8,7 @@ initializer_blockwise(initializers, sizes, validate_args = FALSE)
 }
 \arguments{
 \item{initializers}{list of Keras initializers, eg: \code{\link[keras:initializer_glorot_uniform]{keras::initializer_glorot_uniform()}}
-or \code{\link[=initializer_constant]{initializer_constant()}}.}
+or \code{\link[keras:initializer_constant]{keras::initializer_constant()}}.}
 
 \item{sizes}{list of integers scalars representing the number of elements associated
 with each initializer in \code{initializers}.}
