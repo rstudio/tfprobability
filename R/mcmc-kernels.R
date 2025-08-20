@@ -422,7 +422,7 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
 #'
 #' @section References:
 #' - [Matthew Parno and Youssef Marzouk. Transport map accelerated Markov chain Monte Carlo. _arXiv preprint arXiv:1412.5492_, 2014.](https://arxiv.org/abs/1412.5492)
-#' - [Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In _Journal of the Royal Statistical Society_, 2011.](https://people.ee.duke.edu/~lcarin/Girolami2011.pdf)
+#' - [Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In _Journal of the Royal Statistical Society_, 2011.](https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1467-9868.2010.00765.x)
 #'
 #' @param inner_kernel `TransitionKernel`-like object which has a `target_log_prob_fn` argument.
 #' @param bijector bijector or list of bijectors. These bijectors use `forward` to map the
