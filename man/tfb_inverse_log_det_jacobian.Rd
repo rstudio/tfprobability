@@ -39,8 +39,8 @@ Returns the result of the inverse evaluation of the log determinant of the Jacob
 }
 \seealso{
 Other bijector_methods: 
-\code{\link{tfb_forward_log_det_jacobian}()},
 \code{\link{tfb_forward}()},
+\code{\link{tfb_forward_log_det_jacobian}()},
 \code{\link{tfb_inverse}()}
 }
 \concept{bijector_methods}
