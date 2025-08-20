@@ -67,10 +67,10 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
     step_size = step_size,
     num_leapfrog_steps = as.integer(num_leapfrog_steps),
     state_gradients_are_stopped = state_gradients_are_stopped,
-    step_size_update_fn = step_size_update_fn,
-    store_parameters_in_results = store_parameters_in_results,
-    name = name
+    store_parameters_in_results = store_parameters_in_results
   )
+  args[["step_size_update_fn"]] <- step_size_update_fn
+  args[["name"]] <- name
 
   if (tfp_version() < "0.12") {
     args$seed = seed

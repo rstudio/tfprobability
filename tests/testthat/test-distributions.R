@@ -8,10 +8,9 @@ test_succeeds("Normal distribution works", {
 })
 
 test_succeeds("MultivariateNormalDiag distribution works", {
-  d <- tfd_multivariate_normal_diag(loc = c(1,-1),
-                                    scale_identity_multiplier = c(1, 2, 3))
+  d <- tfd_multivariate_normal_diag(loc = c(1,-1), scale_diag = c(1, 2))
   x <- d %>% tfd_sample()
-  expect_equal(d$batch_shape$as_list(), 3)
+  expect_equal(d$batch_shape$as_list(), list())
 
 })
 
@@ -801,7 +800,7 @@ test_succeeds("BatchReshape distribution works", {
 
 test_succeeds("Autoregressive distribution works", {
 
-  if (tfp_version() >= 0.8) {
+  if (tfp_version() >= "0.8") {
     fill_triangular <- tfp$math$fill_triangular
   } else {
     fill_triangular <- tfp$distributions$fill_triangular

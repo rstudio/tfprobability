@@ -4,7 +4,7 @@ test_succeeds("vi_amari_alpha works", {
   u <- 2
   logu <- log(u)
   expect_equal(vi_amari_alpha(logu, self_normalized = TRUE) %>% tensor_value(),  u * logu - (u - 1))
-})
+tfp})
 
 test_succeeds("vi_kl_reverse works", {
   u <- 2
