@@ -322,8 +322,9 @@ layer_independent_logistic <- function(object,
 #' @return a Keras layer
 #' @family distribution_layers
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' library(keras)
+#' py_require_legacy_keras()
 #' input_shape <- c(28, 28, 1)
 #' encoded_shape <- 2
 #' n <- 2
