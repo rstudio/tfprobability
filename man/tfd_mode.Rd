@@ -18,7 +18,7 @@ a Tensor of shape \code{sample_shape(x) + self$batch_shape} with values of type 
 Mode.
 }
 \examples{
-\donttest{
+\dontrun{
   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
   d \%>\% tfd_mode()
 }

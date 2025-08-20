@@ -43,7 +43,7 @@ observation model, to generate the time series modeled by that component.
 }
 }
 \examples{
-\donttest{
+\dontrun{
 observed_time_series <- array(rnorm(2 * 1 * 12), dim = c(2, 1, 12))
 day_of_week <- observed_time_series \%>\% sts_seasonal(num_seasons = 7, name = "seasonal")
 local_linear_trend <- observed_time_series \%>\% sts_local_linear_trend(name = "local_linear")

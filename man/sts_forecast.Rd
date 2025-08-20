@@ -41,7 +41,7 @@ Given samples from the posterior over parameters, return the predictive
 distribution over future observations for num_steps_forecast timesteps.
 }
 \examples{
-\donttest{
+\dontrun{
 observed_time_series <-
   rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) +
   rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7) \%>\%

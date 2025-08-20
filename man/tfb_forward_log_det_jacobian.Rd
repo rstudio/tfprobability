@@ -30,7 +30,7 @@ a tensor
 Returns the result of the forward evaluation of the log determinant of the Jacobian
 }
 \examples{
-\donttest{
+\dontrun{
   b <- tfb_affine_scalar(shift = 1, scale = 2)
   x <- 10
   b \%>\% tfb_forward_log_det_jacobian(x, event_ndims = 0)
