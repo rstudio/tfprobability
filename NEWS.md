@@ -1,5 +1,9 @@
 # tfprobability (development version)
 
+- The R package now declares python dependencies with `py_require()` when 
+  the package is loaded.
+- Documentation updates for CRAN
+
 # tfprobability 0.15.1
 
 - updated docs for compatibility with R 4.2 / HTML5
