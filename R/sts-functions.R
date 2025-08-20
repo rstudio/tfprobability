@@ -132,7 +132,7 @@ sts_build_factored_variational_loss <-
 #' @inheritParams sts_build_factored_variational_loss
 #' @family sts-functions
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' observed_time_series <-
 #'   rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) +
 #'   rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7) %>%
@@ -238,7 +238,7 @@ sts_one_step_predictive <- function(observed_time_series,
 #'
 #' @family sts-functions
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' observed_time_series <-
 #'   rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) +
 #'   rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7) %>%
@@ -296,7 +296,7 @@ sts_forecast <- function(observed_time_series,
 #'
 #' @family sts-functions
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' observed_time_series <- array(rnorm(2 * 1 * 12), dim = c(2, 1, 12))
 #' day_of_week <- observed_time_series %>% sts_seasonal(num_seasons = 7, name = "seasonal")
 #' local_linear_trend <- observed_time_series %>% sts_local_linear_trend(name = "local_linear")

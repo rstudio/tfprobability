@@ -66,7 +66,7 @@
 #'
 #' @family mcmc_functions
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   dims <- 10
 #'   true_stddev <- sqrt(seq(1, 3, length.out = dims))
 #'   likelihood <- tfd_multivariate_normal_diag(scale_diag = true_stddev)

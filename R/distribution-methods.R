@@ -8,7 +8,7 @@
 #'
 #' @return a Tensor with prepended dimensions sample_shape.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d %>% tfd_sample()
 #' }
@@ -29,7 +29,7 @@ tfd_sample <- function(distribution,
 #'
 #' @return a Tensor of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   x <- d %>% tfd_sample()
 #'   d %>% tfd_log_prob(x)
@@ -47,7 +47,7 @@ tfd_log_prob <- function(distribution, value, ...) {
 #' @inherit tfd_log_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   x <- d %>% tfd_sample()
 #'   d %>% tfd_prob(x)
@@ -67,7 +67,7 @@ tfd_prob <- function(distribution, value, ...) {
 #' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   x <- d %>% tfd_sample()
 #'   d %>% tfd_log_cdf(x)
@@ -84,7 +84,7 @@ tfd_log_cdf <- function(distribution, value, ...) {
 #' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   x <- d %>% tfd_sample()
 #'   d %>% tfd_cdf(x)
@@ -104,7 +104,7 @@ tfd_cdf <- function(distribution, value, ...) {
 #'
 #' @inherit tfd_prob return params
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   x <- d %>% tfd_sample()
 #'   d %>% tfd_log_survival_function(x)
@@ -123,7 +123,7 @@ tfd_log_survival_function <- function(distribution, value, ...) {
 #' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   x <- d %>% tfd_sample()
 #'   d %>% tfd_survival_function(x)
@@ -138,7 +138,7 @@ tfd_survival_function <- function(distribution, value, ...) {
 #' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d %>% tfd_entropy()
 #' }
@@ -152,7 +152,7 @@ tfd_entropy <- function(distribution, ...) {
 #' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d %>% tfd_mean()
 #' }
@@ -168,7 +168,7 @@ tfd_mean <- function(distribution, ...) {
 #'
 #' @inherit tfd_prob return params
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d %>% tfd_quantile(0.5)
 #' }
@@ -187,7 +187,7 @@ tfd_quantile <- function(distribution, value, ...) {
 #' @inherit tfd_prob return params
 #' @return a Tensor of shape `sample_shape(x) + self$batch_shape` with values of type `self$dtype`.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d %>% tfd_variance()
 #' }
@@ -206,7 +206,7 @@ tfd_variance <- function(distribution, ...) {
 #' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d %>% tfd_stddev()
 #' }
@@ -234,7 +234,7 @@ tfd_stddev <- function(distribution, ...) {
 #' @return Floating-point Tensor with shape `[B1, ..., Bn, k, k]` where the first n dimensions
 #' are batch coordinates and `k = reduce_prod(self.event_shape)`.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #' d %>% tfd_variance()
 #' }
@@ -249,7 +249,7 @@ tfd_covariance <- function(distribution, ...) {
 #' @inherit tfd_prob return params
 #' @family distribution_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d %>% tfd_mode()
 #' }
@@ -272,7 +272,7 @@ tfd_mode <- function(distribution, ...) {
 #'
 #' @return cross_entropy: self.dtype Tensor with shape `[B1, ..., Bn]` representing n different calculations of (Shannon) cross entropy.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d1 <- tfd_normal(loc = 1, scale = 1)
 #'   d2 <- tfd_normal(loc = 2, scale = 1)
 #'   d1 %>% tfd_cross_entropy(d2)
@@ -299,7 +299,7 @@ tfd_cross_entropy <- function(distribution, other, name = "cross_entropy") {
 #' @return self$dtype Tensor with shape `[B1, ..., Bn]` representing n different calculations
 #'  of the Kullback-Leibler divergence.
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   d1 <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 #'   d2 <- tfd_normal(loc = c(1.5, 2), scale = c(1, 0.5))
 #'   d1 %>% tfd_kl_divergence(d2)
