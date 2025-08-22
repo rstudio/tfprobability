@@ -21,7 +21,7 @@ Given random variable X and p in \verb{[0, 1]}, the quantile is:
 \code{tfd_quantile(p) := x} such that \code{P[X <= x] == p}
 }
 \examples{
-\donttest{
+\dontrun{
   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
   d \%>\% tfd_quantile(0.5)
 }

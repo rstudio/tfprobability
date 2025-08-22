@@ -60,7 +60,7 @@ where:
 hypersphere, and \code{inf} indicates a delta function at \code{mean_direction}.
 }
 
-NOTE: Currently only n in {2, 3, 4, 5} are supported. For n=5 some numerical
+NOTE: Currently only \code{n} in \verb{\{2, 3, 4, 5\}} are supported. For n=5 some numerical
 instability can occur for low concentrations (<.01).
 }
 \seealso{

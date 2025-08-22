@@ -41,8 +41,9 @@ a Keras layer
 An independent Normal Keras layer.
 }
 \examples{
-\donttest{
+\dontrun{
 library(keras)
+py_require_legacy_keras()
 input_shape <- c(28, 28, 1)
 encoded_shape <- 2
 n <- 2

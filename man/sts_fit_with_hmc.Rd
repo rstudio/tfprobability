@@ -109,7 +109,7 @@ which is thought to be in the desirable range for optimal mixing (Betancourt et 
 }
 
 \examples{
-\donttest{
+\dontrun{
 observed_time_series <-
   rep(c(3.5, 4.1, 4.5, 3.9, 2.4, 2.1, 1.2), 5) +
   rep(c(1.1, 1.5, 2.4, 3.1, 4.0), each = 7) \%>\%

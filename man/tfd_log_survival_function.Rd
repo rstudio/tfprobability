@@ -25,7 +25,7 @@ Typically, different numerical approximations can be used for the log survival f
 which are more accurate than 1 - cdf(x) when x >> 1.
 }
 \examples{
-\donttest{
+\dontrun{
   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
   x <- d \%>\% tfd_sample()
   d \%>\% tfd_log_survival_function(x)

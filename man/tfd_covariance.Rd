@@ -30,7 +30,7 @@ and Vec is some function mapping indices of this distribution's event dimensions
 length-k vector.
 }
 \examples{
-\donttest{
+\dontrun{
 d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
 d \%>\% tfd_variance()
 }

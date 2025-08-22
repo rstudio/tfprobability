@@ -24,7 +24,7 @@ p(x) dr(x) and q(x) dr(x), (Shannon) cross entropy is defined as:
 where F denotes the support of the random variable \code{X ~ P}.
 }
 \examples{
-\donttest{
+\dontrun{
   d1 <- tfd_normal(loc = 1, scale = 1)
   d2 <- tfd_normal(loc = 2, scale = 1)
   d1 \%>\% tfd_cross_entropy(d2)

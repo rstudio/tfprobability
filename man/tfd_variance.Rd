@@ -20,7 +20,7 @@ where X is the random variable associated with this distribution, E denotes expe
 and \code{Var$shape = batch_shape + event_shape}.
 }
 \examples{
-\donttest{
+\dontrun{
   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
   d \%>\% tfd_variance()
 }

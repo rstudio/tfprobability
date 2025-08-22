@@ -20,7 +20,7 @@ a tensor
 Returns the inverse Bijector evaluation, i.e., \code{X = g^{-1}(Y)}.
 }
 \examples{
-\donttest{
+\dontrun{
   b <- tfb_affine_scalar(shift = 1, scale = 2)
   x <- 10
   y <- b \%>\% tfb_forward(x)

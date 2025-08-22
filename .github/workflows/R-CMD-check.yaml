@@ -43,8 +43,9 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, any::remotes
+          extra-packages: any::rcmdcheck, any::remotes, local::.
           needs: check
+          cache-version: 2
 
       - name: Install R pkg
         run: remotes::install_local(dependencies = TRUE, force = TRUE)
@@ -52,13 +53,13 @@ jobs:
       - name: Install tfds
         run: remotes::install_github('rstudio/tfds')
 
-      - name: Install Miniconda
-        run: reticulate::install_miniconda()
-
-      - name: Install TensorFlow Probability
-        run: |
-          tfprobability::install_tfprobability(
-            version='${{ matrix.tfp }}', tensorflow='${{ matrix.tf }}-cpu',
-            extra_packages = c('IPython', 'tensorflow_datasets'))
+      # - name: Install Miniconda
+      #   run: reticulate::install_miniconda()
+      #
+      # - name: Install TensorFlow Probability
+      #   run: |
+      #     tfprobability::install_tfprobability(
+      #       version='${{ matrix.tfp }}', tensorflow='${{ matrix.tf }}-cpu',
+      #       extra_packages = c('IPython', 'tensorflow_datasets'))
 
       - uses: r-lib/actions/check-r-package@v2

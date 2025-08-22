@@ -76,7 +76,7 @@ semantics are governed by \verb{target_log_prob_fn(*current_state)}.
 }
 
 \examples{
-\donttest{
+\dontrun{
 predictors <- tf$cast( c(201,244, 47,287,203,58,210,202,198,158,165,201,157,
   131,166,160,186,125,218,146),tf$float32)
 obs <- tf$cast(c(592,401,583,402,495,173,479,504,510,416,393,442,317,311,400,

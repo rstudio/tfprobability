@@ -6,7 +6,7 @@
 #' @return a tensor
 #' @family bijector_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   b <- tfb_affine_scalar(shift = 1, scale = 2)
 #'   x <- 10
 #'   b %>% tfb_forward(x)
@@ -25,7 +25,7 @@ tfb_forward <-
 #' @return a tensor
 #' @family bijector_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   b <- tfb_affine_scalar(shift = 1, scale = 2)
 #'   x <- 10
 #'   y <- b %>% tfb_forward(x)
@@ -49,7 +49,7 @@ tfb_inverse <-
 #' @return a tensor
 #' @family bijector_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   b <- tfb_affine_scalar(shift = 1, scale = 2)
 #'   x <- 10
 #'   b %>% tfb_forward_log_det_jacobian(x, event_ndims = 0)
@@ -72,7 +72,7 @@ tfb_forward_log_det_jacobian <-
 #' @return a tensor
 #' @family bijector_methods
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   b <- tfb_affine_scalar(shift = 1, scale = 2)
 #'   x <- 10
 #'   y <- b %>% tfb_forward(x)

@@ -1,7 +1,7 @@
 #' Installs TensorFlow Probability
 #'
-#'
 #' @inheritParams keras::install_keras
+#' @param pip_ignore_installed passed on to [reticulate::py_install]
 #' @return invisible
 #' @export
 install_tfprobability <- function (method = c("auto", "virtualenv", "conda"),

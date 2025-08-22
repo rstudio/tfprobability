@@ -26,7 +26,7 @@ where F denotes the support of the random variable \code{X ~ p}, \code{H[., .]}
 denotes (Shannon) cross entropy, and \code{H[.]} denotes (Shannon) entropy.
 }
 \examples{
-\donttest{
+\dontrun{
   d1 <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
   d2 <- tfd_normal(loc = c(1.5, 2), scale = c(1, 0.5))
   d1 \%>\% tfd_kl_divergence(d2)

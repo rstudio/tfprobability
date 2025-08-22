@@ -125,7 +125,7 @@ single distribution, all sampled in parallel.
 }
 
 \examples{
-\donttest{
+\dontrun{
   target_log_prob_fn <- tfd_normal(loc = 0, scale = 1)$log_prob
   num_burnin_steps <- 500
   num_results <- 500

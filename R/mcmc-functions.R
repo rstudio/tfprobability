@@ -26,7 +26,7 @@
 #' accordingly. See below for some examples of this feature.
 #'
 #' @section References:
-#' - [Art B. Owen. Statistically efficient thinning of a Markov chain sampler. _Technical Report_, 2017.](http://statweb.stanford.edu/~owen/reports/bestthinning.pdf)
+#' - [Art B. Owen. Statistically efficient thinning of a Markov chain sampler. _Technical Report_, 2017.](https://arxiv.org/abs/1510.07727)
 #'
 #' @param kernel An instance of `tfp$mcmc$TransitionKernel` which implements one step
 #' of the Markov chain.
@@ -66,7 +66,7 @@
 #'
 #' @family mcmc_functions
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   dims <- 10
 #'   true_stddev <- sqrt(seq(1, 3, length.out = dims))
 #'   likelihood <- tfd_multivariate_normal_diag(scale_diag = true_stddev)

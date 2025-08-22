@@ -45,6 +45,8 @@ TensorFlow.}
 
 \item{...}{other arguments passed to \code{\link[reticulate:conda-tools]{reticulate::conda_install()}} or
 \code{\link[reticulate:virtualenv-tools]{reticulate::virtualenv_install()}}, depending on the \code{method} used.}
+
+\item{pip_ignore_installed}{passed on to \link[reticulate:py_install]{reticulate::py_install}}
 }
 \value{
 invisible

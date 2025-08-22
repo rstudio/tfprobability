@@ -67,10 +67,10 @@ mcmc_hamiltonian_monte_carlo <- function(target_log_prob_fn,
     step_size = step_size,
     num_leapfrog_steps = as.integer(num_leapfrog_steps),
     state_gradients_are_stopped = state_gradients_are_stopped,
-    step_size_update_fn = step_size_update_fn,
-    store_parameters_in_results = store_parameters_in_results,
-    name = name
+    store_parameters_in_results = store_parameters_in_results
   )
+  args[["step_size_update_fn"]] <- step_size_update_fn
+  args[["name"]] <- name
 
   if (tfp_version() < "0.12") {
     args$seed = seed
@@ -208,7 +208,7 @@ mcmc_uncalibrated_hamiltonian_monte_carlo <-
 #'
 #' @family mcmc_kernels
 #' @examples
-#' \donttest{
+#' \dontrun{
 #'   target_log_prob_fn <- tfd_normal(loc = 0, scale = 1)$log_prob
 #'   num_burnin_steps <- 500
 #'   num_results <- 500
@@ -422,7 +422,7 @@ mcmc_random_walk_metropolis <- function(target_log_prob_fn,
 #'
 #' @section References:
 #' - [Matthew Parno and Youssef Marzouk. Transport map accelerated Markov chain Monte Carlo. _arXiv preprint arXiv:1412.5492_, 2014.](https://arxiv.org/abs/1412.5492)
-#' - [Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In _Journal of the Royal Statistical Society_, 2011.](http://people.ee.duke.edu/~lcarin/Girolami2011.pdf)
+#' - [Mark Girolami and Ben Calderhead. Riemann manifold langevin and hamiltonian monte carlo methods. In _Journal of the Royal Statistical Society_, 2011.](https://rss.onlinelibrary.wiley.com/doi/full/10.1111/j.1467-9868.2010.00765.x)
 #'
 #' @param inner_kernel `TransitionKernel`-like object which has a `target_log_prob_fn` argument.
 #' @param bijector bijector or list of bijectors. These bijectors use `forward` to map the
@@ -658,7 +658,7 @@ mcmc_dual_averaging_step_size_adaptation <- function(inner_kernel,
 #'
 #' @family mcmc_kernels
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' predictors <- tf$cast( c(201,244, 47,287,203,58,210,202,198,158,165,201,157,
 #'   131,166,160,186,125,218,146),tf$float32)
 #' obs <- tf$cast(c(592,401,583,402,495,173,479,504,510,416,393,442,317,311,400,

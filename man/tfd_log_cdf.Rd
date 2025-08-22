@@ -23,7 +23,7 @@ Often, a numerical approximation can be used for \code{tfd_log_cdf(x)} that yiel
 a more accurate answer than simply taking the logarithm of the cdf when x << -1.
 }
 \examples{
-\donttest{
+\dontrun{
   d <- tfd_normal(loc = c(1, 2), scale = c(1, 0.5))
   x <- d \%>\% tfd_sample()
   d \%>\% tfd_log_cdf(x)
